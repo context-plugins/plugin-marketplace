@@ -1,182 +1,209 @@
 ---
 name: dotnet-calling-endpoints
-description: Call API operations on an APIMatic-generated C#/.NET SDK (APIMATIC v3.0) — get a controller from a client property, prefer the ...Async overload with an optional CancellationToken, pass parameters either as positional arguments or bundled into a {Operation}Input struct, build request-body models with object initializers, and read the bare Task<T> return value (or Task<ApiResponse<T>> when the SDK is configured that way). Use the moment you invoke any endpoint, build a request, work out which params are required vs optional, or read a response — load it even after reading the controller method signature in the source, since it won't tell you about the two parameter styles, that the sync overload is a blocking wrapper that can deadlock, or how to find which exception the operation throws.
+description: Call API operations on an APIMatic-generated C#/.NET SDK — method signature and parameter-order conventions, building request-model records, string-enums, passing path/query/body params + a CancellationToken, reading the varied response shapes, and the optional non-throwing result-style call. Use whenever invoking an endpoint, building a request body, working out parameter order or named arguments, or consuming a response from any APIMatic .NET SDK — load it even after reading the method signature in the source, since the signature doesn't warn you that list/search ops mis-bind positionally and need named arguments.
 ---
 
-# Calling endpoints on an APIMatic C#/.NET SDK
+# Calling endpoints on an APIMatic .NET SDK
 
-Operations are `async` methods on a **controller** you get from a **property** on the client. Get
-the controller property, then call the operation:
+Operations are **async methods** on the client. Most are **grouped under a controller property** and called
+`client.{ApiGroup}.{Operation}(...)`; an operation that belongs to no group sits **directly on the
+client**, called `client.{Operation}(...)`. Open the client class in the SDK source to see its controller
+properties (and any direct operations), then open the relevant controller (or the client) for the
+operation's exact signature. Operation names follow no fixed verb/resource pattern — take the real name from
+the source.
+
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{ApiGroup}`,
+> `{Operation}`, `{Resource}`, `{EnumType}`) — replace it with the concrete identifier from the source.
+
+## Method signature convention
+
+Every endpoint method is `async` (returns a `Task`) and lays its parameters out in a fixed order:
 
 ```csharp
-{Resource}Controller ctrl = client.{Resource}Controller;
-{T} result = await ctrl.{Operation}Async(/* params */);
+public Task<{ReturnType}> {Operation}(
+    {non-defaulted params},            // no C# default value — listed first
+    {defaulted params} = {default},    // have a C# default (e.g. = null, = 1d) — may be skipped
+    CancellationToken ct = default);   // always last
 ```
 
-Open `AIceptionInteractiveClient.cs` for the full list of controller properties; open `Controllers/{Resource}Controller.cs`
-(or grep `doc/controllers/*.md`) for every operation's signature.
+- **Parameter order is fixed:** parameters **without a default value come first**, then parameters **with a
+  default value**, then `CancellationToken ct = default` last (C# requires defaulted parameters to follow
+  non-defaulted ones).
+- **An optional parameter may still have no C# default.** Many nullable query params are generated without a
+  `= null` default (e.g. `string? startDate`), so they sit in the leading group and must be passed
+  explicitly (as `null`) in a positional call — which is why named arguments matter (see below).
+- **The signature is the source of truth.** Whether a parameter is nullable, required, or defaulted — and
+  whether the operation takes a body — varies per operation. Path params are typically
+  non-nullable primitives listed first; query and body params may be required or optional. Read the actual
+  signature in the SDK source (`public Task<...> {Operation}(...)`) for each operation.
+- **Return type** varies by operation — see [Reading the response](#making-the-call-and-reading-the-response).
+- Methods are **async-only** (no sync overloads) and **throw `SdkException<TError>`** on API errors — see
+  `dotnet-error-handling`.
 
-> Throughout, `{...}` tokens are placeholders for names you take from your SDK — replace them with the
-> concrete identifiers from the generated source.
+## Use named arguments for list/search endpoints
 
-## Async vs sync overloads
+List/search operations can have **many** optional parameters in a **fixed positional order**, and many of
+the leading nullable ones have **no default value** — so you cannot skip them positionally.
 
-Every operation is generated in two forms:
+Call these methods with named arguments. A positional call reconstructed from memory or an incomplete view
+of the signature mis-binds arguments (wrong order, or a missing non-defaulted arg before the first defaulted
+one), so it either fails to compile or sends the wrong request; named arguments are order-independent and
+avoid this. When copying:
+
+- Copy parameter names and order from the C# method signature (`public Task<...> {Operation}(...)`), not
+  from the internal `new Param("...", ...)` builder list inside the method body — that list is ordered
+  differently and uses snake_case wire names.
+- Copy each name verbatim from the signature; they are easy to misremember (singular vs plural, etc.).
 
 ```csharp
-// Async (preferred) — takes an optional CancellationToken
-public async Task<{T}> {Operation}Async(/* params */, CancellationToken cancellationToken = default)
-
-// Sync — blocking wrapper: CoreHelper.RunTask({Operation}Async()); avoid in async/ASP.NET contexts
-public {T} {Operation}(/* params */)
+// Named args: order-independent; omitted optionals fall through to null / their defaults.
+var response = await client.{ApiGroup}.{Operation}(
+    status: {EnumType}.SomeConstant,
+    someFilterId: 12345d,
+    someFlag: true,
+    page: 1d,
+    perPage: 100d,
+    ct: ct);
 ```
 
-Always prefer the `…Async` overload. The sync overload calls `CoreHelper.RunTask(...)` and can
-deadlock in ASP.NET contexts. Pass a `CancellationToken` from your caller when you need cancellation;
-the default is `CancellationToken.None`.
+## Building request models
 
-## Two parameter styles — read the signature, don't assume
-
-APIMatic .NET generates one of two parameter shapes per operation:
-
-**1. Flat positional parameters** — a list of typed arguments directly on the method. Optional
-parameters have a default value or are nullable:
+Request bodies are immutable `record`s built with object-initializer syntax (no builders). `required`
+members must be set; optional ones are nullable and are omitted from the JSON when left null. The request
+type is the type of the operation's `body` parameter — take its exact name from the method signature in the
+SDK source:
 
 ```csharp
-// Example: no extra params beyond CancellationToken
-public async Task<string> CustomAuthenticationAsync(CancellationToken cancellationToken = default)
-
-// Example: positional body + CancellationToken
-public async Task<Models.User> CreateUserAsync(Models.CreateUserRequest body,
-    CancellationToken cancellationToken = default)
-```
-
-**2. A single `{Operation}Input` struct** — when an operation has several parameters they are bundled
-into a named input struct. Build it with an object initializer and pass it as the only non-CancellationToken
-argument:
-
-```csharp
-// Generated: GetCalculateInput holds all params; GetCalculateAsync(GetCalculateInput input)
-GetCalculateInput input = new GetCalculateInput
+var body = new {RequestType}
 {
-    Operation = OperationTypeEnum.MULTIPLY,   // required enum field
-    X = 222.14,                               // required double
-    Y = 165.14,                               // required double
+    RequiredProp = value,   // 'required' members must be provided
+    OptionalProp = value    // nullable; leave unset to omit from the request
 };
-
-double result = await client.SimpleCalculatorController.GetCalculateAsync(input);
 ```
 
-Open the controller method and any `{Operation}Input` struct in `Models/` to see what's required and
-what's optional — do not guess. The generated `doc/models/{operation}-input.md` lists each field's
-type and Required/Optional tag.
-
-## Building request body models
-
-Request bodies are plain C# classes (`BaseModel` subclasses) built with object-initializer syntax.
-Required fields have non-nullable types; optional fields are nullable types (`string?`, `long?`) and
-carry `[JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]` — a `null` value is
-omitted from the serialized JSON:
+A request body's **shape varies**: some are **flat** (scalar members directly on the record), others **nest
+an inner resource record** (whose type you likewise read from the source). Open
+the request model (under `Models/`) to see its real `required`/optional members. A nested body looks like:
 
 ```csharp
-var body = new {RequestModel}
+var body = new {RequestType}
 {
-    RequiredField = "value",           // non-nullable — must be provided
-    OptionalField = null,              // nullable — omitted from JSON when null
+    {Member} = new {InnerType}
+    {
+        RequiredProp = value,
+        OptionalProp = value
+    }
 };
-
-var result = await ctrl.{Operation}Async(body);
 ```
 
-See **dotnet-models** for enums, oneOf/anyOf union containers, collections, and dates.
+## Enums
 
-## Return type — bare T (most SDKs)
-
-Most operations return the deserialized body directly as `Task<{T}>`:
+Enums are type-safe string-enums (`StringEnum<T>`): use the static constants, or `FromValue(...)` for a
+value not known at compile time. They convert implicitly to `string`.
 
 ```csharp
-Models.ServiceStatus status = await ctrl.OAuthClientCredentialsGrantAsync();
-double answer = await ctrl.GetCalculateAsync(input);
-string text = await ctrl.CustomAuthenticationAsync();
+SomeProp = {EnumType}.SomeConstant;
+SomeProp = {EnumType}.FromValue("server_provided_value");
 ```
 
-The return type `{T}` varies per operation — confirm the exact type from the controller's declared
-return type in the source. `{T}` may be a model class, a primitive (`string`, `double`), a
-collection, or `void` (no return body).
+## Union types, collections, and dates
 
-## Return type — ApiResponse wrapper (when generated)
+Some properties are not plain scalars: polymorphic `OneOf`/`AnyOf` unions (built with **factory methods**,
+not object-initializers, and read via `TryGet…`), `IReadOnlyList`/`IReadOnlyDictionary` collections, and
+`DateTimeOffset` dates. If a request property or response field is one of these, see **dotnet-models** for
+how to construct and read it.
 
-Some SDKs are generated to return the full HTTP wrapper `Task<ApiResponse<{T}>>`. When you see this
-in the controller source, access `.Data` for the deserialized value and `.Response` for the raw
-`HttpResponse` (status code, headers, body):
+## Making the call and reading the response
 
 ```csharp
-// Only when the controller method returns Task<ApiResponse<T>>:
-var apiResp = await ctrl.{Operation}Async(/* params */);
-var data = apiResp.Data;                              // deserialized {T}
-int statusCode = apiResp.Response.StatusCode;         // HTTP status code
+var response = await client.{ApiGroup}.{Operation}(pathArg, queryArg: null, body: body, ct: ct);
 ```
 
-Confirm from the controller's declared return type — `Task<T>` vs `Task<ApiResponse<T>>` — before
-writing the call.
+> **Wrap the call in error handling — a non-2xx response *throws*, it is not signalled by the return value.**
+> The bare `await` above shows only the happy path; on an API error the call throws `SdkException<TError>`.
+> Before writing a real call, **load `dotnet-error-handling`** for how to wrap it — the `try/catch` shape and
+> which `TError` to catch per operation — or use the non-throwing `{Operation}Result` variant (below).
 
-## Accessing response status and headers without ApiResponse
+**Each operation's return type varies** — the shape, and even the type's name, differ by operation. Read the
+method's return type in the SDK source and handle it accordingly. The cases you'll meet:
 
-When the operation returns bare `Task<T>` (the common case), register an `HttpCallback` on the
-client at construction time and read the last response from it after the call. See
-**dotnet-configuration-resilience** for the `HttpCallback` hook.
-
-## Enums as parameters
-
-Enum-typed parameters take the generated C# `enum` value from the `Models` namespace. APIMatic
-generates two kinds:
-
-- **Integer-backed** (`[JsonConverter(typeof(NumberEnumConverter))]`): use the named constant.
+- **An object that nests the resource** under a property (a record whose member holds the inner resource).
+  Unwrap that member:
   ```csharp
-  SuiteCodeEnum suite = SuiteCodeEnum.Hearts;   // wire value: 1
+  var resource = response.{Resource};      // the property holding the inner resource
+  Console.WriteLine(resource?.SomeField);
   ```
-- **String-backed** (`[JsonConverter(typeof(StringEnumConverter))]` + `[EnumMember]`): use the named
-  constant; the wire value comes from `[EnumMember(Value = "...")]`.
+- **The resource directly** — `Task<{Resource}>`: use it as-is, nothing to unwrap.
   ```csharp
-  OAuthProviderErrorEnum err = OAuthProviderErrorEnum.InvalidRequest;
-  // wire value: "invalid_request"
+  var resource = await client.{ApiGroup}.{Operation}(...);
   ```
+- **An array** — `Task<IReadOnlyList<{ItemType}>>`: iterate it, unwrapping each item too if the items are
+  themselves nesting objects.
+- **An object that nests an array** — a record whose single member is an `IReadOnlyList<...>`. Read that
+  member first, then iterate.
+- **Nothing** — non-generic `Task`: no body; just `await` it.
 
-See **dotnet-models** for full enum details.
+Endpoints in the same family can differ — one nests the resource, another returns it directly — so let each
+method's return type guide how you read it.
 
-## Error handling
+An operation may also expose an optional **`{Operation}Result`** sibling that returns
+`ApiResult<TResponse, TError>` — the outcome (the response, or a typed/`RawError` error) instead of
+throwing, with the HTTP status and headers available on both. It's optionally generated, so it may not
+exist. See **dotnet-error-handling**.
 
-Any non-2xx response throws `ApiException` from `AIceptionInteractive.Standard.Exceptions`. Wrap calls in
-`try`/`catch`:
+## Cancellation
+
+Pass a `CancellationToken` to bound an individual call (independent of the client-wide retry timeout):
 
 ```csharp
-try
+using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+var response = await client.{ApiGroup}.{Operation}(/* ... */, ct: cts.Token);
+```
+
+## Worked example — a list/GET call
+
+```csharp
+// Signature (illustrative):
+//   Task<IReadOnlyList<{ItemType}>> {Operation}(
+//       {EnumType}? filter, string? startDate, string? q,
+//       double? page = 1d, double? perPage = 20d, CancellationToken ct = default);
+
+var results = await client.{ApiGroup}.{Operation}(
+    filter: {EnumType}.SomeConstant,
+    startDate: null,
+    q: "search text",
+    page: 1d,
+    perPage: 20d,
+    ct: ct);
+
+foreach (var item in results)
 {
-    var result = await ctrl.{Operation}Async(/* params */);
-}
-catch (ApiException e)
-{
-    Console.WriteLine(e.ResponseCode);   // HTTP status code (int)
-    Console.WriteLine(e.Message);
-    // e.HttpContext.Response carries headers and raw body
+    var resource = item.{Resource};
+    Console.WriteLine(resource?.Id);
 }
 ```
 
-Operations with documented error responses have typed subclasses (e.g. `OAuthProviderException`) in
-`AIceptionInteractive.Standard.Exceptions` — catch the subclass first, then fall back to `ApiException`. See
-**dotnet-error-handling**.
+> This operation returns an **array** directly, so you iterate and unwrap each item. Other operations nest
+> the array inside an object (a record with one list member) — there you read that member first
+> (`foreach (var item in response.{Items})`), then iterate. Check the method's return type.
 
 ## Finding the right method in the SDK source
 
-- Controller properties are on `AIceptionInteractiveClient.cs` — one property per resource group.
-- Each controller class inherits `BaseController` and lives in `Controllers/`.
-- Grep `doc/controllers/*.md` first — it lists every operation with its signature and a usage snippet;
-  then open the `.cs` file for the exact types.
-- Input struct fields (Required vs Optional) are in `doc/models/{operation}-input.md`.
-- The operation's auth requirement is under its **Authentication** heading in `doc/controllers/*.md`.
+Read these from the SDK **source** files (clone the SDK's source repo to a temp dir first if you haven't,
+and delete it when done), not by decompiling or reflecting over the installed package — the source has the
+XML-doc comments and the internal `new Param(...)` builder list a compiled assembly drops, and reading a
+`.cs` file is faster than running reflection.
+
+- Most operations are grouped on **controller properties** of the client (each defined in
+  `Api/{ApiGroup}.cs`); an operation in no group is defined **directly on the client class**. Find an
+  operation by searching the controller files (e.g. for `public Task` across `Api/`) and the client class.
+- Each method's XML-doc comment documents its parameters and the endpoint path; read it to confirm which
+  params are required and what the body/return types are.
+- Request/response/enum types live under `Models/` (and `Models/Enums/`, with unions under `Models/AnyOf/`
+  and `Models/OneOf/`); error types under `Errors/`.
 
 ## Next
 
-- Build models, enums, union containers → **dotnet-models**
-- Catch and inspect errors → **dotnet-error-handling**
-- Retries, timeouts, HttpCallback, proxy → **dotnet-configuration-resilience**
+- Errors and status codes → **dotnet-error-handling**
+- Pagination, retries, timeouts → **dotnet-configuration-resilience**
+- Union types, collections, dates, enums → **dotnet-models**

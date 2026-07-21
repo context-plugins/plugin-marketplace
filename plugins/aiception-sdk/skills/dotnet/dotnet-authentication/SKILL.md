@@ -1,110 +1,145 @@
 ---
 name: dotnet-authentication
-description: Configure authentication on an APIMatic-generated C#/.NET SDK client — each scheme is a {Scheme}Model credentials object built with new {Scheme}Model.Builder(...).Build() and registered on the client builder via .{Scheme}Credentials(...); covers Basic auth, custom header, custom query parameter (API key), OAuth 2 bearer token, and OAuth 2 client-credentials with automatic token fetch/refresh. Use the moment you set credentials, an API key, a token, or OAuth on any APIMatic .NET SDK — load it even after reading the builder setter in the source, since the setter name alone doesn't tell you it takes a built {Scheme}Model, when the token is fetched, that a half-filled credentials block is silently dropped, or that secrets must come from configuration.
+description: Configure authentication on an APIMatic-generated C#/.NET API client — each scheme is a nullable credentials property on the options class (set it before constructing the client, or inside the AddAIceptionInteractiveClient DI callback) — Basic (BasicAuthCredentials), Bearer token, API key (header/query/cookie), and OAuth 2.0 (client-credentials, authorization-code+PKCE, password) plus combined AND/OR schemes and no-auth. Use the moment you set credentials, an API key, a token, or OAuth on any APIMatic .NET SDK, or need to know which schemes its options class exposes — load it even after reading the options class in the source, since the property type doesn't tell you when to set it or that secrets belong in configuration.
 ---
 
-# Authenticating an APIMatic C#/.NET SDK client
+# Authenticating an APIMatic .NET SDK client
 
 How you authenticate depends on the security scheme(s) the API uses. APIMatic surfaces each scheme as a
-**`{Scheme}Model` credentials object**: you build it with `new {Scheme}Model.Builder(...).Build()` and
-register it on the client `Builder` with a matching `.{Scheme}Credentials(...)` setter. Set the one(s)
-your API uses when building the client (see **dotnet-client-initialization**).
+**nullable credentials property on the options class**; set the one(s) your API uses, then construct the
+client (see `dotnet-client-initialization`).
 
-> Throughout, `AIceptionInteractive`, `AIceptionInteractive.Standard`, and other `{...}` tokens are placeholders for names you take
-> from your SDK — replace them with the concrete identifiers from the source.
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `AIceptionInteractive.Standard`,
+> `AIceptionInteractiveClientOptions`, `{BasicAuthProperty}`) — replace it with the concrete identifier from the source.
 
-To see which schemes a specific SDK accepts, read the `.{Scheme}Credentials` setters on the nested
-`Builder` in `AIceptionInteractiveClient.cs` and the `Authentication/` folder (`{Scheme}Model`, `I{Scheme}Credentials`)
-— those are the source of truth. An SDK whose API uses only Basic, for instance, exposes only
-`.BasicAuthCredentials(...)` / `BasicAuthModel`. The generated `doc/auth/*.md` files list each scheme's
-credential fields and a usage snippet.
+To see which schemes a specific SDK accepts, read the **credentials properties on its `AIceptionInteractiveClientOptions`
+class** — those are the source of truth (read the class in the SDK source, not a decompiled or reflected
+view of the installed package). The `AIceptionInteractive.Standard.Core.Authentication` folder ships *every*
+scheme class as shared runtime code regardless of what the API accepts, so rely on the options class rather
+than that folder. (An SDK whose API uses only Basic, for instance, exposes a single
+`options.{BasicAuthProperty}` of type `BasicAuthCredentials`.)
+
+The credential classes below live under `AIceptionInteractive.Standard.Core.Authentication.*` and are the **same across
+all APIMatic .NET SDKs**; only the **options property names** are generated per-API (hence the
+`{...Property}` placeholders).
 
 ## Basic auth
 
 ```csharp
-using AIceptionInteractive.Standard;
-using AIceptionInteractive.Standard.Authentication;
+using AIceptionInteractive.Standard.Core.Authentication.Basic;
 
-AIceptionInteractiveClient client = new AIceptionInteractiveClient.Builder()
-    .BasicAuthCredentials(
-        new BasicAuthModel.Builder(
-            Environment.GetEnvironmentVariable("{API}_USERNAME"),
-            Environment.GetEnvironmentVariable("{API}_PASSWORD"))
-        .Build())
-    .Build();
+options.{BasicAuthProperty} = new BasicAuthCredentials
+{
+    Username = "...",
+    Password = "..."
+};
 ```
 
-Sends `Authorization: Basic base64(username:password)` on every request that requires it.
+Sends `Authorization: Basic base64(username:password)`.
 
-## API key — custom header or custom query parameter
+## Bearer token
 
-APIMatic models API-key schemes as "custom header" or "custom query parameter" auth. The `{Scheme}Model`
-carries the value(s); the wire name and placement are fixed by the generated scheme. The two values are
-commonly a `token` and an `apiKey`:
+Set the configured token property on the options class to your access-token string:
 
 ```csharp
-// custom query-parameter scheme (often surfaced as ApiKeyCredentials / ApiKeyModel):
-.ApiKeyCredentials(new ApiKeyModel.Builder("token", "api-key").Build())
-
-// custom header scheme (often surfaced as ApiHeaderCredentials / ApiHeaderModel):
-.ApiHeaderCredentials(new ApiHeaderModel.Builder("token", "api-key").Build())
+options.{BearerAuthProperty} = "ACCESS_TOKEN";
 ```
 
-The constructor parameter names and how many there are come straight from the API's scheme — check the
-`{Scheme}Model.Builder` constructor and the `doc/auth/custom-*.md` file for which value maps to which
-header or query parameter.
+Sends `Authorization: Bearer ACCESS_TOKEN`.
 
-## OAuth 2.0 — bearer token
+## API key (header, query, or cookie)
 
-When you already hold a token (no grant flow):
+The key is sent as a header, query parameter, or cookie — its placement and name are fixed by the generated
+scheme. Set the configured key property to your key string:
 
 ```csharp
-.OAuthBearerTokenCredentials(
-    new OAuthBearerTokenModel.Builder(
-        Environment.GetEnvironmentVariable("{API}_ACCESS_TOKEN"))
-    .Build())
+options.{ApiKeyProperty} = "API_KEY";
 ```
 
-Sends `Authorization: Bearer <token>`.
-
-## OAuth 2.0 — client credentials grant
+## OAuth 2.0 — client credentials (machine-to-machine)
 
 ```csharp
-AIceptionInteractiveClient client = new AIceptionInteractiveClient.Builder()
-    .OAuthCCGCredentials(
-        new OAuthCCGModel.Builder(
-            Environment.GetEnvironmentVariable("{API}_CLIENT_ID"),
-            Environment.GetEnvironmentVariable("{API}_CLIENT_SECRET"))
-        .Build())
-    .Build();
+using AIceptionInteractive.Standard.Core.Authentication.OAuth2.ClientCredentials;
+
+options.{OAuthProperty} = new OAuth2ClientCredentials
+{
+    ClientId = "...",
+    ClientSecret = "...",
+    Scope = "..."            // optional
+};
 ```
 
-The SDK fetches and caches the token **automatically** the first time an endpoint requiring this scheme is
-called, and refreshes it near expiry. You can seed a stored token, supply a token provider, or persist
-updated tokens via builder methods on `OAuthCCGModel.Builder`
-(`.OAuthToken(...)`, `.OAuthTokenProvider(...)`, `.OAuthOnTokenUpdate(...)`, `.OAuthClockSkew(...)`) — see
-[reference.md](reference.md).
+The SDK fetches and caches the token, acquiring a fresh one when it expires; on a `401` it invalidates the
+cached token and re-acquires.
 
-## More schemes
+## OAuth 2.0 — authorization code (3-legged, with PKCE)
 
-For the full matrix — OAuth2 authorization-code grant (which needs a manual
-`BuildAuthorizationUrl()` + `FetchToken(code)` step), resource-owner password grant, bearer token, custom
-auth, token persistence callbacks, refresh, combined **AND**/**OR** scheme requirements,
-configuration/env-var setup, and no-auth — see [reference.md](reference.md).
+```csharp
+using AIceptionInteractive.Standard.Core.Authentication.OAuth2.AuthorizationCode;
+
+options.{OAuthProperty} = new OAuth2AuthorizationCodeCredentials
+{
+    ClientId = "...",
+    ClientSecret = "...",                       // optional; needed only when PKCE is disabled (Pkce = null)
+    RedirectUri = "https://app.example.com/callback",
+    Scope = "...",                              // optional
+    State = "...",                              // optional CSRF token
+    Pkce = PkceMethod.S256,                     // default; RFC 7636
+    PromptForAuthorizationCode = async (authorizationUrl, ct) =>
+    {
+        // Open/redirect the browser to authorizationUrl, then return the
+        // authorization code your redirect endpoint received.
+        return await GetCodeFromUserAsync(authorizationUrl, ct);
+    }
+};
+```
+
+The SDK exchanges the code for a token and refreshes it when it expires; if the refresh fails, it invokes
+`PromptForAuthorizationCode` again to re-authorize.
+
+## OAuth 2.0 — resource owner password
+
+```csharp
+using AIceptionInteractive.Standard.Core.Authentication.OAuth2.Password;
+
+options.{OAuthProperty} = new OAuth2PasswordCredentials
+{
+    ClientId = "...",
+    ClientSecret = "...",   // optional
+    Username = "...",
+    Password = "...",
+    Scope = "..."           // optional
+};
+```
+
+## Token caching & refresh (all OAuth2 grants)
+
+- Tokens are cached in-memory and reused until ~30s before expiry.
+- Refreshable grants (those that return a refresh token) refresh automatically; otherwise a new token is
+  acquired.
+- On `401`, the cached token is invalidated and re-acquired on the next call.
+
+## Combined / multiple schemes
+
+When an operation (or the whole API) requires more than one scheme, APIMatic composes them:
+
+- **AND** — all schemes are applied to every request (`AuthSchemeAll`).
+- **OR** — the first scheme that succeeds is used; if all fail, an `AuthSchemeException` is thrown
+  (`AuthSchemeAny`).
+
+You configure this by setting the relevant credentials properties on the options class; the generated
+client wires the AND/OR composition for you.
+
+## No auth
+
+Some endpoints/APIs need no credentials (`NoneAuthScheme`) — leave the credentials properties unset.
 
 ## Notes
 
-- A given SDK only exposes the `{Scheme}Model` types and setters for the schemes its API uses; names are
-  generated per-API (hence the `{...}` placeholders above).
-- **A partially-filled credentials block is silently discarded.** At `.Build()`, the client nulls out any
-  `{Scheme}Model` whose required fields aren't all set (e.g. a `BasicAuthModel` missing the password) —
-  so a typo'd or unset secret yields a client with **no** auth for that scheme and a 401 at call time, not
-  a build error. Verify every required field is populated.
-- Set credentials **on the `Builder`** — the client is immutable after `.Build()`. To change credentials
-  later (e.g. attach a fetched OAuth token), call `client.ToBuilder()`, re-set the scheme, and `.Build()` a
-  new client.
-- An endpoint may require **several** schemes (`A AND B`) or **any of** several (`A OR B`). Configure every
-  scheme the operations you call require — the per-operation requirement is in `doc/controllers/*.md` under
-  an **Authentication** heading.
-- **Keep secrets out of source.** Load credentials from environment variables, `IConfiguration`/a secret
-  manager, or `FromConfiguration` — never hardcode them.
+- A given SDK only exposes the credentials properties for the schemes its API uses; those names are
+  generated per-API (hence the `{...Property}` placeholders above).
+- Set credentials **before** constructing the client, or inside the `AddAIceptionInteractiveClient(options => ...)`
+  callback when registering via DI.
+- Keep secrets out of source — load them from configuration (environment variables, a secret store, or any
+  other `IConfiguration` source) instead of hardcoding, either inside the `AddAIceptionInteractiveClient(options => ...)`
+  callback for the host or via a `ConfigurationBuilder()...Build()` chain for a console app.

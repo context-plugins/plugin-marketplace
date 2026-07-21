@@ -1,112 +1,64 @@
-# Models reference (APIMatic .NET — APIMATIC v3.0)
+# Models reference (APIMatic .NET)
 
-## Optional fields
+## Date/time
 
-Optional properties are nullable (`string?`, `long?`, `int?`) and carry
-`[JsonProperty("wire_name", NullValueHandling = NullValueHandling.Ignore)]`. A `null` value is
-omitted from the request JSON. Required properties are non-nullable and must be set.
+Date/time values are `DateTimeOffset?`, serialized as ISO-8601 / RFC-3339 (`"2024-06-17T15:30:45Z"`) — work
+with `DateTimeOffset` directly and let the SDK handle the wire format. For manual formatting/parsing in your
+own code, use the BCL (`DateTimeOffset.Parse`, `.ToString("O")`, …), not the SDK's internal helpers.
 
-## C# enums — integer-backed
+## String-enums
 
 ```csharp
-[JsonConverter(typeof(NumberEnumConverter))]
-public enum {EnumType}
+[JsonConverter(typeof(StringEnumConverter<{EnumType}>))]
+public sealed record {EnumType} : StringEnum<{EnumType}>
 {
-    FirstMember = 1,
-    SecondMember = 2,
+    public static readonly {EnumType} FirstValue  = new("first_value");
+    public static readonly {EnumType} SecondValue = new("second_value");
+    public static {EnumType} FromValue(string value) => FromValueCore(value);
+}
+```
+
+Usage:
+
+```csharp
+var v = {EnumType}.FirstValue;                  // known constant
+var u = {EnumType}.FromValue("new_value");      // unknown-tolerant
+string raw = v;                                 // implicit conversion to string
+if ({EnumType}.TryGetKnownValue("first_value", out var known)) { /* known == FirstValue */ }
+var all = {EnumType}.GetKnownValues();
+```
+
+## Int-enums
+
+Same pattern over `int`:
+
+```csharp
+[JsonConverter(typeof(IntEnumConverter<{EnumType}>))]
+public sealed record {EnumType} : IntEnum<{EnumType}>
+{
+    public static readonly {EnumType} Off = new(0);
+    public static readonly {EnumType} On  = new(1);
+    public static {EnumType} FromValue(int value) => FromValueCore(value);
 }
 
-// Usage:
-{EnumType} val = {EnumType}.FirstMember;   // wire value: 1
+{request}.{EnumProp} = {EnumType}.On;
+int n = {EnumType}.On;   // implicit conversion to int
 ```
 
-## C# enums — string-backed
+## Union types — finding the exact members
 
-```csharp
-[JsonConverter(typeof(StringEnumConverter))]
-public enum {EnumType}
-{
-    [EnumMember(Value = "first_value")] FirstMember,
-    [EnumMember(Value = "second_value")] SecondMember,
-}
+For a `OneOf`/`AnyOf` type, open its file under `Models/OneOf/` or `Models/AnyOf/`. Each variant `{V}`
+produces:
 
-// Usage:
-{EnumType} val = {EnumType}.FirstMember;   // wire value: "first_value"
-```
+- a factory `static {Union} {V}({V} value)` (the parameter type usually equals the variant type name), and
+- a reader `bool TryGet{V}(out {V} value)`.
 
-The C# member name and the wire value differ — always use the generated constant. Confirm the
-`[EnumMember(Value = "...")]` strings from the enum file in `Models/`.
-
-## oneOf/anyOf union containers
-
-Union fields use an **abstract container class** under `Models/Containers/`. Build with a static
-`From{Variant}` factory; read with `Match<T>` or `MatchSome<T>`.
-
-```csharp
-// Construct:
-OneOfCatDogKind pet = OneOfCatDogKind.FromCat(new Cat { Name = "whiskers", Color = "grey" });
-
-// Read — all branches share return type T:
-string name = pet.Match<string>(
-    cat => cat.Name,
-    dog => dog.Name
-);
-
-// Read — only handle some variants (others return default(T)):
-string catName = pet.MatchSome<string>(cat: c => c.Name);
-```
-
-To find the exact `From{Variant}` names and `Match<T>` parameter names for a specific union, open
-the container `.cs` file in `Models/Containers/`.
-
-## Primitive unions
-
-```csharp
-// AnyOfPrimitive example (names are per-API):
-AnyOfPrimitive id = AnyOfPrimitive.FromSenderName("user-123");
-AnyOfPrimitive id2 = AnyOfPrimitive.FromMessageId(42);
-
-string result = id.Match<string>(
-    senderName: s => s,
-    messageId: i => i.ToString()
-);
-```
-
-## Polymorphic models (discriminator hierarchy)
-
-Build the concrete subclass; set the discriminator field to its required wire value (check
-`doc/models/{type}.md` for what the value must be):
-
-```csharp
-Cat cat = new Cat
-{
-    Name = "whiskers",
-    Color = "grey",
-    PetType = "Cat",      // discriminator
-};
-```
-
-## Collections
-
-```csharp
-var body = new {Model}
-{
-    Tags = new List<string> { "a", "b" },            // List<string>
-    Meta = new Dictionary<string, string> { ["k"] = "v" },
-};
-// null collection with NullValueHandling.Ignore → omitted from JSON
-// empty List<>() → serialized as []
-```
-
-## AdditionalProperties (unknown JSON fields)
-
-`BaseModel` includes `[JsonExtensionData] IDictionary<string, JToken> AdditionalProperties` — unknown
-response keys land there (not dropped). Populate it to send extra JSON fields.
+`AnyOf` unions over primitives also commonly add `implicit operator {Union}({primitive})`. Unions are
+immutable records — there are no object-initializers and no way to mutate one after construction.
 
 ## Notes
 
-- Open the model `.cs` file in `Models/` to confirm which fields are required vs optional and to
-  see the exact `[JsonProperty]` wire names (they may differ from the C# property name).
-- Union containers are `abstract class` — you cannot `new` them; always use `From{Variant}(...)`.
-- `Match<T>` requires all variant callbacks; `MatchSome<T>` lets you pass `null` for variants you
-  don't handle (they return `default(T)`).
+- Optional model properties use `[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]`, so leaving
+  one unset omits it from the request JSON entirely (distinct from sending an explicit `null`).
+- A model captures unknown response fields only when it has an additional-properties map; where it has
+  none, unknown fields are dropped.

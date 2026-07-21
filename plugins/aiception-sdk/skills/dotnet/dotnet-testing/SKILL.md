@@ -1,220 +1,173 @@
 ---
 name: dotnet-testing
-description: Unit-test code that uses an APIMatic-generated C#/.NET SDK (APIMATIC v3.0) by injecting a fake HttpClient via .HttpClientConfig(c => c.HttpClientInstance(...)) — that HttpClient backed by a stub HttpMessageHandler is the test seam (no SDK mocking helpers); stub success and error responses with a custom handler, assert the outgoing request, assert ApiException or a typed subclass on error paths, and use HttpCallback for response inspection. Use when writing, stubbing, or verifying tests for calls through an APIMatic .NET SDK — load it even after reading the client constructor in the source, since the seam alone won't tell you how to match the project's test stack (NUnit with Assert.AreEqual, as the generated tests show), how to build the stub client, or how to assert a typed exception subclass.
+description: Unit-test code that uses an APIMatic-generated C#/.NET SDK by injecting a fake HttpClient — the client's HttpClient constructor argument is the test seam (no SDK mocking helpers) — stub success and error responses with a custom HttpMessageHandler, assert the outgoing request, assert SdkException<TError> on error paths, and register a stub client in DI. Use when writing, mocking, or stubbing tests for calls made through an APIMatic .NET SDK client — load it even after reading the constructor in the source, since the seam alone won't tell you to match the project's test stack or assert the right exception per operation.
 ---
 
-# Testing code that uses an APIMatic C#/.NET SDK
+# Testing code that uses an APIMatic .NET SDK
 
-The SDK builds its `HttpClient` from `HttpClientConfiguration`. Pass your own `HttpClient` (backed
-by a fake `HttpMessageHandler`) via `.HttpClientConfig(c => c.HttpClientInstance(...))`. **That
-`HttpClient` is the test seam** — no real network calls happen. The SDK ships no consumer-facing
-mocking helpers.
+The client takes an `HttpClient` in its constructor, which is the seam for testing: pass an `HttpClient`
+backed by a fake `HttpMessageHandler`, so no real network calls happen. The SDK ships no mocking helpers —
+this is standard .NET.
 
-**Match the project's existing test stack.** The generated test files (in `*.Tests/`) use
-**NUnit 3** (`[TestFixture]`, `[Test]`, `[OneTimeSetUp]`, `Assert.AreEqual`, `Assert.IsNotNull`,
-`Assert.AreEqual(200, HttpCallBack.Response.StatusCode)`). Mirror both the framework and the
-assertion style the project already uses. Code samples below use the generated test conventions as
-reference; substitute your `AIceptionInteractiveClient`, model names, and controller names.
+**Match the project's existing test stack — don't impose one.** Check the test project's package references
+and existing tests, then mirror both its **test framework** (xUnit / NUnit / MSTest) and its **assertion
+style**: if it uses an assertion library such as FluentAssertions or Shouldly, write assertions that way
+(e.g. `result.StatusCode.Should().Be(HttpStatusCode.OK)`) rather than the framework's built-in asserts. The
+code samples below use xUnit `[Fact]` + the built-in `Assert` **purely for reference** — they show the SDK
+testing seam and *what* to assert, not a mandated framework or assertion library. Substitute your
+`AIceptionInteractiveClient`/`AIceptionInteractiveClientOptions` as well.
 
-> Throughout, `{...}` tokens are placeholders for names from your SDK.
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `AIceptionInteractiveClient`,
+> `{ApiGroup}`, `{Operation}`) — replace it with the concrete identifier from the source.
 
 ## A reusable stub handler
 
 ```csharp
 using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 public sealed class StubHandler : HttpMessageHandler
 {
-    private readonly HttpStatusCode _status;
-    private readonly string _body;
-    public HttpRequestMessage LastRequest { get; private set; }
+    private readonly Func<HttpRequestMessage, HttpResponseMessage> _responder;
+    public HttpRequestMessage? LastRequest { get; private set; }
 
-    public StubHandler(HttpStatusCode status, string body)
-    {
-        _status = status;
-        _body = body;
-    }
+    public StubHandler(Func<HttpRequestMessage, HttpResponseMessage> responder) => _responder = responder;
 
     protected override Task<HttpResponseMessage> SendAsync(
-        HttpRequestMessage request, CancellationToken cancellationToken)
+        HttpRequestMessage request, CancellationToken ct)
     {
         LastRequest = request;
-        return Task.FromResult(new HttpResponseMessage(_status)
-        {
-            Content = new StringContent(_body, System.Text.Encoding.UTF8, "application/json")
-        });
+        return Task.FromResult(_responder(request));
     }
 }
 
-static AIceptionInteractiveClient ClientReturning(HttpStatusCode status, string body)
+static AIceptionInteractiveClient ClientReturning(HttpStatusCode status, string json)
 {
-    var handler = new StubHandler(status, body);
-    var httpClient = new HttpClient(handler);
-    return new AIceptionInteractiveClient.Builder()
-        .HttpClientConfig(c => c.HttpClientInstance(httpClient))
-        // Credentials are irrelevant for a stubbed transport:
-        // .BasicAuthCredentials(new BasicAuthModel.Builder("u", "p").Build())
-        .Build();
+    var handler = new StubHandler(_ => new HttpResponseMessage(status)
+    {
+        Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
+    });
+    return new AIceptionInteractiveClient(new HttpClient(handler), new AIceptionInteractiveClientOptions { /* auth not needed for stubs */ });
 }
 ```
 
-## Using HttpCallback for response inspection (NUnit style)
-
-The generated `ControllerTestBase` pattern registers an `HttpCallback` and asserts on its response
-after each call — useful when the operation returns bare `Task<T>` and you need to confirm the HTTP
-status:
+## Test a success path
 
 ```csharp
-using AIceptionInteractive.Standard;
-using AIceptionInteractive.Standard.Http.Client;
-using NUnit.Framework;
-
-[TestFixture]
-public class MyControllerTest
-{
-    private AIceptionInteractiveClient _client;
-    internal HttpCallback HttpCallBack { get; private set; } = new HttpCallback();
-
-    [OneTimeSetUp]
-    public void SetUp()
-    {
-        var handler = new StubHandler(HttpStatusCode.OK, "\"You've passed the test!\"");
-        _client = new AIceptionInteractiveClient.Builder()
-            .HttpClientConfig(c => c.HttpClientInstance(new HttpClient(handler)))
-            .HttpCallback(HttpCallBack)
-            .Build();
-    }
-
-    [Test]
-    public async Task TestOperation()
-    {
-        string result = null;
-        try
-        {
-            result = await _client.{Resource}Controller.{Operation}Async();
-        }
-        catch (ApiException) { }
-
-        Assert.AreEqual(200, HttpCallBack.Response.StatusCode, "Status should be 200");
-        Assert.IsNotNull(result, "Result should exist");
-    }
-}
-```
-
-## Test a success path (plain assert)
-
-```csharp
-[Test]
+[Fact]
 public async Task ReturnsDeserializedBody()
 {
-    var client = ClientReturning(HttpStatusCode.OK,
-        """{ "access_token": "tok123", "token_type": "Bearer" }""");
+    var client = ClientReturning(HttpStatusCode.OK, """{ "{resource}": { "id": 123 } }""");
 
-    var result = await client.{Resource}Controller.{Operation}Async();
+    var response = await client.{ApiGroup}.{Operation}(/* args */, ct: default);
 
-    Assert.IsNotNull(result);
-    Assert.AreEqual("tok123", result.AccessToken);
+    Assert.Equal(123, response.{Resource}?.Id);
 }
 ```
 
-## Test an error path — base ApiException
+## Test an error path
+
+Endpoint methods throw `SdkException<TError>` on non-2xx (see `dotnet-error-handling`). `TError` is the
+operation's `{Operation}Error` model (**Case A**) for operations that have a generated `{Operation}Error`
+type, or `RawError` **directly** (**Case B**) otherwise — so assert the type that matches your operation.
+
+**Case A — typed `{Operation}Error`:**
 
 ```csharp
-using AIceptionInteractive.Standard.Exceptions;
+using AIceptionInteractive.Standard.Core.Exceptions;     // SdkException<TError>
+using AIceptionInteractive.Standard.Errors;              // {Operation}Error types
 
-[Test]
-public async Task ThrowsApiException()
+[Fact]
+public async Task ThrowsOnApiError()
 {
-    var client = ClientReturning(HttpStatusCode.Unauthorized, "{}");
+    var client = ClientReturning(HttpStatusCode.UnprocessableEntity, """{ "errors": ["bad input"] }""");
 
-    ApiException ex = null;
-    try
-    {
-        await client.{Resource}Controller.{Operation}Async();
-    }
-    catch (ApiException e)
-    {
-        ex = e;
-    }
+    var ex = await Assert.ThrowsAsync<SdkException<{Operation}Error>>(
+        () => client.{ApiGroup}.{Operation}(/* args */, ct: default));
 
-    Assert.IsNotNull(ex, "Should throw ApiException");
-    Assert.AreEqual(401, ex.ResponseCode);
+    // ex.Error is the typed ApiError. For a status the operation maps to a typed body (e.g. 422), assert the
+    // typed accessor — its name embeds the body type, so open the {Operation}Error under Errors/ for the
+    // exact name. TryGetRawError is FALSE for those statuses, so don't assert through it here:
+    Assert.True(ex.Error.TryGetSomeTypedBody(out var typed));
+    // ...assert on 'typed'. (Only statuses the operation maps to RawError populate TryGetRawError.)
 }
 ```
 
-## Test an error path — typed exception subclass
-
-When an operation has a documented error response with a typed model (e.g. `OAuthProviderException`
-for OAuth errors), catch the subclass first:
+**Case B — `SdkException<RawError>`** (e.g. read/list/find/archive/delete operations). Here `ex.Error` *is*
+the `RawError` — there is no `TryGet*` / `TryGetRawError`; read it directly:
 
 ```csharp
-using AIceptionInteractive.Standard.Exceptions;
+using AIceptionInteractive.Standard.Core.Exceptions;
+using AIceptionInteractive.Standard.Core.ErrorResponse;
 
-[Test]
-public async Task ThrowsTypedExceptionWithPayload()
-{
-    var client = ClientReturning(HttpStatusCode.BadRequest,
-        """{ "error": "invalid_request", "error_description": "Bad params" }""");
+var ex = await Assert.ThrowsAsync<SdkException<RawError>>(
+    () => client.{ApiGroup}.{Operation}(/* args */, ct: default));
 
-    OAuthProviderException ex = null;
-    try
-    {
-        await client.OAuthAuthorizationController.{Token}Async(/* params */);
-    }
-    catch (OAuthProviderException e)
-    {
-        ex = e;
-    }
-
-    Assert.IsNotNull(ex, "Should throw OAuthProviderException");
-    Assert.AreEqual(400, ex.ResponseCode);
-    Assert.AreEqual(OAuthProviderErrorEnum.InvalidRequest, ex.Error);
-    Assert.AreEqual("Bad params", ex.ErrorDescription);
-}
+Assert.Equal(HttpStatusCode.UnprocessableEntity, ex.Error.StatusCode);
+// You can also assert the deserialized error body: ex.Error.ReadAsString() / ex.Error.ReadAsJson<MyDto>().
 ```
 
-Open `Exceptions/` in the generated source to find which typed subclasses exist for your SDK and
-which `[JsonProperty]` payload fields each one exposes.
+## Test the result-style (`ApiResult`) variant
+
+If the operation exposes the optional non-throwing `{Operation}Result` sibling (see `dotnet-error-handling`),
+there is nothing to catch — stub the response and assert on the returned `ApiResult<TResponse, TError>`
+directly. The status code and headers are available on both the success and failure outcomes.
+
+```csharp
+using AIceptionInteractive.Standard.Core.Models;        // ApiResult<TResponse, TError>
+using AIceptionInteractive.Standard.Core.ErrorResponse; // RawError (Case B)
+using AIceptionInteractive.Standard.Errors;             // {Operation}Error (Case A only)
+
+[Fact]
+public async Task ResultVariantReportsFailureWithoutThrowing()
+{
+    var client = ClientReturning(HttpStatusCode.UnprocessableEntity, """{ "errors": ["bad input"] }""");
+
+    var result = await client.{ApiGroup}.{Operation}Result(/* args */, ct: default);
+
+    Assert.False(result.TryGetResponse(out _));
+    Assert.True(result.TryGetError(out var error));   // 'error' is the same TError as the throwing path
+    Assert.Equal(HttpStatusCode.UnprocessableEntity, result.StatusCode);
+    // 'error' is a typed {Operation}Error (Case A) or a RawError (Case B) — assert accordingly.
+}
+```
 
 ## Assert the outgoing request
 
-The stub captures `LastRequest`. Assert the method, path, and (for POST/PUT/PATCH) the serialized
-body:
+Because the stub captures `LastRequest`, you can assert method, path, query, headers, and body:
 
 ```csharp
-[Test]
-public async Task SendsCorrectRequest()
-{
-    var handler = new StubHandler(HttpStatusCode.OK, "{}");
-    var client = new AIceptionInteractiveClient.Builder()
-        .HttpClientConfig(c => c.HttpClientInstance(new HttpClient(handler)))
-        .Build();
+var handler = new StubHandler(_ => new HttpResponseMessage(HttpStatusCode.OK)
+                                   { Content = new StringContent("{}") });
+var client = new AIceptionInteractiveClient(new HttpClient(handler), new AIceptionInteractiveClientOptions());
 
-    await client.{Resource}Controller.{Operation}Async(/* args */);
+await client.{ApiGroup}.{Operation}(/* args */, ct: default);
 
-    Assert.AreEqual(HttpMethod.Post, handler.LastRequest.Method);
-    StringAssert.Contains("/expected/path", handler.LastRequest.RequestUri.AbsolutePath);
+Assert.Equal(HttpMethod.Post, handler.LastRequest!.Method);
+Assert.Contains("/expected/path", handler.LastRequest!.RequestUri!.AbsolutePath);
+Assert.Contains("per_page=20", handler.LastRequest!.RequestUri!.Query);  // query params are snake_case on the wire
 
-    // For requests with a body:
-    string sent = await handler.LastRequest.Content.ReadAsStringAsync();
-    StringAssert.Contains("\"expected_field\"", sent);
-}
+// Assert the serialized request body of a POST/PUT/PATCH:
+var sentJson = await handler.LastRequest!.Content!.ReadAsStringAsync();
+Assert.Contains("\"expected_field\"", sentJson);
 ```
 
 ## Notes
 
-- **Retries are off by default** (`NumberOfRetries = 0`), so a stubbed `5xx` fails immediately —
-  no need to disable retries in tests. If your production client enables retries, build the test
-  client without calling `.NumberOfRetries(...)` (or set it to `0` explicitly). See
-  **dotnet-configuration-resilience**.
-- To test that retries *do* fire, have the stub return `503` then `200` (count `SendAsync` calls)
-  — remember that by default only `GET` and `PUT` are retried; `POST` won't retry without adding
-  it to `RequestMethodsToRetry`.
-- The generated `ControllerTestBase` uses `CreateFromEnvironment()` to build the live client; for
-  unit tests, build a fresh stub client as shown above — don't share the live client.
-- To look up an operation's signature or a typed exception's payload fields, open the `.cs` files
-  in the cloned SDK source — the generated XML-doc comments and `ErrorCase` registrations in the
-  controller are the source of truth.
+- Mocking libraries (Moq, NSubstitute) work too — mock `HttpMessageHandler.SendAsync` (it's `protected`,
+  so use `Protected()` with Moq). The hand-written stub above avoids that friction.
+- A stubbed retryable response (`408/429/5xx`) on a retryable method will be retried by the SDK before the
+  call returns — retries apply to `GET/HEAD/PUT/OPTIONS` only by default, so a `POST` won't retry unless you
+  add its method to `HttpMethodsToRetry` (see `dotnet-configuration-resilience`). To observe retries firing,
+  have the stub return `503` then `200` and count invocations.
+- For DI-based code, the SDK's `AddAIceptionInteractiveClient` resolves the **default (unnamed)** `IHttpClientFactory`
+  client, so register your stub on that one, then resolve `AIceptionInteractiveClient` from the provider:
+  ```csharp
+  services.AddAIceptionInteractiveClient(o => { /* ... */ });
+  services.AddHttpClient(Options.DefaultName).ConfigurePrimaryHttpMessageHandler(() => stubHandler);
+  var client = services.BuildServiceProvider().GetRequiredService<AIceptionInteractiveClient>();
+  ```
+- To look up an operation's signature, its request type, or a `{Operation}Error`'s accessor names, read the
+  SDK source `.cs` files — don't decompile or reflect over the installed package, which drops the XML-doc
+  comments and the request-builder details.
+- Prefer this `HttpClient`-seam approach over wrapping the SDK in your own interface unless you need to
+  abstract the SDK for other reasons.

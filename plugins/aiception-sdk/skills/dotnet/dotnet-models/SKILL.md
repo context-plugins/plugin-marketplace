@@ -1,209 +1,110 @@
 ---
 name: dotnet-models
-description: Construct and read the non-obvious model shapes of an APIMatic-generated C#/.NET SDK (APIMATIC v3.0) — nullable optional fields (NullValueHandling.Ignore on JsonProperty), real C# enums with integer or string backing + EnumMember wire values, oneOf/anyOf union containers (abstract classes built via static From{Variant} factories and read with Match<T> or MatchSome<T>, never with new), polymorphic inheritance hierarchies, collections, dates, and the AdditionalProperties map that preserves unknown JSON. Use when building a request struct or reading a response field that is a union container, enum, nullable, collection, or date — anything that isn't a plain required string or number — load it even after reading the field's type in the source, since the type name alone won't tell you a union requires a From{Variant} factory or that Match<T> is the way to read it.
+description: Construct and read the non-obvious model shapes of an APIMatic-generated C#/.NET SDK — polymorphic OneOf/AnyOf unions (built with static factory methods, read via TryGet…, no object-initializer), string-/int-enums (StringEnum<T>/IntEnum<T> via static constants or FromValue, not C# enums), collections (IReadOnlyList/IReadOnlyDictionary), DateTimeOffset dates, and unknown-field behavior. Use when building a request body or reading a response field that is a union, enum, list/map, or date — anything that isn't a plain string/number — or when an unmodeled JSON field is dropped on deserialization. Load it even after reading the field's type in the source, since the type name alone won't tell you a union needs factory methods (not `new`) or that an enum isn't a C# enum.
 ---
 
-# Working with models in an APIMatic C#/.NET SDK
+# Working with models in an APIMatic .NET SDK
 
-Most request/response data are plain C# classes (subclasses of `BaseModel`) built with object
-initializers. This skill covers the **non-obvious shapes** that trip integrations up. Take the real
-type names from your SDK source (`Models/` and `Models/Containers/`); the generated
-`doc/models/*.md` files describe each field's type and Required/Optional tag.
+Most request/response data are immutable `record`s built with object-initializers (covered in
+`dotnet-calling-endpoints`). This skill covers the **non-obvious model shapes** that trip integrations up.
+The patterns are generic across APIMatic .NET SDKs; take the real type names from your SDK source — read the
+model and union `.cs` files, not a decompiled or reflected view of the installed package.
 
-> Throughout, `{...}` tokens are placeholders for names from your SDK.
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{Union}`,
+> `{Variant}`, `{EnumType}`, `{RequestType}`) — replace it with the concrete identifier from the source.
 
-## Optional fields — nullable types + NullValueHandling.Ignore
+## Polymorphic union types: `OneOf` and `AnyOf`
 
-Required fields have non-nullable types (`string`, `int`, `double`). Optional fields are C# nullable
-types (`string?` or `long?`, `int?`, etc.) and carry:
+When a field can be one of several types, APIMatic generates a union `record` (under
+`AIceptionInteractive.Standard.Models.OneOf` or `.Models.AnyOf`). Build these with the generated **static factory
+methods** (one per variant) and read them back with **`TryGet…` methods** — a union has no
+object-initializer. JSON (de)serialization is automatic.
 
-```csharp
-[JsonProperty("field_name", NullValueHandling = NullValueHandling.Ignore)]
-public string OptionalField { get; set; }
-```
+- `OneOf` — the value is exactly one variant (sometimes indicated by a discriminator field such as `type`).
+- `AnyOf` — the value may match one of several primitive/shape variants.
 
-A `null` optional field is **omitted** from the JSON sent in a request. Read an optional response
-field with a null-check:
-
-```csharp
-var body = new {RequestModel}
-{
-    RequiredField = "value",    // non-nullable
-    OptionalField = null,       // omitted from request JSON
-};
-
-if (result.OptionalField != null)
-{
-    Console.WriteLine(result.OptionalField);
-}
-```
-
-## Enums — real C# enums with generated backing values
-
-APIMatic generates standard C# `enum` types, not wrapper types. Two kinds:
-
-**Integer-backed** (decorated with `[JsonConverter(typeof(NumberEnumConverter))]`):
+### Construct
 
 ```csharp
-// SuiteCodeEnum.cs
-public enum SuiteCodeEnum { Hearts = 1, Spades = 2, Clubs = 3, Diamonds = 4 }
+// One static factory per variant: {Union}.{Variant}(value)
+var u1 = {Union}.String("...");
+var u2 = {Union}.{Variant}(new {Variant} { /* ... */ });
 
-SuiteCodeEnum suite = SuiteCodeEnum.Hearts;   // wire value: 1
+// AnyOf unions over primitives also expose implicit conversions:
+{Union} u3 = "...";    // same as {Union}.String("...")
+{Union} u4 = 10.50m;   // same as {Union}.Decimal(10.50m)
 ```
 
-**String-backed** (decorated with `[JsonConverter(typeof(StringEnumConverter))]` + `[EnumMember]`):
+### Read / unwrap
 
 ```csharp
-// OAuthProviderErrorEnum.cs
-public enum OAuthProviderErrorEnum
-{
-    [EnumMember(Value = "invalid_request")] InvalidRequest,
-    [EnumMember(Value = "invalid_client")]  InvalidClient,
-    // ...
-}
+// Each variant has a bool TryGet{Variant}(out var value):
+if (u1.TryGetString(out var s))        { /* use s (string)  */ }
+else if (u1.TryGetDecimal(out var d))  { /* use d (decimal) */ }
 
-OAuthProviderErrorEnum err = OAuthProviderErrorEnum.InvalidRequest;
-// wire value: "invalid_request"
+// OneOf: branch over the variants you expect
+if (resp.{Field}.TryGet{Variant}(out var v))           { /* ... */ }
+else if (resp.{Field}.TryGet{OtherVariant}(out var w)) { /* ... */ }
 ```
 
-Open the enum file in `Models/` to confirm: whether it is integer- or string-backed, and the exact
-`[EnumMember]` wire value for string enums. The C# member name and the wire value differ — always
-use the generated constant, never pass a raw string/int where an enum is expected.
+The factory and `TryGet` names are built mechanically from the **variant's CLR type name**:
 
-## oneOf / anyOf union containers — From{Variant} factory + Match<T> reader
+| Variant CLR type | Factory method | Reader |
+| --- | --- | --- |
+| `double` | `.Double(double)` | `TryGetDouble(out double)` |
+| `decimal` | `.Decimal(decimal)` | `TryGetDecimal(out decimal)` |
+| `string` | `.String(string)` | `TryGetString(out string)` |
+| a model `{Variant}` | `.{Variant}({Variant})` | `TryGet{Variant}(out {Variant})` |
+| a list of `{Variant}` | `.ListOf{Variant}(IReadOnlyList<{Variant}>)` | `TryGetListOf{Variant}(out IReadOnlyList<{Variant}>)` |
 
-When a field can hold one of several types, APIMatic generates an **abstract container class** under
-`Models/Containers/`. The container has:
-
-- one `public static {Container} From{Variant}({Variant} value)` factory per variant, and
-- an `abstract T Match<T>(Func<{A}, T> caseA, Func<{B}, T> caseB, ...)` method to read the value.
-
-**You cannot build a union with `new` — use the factory.** Attempting to `new` the container
-(abstract class) is a compile error.
-
-```csharp
-using TypeCombinatorGlobal.Standard.Models;
-using TypeCombinatorGlobal.Standard.Models.Containers;
-
-// Construct — pick the variant:
-OneOfCatDogKind pet = OneOfCatDogKind.FromCat(new Cat
-{
-    Name = "whiskers",
-    Color = "grey",
-    Kind = "small",
-});
-
-// Or the other variant:
-OneOfCatDogKind pet2 = OneOfCatDogKind.FromDog(new Dog { Name = "rex", Fangs = "yes" });
-```
-
-**Reading with `Match<T>`** — all branches must have the same return type `T`:
-
-```csharp
-string description = pet.Match<string>(
-    cat => $"Cat: {cat.Name}",
-    dog => $"Dog: {dog.Name}"
-);
-```
-
-**Reading with `MatchSome<T>`** — when you only care about some variants; pass `null` for the
-others and get the `default(T)` for unmatched variants:
-
-```csharp
-string name = pet.MatchSome<string>(
-    cat: c => c.Name   // only handle Cat; Dog returns null
-);
-```
-
-**Primitive unions** use the same pattern with primitive wrapper factories:
-
-```csharp
-// AnyOfPrimitive: From{VariantName}(...) where the name is per the API's generated field name
-AnyOfPrimitive id = AnyOfPrimitive.FromSenderName("user-123");
-AnyOfPrimitive idNum = AnyOfPrimitive.FromMessageId(42);
-
-id.Match<string>(
-    senderName: s => $"name={s}",
-    messageId: i => $"id={i}"
-);
-```
-
-Open the container class (e.g. `OneOfCatDogKind.cs`) in `Models/Containers/` to see the exact
-factory method names and the `Match<T>` lambda parameter names — they are per-API and matter for
-compilation.
-
-## Polymorphic types — inheritance hierarchies
-
-Models in an inheritance/discriminator hierarchy have a base class and concrete subclasses. Build
-a concrete instance with an object initializer and set the discriminator property (e.g. `PetType`):
-
-```csharp
-Cat cat = new Cat
-{
-    Name = "whiskers",
-    Color = "grey",
-    PetType = "Cat",   // discriminator — check doc/models/{type}.md for the required value
-    OneOfKind = "One Of kind2",
-};
-```
-
-The base class in `{BaseClass}.cs` declares the common fields. Concrete subclasses add their own
-fields and carry the discriminator value. Check `doc/models/{type}.md` for the required discriminator
-field and its exact string value.
+The exact CLR type varies per union — a numeric variant may be `double`, `decimal`, or `long` — so open the
+union file under `Models/AnyOf` or `Models/OneOf` and copy the real method name. (Unions use the per-variant
+factories and `TryGet…` readers shown above; `FromValue` belongs to enums.) The `Optional<T>` backing a
+union is internal — interact only through the
+factories and `TryGet…`.
 
 ## Collections
 
-List/array fields are `List<{ItemType}>` (or `IList<{ItemType}>`); maps are
-`Dictionary<string, {ValueType}>`:
+List/array properties are `IReadOnlyList<T>?`; maps are `IReadOnlyDictionary<TKey, TValue>?`. Assign a
+`List<>`/array/`Dictionary<>` directly (each implements the read-only interface), or use collection
+expressions:
 
 ```csharp
-var body = new {RequestModel}
+var body = new {RequestType}
 {
-    Tags = new List<string> { "a", "b" },
-    Meta = new Dictionary<string, string> { ["env"] = "prod" },
+    {ListProp} = ["A", "B"],                                    // IReadOnlyList<string>
+    {MapProp}  = new Dictionary<string, string> { ["k"] = "v" } // IReadOnlyDictionary<string,string>
 };
 ```
 
-A `null` collection with `NullValueHandling.Ignore` is omitted from JSON; an explicit empty
-`List<>()` serializes as `[]`.
+A null collection is omitted from the JSON; an **empty** collection is serialized.
 
-## Dates
+## Dates & numbers
 
-Date/time fields are typically `string` (wire format depends on the API), `DateTime`, or
-`DateTimeOffset`. Open the model property in the source to confirm the exact type and `[JsonProperty]`
-tag; let the SDK's (de)serialization handle the wire format. Do not format dates manually unless
-the property type is `string`.
+- Date/time fields are `DateTimeOffset?`, serialized as ISO-8601 / RFC-3339 — work with `DateTimeOffset`
+  and let the SDK handle the wire format. For manual formatting/parsing use the BCL (`DateTimeOffset.Parse`,
+  `.ToString("O")`); the SDK's date handling is internal.
+- Money/quantities may be `string`, `decimal`, or a string-or-number `AnyOf` union; the model's property
+  type is the source of truth.
+  Numeric ids are typically `double?`.
 
-## Unknown / additional properties — preserved in AdditionalProperties
+## Enums
 
-Generated model classes extend `BaseModel`, which includes:
-
-```csharp
-[JsonExtensionData]
-public IDictionary<string, JToken> AdditionalProperties { get; set; }
-```
-
-Unknown JSON keys on a response are **captured there** (not dropped), and you can set extra keys
-to include in requests by populating it:
+Enums are type-safe string-enums (`StringEnum<T>`) or int-enums (`IntEnum<T>`): use the static constants,
+or `FromValue(...)` for a value not known at compile time; they convert implicitly to their underlying
+value. Guard unknown values with `TryGetKnownValue(...)`.
 
 ```csharp
-if (result.AdditionalProperties.TryGetValue("x_custom", out var val))
-{
-    Console.WriteLine(val.ToString());
-}
-
-// Send an additional field:
-body.AdditionalProperties = new Dictionary<string, JToken>
-{
-    ["x_trace"] = "abc"
-};
+{request}.{EnumProp} = {EnumType}.SomeConstant;
+{request}.{EnumProp} = {EnumType}.FromValue(serverProvidedValue);   // tolerates unknown values
+if ({EnumType}.TryGetKnownValue(value, out var known)) { /* known constant */ }
 ```
 
-Confirm that `AdditionalProperties` is present by checking `BaseModel.cs` in the generated source —
-the pattern is consistent across APIMATIC v3.0 SDKs.
+See [reference.md](reference.md) for full string- and int-enum declarations and union-member discovery.
 
-## See also
+## Unknown / future fields
 
-- [reference.md](reference.md) — condensed field-by-field quick reference
-- **dotnet-calling-endpoints** — object-initializer syntax for plain models
-- **dotnet-error-handling** — typed exception subclasses and their model fields
+Models declare their properties explicitly. Whether unknown JSON fields are kept depends on the SDK:
+APIMatic can generate an additional-properties map that captures them, but where a model has none — the
+common case — unknown fields are dropped on deserialization. Check the model; to read an unmodeled field,
+regenerate the SDK or parse that response yourself.

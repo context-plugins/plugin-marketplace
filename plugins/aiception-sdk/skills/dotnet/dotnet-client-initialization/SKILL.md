@@ -1,163 +1,130 @@
 ---
 name: dotnet-client-initialization
-description: Construct and configure an APIMatic-generated C#/.NET SDK client — build it with the fluent new AIceptionInteractiveClient.Builder()...Build() pattern (or AIceptionInteractiveClient.FromConfiguration from IConfiguration / CreateFromEnvironment from env vars), choose an Environment enum value and base-URL Server, set the HttpClient timeout / supply your own HttpClient via .HttpClientConfig, reach controllers through client properties, and reuse the immutable, thread-safe client for the process lifetime. Use the moment you write new AIceptionInteractiveClient.Builder(), build from configuration, pick an environment, set up the HttpClient/client lifetime, or wire the client into DI — load it even after reading the constructor in the source, since the signature shows the builder methods but not the build-then-immutable shape, the reuse rules, or that the client owns its HttpClient.
+description: Initialize an APIMatic-generated C#/.NET API client — you construct it from an HttpClient you supply (the SDK doesn't own it; reuse one long-lived instance or an IHttpClientFactory, not one per request) plus an options object, choose a server environment/base URL, and DI-register via the generated AddAIceptionInteractiveClient extension. Use the moment you write `new AIceptionInteractiveClient(...)`, build its options, pick an environment, set up the HttpClient/client lifetime, or register the client in dependency injection — load it even after reading the constructor in the SDK source, since the signature shows the arguments but not the lifetime/reuse rules or DI wiring.
 ---
 
-# Initializing an APIMatic C#/.NET SDK client
+# Initializing an APIMatic .NET SDK client
 
-This applies to **any** APIMatic-generated C#/.NET SDK (APIMATIC v3.0). Replace placeholders with the real
-names from the SDK you are using:
+This applies to **any** APIMatic-generated .NET SDK. Replace placeholders with the real names from the
+SDK you are using:
 
-- `AIceptionInteractive.Standard` — the root namespace (e.g. `MultiAuthSample.Standard`).
-- `AIceptionInteractiveClient` — the client class (e.g. `MultiAuthSampleClient`).
-- `{Resource}Controller` — a controller accessor **property** on the client.
+- `AIceptionInteractiveClient` — the single public client class (e.g. `FooClient`).
+- `AIceptionInteractiveClientOptions` — its options class.
+- `AIceptionInteractive.Standard` — the SDK's root namespace, used in `using` directives. This can differ from the NuGet
+  package id (you install by the package id but `using` the namespace).
 
-## The shape: a fluent Builder, then an immutable client
+## Shape of the client
 
-APIMatic .NET SDKs do **not** take a plain constructor. You chain setters on a nested `Builder` and call
-`.Build()`, which returns the immutable client:
+APIMatic .NET SDKs expose **one public client class** constructed from an `HttpClient` and an options
+object:
+
+```csharp
+public AIceptionInteractiveClient(HttpClient httpClient, AIceptionInteractiveClientOptions options)
+```
+
+Operations are exposed on the client. Most are grouped under **controller properties** (one per API resource
+group) and called `client.{ApiGroup}.{Operation}(...)` — for example, a `Widgets` controller's
+`ListWidgets` operation is `client.Widgets.ListWidgets(...)`. An operation that belongs to no group sits
+**directly on the client**, called `client.{Operation}(...)`. Open the client class **in the SDK source**
+(not a decompiled or reflected view of the installed package) to see the available controller properties
+(and any direct operations). See `dotnet-calling-endpoints`.
+
+The options class always carries these knobs (auth properties vary per API — see
+`dotnet-authentication`):
+
+```csharp
+public class AIceptionInteractiveClientOptions
+{
+    public ServerEnvironment Environment { get; set; } = ServerEnvironment.Default();
+    public RetryOptions Retry { get; set; } = RetryOptions.Default();
+    public ServerOptions Server { get; set; } = new();
+    // + one nullable credentials property per auth scheme the API declares
+}
+```
+
+Tuning these knobs — `Retry` (retries, backoff, per-attempt timeout) and `Server` / `Environment` (server
+selection and **overriding the base URL**), plus pagination and logging — is covered in
+**dotnet-configuration-resilience**.
+
+## Direct instantiation
 
 ```csharp
 using AIceptionInteractive.Standard;
-using AIceptionInteractive.Standard.Authentication;
+using AIceptionInteractive.Standard.Servers;
 
-AIceptionInteractiveClient client = new AIceptionInteractiveClient.Builder()
-    // auth — see dotnet-authentication
-    .{Scheme}Credentials(new {Scheme}Model.Builder(/* ... */).Build())
-    .Environment(Environment.Production)          // see "Environment" below
-    .HttpClientConfig(config => config.Timeout(TimeSpan.FromSeconds(60)))
-    .Build();
+var options = new AIceptionInteractiveClientOptions
+{
+    Environment = ServerEnvironment.Default(),   // pick the environment your API exposes
+    // ...set the auth credentials property your API uses (see dotnet-authentication)
+};
+
+var httpClient = new HttpClient();               // reuse a single long-lived instance
+var client = new AIceptionInteractiveClient(httpClient, options);
 ```
 
-Every `Builder` method returns the `Builder`, so calls chain in any order; `.Build()` snapshots the
-configuration. The exact set of setters is per-API — open the nested `Builder` class in `AIceptionInteractiveClient.cs`.
-Common ones:
+### HttpClient lifetime
 
-| Builder method | Sets |
-| --- | --- |
-| `.Environment(Environment env)` | the API environment (selects the base URL) |
-| `.HttpClientConfig(Action<HttpClientConfiguration.Builder>)` | timeout, retries, proxy, custom `HttpClient` (see dotnet-configuration-resilience) |
-| `.{Scheme}Credentials({Scheme}Model)` | one per auth scheme the API uses (see dotnet-authentication) |
-| `.HttpCallback(HttpCallback)` | request/response callback hook (see dotnet-configuration-resilience) |
-| other setters | API-specific server/global params (e.g. `.Port(...)`, a global header/token) — check the source |
+The SDK does **not** own the `HttpClient` — you provide it. Reuse one instance for the app's lifetime
+(or use `IHttpClientFactory`); do not create one per request. Attach custom `HttpMessageHandler`s here for
+logging, proxies, or custom TLS (see `dotnet-configuration-resilience`).
 
-> The default `Environment` and any server parameters come from the `Builder`'s field initializers — read
-> them in `AIceptionInteractiveClient.cs` rather than assuming (e.g. one sample defaults to `Environment.Testing`).
+The client itself is also meant to be **long-lived** — construct it once and reuse it for the app's
+lifetime (it's just lightweight controller wrappers over the shared HTTP pipeline). Don't build a new
+client per request or per call.
 
-## From IConfiguration
+## Choosing the server / base URL
 
-Most SDKs generate a `FromConfiguration` entry point that binds an `IConfigurationSection` (JSON file, env
-vars, any .NET config provider). Missing values fall back to SDK defaults:
+Environments are modeled as a `ServerEnvironment` string-enum with one constant per environment the API
+defines (e.g. `ServerEnvironment.Production`, or region constants). `ServerOptions` holds the base-URL
+templates and any templated parameters (such as a subdomain). Set the environment on options, and
+override template parameters via `Server` when the base URL contains placeholders:
 
 ```csharp
-using Microsoft.Extensions.Configuration;
-
-var configuration = new ConfigurationBuilder()
-    .AddJsonFile("config.json")
-    .AddEnvironmentVariables()
-    .Build();
-
-AIceptionInteractiveClient client = AIceptionInteractiveClient.FromConfiguration(configuration.GetSection("AIceptionInteractive"));
+var options = new AIceptionInteractiveClientOptions
+{
+    Environment = ServerEnvironment.Default(),
+    Server = new ServerOptions
+    {
+        // e.g. Production = new ProductionOptions { ... templated params ... }
+    }
+};
 ```
 
-`AIceptionInteractiveClient.Builder.FromConfiguration(section)` returns a `Builder` instead, so you can override specific
-properties in code before `.Build()`. The config keys mirror the builder setters (`Environment`,
-`HttpClientConfig`, each `{Scheme}Credentials` block) — see the SDK's
-`doc/configuration-based-initialization.md` for the exact JSON shape.
+Inspect the SDK's `Servers/ServerEnvironment.cs` and `ServerOptions.cs` for the exact constants and
+template parameters of your API.
 
-## From environment variables
+## Dependency injection (ASP.NET Core / generic host)
 
-Some SDKs also generate an internal `CreateFromEnvironment()` that reads `{API_UPPER}_...` variables (e.g.
-`{API_UPPER}_ENVIRONMENT`, `{API_UPPER}_USERNAME`). Grep `CreateFromEnvironment` in `AIceptionInteractiveClient.cs` for
-the exact variable names this SDK reads (they are derived from the API name and per-scheme credential
-fields).
-
-## Accessing controllers
-
-Operations are grouped under **controller properties** on the client — one per API resource group. Each is
-lazily created and cached. Get it, then call the operation (see **dotnet-calling-endpoints**):
+Every APIMatic .NET SDK ships a `ServiceCollection` extension named `AddAIceptionInteractiveClient`, which registers the
+client (transient) and wires an `IHttpClientFactory`-managed `HttpClient` (it resolves the **default,
+unnamed** factory client, and the `options` you configure are captured once at registration):
 
 ```csharp
-var ctrl = client.{Resource}Controller;
-var result = await ctrl.{Operation}Async(/* ... */);
+using AIceptionInteractive.Standard;
+
+builder.Services.AddAIceptionInteractiveClient(options =>
+{
+    options.Environment = ServerEnvironment.Default();
+    // options.{Scheme} = new {Scheme}Credentials { ... };
+});
 ```
 
-Open `AIceptionInteractiveClient.cs` for the full list of controller properties.
+To attach custom `DelegatingHandler`s (logging, proxies, custom TLS) under this DI registration, configure
+the **default, unnamed** factory client it resolves — e.g.
+`services.AddHttpClient(Options.DefaultName).AddHttpMessageHandler(() => new MyHandler());`. See
+**dotnet-configuration-resilience**.
 
-## Choosing the environment / base URL
-
-Environments are values of the generated `Environment` **C# enum** in the root namespace (e.g.
-`Environment.Production`, `Environment.Testing`). The client maps each `Environment` to one or more
-`Server` base URLs internally; you select the environment, not a free-form URL:
+Then inject it:
 
 ```csharp
-AIceptionInteractiveClient client = new AIceptionInteractiveClient.Builder()
-    .Environment(Environment.Production)
-    .Build();
+public sealed class MyService(AIceptionInteractiveClient client)
+{
+    public Task DoWork() => client.{ApiGroup}.{Operation}(/* ... */);
+}
 ```
-
-`Environment` may collide with `System.Environment` — alias it
-(`using Environment = AIceptionInteractive.Standard.Environment;`) when both are in scope. To point the SDK at a mock
-or proxy that the `Environment` values don't cover, see **dotnet-testing** (inject an `HttpClient`) and
-**dotnet-configuration-resilience**. `client.GetBaseUri()` returns the resolved base URL for sanity checks.
-
-## Custom HttpClient / timeout
-
-The SDK builds and **owns** its `HttpClient`. Set the timeout, or supply your own pre-configured
-`HttpClient` (for a proxy, custom `HttpMessageHandler`, or shared connection pool), through
-`.HttpClientConfig`:
-
-```csharp
-AIceptionInteractiveClient client = new AIceptionInteractiveClient.Builder()
-    .HttpClientConfig(config => config
-        .Timeout(TimeSpan.FromSeconds(30))          // default is per-API (often 100s)
-        .HttpClientInstance(myHttpClient))          // supply your own HttpClient
-    .Build();
-```
-
-When you pass `HttpClientInstance`, by default the SDK still applies its own timeout/retry settings on top;
-pass the overload's `overrideHttpClientConfiguration: false` to leave your `HttpClient` untouched — confirm
-in `HttpClientConfiguration`. Retries also live here — see **dotnet-configuration-resilience**.
-
-## Client lifetime and reuse
-
-The client is **immutable after `.Build()`** and **thread-safe**. Construct it **once** at application
-startup and reuse the single instance for the process lifetime — do **not** build a new client per request
-(that throws away the pooled `HttpClient`'s connections and any cached OAuth token, and risks socket
-exhaustion).
-
-```csharp
-// startup — construct once:
-static readonly AIceptionInteractiveClient Api = new AIceptionInteractiveClient.Builder()
-    .{Scheme}Credentials(/* ... */)
-    .Environment(Environment.Production)
-    .Build();
-
-// request handlers / services — reuse the shared instance:
-var result = await Api.{Resource}Controller.{Operation}Async(/* ... */);
-```
-
-To produce a variant with a few settings changed (e.g. attach a freshly fetched OAuth token), call
-`client.ToBuilder()` to get a `Builder` seeded from the current client, change what you need, and
-`.Build()` a new instance — don't mutate the existing one.
-
-## Dependency injection
-
-These SDKs ship **no** `AddAIceptionInteractiveClient` DI extension. Register the client yourself as a **singleton** so
-the single long-lived instance (and its `HttpClient`) is shared:
-
-```csharp
-services.AddSingleton(sp =>
-    AIceptionInteractiveClient.FromConfiguration(
-        sp.GetRequiredService<IConfiguration>().GetSection("AIceptionInteractive")));
-```
-
-Then inject `AIceptionInteractiveClient` (or your own narrow interface wrapping it) into consumers. If you want the
-SDK to use a factory-managed `HttpClient`, resolve one from `IHttpClientFactory` and pass it via
-`.HttpClientConfig(c => c.HttpClientInstance(...))` in the singleton factory.
 
 ## Next
 
 - Configure authentication → **dotnet-authentication**
 - Make your first call → **dotnet-calling-endpoints**
-- Tune retries/timeouts/transport → **dotnet-configuration-resilience**
+- Tune retries/timeouts/logging → **dotnet-configuration-resilience**

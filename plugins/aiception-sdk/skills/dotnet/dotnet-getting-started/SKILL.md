@@ -26,8 +26,8 @@ load the companion *and* confirm names against the source.
 | | |
 | --- | --- |
 | API | `AIception` |
-| Project | `AIceptionInteractive.Standard` (folder + `.csproj`); assembly `AIceptionInteractiveStandard` (no dots) |
-| Root namespace | `AIceptionInteractive.Standard` (the `using` namespace) |
+| Project | `AIceptionInteractive.csproj` at the repo root — referenced from the cloned source (see **Install**) |
+| Root namespace | `AIceptionInteractive` (the `using` namespace) |
 | Client class | `AIceptionInteractiveClient` |
 | Options class | `AIceptionInteractiveClientOptions` |
 | Auth | per-API scheme(s) — see **dotnet-authentication** |
@@ -42,7 +42,7 @@ types against the cloned source.
 ## Namespaces (using-directives)
 
 The SDK splits its public types across **separate child namespaces**. C# does **not** import child
-namespaces transitively, so `using AIceptionInteractive.Standard.Models;` alone does **not** make enums, union types, or
+namespaces transitively, so `using AIceptionInteractive.Models;` alone does **not** make enums, union types, or
 error types visible — you get `CS0103`/`CS0246` ("name/type does not exist") on build. Add a separate `using`
 for each kind of type you reference — when a name won't resolve, open its file in the cloned source and copy
 the `namespace` declaration at its top.
@@ -52,12 +52,12 @@ the `namespace` declaration at its top.
 ```bash
 # Clone the SDK and add a project reference to its .csproj:
 git clone --branch main https://github.com/context-plugins/aiception-interactive-csharp-sdk
-dotnet add reference aiception-interactive-csharp-sdk/AIceptionInteractive.Standard/AIceptionInteractive.Standard.csproj
+dotnet add reference aiception-interactive-csharp-sdk/AIceptionInteractive.csproj
 ```
 
 ```csharp
-using AIceptionInteractive.Standard;          // client + options + ServerEnvironment
-using AIceptionInteractive.Standard.Models;   // request/response types, enums, unions
+using AIceptionInteractive;          // client + options + ServerEnvironment
+using AIceptionInteractive.Models;   // request/response types, enums, unions
 ```
 
 > Add a separate `using` for each child namespace you reference (see **Namespaces** above). Runtime

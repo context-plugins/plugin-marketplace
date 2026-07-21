@@ -10,7 +10,7 @@ SDK you are using:
 
 - `AIceptionInteractiveClient` — the single public client class (e.g. `FooClient`).
 - `AIceptionInteractiveClientOptions` — its options class.
-- `AIceptionInteractive.Standard` — the SDK's root namespace, used in `using` directives. This can differ from the NuGet
+- `AIceptionInteractive` — the SDK's root namespace, used in `using` directives. This can differ from the NuGet
   package id (you install by the package id but `using` the namespace).
 
 ## Shape of the client
@@ -49,8 +49,8 @@ selection and **overriding the base URL**), plus pagination and logging — is c
 ## Direct instantiation
 
 ```csharp
-using AIceptionInteractive.Standard;
-using AIceptionInteractive.Standard.Servers;
+using AIceptionInteractive;
+using AIceptionInteractive.Servers;
 
 var options = new AIceptionInteractiveClientOptions
 {
@@ -100,7 +100,7 @@ client (transient) and wires an `IHttpClientFactory`-managed `HttpClient` (it re
 unnamed** factory client, and the `options` you configure are captured once at registration):
 
 ```csharp
-using AIceptionInteractive.Standard;
+using AIceptionInteractive;
 
 builder.Services.AddAIceptionInteractiveClient(options =>
 {

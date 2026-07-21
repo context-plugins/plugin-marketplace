@@ -9,24 +9,24 @@ How you authenticate depends on the security scheme(s) the API uses. APIMatic su
 **nullable credentials property on the options class**; set the one(s) your API uses, then construct the
 client (see `dotnet-client-initialization`).
 
-> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `AIceptionInteractive.Standard`,
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `AIceptionInteractive`,
 > `AIceptionInteractiveClientOptions`, `{BasicAuthProperty}`) — replace it with the concrete identifier from the source.
 
 To see which schemes a specific SDK accepts, read the **credentials properties on its `AIceptionInteractiveClientOptions`
 class** — those are the source of truth (read the class in the SDK source, not a decompiled or reflected
-view of the installed package). The `AIceptionInteractive.Standard.Core.Authentication` folder ships *every*
+view of the installed package). The `AIceptionInteractive.Core.Authentication` folder ships *every*
 scheme class as shared runtime code regardless of what the API accepts, so rely on the options class rather
 than that folder. (An SDK whose API uses only Basic, for instance, exposes a single
 `options.{BasicAuthProperty}` of type `BasicAuthCredentials`.)
 
-The credential classes below live under `AIceptionInteractive.Standard.Core.Authentication.*` and are the **same across
+The credential classes below live under `AIceptionInteractive.Core.Authentication.*` and are the **same across
 all APIMatic .NET SDKs**; only the **options property names** are generated per-API (hence the
 `{...Property}` placeholders).
 
 ## Basic auth
 
 ```csharp
-using AIceptionInteractive.Standard.Core.Authentication.Basic;
+using AIceptionInteractive.Core.Authentication.Basic;
 
 options.{BasicAuthProperty} = new BasicAuthCredentials
 {
@@ -59,7 +59,7 @@ options.{ApiKeyProperty} = "API_KEY";
 ## OAuth 2.0 — client credentials (machine-to-machine)
 
 ```csharp
-using AIceptionInteractive.Standard.Core.Authentication.OAuth2.ClientCredentials;
+using AIceptionInteractive.Core.Authentication.OAuth2.ClientCredentials;
 
 options.{OAuthProperty} = new OAuth2ClientCredentials
 {
@@ -75,7 +75,7 @@ cached token and re-acquires.
 ## OAuth 2.0 — authorization code (3-legged, with PKCE)
 
 ```csharp
-using AIceptionInteractive.Standard.Core.Authentication.OAuth2.AuthorizationCode;
+using AIceptionInteractive.Core.Authentication.OAuth2.AuthorizationCode;
 
 options.{OAuthProperty} = new OAuth2AuthorizationCodeCredentials
 {
@@ -100,7 +100,7 @@ The SDK exchanges the code for a token and refreshes it when it expires; if the 
 ## OAuth 2.0 — resource owner password
 
 ```csharp
-using AIceptionInteractive.Standard.Core.Authentication.OAuth2.Password;
+using AIceptionInteractive.Core.Authentication.OAuth2.Password;
 
 options.{OAuthProperty} = new OAuth2PasswordCredentials
 {

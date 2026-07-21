@@ -5,7 +5,7 @@ description: Tune an APIMatic-generated C#/.NET SDK client — RetryOptions retr
 
 # Configuration & resilience for an APIMatic .NET SDK
 
-All types below live under `AIceptionInteractive.Standard.Core.Configuration` / `.Servers` and are generic across
+All types below live under `AIceptionInteractive.Core.Configuration` / `.Servers` and are generic across
 APIMatic .NET SDKs.
 
 ## ServerOptions configuration for each Environment
@@ -20,7 +20,7 @@ parameters** the API declares (a region/subdomain/port — names vary, and some 
 **`BaseUrl`** template itself (always present and settable). Set whichever you need:
 
 ```csharp
-using AIceptionInteractive.Standard.Servers;
+using AIceptionInteractive.Servers;
 
 options.Environment = ServerEnvironment.{Environment};
 
@@ -54,7 +54,7 @@ parameters. See **dotnet-client-initialization** for selecting the environment.
 Customize:
 
 ```csharp
-using AIceptionInteractive.Standard.Core.Configuration;
+using AIceptionInteractive.Core.Configuration;
 
 options.Retry = RetryOptions.Default() with
 {
@@ -137,7 +137,7 @@ frames as the server emits them. `{Item}` is `string` for a plain-text stream, o
 event stream.
 
 ```csharp
-using AIceptionInteractive.Standard.Core.Exceptions;   // SseException, SseTimeoutException, SseDeserializationException
+using AIceptionInteractive.Core.Exceptions;   // SseException, SseTimeoutException, SseDeserializationException
 
 // await once to open the stream (an opening error surfaces here — see "Errors" below):
 IAsyncEnumerable<{Item}> stream = await client.{ApiGroup}.{Operation}(ct);
@@ -164,7 +164,7 @@ the client:
 var options = new AIceptionInteractiveClientOptions { StreamReadTimeout = TimeSpan.FromSeconds(30) };
 ```
 
-**Errors** (all under `AIceptionInteractive.Standard.Core.Exceptions`):
+**Errors** (all under `AIceptionInteractive.Core.Exceptions`):
 - **Before the stream opens** — the opening `await` throws `SdkException<TError>`, with `TError` the same
   two-case shape as any operation: a typed `{Operation}Error` (Case A) or `RawError` (Case B), per what the
   operation declares (see **dotnet-error-handling**).

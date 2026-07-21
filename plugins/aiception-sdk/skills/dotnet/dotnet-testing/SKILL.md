@@ -73,8 +73,8 @@ type, or `RawError` **directly** (**Case B**) otherwise — so assert the type t
 **Case A — typed `{Operation}Error`:**
 
 ```csharp
-using AIceptionInteractive.Standard.Core.Exceptions;     // SdkException<TError>
-using AIceptionInteractive.Standard.Errors;              // {Operation}Error types
+using AIceptionInteractive.Core.Exceptions;     // SdkException<TError>
+using AIceptionInteractive.Errors;              // {Operation}Error types
 
 [Fact]
 public async Task ThrowsOnApiError()
@@ -96,8 +96,8 @@ public async Task ThrowsOnApiError()
 the `RawError` — there is no `TryGet*` / `TryGetRawError`; read it directly:
 
 ```csharp
-using AIceptionInteractive.Standard.Core.Exceptions;
-using AIceptionInteractive.Standard.Core.ErrorResponse;
+using AIceptionInteractive.Core.Exceptions;
+using AIceptionInteractive.Core.ErrorResponse;
 
 var ex = await Assert.ThrowsAsync<SdkException<RawError>>(
     () => client.{ApiGroup}.{Operation}(/* args */, ct: default));
@@ -113,9 +113,9 @@ there is nothing to catch — stub the response and assert on the returned `ApiR
 directly. The status code and headers are available on both the success and failure outcomes.
 
 ```csharp
-using AIceptionInteractive.Standard.Core.Models;        // ApiResult<TResponse, TError>
-using AIceptionInteractive.Standard.Core.ErrorResponse; // RawError (Case B)
-using AIceptionInteractive.Standard.Errors;             // {Operation}Error (Case A only)
+using AIceptionInteractive.Core.Models;        // ApiResult<TResponse, TError>
+using AIceptionInteractive.Core.ErrorResponse; // RawError (Case B)
+using AIceptionInteractive.Errors;             // {Operation}Error (Case A only)
 
 [Fact]
 public async Task ResultVariantReportsFailureWithoutThrowing()

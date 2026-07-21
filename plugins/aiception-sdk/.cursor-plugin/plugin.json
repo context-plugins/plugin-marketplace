@@ -17,5 +17,8 @@
     "aiception",
     "dotnet"
   ],
-  "logo": "assets/logo.svg"
+  "logo": "assets/logo.svg",
+  "skills": [
+    "./skills/dotnet"
+  ]
 }

@@ -19,13 +19,6 @@
   ],
   "logo": "assets/logo.svg",
   "skills": [
-    "./skills/dotnet-getting-started",
-    "./skills/dotnet-client-initialization",
-    "./skills/dotnet-authentication",
-    "./skills/dotnet-calling-endpoints",
-    "./skills/dotnet-models",
-    "./skills/dotnet-error-handling",
-    "./skills/dotnet-configuration-resilience",
-    "./skills/dotnet-testing"
+    "./skills/dotnet"
   ]
 }

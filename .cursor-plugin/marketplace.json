@@ -70,6 +70,11 @@
       "name": "vimeo-sdk",
       "source": "./plugins/vimeo-sdk",
       "description": "Integrate and consume the APIMatic-generated Vimeo SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "azure-cognitive-sdk",
+      "source": "./plugins/azure-cognitive-sdk",
+      "description": "Integrate and consume the APIMatic-generated Azure-Cognitive SDK across PHP, Python — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

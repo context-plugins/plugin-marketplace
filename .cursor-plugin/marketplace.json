@@ -35,6 +35,11 @@
       "name": "aiception-sdk",
       "source": "./plugins/aiception-sdk",
       "description": "Integrate and consume the APIMatic-generated AIception SDK across C#/.NET — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "thirdweb-engine-sdk",
+      "source": "./plugins/thirdweb-engine-sdk",
+      "description": "Integrate and consume the APIMatic-generated thirdweb Engine SDK across Python, Ruby — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

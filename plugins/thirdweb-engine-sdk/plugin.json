@@ -1,0 +1,26 @@
+{
+  "name": "thirdweb-engine-sdk",
+  "displayName": "thirdweb Engine SDK",
+  "version": "0.1.0",
+  "description": "Integrate and consume the APIMatic-generated thirdweb Engine SDK across Python, Ruby — bundled language skills grounded in the cloned SDK source.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "thirdweb-engine",
+    "python",
+    "ruby"
+  ],
+  "logo": "assets/logo.svg",
+  "skills": [
+    "./skills/python",
+    "./skills/ruby"
+  ]
+}

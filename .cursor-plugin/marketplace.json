@@ -35,6 +35,11 @@
       "name": "aiception-sdk",
       "source": "./plugins/aiception-sdk",
       "description": "Integrate and consume the APIMatic-generated AIception SDK across C#/.NET — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "medium-api-sdk",
+      "source": "./plugins/medium-api-sdk",
+      "description": "Integrate and consume the APIMatic-generated Medium API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

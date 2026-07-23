@@ -65,6 +65,11 @@
       "name": "openai-api-sdk",
       "source": "./plugins/openai-api-sdk",
       "description": "Integrate and consume the APIMatic-generated OpenAI API SDK across C#/.NET, TypeScript, Java, Python, Ruby — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "vimeo-sdk",
+      "source": "./plugins/vimeo-sdk",
+      "description": "Integrate and consume the APIMatic-generated Vimeo SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

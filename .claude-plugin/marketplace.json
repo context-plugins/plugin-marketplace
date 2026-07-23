@@ -45,6 +45,11 @@
       "name": "aiception-sdk",
       "source": "./plugins/aiception-sdk",
       "description": "Integrate and consume the APIMatic-generated AIception SDK across C#/.NET — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "klarna-payments-api-v1-sdk",
+      "source": "./plugins/klarna-payments-api-v1-sdk",
+      "description": "Integrate and consume the APIMatic-generated Klarna Payments API V1 SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

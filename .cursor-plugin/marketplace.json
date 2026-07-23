@@ -85,6 +85,11 @@
       "name": "telegram-bot-api-sdk",
       "source": "./plugins/telegram-bot-api-sdk",
       "description": "Integrate and consume the APIMatic-generated Telegram Bot API SDK across Java, PHP, Python — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "docker-sdk",
+      "source": "./plugins/docker-sdk",
+      "description": "Integrate and consume the APIMatic-generated Docker SDK across TypeScript, Java, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

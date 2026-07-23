@@ -1,0 +1,31 @@
+{
+  "name": "zalando-shop-sdk",
+  "displayName": "Zalando Shop SDK",
+  "version": "0.1.0",
+  "description": "Integrate and consume the APIMatic-generated Zalando Shop SDK across TypeScript, Java, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "zalando-shop",
+    "typescript",
+    "java",
+    "php",
+    "python",
+    "ruby"
+  ],
+  "skills": [
+    "./skills/typescript",
+    "./skills/java",
+    "./skills/php",
+    "./skills/python",
+    "./skills/ruby"
+  ]
+}

@@ -75,6 +75,11 @@
       "name": "azure-cognitive-sdk",
       "source": "./plugins/azure-cognitive-sdk",
       "description": "Integrate and consume the APIMatic-generated Azure-Cognitive SDK across PHP, Python — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "discourse-api-documentation-sdk",
+      "source": "./plugins/discourse-api-documentation-sdk",
+      "description": "Integrate and consume the APIMatic-generated Discourse API Documentation SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

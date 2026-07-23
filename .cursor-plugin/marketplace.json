@@ -35,6 +35,11 @@
       "name": "aiception-sdk",
       "source": "./plugins/aiception-sdk",
       "description": "Integrate and consume the APIMatic-generated AIception SDK across C#/.NET — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "3commas-io-sdk",
+      "source": "./plugins/3commas-io-sdk",
+      "description": "Integrate and consume the APIMatic-generated 3commas.io SDK across C#/.NET, TypeScript, Java, Python, Ruby — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

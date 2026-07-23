@@ -1,0 +1,31 @@
+{
+  "name": "3commas-io-sdk",
+  "displayName": "3commas.io SDK",
+  "version": "0.1.0",
+  "description": "Integrate and consume the APIMatic-generated 3commas.io SDK across C#/.NET, TypeScript, Java, Python, Ruby — bundled language skills grounded in the cloned SDK source.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "3commas-io",
+    "dotnet",
+    "typescript",
+    "java",
+    "python",
+    "ruby"
+  ],
+  "skills": [
+    "./skills/dotnet",
+    "./skills/typescript",
+    "./skills/java",
+    "./skills/python",
+    "./skills/ruby"
+  ]
+}

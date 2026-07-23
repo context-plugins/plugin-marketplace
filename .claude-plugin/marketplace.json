@@ -55,6 +55,11 @@
       "name": "medium-api-sdk",
       "source": "./plugins/medium-api-sdk",
       "description": "Integrate and consume the APIMatic-generated Medium API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "klarna-payments-api-v1-sdk",
+      "source": "./plugins/klarna-payments-api-v1-sdk",
+      "description": "Integrate and consume the APIMatic-generated Klarna Payments API V1 SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

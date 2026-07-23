@@ -95,6 +95,11 @@
       "name": "shutterstock-api-explorer-sdk",
       "source": "./plugins/shutterstock-api-explorer-sdk",
       "description": "Integrate and consume the APIMatic-generated Shutterstock API Explorer SDK across C#/.NET, TypeScript, Java, PHP, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "xero-accounting-api-sdk",
+      "source": "./plugins/xero-accounting-api-sdk",
+      "description": "Integrate and consume the APIMatic-generated Xero Accounting API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

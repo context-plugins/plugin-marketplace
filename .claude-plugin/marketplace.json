@@ -160,6 +160,11 @@
       "name": "the-plaid-api-sdk",
       "source": "./plugins/the-plaid-api-sdk",
       "description": "Integrate and consume the APIMatic-generated The Plaid API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "stax-fattmerchant-api-sdk",
+      "source": "./plugins/stax-fattmerchant-api-sdk",
+      "description": "Integrate and consume the APIMatic-generated Stax (FattMerchant) API SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

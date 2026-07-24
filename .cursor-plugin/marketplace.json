@@ -120,6 +120,11 @@
       "name": "slack-web-api-sdk",
       "source": "./plugins/slack-web-api-sdk",
       "description": "Integrate and consume the APIMatic-generated Slack Web API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "adyen-balance-control-api-sdk",
+      "source": "./plugins/adyen-balance-control-api-sdk",
+      "description": "Integrate and consume the APIMatic-generated Adyen Balance Control API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

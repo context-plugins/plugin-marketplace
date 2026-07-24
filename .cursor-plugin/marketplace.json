@@ -135,6 +135,11 @@
       "name": "events-api-sdk",
       "source": "./plugins/events-api-sdk",
       "description": "Integrate and consume the APIMatic-generated Events API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "adobe-experience-manager-aem-api-sdk",
+      "source": "./plugins/adobe-experience-manager-aem-api-sdk",
+      "description": "Integrate and consume the APIMatic-generated Adobe Experience Manager (AEM) API SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

@@ -155,6 +155,11 @@
       "name": "adafruit-io-rest-api-sdk",
       "source": "./plugins/adafruit-io-rest-api-sdk",
       "description": "Integrate and consume the APIMatic-generated Adafruit IO REST API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "the-plaid-api-sdk",
+      "source": "./plugins/the-plaid-api-sdk",
+      "description": "Integrate and consume the APIMatic-generated The Plaid API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

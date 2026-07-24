@@ -150,6 +150,11 @@
       "name": "1password-connect-sdk",
       "source": "./plugins/1password-connect-sdk",
       "description": "Integrate and consume the APIMatic-generated 1Password Connect SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "adafruit-io-rest-api-sdk",
+      "source": "./plugins/adafruit-io-rest-api-sdk",
+      "description": "Integrate and consume the APIMatic-generated Adafruit IO REST API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

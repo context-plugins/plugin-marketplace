@@ -195,6 +195,11 @@
       "name": "fund-api-sdk",
       "source": "./plugins/fund-api-sdk",
       "description": "Integrate and consume the APIMatic-generated Fund API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "1forge-finance-apis-sdk",
+      "source": "./plugins/1forge-finance-apis-sdk",
+      "description": "Integrate and consume the APIMatic-generated 1Forge Finance APIs SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

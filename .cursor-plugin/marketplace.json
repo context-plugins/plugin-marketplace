@@ -95,6 +95,11 @@
       "name": "spotify-web-api-with-fixes-and-improvements-from-sonallux-sdk",
       "source": "./plugins/spotify-web-api-with-fixes-and-improvements-from-sonallux-sdk",
       "description": "Integrate and consume the APIMatic-generated Spotify Web API with fixes and improvements from sonallux SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "adyen-api-sdk",
+      "source": "./plugins/adyen-api-sdk",
+      "description": "Integrate and consume the APIMatic-generated Adyen API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

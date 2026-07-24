@@ -80,6 +80,11 @@
       "name": "google-workspace-sdk",
       "source": "./plugins/google-workspace-sdk",
       "description": "Integrate and consume the APIMatic-generated Google-Workspace SDK across TypeScript, Java, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "tesla-api-sdk",
+      "source": "./plugins/tesla-api-sdk",
+      "description": "Integrate and consume the APIMatic-generated Tesla API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

@@ -7,36 +7,6 @@
   },
   "plugins": [
     {
-      "name": "context-matic",
-      "source": "./plugins/context-matic",
-      "description": "Deterministic, version-aware API and SDK context for third-party APIs, delivered directly into your coding agent."
-    },
-    {
-      "name": "acp-paypal",
-      "source": "./plugins/acp-paypal",
-      "description": "Integrate and debug PayPal APIs using the acp-paypal MCP server."
-    },
-    {
-      "name": "paypal-sdk-v4",
-      "source": "./plugins/paypal-sdk-v4",
-      "description": "Skill-only guidance for integrating the PayPal Server SDK v4 into your project."
-    },
-    {
-      "name": "advanced-billing-sdk-v4",
-      "source": "./plugins/advanced-billing-sdk-v4",
-      "description": "Skill-only guidance for installing, initializing, and using the Advanced Billing .NET SDK (v4) in your project."
-    },
-    {
-      "name": "paypal-plugin",
-      "source": "./plugins/paypal-plugin",
-      "description": "Install and consume the PayPal .NET Server SDK, plus reusable guidance for any APIMatic-generated .NET SDK."
-    },
-    {
-      "name": "aiception-sdk",
-      "source": "./plugins/aiception-sdk",
-      "description": "Integrate and consume the APIMatic-generated AIception SDK across C#/.NET — bundled language skills grounded in the cloned SDK source."
-    },
-    {
       "name": "zalando-shop-sdk",
       "source": "./plugins/zalando-shop-sdk",
       "description": "Integrate and consume the APIMatic-generated Zalando Shop SDK across TypeScript, Java, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source."

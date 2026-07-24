@@ -85,6 +85,11 @@
       "name": "tesla-api-sdk",
       "source": "./plugins/tesla-api-sdk",
       "description": "Integrate and consume the APIMatic-generated Tesla API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "paypal-api-sdk",
+      "source": "./plugins/paypal-api-sdk",
+      "description": "Integrate and consume the APIMatic-generated PayPal API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

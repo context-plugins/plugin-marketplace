@@ -140,6 +140,11 @@
       "name": "adobe-experience-manager-aem-api-sdk",
       "source": "./plugins/adobe-experience-manager-aem-api-sdk",
       "description": "Integrate and consume the APIMatic-generated Adobe Experience Manager (AEM) API SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "adyen-binlookup-api-sdk",
+      "source": "./plugins/adyen-binlookup-api-sdk",
+      "description": "Integrate and consume the APIMatic-generated Adyen BinLookup API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

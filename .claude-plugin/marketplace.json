@@ -90,6 +90,11 @@
       "name": "paypal-api-sdk",
       "source": "./plugins/paypal-api-sdk",
       "description": "Integrate and consume the APIMatic-generated PayPal API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "spotify-web-api-with-fixes-and-improvements-from-sonallux-sdk",
+      "source": "./plugins/spotify-web-api-with-fixes-and-improvements-from-sonallux-sdk",
+      "description": "Integrate and consume the APIMatic-generated Spotify Web API with fixes and improvements from sonallux SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

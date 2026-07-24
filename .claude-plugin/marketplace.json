@@ -110,6 +110,11 @@
       "name": "verizon-api-sdk",
       "source": "./plugins/verizon-api-sdk",
       "description": "Integrate and consume the APIMatic-generated Verizon API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "tesser-api-v1-sdk",
+      "source": "./plugins/tesser-api-v1-sdk",
+      "description": "Integrate and consume the APIMatic-generated Tesser API (v1) SDK across TypeScript, Java, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

@@ -16,7 +16,7 @@ When a field can be one of several types, APIMatic generates a discriminated uni
 ### Construct
 
 ```typescript
-import { {Union}, {Variant} } from 'trip-purpose-predictionlib';
+import { {Union}, {Variant} } from 'safe-placelib';
 
 // One factory helper per variant:
 const u1 = {Union}.fromString('...');
@@ -26,7 +26,7 @@ const u2 = {Union}.from{Variant}({ /* ... */ });
 ### Read / unwrap
 
 ```typescript
-import { is{Variant} } from 'trip-purpose-predictionlib';
+import { is{Variant} } from 'safe-placelib';
 
 if (is{Variant}(u1)) {
   // u1 is narrowed to {Variant}
@@ -70,7 +70,7 @@ A `null` or `undefined` collection is omitted from the JSON; an **empty** array 
 Enums are string literal unions with exported constants. Use the exported constants, or pass the raw string value for unknown/dynamic values:
 
 ```typescript
-import { {EnumType} } from 'trip-purpose-predictionlib';
+import { {EnumType} } from 'safe-placelib';
 
 request.{enumProp} = {EnumType}.SomeConstant;
 request.{enumProp} = 'server_provided_value' as {EnumType};  // unknown-tolerant

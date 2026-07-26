@@ -11,7 +11,7 @@ object). Set the key(s) your API uses, then construct the client
 (see **php-client-initialization**).
 
 > Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g.
-> `TripPurposePredictionLib`, `ApiApisGuruClient`, `{usernameKey}`, `{tokenKey}`) — replace it with the concrete
+> `SafePlaceLib`, `ApiApisGuruClient`, `{usernameKey}`, `{tokenKey}`) — replace it with the concrete
 > identifier from the source.
 
 To see which schemes a specific SDK accepts, read the **constructor config keys or credentials

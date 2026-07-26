@@ -5,7 +5,7 @@ description: Handle errors from an APIMatic-generated TypeScript/Node.js SDK —
 
 # Error handling for an APIMatic TypeScript SDK
 
-> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{operation}`, `{apiGroup}`, `flight-check-in-linkslib`) — replace it with the concrete identifier from the source.
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{operation}`, `{apiGroup}`, `flight-inspiration-searchlib`) — replace it with the concrete identifier from the source.
 
 Endpoint methods **throw on non-success responses** by default (for a non-throwing alternative, see the **`ApiResult`** section below). The thrown type is always `ApiError` — but it comes in **two shapes**, depending on the operation:
 
@@ -26,9 +26,9 @@ Check whether a `{Operation}Error` type exists under `src/errors/` for that oper
 ### Case A — operation has a typed `{Operation}Error`
 
 ```typescript
-import { ApiApisGuruClient } from 'flight-check-in-linkslib';
-import { ApiError } from 'flight-check-in-linkslib';
-import { {Operation}Error } from 'flight-check-in-linkslib/errors';
+import { ApiApisGuruClient } from 'flight-inspiration-searchlib';
+import { ApiError } from 'flight-inspiration-searchlib';
+import { {Operation}Error } from 'flight-inspiration-searchlib/errors';
 
 try {
   const response = await client.{apiGroup}.{operation}({ /* ... */ });
@@ -51,7 +51,7 @@ try {
 For operations with no `{Operation}Error` type, `err` is `ApiError` — read the status and body straight off it:
 
 ```typescript
-import { ApiError } from 'flight-check-in-linkslib';
+import { ApiError } from 'flight-inspiration-searchlib';
 
 try {
   const response = await client.{apiGroup}.{operation}({ /* ... */ });

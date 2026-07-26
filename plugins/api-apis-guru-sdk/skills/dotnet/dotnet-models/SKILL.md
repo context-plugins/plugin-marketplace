@@ -16,7 +16,7 @@ model and union `.cs` files, not a decompiled or reflected view of the installed
 ## Polymorphic union types: `OneOf` and `AnyOf`
 
 When a field can be one of several types, APIMatic generates a union `record` (under
-`FlightCheckInLinks.Models.OneOf` or `.Models.AnyOf`). Build these with the generated **static factory
+`FlightInspirationSearch.Models.OneOf` or `.Models.AnyOf`). Build these with the generated **static factory
 methods** (one per variant) and read them back with **`TryGet…` methods** — a union has no
 object-initializer. JSON (de)serialization is automatic.
 

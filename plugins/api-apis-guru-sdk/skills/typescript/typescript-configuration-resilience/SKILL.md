@@ -10,7 +10,7 @@ All config below is passed at construction time via the `ApiApisGuruClientConfig
 ## Base URL / environment override
 
 ```typescript
-import { ApiApisGuruClient, Environment } from 'flight-check-in-linkslib';
+import { ApiApisGuruClient, Environment } from 'flight-inspiration-searchlib';
 
 const client = new ApiApisGuruClient({
   environment: Environment.Production,
@@ -91,7 +91,7 @@ Each iteration yields **one page** (an array of items). A failed page fetch thro
 There is **no built-in logging hook**. Add logging by wrapping the client's underlying fetch:
 
 ```typescript
-import { ApiApisGuruClient } from 'flight-check-in-linkslib';
+import { ApiApisGuruClient } from 'flight-inspiration-searchlib';
 
 const client = new ApiApisGuruClient({
   customFetch: async (url, options) => {

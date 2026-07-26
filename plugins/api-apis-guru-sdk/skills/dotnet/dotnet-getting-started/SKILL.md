@@ -26,10 +26,10 @@ load the companion *and* confirm names against the source.
 | | |
 | --- | --- |
 | API | `api.apis.guru` |
-| Project | `FlightCheckInLinks.csproj` at the repo root — referenced from the cloned source (see **Install**) |
-| Root namespace | `FlightCheckInLinks` (the `using` namespace) |
-| Client class | `FlightCheckInLinksClient` |
-| Options class | `FlightCheckInLinksClientOptions` |
+| Project | `FlightInspirationSearch.csproj` at the repo root — referenced from the cloned source (see **Install**) |
+| Root namespace | `FlightInspirationSearch` (the `using` namespace) |
+| Client class | `FlightInspirationSearchClient` |
+| Options class | `FlightInspirationSearchClientOptions` |
 | Auth | per-API scheme(s) — see **dotnet-authentication** |
 | Environments | `ServerEnvironment` values are per-API — see the source and **dotnet-client-initialization** |
 | Target framework | typically `netstandard2.0` — confirm in the `.csproj` |
@@ -42,7 +42,7 @@ types against the cloned source.
 ## Namespaces (using-directives)
 
 The SDK splits its public types across **separate child namespaces**. C# does **not** import child
-namespaces transitively, so `using FlightCheckInLinks.Models;` alone does **not** make enums, union types, or
+namespaces transitively, so `using FlightInspirationSearch.Models;` alone does **not** make enums, union types, or
 error types visible — you get `CS0103`/`CS0246` ("name/type does not exist") on build. Add a separate `using`
 for each kind of type you reference — when a name won't resolve, open its file in the cloned source and copy
 the `namespace` declaration at its top.
@@ -51,13 +51,13 @@ the `namespace` declaration at its top.
 
 ```bash
 # Clone the SDK and add a project reference to its .csproj:
-git clone --branch main https://github.com/context-plugins/api-apis-guru-csharp-02631d
-dotnet add reference api-apis-guru-csharp-02631d/FlightCheckInLinks.csproj
+git clone --branch main https://github.com/context-plugins/api-apis-guru-csharp-266974
+dotnet add reference api-apis-guru-csharp-266974/FlightInspirationSearch.csproj
 ```
 
 ```csharp
-using FlightCheckInLinks;          // client + options + ServerEnvironment
-using FlightCheckInLinks.Models;   // request/response types, enums, unions
+using FlightInspirationSearch;          // client + options + ServerEnvironment
+using FlightInspirationSearch.Models;   // request/response types, enums, unions
 ```
 
 > Add a separate `using` for each child namespace you reference (see **Namespaces** above). Runtime
@@ -71,12 +71,12 @@ into your **system temp directory** (outside your project), then read and grep t
 
 ```bash
 # Linux / macOS:
-git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-csharp-02631d /tmp/api-apis-guru-dotnet-src
+git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-csharp-266974 /tmp/api-apis-guru-dotnet-src
 ```
 
 ```powershell
 # Windows (PowerShell):
-git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-csharp-02631d "$env:TEMP\api-apis-guru-dotnet-src"
+git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-csharp-266974 "$env:TEMP\api-apis-guru-dotnet-src"
 ```
 
 Then confirm the SDK shape **only** from that local clone:
@@ -97,7 +97,7 @@ Layout — grep the clone here first:
 - the error types — the base SDK exception (`SdkException<T>`) plus per-operation `{Operation}Error` and the
   fallback `RawError`.
 - `Core/` — HTTP infrastructure (`SdkException<T>`, `RawError`, `ApiResult<T>`, auth, retries).
-- `FlightCheckInLinksClient.cs`, the `ServerEnvironment` values, and the DI registration (`ServiceCollectionExtensions`).
+- `FlightInspirationSearchClient.cs`, the `ServerEnvironment` values, and the DI registration (`ServiceCollectionExtensions`).
 - a generated reference index (`api-reference.md`, or `README.md` / `doc/`) — every endpoint with its
   signature, the thrown `SdkException<{Operation}Error>`, and a usage snippet. **Grep it first** to find an
   operation fast, then open the source file for the exact signature.
@@ -117,8 +117,8 @@ Before you write the code for each step, load the named companion skill — even
 relevant source. Each step calls out the trap the signature hides (in *parens*). A typical integration reaches
 them in this order:
 
-1. **Client & DI setup** — load **dotnet-client-initialization** before you construct `FlightCheckInLinksClient`, build its
-   `FlightCheckInLinksClientOptions`, or DI-register it. (*The signature won't tell you:* the `HttpClient` and client must
+1. **Client & DI setup** — load **dotnet-client-initialization** before you construct `FlightInspirationSearchClient`, build its
+   `FlightInspirationSearchClientOptions`, or DI-register it. (*The signature won't tell you:* the `HttpClient` and client must
    be long-lived and reused, not created per request.)
 2. **Authentication** — load **dotnet-authentication** before you set credentials. (*The signature won't tell
    you:* set credentials in the options before constructing the client (or in the DI callback), and load

@@ -18,7 +18,7 @@ export type {EnumType} = typeof {EnumType}[keyof typeof {EnumType}];
 Usage:
 
 ```typescript
-import { {EnumType} } from 'hotel-bookinglib';
+import { {EnumType} } from 'points-of-interestlib';
 
 const v: {EnumType} = {EnumType}.FirstValue;    // known constant
 const u: {EnumType} = 'new_value' as {EnumType}; // unknown-tolerant cast

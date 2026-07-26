@@ -14,7 +14,7 @@ The client accepts a `customFetch` option (when the SDK version supports it), wh
 ## A reusable stub helper
 
 ```typescript
-import { ApiApisGuruClient } from 'flight-choice-predictionlib';
+import { ApiApisGuruClient } from 'hotel-bookinglib';
 
 function clientReturning(status: number, body: unknown): {
   client: ApiApisGuruClient;
@@ -61,7 +61,7 @@ Endpoint methods throw `ApiError` on non-2xx (see `typescript-error-handling`). 
 **Case A — typed `{Operation}Error`:**
 
 ```typescript
-import { {Operation}Error } from 'flight-choice-predictionlib/errors';
+import { {Operation}Error } from 'hotel-bookinglib/errors';
 
 test('throws typed error on API error', async () => {
   const { client } = clientReturning(422, { errors: ['bad input'] });
@@ -75,7 +75,7 @@ test('throws typed error on API error', async () => {
 **Case B — base `ApiError`:**
 
 ```typescript
-import { ApiError } from 'flight-choice-predictionlib';
+import { ApiError } from 'hotel-bookinglib';
 
 test('throws ApiError on non-2xx', async () => {
   const { client } = clientReturning(422, { errors: ['bad input'] });

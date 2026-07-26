@@ -1,6 +1,6 @@
 ---
 name: dotnet-client-initialization
-description: Initialize an APIMatic-generated C#/.NET API client — you construct it from an HttpClient you supply (the SDK doesn't own it; reuse one long-lived instance or an IHttpClientFactory, not one per request) plus an options object, choose a server environment/base URL, and DI-register via the generated AddFlightChoicePredictionClient extension. Use the moment you write `new FlightChoicePredictionClient(...)`, build its options, pick an environment, set up the HttpClient/client lifetime, or register the client in dependency injection — load it even after reading the constructor in the SDK source, since the signature shows the arguments but not the lifetime/reuse rules or DI wiring.
+description: Initialize an APIMatic-generated C#/.NET API client — you construct it from an HttpClient you supply (the SDK doesn't own it; reuse one long-lived instance or an IHttpClientFactory, not one per request) plus an options object, choose a server environment/base URL, and DI-register via the generated AddHotelBookingClient extension. Use the moment you write `new HotelBookingClient(...)`, build its options, pick an environment, set up the HttpClient/client lifetime, or register the client in dependency injection — load it even after reading the constructor in the SDK source, since the signature shows the arguments but not the lifetime/reuse rules or DI wiring.
 ---
 
 # Initializing an APIMatic .NET SDK client
@@ -8,9 +8,9 @@ description: Initialize an APIMatic-generated C#/.NET API client — you constru
 This applies to **any** APIMatic-generated .NET SDK. Replace placeholders with the real names from the
 SDK you are using:
 
-- `FlightChoicePredictionClient` — the single public client class (e.g. `FooClient`).
-- `FlightChoicePredictionClientOptions` — its options class.
-- `FlightChoicePrediction` — the SDK's root namespace, used in `using` directives. This can differ from the NuGet
+- `HotelBookingClient` — the single public client class (e.g. `FooClient`).
+- `HotelBookingClientOptions` — its options class.
+- `HotelBooking` — the SDK's root namespace, used in `using` directives. This can differ from the NuGet
   package id (you install by the package id but `using` the namespace).
 
 ## Shape of the client
@@ -19,7 +19,7 @@ APIMatic .NET SDKs expose **one public client class** constructed from an `HttpC
 object:
 
 ```csharp
-public FlightChoicePredictionClient(HttpClient httpClient, FlightChoicePredictionClientOptions options)
+public HotelBookingClient(HttpClient httpClient, HotelBookingClientOptions options)
 ```
 
 Operations are exposed on the client. Most are grouped under **controller properties** (one per API resource
@@ -33,7 +33,7 @@ The options class always carries these knobs (auth properties vary per API — s
 `dotnet-authentication`):
 
 ```csharp
-public class FlightChoicePredictionClientOptions
+public class HotelBookingClientOptions
 {
     public ServerEnvironment Environment { get; set; } = ServerEnvironment.Default();
     public RetryOptions Retry { get; set; } = RetryOptions.Default();
@@ -49,17 +49,17 @@ selection and **overriding the base URL**), plus pagination and logging — is c
 ## Direct instantiation
 
 ```csharp
-using FlightChoicePrediction;
-using FlightChoicePrediction.Servers;
+using HotelBooking;
+using HotelBooking.Servers;
 
-var options = new FlightChoicePredictionClientOptions
+var options = new HotelBookingClientOptions
 {
     Environment = ServerEnvironment.Default(),   // pick the environment your API exposes
     // ...set the auth credentials property your API uses (see dotnet-authentication)
 };
 
 var httpClient = new HttpClient();               // reuse a single long-lived instance
-var client = new FlightChoicePredictionClient(httpClient, options);
+var client = new HotelBookingClient(httpClient, options);
 ```
 
 ### HttpClient lifetime
@@ -80,7 +80,7 @@ templates and any templated parameters (such as a subdomain). Set the environmen
 override template parameters via `Server` when the base URL contains placeholders:
 
 ```csharp
-var options = new FlightChoicePredictionClientOptions
+var options = new HotelBookingClientOptions
 {
     Environment = ServerEnvironment.Default(),
     Server = new ServerOptions
@@ -95,14 +95,14 @@ template parameters of your API.
 
 ## Dependency injection (ASP.NET Core / generic host)
 
-Every APIMatic .NET SDK ships a `ServiceCollection` extension named `AddFlightChoicePredictionClient`, which registers the
+Every APIMatic .NET SDK ships a `ServiceCollection` extension named `AddHotelBookingClient`, which registers the
 client (transient) and wires an `IHttpClientFactory`-managed `HttpClient` (it resolves the **default,
 unnamed** factory client, and the `options` you configure are captured once at registration):
 
 ```csharp
-using FlightChoicePrediction;
+using HotelBooking;
 
-builder.Services.AddFlightChoicePredictionClient(options =>
+builder.Services.AddHotelBookingClient(options =>
 {
     options.Environment = ServerEnvironment.Default();
     // options.{Scheme} = new {Scheme}Credentials { ... };
@@ -117,7 +117,7 @@ the **default, unnamed** factory client it resolves — e.g.
 Then inject it:
 
 ```csharp
-public sealed class MyService(FlightChoicePredictionClient client)
+public sealed class MyService(HotelBookingClient client)
 {
     public Task DoWork() => client.{ApiGroup}.{Operation}(/* ... */);
 }

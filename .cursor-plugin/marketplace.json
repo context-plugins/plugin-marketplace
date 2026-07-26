@@ -270,6 +270,11 @@
       "name": "hotel-ratings-sdk",
       "source": "./plugins/hotel-ratings-sdk",
       "description": "Integrate and consume the APIMatic-generated Hotel Ratings SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "location-score-sdk",
+      "source": "./plugins/location-score-sdk",
+      "description": "Integrate and consume the APIMatic-generated Location Score SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

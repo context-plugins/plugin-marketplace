@@ -1,6 +1,6 @@
 {
   "name": "apimatic",
-  "description": "APIMatic plugin marketplace \u2014 SDK-native, version-aware API context for your AI coding agent.",
+  "description": "APIMatic plugin marketplace — SDK-native, version-aware API context for your AI coding agent.",
   "owner": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
@@ -9,212 +9,217 @@
     {
       "name": "zalando-shop-sdk",
       "source": "./plugins/zalando-shop-sdk",
-      "description": "Integrate and consume the APIMatic-generated Zalando Shop SDK across TypeScript, Java, PHP, Python, Ruby \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Zalando Shop SDK across TypeScript, Java, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "medium-api-sdk",
       "source": "./plugins/medium-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Medium API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Medium API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "klarna-payments-api-v1-sdk",
       "source": "./plugins/klarna-payments-api-v1-sdk",
-      "description": "Integrate and consume the APIMatic-generated Klarna Payments API V1 SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Klarna Payments API V1 SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "ebay-finances-api-sdk",
       "source": "./plugins/ebay-finances-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated eBay Finances API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated eBay Finances API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "gitea-api-sdk",
       "source": "./plugins/gitea-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Gitea API. SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Gitea API. SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "openai-api-sdk",
       "source": "./plugins/openai-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated OpenAI API SDK across C#/.NET, TypeScript, Java, Python, Ruby \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated OpenAI API SDK across C#/.NET, TypeScript, Java, Python, Ruby — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "vimeo-sdk",
       "source": "./plugins/vimeo-sdk",
-      "description": "Integrate and consume the APIMatic-generated Vimeo SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Vimeo SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "azure-cognitive-sdk",
       "source": "./plugins/azure-cognitive-sdk",
-      "description": "Integrate and consume the APIMatic-generated Azure-Cognitive SDK across PHP, Python \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Azure-Cognitive SDK across PHP, Python — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "discourse-api-documentation-sdk",
       "source": "./plugins/discourse-api-documentation-sdk",
-      "description": "Integrate and consume the APIMatic-generated Discourse API Documentation SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Discourse API Documentation SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "telegram-bot-api-sdk",
       "source": "./plugins/telegram-bot-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Telegram Bot API SDK across TypeScript, Java, PHP, Python, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Telegram Bot API SDK across TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "docker-sdk",
       "source": "./plugins/docker-sdk",
-      "description": "Integrate and consume the APIMatic-generated Docker SDK across TypeScript, Java, PHP, Python, Ruby \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Docker SDK across TypeScript, Java, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "shutterstock-api-explorer-sdk",
       "source": "./plugins/shutterstock-api-explorer-sdk",
-      "description": "Integrate and consume the APIMatic-generated Shutterstock API Explorer SDK across C#/.NET, TypeScript, Java, PHP, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Shutterstock API Explorer SDK across C#/.NET, TypeScript, Java, PHP, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "xero-accounting-api-sdk",
       "source": "./plugins/xero-accounting-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Xero Accounting API SDK across TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Xero Accounting API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "square-connect-api-sdk",
       "source": "./plugins/square-connect-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Square Connect API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Square Connect API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "google-workspace-sdk",
       "source": "./plugins/google-workspace-sdk",
-      "description": "Integrate and consume the APIMatic-generated Google-Workspace SDK across TypeScript, Java, PHP, Python, Ruby \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Google-Workspace SDK across TypeScript, Java, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "tesla-api-sdk",
       "source": "./plugins/tesla-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Tesla API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Tesla API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "paypal-api-sdk",
       "source": "./plugins/paypal-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated PayPal API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated PayPal API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "spotify-web-api-with-fixes-and-improvements-from-sonallux-sdk",
       "source": "./plugins/spotify-web-api-with-fixes-and-improvements-from-sonallux-sdk",
-      "description": "Integrate and consume the APIMatic-generated Spotify Web API with fixes and improvements from sonallux SDK across TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Spotify Web API with fixes and improvements from sonallux SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "adyen-api-sdk",
       "source": "./plugins/adyen-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Adyen API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Adyen API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "maxio-advanced-billing-sdk",
       "source": "./plugins/maxio-advanced-billing-sdk",
-      "description": "Integrate and consume the APIMatic-generated Maxio Advanced Billing SDK across TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Maxio Advanced Billing SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "verizon-api-sdk",
       "source": "./plugins/verizon-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Verizon API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Verizon API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "tesser-api-v1-sdk",
       "source": "./plugins/tesser-api-v1-sdk",
-      "description": "Integrate and consume the APIMatic-generated Tesser API (v1) SDK across TypeScript, Java, PHP, Python, Ruby \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Tesser API (v1) SDK across TypeScript, Java, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "slack-web-api-sdk",
       "source": "./plugins/slack-web-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Slack Web API SDK across TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Slack Web API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "adyen-balance-control-api-sdk",
       "source": "./plugins/adyen-balance-control-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Adyen Balance Control API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Adyen Balance Control API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "hosted-onboarding-api-sdk",
       "source": "./plugins/hosted-onboarding-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Hosted onboarding API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Hosted onboarding API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "events-api-sdk",
       "source": "./plugins/events-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Events API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Events API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "adobe-experience-manager-aem-api-sdk",
       "source": "./plugins/adobe-experience-manager-aem-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Adobe Experience Manager (AEM) API SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Adobe Experience Manager (AEM) API SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "adyen-binlookup-api-sdk",
       "source": "./plugins/adyen-binlookup-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Adyen BinLookup API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Adyen BinLookup API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "1password-connect-sdk",
       "source": "./plugins/1password-connect-sdk",
-      "description": "Integrate and consume the APIMatic-generated 1Password Connect SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated 1Password Connect SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "adafruit-io-rest-api-sdk",
       "source": "./plugins/adafruit-io-rest-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Adafruit IO REST API SDK across TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Adafruit IO REST API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "the-plaid-api-sdk",
       "source": "./plugins/the-plaid-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated The Plaid API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated The Plaid API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "stax-fattmerchant-api-sdk",
       "source": "./plugins/stax-fattmerchant-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Stax (FattMerchant) API SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Stax (FattMerchant) API SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "paze-checkout-api-sdk",
       "source": "./plugins/paze-checkout-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Paze Checkout API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Paze Checkout API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "cellpoint-api-sdk",
       "source": "./plugins/cellpoint-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated CellPoint API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated CellPoint API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "splitit-web-api-v3-sdk",
       "source": "./plugins/splitit-web-api-v3-sdk",
-      "description": "Integrate and consume the APIMatic-generated splitit-web-api-v3 SDK across TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated splitit-web-api-v3 SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "shell-api-sdk",
       "source": "./plugins/shell-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Shell API SDK across TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Shell API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "configuration-api-sdk",
       "source": "./plugins/configuration-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Configuration API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Configuration API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "fund-api-sdk",
       "source": "./plugins/fund-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Fund API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Fund API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "1forge-finance-apis-sdk",
       "source": "./plugins/1forge-finance-apis-sdk",
-      "description": "Integrate and consume the APIMatic-generated 1Forge Finance APIs SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated 1Forge Finance APIs SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "adyen-data-protection-api-sdk",
       "source": "./plugins/adyen-data-protection-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Adyen Data Protection API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Adyen Data Protection API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "authentiq-api-sdk",
       "source": "./plugins/authentiq-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Authentiq API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated Authentiq API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "ip-geolocation-api-sdk",
       "source": "./plugins/ip-geolocation-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated IP geolocation API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go \u2014 bundled language skills grounded in the cloned SDK source."
+      "description": "Integrate and consume the APIMatic-generated IP geolocation API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "hotel-name-autocomplete-sdk",
+      "source": "./plugins/hotel-name-autocomplete-sdk",
+      "description": "Integrate and consume the APIMatic-generated Hotel Name Autocomplete SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

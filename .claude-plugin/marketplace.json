@@ -260,6 +260,11 @@
       "name": "seatmap-display-sdk",
       "source": "./plugins/seatmap-display-sdk",
       "description": "Integrate and consume the APIMatic-generated Seatmap Display SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "access-analyzer-sdk",
+      "source": "./plugins/access-analyzer-sdk",
+      "description": "Integrate and consume the APIMatic-generated Access Analyzer SDK across TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

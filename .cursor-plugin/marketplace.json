@@ -220,6 +220,11 @@
       "name": "hotel-name-autocomplete-sdk",
       "source": "./plugins/hotel-name-autocomplete-sdk",
       "description": "Integrate and consume the APIMatic-generated Hotel Name Autocomplete SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "api-apis-guru-sdk",
+      "source": "./plugins/api-apis-guru-sdk",
+      "description": "Integrate and consume the APIMatic-generated api.apis.guru SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

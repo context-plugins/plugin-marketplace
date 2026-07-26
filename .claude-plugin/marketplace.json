@@ -240,6 +240,11 @@
       "name": "flight-order-management-sdk",
       "source": "./plugins/flight-order-management-sdk",
       "description": "Integrate and consume the APIMatic-generated Flight Order Management SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "flight-offers-price-sdk",
+      "source": "./plugins/flight-offers-price-sdk",
+      "description": "Integrate and consume the APIMatic-generated Flight Offers Price SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

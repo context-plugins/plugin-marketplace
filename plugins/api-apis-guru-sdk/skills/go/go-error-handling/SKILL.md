@@ -72,7 +72,7 @@ the error payload, and are returned **as pointers**:
 ```go
 // type OAuthProvider struct { https.ApiError; MError models.OAuthProviderErrorEnum `json:"error"`; ... }
 
-import sdkerrors "github.com/context-plugins/api-apis-guru-go-f09838/errors"
+import sdkerrors "github.com/context-plugins/api-apis-guru-go-02631d/errors"
 
 var provErr *sdkerrors.OAuthProvider
 if errors.As(err, &provErr) {

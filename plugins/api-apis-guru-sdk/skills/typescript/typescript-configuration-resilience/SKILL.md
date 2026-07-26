@@ -10,7 +10,7 @@ All config below is passed at construction time via the `ApiApisGuruClientConfig
 ## Base URL / environment override
 
 ```typescript
-import { ApiApisGuruClient, Environment } from 'on-demand-flight-statuslib';
+import { ApiApisGuruClient, Environment } from 'tours-and-activitieslib';
 
 const client = new ApiApisGuruClient({
   environment: Environment.Production,
@@ -91,7 +91,7 @@ Each iteration yields **one page** (an array of items). A failed page fetch thro
 There is **no built-in logging hook**. Add logging by wrapping the client's underlying fetch:
 
 ```typescript
-import { ApiApisGuruClient } from 'on-demand-flight-statuslib';
+import { ApiApisGuruClient } from 'tours-and-activitieslib';
 
 const client = new ApiApisGuruClient({
   customFetch: async (url, options) => {

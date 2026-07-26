@@ -44,7 +44,7 @@ The request type is the type of the operation's `$body` parameter — take its e
 the method signature in the SDK source:
 
 ```php
-use OnDemandFlightStatusLib\Models\{RequestType};
+use ToursAndActivitiesLib\Models\{RequestType};
 
 $body = new {RequestType}();
 $body->setRequiredProp($value);   // required — must be set
@@ -77,7 +77,7 @@ $body->set{Member}($inner);
 In PHP 8.1+ SDKs, enums are backed enums. Use the case directly:
 
 ```php
-use OnDemandFlightStatusLib\Models\Enums\{EnumType};
+use ToursAndActivitiesLib\Models\Enums\{EnumType};
 
 $body->set{EnumProp}({EnumType}::Active);        // backed enum case
 // For the wire value (string/int):
@@ -143,7 +143,7 @@ operations — prefer them.
 ## Worked example — a list/GET call
 
 ```php
-use OnDemandFlightStatusLib\Models\Enums\{EnumType};
+use ToursAndActivitiesLib\Models\Enums\{EnumType};
 
 // Signature (illustrative):
 //   public function {operation}(

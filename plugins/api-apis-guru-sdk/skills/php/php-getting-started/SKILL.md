@@ -33,13 +33,13 @@ that step, so at each step below load the companion *and* confirm names against 
 | Runtime dependencies | `apimatic/core`, `apimatic/core-interfaces`, `apimatic/unirest-php` (HTTP call builder, auth managers, retries, response handling) — pulled in transitively |
 | Composer package | from `composer.json` `name` — e.g. `apimatic-sdks/multiauthsample`, `apimatic-sdks/apimaticcalculator` (the published id varies per SDK) |
 | Root namespace | from `composer.json` `autoload.psr-4` — the API title concatenated + `Lib`, e.g. `MultiAuthSampleLib\`, `APIMATICCalculatorLib\` (maps to `src/`) |
-| Install | `composer require apimatic-sdks/ondemandflightstatus:dev-main` |
+| Install | `composer require apimatic-sdks/toursandactivities:dev-main` |
 | Client class | `ApiApisGuruClient` (e.g. `MultiAuthSampleClient`), implements `ConfigurationInterface`; a factory for controllers + holder of config |
 | Client builder | `ApiApisGuruClientBuilder` — `::init()->...->build()` (the only intended way to construct the client) |
 | Auth | each scheme set on the builder via a `{Scheme}CredentialsBuilder::init(...)` — see **php-authentication** |
 | Environments | an `Environment` class of string `public const`s in the root namespace (e.g. `Environment::PRODUCTION`, `Environment::TESTING`) — names/default are per-API |
 | Return type | each operation returns the **typed result directly** (a model, a primitive like `float`/`string`, an array) — there is **no** response wrapper |
-| Base exception | `OnDemandFlightStatusLib\Exceptions\ApiException` (extends `\Exception`) |
+| Base exception | `ToursAndActivitiesLib\Exceptions\ApiException` (extends `\Exception`) |
 | PHP version | `^7.2 || ^8.0` (per `composer.json` `require.php`); also requires `ext-json`, `ext-curl` |
 
 The table above is **orientation, not a copy-paste recipe** — it gives you the names and facts (package
@@ -49,7 +49,7 @@ and confirm its types against the source.
 
 ## Package layout (under `src/`, PSR-4 from the root namespace)
 
-- **root** (`OnDemandFlightStatusLib\`) — `ApiApisGuruClient.php`, `ApiApisGuruClientBuilder.php`, `ConfigurationInterface.php`,
+- **root** (`ToursAndActivitiesLib\`) — `ApiApisGuruClient.php`, `ApiApisGuruClientBuilder.php`, `ConfigurationInterface.php`,
   `ConfigurationDefaults.php`, `Environment.php`, `Server.php`, `ApiHelper.php`.
 - `Controllers/` — one `{Resource}Controller` per API resource group, plus `BaseController`. **This is
   where operation method signatures live.**
@@ -66,15 +66,15 @@ and confirm its types against the source.
 
 ```bash
 # Add the SDK as a VCS repository, then require it:
-composer config repositories.api-apis-guru-php-c869b2 vcs https://github.com/context-plugins/api-apis-guru-php-c869b2
-composer require apimatic-sdks/ondemandflightstatus:dev-main
+composer config repositories.api-apis-guru-php-64002b vcs https://github.com/context-plugins/api-apis-guru-php-64002b
+composer require apimatic-sdks/toursandactivities:dev-main
 ```
 
 ```php
 require_once 'vendor/autoload.php';   // Composer PSR-4 autoloader — no manual requires
 ```
 
-> The package name (`apimatic-sdks/ondemandflightstatus`) is declared in the SDK's `composer.json`. `composer require`
+> The package name (`apimatic-sdks/toursandactivities`) is declared in the SDK's `composer.json`. `composer require`
 > also pulls in `apimatic/core` and friends.
 
 ## SDK source — read it first; don't fetch files ad hoc
@@ -87,11 +87,11 @@ throwaway location and grep the local copy:
 
 ```bash
 # Linux / macOS:
-git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-php-c869b2 /tmp/api-apis-guru-php-src
+git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-php-64002b /tmp/api-apis-guru-php-src
 ```
 ```powershell
 # Windows (PowerShell):
-git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-php-c869b2 "$env:TEMP\api-apis-guru-php-src"
+git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-php-64002b "$env:TEMP\api-apis-guru-php-src"
 ```
 
 Layout — **grep `doc/` first**, it is the fastest way to find an operation, its parameters, and a usage

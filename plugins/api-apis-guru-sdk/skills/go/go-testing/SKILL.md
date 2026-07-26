@@ -27,7 +27,7 @@ import (
     "net/http"
     "strings"
 
-    "github.com/context-plugins/api-apis-guru-go-ab984a"   // root package apiapisguru
+    "github.com/context-plugins/api-apis-guru-go-c869b2"   // root package apiapisguru
 )
 
 type stubTransport struct {
@@ -93,7 +93,7 @@ func TestGetResource_NotFound(t *testing.T) {
 For an operation with a registered typed error (in the SDK's `errors/` package):
 
 ```go
-import sdkerrors "github.com/context-plugins/api-apis-guru-go-ab984a/errors"
+import sdkerrors "github.com/context-plugins/api-apis-guru-go-c869b2/errors"
 
 var opErr *sdkerrors.{Operation}Error      // typed errors are POINTERS
 require.True(t, errors.As(err, &opErr))

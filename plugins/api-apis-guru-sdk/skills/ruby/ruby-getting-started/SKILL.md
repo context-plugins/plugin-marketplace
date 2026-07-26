@@ -36,7 +36,7 @@ below load the companion *and* confirm names against the source.
 | Runtime dependencies | `apimatic_core_interfaces`, `apimatic_core`, `apimatic_faraday_client_adapter` — pulled transitively via the gem |
 | Gem id | the `name` in the `.gemspec` (e.g. `multi_auth_sample`, `apimatic_calculator_by_client`) — per-API |
 | Top-level module | CamelCase of the gem id (e.g. `MultiAuthSample`, `ApimaticCalculatorByClient`) |
-| Install | `gem 'api_apis_guru', git: 'https://github.com/context-plugins/api-apis-guru-ruby', branch: 'main'` in a Gemfile |
+| Install | `gem 'api_apis_guru', git: 'https://github.com/context-plugins/api-apis-guru-ruby-fc4461', branch: 'main'` in a Gemfile |
 | Client class | `ApiApisGuru::Client` — one class; built with `Client.new(keyword_args...)` or `Client.from_env` |
 | Configuration class | `ApiApisGuru::Configuration` — extends `CoreLibrary::HttpClientConfiguration`; holds `Environment` and `Server` inner classes |
 | Auth pattern | typed `{Scheme}Credentials` objects passed as keyword args to `Client.new` — see **ruby-authentication** |
@@ -70,7 +70,7 @@ APIMatic Ruby SDKs place everything under `lib/api_apis_guru/`:
 
 ```ruby
 # In your Gemfile:
-gem 'api_apis_guru', git: 'https://github.com/context-plugins/api-apis-guru-ruby', branch: 'main'
+gem 'api_apis_guru', git: 'https://github.com/context-plugins/api-apis-guru-ruby-fc4461', branch: 'main'
 ```
 
 Then run `bundle install`.
@@ -94,12 +94,12 @@ project), then read and grep the local copy. It is a read-only, throwaway refere
 
 ```bash
 # Linux / macOS:
-git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-ruby /tmp/api-apis-guru-ruby-src
+git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-ruby-fc4461 /tmp/api-apis-guru-ruby-src
 ```
 
 ```powershell
 # Windows (PowerShell):
-git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-ruby "$env:TEMP\api-apis-guru-ruby-src"
+git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-ruby-fc4461 "$env:TEMP\api-apis-guru-ruby-src"
 ```
 
 Then confirm the SDK shape **only** from that local clone:

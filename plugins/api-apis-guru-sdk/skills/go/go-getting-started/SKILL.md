@@ -32,7 +32,7 @@ that step, so at each step below load the companion *and* confirm names against 
 | Runtime dependency | `github.com/apimatic/go-core-runtime` (HTTP call builder, auth, retries, `ApiError`) |
 | Package name | the API title, lowercased and concatenated (e.g. `multiauthsample`, `apimaticcalculator`) — the `package` declaration at the top of every `.go` file |
 | Module path | from the SDK's `go.mod` — for these generated SDKs it is often just the package name; a published SDK uses its full repo path (e.g. `github.com/owner/repo`) |
-| Install | `go get github.com/context-plugins/api-apis-guru-go@main` |
+| Install | `go get github.com/context-plugins/api-apis-guru-go-fc4461@main` |
 | Client | `ClientInterface`, constructed via `apiapisguru.NewClient(configuration)` |
 | Configuration | built via `apiapisguru.CreateConfiguration(...ConfigurationOptions)` or `apiapisguru.CreateConfigurationFromEnvironment(...)` |
 | Auth | typed credentials structs set as configuration options — see **go-authentication** |
@@ -64,17 +64,17 @@ found, open its file in the cloned source and copy the `package` declaration at 
 ## Install
 
 ```bash
-go get github.com/context-plugins/api-apis-guru-go@main
+go get github.com/context-plugins/api-apis-guru-go-fc4461@main
 ```
 
 ```go
 import (
-    "github.com/context-plugins/api-apis-guru-go"            // root package — client + configuration
-    "github.com/context-plugins/api-apis-guru-go/models"     // request/response types, enums, unions
+    "github.com/context-plugins/api-apis-guru-go-fc4461"            // root package — client + configuration
+    "github.com/context-plugins/api-apis-guru-go-fc4461/models"     // request/response types, enums, unions
 )
 ```
 
-> The import path matches the module declared in the SDK's `go.mod`. `go get github.com/context-plugins/api-apis-guru-go@main` also
+> The import path matches the module declared in the SDK's `go.mod`. `go get github.com/context-plugins/api-apis-guru-go-fc4461@main` also
 > pulls in `go-core-runtime` transitively.
 
 ## SDK source — clone it first; don't fetch files ad hoc
@@ -86,12 +86,12 @@ local copy. It is a read-only, throwaway reference — never add a `replace` dir
 
 ```bash
 # Linux / macOS:
-git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-go /tmp/api-apis-guru-go-src
+git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-go-fc4461 /tmp/api-apis-guru-go-src
 ```
 
 ```powershell
 # Windows (PowerShell):
-git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-go "$env:TEMP\api-apis-guru-go-src"
+git clone --depth 1 --branch main https://github.com/context-plugins/api-apis-guru-go-fc4461 "$env:TEMP\api-apis-guru-go-src"
 ```
 
 Then confirm the SDK shape **only** from that local clone:

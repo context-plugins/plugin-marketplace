@@ -26,7 +26,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
-use FlightInspirationSearchLib\ApiApisGuruClient;
+use TripPurposePredictionLib\ApiApisGuruClient;
 
 /**
  * Build an SDK client that returns the given stub responses in order.
@@ -74,7 +74,7 @@ class {Operation}Test extends TestCase
 Endpoint methods throw `ApiException` on non-2xx (see **php-error-handling**).
 
 ```php
-use FlightInspirationSearchLib\Exceptions\ApiException;
+use TripPurposePredictionLib\Exceptions\ApiException;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
@@ -112,8 +112,8 @@ public function testErrorBodyIsAccessible(): void
 If the operation throws a typed subclass, catch that first:
 
 ```php
-use FlightInspirationSearchLib\Exceptions\{OperationException};
-use FlightInspirationSearchLib\Exceptions\ApiException;
+use TripPurposePredictionLib\Exceptions\{OperationException};
+use TripPurposePredictionLib\Exceptions\ApiException;
 
 try {
     $client->{apiGroup}()->{operation}(/* args */);
@@ -183,7 +183,7 @@ public function testPaginatesAllResults(): void
 ## Bind a stub client in a DI container (Laravel example)
 
 ```php
-use FlightInspirationSearchLib\ApiApisGuruClient;
+use TripPurposePredictionLib\ApiApisGuruClient;
 
 // In a test setUp or a service provider override:
 app()->instance(ApiApisGuruClient::class, clientWithResponses([

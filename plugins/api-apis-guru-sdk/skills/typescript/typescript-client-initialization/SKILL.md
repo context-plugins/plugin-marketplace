@@ -8,7 +8,7 @@ description: Construct and configure an APIMatic-generated TypeScript/Node SDK c
 This applies to **any** APIMatic-generated TypeScript SDK (APIMATIC v3.0). Replace placeholders with the
 real names from the SDK you are using:
 
-- `flight-inspiration-searchlib` — the npm package name (the `"name"` in `package.json`, e.g. `multiauth-samplelib`).
+- `trip-purpose-predictionlib` — the npm package name (the `"name"` in `package.json`, e.g. `multiauth-samplelib`).
 - `{Resource}Controller` — a controller class exported from the package root.
 
 ## The shape: one options object, no builder
@@ -17,7 +17,7 @@ The SDK exports a single `Client` class. You construct it with **one options obj
 `Partial<Configuration>` — every field is optional and missing fields fall back to `DEFAULT_CONFIGURATION`:
 
 ```ts
-import { Client, Environment } from 'flight-inspiration-searchlib';
+import { Client, Environment } from 'trip-purpose-predictionlib';
 
 const client = new Client({
   environment: Environment.Production,
@@ -97,7 +97,7 @@ Unlike some SDKs, the `Client` exposes **no controller accessor methods**. You c
 yourself, passing the client, then call operations on it (see **typescript-calling-endpoints**):
 
 ```ts
-import { {Resource}Controller } from 'flight-inspiration-searchlib';
+import { {Resource}Controller } from 'trip-purpose-predictionlib';
 
 const controller = new {Resource}Controller(client);
 const response = await controller.{operation}(/* params */);

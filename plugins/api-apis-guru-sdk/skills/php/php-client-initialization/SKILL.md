@@ -9,7 +9,7 @@ This applies to **any** APIMatic-generated PHP SDK. Replace placeholders with th
 the SDK you are using:
 
 - `ApiApisGuruClient` — the single public client class (e.g. `FooClient`).
-- `FlightInspirationSearchLib` — the SDK's root namespace used in `use` directives.
+- `TripPurposePredictionLib` — the SDK's root namespace used in `use` directives.
 - `{apiGroup}` — a controller property/method name on the client (e.g. `widgets()`).
 
 ## Shape of the client
@@ -34,7 +34,7 @@ controller methods (and any direct operations). See **php-calling-endpoints**.
 ## Direct instantiation
 
 ```php
-use FlightInspirationSearchLib\ApiApisGuruClient;
+use TripPurposePredictionLib\ApiApisGuruClient;
 
 $client = new ApiApisGuruClient([
     'timeout'     => 30,
@@ -88,7 +88,7 @@ constructed once and reused:
 
 ```php
 // Laravel service provider (AppServiceProvider or a dedicated provider):
-use FlightInspirationSearchLib\ApiApisGuruClient;
+use TripPurposePredictionLib\ApiApisGuruClient;
 
 $this->app->singleton(ApiApisGuruClient::class, function ($app) {
     return new ApiApisGuruClient([

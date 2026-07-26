@@ -1,0 +1,35 @@
+{
+  "name": "seatmap-display-sdk",
+  "displayName": "Seatmap Display SDK",
+  "version": "0.1.0",
+  "description": "Integrate and consume the APIMatic-generated Seatmap Display SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "seatmap-display",
+    "dotnet",
+    "typescript",
+    "java",
+    "php",
+    "python",
+    "ruby",
+    "go"
+  ],
+  "skills": [
+    "./skills/dotnet",
+    "./skills/typescript",
+    "./skills/java",
+    "./skills/php",
+    "./skills/python",
+    "./skills/ruby",
+    "./skills/go"
+  ]
+}

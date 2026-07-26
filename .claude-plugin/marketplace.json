@@ -255,6 +255,11 @@
       "name": "aws-migration-hub-sdk",
       "source": "./plugins/aws-migration-hub-sdk",
       "description": "Integrate and consume the APIMatic-generated AWS Migration Hub SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "seatmap-display-sdk",
+      "source": "./plugins/seatmap-display-sdk",
+      "description": "Integrate and consume the APIMatic-generated Seatmap Display SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

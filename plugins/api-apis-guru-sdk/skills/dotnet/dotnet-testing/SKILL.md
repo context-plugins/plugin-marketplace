@@ -15,9 +15,9 @@ style**: if it uses an assertion library such as FluentAssertions or Shouldly, w
 (e.g. `result.StatusCode.Should().Be(HttpStatusCode.OK)`) rather than the framework's built-in asserts. The
 code samples below use xUnit `[Fact]` + the built-in `Assert` **purely for reference** — they show the SDK
 testing seam and *what* to assert, not a mandated framework or assertion library. Substitute your
-`ToursAndActivitiesClient`/`ToursAndActivitiesClientOptions` as well.
+`FlightChoicePredictionClient`/`FlightChoicePredictionClientOptions` as well.
 
-> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `ToursAndActivitiesClient`,
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `FlightChoicePredictionClient`,
 > `{ApiGroup}`, `{Operation}`) — replace it with the concrete identifier from the source.
 
 ## A reusable stub handler
@@ -40,13 +40,13 @@ public sealed class StubHandler : HttpMessageHandler
     }
 }
 
-static ToursAndActivitiesClient ClientReturning(HttpStatusCode status, string json)
+static FlightChoicePredictionClient ClientReturning(HttpStatusCode status, string json)
 {
     var handler = new StubHandler(_ => new HttpResponseMessage(status)
     {
         Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
     });
-    return new ToursAndActivitiesClient(new HttpClient(handler), new ToursAndActivitiesClientOptions { /* auth not needed for stubs */ });
+    return new FlightChoicePredictionClient(new HttpClient(handler), new FlightChoicePredictionClientOptions { /* auth not needed for stubs */ });
 }
 ```
 
@@ -73,8 +73,8 @@ type, or `RawError` **directly** (**Case B**) otherwise — so assert the type t
 **Case A — typed `{Operation}Error`:**
 
 ```csharp
-using ToursAndActivities.Core.Exceptions;     // SdkException<TError>
-using ToursAndActivities.Errors;              // {Operation}Error types
+using FlightChoicePrediction.Core.Exceptions;     // SdkException<TError>
+using FlightChoicePrediction.Errors;              // {Operation}Error types
 
 [Fact]
 public async Task ThrowsOnApiError()
@@ -96,8 +96,8 @@ public async Task ThrowsOnApiError()
 the `RawError` — there is no `TryGet*` / `TryGetRawError`; read it directly:
 
 ```csharp
-using ToursAndActivities.Core.Exceptions;
-using ToursAndActivities.Core.ErrorResponse;
+using FlightChoicePrediction.Core.Exceptions;
+using FlightChoicePrediction.Core.ErrorResponse;
 
 var ex = await Assert.ThrowsAsync<SdkException<RawError>>(
     () => client.{ApiGroup}.{Operation}(/* args */, ct: default));
@@ -113,9 +113,9 @@ there is nothing to catch — stub the response and assert on the returned `ApiR
 directly. The status code and headers are available on both the success and failure outcomes.
 
 ```csharp
-using ToursAndActivities.Core.Models;        // ApiResult<TResponse, TError>
-using ToursAndActivities.Core.ErrorResponse; // RawError (Case B)
-using ToursAndActivities.Errors;             // {Operation}Error (Case A only)
+using FlightChoicePrediction.Core.Models;        // ApiResult<TResponse, TError>
+using FlightChoicePrediction.Core.ErrorResponse; // RawError (Case B)
+using FlightChoicePrediction.Errors;             // {Operation}Error (Case A only)
 
 [Fact]
 public async Task ResultVariantReportsFailureWithoutThrowing()
@@ -138,7 +138,7 @@ Because the stub captures `LastRequest`, you can assert method, path, query, hea
 ```csharp
 var handler = new StubHandler(_ => new HttpResponseMessage(HttpStatusCode.OK)
                                    { Content = new StringContent("{}") });
-var client = new ToursAndActivitiesClient(new HttpClient(handler), new ToursAndActivitiesClientOptions());
+var client = new FlightChoicePredictionClient(new HttpClient(handler), new FlightChoicePredictionClientOptions());
 
 await client.{ApiGroup}.{Operation}(/* args */, ct: default);
 
@@ -159,12 +159,12 @@ Assert.Contains("\"expected_field\"", sentJson);
   call returns — retries apply to `GET/HEAD/PUT/OPTIONS` only by default, so a `POST` won't retry unless you
   add its method to `HttpMethodsToRetry` (see `dotnet-configuration-resilience`). To observe retries firing,
   have the stub return `503` then `200` and count invocations.
-- For DI-based code, the SDK's `AddToursAndActivitiesClient` resolves the **default (unnamed)** `IHttpClientFactory`
-  client, so register your stub on that one, then resolve `ToursAndActivitiesClient` from the provider:
+- For DI-based code, the SDK's `AddFlightChoicePredictionClient` resolves the **default (unnamed)** `IHttpClientFactory`
+  client, so register your stub on that one, then resolve `FlightChoicePredictionClient` from the provider:
   ```csharp
-  services.AddToursAndActivitiesClient(o => { /* ... */ });
+  services.AddFlightChoicePredictionClient(o => { /* ... */ });
   services.AddHttpClient(Options.DefaultName).ConfigurePrimaryHttpMessageHandler(() => stubHandler);
-  var client = services.BuildServiceProvider().GetRequiredService<ToursAndActivitiesClient>();
+  var client = services.BuildServiceProvider().GetRequiredService<FlightChoicePredictionClient>();
   ```
 - To look up an operation's signature, its request type, or a `{Operation}Error`'s accessor names, read the
   SDK source `.cs` files — don't decompile or reflect over the installed package, which drops the XML-doc

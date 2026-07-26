@@ -265,6 +265,11 @@
       "name": "access-analyzer-sdk",
       "source": "./plugins/access-analyzer-sdk",
       "description": "Integrate and consume the APIMatic-generated Access Analyzer SDK across TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "hotel-ratings-sdk",
+      "source": "./plugins/hotel-ratings-sdk",
+      "description": "Integrate and consume the APIMatic-generated Hotel Ratings SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

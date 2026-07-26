@@ -5,7 +5,7 @@ description: Tune an APIMatic-generated C#/.NET SDK client — RetryOptions retr
 
 # Configuration & resilience for an APIMatic .NET SDK
 
-All types below live under `FlightMostBookedDestinations.Core.Configuration` / `.Servers` and are generic across
+All types below live under `FlightMostTraveledDestinations.Core.Configuration` / `.Servers` and are generic across
 APIMatic .NET SDKs.
 
 ## ServerOptions configuration for each Environment
@@ -20,7 +20,7 @@ parameters** the API declares (a region/subdomain/port — names vary, and some 
 **`BaseUrl`** template itself (always present and settable). Set whichever you need:
 
 ```csharp
-using FlightMostBookedDestinations.Servers;
+using FlightMostTraveledDestinations.Servers;
 
 options.Environment = ServerEnvironment.{Environment};
 
@@ -54,7 +54,7 @@ parameters. See **dotnet-client-initialization** for selecting the environment.
 Customize:
 
 ```csharp
-using FlightMostBookedDestinations.Core.Configuration;
+using FlightMostTraveledDestinations.Core.Configuration;
 
 options.Retry = RetryOptions.Default() with
 {
@@ -137,7 +137,7 @@ frames as the server emits them. `{Item}` is `string` for a plain-text stream, o
 event stream.
 
 ```csharp
-using FlightMostBookedDestinations.Core.Exceptions;   // SseException, SseTimeoutException, SseDeserializationException
+using FlightMostTraveledDestinations.Core.Exceptions;   // SseException, SseTimeoutException, SseDeserializationException
 
 // await once to open the stream (an opening error surfaces here — see "Errors" below):
 IAsyncEnumerable<{Item}> stream = await client.{ApiGroup}.{Operation}(ct);
@@ -161,10 +161,10 @@ catch (SseDeserializationException ex)      // a JSON frame didn't match {Item}
 **between frames** (a stalled stream throws rather than hanging). Set it (or `null` to disable) when building
 the client:
 ```csharp
-var options = new FlightMostBookedDestinationsClientOptions { StreamReadTimeout = TimeSpan.FromSeconds(30) };
+var options = new FlightMostTraveledDestinationsClientOptions { StreamReadTimeout = TimeSpan.FromSeconds(30) };
 ```
 
-**Errors** (all under `FlightMostBookedDestinations.Core.Exceptions`):
+**Errors** (all under `FlightMostTraveledDestinations.Core.Exceptions`):
 - **Before the stream opens** — the opening `await` throws `SdkException<TError>`, with `TError` the same
   two-case shape as any operation: a typed `{Operation}Error` (Case A) or `RawError` (Case B), per what the
   operation declares (see **dotnet-error-handling**).
@@ -195,17 +195,17 @@ public sealed class LoggingHandler : DelegatingHandler
 }
 
 var httpClient = new HttpClient(new LoggingHandler { InnerHandler = new HttpClientHandler() });
-var client = new FlightMostBookedDestinationsClient(httpClient, options);
+var client = new FlightMostTraveledDestinationsClient(httpClient, options);
 ```
 
-With DI, the SDK's `AddFlightMostBookedDestinationsClient` resolves the **default (unnamed)** `IHttpClientFactory` client, so attach
+With DI, the SDK's `AddFlightMostTraveledDestinationsClient` resolves the **default (unnamed)** `IHttpClientFactory` client, so attach
 the handler to that one — register it and configure the default client *before* (or alongside) the SDK
 registration:
 
 ```csharp
 services.AddTransient<LoggingHandler>();
 services.AddHttpClient(Options.DefaultName).AddHttpMessageHandler<LoggingHandler>();
-services.AddFlightMostBookedDestinationsClient(options => { /* ... */ });   // resolves CreateClient() → the default client
+services.AddFlightMostTraveledDestinationsClient(options => { /* ... */ });   // resolves CreateClient() → the default client
 ```
 
 The handler then runs on every SDK call. The `OnRetry` callback above is also a convenient place to observe

@@ -9,7 +9,7 @@ This applies to **any** APIMatic-generated Go SDK (APIMATIC v3.0). Replace place
 names from the SDK you are using:
 
 - `apiapisguru` — the root package name (e.g. `multiauthsample`).
-- `github.com/context-plugins/api-apis-guru-go-fc4461` — the Go import path for the root package; `github.com/context-plugins/api-apis-guru-go-fc4461/models` for request/response types.
+- `github.com/context-plugins/api-apis-guru-go-f09838` — the Go import path for the root package; `github.com/context-plugins/api-apis-guru-go-f09838/models` for request/response types.
 - `{Resource}Controller` — a controller accessor method on the client.
 
 ## The two-step shape: build a Configuration, then a client
@@ -18,7 +18,7 @@ APIMatic Go SDKs do **not** take options on the client constructor. You build an
 `Configuration` value and pass it to `NewClient`, which returns a `ClientInterface`:
 
 ```go
-import "github.com/context-plugins/api-apis-guru-go-fc4461"
+import "github.com/context-plugins/api-apis-guru-go-f09838"
 
 client := apiapisguru.NewClient(
     apiapisguru.CreateConfiguration(

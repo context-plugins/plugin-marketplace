@@ -6,7 +6,7 @@ description: Handle errors from an APIMatic-generated C#/.NET SDK — calls thro
 # Error handling for an APIMatic .NET SDK
 
 > Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{Operation}`,
-> `{ApiGroup}`, `FlightMostBookedDestinations`) — replace it with the concrete identifier from the source.
+> `{ApiGroup}`, `FlightMostTraveledDestinations`) — replace it with the concrete identifier from the source.
 
 Endpoint methods **throw on non-success responses** by default (for a non-throwing alternative, see the
 **`ApiResult`** section below). The thrown type is always the generic `SdkException<TError>` — but `TError`
@@ -26,9 +26,9 @@ comes in **two shapes**, depending on the operation:
 These types live in **distinct** namespaces — `Core.*` is **not** a single namespace, so don't assume
 `ApiError` sits with `SdkException` under `Core.Exceptions`:
 
-- `SdkException<T>` → `FlightMostBookedDestinations.Core.Exceptions`
-- `ApiError` **and** `RawError` → `FlightMostBookedDestinations.Core.ErrorResponse`
-- the per-operation `{Operation}Error` models (e.g. `CreateWidgetError`) → `FlightMostBookedDestinations.Errors`
+- `SdkException<T>` → `FlightMostTraveledDestinations.Core.Exceptions`
+- `ApiError` **and** `RawError` → `FlightMostTraveledDestinations.Core.ErrorResponse`
+- the per-operation `{Operation}Error` models (e.g. `CreateWidgetError`) → `FlightMostTraveledDestinations.Errors`
 
 So catching a typed (Case A) exception needs **three** usings — `Core.Exceptions`, `Core.ErrorResponse`,
 and `.Errors`; a Case B catch needs only the first two (`Core.Exceptions` + `Core.ErrorResponse`). These
@@ -88,9 +88,9 @@ memory:
    (see below) — it only fires for statuses that have no more-specific accessor.
 
 ```csharp
-using FlightMostBookedDestinations.Core.Exceptions;     // SdkException<TError>
-using FlightMostBookedDestinations.Core.ErrorResponse;  // ApiError, RawError
-using FlightMostBookedDestinations.Errors;              // {Operation}Error types, e.g. CreateWidgetError
+using FlightMostTraveledDestinations.Core.Exceptions;     // SdkException<TError>
+using FlightMostTraveledDestinations.Core.ErrorResponse;  // ApiError, RawError
+using FlightMostTraveledDestinations.Errors;              // {Operation}Error types, e.g. CreateWidgetError
 
 try
 {
@@ -134,7 +134,7 @@ explicitly.
 on the concrete `{Operation}Error`, *not* on the `ApiError` base — which exposes only `TryGetRawError`. A
 helper like `string Describe(ApiError e)` can therefore reach **only** `TryGetRawError`, so for any status
 that has a typed body it finds nothing and falls back to `e.ToString()` — a bare type name
-(`FlightMostBookedDestinations.Errors.{Operation}Error`), not the actual message. Read the typed accessors **inside the
+(`FlightMostTraveledDestinations.Errors.{Operation}Error`), not the actual message. Read the typed accessors **inside the
 per-operation `catch` block**, where the concrete `{Operation}Error` type is known; reserve shared code for
 the `RawError`/transport fallback only.
 
@@ -144,8 +144,8 @@ For operations with no `{Operation}Error` type (none under `Errors/`), `ex.Error
 there are no `TryGet*` accessors and no `TryGetRawError`; read the status and body straight off it:
 
 ```csharp
-using FlightMostBookedDestinations.Core.Exceptions;     // SdkException<TError>
-using FlightMostBookedDestinations.Core.ErrorResponse;  // RawError
+using FlightMostTraveledDestinations.Core.Exceptions;     // SdkException<TError>
+using FlightMostTraveledDestinations.Core.ErrorResponse;  // RawError
 
 try
 {
@@ -160,7 +160,7 @@ catch (SdkException<RawError> ex)
 }
 ```
 
-Case B needs no `.Errors` using — `RawError` lives under `FlightMostBookedDestinations.Core.ErrorResponse`. Its public
+Case B needs no `.Errors` using — `RawError` lives under `FlightMostTraveledDestinations.Core.ErrorResponse`. Its public
 members (`StatusCode`, `ReadAsBytes`/`ReadAsString`/`ReadAsJson<T>`) are visible in the SDK source; note
 `ReadAsJson<T>()` **throws `JsonException`** when the body isn't valid JSON — and a `RawError` body often
 isn't (this is the no-typed-error-model case), so prefer `ReadAsString()` unless you know it's JSON.
@@ -172,7 +172,7 @@ exist. When enabled, it appears as a **sibling method** named `{Operation}Result
 `{Operation}`), returning `Task<ApiResult<TResponse, {TError}>>` and **does not throw** on a non-success
 status — the error is carried in the returned value instead. (`{TError}` is the same two-case shape as
 above: a typed `{Operation}Error`, or `RawError`.) `ApiResult<TResponse, TError>` is a public
-`readonly struct` under `FlightMostBookedDestinations.Core.Models`. If the controller has no `{Operation}Result`
+`readonly struct` under `FlightMostTraveledDestinations.Core.Models`. If the controller has no `{Operation}Result`
 overload, this variant wasn't generated — use the throwing method with `try/catch` instead.
 
 Unlike the throwing path, `ApiResult` exposes the HTTP **`StatusCode`** and **`Headers`** on *both* success
@@ -180,9 +180,9 @@ and failure — so this is the variant to use when you need the status code, rat
 `Link` headers.
 
 ```csharp
-using FlightMostBookedDestinations.Core.Models;        // ApiResult<TResponse, TError>
-using FlightMostBookedDestinations.Core.ErrorResponse; // RawError
-using FlightMostBookedDestinations.Errors;             // {Operation}Error (Case A only)
+using FlightMostTraveledDestinations.Core.Models;        // ApiResult<TResponse, TError>
+using FlightMostTraveledDestinations.Core.ErrorResponse; // RawError
+using FlightMostTraveledDestinations.Errors;             // {Operation}Error (Case A only)
 
 // No try/catch — the *Result variant returns the outcome instead of throwing.
 ApiResult<{ReturnType}, {Operation}Error> result =
@@ -220,7 +220,7 @@ var (isSuccess, response, error) = result;
 - Network/transport failures surface as the usual `HttpRequestException` / `TaskCanceledException`
   (e.g. timeout or cancellation) — handle those separately from `SdkException<TError>`.
 - On an SDK with **multiple/composite auth schemes**, a call can also throw `AuthSchemeException`
-  (under `FlightMostBookedDestinations.Core.Exceptions`) — an auth *application* failure, not an API error — when the
+  (under `FlightMostTraveledDestinations.Core.Exceptions`) — an auth *application* failure, not an API error — when the
   configured schemes can't be satisfied; it carries `IReadOnlyList<Exception> SchemeFailures` and is **not**
   an `SdkException<T>`, so a `catch (SdkException<...>)` won't match it — catch it separately. (A
   single-scheme SDK (e.g. Basic-only) won't hit this.)

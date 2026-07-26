@@ -250,6 +250,11 @@
       "name": "flight-create-orders-sdk",
       "source": "./plugins/flight-create-orders-sdk",
       "description": "Integrate and consume the APIMatic-generated Flight Create Orders SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "aws-migration-hub-sdk",
+      "source": "./plugins/aws-migration-hub-sdk",
+      "description": "Integrate and consume the APIMatic-generated AWS Migration Hub SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

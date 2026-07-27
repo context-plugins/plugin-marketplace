@@ -220,6 +220,11 @@
       "name": "sqlmanagementclient-sdk",
       "source": "./plugins/sqlmanagementclient-sdk",
       "description": "Integrate and consume the APIMatic-generated SqlManagementClient SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "pq-api-v2-sdk",
+      "source": "./plugins/pq-api-v2-sdk",
+      "description": "Integrate and consume the APIMatic-generated PQ API v2 SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

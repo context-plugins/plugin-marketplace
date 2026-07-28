@@ -225,6 +225,11 @@
       "name": "pq-api-v2-sdk",
       "source": "./plugins/pq-api-v2-sdk",
       "description": "Integrate and consume the APIMatic-generated PQ API v2 SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "notion-sdk",
+      "source": "./plugins/notion-sdk",
+      "description": "Integrate and consume the APIMatic-generated Notion SDK across TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

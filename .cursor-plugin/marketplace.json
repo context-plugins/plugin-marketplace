@@ -110,6 +110,11 @@
       "name": "stax-fattmerchant-api",
       "source": "./plugins/stax-fattmerchant-api",
       "description": "Integrate and consume the APIMatic-generated Stax (FattMerchant) API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "pq-api-v2",
+      "source": "./plugins/pq-api-v2",
+      "description": "Integrate and consume the APIMatic-generated PQ API v2 SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

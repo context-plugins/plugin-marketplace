@@ -17,19 +17,9 @@
       "description": "Integrate and consume the APIMatic-generated eBay Finances API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "vimeo-sdk",
-      "source": "./plugins/vimeo-sdk",
-      "description": "Integrate and consume the APIMatic-generated Vimeo SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
       "name": "telegram-bot-api-sdk",
       "source": "./plugins/telegram-bot-api-sdk",
       "description": "Integrate and consume the APIMatic-generated Telegram Bot API SDK across TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "xero-accounting-api-sdk",
-      "source": "./plugins/xero-accounting-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Xero Accounting API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "square-connect-api-sdk",
@@ -45,11 +35,6 @@
       "name": "paypal-api-sdk",
       "source": "./plugins/paypal-api-sdk",
       "description": "Integrate and consume the APIMatic-generated PayPal API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "spotify-web-api-with-fixes-and-improvements-from-sonallux-sdk",
-      "source": "./plugins/spotify-web-api-with-fixes-and-improvements-from-sonallux-sdk",
-      "description": "Integrate and consume the APIMatic-generated Spotify Web API with fixes and improvements from sonallux SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "adyen-api-sdk",
@@ -77,16 +62,6 @@
       "description": "Integrate and consume the APIMatic-generated Slack Web API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "the-plaid-api-sdk",
-      "source": "./plugins/the-plaid-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated The Plaid API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "stax-fattmerchant-api-sdk",
-      "source": "./plugins/stax-fattmerchant-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Stax (FattMerchant) API SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
       "name": "paze-checkout-api-sdk",
       "source": "./plugins/paze-checkout-api-sdk",
       "description": "Integrate and consume the APIMatic-generated Paze Checkout API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
@@ -105,81 +80,6 @@
       "name": "shell-api-sdk",
       "source": "./plugins/shell-api-sdk",
       "description": "Integrate and consume the APIMatic-generated Shell API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "hotel-name-autocomplete-sdk",
-      "source": "./plugins/hotel-name-autocomplete-sdk",
-      "description": "Integrate and consume the APIMatic-generated Hotel Name Autocomplete SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "api-apis-guru-sdk",
-      "source": "./plugins/api-apis-guru-sdk",
-      "description": "Integrate and consume the APIMatic-generated api.apis.guru SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "flight-price-analysis-api-sdk",
-      "source": "./plugins/flight-price-analysis-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Flight Price Analysis API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "travel-recommendations-api-sdk",
-      "source": "./plugins/travel-recommendations-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Travel Recommendations API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "flight-order-management-sdk",
-      "source": "./plugins/flight-order-management-sdk",
-      "description": "Integrate and consume the APIMatic-generated Flight Order Management SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "flight-offers-price-sdk",
-      "source": "./plugins/flight-offers-price-sdk",
-      "description": "Integrate and consume the APIMatic-generated Flight Offers Price SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "flight-create-orders-sdk",
-      "source": "./plugins/flight-create-orders-sdk",
-      "description": "Integrate and consume the APIMatic-generated Flight Create Orders SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "aws-migration-hub-sdk",
-      "source": "./plugins/aws-migration-hub-sdk",
-      "description": "Integrate and consume the APIMatic-generated AWS Migration Hub SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "seatmap-display-sdk",
-      "source": "./plugins/seatmap-display-sdk",
-      "description": "Integrate and consume the APIMatic-generated Seatmap Display SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "access-analyzer-sdk",
-      "source": "./plugins/access-analyzer-sdk",
-      "description": "Integrate and consume the APIMatic-generated Access Analyzer SDK across TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "hotel-ratings-sdk",
-      "source": "./plugins/hotel-ratings-sdk",
-      "description": "Integrate and consume the APIMatic-generated Hotel Ratings SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "location-score-sdk",
-      "source": "./plugins/location-score-sdk",
-      "description": "Integrate and consume the APIMatic-generated Location Score SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "hotel-search-api-sdk",
-      "source": "./plugins/hotel-search-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Hotel Search API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "sqlmanagementclient-sdk",
-      "source": "./plugins/sqlmanagementclient-sdk",
-      "description": "Integrate and consume the APIMatic-generated SqlManagementClient SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "pq-api-v2-sdk",
-      "source": "./plugins/pq-api-v2-sdk",
-      "description": "Integrate and consume the APIMatic-generated PQ API v2 SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "notion-sdk",

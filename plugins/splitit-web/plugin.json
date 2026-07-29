@@ -1,0 +1,34 @@
+{
+  "name": "splitit-web",
+  "displayName": "Splitit Web",
+  "version": "0.1.0",
+  "description": "Integrate and consume the APIMatic-generated splitit-web-api-v3 SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "splitit-web-api-v3",
+    "typescript",
+    "java",
+    "php",
+    "python",
+    "ruby",
+    "go"
+  ],
+  "logo": "assets/logo.svg",
+  "skills": [
+    "./skills/typescript",
+    "./skills/java",
+    "./skills/php",
+    "./skills/python",
+    "./skills/ruby",
+    "./skills/go"
+  ]
+}

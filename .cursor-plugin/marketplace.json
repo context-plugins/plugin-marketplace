@@ -135,6 +135,11 @@
       "name": "notion",
       "source": "./plugins/notion",
       "description": "Integrate and consume the APIMatic-generated Notion SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "sportsdata",
+      "source": "./plugins/sportsdata",
+      "description": "Integrate and consume the APIMatic-generated sportsdata SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

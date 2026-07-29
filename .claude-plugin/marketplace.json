@@ -95,6 +95,11 @@
       "name": "gitea-api",
       "source": "./plugins/gitea-api",
       "description": "Integrate and consume the APIMatic-generated Gitea API SDK across Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "spotify-web-api",
+      "source": "./plugins/spotify-web-api",
+      "description": "Integrate and consume the APIMatic-generated Spotify Web API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

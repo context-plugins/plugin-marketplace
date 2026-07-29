@@ -140,6 +140,11 @@
       "name": "sportsdata",
       "source": "./plugins/sportsdata",
       "description": "Integrate and consume the APIMatic-generated sportsdata SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "x-api-v2",
+      "source": "./plugins/x-api-v2",
+      "description": "Integrate and consume the APIMatic-generated X API v2 SDK across PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

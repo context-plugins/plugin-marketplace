@@ -130,6 +130,11 @@
       "name": "klarna",
       "source": "./plugins/klarna",
       "description": "Integrate and consume the APIMatic-generated klarna SDK across C#/.NET, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "notion",
+      "source": "./plugins/notion",
+      "description": "Integrate and consume the APIMatic-generated Notion SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

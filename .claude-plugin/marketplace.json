@@ -7,83 +7,83 @@
   },
   "plugins": [
     {
-      "name": "telegram-bot-api-sdk",
-      "source": "./plugins/telegram-bot-api-sdk",
+      "name": "telegram-bot",
+      "source": "./plugins/telegram-bot",
       "description": "Integrate and consume the APIMatic-generated Telegram Bot API SDK across TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "square-connect-api-sdk",
-      "source": "./plugins/square-connect-api-sdk",
+      "name": "square-connect",
+      "source": "./plugins/square-connect",
       "description": "Integrate and consume the APIMatic-generated Square Connect API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "tesla-api-sdk",
-      "source": "./plugins/tesla-api-sdk",
+      "name": "tesla",
+      "source": "./plugins/tesla",
       "description": "Integrate and consume the APIMatic-generated Tesla API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "paypal-api-sdk",
-      "source": "./plugins/paypal-api-sdk",
+      "name": "paypal",
+      "source": "./plugins/paypal",
       "description": "Integrate and consume the APIMatic-generated PayPal API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "adyen-api-sdk",
-      "source": "./plugins/adyen-api-sdk",
+      "name": "adyen",
+      "source": "./plugins/adyen",
       "description": "Integrate and consume the APIMatic-generated Adyen API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "maxio-advanced-billing-sdk",
-      "source": "./plugins/maxio-advanced-billing-sdk",
+      "name": "maxio-advanced-billing",
+      "source": "./plugins/maxio-advanced-billing",
       "description": "Integrate and consume the APIMatic-generated Maxio Advanced Billing SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "verizon-api-sdk",
-      "source": "./plugins/verizon-api-sdk",
+      "name": "verizon",
+      "source": "./plugins/verizon",
       "description": "Integrate and consume the APIMatic-generated Verizon API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "tesser-api-v1-sdk",
-      "source": "./plugins/tesser-api-v1-sdk",
+      "name": "tesser",
+      "source": "./plugins/tesser",
       "description": "Integrate and consume the APIMatic-generated Tesser API (v1) SDK across TypeScript, Java, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "slack-web-api-sdk",
-      "source": "./plugins/slack-web-api-sdk",
+      "name": "slack-web",
+      "source": "./plugins/slack-web",
       "description": "Integrate and consume the APIMatic-generated Slack Web API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "paze-checkout-api-sdk",
-      "source": "./plugins/paze-checkout-api-sdk",
+      "name": "paze-checkout",
+      "source": "./plugins/paze-checkout",
       "description": "Integrate and consume the APIMatic-generated Paze Checkout API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "cellpoint-api-sdk",
-      "source": "./plugins/cellpoint-api-sdk",
+      "name": "cellpoint",
+      "source": "./plugins/cellpoint",
       "description": "Integrate and consume the APIMatic-generated CellPoint API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "splitit-web-api-v3-sdk",
-      "source": "./plugins/splitit-web-api-v3-sdk",
+      "name": "splitit-web",
+      "source": "./plugins/splitit-web",
       "description": "Integrate and consume the APIMatic-generated splitit-web-api-v3 SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "shell-api-sdk",
-      "source": "./plugins/shell-api-sdk",
+      "name": "shell",
+      "source": "./plugins/shell",
       "description": "Integrate and consume the APIMatic-generated Shell API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "vimeo-api-sdk",
-      "source": "./plugins/vimeo-api-sdk",
+      "name": "vimeo",
+      "source": "./plugins/vimeo",
       "description": "Integrate and consume the APIMatic-generated Vimeo API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "xero-sdk",
-      "source": "./plugins/xero-sdk",
+      "name": "xero",
+      "source": "./plugins/xero",
       "description": "Integrate and consume the APIMatic-generated Xero SDK across C#/.NET, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "discourse-api-documentation-sdk",
-      "source": "./plugins/discourse-api-documentation-sdk",
+      "name": "discourse-documentation",
+      "source": "./plugins/discourse-documentation",
       "description": "Integrate and consume the APIMatic-generated Discourse API Documentation SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]

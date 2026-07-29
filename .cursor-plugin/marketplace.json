@@ -125,6 +125,11 @@
       "name": "docker",
       "source": "./plugins/docker",
       "description": "Integrate and consume the APIMatic-generated Docker SDK across TypeScript, Python, Ruby — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "klarna",
+      "source": "./plugins/klarna",
+      "description": "Integrate and consume the APIMatic-generated klarna SDK across C#/.NET, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

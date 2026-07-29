@@ -120,11 +120,6 @@
       "name": "twilio-apis",
       "source": "./plugins/twilio-apis",
       "description": "Integrate and consume the APIMatic-generated Twilio APIs SDK across TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "x-api-v2",
-      "source": "./plugins/x-api-v2",
-      "description": "Integrate and consume the APIMatic-generated X API v2 SDK across PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

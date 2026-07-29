@@ -82,11 +82,6 @@
       "description": "Integrate and consume the APIMatic-generated Shell API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "notion-sdk",
-      "source": "./plugins/notion-sdk",
-      "description": "Integrate and consume the APIMatic-generated Notion SDK across TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
       "name": "vimeo-api-sdk",
       "source": "./plugins/vimeo-api-sdk",
       "description": "Integrate and consume the APIMatic-generated Vimeo API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."

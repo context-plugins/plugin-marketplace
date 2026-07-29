@@ -120,6 +120,11 @@
       "name": "twilio-apis",
       "source": "./plugins/twilio-apis",
       "description": "Integrate and consume the APIMatic-generated Twilio APIs SDK across TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "docker",
+      "source": "./plugins/docker",
+      "description": "Integrate and consume the APIMatic-generated Docker SDK across TypeScript, Python, Ruby — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

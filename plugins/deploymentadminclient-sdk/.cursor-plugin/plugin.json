@@ -1,0 +1,32 @@
+{
+  "name": "deploymentadminclient-sdk",
+  "displayName": "DeploymentAdminClient SDK",
+  "version": "0.1.0",
+  "description": "Integrate and consume the APIMatic-generated DeploymentAdminClient SDK across C#/.NET, TypeScript, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "deploymentadminclient",
+    "dotnet",
+    "typescript",
+    "php",
+    "python",
+    "ruby"
+  ],
+  "logo": "assets/logo.svg",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/typescript",
+    "./skills/php",
+    "./skills/python",
+    "./skills/ruby"
+  ]
+}

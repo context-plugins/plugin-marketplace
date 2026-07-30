@@ -160,6 +160,11 @@
       "name": "automationmanagementclient-sdk",
       "source": "./plugins/automationmanagementclient-sdk",
       "description": "Integrate and consume the APIMatic-generated AutomationManagementClient SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "apimanagementclient-sdk",
+      "source": "./plugins/apimanagementclient-sdk",
+      "description": "Integrate and consume the APIMatic-generated ApiManagementClient SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

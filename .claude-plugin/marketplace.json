@@ -150,51 +150,6 @@
       "name": "nytimes",
       "source": "./plugins/nytimes",
       "description": "Integrate and consume the APIMatic-generated nytimes SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "article-search-api-sdk",
-      "source": "./plugins/article-search-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated Article Search API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "automationmanagementclient-sdk",
-      "source": "./plugins/automationmanagementclient-sdk",
-      "description": "Integrate and consume the APIMatic-generated AutomationManagementClient SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "apimanagementclient-sdk",
-      "source": "./plugins/apimanagementclient-sdk",
-      "description": "Integrate and consume the APIMatic-generated ApiManagementClient SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "mailboxvalidator-free-email-checker-sdk",
-      "source": "./plugins/mailboxvalidator-free-email-checker-sdk",
-      "description": "Integrate and consume the APIMatic-generated MailboxValidator Free Email Checker SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "authentication-sdk",
-      "source": "./plugins/authentication-sdk",
-      "description": "Integrate and consume the APIMatic-generated Authentication SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "subscriptionclient-sdk",
-      "source": "./plugins/subscriptionclient-sdk",
-      "description": "Integrate and consume the APIMatic-generated SubscriptionClient SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "openuv-global-real-time-uv-index-forecast-api-sdk",
-      "source": "./plugins/openuv-global-real-time-uv-index-forecast-api-sdk",
-      "description": "Integrate and consume the APIMatic-generated OpenUV - Global Real-Time UV Index Forecast API SDK across C#/.NET, TypeScript, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "deploymentadminclient-sdk",
-      "source": "./plugins/deploymentadminclient-sdk",
-      "description": "Integrate and consume the APIMatic-generated DeploymentAdminClient SDK across C#/.NET, TypeScript, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "networkadminmanagementclient-sdk",
-      "source": "./plugins/networkadminmanagementclient-sdk",
-      "description": "Integrate and consume the APIMatic-generated NetworkAdminManagementClient SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

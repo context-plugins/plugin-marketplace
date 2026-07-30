@@ -155,6 +155,11 @@
       "name": "article-search-api-sdk",
       "source": "./plugins/article-search-api-sdk",
       "description": "Integrate and consume the APIMatic-generated Article Search API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "automationmanagementclient-sdk",
+      "source": "./plugins/automationmanagementclient-sdk",
+      "description": "Integrate and consume the APIMatic-generated AutomationManagementClient SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

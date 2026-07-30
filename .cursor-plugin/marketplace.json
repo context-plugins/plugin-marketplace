@@ -170,6 +170,11 @@
       "name": "mailboxvalidator-free-email-checker-sdk",
       "source": "./plugins/mailboxvalidator-free-email-checker-sdk",
       "description": "Integrate and consume the APIMatic-generated MailboxValidator Free Email Checker SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "authentication-sdk",
+      "source": "./plugins/authentication-sdk",
+      "description": "Integrate and consume the APIMatic-generated Authentication SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

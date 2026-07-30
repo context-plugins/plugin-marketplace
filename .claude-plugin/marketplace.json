@@ -175,6 +175,11 @@
       "name": "authentication-sdk",
       "source": "./plugins/authentication-sdk",
       "description": "Integrate and consume the APIMatic-generated Authentication SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "subscriptionclient-sdk",
+      "source": "./plugins/subscriptionclient-sdk",
+      "description": "Integrate and consume the APIMatic-generated SubscriptionClient SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

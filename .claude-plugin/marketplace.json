@@ -190,6 +190,11 @@
       "name": "deploymentadminclient-sdk",
       "source": "./plugins/deploymentadminclient-sdk",
       "description": "Integrate and consume the APIMatic-generated DeploymentAdminClient SDK across C#/.NET, TypeScript, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "networkadminmanagementclient-sdk",
+      "source": "./plugins/networkadminmanagementclient-sdk",
+      "description": "Integrate and consume the APIMatic-generated NetworkAdminManagementClient SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

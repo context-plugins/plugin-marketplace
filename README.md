@@ -15,7 +15,7 @@ Coding agents hallucinate APIs. They are trained on public code and documentatio
 outdated — and have no awareness of the API version you are actually on, the current SDK, or the
 integration workflow the SDK author recommends.
 
-This repository is the **`context-plugins` marketplace**: a collection of **26 plugins**, one per
+This repository is the **`context-plugins` marketplace**: a collection of **33 plugins**, one per
 API, that give your agent authoritative, version-aware, SDK-native context at the moment it's
 needed. Every plugin is generated from the API's definition and its APIMatic-generated SDKs, so the
 agent is grounded in the real SDK contract instead of guessing from memory.
@@ -57,7 +57,7 @@ Then run `/reload-plugins`, or start a new `claude` session.
 
 ## Available plugins
 
-26 plugins, listed in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
+33 plugins, listed in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
 The **Languages** column is the set of SDK languages that plugin ships skills for.
 
 | Plugin | API | Languages |
@@ -67,7 +67,6 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`docker`](plugins/docker/) | Docker SDK | TS, Python, Ruby |
 | [`klarna`](plugins/klarna/) | klarna SDK | .NET, Java, PHP, Python, Ruby, Go |
 | [`notion`](plugins/notion/) | Notion SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`nytimes`](plugins/nytimes/) | nytimes SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`paypal`](plugins/paypal/) | PayPal | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`paze-checkout`](plugins/paze-checkout/) | Paze Checkout | .NET, TS, Java, PHP, Python, Go |
 | [`pq-api-v2`](plugins/pq-api-v2/) | PQ API v2 SDK | .NET, TS, Java, PHP, Python, Ruby, Go |

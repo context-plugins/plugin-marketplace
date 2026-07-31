@@ -1,0 +1,33 @@
+{
+  "name": "rest-api",
+  "displayName": "REST API SDK",
+  "version": "0.1.0",
+  "description": "TODO_AUTO_DESCRIPTION: REST API API",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "rest-api",
+    "dotnet",
+    "typescript",
+    "java",
+    "php",
+    "python",
+    "go"
+  ],
+  "skills": [
+    "./skills/dotnet",
+    "./skills/typescript",
+    "./skills/java",
+    "./skills/php",
+    "./skills/python",
+    "./skills/go"
+  ]
+}

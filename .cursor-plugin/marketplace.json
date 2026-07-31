@@ -170,6 +170,11 @@
       "name": "firecrawl-api",
       "source": "./plugins/firecrawl-api",
       "description": "TODO_AUTO_DESCRIPTION: Firecrawl API API"
+    },
+    {
+      "name": "rest-api",
+      "source": "./plugins/rest-api",
+      "description": "TODO_AUTO_DESCRIPTION: REST API API"
     }
   ]
 }

@@ -15,7 +15,7 @@ Coding agents hallucinate APIs. They are trained on public code and documentatio
 outdated — and have no awareness of the API version you are actually on, the current SDK, or the
 integration workflow the SDK author recommends.
 
-This repository is the **`context-plugins` marketplace**: a collection of **33 plugins**, one per
+This repository is the **`context-plugins` marketplace**: a collection of **37 plugins**, one per
 API, that give your agent authoritative, version-aware, SDK-native context at the moment it's
 needed. Every plugin is generated from the API's definition and its APIMatic-generated SDKs, so the
 agent is grounded in the real SDK contract instead of guessing from memory.
@@ -57,18 +57,30 @@ Then run `/reload-plugins`, or start a new `claude` session.
 
 ## Available plugins
 
-33 plugins, listed in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
+37 plugins, listed in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
 The **Languages** column is the set of SDK languages that plugin ships skills for.
 
 | Plugin | API | Languages |
 | --- | --- | --- |
 | [`adyen`](plugins/adyen/) | Adyen | .NET, TS, Java, PHP, Python, Go |
+| [`alpaca`](plugins/alpaca/) | Alpaca | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`binance-public-spot-api`](plugins/binance-public-spot-api/) | Binance Public Spot API | .NET, TS |
 | [`cellpoint`](plugins/cellpoint/) | CellPoint | .NET, TS, Java, PHP, Python, Go |
+| [`coingecko-demo-api`](plugins/coingecko-demo-api/) | CoinGecko Demo API | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`deepgram`](plugins/deepgram/) | Deepgram | .NET, TS, Java, PHP, Python, Go |
+| [`discourse-api-documentation`](plugins/discourse-api-documentation/) | Discourse API Documentation | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`docker`](plugins/docker/) | Docker SDK | TS, Python, Ruby |
+| [`finnhub-api`](plugins/finnhub-api/) | Finnhub API | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`firecrawl-api`](plugins/firecrawl-api/) | Firecrawl API | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`gitea-api`](plugins/gitea-api/) | Gitea API | .NET, Java, PHP, Python, Go |
 | [`klarna`](plugins/klarna/) | klarna SDK | .NET, Java, PHP, Python, Ruby, Go |
+| [`maxio-advanced-billing`](plugins/maxio-advanced-billing/) | Maxio Advanced Billing | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`notion`](plugins/notion/) | Notion SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`ny-times`](plugins/ny-times/) | NY TIMES | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`open-meteo-weather-forecast-api`](plugins/open-meteo-weather-forecast-api/) | Open-Meteo Weather Forecast API | .NET, TS, PHP, Python, Ruby, Go |
 | [`paypal`](plugins/paypal/) | PayPal | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`paze-checkout`](plugins/paze-checkout/) | Paze Checkout | .NET, TS, Java, PHP, Python, Go |
+| [`pok-api`](plugins/pok-api/) | PokéAPI | .NET, TS, Java, Python, Ruby, Go |
 | [`pq-api-v2`](plugins/pq-api-v2/) | PQ API v2 SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`shell`](plugins/shell/) | Shell | TS, Java, PHP, Python, Ruby, Go |
 | [`shutterstock-api-explorer`](plugins/shutterstock-api-explorer/) | Shutterstock API Explorer SDK | .NET, TS, Java, PHP, Python, Ruby, Go |

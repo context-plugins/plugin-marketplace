@@ -1,0 +1,32 @@
+{
+  "name": "gitea-api",
+  "displayName": "Gitea API SDK",
+  "version": "0.1.0",
+  "description": "TODO_AUTO_DESCRIPTION: Gitea API API",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "gitea-api",
+    "dotnet",
+    "java",
+    "php",
+    "python",
+    "go"
+  ],
+  "logo": "assets/logo.svg",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/java",
+    "./skills/php",
+    "./skills/python",
+    "./skills/go"
+  ]
+}

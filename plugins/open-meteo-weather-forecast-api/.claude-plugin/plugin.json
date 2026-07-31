@@ -1,0 +1,33 @@
+{
+  "name": "open-meteo-weather-forecast-api",
+  "displayName": "Open-Meteo Weather Forecast API SDK",
+  "version": "0.1.0",
+  "description": "Integrate and consume the APIMatic-generated Open-Meteo Weather Forecast API SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "open-meteo-weather-forecast-api",
+    "dotnet",
+    "typescript",
+    "php",
+    "python",
+    "ruby",
+    "go"
+  ],
+  "skills": [
+    "./skills/dotnet",
+    "./skills/typescript",
+    "./skills/php",
+    "./skills/python",
+    "./skills/ruby",
+    "./skills/go"
+  ]
+}

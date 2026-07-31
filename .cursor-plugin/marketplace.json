@@ -180,6 +180,11 @@
       "name": "coingecko-demo-api",
       "source": "./plugins/coingecko-demo-api",
       "description": "Integrate and consume the APIMatic-generated CoinGecko Demo API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "trader-api",
+      "source": "./plugins/trader-api",
+      "description": "TODO_AUTO_DESCRIPTION: Trader API API"
     }
   ]
 }

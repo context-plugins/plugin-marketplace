@@ -2,7 +2,7 @@
   "name": "pok-api",
   "displayName": "PokéAPI SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: PokéAPI API",
+  "description": "RESTful API for Pokémon species, moves, abilities, and game data.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

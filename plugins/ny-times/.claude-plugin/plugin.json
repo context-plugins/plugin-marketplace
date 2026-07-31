@@ -2,7 +2,7 @@
   "name": "ny-times",
   "displayName": "NY TIMES SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: NY TIMES API",
+  "description": "New York Times API for searching articles, top stories, and archival content.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

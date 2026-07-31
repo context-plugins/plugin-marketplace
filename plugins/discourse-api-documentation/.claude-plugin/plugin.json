@@ -2,7 +2,7 @@
   "name": "discourse-api-documentation",
   "displayName": "Discourse API Documentation SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Discourse API Documentation API",
+  "description": "Discourse forum platform API for managing topics, posts, users, and categories.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

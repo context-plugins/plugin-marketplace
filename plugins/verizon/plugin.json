@@ -2,7 +2,7 @@
   "name": "verizon",
   "displayName": "Verizon",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Verizon API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Manage and monitor IoT device connectivity on Verizon's ThingSpace network.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

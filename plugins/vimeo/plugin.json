@@ -2,7 +2,7 @@
   "name": "vimeo",
   "displayName": "Vimeo",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Vimeo API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Upload, manage, and stream video content on Vimeo.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

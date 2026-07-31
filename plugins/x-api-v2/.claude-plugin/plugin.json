@@ -2,7 +2,7 @@
   "name": "x-api-v2",
   "displayName": "X API v2 SDK",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated X API v2 SDK across PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Post, read, and manage tweets, users, and engagement data on X (formerly Twitter).",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

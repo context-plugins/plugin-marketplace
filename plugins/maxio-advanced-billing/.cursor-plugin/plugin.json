@@ -2,7 +2,7 @@
   "name": "maxio-advanced-billing",
   "displayName": "Maxio Advanced Billing SDK",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Maxio Advanced Billing SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Subscription billing and revenue management with Maxio Advanced Billing (formerly Chargify).",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

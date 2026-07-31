@@ -2,7 +2,7 @@
   "name": "shutterstock-api-explorer",
   "displayName": "Shutterstock API Explorer SDK",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Shutterstock API Explorer SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Search and license stock photos, videos, and music from Shutterstock.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

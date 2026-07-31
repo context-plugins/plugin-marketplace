@@ -2,7 +2,7 @@
   "name": "open-meteo-weather-forecast-api",
   "displayName": "Open-Meteo Weather Forecast API SDK",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Open-Meteo Weather Forecast API SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Free weather forecast and historical weather data from Open-Meteo.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

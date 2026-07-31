@@ -2,7 +2,7 @@
   "name": "sportsdata",
   "displayName": "sportsdata SDK",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated sportsdata SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Real-time sports scores, stats, odds, and news from SportsDataIO.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

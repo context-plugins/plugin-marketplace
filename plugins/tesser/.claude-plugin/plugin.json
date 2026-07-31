@@ -2,7 +2,7 @@
   "name": "tesser",
   "displayName": "Tesser",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Tesser API (v1) SDK across TypeScript, Java, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source.",
+  "description": "Send stablecoin-based cross-border payments for banks and PSPs.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

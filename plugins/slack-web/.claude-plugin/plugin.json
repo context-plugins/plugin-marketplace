@@ -2,7 +2,7 @@
   "name": "slack-web",
   "displayName": "Slack Web",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Slack Web API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Send messages, manage channels, and build integrations for Slack.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

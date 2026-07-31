@@ -2,7 +2,7 @@
   "name": "adyen",
   "displayName": "Adyen",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Adyen API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Global payment processing for online and in-person transactions with Adyen.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

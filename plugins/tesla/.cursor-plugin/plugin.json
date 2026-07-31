@@ -2,7 +2,7 @@
   "name": "tesla",
   "displayName": "Tesla",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Tesla API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Access vehicle data and send commands to Tesla vehicles via the Fleet API.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

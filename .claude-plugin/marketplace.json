@@ -9,127 +9,127 @@
     {
       "name": "telegram-bot",
       "source": "./plugins/telegram-bot",
-      "description": "Integrate and consume the APIMatic-generated Telegram Bot API SDK across TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Build bots that send messages and interact with users on Telegram."
     },
     {
       "name": "square-connect",
       "source": "./plugins/square-connect",
-      "description": "Integrate and consume the APIMatic-generated Square Connect API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Process payments, orders, inventory, and point-of-sale for Square merchants."
     },
     {
       "name": "tesla",
       "source": "./plugins/tesla",
-      "description": "Integrate and consume the APIMatic-generated Tesla API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Access vehicle data and send commands to Tesla vehicles via the Fleet API."
     },
     {
       "name": "paypal",
       "source": "./plugins/paypal",
-      "description": "Integrate and consume the APIMatic-generated PayPal API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Process online payments, invoicing, and transactions with PayPal."
     },
     {
       "name": "adyen",
       "source": "./plugins/adyen",
-      "description": "Integrate and consume the APIMatic-generated Adyen API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Global payment processing for online and in-person transactions with Adyen."
     },
     {
       "name": "verizon",
       "source": "./plugins/verizon",
-      "description": "Integrate and consume the APIMatic-generated Verizon API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Manage and monitor IoT device connectivity on Verizon's ThingSpace network."
     },
     {
       "name": "tesser",
       "source": "./plugins/tesser",
-      "description": "Integrate and consume the APIMatic-generated Tesser API (v1) SDK across TypeScript, Java, PHP, Python, Ruby — bundled language skills grounded in the cloned SDK source."
+      "description": "Send stablecoin-based cross-border payments for banks and PSPs."
     },
     {
       "name": "slack-web",
       "source": "./plugins/slack-web",
-      "description": "Integrate and consume the APIMatic-generated Slack Web API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Send messages, manage channels, and build integrations for Slack."
     },
     {
       "name": "paze-checkout",
       "source": "./plugins/paze-checkout",
-      "description": "Integrate and consume the APIMatic-generated Paze Checkout API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Digital wallet checkout for card payments on Paze."
     },
     {
       "name": "cellpoint",
       "source": "./plugins/cellpoint",
-      "description": "Integrate and consume the APIMatic-generated CellPoint API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Orchestrate travel payments across providers with CellPoint Digital."
     },
     {
       "name": "splitit-web",
       "source": "./plugins/splitit-web",
-      "description": "Integrate and consume the APIMatic-generated splitit-web-api-v3 SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Offer interest-free installment payment plans on customers' existing credit cards."
     },
     {
       "name": "shell",
       "source": "./plugins/shell",
-      "description": "Integrate and consume the APIMatic-generated Shell API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Manage Shell fuel cards, fleet payments, and EV charging (Shell Recharge)."
     },
     {
       "name": "vimeo",
       "source": "./plugins/vimeo",
-      "description": "Integrate and consume the APIMatic-generated Vimeo API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Upload, manage, and stream video content on Vimeo."
     },
     {
       "name": "xero",
       "source": "./plugins/xero",
-      "description": "Integrate and consume the APIMatic-generated Xero SDK across C#/.NET, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Cloud accounting software for invoicing, payroll, expenses, and bookkeeping."
     },
     {
       "name": "shutterstock-api-explorer",
       "source": "./plugins/shutterstock-api-explorer",
-      "description": "Integrate and consume the APIMatic-generated Shutterstock API Explorer SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Search and license stock photos, videos, and music from Shutterstock."
     },
     {
       "name": "spotify-web-api",
       "source": "./plugins/spotify-web-api",
-      "description": "Integrate and consume the APIMatic-generated Spotify Web API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Access music catalog data, playlists, and playback control on Spotify."
     },
     {
       "name": "the-plaid-api",
       "source": "./plugins/the-plaid-api",
-      "description": "Integrate and consume the APIMatic-generated The Plaid API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Connect to users' bank accounts for transactions, balances, and financial data."
     },
     {
       "name": "stax-fattmerchant-api",
       "source": "./plugins/stax-fattmerchant-api",
-      "description": "Integrate and consume the APIMatic-generated Stax (FattMerchant) API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Process credit card payments and manage merchants on the Stax (Fattmerchant) platform."
     },
     {
       "name": "pq-api-v2",
       "source": "./plugins/pq-api-v2",
-      "description": "Integrate and consume the APIMatic-generated PQ API v2 SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Send global payouts and disbursements via PayQuicker's Payouts platform."
     },
     {
       "name": "twilio-apis",
       "source": "./plugins/twilio-apis",
-      "description": "Integrate and consume the APIMatic-generated Twilio APIs SDK across TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Send SMS, voice calls, and other programmable communications with Twilio."
     },
     {
       "name": "docker",
       "source": "./plugins/docker",
-      "description": "Integrate and consume the APIMatic-generated Docker SDK across TypeScript, Python, Ruby — bundled language skills grounded in the cloned SDK source."
+      "description": "Manage containers, images, networks, and volumes via the Docker Engine API."
     },
     {
       "name": "klarna",
       "source": "./plugins/klarna",
-      "description": "Integrate and consume the APIMatic-generated klarna SDK across C#/.NET, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Buy-now-pay-later checkout and payment options with Klarna."
     },
     {
       "name": "notion",
       "source": "./plugins/notion",
-      "description": "Integrate and consume the APIMatic-generated Notion SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Read and write pages, databases, and blocks in Notion workspaces."
     },
     {
       "name": "sportsdata",
       "source": "./plugins/sportsdata",
-      "description": "Integrate and consume the APIMatic-generated sportsdata SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Real-time sports scores, stats, odds, and news from SportsDataIO."
     },
     {
       "name": "x-api-v2",
       "source": "./plugins/x-api-v2",
-      "description": "Integrate and consume the APIMatic-generated X API v2 SDK across PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Post, read, and manage tweets, users, and engagement data on X (formerly Twitter)."
     },
     {
       "name": "gitea-api",
@@ -139,7 +139,7 @@
     {
       "name": "maxio-advanced-billing",
       "source": "./plugins/maxio-advanced-billing",
-      "description": "Integrate and consume the APIMatic-generated Maxio Advanced Billing SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Subscription billing and revenue management with Maxio Advanced Billing (formerly Chargify)."
     },
     {
       "name": "discourse-api-documentation",
@@ -149,7 +149,7 @@
     {
       "name": "open-meteo-weather-forecast-api",
       "source": "./plugins/open-meteo-weather-forecast-api",
-      "description": "Integrate and consume the APIMatic-generated Open-Meteo Weather Forecast API SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Free weather forecast and historical weather data from Open-Meteo."
     },
     {
       "name": "binance-public-spot-api",
@@ -169,7 +169,7 @@
     {
       "name": "deepgram",
       "source": "./plugins/deepgram",
-      "description": "Integrate and consume the APIMatic-generated Deepgram SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Speech-to-text transcription and audio intelligence with Deepgram."
     },
     {
       "name": "ny-times",
@@ -179,12 +179,12 @@
     {
       "name": "coingecko-demo-api",
       "source": "./plugins/coingecko-demo-api",
-      "description": "Integrate and consume the APIMatic-generated CoinGecko Demo API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Cryptocurrency market data — prices, market caps, and metadata — from CoinGecko."
     },
     {
       "name": "alpaca",
       "source": "./plugins/alpaca",
-      "description": "Integrate and consume the APIMatic-generated Alpaca SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+      "description": "Commission-free stock trading and market data via Alpaca."
     },
     {
       "name": "finnhub-api",

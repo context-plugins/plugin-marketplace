@@ -2,7 +2,7 @@
   "name": "notion",
   "displayName": "Notion SDK",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Notion SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Read and write pages, databases, and blocks in Notion workspaces.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

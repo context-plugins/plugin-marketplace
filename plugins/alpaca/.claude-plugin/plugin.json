@@ -2,7 +2,7 @@
   "name": "alpaca",
   "displayName": "Alpaca SDK",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Alpaca SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Commission-free stock trading and market data via Alpaca.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

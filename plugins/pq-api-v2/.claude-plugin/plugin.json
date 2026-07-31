@@ -2,7 +2,7 @@
   "name": "pq-api-v2",
   "displayName": "PQ API v2 SDK",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated PQ API v2 SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Send global payouts and disbursements via PayQuicker's Payouts platform.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

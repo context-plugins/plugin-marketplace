@@ -2,7 +2,7 @@
   "name": "paze-checkout",
   "displayName": "Paze Checkout",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Paze Checkout API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Digital wallet checkout for card payments on Paze.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

@@ -2,7 +2,7 @@
   "name": "shell",
   "displayName": "Shell",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Shell API SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Manage Shell fuel cards, fleet payments, and EV charging (Shell Recharge).",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

@@ -2,7 +2,7 @@
   "name": "square-connect",
   "displayName": "Square Connect",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Square Connect API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Process payments, orders, inventory, and point-of-sale for Square merchants.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

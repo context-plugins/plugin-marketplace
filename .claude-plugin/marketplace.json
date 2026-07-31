@@ -140,6 +140,11 @@
       "name": "gitea-api",
       "source": "./plugins/gitea-api",
       "description": "TODO_AUTO_DESCRIPTION: Gitea API API"
+    },
+    {
+      "name": "maxio-advanced-billing",
+      "source": "./plugins/maxio-advanced-billing",
+      "description": "Integrate and consume the APIMatic-generated Maxio Advanced Billing SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     }
   ]
 }

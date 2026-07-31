@@ -132,11 +132,6 @@
       "description": "Integrate and consume the APIMatic-generated X API v2 SDK across PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "nytimes",
-      "source": "./plugins/nytimes",
-      "description": "Integrate and consume the APIMatic-generated nytimes SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
       "name": "gitea-api",
       "source": "./plugins/gitea-api",
       "description": "TODO_AUTO_DESCRIPTION: Gitea API API"

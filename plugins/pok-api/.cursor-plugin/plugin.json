@@ -1,0 +1,34 @@
+{
+  "name": "pok-api",
+  "displayName": "PokéAPI SDK",
+  "version": "0.1.0",
+  "description": "TODO_AUTO_DESCRIPTION: PokéAPI API",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "pok-api",
+    "dotnet",
+    "typescript",
+    "java",
+    "python",
+    "ruby",
+    "go"
+  ],
+  "logo": "assets/logo.svg",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/typescript",
+    "./skills/java",
+    "./skills/python",
+    "./skills/ruby",
+    "./skills/go"
+  ]
+}

@@ -160,6 +160,11 @@
       "name": "binance-public-spot-api",
       "source": "./plugins/binance-public-spot-api",
       "description": "TODO_AUTO_DESCRIPTION: Binance Public Spot API API"
+    },
+    {
+      "name": "pok-api",
+      "source": "./plugins/pok-api",
+      "description": "TODO_AUTO_DESCRIPTION: PokéAPI API"
     }
   ]
 }

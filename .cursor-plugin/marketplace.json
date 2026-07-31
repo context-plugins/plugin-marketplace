@@ -170,6 +170,11 @@
       "name": "rest-api",
       "source": "./plugins/rest-api",
       "description": "TODO_AUTO_DESCRIPTION: REST API API"
+    },
+    {
+      "name": "ny-times",
+      "source": "./plugins/ny-times",
+      "description": "TODO_AUTO_DESCRIPTION: NY TIMES API"
     }
   ]
 }

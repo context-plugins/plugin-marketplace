@@ -2,7 +2,7 @@
   "name": "deepgram",
   "displayName": "Deepgram SDK",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Deepgram SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Speech-to-text transcription and audio intelligence with Deepgram.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

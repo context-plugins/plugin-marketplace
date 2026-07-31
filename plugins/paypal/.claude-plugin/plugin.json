@@ -2,7 +2,7 @@
   "name": "paypal",
   "displayName": "PayPal",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated PayPal API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Process online payments, invoicing, and transactions with PayPal.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

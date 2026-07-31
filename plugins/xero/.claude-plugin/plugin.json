@@ -2,7 +2,7 @@
   "name": "xero",
   "displayName": "Xero",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Xero SDK across C#/.NET, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Cloud accounting software for invoicing, payroll, expenses, and bookkeeping.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

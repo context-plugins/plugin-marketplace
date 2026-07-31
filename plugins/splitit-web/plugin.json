@@ -2,7 +2,7 @@
   "name": "splitit-web",
   "displayName": "Splitit Web",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated splitit-web-api-v3 SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Offer interest-free installment payment plans on customers' existing credit cards.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

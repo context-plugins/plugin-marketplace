@@ -2,7 +2,7 @@
   "name": "klarna",
   "displayName": "klarna SDK",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated klarna SDK across C#/.NET, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Buy-now-pay-later checkout and payment options with Klarna.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

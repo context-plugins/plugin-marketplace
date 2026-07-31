@@ -2,7 +2,7 @@
   "name": "telegram-bot",
   "displayName": "Telegram Bot",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Telegram Bot API SDK across TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Build bots that send messages and interact with users on Telegram.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

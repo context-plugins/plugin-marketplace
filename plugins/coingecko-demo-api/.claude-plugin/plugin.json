@@ -2,7 +2,7 @@
   "name": "coingecko-demo-api",
   "displayName": "CoinGecko Demo API SDK",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated CoinGecko Demo API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Cryptocurrency market data — prices, market caps, and metadata — from CoinGecko.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

@@ -2,7 +2,7 @@
   "name": "twilio-apis",
   "displayName": "Twilio APIs SDK",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Twilio APIs SDK across TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Send SMS, voice calls, and other programmable communications with Twilio.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

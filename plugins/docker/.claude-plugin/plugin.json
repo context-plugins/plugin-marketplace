@@ -2,7 +2,7 @@
   "name": "docker",
   "displayName": "Docker SDK",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Docker SDK across TypeScript, Python, Ruby — bundled language skills grounded in the cloned SDK source.",
+  "description": "Manage containers, images, networks, and volumes via the Docker Engine API.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

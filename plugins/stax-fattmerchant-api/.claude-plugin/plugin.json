@@ -2,7 +2,7 @@
   "name": "stax-fattmerchant-api",
   "displayName": "Stax (FattMerchant) API SDK",
   "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Stax (FattMerchant) API SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source.",
+  "description": "Process credit card payments and manage merchants on the Stax (Fattmerchant) platform.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

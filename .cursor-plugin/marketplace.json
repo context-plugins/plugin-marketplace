@@ -32,11 +32,6 @@
       "description": "Integrate and consume the APIMatic-generated Adyen API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
-      "name": "maxio-advanced-billing",
-      "source": "./plugins/maxio-advanced-billing",
-      "description": "Integrate and consume the APIMatic-generated Maxio Advanced Billing SDK across TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
       "name": "verizon",
       "source": "./plugins/verizon",
       "description": "Integrate and consume the APIMatic-generated Verizon API SDK across C#/.NET, TypeScript, Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
@@ -85,11 +80,6 @@
       "name": "shutterstock-api-explorer",
       "source": "./plugins/shutterstock-api-explorer",
       "description": "Integrate and consume the APIMatic-generated Shutterstock API Explorer SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "gitea-api",
-      "source": "./plugins/gitea-api",
-      "description": "Integrate and consume the APIMatic-generated Gitea API SDK across Java, PHP, Python, Go — bundled language skills grounded in the cloned SDK source."
     },
     {
       "name": "spotify-web-api",
@@ -145,11 +135,6 @@
       "name": "nytimes",
       "source": "./plugins/nytimes",
       "description": "Integrate and consume the APIMatic-generated nytimes SDK across C#/.NET, TypeScript, Java, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
-    },
-    {
-      "name": "discourse-api-documentation",
-      "source": "./plugins/discourse-api-documentation",
-      "description": "TODO_AUTO_DESCRIPTION: Discourse API Documentation API"
     }
   ]
 }

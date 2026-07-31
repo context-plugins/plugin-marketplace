@@ -2,7 +2,7 @@
   "name": "binance-public-spot-api",
   "displayName": "Binance Public Spot API SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Binance Public Spot API API",
+  "description": "Binance public market data API for spot trading pairs, order books, and price data.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

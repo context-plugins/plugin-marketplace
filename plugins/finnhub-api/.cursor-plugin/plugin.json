@@ -2,7 +2,7 @@
   "name": "finnhub-api",
   "displayName": "Finnhub API SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Finnhub API API",
+  "description": "Real-time stock market data API for quotes, financials, and company news.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

@@ -2,7 +2,7 @@
   "name": "firecrawl-api",
   "displayName": "Firecrawl API SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Firecrawl API API",
+  "description": "Web scraping and crawling API that converts websites into clean, LLM-ready data.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

@@ -134,7 +134,7 @@
     {
       "name": "gitea-api",
       "source": "./plugins/gitea-api",
-      "description": "TODO_AUTO_DESCRIPTION: Gitea API API"
+      "description": "Self-hosted Git service API for managing repositories, issues, and users."
     },
     {
       "name": "maxio-advanced-billing",
@@ -144,7 +144,7 @@
     {
       "name": "discourse-api-documentation",
       "source": "./plugins/discourse-api-documentation",
-      "description": "TODO_AUTO_DESCRIPTION: Discourse API Documentation API"
+      "description": "Discourse forum platform API for managing topics, posts, users, and categories."
     },
     {
       "name": "open-meteo-weather-forecast-api",
@@ -154,17 +154,17 @@
     {
       "name": "binance-public-spot-api",
       "source": "./plugins/binance-public-spot-api",
-      "description": "TODO_AUTO_DESCRIPTION: Binance Public Spot API API"
+      "description": "Binance public market data API for spot trading pairs, order books, and price data."
     },
     {
       "name": "pok-api",
       "source": "./plugins/pok-api",
-      "description": "TODO_AUTO_DESCRIPTION: PokéAPI API"
+      "description": "RESTful API for Pokémon species, moves, abilities, and game data."
     },
     {
       "name": "firecrawl-api",
       "source": "./plugins/firecrawl-api",
-      "description": "TODO_AUTO_DESCRIPTION: Firecrawl API API"
+      "description": "Web scraping and crawling API that converts websites into clean, LLM-ready data."
     },
     {
       "name": "deepgram",
@@ -174,7 +174,7 @@
     {
       "name": "ny-times",
       "source": "./plugins/ny-times",
-      "description": "TODO_AUTO_DESCRIPTION: NY TIMES API"
+      "description": "New York Times API for searching articles, top stories, and archival content."
     },
     {
       "name": "coingecko-demo-api",
@@ -189,7 +189,7 @@
     {
       "name": "finnhub-api",
       "source": "./plugins/finnhub-api",
-      "description": "TODO_AUTO_DESCRIPTION: Finnhub API API"
+      "description": "Real-time stock market data API for quotes, financials, and company news."
     }
   ]
 }

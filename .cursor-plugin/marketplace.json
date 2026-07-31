@@ -165,6 +165,11 @@
       "name": "pok-api",
       "source": "./plugins/pok-api",
       "description": "TODO_AUTO_DESCRIPTION: PokéAPI API"
+    },
+    {
+      "name": "firecrawl-api",
+      "source": "./plugins/firecrawl-api",
+      "description": "TODO_AUTO_DESCRIPTION: Firecrawl API API"
     }
   ]
 }

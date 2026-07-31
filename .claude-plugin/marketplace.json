@@ -185,6 +185,11 @@
       "name": "trader-api",
       "source": "./plugins/trader-api",
       "description": "TODO_AUTO_DESCRIPTION: Trader API API"
+    },
+    {
+      "name": "finnhub-api",
+      "source": "./plugins/finnhub-api",
+      "description": "TODO_AUTO_DESCRIPTION: Finnhub API API"
     }
   ]
 }

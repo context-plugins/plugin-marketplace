@@ -155,6 +155,11 @@
       "name": "open-meteo-weather-forecast-api",
       "source": "./plugins/open-meteo-weather-forecast-api",
       "description": "Integrate and consume the APIMatic-generated Open-Meteo Weather Forecast API SDK across C#/.NET, TypeScript, PHP, Python, Ruby, Go — bundled language skills grounded in the cloned SDK source."
+    },
+    {
+      "name": "binance-public-spot-api",
+      "source": "./plugins/binance-public-spot-api",
+      "description": "TODO_AUTO_DESCRIPTION: Binance Public Spot API API"
     }
   ]
 }

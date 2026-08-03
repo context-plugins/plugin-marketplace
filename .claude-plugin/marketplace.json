@@ -229,7 +229,7 @@
     {
       "name": "pokeapi",
       "source": "./plugins/pokeapi",
-      "description": "TODO_AUTO_DESCRIPTION: PokeApi API"
+      "description": "Access comprehensive data on Pokémon, items, regions, and moves."
     }
   ]
 }

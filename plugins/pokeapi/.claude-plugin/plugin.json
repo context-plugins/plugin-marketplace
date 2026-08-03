@@ -2,7 +2,7 @@
   "name": "pokeapi",
   "displayName": "PokeApi SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: PokeApi API",
+  "description": "Access comprehensive data on Pokémon, items, regions, and moves.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

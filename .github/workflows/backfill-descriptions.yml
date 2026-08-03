@@ -1,0 +1,74 @@
+name: Backfill plugin descriptions
+
+# Push + daily schedule + manual. The push trigger is scoped to plugins/** so it only fires when
+# the crawler's ingest stage (see contextmatic-crawler's ARCHITECTURE.md, stage 6) actually lands a
+# new plugin — not on unrelated commits like workflow or doc changes. Racing an in-flight ingest
+# commit is fine: the commit/push step below already fetches, rebases, and retries on a rejected
+# push, and the concurrency group serializes overlapping runs of this workflow itself. The daily
+# schedule is just a backstop in case a push-triggered run is ever missed.
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - 'plugins/**'
+  schedule:
+    - cron: '0 0 * * *' # daily at midnight UTC; adjust to taste
+
+permissions:
+  contents: write
+
+# One run at a time — this job commits and pushes, and two overlapping runs racing the same push
+# is exactly the kind of thing the rebase-retry loop below exists to absorb, not invite.
+concurrency:
+  group: backfill-descriptions
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Backfill TODO_AUTO_DESCRIPTION placeholders
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python3 .github/scripts/backfill_descriptions.py
+
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+
+          if git diff --quiet -- plugins .claude-plugin/marketplace.json .cursor-plugin/marketplace.json; then
+            echo "No description changes to commit."
+            exit 0
+          fi
+
+          summary_file="${RUNNER_TEMP:-/tmp}/backfilled-plugins.txt"
+          if [ -f "$summary_file" ]; then
+            names="$(paste -sd, "$summary_file")"
+          else
+            names="plugin(s)"
+          fi
+
+          git config user.name "apimatic-bot"
+          git config user.email "developer@apimatic.io"
+          git add plugins .claude-plugin/marketplace.json .cursor-plugin/marketplace.json
+          git commit -m "Backfill description for $names"
+
+          for attempt in 1 2 3 4 5; do
+            if git push origin HEAD:main; then
+              echo "Pushed."
+              exit 0
+            fi
+            echo "Push rejected (attempt $attempt/5) — re-syncing with origin/main and retrying."
+            git fetch origin main
+            if ! git rebase origin/main; then
+              git rebase --abort
+              echo "Rebase conflict against origin/main — leaving this for the next scheduled run." >&2
+              exit 1
+            fi
+          done
+
+          echo "Failed to push after 5 attempts." >&2
+          exit 1

@@ -2,7 +2,7 @@
   "name": "cellpoint",
   "displayName": "Cellpoint SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Cellpoint API",
+  "description": "Process mobile payments and manage travel commerce transactions.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

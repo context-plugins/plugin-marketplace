@@ -54,7 +54,7 @@
     {
       "name": "cellpoint",
       "source": "./plugins/cellpoint",
-      "description": "TODO_AUTO_DESCRIPTION: Cellpoint API"
+      "description": "Process mobile payments and manage travel commerce transactions."
     },
     {
       "name": "splitit-web",
@@ -214,7 +214,7 @@
     {
       "name": "binance",
       "source": "./plugins/binance",
-      "description": "TODO_AUTO_DESCRIPTION: Binance API"
+      "description": "Trade crypto assets, monitor market data, and manage orders on Binance."
     }
   ]
 }

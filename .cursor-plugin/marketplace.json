@@ -254,7 +254,7 @@
     {
       "name": "tesser-api-v1",
       "source": "./plugins/tesser-api-v1",
-      "description": "TODO_AUTO_DESCRIPTION: Tesser API (v1) API"
+      "description": "Extract text from images and documents using optical character recognition."
     }
   ]
 }

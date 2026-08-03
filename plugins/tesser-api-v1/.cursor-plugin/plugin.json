@@ -2,7 +2,7 @@
   "name": "tesser-api-v1",
   "displayName": "Tesser API (v1) SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Tesser API (v1) API",
+  "description": "Extract text from images and documents using optical character recognition.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

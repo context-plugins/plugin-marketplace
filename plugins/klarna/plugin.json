@@ -2,7 +2,7 @@
   "name": "klarna",
   "displayName": "klarna SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: klarna API",
+  "description": "Offer flexible buy-now-pay-later financing, smooth checkout experiences, and installment payments for your customers.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

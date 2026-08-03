@@ -240,6 +240,11 @@
       "name": "shutterstock",
       "source": "./plugins/shutterstock",
       "description": "Search, license, and download millions of stock photos, vectors, and videos from Shutterstock."
+    },
+    {
+      "name": "slack",
+      "source": "./plugins/slack",
+      "description": "TODO_AUTO_DESCRIPTION: Slack API"
     }
   ]
 }

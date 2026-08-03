@@ -200,6 +200,11 @@
       "name": "google-maps-platform",
       "source": "./plugins/google-maps-platform",
       "description": "Embed interactive maps, geocode addresses, and calculate routes with Google Maps."
+    },
+    {
+      "name": "kubernetes",
+      "source": "./plugins/kubernetes",
+      "description": "TODO_AUTO_DESCRIPTION: Kubernetes API"
     }
   ]
 }

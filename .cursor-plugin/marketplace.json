@@ -224,7 +224,7 @@
     {
       "name": "discourse",
       "source": "./plugins/discourse",
-      "description": "TODO_AUTO_DESCRIPTION: Discourse API"
+      "description": "Build and manage online communities, discussion forums, and member spaces with Discourse."
     }
   ]
 }

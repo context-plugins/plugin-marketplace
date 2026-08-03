@@ -2,7 +2,7 @@
   "name": "discourse",
   "displayName": "Discourse SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Discourse API",
+  "description": "Build and manage online communities, discussion forums, and member spaces with Discourse.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

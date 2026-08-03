@@ -169,7 +169,7 @@
     {
       "name": "deepgram",
       "source": "./plugins/deepgram",
-      "description": "Speech-to-text transcription and audio intelligence with Deepgram."
+      "description": "TODO_AUTO_DESCRIPTION: Deepgram API"
     },
     {
       "name": "ny-times",

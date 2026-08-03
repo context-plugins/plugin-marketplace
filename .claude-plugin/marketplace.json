@@ -119,7 +119,7 @@
     {
       "name": "notion",
       "source": "./plugins/notion",
-      "description": "TODO_AUTO_DESCRIPTION: Notion API"
+      "description": "Read and write pages, databases, and blocks in Notion workspaces."
     },
     {
       "name": "sportsdata",

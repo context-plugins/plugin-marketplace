@@ -8,9 +8,9 @@ description: Construct and configure an APIMatic-generated Go SDK client — bui
 This applies to **any** APIMatic-generated Go SDK (APIMATIC v3.0). Replace placeholders with the real
 names from the SDK you are using:
 
-- `adyenapi` — the root package name (e.g. `multiauthsample`).
-- `github.com/context-plugins/adyen-api-go` — the Go import path for the root package; `github.com/context-plugins/adyen-api-go/models` for request/response types.
-- `{Resource}Controller` — a controller accessor method on the client.
+- `adyen` — the root package name (e.g. `multiauthsample`).
+- `github.com/context-plugins/adyen-go-sdk` — the Go import path for the root package; `github.com/context-plugins/adyen-go-sdk/models` for request/response types.
+- `{Resource}Api` — a controller accessor method on the client.
 
 ## The two-step shape: build a Configuration, then a client
 
@@ -18,11 +18,11 @@ APIMatic Go SDKs do **not** take options on the client constructor. You build an
 `Configuration` value and pass it to `NewClient`, which returns a `ClientInterface`:
 
 ```go
-import "github.com/context-plugins/adyen-api-go"
+import "github.com/context-plugins/adyen-go-sdk"
 
-client := adyenapi.NewClient(
-    adyenapi.CreateConfiguration(
-        adyenapi.WithEnvironment(adyenapi.PRODUCTION),
+client := adyen.NewClient(
+    adyen.CreateConfiguration(
+        adyen.WithEnvironment(adyen.PRODUCTION),
         // auth options — see go-authentication
         // http options — see below and go-configuration-resilience
     ),
@@ -46,12 +46,12 @@ its accessor methods.
 ## Configuration from environment variables
 
 `CreateConfigurationFromEnvironment(...)` is the same as `CreateConfiguration` but pre-populates fields
-from environment variables named `ADYENAPI_...` (e.g. `MULTIAUTHSAMPLE_ENVIRONMENT`,
+from environment variables named `ADYEN_...` (e.g. `MULTIAUTHSAMPLE_ENVIRONMENT`,
 `MULTIAUTHSAMPLE_USERNAME`). Any `With...` options you pass override the env values. Grep
 `CreateConfigurationFromEnvironment` in `configuration.go` for the exact variable names:
 
 ```go
-client := adyenapi.NewClient(adyenapi.CreateConfigurationFromEnvironment())
+client := adyen.NewClient(adyen.CreateConfigurationFromEnvironment())
 ```
 
 ## Accessing controllers
@@ -60,7 +60,7 @@ Operations are grouped under **controller accessor methods** on the client — o
 Call the accessor to get the controller, then call the operation on it (see **go-calling-endpoints**):
 
 ```go
-ctrl := client.{Resource}Controller()
+ctrl := client.{Resource}Api()
 apiResponse, err := ctrl.{Operation}(ctx, ...)
 ```
 
@@ -69,13 +69,13 @@ see **go-authentication**. Open `client.go` for the full list of accessors.
 
 ## Choosing the environment / base URL
 
-Environments are constants of the `Environment` string type in the root package (e.g. `adyenapi.PRODUCTION`,
-`adyenapi.TESTING`) — the names and the default are per-API; the default is whatever `DefaultConfiguration()`
-sets. Select one with `WithEnvironment`:
+Environments are constants of the `Environment` string type in the root package — read `configuration.go`
+for the real names; the default is whatever `DefaultConfiguration()` sets. Select one with
+`WithEnvironment`:
 
 ```go
-client := adyenapi.NewClient(
-    adyenapi.CreateConfiguration(adyenapi.WithEnvironment(adyenapi.PRODUCTION)),
+client := adyen.NewClient(
+    adyen.CreateConfiguration(adyen.WithEnvironment(adyen.PRODUCTION)),
 )
 ```
 
@@ -90,12 +90,12 @@ The SDK builds its `*http.Client` from `HttpConfiguration`. Set a timeout or a c
 TLS, logging) by passing an `HttpConfiguration` built with `CreateHttpConfiguration`:
 
 ```go
-client := adyenapi.NewClient(
-    adyenapi.CreateConfiguration(
-        adyenapi.WithHttpConfiguration(
-            adyenapi.CreateHttpConfiguration(
-                adyenapi.WithTimeout(30),                  // seconds; 0 = no timeout (the default)
-                adyenapi.WithTransport(myRoundTripper),    // default: http.DefaultTransport
+client := adyen.NewClient(
+    adyen.CreateConfiguration(
+        adyen.WithHttpConfiguration(
+            adyen.CreateHttpConfiguration(
+                adyen.WithTimeout(30),                  // seconds; 0 = no timeout (the default)
+                adyen.WithTransport(myRoundTripper),    // default: http.DefaultTransport
             ),
         ),
     ),
@@ -113,11 +113,11 @@ connection pooling and any cached OAuth token).
 
 ```go
 // startup — construct once:
-var apiClient = adyenapi.NewClient(adyenapi.CreateConfigurationFromEnvironment())
+var apiClient = adyen.NewClient(adyen.CreateConfigurationFromEnvironment())
 
 // handlers / services — reuse the shared instance:
 func (s *Service) DoWork(ctx context.Context) error {
-    apiResponse, err := apiClient.{Resource}Controller().{Operation}(ctx, ...)
+    apiResponse, err := apiClient.{Resource}Api().{Operation}(ctx, ...)
     // ...
 }
 ```
@@ -132,10 +132,10 @@ over it) by value via struct fields or constructor parameters:
 
 ```go
 type Service struct {
-    api adyenapi.ClientInterface
+    api adyen.ClientInterface
 }
 
-func NewService(api adyenapi.ClientInterface) *Service {
+func NewService(api adyen.ClientInterface) *Service {
     return &Service{api: api}
 }
 ```

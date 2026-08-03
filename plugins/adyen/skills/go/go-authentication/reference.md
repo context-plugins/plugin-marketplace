@@ -16,8 +16,8 @@ use `client.CloneWithConfiguration(...)`.
 ## OAuth 2.0 — client credentials grant (CCG)
 
 ```go
-adyenapi.WithOAuthCCGCredentials(
-    adyenapi.NewOAuthCCGCredentials(clientId, clientSecret),
+adyen.WithOAuthCCGCredentials(
+    adyen.NewOAuthCCGCredentials(clientId, clientSecret),
 )
 ```
 
@@ -26,14 +26,14 @@ The token is fetched automatically on first use and refreshed near expiry. Optio
 | Builder | Purpose |
 | --- | --- |
 | `.WithOAuthToken(models.OAuthToken)` | seed a previously stored token (skip the initial fetch) |
-| `.WithOAuthTokenProvider(func(last models.OAuthToken, mgr adyenapi.OAuthCCGManager) models.OAuthToken)` | supply/refresh the token yourself (e.g. load from DB; call `mgr.FetchToken(ctx)` to mint a new one) |
+| `.WithOAuthTokenProvider(func(last models.OAuthToken, mgr adyen.OAuthCCGManager) models.OAuthToken)` | supply/refresh the token yourself (e.g. load from DB; call `mgr.FetchToken(ctx)` to mint a new one) |
 | `.WithOAuthOnTokenUpdate(func(models.OAuthToken))` | callback fired whenever the token updates — use it to persist the token |
 | `.WithOAuthClockSkew(seconds int64)` | seconds of slack when checking expiry |
 
 ```go
-creds := adyenapi.NewOAuthCCGCredentials(id, secret).
+creds := adyen.NewOAuthCCGCredentials(id, secret).
     WithOAuthOnTokenUpdate(func(t models.OAuthToken) { saveToDB(t) }).
-    WithOAuthTokenProvider(func(last models.OAuthToken, mgr adyenapi.OAuthCCGManager) models.OAuthToken {
+    WithOAuthTokenProvider(func(last models.OAuthToken, mgr adyen.OAuthCCGManager) models.OAuthToken {
         if t := loadFromDB(); t.AccessToken != "" { return t }
         if t, err := mgr.FetchToken(context.TODO()); err == nil { return t }
         return last
@@ -46,10 +46,10 @@ ACG is a redirect flow: send the user to an authorization URL, receive a `code`,
 The SDK does **not** perform the redirect.
 
 ```go
-creds := adyenapi.NewOAuthACGCredentials(clientId, clientSecret, redirectUri).
+creds := adyen.NewOAuthACGCredentials(clientId, clientSecret, redirectUri).
     WithOAuthScopes([]models.{OAuthScopeEnum}{ models.{OAuthScopeEnum}_{SCOPE} })  // scope enum is per-API
 
-client := adyenapi.NewClient(adyenapi.CreateConfiguration(adyenapi.WithOAuthACGCredentials(creds)))
+client := adyen.NewClient(adyen.CreateConfiguration(adyen.WithOAuthACGCredentials(creds)))
 
 // 1. Build the authorization URL and send the user there (see OAuthAuthorizationController / the
 //    OAuthACGManager in the source for the helper that builds it).
@@ -59,7 +59,7 @@ if err != nil { /* ... */ }
 
 // 3. Attach the fetched token for subsequent calls:
 client = client.CloneWithConfiguration(
-    adyenapi.WithOAuthACGCredentials(client.Configuration().OAuthACGCredentials().WithOAuthToken(token)),
+    adyen.WithOAuthACGCredentials(client.Configuration().OAuthACGCredentials().WithOAuthToken(token)),
 )
 ```
 
@@ -69,8 +69,8 @@ so you don't re-run the redirect flow on every process start.
 ## OAuth 2.0 — resource owner password credentials grant (ROPCG)
 
 ```go
-creds := adyenapi.NewOAuthROPCGCredentials(clientId, clientSecret, username, password)
-client := adyenapi.NewClient(adyenapi.CreateConfiguration(adyenapi.WithOAuthROPCGCredentials(creds)))
+creds := adyen.NewOAuthROPCGCredentials(clientId, clientSecret, username, password)
+client := adyen.NewClient(adyen.CreateConfiguration(adyen.WithOAuthROPCGCredentials(creds)))
 
 // fetched automatically on first use; or eagerly, then re-attach like ACG:
 token, err := client.OAuthROPCGManager().FetchToken(ctx)
@@ -84,15 +84,15 @@ builders apply.
 When you already hold a token and there is no grant flow:
 
 ```go
-adyenapi.WithOAuthBearerTokenCredentials(adyenapi.NewOAuthBearerTokenCredentials(accessToken))
+adyen.WithOAuthBearerTokenCredentials(adyen.NewOAuthBearerTokenCredentials(accessToken))
 ```
 
 ## Basic / custom header / custom query parameter
 
 ```go
-adyenapi.WithBasicAuthCredentials(adyenapi.NewBasicAuthCredentials(username, password))
-adyenapi.WithApiHeaderCredentials(adyenapi.NewApiHeaderCredentials(token, apiKey))   // custom header scheme
-adyenapi.WithApiKeyCredentials(adyenapi.NewApiKeyCredentials(token, apiKey))         // custom query-param scheme
+adyen.WithBasicAuthCredentials(adyen.NewBasicAuthCredentials(username, password))
+adyen.WithApiHeaderCredentials(adyen.NewApiHeaderCredentials(token, apiKey))   // custom header scheme
+adyen.WithApiKeyCredentials(adyen.NewApiKeyCredentials(token, apiKey))         // custom query-param scheme
 ```
 
 The constructor parameters and wire placement come from the API's scheme — check the `New...Credentials`
@@ -117,9 +117,9 @@ request.
 
 ## Configuration from environment variables
 
-`CreateConfigurationFromEnvironment(...)` reads credentials from `ADYENAPI_...` variables — e.g.
-`ADYENAPI_USERNAME`, `ADYENAPI_PASSWORD`, `ADYENAPI_TOKEN`, `ADYENAPI_API_KEY`,
-`ADYENAPI_O_AUTH_CLIENT_ID`, `ADYENAPI_O_AUTH_CLIENT_SECRET`, `ADYENAPI_ACCESS_TOKEN`. Grep the
+`CreateConfigurationFromEnvironment(...)` reads credentials from `ADYEN_...` variables — e.g.
+`ADYEN_USERNAME`, `ADYEN_PASSWORD`, `ADYEN_TOKEN`, `ADYEN_API_KEY`,
+`ADYEN_O_AUTH_CLIENT_ID`, `ADYEN_O_AUTH_CLIENT_SECRET`, `ADYEN_ACCESS_TOKEN`. Grep the
 function in `configuration.go` for the exact names this SDK reads. Options you pass override env values.
 
 ## No auth

@@ -1,9 +1,12 @@
 ---
 name: python-authentication
-description: Configure authentication on an APIMatic-generated Python SDK client — each scheme is a {Scheme}Credentials object constructed with per-scheme kwargs and passed as a keyword arg to the AdyenAPIClient constructor; covers Basic, custom header/query API key, OAuth 2 bearer token, OAuth 2 CCG (automatic token fetch/refresh + on_token_update callback + token_provider), OAuth 2 ACG (redirect flow + fetch_token/refresh_token), OAuth 2 ROPCG, and secrets-from-env. Use the moment you set credentials on any APIMatic Python SDK — load it even after reading the config kwargs in the source, since the kwarg name alone doesn't tell you when the token is fetched, how to persist it across restarts, or that token re-attachment requires clone_with.
+description: Configure authentication on an APIMatic-generated Python SDK client — each scheme is a {Scheme}Credentials object constructed with per-scheme kwargs and passed as a keyword arg to the AdyenClient constructor; covers Basic, custom header/query API key, OAuth 2 bearer token, OAuth 2 CCG (automatic token fetch/refresh + on_token_update callback + token_provider), OAuth 2 ACG (redirect flow + fetch_token/refresh_token), OAuth 2 ROPCG, and secrets-from-env. Use the moment you set credentials on any APIMatic Python SDK — load it even after reading the config kwargs in the source, since the kwarg name alone doesn't tell you when the token is fetched, how to persist it across restarts, or that token re-attachment requires clone_with.
 ---
 
 # Authenticating an APIMatic Python SDK client
+
+> `AdyenClient` is the SDK's client class — **read the real name** from `adyen/adyen_client.py`
+> (it is derived from the package name, not the API title, so do not guess it from the API name).
 
 How you authenticate depends on the security scheme(s) the API uses. APIMatic surfaces each scheme as
 a **`{Scheme}Credentials` object** that you construct with per-scheme kwargs and pass to the client
@@ -11,19 +14,19 @@ constructor (or `Configuration`) as a named keyword argument.
 
 > Throughout, `{...}` tokens are placeholders for names you take from your SDK. Replace them with the
 > concrete identifiers from the source. Confirm available schemes from the kwargs on
-> `adyenapi/adyenapi_client.py` and from `doc/auth/*.md`.
+> `adyen/adyen_client.py` and from `doc/auth/*.md`.
 
 To see which schemes a specific SDK accepts, read the credential kwargs in the client constructor
-(`adyenapi/adyenapi_client.py`) — those are the source of truth. Each scheme's credentials class lives
-under `adyenapi/http/auth/` and has its own `from_environment()` class method.
+(`adyen/adyen_client.py`) — those are the source of truth. Each scheme's credentials class lives
+under `adyen/http/auth/` and has its own `from_environment()` class method.
 
 ## Basic auth
 
 ```python
-from adyenapi.http.auth.basic_auth import BasicAuthCredentials
-from adyenapi.adyenapi_client import AdyenAPIClient
+from adyen.http.auth.basic_auth import BasicAuthCredentials
+from adyen.adyen_client import AdyenClient
 
-client = AdyenAPIClient(
+client = AdyenClient(
     basic_auth_credentials=BasicAuthCredentials(
         username=os.environ['BASIC_AUTH_USERNAME'],
         password=os.environ['BASIC_AUTH_PASSWORD']
@@ -36,9 +39,9 @@ Sends `Authorization: Basic base64(username:password)` on every request that req
 ## Custom query parameter (API key)
 
 ```python
-from adyenapi.http.auth.api_key import ApiKeyCredentials
+from adyen.http.auth.api_key import ApiKeyCredentials
 
-client = AdyenAPIClient(
+client = AdyenClient(
     api_key_credentials=ApiKeyCredentials(
         token=os.environ['API_KEY_TOKEN'],
         api_key=os.environ['API_KEY_API_KEY']
@@ -52,9 +55,9 @@ The wire names and placement (query parameters) are fixed by the generated schem
 ## Custom header signature (API key in header)
 
 ```python
-from adyenapi.http.auth.api_header import ApiHeaderCredentials
+from adyen.http.auth.api_header import ApiHeaderCredentials
 
-client = AdyenAPIClient(
+client = AdyenClient(
     api_header_credentials=ApiHeaderCredentials(
         token=os.environ['API_HEADER_TOKEN'],
         api_key=os.environ['API_HEADER_API_KEY']
@@ -67,9 +70,9 @@ client = AdyenAPIClient(
 When you already hold a token:
 
 ```python
-from adyenapi.http.auth.o_auth_bearer_token import OAuthBearerTokenCredentials
+from adyen.http.auth.o_auth_bearer_token import OAuthBearerTokenCredentials
 
-client = AdyenAPIClient(
+client = AdyenClient(
     o_auth_bearer_token_credentials=OAuthBearerTokenCredentials(
         access_token=os.environ['O_AUTH_BEARER_TOKEN_ACCESS_TOKEN']
     )
@@ -84,9 +87,9 @@ The SDK fetches and caches the token **automatically** the first time an endpoin
 scheme is called, and refreshes it when it is expired (using a configurable clock skew):
 
 ```python
-from adyenapi.http.auth.o_auth_ccg import OAuthCCGCredentials
+from adyen.http.auth.o_auth_ccg import OAuthCCGCredentials
 
-client = AdyenAPIClient(
+client = AdyenClient(
     o_auth_ccg_credentials=OAuthCCGCredentials(
         o_auth_client_id=os.environ['O_AUTH_CCG_O_AUTH_CLIENT_ID'],
         o_auth_client_secret=os.environ['O_AUTH_CCG_O_AUTH_CLIENT_SECRET']

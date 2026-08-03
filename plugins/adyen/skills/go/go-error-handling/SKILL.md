@@ -37,7 +37,7 @@ import (
     "github.com/apimatic/go-core-runtime/https"
 )
 
-apiResponse, err := client.{Resource}Controller().{Operation}(ctx, ...)
+apiResponse, err := client.{Resource}Api().{Operation}(ctx, ...)
 if err != nil {
     var apiErr https.ApiError
     if errors.As(err, &apiErr) {
@@ -72,7 +72,7 @@ the error payload, and are returned **as pointers**:
 ```go
 // type OAuthProvider struct { https.ApiError; MError models.OAuthProviderErrorEnum `json:"error"`; ... }
 
-import sdkerrors "github.com/context-plugins/adyen-api-go/errors"
+import sdkerrors "github.com/context-plugins/adyen-go-sdk/errors"
 
 var provErr *sdkerrors.OAuthProvider
 if errors.As(err, &provErr) {

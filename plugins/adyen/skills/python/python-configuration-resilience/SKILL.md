@@ -5,9 +5,12 @@ description: Tune an APIMatic-generated Python SDK client — retry defaults (ma
 
 # Configuration & resilience for an APIMatic Python SDK
 
-All settings are passed as keyword arguments to `Configuration.__init__` (or to `AdyenAPIClient`
+> `AdyenClient` is the SDK's client class — **read the real name** from `adyen/adyen_client.py`
+> (it is derived from the package name, not the API title, so do not guess it from the API name).
+
+All settings are passed as keyword arguments to `Configuration.__init__` (or to `AdyenClient`
 directly, which wraps them in a `Configuration` internally). Confirm defaults from
-`adyenapi/configuration.py` in the cloned source.
+`adyen/configuration.py` in the cloned source.
 
 > Throughout, `{...}` tokens are placeholders — replace with concrete names from your SDK.
 
@@ -24,7 +27,7 @@ retries; leave it at `0` in tests so a stubbed 5xx fails immediately.
 | `retry_methods` | `["GET", "PUT"]` | **only idempotent methods**; POST/DELETE are not retried unless added |
 
 ```python
-from adyenapi.configuration import Configuration, Environment
+from adyen.configuration import Configuration, Environment
 
 config = Configuration(
     environment=Environment.PRODUCTION,
@@ -61,7 +64,7 @@ connection pool, proxy routing, or transport-level hooks. Set
 
 ```python
 import requests
-from adyenapi.configuration import Configuration
+from adyen.configuration import Configuration
 
 session = requests.Session()
 session.verify = '/path/to/ca-bundle.pem'   # custom TLS CA
@@ -80,10 +83,10 @@ without applying its retry/timeout settings.
 ## Base URL and environment selection
 
 The base URL is derived from the `environment` kwarg (an `Environment` enum member in
-`adyenapi/configuration.py`) and any API-specific server parameters (e.g. `port`, `suites`):
+`adyen/configuration.py`) and any API-specific server parameters (e.g. `port`, `suites`):
 
 ```python
-from adyenapi.configuration import Configuration, Environment
+from adyen.configuration import Configuration, Environment
 
 config = Configuration(
     environment=Environment.PRODUCTION,
@@ -92,13 +95,13 @@ config = Configuration(
 ```
 
 To see the URL each environment resolves to, read the `environments` dict in
-`adyenapi/configuration.py` and call `config.get_base_uri()` (or
+`adyen/configuration.py` and call `config.get_base_uri()` (or
 `config.get_base_uri(Server.AUTH)` for alternate server groups). There is no free-form base-URL
 string override — to redirect requests to a mock host, inject a custom `requests.Session` whose
 transport intercepts and rewrites the host (see **python-testing**).
 
 `Configuration.from_environment()` reads `ENVIRONMENT`, `PORT`, `TIMEOUT`, `MAX_RETRIES`, etc.
-from environment variables or a `.env` file — grep `from_environment` in `adyenapi/configuration.py`
+from environment variables or a `.env` file — grep `from_environment` in `adyen/configuration.py`
 for the exact variable names.
 
 ## Pagination
@@ -119,7 +122,7 @@ for page in client.{resource}.{paged_operation}(offset=0, limit=10).pages():
 ```
 
 Page types (`OffsetPagedResponse`, `CursorPagedResponse`, `LinkPagedResponse`,
-`NumberPagedResponse`) live in `adyenapi/pagination/` — inspect that directory for the exact type
+`NumberPagedResponse`) live in `adyen/pagination/` — inspect that directory for the exact type
 your operation returns and its cursor/offset/link attributes.
 
 For operations that are **not** paginated by the SDK (i.e., return a plain list), drive pagination
@@ -139,14 +142,14 @@ while True:
 ## Logging — HttpCallBack
 
 There is no built-in logging hook separate from `HttpCallBack`. To log or inspect every request
-and response, subclass `HttpCallBack` (from `adyenapi/http/http_call_back.py`) and pass an instance
+and response, subclass `HttpCallBack` (from `adyen/http/http_call_back.py`) and pass an instance
 as `http_call_back=`:
 
 ```python
 import logging
-from adyenapi.http.http_call_back import HttpCallBack
-from adyenapi.configuration import Configuration
-from adyenapi.adyenapi_client import AdyenAPIClient
+from adyen.http.http_call_back import HttpCallBack
+from adyen.configuration import Configuration
+from adyen.adyen_client import AdyenClient
 
 logger = logging.getLogger(__name__)
 
@@ -161,7 +164,7 @@ config = Configuration(
     http_call_back=LoggingCallBack(),
     # other kwargs ...
 )
-client = AdyenAPIClient(config=config)
+client = AdyenClient(config=config)
 ```
 
 `HttpCallBack` inherits from `apimatic_core`'s `CoreHttpCallback` and provides two hook methods:

@@ -1,7 +1,7 @@
-# Adyen API SDK Plugin
+# Adyen SDK Plugin
 
-Integrate and consume the **APIMatic-generated Adyen API SDK** (the "APIMATIC v3.0" generic
-libraries, built on `apimatic-*-core` / `apimatic/*-core-runtime` runtimes) across C#/.NET, TypeScript, Java, PHP, Python, Go.
+Integrate and consume the **APIMatic-generated Adyen SDK** (the "APIMATIC v3.0" generic
+libraries, built on `apimatic-*-core` / `apimatic/*-core-runtime` runtimes) across C#/.NET, TypeScript, Java, Python, Go.
 Works in **Claude Code**, **Cursor**, and **VS Code**. Every SDK fact is grounded in the cloned SDK
 source and the bundled skills.
 
@@ -13,6 +13,16 @@ SDK-identity and source-navigation entry point) plus `client-initialization`, `a
 coding agent loads the relevant skill by its description and grounds every SDK fact in the cloned
 SDK source those skills point it to.
 
+### C#/.NET — bundled SDK map + helper agent
+
+The C# layer (inside `skills/dotnet/`) ships a generated **SDK map**
+(`dotnet-adyen-getting-started/sdk-map.md` + `map/`) indexing every operation signature,
+model, enum, union, and error type. The **`dotnet-integrate-adyen`** router skill routes all
+C#/.NET SDK work to the single **`dotnet-adyen-sdk`** agent (.NET-only), which answers
+every contract question by map lookup (cloning the SDK source only when the map can't settle a
+fact) and produces a contract sheet before any code is written. Seven API-agnostic `dotnet-*`
+skills layer usage guidance on top.
+
 ## Supported languages
 
 | Language | Skill prefix | Key runtime dependency |
@@ -20,7 +30,6 @@ SDK source those skills point it to.
 | C#/.NET | `dotnet-` | `APIMatic.Core (NuGet)` |
 | TypeScript | `typescript-` | `@apimatic/core (npm)` |
 | Java | `java-` | `io.apimatic:core (Maven/Gradle)` |
-| PHP | `php-` | `apimatic/core (Composer)` |
 | Python | `python-` | `apimatic-core (PyPI)` |
 | Go | `go-` | `github.com/apimatic/go-core-runtime` |
 

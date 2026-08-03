@@ -7,17 +7,17 @@ description: Unit-test code that uses an APIMatic-generated TypeScript/Node.js S
 
 The client accepts a `customFetch` option (when the SDK version supports it), which is the seam for testing: pass a stub `fetch` function so no real network calls happen. Alternatively, intercept at the global `fetch` level using a library such as `msw` or `jest-fetch-mock`.
 
-**Match the project's existing test stack — don't impose one.** Check the test project's `package.json` and existing tests, then mirror both its **test framework** (Jest / Vitest / Mocha) and its **assertion style**. The samples below use Jest `test` + `expect` **purely for reference** — they show the SDK testing seam and *what* to assert, not a mandated framework. Substitute your `AdyenAPIClient`/config as well.
+**Match the project's existing test stack — don't impose one.** Check the test project's `package.json` and existing tests, then mirror both its **test framework** (Jest / Vitest / Mocha) and its **assertion style**. The samples below use Jest `test` + `expect` **purely for reference** — they show the SDK testing seam and *what* to assert, not a mandated framework. Substitute your `Client`/config as well.
 
-> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `AdyenAPIClient`, `{apiGroup}`, `{operation}`) — replace it with the concrete identifier from the source.
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `Client`, `{apiGroup}`, `{operation}`) — replace it with the concrete identifier from the source.
 
 ## A reusable stub helper
 
 ```typescript
-import { AdyenAPIClient } from 'adyen-apilib';
+import { Client } from 'adyenlib';
 
 function clientReturning(status: number, body: unknown): {
-  client: AdyenAPIClient;
+  client: Client;
   lastRequest: () => Request | undefined;
 } {
   let captured: Request | undefined;
@@ -30,7 +30,7 @@ function clientReturning(status: number, body: unknown): {
     });
   };
 
-  const client = new AdyenAPIClient({
+  const client = new Client({
     customFetch: stubFetch,
     // auth not needed for stubs
     retryConfig: { maxNumberOfRetries: 0 },  // disable retries so a stubbed 5xx fails fast
@@ -48,7 +48,7 @@ function clientReturning(status: number, body: unknown): {
 test('returns deserialized body', async () => {
   const { client } = clientReturning(200, { '{resource}': { id: 123 } });
 
-  const response = await client.{apiGroup}.{operation}({ /* args */ });
+  const response = await api.{operation}({ /* args */ });
 
   expect(response.{resource}?.id).toBe(123);
 });
@@ -61,13 +61,13 @@ Endpoint methods throw `ApiError` on non-2xx (see `typescript-error-handling`). 
 **Case A — typed `{Operation}Error`:**
 
 ```typescript
-import { {Operation}Error } from 'adyen-apilib/errors';
+import { {Operation}Error } from 'adyenlib/errors';
 
 test('throws typed error on API error', async () => {
   const { client } = clientReturning(422, { errors: ['bad input'] });
 
   await expect(
-    client.{apiGroup}.{operation}({ /* args */ })
+    api.{operation}({ /* args */ })
   ).rejects.toThrow({Operation}Error);
 });
 ```
@@ -75,18 +75,18 @@ test('throws typed error on API error', async () => {
 **Case B — base `ApiError`:**
 
 ```typescript
-import { ApiError } from 'adyen-apilib';
+import { ApiError } from 'adyenlib';
 
 test('throws ApiError on non-2xx', async () => {
   const { client } = clientReturning(422, { errors: ['bad input'] });
 
   await expect(
-    client.{apiGroup}.{operation}({ /* args */ })
+    api.{operation}({ /* args */ })
   ).rejects.toBeInstanceOf(ApiError);
 
   // Or assert the status code:
   try {
-    await client.{apiGroup}.{operation}({ /* args */ });
+    await api.{operation}({ /* args */ });
   } catch (err) {
     expect(err).toBeInstanceOf(ApiError);
     expect((err as ApiError).statusCode).toBe(422);
@@ -102,7 +102,7 @@ Because the stub captures the `Request`, you can assert method, URL, query param
 test('sends correct request', async () => {
   const { client, lastRequest } = clientReturning(200, {});
 
-  await client.{apiGroup}.{operation}({ /* args */ });
+  await api.{operation}({ /* args */ });
 
   const req = lastRequest()!;
   expect(req.method).toBe('POST');
@@ -123,8 +123,8 @@ test('sends correct request', async () => {
   const moduleRef = await Test.createTestingModule({
     imports: [ApiModule],
   })
-    .overrideProvider(AdyenAPIClient)
-    .useValue(new AdyenAPIClient({ customFetch: stubFetch, retryConfig: { maxNumberOfRetries: 0 } }))
+    .overrideProvider(Client)
+    .useValue(new Client({ customFetch: stubFetch, retryConfig: { maxNumberOfRetries: 0 } }))
     .compile();
   ```
 - To look up an operation's signature, its request type, or a `{Operation}Error`'s properties, read the SDK source `.ts` files — don't rely solely on the compiled `.d.ts` declarations, which may drop JSDoc comments and internal builder details.

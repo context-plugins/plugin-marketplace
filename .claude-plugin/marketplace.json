@@ -29,7 +29,7 @@
     {
       "name": "adyen",
       "source": "./plugins/adyen",
-      "description": "Global payment processing for online and in-person transactions with Adyen."
+      "description": "TODO_AUTO_DESCRIPTION: Adyen API"
     },
     {
       "name": "verizon",

@@ -1,45 +1,72 @@
 ---
 name: typescript-calling-endpoints
-description: Call API operations on an APIMatic-generated TypeScript/Node.js SDK — method signature conventions, building request objects, string-enums, passing path/query/body params plus an AbortSignal, reading the varied response shapes, and the optional non-throwing result-style call. Use whenever invoking an endpoint, building a request body, working out parameter shapes, or consuming a response from any APIMatic TypeScript SDK — load it even after reading the method signature in the source, since the signature doesn't warn you about how optional params are structured or that named object params are required for list/search operations.
+description: Call API operations on an APIMatic-generated TypeScript/Node.js SDK — operations live on a controller class you instantiate yourself (not on the client); an operation with more than one parameter takes a single options object bundling all of them (including the request body) by name, with `requestOptions` as a separate second argument, while a single-parameter operation stays a bare positional parameter. Also covers building request models, string-enums, an AbortSignal per call, and reading the varied response shapes. Use whenever invoking an endpoint, building a request body, or consuming a response from any APIMatic TypeScript SDK — load it even after reading the method signature in the source, since the signature won't warn you that the controller is constructed rather than accessed off the client, or that the options object's key names come straight from the operation's own parameter names.
 ---
 
 # Calling endpoints on an APIMatic TypeScript SDK
 
-Operations are **async methods** on the client. Most are **grouped under a controller property** and called `client.{apiGroup}.{operation}(...)`; an operation that belongs to no group sits **directly on the client**, called `client.{operation}(...)`. Open the client class in the SDK source to see its controller properties (and any direct operations), then open the relevant controller for the operation's exact signature. Operation names follow no fixed verb/resource pattern — take the real name from the source.
+Operations are **async methods on a controller class that you instantiate yourself** — they are *not*
+properties on the client:
+
+```typescript
+import { Client, {Resource}Api } from 'adyenlib';
+
+const client = new Client({ /* ... */ });
+const api = new {Resource}Api(client);          // you construct this
+const response = await api.{operation}(/* ... */);
+```
+
+There is no `client.{apiGroup}.{operation}(...)` accessor and no operation sitting directly on the
+client. Controllers live in `src/controllers/`, one file per API group, each extending a shared base
+class. **Read the exported class name from that file** — the suffix is a generator setting, so the class
+may be `{Resource}Api` or `{Resource}Controller` depending on how the SDK was built. Operation names
+follow no fixed verb/resource pattern — take the real name from the source.
 
 > Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{apiGroup}`, `{operation}`, `{resource}`, `{EnumType}`) — replace it with the concrete identifier from the source.
 
 ## Method signature convention
 
-Every endpoint method is `async` (returns a `Promise`) and accepts a params object:
+Every endpoint method is `async` (returns a `Promise`). An operation with **more than one parameter**
+takes a single options object bundling all of them — including the request body — by name, with
+`requestOptions` as a separate second argument:
 
 ```typescript
 async {operation}(
-  params: {OperationParams},
+  options: { {pathOrQueryParam}?: string, body?: {RequestType} },
   requestOptions?: RequestOptions
-): Promise<{ReturnType}>
+): Promise<ApiResponse<{ReturnType}>>
 ```
 
-- **Params object**: path, query, and body parameters are typically passed as properties on a single params object — not as positional arguments. Take the exact property names from the `{OperationParams}` interface in the SDK source.
+- **More than one parameter → a single options object.** Optional keys are typed `?` and can simply be
+  omitted — no positional placeholders needed to reach a later one:
+  ```typescript
+  // async {operation}(options: { idempotencyKey?: string, body?: {BodyType} }, requestOptions?: RequestOptions)
+  await api.{operation}({ body });        // idempotencyKey omitted entirely
+  ```
+- **Exactly one parameter → a bare positional parameter**, not wrapped in an object.
+- **Read the method signature in `src/controllers/` for the options object's real key names** — they come
+  straight from the operation's own parameter names, not from any fixed convention.
 - **`requestOptions`**: optional per-request overrides (timeout, `AbortSignal`, headers) — see `typescript-configuration-resilience`.
 - **Return type** varies by operation — see [Reading the response](#making-the-call-and-reading-the-response).
 - Methods are **async-only** and **throw `ApiError`** on API errors — see `typescript-error-handling`.
 
-## Use object params for list/search endpoints
+## List/search endpoints — read the options object's keys
 
-List/search operations can have **many** optional parameters. Pass them as object properties:
+List/search operations often declare many parameters, all bundled into the one options object. Set only
+the keys you need — there is no positional order to track:
 
 ```typescript
-const response = await client.{apiGroup}.{operation}({
+// async {operation}(options: { status?: {EnumType}, filterId?: number, flag?: boolean,
+//                              page?: number, perPage?: number }, requestOptions?: RequestOptions)
+const response = await api.{operation}({
   status: {EnumType}.SomeConstant,
-  someFilterId: 12345,
-  someFlag: true,
   page: 1,
   perPage: 100,
 });
 ```
 
-Copy property names verbatim from the `{OperationParams}` interface in the SDK source; they are easy to misremember (singular vs plural, camelCase vs snake_case).
+**Open the method in `src/controllers/` and read the options object's real key names** off the parameter
+interface — don't assume they match a fixed convention.
 
 ## Building request models
 
@@ -79,11 +106,16 @@ Some properties are not plain scalars: discriminated union types, `Array<T>` col
 ## Making the call and reading the response
 
 ```typescript
-const response = await client.{apiGroup}.{operation}({
-  pathArg,
-  queryArg: undefined,
-  body,
-});
+const response = await api.{operation}({ {pathOrQueryParam}: value, body });
+```
+
+Operations that wrap the payload return `ApiResponse<T>` — the deserialized value is on `.result`, with
+`.statusCode` and `.headers` alongside it:
+
+```typescript
+const response = await api.{operation}({ {pathOrQueryParam}: value, body });
+console.log(response.statusCode);
+const resource = response.result;
 ```
 
 **Each operation's return type varies** — read the method's return type in the SDK source and handle it accordingly:
@@ -95,7 +127,7 @@ const response = await client.{apiGroup}.{operation}({
   ```
 - **The resource directly** — `Promise<{Resource}>`: use it as-is.
   ```typescript
-  const resource = await client.{apiGroup}.{operation}({ /* ... */ });
+  const resource = await api.{operation}({ /* ... */ });
   ```
 - **An array** — `Promise<{ItemType}[]>`: iterate it.
 - **An object that nests an array** — read the list member first, then iterate.
@@ -111,7 +143,7 @@ Pass an `AbortSignal` via `requestOptions` to cancel an individual call:
 const controller = new AbortController();
 setTimeout(() => controller.abort(), 30_000);
 
-const response = await client.{apiGroup}.{operation}(
+const response = await api.{operation}(
   { /* params */ },
   { signal: controller.signal }
 );
@@ -121,23 +153,19 @@ const response = await client.{apiGroup}.{operation}(
 
 ```typescript
 // Signature (illustrative):
-//   async {operation}(params: {
-//     filter?: {EnumType};
-//     startDate?: string;
-//     q?: string;
-//     page?: number;
-//     perPage?: number;
-//   }): Promise<{ItemType}[]>
+//   async {operation}(
+//     options: { filter?: {EnumType}, startDate?: string, q?: string, page?: number, perPage?: number },
+//     requestOptions?: RequestOptions
+//   ): Promise<ApiResponse<{ItemType}[]>>
 
-const results = await client.{apiGroup}.{operation}({
+const response = await api.{operation}({
   filter: {EnumType}.SomeConstant,
-  startDate: undefined,
   q: 'search text',
   page: 1,
   perPage: 20,
 });
 
-for (const item of results) {
+for (const item of response.result) {
   const resource = item.{resource};
   console.log(resource?.id);
 }
@@ -147,7 +175,9 @@ for (const item of results) {
 
 Read these from the SDK **source** files, not by inspecting the compiled `.d.ts` only — the source has JSDoc comments, the full params interface, and the request-builder internals.
 
-- Most operations are grouped on **controller properties** of the client (each defined in `src/controllers/{apiGroup}Controller.ts`); an operation in no group is defined directly on the client class.
+- Every operation lives on a **controller class** in `src/controllers/`, one file per API group. `ls` that
+  directory to find the group, then read the exported class name off its `export class` line — the
+  suffix is a generator setting (`{Resource}Api` or `{Resource}Controller`), so do not assume it.
 - Request/response/enum types live under `src/models/`; error types under `src/errors/`.
 
 ## Next

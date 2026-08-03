@@ -1,30 +1,33 @@
 ---
 name: python-client-initialization
-description: Construct and configure an APIMatic-generated Python SDK client — pass keyword args (credentials objects + environment= + timeout/retry/proxy kwargs) directly to the AdyenAPIClient constructor or to a separate Configuration object, use from_environment() to read from a .env file and env vars, access controllers via @LazyProperty properties (not constructors), pass a custom requests.Session via http_client_instance, and reuse the long-lived client. Use the moment you write AdyenAPIClient(...), build a Configuration, pick an environment, or wire the client into your application — load it even after reading the constructor in the source, since the signature shows the kwargs but not the credential-objects pattern, the @LazyProperty controller access, or the lifetime/reuse rules.
+description: Construct and configure an APIMatic-generated Python SDK client — pass keyword args (credentials objects + environment= + timeout/retry/proxy kwargs) directly to the AdyenClient constructor or to a separate Configuration object, use from_environment() to read from a .env file and env vars, access controllers via @LazyProperty properties (not constructors), pass a custom requests.Session via http_client_instance, and reuse the long-lived client. Use the moment you write AdyenClient(...), build a Configuration, pick an environment, or wire the client into your application — load it even after reading the constructor in the source, since the signature shows the kwargs but not the credential-objects pattern, the @LazyProperty controller access, or the lifetime/reuse rules.
 ---
 
 # Initializing an APIMatic Python SDK client
 
+> `AdyenClient` is the SDK's client class — **read the real name** from `adyen/adyen_client.py`
+> (it is derived from the package name, not the API title, so do not guess it from the API name).
+
 This applies to **any** APIMatic-generated Python SDK (APIMATIC v3.0). Replace placeholders with
 the real names from the SDK you are using:
 
-- `adyenapi` — the root package name (e.g. `multiauthsample`, `batester`).
-- `AdyenAPIClient` — the generated client class (e.g. `MultiauthsampleClient`, `BatesterClient`).
+- `adyen` — the root package name (e.g. `multiauthsample`, `batester`).
+- `AdyenClient` — the generated client class (read it from the `class …Client` declaration in `adyen/adyen_client.py`).
 - `{resource}` — a controller property name on the client (e.g. `authentication`, `transaction`).
 
 ## The constructor shape
 
-The `AdyenAPIClient` constructor accepts all configuration as **keyword arguments** — there is no
+The `AdyenClient` constructor accepts all configuration as **keyword arguments** — there is no
 separate builder. You can pass them flat (the client creates a `Configuration` internally) or pass a
 pre-built `Configuration` object:
 
 ```python
-from adyenapi.adyenapi_client import AdyenAPIClient
-from adyenapi.configuration import Environment
-from adyenapi.http.auth.basic_auth import BasicAuthCredentials  # per-scheme import
+from adyen.adyen_client import AdyenClient
+from adyen.configuration import Environment
+from adyen.http.auth.basic_auth import BasicAuthCredentials  # per-scheme import
 
 # Flat kwargs — the client wraps them in a Configuration internally:
-client = AdyenAPIClient(
+client = AdyenClient(
     basic_auth_credentials=BasicAuthCredentials(
         username='Username',
         password='Password'
@@ -38,18 +41,18 @@ client = AdyenAPIClient(
 Or pass a pre-built `Configuration` object directly (preferred when you need `clone_with` later):
 
 ```python
-from adyenapi.configuration import Configuration, Environment
+from adyen.configuration import Configuration, Environment
 
 config = Configuration(
     basic_auth_credentials=BasicAuthCredentials(username='...', password='...'),
     environment=Environment.PRODUCTION,
     timeout=60,
 )
-client = AdyenAPIClient(config=config)
+client = AdyenClient(config=config)
 ```
 
 Both patterns are equivalent — the client uses `config or Configuration(...)` in its `__init__`.
-Confirm the exact kwarg names from `adyenapi/adyenapi_client.py` in the cloned source.
+Confirm the exact kwarg names from `adyen/adyen_client.py` in the cloned source.
 
 ## Common constructor kwargs
 
@@ -57,7 +60,7 @@ These kwargs are present on every generated client (confirm defaults from the so
 
 | Kwarg | Type | Default | Purpose |
 | --- | --- | --- | --- |
-| `environment` | `Environment` enum | `Environment.TESTING` | selects the base URL |
+| `environment` | `Environment` enum | `Environment.PRODUCTION` | selects the base URL |
 | `timeout` | `float` | `60` | per-request timeout in seconds |
 | `max_retries` | `int` | `0` | number of retries; **0 disables retries** |
 | `backoff_factor` | `float` | `2` | exponential backoff multiplier |
@@ -74,18 +77,18 @@ API-specific server parameters (e.g. `port`, `suites`) are also kwargs — check
 
 ## Environment-based initialization
 
-`from_environment()` is a class method on both `AdyenAPIClient` and `Configuration` that reads
+`from_environment()` is a class method on both `AdyenClient` and `Configuration` that reads
 configuration from a `.env` file and environment variables automatically. Pass `dotenv_path` if your
 `.env` file is not in the working directory; pass keyword overrides to replace any env-var value:
 
 ```python
-from adyenapi.adyenapi_client import AdyenAPIClient
+from adyen.adyen_client import AdyenClient
 
 # Read everything from environment variables / .env:
-client = AdyenAPIClient.from_environment()
+client = AdyenClient.from_environment()
 
 # Override specific values:
-client = AdyenAPIClient.from_environment(
+client = AdyenClient.from_environment(
     dotenv_path='/path/to/.env',
     timeout=30,
 )
@@ -93,11 +96,11 @@ client = AdyenAPIClient.from_environment(
 
 Environment variable names follow a scheme-specific naming convention (e.g.
 `BASIC_AUTH_USERNAME`, `O_AUTH_CCG_O_AUTH_CLIENT_ID`, `ENVIRONMENT`, `TIMEOUT`) — grep
-`from_environment` in `adyenapi/configuration.py` for the exact names.
+`from_environment` in `adyen/configuration.py` for the exact names.
 
 ## Accessing controllers
 
-Controllers are `@LazyProperty` properties on `AdyenAPIClient`. Access them as attributes —
+Controllers are `@LazyProperty` properties on `AdyenClient`. Access them as attributes —
 **do not instantiate them yourself**:
 
 ```python
@@ -108,7 +111,7 @@ result = client.authentication.custom_authentication()
 # ctrl = AuthenticationController(...)
 ```
 
-Open `adyenapi/adyenapi_client.py` to see all available `@LazyProperty` controller names. Each one is
+Open `adyen/adyen_client.py` to see all available `@LazyProperty` controller names. Each one is
 initialized lazily on first access and cached for the lifetime of the client.
 
 OAuth auth managers (for CCG, ACG, ROPCG) are exposed as plain `@property` attributes on the client
@@ -117,17 +120,18 @@ OAuth auth managers (for CCG, ACG, ROPCG) are exposed as plain `@property` attri
 
 ## Choosing the environment / base URL
 
-`Environment` is an `Enum` subclass in `adyenapi/configuration.py`. Use the constant for the desired
-environment — the default is per-API (usually `Environment.TESTING`):
+`Environment` is an `Enum` subclass in `adyen/configuration.py`. **Read the enum in `configuration.py`
+for the real member names before choosing one** — a member's name does not necessarily tell you which
+host it resolves to, so match it against the base URL it actually resolves to rather than its name:
 
 ```python
-from adyenapi.configuration import Environment
+from adyen.configuration import Environment
 
-client = AdyenAPIClient(environment=Environment.PRODUCTION)
+client = AdyenClient(environment=Environment.PRODUCTION)
 ```
 
 To inspect the URL each environment resolves to, read the `environments` dict in
-`adyenapi/configuration.py`. There is no free-form base-URL override; to target a custom host (mock
+`adyen/configuration.py`. There is no free-form base-URL override; to target a custom host (mock
 server, proxy), inject a custom `requests.Session` via `http_client_instance` that redirects
 requests, or use `ProxySettings`.
 
@@ -139,12 +143,12 @@ allow the SDK to apply its own retry/timeout settings to your session:
 
 ```python
 import requests
-from adyenapi.adyenapi_client import AdyenAPIClient
+from adyen.adyen_client import AdyenClient
 
 session = requests.Session()
 session.verify = '/path/to/cert.pem'   # custom TLS CA bundle
 
-client = AdyenAPIClient(
+client = AdyenClient(
     http_client_instance=session,
     override_http_client_configuration=True,
     timeout=30,
@@ -161,7 +165,7 @@ boilerplate — useful after fetching an OAuth token that must be re-attached:
 # After fetching a new OAuth token:
 new_creds = client.config.o_auth_ccg_credentials.clone_with(o_auth_token=token)
 new_config = client.config.clone_with(o_auth_ccg_credentials=new_creds)
-client = AdyenAPIClient(config=new_config)
+client = AdyenClient(config=new_config)
 ```
 
 ## Client lifetime and reuse
@@ -172,7 +176,7 @@ destroys any cached OAuth token).
 
 ```python
 # Module-level singleton (scripts and simple services):
-client = AdyenAPIClient.from_environment()
+client = AdyenClient.from_environment()
 
 def process():
     result = client.{resource}.{operation}(...)

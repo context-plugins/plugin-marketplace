@@ -5,14 +5,14 @@ description: Tune an APIMatic-generated TypeScript/Node.js SDK client — retry 
 
 # Configuration & resilience for an APIMatic TypeScript SDK
 
-All config below is passed at construction time via the `AdyenAPIClientConfig` object.
+All config below is passed at construction time via the `Configuration` object.
 
 ## Base URL / environment override
 
 ```typescript
-import { AdyenAPIClient, Environment } from 'adyen-apilib';
+import { Client, Environment } from 'adyenlib';
 
-const client = new AdyenAPIClient({
+const client = new Client({
   environment: Environment.Production,
   // Override the base URL entirely (mock server, proxy, self-hosted gateway):
   baseUrl: 'https://my-host.example.com',
@@ -39,7 +39,7 @@ Pass a `retryConfig` object on the client config. Defaults:
 Customize:
 
 ```typescript
-const client = new AdyenAPIClient({
+const client = new Client({
   retryConfig: {
     maxNumberOfRetries: 5,
     retryInterval: 1,
@@ -62,7 +62,7 @@ Pass an `AbortSignal` via `requestOptions` to bound an individual call:
 const controller = new AbortController();
 setTimeout(() => controller.abort(), 10_000);
 
-const response = await client.{apiGroup}.{operation}(
+const response = await api.{operation}(
   { /* params */ },
   { signal: controller.signal }
 );
@@ -75,7 +75,7 @@ Operations the API marks as paginated are generated as methods that **return an 
 ```typescript
 // The paging args (e.g. page/perPage, cursor) seed the FIRST page;
 // the SDK advances them and stops when the API signals the end.
-for await (const pageItems of client.{apiGroup}.{operation}({ page: 1, perPage: 100 })) {
+for await (const pageItems of api.{operation}({ page: 1, perPage: 100 })) {
   for (const item of pageItems) {
     process(item);
   }
@@ -91,9 +91,9 @@ Each iteration yields **one page** (an array of items). A failed page fetch thro
 There is **no built-in logging hook**. Add logging by wrapping the client's underlying fetch:
 
 ```typescript
-import { AdyenAPIClient } from 'adyen-apilib';
+import { Client } from 'adyenlib';
 
-const client = new AdyenAPIClient({
+const client = new Client({
   customFetch: async (url, options) => {
     console.log(`--> ${options?.method ?? 'GET'} ${url}`);
     const response = await fetch(url, options);

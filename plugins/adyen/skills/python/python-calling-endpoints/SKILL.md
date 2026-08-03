@@ -5,6 +5,9 @@ description: Call API operations on an APIMatic-generated Python SDK — access 
 
 # Calling endpoints on an APIMatic Python SDK
 
+> `AdyenClient` is the SDK's client class — **read the real name** from `adyen/adyen_client.py`
+> (it is derived from the package name, not the API title, so do not guess it from the API name).
+
 Operations are **synchronous methods** on a **controller** you get from the client as a
 `@LazyProperty`. Access the controller as a property, then call the operation:
 
@@ -12,8 +15,8 @@ Operations are **synchronous methods** on a **controller** you get from the clie
 result = client.{resource}.{operation}(...)
 ```
 
-Open `adyenapi/adyenapi_client.py` for the controller property names, then the relevant
-`adyenapi/controllers/{resource}_controller.py` for the operation's exact signature.
+Open `adyen/adyen_client.py` for the controller property names, then the relevant
+`adyen/controllers/{resource}_controller.py` for the operation's exact signature.
 
 > Throughout, `{...}` tokens are placeholders for names you take from your SDK — replace them with
 > the concrete identifiers from the source. The generated `doc/controllers/*.md` files list every
@@ -21,7 +24,7 @@ Open `adyenapi/adyenapi_client.py` for the controller property names, then the r
 
 ## Controller access — property, not constructor
 
-Controllers are `@LazyProperty` properties on `AdyenAPIClient`. Access them as attributes:
+Controllers are `@LazyProperty` properties on `AdyenClient`. Access them as attributes:
 
 ```python
 # Correct — the controller is a property:
@@ -78,7 +81,7 @@ Request bodies are plain Python classes built with keyword arguments. Required c
 have no default; optional params default to `APIHelper.SKIP`:
 
 ```python
-from adyenapi.models.{request_model} import {RequestModel}
+from adyen.models.{request_model} import {RequestModel}
 
 body = {RequestModel}(
     required_field='value',         # required — must be provided
@@ -87,7 +90,7 @@ body = {RequestModel}(
 result = client.{resource}.create_{item}(body=body)
 ```
 
-Open `adyenapi/models/{model}.py` to confirm the `_names`, `_optionals`, and constructor args.
+Open `adyen/models/{model}.py` to confirm the `_names`, `_optionals`, and constructor args.
 The `_names` dict maps Python attribute names to JSON keys; the `_optionals` list names fields that
 use `APIHelper.SKIP` as their default.
 
@@ -98,7 +101,7 @@ plain classes (not Python `Enum` subclasses) with `MEMBER = value` class attribu
 `from_value()` class method:
 
 ```python
-from adyenapi.models.suite_code_enum import SuiteCodeEnum
+from adyen.models.suite_code_enum import SuiteCodeEnum
 
 # Known constant:
 client.{resource}.{operation}(suites=SuiteCodeEnum.HEARTS)
@@ -134,7 +137,7 @@ code, headers, or response text, pass an `HttpCallBack` to the client and inspec
 call. The generated `HttpResponseCatcher` (in `tests/http_response_catcher.py`) shows the pattern:
 
 ```python
-from adyenapi.http.http_call_back import HttpCallBack
+from adyen.http.http_call_back import HttpCallBack
 
 class ResponseCapture(HttpCallBack):
     def on_before_request(self, request):
@@ -143,7 +146,7 @@ class ResponseCapture(HttpCallBack):
         self.last_response = response
 
 capture = ResponseCapture()
-client = AdyenAPIClient(http_call_back=capture, ...)
+client = AdyenClient(http_call_back=capture, ...)
 result = client.authentication.custom_authentication()
 print(capture.last_response.status_code)
 print(capture.last_response.headers)
@@ -172,14 +175,14 @@ for page in client.transaction.fetch_with_offset(offset=0, limit=10).pages():
 
 Page types (`OffsetPagedResponse`, `CursorPagedResponse`, `LinkPagedResponse`,
 `NumberPagedResponse`) expose a pagination cursor or next-link and an `items()` method that returns
-an iterator over the items on that page. Inspect `adyenapi/pagination/` in the source.
+an iterator over the items on that page. Inspect `adyen/pagination/` in the source.
 
 ## Finding the right method
 
-- Controller property names are on `AdyenAPIClient` in `adyenapi/adyenapi_client.py`.
-- Operation method signatures are in `adyenapi/controllers/{resource}_controller.py`.
+- Controller property names are on `AdyenClient` in `adyen/adyen_client.py`.
+- Operation method signatures are in `adyen/controllers/{resource}_controller.py`.
 - `doc/controllers/*.md` lists every operation with parameters and usage snippets — grep it first.
-- Request/response model types are under `adyenapi/models/`; enum types have `from_value()`.
+- Request/response model types are under `adyen/models/`; enum types have `from_value()`.
 
 ## Next
 

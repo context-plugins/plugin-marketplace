@@ -7,16 +7,16 @@ description: Configure authentication on an APIMatic-generated TypeScript/Node.j
 
 How you authenticate depends on the security scheme(s) the API uses. APIMatic surfaces each scheme as an **optional credentials property on the config object**; set the one(s) your API uses when constructing the client (see `typescript-client-initialization`).
 
-> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `adyen-apilib`, `AdyenAPIClientConfig`, `{basicAuthProperty}`) — replace it with the concrete identifier from the source.
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `adyenlib`, `Configuration`, `{basicAuthProperty}`) — replace it with the concrete identifier from the source.
 
-To see which schemes a specific SDK accepts, read the **credentials properties on its `AdyenAPIClientConfig` interface** — those are the source of truth. The `src/authentication` folder ships every scheme class as shared runtime code regardless of what the API accepts, so rely on the config interface rather than that folder.
+To see which schemes a specific SDK accepts, read the **credentials properties on its `Configuration` interface** — those are the source of truth. The `src/authentication` folder ships every scheme class as shared runtime code regardless of what the API accepts, so rely on the config interface rather than that folder.
 
 ## Basic auth
 
 ```typescript
-import { AdyenAPIClient } from 'adyen-apilib';
+import { Client } from 'adyenlib';
 
-const client = new AdyenAPIClient({
+const client = new Client({
   {basicAuthProperty}: {
     username: '...',
     password: '...',
@@ -27,7 +27,7 @@ const client = new AdyenAPIClient({
 ## Bearer token
 
 ```typescript
-const client = new AdyenAPIClient({
+const client = new Client({
   {bearerAuthProperty}: 'ACCESS_TOKEN',
 });
 ```
@@ -37,7 +37,7 @@ const client = new AdyenAPIClient({
 The key is sent as a header, query parameter, or cookie — its placement and name are fixed by the generated scheme:
 
 ```typescript
-const client = new AdyenAPIClient({
+const client = new Client({
   {apiKeyProperty}: 'API_KEY',
 });
 ```
@@ -45,7 +45,7 @@ const client = new AdyenAPIClient({
 ## OAuth 2.0 — client credentials
 
 ```typescript
-const client = new AdyenAPIClient({
+const client = new Client({
   {oAuthProperty}: {
     clientId: '...',
     clientSecret: '...',

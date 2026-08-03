@@ -1,14 +1,15 @@
 ---
 name: dotnet-models
-description: Construct and read the non-obvious model shapes of an APIMatic-generated C#/.NET SDK — polymorphic OneOf/AnyOf unions (built with static factory methods, read via TryGet…, no object-initializer), string-/int-enums (StringEnum<T>/IntEnum<T> via static constants or FromValue, not C# enums), collections (IReadOnlyList/IReadOnlyDictionary), DateTimeOffset dates, and unknown-field behavior. Use when building a request body or reading a response field that is a union, enum, list/map, or date — anything that isn't a plain string/number — or when an unmodeled JSON field is dropped on deserialization. Load it even after reading the field's type in the source, since the type name alone won't tell you a union needs factory methods (not `new`) or that an enum isn't a C# enum.
+description: Working with models in an APIMatic-generated .NET SDK in C# — building request models, required members and nullability, enums, union/AnyOf accessors, and JSON wire names versus C# property names. Load before constructing request payloads or mapping SDK models onto your own domain types.
 ---
 
 # Working with models in an APIMatic .NET SDK
 
 Most request/response data are immutable `record`s built with object-initializers (covered in
 `dotnet-calling-endpoints`). This skill covers the **non-obvious model shapes** that trip integrations up.
-The patterns are generic across APIMatic .NET SDKs; take the real type names from your SDK source — read the
-model and union `.cs` files, not a decompiled or reflected view of the installed package.
+The patterns are generic across APIMatic .NET SDKs; take the real type names from the contract sheet (the
+SDK helper agent grounds it from the SDK map/source) — never a decompiled or reflected view of the
+installed package.
 
 > Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{Union}`,
 > `{Variant}`, `{EnumType}`, `{RequestType}`) — replace it with the concrete identifier from the source.
@@ -16,7 +17,7 @@ model and union `.cs` files, not a decompiled or reflected view of the installed
 ## Polymorphic union types: `OneOf` and `AnyOf`
 
 When a field can be one of several types, APIMatic generates a union `record` (under
-`AdyenApi.Models.OneOf` or `.Models.AnyOf`). Build these with the generated **static factory
+`{RootNamespace}.Models.OneOf` or `.Models.AnyOf`). Build these with the generated **static factory
 methods** (one per variant) and read them back with **`TryGet…` methods** — a union has no
 object-initializer. JSON (de)serialization is automatic.
 
@@ -57,8 +58,8 @@ The factory and `TryGet` names are built mechanically from the **variant's CLR t
 | a model `{Variant}` | `.{Variant}({Variant})` | `TryGet{Variant}(out {Variant})` |
 | a list of `{Variant}` | `.ListOf{Variant}(IReadOnlyList<{Variant}>)` | `TryGetListOf{Variant}(out IReadOnlyList<{Variant}>)` |
 
-The exact CLR type varies per union — a numeric variant may be `double`, `decimal`, or `long` — so open the
-union file under `Models/AnyOf` or `Models/OneOf` and copy the real method name. (Unions use the per-variant
+The exact CLR type varies per union — a numeric variant may be `double`, `decimal`, or `long` — so take the
+real method name from the contract sheet (the SDK helper agent grounds it from the SDK map/source). (Unions use the per-variant
 factories and `TryGet…` readers shown above; `FromValue` belongs to enums.) The `Optional<T>` backing a
 union is internal — interact only through the
 factories and `TryGet…`.
@@ -85,18 +86,27 @@ A null collection is omitted from the JSON; an **empty** collection is serialize
   and let the SDK handle the wire format. For manual formatting/parsing use the BCL (`DateTimeOffset.Parse`,
   `.ToString("O")`); the SDK's date handling is internal.
 - Money/quantities may be `string`, `decimal`, or a string-or-number `AnyOf` union; the model's property
-  type is the source of truth.
-  Numeric ids are typically `double?`.
+  type is the source of truth. Numeric types vary per SDK (`int`, `long`, `double`, …) — take the exact
+  type from the contract sheet; don't assume `double`.
 
 ## Enums
 
 Enums are type-safe string-enums (`StringEnum<T>`) or int-enums (`IntEnum<T>`): use the static constants,
 or `FromValue(...)` for a value not known at compile time; they convert implicitly to their underlying
-value. Guard unknown values with `TryGetKnownValue(...)`.
+value. Reading back: `.Value` (equivalently `ToString()` or the implicit conversion) yields the raw wire
+value, and the enum types are `record`s, so `==` compares by value — `{EnumType}.FromValue("x")` equals the
+`x` constant. Guard unknown values with `TryGetKnownValue(...)` or `instance.IsKnownValue()`.
+
+⚠ **`FromValue` is emitted per enum, not guaranteed on all of them.** Some generated enums — server /
+environment selectors are the ones to watch — expose only their static constants and keep the conversion
+helper `protected`, so `{EnumType}.FromValue(someString)` does not compile. Check the type before you plan
+to map a configuration string through it; where it is absent, write the string→constant mapping yourself
+and default deliberately rather than reaching for a helper that isn't there.
 
 ```csharp
 {request}.{EnumProp} = {EnumType}.SomeConstant;
 {request}.{EnumProp} = {EnumType}.FromValue(serverProvidedValue);   // tolerates unknown values
+string wire = {response}.{EnumProp}.Value;                          // raw wire value back out
 if ({EnumType}.TryGetKnownValue(value, out var known)) { /* known constant */ }
 ```
 

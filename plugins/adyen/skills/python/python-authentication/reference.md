@@ -1,16 +1,16 @@
 # Authentication reference (APIMatic Python)
 
 Full matrix of auth schemes the APIMatic Python generator supports. Credential objects are passed as
-kwargs to the `AdyenAPIClient` constructor (or to `Configuration`). Exact credential class names and
-kwarg names are generated per-API — confirm from `adyenapi/adyenapi_client.py` and `adyenapi/http/auth/` in
+kwargs to the `AdyenClient` constructor (or to `Configuration`). Exact credential class names and
+kwarg names are generated per-API — confirm from `adyen/adyen_client.py` and `adyen/http/auth/` in
 the cloned source.
 
 ## Basic auth
 
 ```python
-from adyenapi.http.auth.basic_auth import BasicAuthCredentials
+from adyen.http.auth.basic_auth import BasicAuthCredentials
 
-client = AdyenAPIClient(
+client = AdyenClient(
     basic_auth_credentials=BasicAuthCredentials(
         username=os.environ['BASIC_AUTH_USERNAME'],
         password=os.environ['BASIC_AUTH_PASSWORD']
@@ -23,9 +23,9 @@ Sends `Authorization: Basic base64(username:password)`.
 ## Custom query parameter (API key)
 
 ```python
-from adyenapi.http.auth.api_key import ApiKeyCredentials
+from adyen.http.auth.api_key import ApiKeyCredentials
 
-client = AdyenAPIClient(
+client = AdyenClient(
     api_key_credentials=ApiKeyCredentials(
         token=os.environ['API_KEY_TOKEN'],
         api_key=os.environ['API_KEY_API_KEY']
@@ -38,9 +38,9 @@ Field-to-wire-parameter mapping is fixed by the generated scheme — check `doc/
 ## Custom header signature (API key in header)
 
 ```python
-from adyenapi.http.auth.api_header import ApiHeaderCredentials
+from adyen.http.auth.api_header import ApiHeaderCredentials
 
-client = AdyenAPIClient(
+client = AdyenClient(
     api_header_credentials=ApiHeaderCredentials(
         token=os.environ['API_HEADER_TOKEN'],
         api_key=os.environ['API_HEADER_API_KEY']
@@ -51,9 +51,9 @@ client = AdyenAPIClient(
 ## OAuth 2.0 — bearer token
 
 ```python
-from adyenapi.http.auth.o_auth_bearer_token import OAuthBearerTokenCredentials
+from adyen.http.auth.o_auth_bearer_token import OAuthBearerTokenCredentials
 
-client = AdyenAPIClient(
+client = AdyenClient(
     o_auth_bearer_token_credentials=OAuthBearerTokenCredentials(
         access_token=os.environ['O_AUTH_BEARER_TOKEN_ACCESS_TOKEN']
     )
@@ -67,7 +67,7 @@ Sends `Authorization: Bearer {access_token}`.
 Token fetched automatically on first use; refreshed when expired.
 
 ```python
-from adyenapi.http.auth.o_auth_ccg import OAuthCCGCredentials
+from adyen.http.auth.o_auth_ccg import OAuthCCGCredentials
 
 creds = OAuthCCGCredentials(
     o_auth_client_id=os.environ['O_AUTH_CCG_O_AUTH_CLIENT_ID'],
@@ -87,8 +87,8 @@ creds = OAuthCCGCredentials(
 Three-legged flow. The SDK does **not** perform the redirect — your application does.
 
 ```python
-from adyenapi.http.auth.o_auth_acg import OAuthACGCredentials
-from adyenapi.models.o_auth_scope_adyenapi_enum import OAuthScope{Pkg}Enum
+from adyen.http.auth.o_auth_acg import OAuthACGCredentials
+from adyen.models.o_auth_scope_adyen_enum import OAuthScope{Pkg}Enum
 
 creds = OAuthACGCredentials(
     o_auth_client_id=os.environ['O_AUTH_ACG_O_AUTH_CLIENT_ID'],
@@ -96,7 +96,7 @@ creds = OAuthACGCredentials(
     o_auth_redirect_uri=os.environ['O_AUTH_ACG_O_AUTH_REDIRECT_URI'],
     o_auth_scopes=[OAuthScope{Pkg}Enum.READ_SCOPE],   # optional
 )
-client = AdyenAPIClient(o_auth_acg_credentials=creds)
+client = AdyenClient(o_auth_acg_credentials=creds)
 
 # 1. Build the authorization URL and send the user there:
 auth_url = client.o_auth_acg.get_authorization_url()
@@ -106,7 +106,7 @@ try:
     token = client.o_auth_acg.fetch_token(code)
     new_creds = client.config.o_auth_acg_credentials.clone_with(o_auth_token=token)
     new_config = client.config.clone_with(o_auth_acg_credentials=new_creds)
-    client = AdyenAPIClient(config=new_config)
+    client = AdyenClient(config=new_config)
 except OAuthProviderException:
     pass  # handle exchange failure
 
@@ -115,7 +115,7 @@ if client.o_auth_acg.is_token_expired():
     token = client.o_auth_acg.refresh_token()
     new_creds = client.config.o_auth_acg_credentials.clone_with(o_auth_token=token)
     new_config = client.config.clone_with(o_auth_acg_credentials=new_creds)
-    client = AdyenAPIClient(config=new_config)
+    client = AdyenClient(config=new_config)
 ```
 
 Persist the token between sessions: `save_token_to_database(client.config.o_auth_acg_credentials.o_auth_token)`
@@ -123,7 +123,7 @@ Persist the token between sessions: `save_token_to_database(client.config.o_auth
 ## OAuth 2.0 — resource owner password credentials grant (ROPCG)
 
 ```python
-from adyenapi.http.auth.o_auth_ropcg import OAuthROPCGCredentials
+from adyen.http.auth.o_auth_ropcg import OAuthROPCGCredentials
 
 creds = OAuthROPCGCredentials(
     o_auth_client_id=os.environ['O_AUTH_ROPCG_O_AUTH_CLIENT_ID'],
@@ -132,13 +132,13 @@ creds = OAuthROPCGCredentials(
     o_auth_password=os.environ['O_AUTH_ROPCG_O_AUTH_PASSWORD'],
     o_auth_token=load_token_from_database(),   # optional: seed a stored token
 )
-client = AdyenAPIClient(o_auth_ropcg_credentials=creds)
+client = AdyenClient(o_auth_ropcg_credentials=creds)
 
 # Fetch token explicitly if needed:
 token = client.o_auth_ropcg.fetch_token()
 new_creds = client.config.o_auth_ropcg_credentials.clone_with(o_auth_token=token)
 new_config = client.config.clone_with(o_auth_ropcg_credentials=new_creds)
-client = AdyenAPIClient(config=new_config)
+client = AdyenClient(config=new_config)
 ```
 
 The same `o_auth_on_token_update`, `o_auth_token_provider`, and `o_auth_clock_skew` kwargs apply
@@ -156,7 +156,7 @@ the client wires AND/OR composition internally:
 
 ## Configuration from environment variables
 
-`Configuration.from_environment()` (and `AdyenAPIClient.from_environment()`) read each credential
+`Configuration.from_environment()` (and `AdyenClient.from_environment()`) read each credential
 field from a scheme-prefixed environment variable. Examples:
 
 ```
@@ -174,7 +174,7 @@ O_AUTH_ROPCG_O_AUTH_USERNAME=...
 O_AUTH_BEARER_TOKEN_ACCESS_TOKEN=...
 ```
 
-Grep `from_environment` in `adyenapi/configuration.py` and each `adyenapi/http/auth/*.py` for the exact
+Grep `from_environment` in `adyen/configuration.py` and each `adyen/http/auth/*.py` for the exact
 variable names this SDK reads.
 
 ## No auth

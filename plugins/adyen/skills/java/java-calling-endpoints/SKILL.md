@@ -1,9 +1,13 @@
 ---
 name: java-calling-endpoints
-description: Call API operations on an APIMatic-generated Java SDK — get a controller from the client via get{Resource}Controller(), choose between the blocking sync form (returns T directly, throws ApiException and IOException) and the async form (returns CompletableFuture<T>), pass parameters either as positional arguments or bundled into an {Op}Input built with its nested Builder, and read the result directly as T with no wrapper. Use whenever invoking an endpoint, building a request model, working out which params are required vs optional, or consuming a response from any APIMatic Java SDK — load it even after reading the signature in the source, since it doesn't warn you about the two variants (sync/async), the Input builder pattern, or that sync ops declare two checked exceptions.
+description: Call API operations on an APIMatic-generated Java SDK — get a controller from the client via get{Resource}Api(), choose between the blocking sync form (returns T directly, throws ApiException and IOException) and the async form (returns CompletableFuture<T>), pass parameters either as positional arguments or bundled into an {Op}Input built with its nested Builder, and read the result directly as T with no wrapper. Use whenever invoking an endpoint, building a request model, working out which params are required vs optional, or consuming a response from any APIMatic Java SDK — load it even after reading the signature in the source, since it doesn't warn you about the two variants (sync/async), the Input builder pattern, or that sync ops declare two checked exceptions.
 ---
 
 # Calling endpoints on an APIMatic Java SDK
+
+> `AdyenClient` is the SDK's client class — **read the real name** from the `*Client.java` file in
+> the root package (it is derived from the API title with APIMatic's own casing, so do not guess
+> it from the API name).
 
 Operations are **methods on a controller** you obtain from the client. Each operation is generated in two
 forms: a **blocking synchronous** variant that returns the result directly, and an **async** variant that
@@ -24,10 +28,10 @@ signatures can't show.
 Controllers are obtained via getter methods on the client — one per API resource group:
 
 ```java
-{Resource}Controller ctrl = client.get{Resource}Controller();
+{Resource}Api ctrl = client.get{Resource}Api();
 ```
 
-Open `AdyenAPIClient.java` for the full list of `get*Controller()` methods. Controllers are stateless;
+Open `AdyenClient.java` for the full list of `get*Controller()` methods. Controllers are stateless;
 obtain one and reuse it, or call the getter each time — there is no difference in behaviour.
 
 ## Method signature convention
@@ -96,7 +100,7 @@ directly.
 Catch or re-declare both checked exceptions:
 
 ```java
-{Resource}Controller ctrl = client.get{Resource}Controller();
+{Resource}Api ctrl = client.get{Resource}Api();
 {Op}Input input = new {Op}Input.Builder(/* required params */).build();
 
 try {
@@ -178,8 +182,8 @@ See **java-models** for the two enum kinds and their factory methods.
 
 - `doc/controllers/*.md` — lists every operation with its signature, parameter table, and example
   usage. **Start here** before opening the `.java` file.
-- `AdyenAPIClient.java` — controller accessor methods; each `get{Resource}Controller()` returns a
-  `{Resource}Controller`.
+- `AdyenClient.java` — controller accessor methods; each `get{Resource}Api()` returns a
+  `{Resource}Api`.
 - Each operation has both a sync method **and** a matching `{operation}Async` variant.
 - `doc/models/{op-input}.md` — describes an `{Op}Input`'s required vs optional fields.
 

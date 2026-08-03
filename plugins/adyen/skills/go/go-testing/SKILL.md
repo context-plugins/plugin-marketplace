@@ -13,7 +13,7 @@ mocking helpers — this is standard Go.
 
 **Match the project's existing test stack.** Check the test files and `go.mod` for the assertion library
 in use (`testify/require`, `testify/assert`, or stdlib `testing`) and mirror it. Samples below use
-`testing` + `testify/require` for reference; substitute the real `adyenapi` and names.
+`testing` + `testify/require` for reference; substitute the real `adyen` and names.
 
 > `{...}` tokens are placeholders for names from your SDK.
 
@@ -27,7 +27,7 @@ import (
     "net/http"
     "strings"
 
-    "github.com/context-plugins/adyen-api-go"   // root package adyenapi
+    "github.com/context-plugins/adyen-go-sdk"   // root package adyen
 )
 
 type stubTransport struct {
@@ -46,12 +46,12 @@ func (s *stubTransport) RoundTrip(req *http.Request) (*http.Response, error) {
     }, nil
 }
 
-func clientReturning(status int, body string) (adyenapi.ClientInterface, *stubTransport) {
+func clientReturning(status int, body string) (adyen.ClientInterface, *stubTransport) {
     stub := &stubTransport{statusCode: status, body: body}
-    client := adyenapi.NewClient(
-        adyenapi.CreateConfiguration(
-            adyenapi.WithHttpConfiguration(
-                adyenapi.CreateHttpConfiguration(adyenapi.WithTransport(stub)),
+    client := adyen.NewClient(
+        adyen.CreateConfiguration(
+            adyen.WithHttpConfiguration(
+                adyen.CreateHttpConfiguration(adyen.WithTransport(stub)),
             ),
             // auth credentials are irrelevant to a stubbed transport
         ),
@@ -66,7 +66,7 @@ func clientReturning(status int, body string) (adyenapi.ClientInterface, *stubTr
 func TestGetResource_Success(t *testing.T) {
     client, _ := clientReturning(http.StatusOK, `{"id":123,"name":"widget"}`)
 
-    resp, err := client.{Resource}Controller().{Operation}(context.Background(), /* params */)
+    resp, err := client.{Resource}Api().{Operation}(context.Background(), /* params */)
     require.NoError(t, err)
     require.Equal(t, http.StatusOK, resp.Response.StatusCode)
     require.Equal(t, 123, *resp.Data.Id)   // Data is the typed model
@@ -81,7 +81,7 @@ A non-2xx returns a non-nil `error`. Assert the type with `errors.As` (see **go-
 func TestGetResource_NotFound(t *testing.T) {
     client, _ := clientReturning(http.StatusNotFound, `{"message":"not found"}`)
 
-    _, err := client.{Resource}Controller().{Operation}(context.Background(), /* params */)
+    _, err := client.{Resource}Api().{Operation}(context.Background(), /* params */)
     require.Error(t, err)
 
     var apiErr https.ApiError                 // base error is a VALUE, not a pointer
@@ -93,7 +93,7 @@ func TestGetResource_NotFound(t *testing.T) {
 For an operation with a registered typed error (in the SDK's `errors/` package):
 
 ```go
-import sdkerrors "github.com/context-plugins/adyen-api-go/errors"
+import sdkerrors "github.com/context-plugins/adyen-go-sdk/errors"
 
 var opErr *sdkerrors.{Operation}Error      // typed errors are POINTERS
 require.True(t, errors.As(err, &opErr))
@@ -108,7 +108,7 @@ The stub captures `lastRequest`:
 func TestCreate_SendsCorrectRequest(t *testing.T) {
     client, stub := clientReturning(http.StatusCreated, `{"id":1}`)
 
-    _, err := client.{Resource}Controller().{Operation}(context.Background(), /* body */)
+    _, err := client.{Resource}Api().{Operation}(context.Background(), /* body */)
     require.NoError(t, err)
 
     req := stub.lastRequest
@@ -138,10 +138,10 @@ func (t redirectTransport) RoundTrip(req *http.Request) (*http.Response, error) 
     return http.DefaultTransport.RoundTrip(req)
 }
 
-client := adyenapi.NewClient(
-    adyenapi.CreateConfiguration(
-        adyenapi.WithHttpConfiguration(
-            adyenapi.CreateHttpConfiguration(adyenapi.WithTransport(redirectTransport{host: target.Host})),
+client := adyen.NewClient(
+    adyen.CreateConfiguration(
+        adyen.WithHttpConfiguration(
+            adyen.CreateHttpConfiguration(adyen.WithTransport(redirectTransport{host: target.Host})),
         ),
     ),
 )

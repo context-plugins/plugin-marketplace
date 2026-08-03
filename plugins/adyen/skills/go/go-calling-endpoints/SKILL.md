@@ -9,7 +9,7 @@ Operations are **synchronous, blocking methods** on a **controller** you get fro
 controller from its accessor, then call the operation:
 
 ```go
-ctrl := client.{Resource}Controller()
+ctrl := client.{Resource}Api()
 apiResponse, err := ctrl.{Operation}(ctx, ...)
 ```
 
@@ -23,7 +23,7 @@ exact signature.
 ## Method signature convention
 
 ```go
-func (c *{Resource}Controller) {Operation}(
+func (c *{Resource}Api) {Operation}(
     ctx context.Context,
     // parameters — see the two styles below
 ) (models.ApiResponse[{T}], error)
@@ -90,7 +90,7 @@ Enum-typed params/fields take the generated typed constant from the `models` pac
 | `Response` | `*http.Response` | status code, headers, raw body |
 
 ```go
-apiResponse, err := client.{Resource}Controller().{Operation}(ctx, ...)
+apiResponse, err := client.{Resource}Api().{Operation}(ctx, ...)
 if err != nil {
     // see go-error-handling
     return err
@@ -105,8 +105,8 @@ know its shape.
 
 ## Finding the right method in the SDK source
 
-- Controller accessors are on the `ClientInterface` in `client.go`; each returns a `*{Resource}Controller`.
-- Search `func (c *{Resource}Controller) {Operation}` (or grep `doc/controllers/*.md`) for the method.
+- Controller accessors are on the `ClientInterface` in `client.go`; each returns a `*{Resource}Api`.
+- Search `func (c *{Resource}Api) {Operation}` (or grep `doc/controllers/*.md`) for the method.
 - Request/response/enum types live under `models/`; typed errors under `errors/`.
 - The method's doc comment states what it does, its parameters, and (via `AppendErrors`) the error types.
 

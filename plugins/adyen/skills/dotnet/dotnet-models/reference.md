@@ -14,9 +14,15 @@ public sealed record {EnumType} : StringEnum<{EnumType}>
 {
     public static readonly {EnumType} FirstValue  = new("first_value");
     public static readonly {EnumType} SecondValue = new("second_value");
+    // Emitted for most, but NOT all, generated enums — see the note below.
     public static {EnumType} FromValue(string value) => FromValueCore(value);
 }
 ```
+
+> **Check that `FromValue` is actually there before you rely on it.** The base helper it forwards to
+> (`FromValueCore`) is `protected`, and some generated enums — notably server / environment selectors —
+> ship only their static constants without the public wrapper. On those, `{EnumType}.FromValue(s)` is a
+> compile error and you map the string to a constant yourself.
 
 Usage:
 
@@ -47,7 +53,8 @@ int n = {EnumType}.On;   // implicit conversion to int
 
 ## Union types — finding the exact members
 
-For a `OneOf`/`AnyOf` type, open its file under `Models/OneOf/` or `Models/AnyOf/`. Each variant `{V}`
+For a `OneOf`/`AnyOf` type, the contract sheet lists the exact members (the SDK helper agent grounds
+them from the SDK map/source). Each variant `{V}`
 produces:
 
 - a factory `static {Union} {V}({V} value)` (the parameter type usually equals the variant type name), and

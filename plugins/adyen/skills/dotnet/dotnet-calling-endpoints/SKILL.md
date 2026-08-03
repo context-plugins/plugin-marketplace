@@ -1,16 +1,15 @@
 ---
 name: dotnet-calling-endpoints
-description: Call API operations on an APIMatic-generated C#/.NET SDK — method signature and parameter-order conventions, building request-model records, string-enums, passing path/query/body params + a CancellationToken, reading the varied response shapes, and the optional non-throwing result-style call. Use whenever invoking an endpoint, building a request body, working out parameter order or named arguments, or consuming a response from any APIMatic .NET SDK — load it even after reading the method signature in the source, since the signature doesn't warn you that list/search ops mis-bind positionally and need named arguments.
+description: Calling operations on an APIMatic-generated .NET SDK in C# — finding the controller that owns an operation, required vs optional parameters, request and response envelope shapes, async usage, and cancellation. Load before writing the first call to an SDK operation, or when an operation's shape or return type is unclear.
 ---
 
 # Calling endpoints on an APIMatic .NET SDK
 
 Operations are **async methods** on the client. Most are **grouped under a controller property** and called
 `client.{ApiGroup}.{Operation}(...)`; an operation that belongs to no group sits **directly on the
-client**, called `client.{Operation}(...)`. Open the client class in the SDK source to see its controller
-properties (and any direct operations), then open the relevant controller (or the client) for the
-operation's exact signature. Operation names follow no fixed verb/resource pattern — take the real name from
-the source.
+client**, called `client.{Operation}(...)`. The controller property, the exact operation name, and its
+signature come from the contract sheet (the SDK helper agent grounds it from the SDK map/source) — operation
+names follow no fixed verb/resource pattern, so take the real name from the sheet, never from memory.
 
 > Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{ApiGroup}`,
 > `{Operation}`, `{Resource}`, `{EnumType}`) — replace it with the concrete identifier from the source.
@@ -32,10 +31,11 @@ public Task<{ReturnType}> {Operation}(
 - **An optional parameter may still have no C# default.** Many nullable query params are generated without a
   `= null` default (e.g. `string? startDate`), so they sit in the leading group and must be passed
   explicitly (as `null`) in a positional call — which is why named arguments matter (see below).
-- **The signature is the source of truth.** Whether a parameter is nullable, required, or defaulted — and
-  whether the operation takes a body — varies per operation. Path params are typically
-  non-nullable primitives listed first; query and body params may be required or optional. Read the actual
-  signature in the SDK source (`public Task<...> {Operation}(...)`) for each operation.
+- **The contract sheet is the source of truth for the signature.** Whether a parameter is nullable,
+  required, or defaulted — and whether the operation takes a body — varies per operation. Path params are
+  typically non-nullable primitives listed first; query and body params may be required or optional. Take
+  each operation's exact signature from the contract sheet (the SDK helper agent grounds it from the SDK
+  map/source), not from memory.
 - **Return type** varies by operation — see [Reading the response](#making-the-call-and-reading-the-response).
 - Methods are **async-only** (no sync overloads) and **throw `SdkException<TError>`** on API errors — see
   `dotnet-error-handling`.
@@ -70,8 +70,8 @@ var response = await client.{ApiGroup}.{Operation}(
 
 Request bodies are immutable `record`s built with object-initializer syntax (no builders). `required`
 members must be set; optional ones are nullable and are omitted from the JSON when left null. The request
-type is the type of the operation's `body` parameter — take its exact name from the method signature in the
-SDK source:
+type is the type of the operation's `body` parameter — take its exact name from the contract sheet (the
+SDK helper agent grounds it from the SDK map/source):
 
 ```csharp
 var body = new {RequestType}
@@ -82,8 +82,8 @@ var body = new {RequestType}
 ```
 
 A request body's **shape varies**: some are **flat** (scalar members directly on the record), others **nest
-an inner resource record** (whose type you likewise read from the source). Open
-the request model (under `Models/`) to see its real `required`/optional members. A nested body looks like:
+an inner resource record** (whose type the sheet's request-model column likewise names). The contract sheet
+lists each model's real `required`/optional members with their wire names. A nested body looks like:
 
 ```csharp
 var body = new {RequestType}
@@ -98,8 +98,10 @@ var body = new {RequestType}
 
 ## Enums
 
-Enums are type-safe string-enums (`StringEnum<T>`): use the static constants, or `FromValue(...)` for a
-value not known at compile time. They convert implicitly to `string`.
+Enums are type-safe string- **or int-**enums (`StringEnum<T>` / `IntEnum<T>`), not C# enums — use the
+static constants, or `FromValue(...)` for a value not known at compile time — where the enum exposes it;
+some do not, and `dotnet-models` says which to check. See **dotnet-models** for
+read-back semantics (they convert to their underlying value; `==` compares by value; guard unknowns).
 
 ```csharp
 SomeProp = {EnumType}.SomeConstant;
@@ -124,8 +126,9 @@ var response = await client.{ApiGroup}.{Operation}(pathArg, queryArg: null, body
 > Before writing a real call, **load `dotnet-error-handling`** for how to wrap it — the `try/catch` shape and
 > which `TError` to catch per operation — or use the non-throwing `{Operation}Result` variant (below).
 
-**Each operation's return type varies** — the shape, and even the type's name, differ by operation. Read the
-method's return type in the SDK source and handle it accordingly. The cases you'll meet:
+**Each operation's return type varies** — the shape, and even the type's name, differ by operation. The
+contract sheet's response-envelope column names the return type and the inner fields to read (the SDK helper
+agent grounds it from the SDK map/source); handle it accordingly. The cases you'll meet:
 
 - **An object that nests the resource** under a property (a record whose member holds the inner resource).
   Unwrap that member:
@@ -153,12 +156,9 @@ exist. See **dotnet-error-handling**.
 
 ## Cancellation
 
-Pass a `CancellationToken` to bound an individual call (independent of the client-wide retry timeout):
-
-```csharp
-using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-var response = await client.{ApiGroup}.{Operation}(/* ... */, ct: cts.Token);
-```
+Every operation takes a `CancellationToken` as its last argument, passed as `ct:`. To bound an individual
+call with a timeout, use the per-request cancellation pattern in **dotnet-configuration-resilience** (it
+owns timeouts).
 
 ## Worked example — a list/GET call
 
@@ -186,21 +186,6 @@ foreach (var item in results)
 > This operation returns an **array** directly, so you iterate and unwrap each item. Other operations nest
 > the array inside an object (a record with one list member) — there you read that member first
 > (`foreach (var item in response.{Items})`), then iterate. Check the method's return type.
-
-## Finding the right method in the SDK source
-
-Read these from the SDK **source** files (clone the SDK's source repo to a temp dir first if you haven't,
-and delete it when done), not by decompiling or reflecting over the installed package — the source has the
-XML-doc comments and the internal `new Param(...)` builder list a compiled assembly drops, and reading a
-`.cs` file is faster than running reflection.
-
-- Most operations are grouped on **controller properties** of the client (each defined in
-  `Api/{ApiGroup}.cs`); an operation in no group is defined **directly on the client class**. Find an
-  operation by searching the controller files (e.g. for `public Task` across `Api/`) and the client class.
-- Each method's XML-doc comment documents its parameters and the endpoint path; read it to confirm which
-  params are required and what the body/return types are.
-- Request/response/enum types live under `Models/` (and `Models/Enums/`, with unions under `Models/AnyOf/`
-  and `Models/OneOf/`); error types under `Errors/`.
 
 ## Next
 

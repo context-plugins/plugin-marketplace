@@ -6,11 +6,11 @@ description: Handle errors from an APIMatic-generated Python SDK — APIExceptio
 # Error handling for an APIMatic Python SDK
 
 Every controller operation raises on a non-2xx response. The base exception is `APIException` in
-`adyenapi/exceptions/api_exception.py`. Transport failures (`requests.exceptions.Timeout`,
+`adyen/exceptions/api_exception.py`. Transport failures (`requests.exceptions.Timeout`,
 `requests.exceptions.ConnectionError`) are distinct and do **not** inherit from `APIException`.
 
 > Throughout, `{...}` tokens are placeholders for names you take from your SDK — confirm exception
-> class names from `adyenapi/exceptions/` and operation docstrings.
+> class names from `adyen/exceptions/` and operation docstrings.
 
 ## APIException — the base class
 
@@ -37,7 +37,7 @@ For operations with no typed subclass, catch `APIException` and read `.response_
 `.response.text`:
 
 ```python
-from adyenapi.exceptions.api_exception import APIException
+from adyen.exceptions.api_exception import APIException
 
 try:
     result = client.{resource}.{operation}(...)
@@ -56,7 +56,7 @@ except APIException as e:
 
 ## Typed subclasses — when the SDK generates one
 
-For status codes the API documents, the generator creates a typed subclass in `adyenapi/exceptions/`.
+For status codes the API documents, the generator creates a typed subclass in `adyen/exceptions/`.
 Each subclass calls `unbox()` in its `__init__` to parse the response body into typed fields:
 
 ```python
@@ -74,8 +74,8 @@ fields in typed exceptions may not be set — check with `hasattr`.
 Catch the typed subclass first, then fall back to `APIException`:
 
 ```python
-from adyenapi.exceptions.api_exception import APIException
-from adyenapi.exceptions.o_auth_provider_exception import OAuthProviderException
+from adyen.exceptions.api_exception import APIException
+from adyen.exceptions.o_auth_provider_exception import OAuthProviderException
 
 try:
     token = client.o_auth_authorization.request_token(...)
@@ -94,8 +94,8 @@ except APIException as e:
 Always put the most specific `except` clause first — Python resolves them top-down.
 
 To know which typed exception (if any) an operation raises, read its docstring in the controller
-file (`adyenapi/controllers/{resource}_controller.py`) or `doc/controllers/*.md`, and check
-`adyenapi/exceptions/` for the class.
+file (`adyen/controllers/{resource}_controller.py`) or `doc/controllers/*.md`, and check
+`adyen/exceptions/` for the class.
 
 ## Transport and network failures
 
@@ -103,7 +103,7 @@ These are raised by `requests` directly and do **not** inherit from `APIExceptio
 
 ```python
 import requests
-from adyenapi.exceptions.api_exception import APIException
+from adyen.exceptions.api_exception import APIException
 
 try:
     result = client.{resource}.{operation}(...)
@@ -123,7 +123,7 @@ except requests.exceptions.ConnectionError:
 ```
 
 The SDK uses `apimatic-requests-client-adapter` wrapping `requests` — confirm by checking
-`adyenapi/http/` in the source if you are unsure of the transport library.
+`adyen/http/` in the source if you are unsure of the transport library.
 
 ## Notes
 
@@ -131,5 +131,5 @@ The SDK uses `apimatic-requests-client-adapter` wrapping `requests` — confirm 
   **disabled by default** (`max_retries=0`); see **python-configuration-resilience**.
 - `response_code` is always correct on `APIException`, even when the body is not JSON.
 - `response.text` is always a string (may be empty on responses with no body).
-- On OAuth flows, a failed token exchange may raise a specific exception from `adyenapi/exceptions/`
-  or a `ValueError` — check the auth handler in `adyenapi/http/auth/` for the exact type.
+- On OAuth flows, a failed token exchange may raise a specific exception from `adyen/exceptions/`
+  or a `ValueError` — check the auth handler in `adyen/http/auth/` for the exact type.

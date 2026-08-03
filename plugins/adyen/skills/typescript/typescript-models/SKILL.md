@@ -1,6 +1,6 @@
 ---
 name: typescript-models
-description: Construct and read the non-obvious model shapes of an APIMatic-generated TypeScript/Node.js SDK — discriminated union types (built with factory helpers or type guards, not plain object-literals), string-literal enums (use the exported constants or raw string values), collections (Array<T>), ISO-8601 date strings, and unknown-field behavior. Use when building a request body or reading a response field that is a union, enum, list/map, or date — anything that isn't a plain string/number — or when an unmodeled JSON field is dropped on deserialization. Load it even after reading the field's type in the source, since the type name alone won't tell you a union needs a factory helper (not a plain object-literal) or that an enum is a string literal union.
+description: Construct and read the non-obvious model shapes of an APIMatic-generated TypeScript/Node.js SDK — oneOf/anyOf union types (built as plain object literals, narrowed on the way back with the generated is{Variant} type guards), string-literal enums (use the exported constants or raw string values), collections (Array<T>), ISO-8601 date strings, and unknown-field behavior. Use when building a request body or reading a response field that is a union, enum, list/map, or date — anything that isn't a plain string/number — or when an unmodeled JSON field is dropped on deserialization. Load it even after reading the field's type in the source, since the type name alone won't tell you that a union is validated at call time and rejects a value matching more than one variant.
 ---
 
 # Working with models in an APIMatic TypeScript SDK
@@ -11,40 +11,58 @@ Most request/response data are plain TypeScript objects conforming to interfaces
 
 ## Discriminated union types
 
-When a field can be one of several types, APIMatic generates a discriminated union type (under `src/models/`). Build these with the generated **factory helpers** (one per variant) and read them back with **type guards** — a union is not a plain object-literal.
+When a field can be one of several types, APIMatic generates a union type in
+`src/models/containers/`: a TypeScript union of the variant interfaces, plus a runtime schema built with
+`oneOf([...])`.
 
-### Construct
+### Construct — a plain object literal
+
+There are **no factory helpers**. Assign the variant's own shape directly:
 
 ```typescript
-import { {Union}, {Variant} } from 'adyen-apilib';
-
-// One factory helper per variant:
-const u1 = {Union}.fromString('...');
-const u2 = {Union}.from{Variant}({ /* ... */ });
+const body: {RequestType} = {
+  {field}: {                 // typed as {Union}
+    type: '{variantTag}',    // the variant's discriminating value, if it has one
+    someField: 'value',
+  },
+};
 ```
 
-### Read / unwrap
+### Read — narrow with the generated type guards
+
+The union's namespace exports one `is{Variant}` guard per variant. These are **read-side only**:
 
 ```typescript
-import { is{Variant} } from 'adyen-apilib';
+import { {Union} } from 'adyenlib';
 
-if (is{Variant}(u1)) {
-  // u1 is narrowed to {Variant}
-  console.log(u1.someField);
+if ({Union}.is{Variant}(response.result.{field})) {
+  // narrowed to {Variant}
 }
 ```
 
-Alternatively, use the discriminator property when the union is tagged:
+A tagged union can also be narrowed on its discriminator:
 
 ```typescript
-switch (response.{field}.type) {
-  case '{VariantType}':
-    // narrowed here
+switch (response.result.{field}.type) {
+  case '{variantTag}':
     break;
 }
 ```
 
-Open the union type file under `src/models/` for the exact factory and guard names.
+### The failure mode to know about
+
+`oneOf` is validated **when you make the call**, client-side, before any HTTP request. The runtime tries
+every variant and requires **exactly one** match. Two errors come out of it:
+
+- `Matched more than one type` — your value satisfies several variants at once. Usually the variants'
+  discriminating field is unconstrained in the generated schema, so no value can disambiguate them. Set
+  the discriminator explicitly; if it still fails, the union cannot be satisfied from the typed API and
+  the SDK needs regenerating.
+- `Could not match against any acceptable type` — a required field is missing, or the discriminator
+  value is not one the variant accepts.
+
+Open the container file under `src/models/containers/` and read the variant list and each variant's
+schema before debugging your own input.
 
 ## Collections
 
@@ -70,7 +88,7 @@ A `null` or `undefined` collection is omitted from the JSON; an **empty** array 
 Enums are string literal unions with exported constants. Use the exported constants, or pass the raw string value for unknown/dynamic values:
 
 ```typescript
-import { {EnumType} } from 'adyen-apilib';
+import { {EnumType} } from 'adyenlib';
 
 request.{enumProp} = {EnumType}.SomeConstant;
 request.{enumProp} = 'server_provided_value' as {EnumType};  // unknown-tolerant

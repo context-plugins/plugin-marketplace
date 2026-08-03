@@ -9,15 +9,15 @@ Retries, timeout, and transport are configured through an `HttpConfiguration` pa
 `Configuration` via `WithHttpConfiguration`. Build each piece with its `Create...` + `With...` helpers.
 
 ```go
-client := adyenapi.NewClient(
-    adyenapi.CreateConfiguration(
-        adyenapi.WithHttpConfiguration(
-            adyenapi.CreateHttpConfiguration(
-                adyenapi.WithTimeout(30),
-                adyenapi.WithRetryConfiguration(
-                    adyenapi.CreateRetryConfiguration(
-                        adyenapi.WithMaxRetryAttempts(3),
-                        adyenapi.WithBackoffFactor(2),
+client := adyen.NewClient(
+    adyen.CreateConfiguration(
+        adyen.WithHttpConfiguration(
+            adyen.CreateHttpConfiguration(
+                adyen.WithTimeout(30),
+                adyen.WithRetryConfiguration(
+                    adyen.CreateRetryConfiguration(
+                        adyen.WithMaxRetryAttempts(3),
+                        adyen.WithBackoffFactor(2),
                     ),
                 ),
             ),
@@ -50,12 +50,12 @@ retries. Defaults (from `CreateRetryConfiguration`):
 | `WithHttpMethodsToRetry([]string)` | `{"GET", "PUT"}` | **only idempotent methods**; `POST`/`DELETE` are *not* retried unless you add them |
 
 ```go
-rc := adyenapi.CreateRetryConfiguration(
-    adyenapi.WithMaxRetryAttempts(5),
-    adyenapi.WithRetryInterval(1),
-    adyenapi.WithBackoffFactor(2),
-    adyenapi.WithHttpStatusCodesToRetry([]int64{429, 500, 503}),
-    adyenapi.WithHttpMethodsToRetry([]string{"GET", "PUT"}),
+rc := adyen.CreateRetryConfiguration(
+    adyen.WithMaxRetryAttempts(5),
+    adyen.WithRetryInterval(1),
+    adyen.WithBackoffFactor(2),
+    adyen.WithHttpStatusCodesToRetry([]int64{429, 500, 503}),
+    adyen.WithHttpMethodsToRetry([]string{"GET", "PUT"}),
 )
 ```
 
@@ -70,7 +70,7 @@ transport-level default applied to each attempt):
 ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
 defer cancel()
 
-apiResponse, err := client.{Resource}Controller().{Operation}(ctx, ...)
+apiResponse, err := client.{Resource}Api().{Operation}(ctx, ...)
 ```
 
 A cancelled context aborts the in-flight request and stops further retries; you'll get
@@ -82,8 +82,8 @@ The base URL is derived from the selected `Environment` (and any server paramete
 free-form URL option:
 
 ```go
-client := adyenapi.NewClient(
-    adyenapi.CreateConfiguration(adyenapi.WithEnvironment(adyenapi.PRODUCTION)),
+client := adyen.NewClient(
+    adyen.CreateConfiguration(adyen.WithEnvironment(adyen.PRODUCTION)),
 )
 ```
 
@@ -101,7 +101,7 @@ model. Example shape:
 ```go
 page := 1
 for {
-    resp, err := client.{Resource}Controller().List{Resource}s(ctx, /* page param */ &page)
+    resp, err := client.{Resource}Api().List{Resource}s(ctx, /* page param */ &page)
     if err != nil { return err }
     items := resp.Data
     for _, it := range items { process(it) }
@@ -126,11 +126,11 @@ func (t *loggingTransport) RoundTrip(req *http.Request) (*http.Response, error) 
     return resp, nil
 }
 
-client := adyenapi.NewClient(
-    adyenapi.CreateConfiguration(
-        adyenapi.WithHttpConfiguration(
-            adyenapi.CreateHttpConfiguration(
-                adyenapi.WithTransport(&loggingTransport{inner: http.DefaultTransport}),
+client := adyen.NewClient(
+    adyen.CreateConfiguration(
+        adyen.WithHttpConfiguration(
+            adyen.CreateHttpConfiguration(
+                adyen.WithTransport(&loggingTransport{inner: http.DefaultTransport}),
             ),
         ),
     ),

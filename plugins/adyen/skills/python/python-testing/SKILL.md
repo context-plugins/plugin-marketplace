@@ -5,6 +5,9 @@ description: Unit-test code that uses an APIMatic-generated Python SDK — the p
 
 # Testing code that uses an APIMatic Python SDK
 
+> `AdyenClient` is the SDK's client class — **read the real name** from `adyen/adyen_client.py`
+> (it is derived from the package name, not the API title, so do not guess it from the API name).
+
 The SDK uses `apimatic-requests-client-adapter` wrapping `requests`. Two seams are available:
 
 1. **`HttpCallBack`** — the SDK's own hook: subclass it and pass as `http_call_back=`. Fires on
@@ -15,7 +18,7 @@ The SDK uses `apimatic-requests-client-adapter` wrapping `requests`. Two seams a
 
 **Match the project's existing test stack.** Check the test files for `pytest` vs `unittest` and
 the assertion style already in use. The samples below use `unittest` + `pytest.raises` for
-reference; substitute your `adyenapi` and `AdyenAPIClient` names.
+reference; substitute your `adyen` and `AdyenClient` names.
 
 > `{...}` tokens are placeholders for names from your SDK.
 
@@ -25,7 +28,7 @@ The generated `HttpResponseCatcher` in `tests/http_response_catcher.py` is the c
 Copy or subclass it:
 
 ```python
-from adyenapi.http.http_call_back import HttpCallBack
+from adyen.http.http_call_back import HttpCallBack
 
 class HttpResponseCatcher(HttpCallBack):
     def __init__(self):
@@ -45,16 +48,16 @@ class HttpResponseCatcher(HttpCallBack):
 Wire it into the client:
 
 ```python
-from adyenapi.configuration import Configuration, Environment
-from adyenapi.adyenapi_client import AdyenAPIClient
+from adyen.configuration import Configuration, Environment
+from adyen.adyen_client import AdyenClient
 
 catcher = HttpResponseCatcher()
 config = Configuration(
-    environment=Environment.TESTING,
+    environment=Environment.PRODUCTION,
     http_call_back=catcher,
     # auth credentials ...
 )
-client = AdyenAPIClient(config=config)
+client = AdyenClient(config=config)
 
 result = client.{resource}.{operation}(...)
 assert catcher.response.status_code == 200
@@ -79,24 +82,24 @@ No real network traffic happens; auth credentials can be dummy values.
 ```python
 import responses as rsps_lib
 import pytest
-from adyenapi.configuration import Configuration, Environment
-from adyenapi.adyenapi_client import AdyenAPIClient
-from adyenapi.exceptions.api_exception import APIException
+from adyen.configuration import Configuration, Environment
+from adyen.adyen_client import AdyenClient
+from adyen.exceptions.api_exception import APIException
 
 @rsps_lib.activate
 def test_{operation}_success():
     rsps_lib.add(
         method=rsps_lib.GET,
-        url='http://localhost:3000/{resource_path}',
+        url=f'{BASE}/{resource_path}',   # BASE = config.get_base_uri()
         json={'access_token': 'abc', 'token_type': 'Bearer'},
         status=200,
     )
 
     config = Configuration(
-        environment=Environment.TESTING,
+        environment=Environment.PRODUCTION,
         max_retries=0,   # disable retries so a stubbed 5xx fails fast
     )
-    client = AdyenAPIClient(config=config)
+    client = AdyenClient(config=config)
     result = client.{resource}.{operation}(...)
 
     assert result.access_token == 'abc'
@@ -110,9 +113,9 @@ If you prefer not to add the `responses` dependency, patch `requests.Session.sen
 ```python
 import json
 from unittest.mock import MagicMock, patch
-from adyenapi.configuration import Configuration, Environment
-from adyenapi.adyenapi_client import AdyenAPIClient
-from adyenapi.exceptions.api_exception import APIException
+from adyen.configuration import Configuration, Environment
+from adyen.adyen_client import AdyenClient
+from adyen.exceptions.api_exception import APIException
 
 def make_mock_response(status_code, body):
     mock = MagicMock()
@@ -126,8 +129,8 @@ def test_{operation}_success():
     with patch('requests.Session.send') as mock_send:
         mock_send.return_value = make_mock_response(200, {'id': 1, 'name': 'widget'})
 
-        config = Configuration(environment=Environment.TESTING, max_retries=0)
-        client = AdyenAPIClient(config=config)
+        config = Configuration(environment=Environment.PRODUCTION, max_retries=0)
+        client = AdyenClient(config=config)
         result = client.{resource}.{operation}(...)
 
         assert result.id == 1
@@ -144,20 +147,20 @@ Controller methods raise `APIException` (or a typed subclass) on non-2xx. Assert
 matching the operation — see **python-error-handling** to find the right class.
 
 ```python
-from adyenapi.exceptions.api_exception import APIException
-from adyenapi.exceptions.o_auth_provider_exception import OAuthProviderException
+from adyen.exceptions.api_exception import APIException
+from adyen.exceptions.o_auth_provider_exception import OAuthProviderException
 
 @rsps_lib.activate
 def test_{operation}_raises_on_4xx():
     rsps_lib.add(
         method=rsps_lib.POST,
-        url='http://localhost:3000/{resource_path}',
+        url=f'{BASE}/{resource_path}',   # BASE = config.get_base_uri()
         json={'error': 'invalid_request', 'error_description': 'bad input'},
         status=400,
     )
 
-    config = Configuration(environment=Environment.TESTING, max_retries=0)
-    client = AdyenAPIClient(config=config)
+    config = Configuration(environment=Environment.PRODUCTION, max_retries=0)
+    client = AdyenClient(config=config)
 
     with pytest.raises(OAuthProviderException) as exc_info:
         client.{resource}.{operation}(...)
@@ -170,11 +173,11 @@ def test_{operation}_raises_on_4xx():
 # When no typed subclass is generated, catch APIException:
 @rsps_lib.activate
 def test_{operation}_raises_api_exception():
-    rsps_lib.add(method=rsps_lib.GET, url='http://localhost:3000/{path}',
+    rsps_lib.add(method=rsps_lib.GET, url=f'{BASE}/{path}',
                  json={'message': 'not found'}, status=404)
 
-    config = Configuration(environment=Environment.TESTING, max_retries=0)
-    client = AdyenAPIClient(config=config)
+    config = Configuration(environment=Environment.PRODUCTION, max_retries=0)
+    client = AdyenClient(config=config)
 
     with pytest.raises(APIException) as exc_info:
         client.{resource}.{operation}(...)
@@ -189,11 +192,11 @@ With `responses`, inspect `rsps_lib.calls[0].request`:
 ```python
 @rsps_lib.activate
 def test_outgoing_request_shape():
-    rsps_lib.add(method=rsps_lib.POST, url='http://localhost:3000/{path}',
+    rsps_lib.add(method=rsps_lib.POST, url=f'{BASE}/{path}',
                  json={}, status=200)
 
-    config = Configuration(environment=Environment.TESTING, max_retries=0)
-    client = AdyenAPIClient(config=config)
+    config = Configuration(environment=Environment.PRODUCTION, max_retries=0)
+    client = AdyenClient(config=config)
     client.{resource}.{operation}(body=...)
 
     sent = rsps_lib.calls[0].request
@@ -215,5 +218,8 @@ def test_outgoing_request_shape():
 - To look up an operation's exact signature, its parameter names, or a typed exception's
   attributes, read the SDK source `.py` files in the cloned repo — don't rely on the installed
   wheel alone.
-- The `Environment.TESTING` base URL is `http://localhost:3000` (confirm from the `environments`
-  dict in `adyenapi/configuration.py`) — use this URL in `responses` stubs so the URL prefix matches.
+- **Get the stub URL from the SDK, not from this page.** Every environment resolves to a real remote
+  host — read the `environments` dict in `adyen/configuration.py`, or call
+  `config.get_base_uri()`, and use that exact prefix in `responses` stubs. No environment resolves to
+  `localhost`, so a stub registered against a localhost URL silently never matches and the call
+  escapes to the network.

@@ -10,7 +10,7 @@ How you authenticate depends on the security scheme(s) the API uses. APIMatic su
 `Configuration` with a matching `With{Scheme}Credentials(...)` option. Set the one(s) your API uses when
 building the configuration you pass to `NewClient`.
 
-> Throughout, `adyenapi` and other `{...}` tokens are placeholders for names you take from your SDK —
+> Throughout, `adyen` and other `{...}` tokens are placeholders for names you take from your SDK —
 > replace them with the concrete identifiers from the source.
 
 To see which schemes a specific SDK accepts, read the `With...Credentials` options in `configuration.go`
@@ -21,10 +21,10 @@ Basic, for instance, exports only `WithBasicAuthCredentials` / `NewBasicAuthCred
 ## Basic auth
 
 ```go
-client := adyenapi.NewClient(
-    adyenapi.CreateConfiguration(
-        adyenapi.WithBasicAuthCredentials(
-            adyenapi.NewBasicAuthCredentials(
+client := adyen.NewClient(
+    adyen.CreateConfiguration(
+        adyen.WithBasicAuthCredentials(
+            adyen.NewBasicAuthCredentials(
                 os.Getenv("{USERNAME_ENV}"),
                 os.Getenv("{PASSWORD_ENV}"),
             ),
@@ -42,10 +42,10 @@ struct carries the value(s); the wire name and placement are fixed by the genera
 
 ```go
 // custom query-parameter scheme (often surfaced as ApiKeyCredentials):
-adyenapi.WithApiKeyCredentials(adyenapi.NewApiKeyCredentials("token", "api-key"))
+adyen.WithApiKeyCredentials(adyen.NewApiKeyCredentials("token", "api-key"))
 
 // custom header scheme (often surfaced as ApiHeaderCredentials):
-adyenapi.WithApiHeaderCredentials(adyenapi.NewApiHeaderCredentials("token", "api-key"))
+adyen.WithApiHeaderCredentials(adyen.NewApiHeaderCredentials("token", "api-key"))
 ```
 
 The constructor parameter names and how many there are come straight from the API's scheme — check the
@@ -57,8 +57,8 @@ query parameter.
 When you already hold a token (no grant flow):
 
 ```go
-adyenapi.WithOAuthBearerTokenCredentials(
-    adyenapi.NewOAuthBearerTokenCredentials(os.Getenv("{ACCESS_TOKEN_ENV}")),
+adyen.WithOAuthBearerTokenCredentials(
+    adyen.NewOAuthBearerTokenCredentials(os.Getenv("{ACCESS_TOKEN_ENV}")),
 )
 ```
 
@@ -67,10 +67,10 @@ Sends `Authorization: Bearer <token>`.
 ## OAuth 2.0 — client credentials grant
 
 ```go
-client := adyenapi.NewClient(
-    adyenapi.CreateConfiguration(
-        adyenapi.WithOAuthCCGCredentials(
-            adyenapi.NewOAuthCCGCredentials(
+client := adyen.NewClient(
+    adyen.CreateConfiguration(
+        adyen.WithOAuthCCGCredentials(
+            adyen.NewOAuthCCGCredentials(
                 os.Getenv("{CLIENT_ID_ENV}"),
                 os.Getenv("{CLIENT_SECRET_ENV}"),
             ),

@@ -1,7 +1,7 @@
 # Models reference (APIMatic Python)
 
 Condensed reference for the model shapes in **python-models**. Confirm exact names in
-`adyenapi/models/` and `adyenapi/api_helper.py`.
+`adyen/models/` and `adyen/api_helper.py`.
 
 ## Constructor args + optional sentinel
 
@@ -9,8 +9,8 @@ Required constructor args have no default; optional args default to `APIHelper.S
 whose value is `SKIP` is **not set** on the instance at all — `hasattr` is the only safe check.
 
 ```python
-from adyenapi.models.o_auth_token import OAuthToken
-from adyenapi.api_helper import APIHelper
+from adyen.models.o_auth_token import OAuthToken
+from adyen.api_helper import APIHelper
 
 # Construct:
 token = OAuthToken(
@@ -38,7 +38,7 @@ There is no `to_dictionary()` instance method — use `APIHelper.to_dictionary(m
 a model back to a dict:
 
 ```python
-from adyenapi.api_helper import APIHelper
+from adyen.api_helper import APIHelper
 
 # Deserialize (used internally by the SDK; also callable directly):
 token = OAuthToken.from_dictionary({
@@ -78,7 +78,7 @@ class OAuthProviderErrorEnum(object):
 Usage:
 
 ```python
-from adyenapi.models.suite_code_enum import SuiteCodeEnum
+from adyen.models.suite_code_enum import SuiteCodeEnum
 
 body.suites = SuiteCodeEnum.HEARTS                           # known constant (int 1)
 body.suites = SuiteCodeEnum.from_value('spades', default=SuiteCodeEnum.HEARTS)  # from string
@@ -99,7 +99,7 @@ receive the concrete instance directly.
 or field. Do not call `validate()` yourself on the outbound side.
 
 ```python
-from adyenapi.models.animal import Cat
+from adyen.models.animal import Cat
 
 cat = Cat(
     name='Whiskers',
@@ -139,7 +139,7 @@ both the base and concrete classes. `Animal.from_dictionary()` reads the discrim
 (`pet_type`) and delegates to `Cat.from_dictionary` or `Dog.from_dictionary` as appropriate.
 
 ```python
-from adyenapi.models.animal import Animal, Cat, Dog
+from adyen.models.animal import Animal, Cat, Dog
 
 cat = Cat(name='Whiskers', color='orange', pet_type='Cat', id=APIHelper.SKIP)
 assert isinstance(cat, Animal)   # Cat IS-A Animal
@@ -177,7 +177,7 @@ applies. Pass `datetime.datetime` objects; the SDK handles serialization.
 
 ```python
 import datetime
-from adyenapi.api_helper import APIHelper
+from adyen.api_helper import APIHelper
 
 dt = datetime.datetime(2024, 6, 17, 15, 30, 0, tzinfo=datetime.timezone.utc)
 
@@ -198,7 +198,7 @@ Models with an `additional_properties` attribute capture JSON keys not listed in
 response keys land there rather than being silently dropped.
 
 ```python
-from adyenapi.models.o_auth_token import OAuthToken
+from adyen.models.o_auth_token import OAuthToken
 
 token = OAuthToken.from_dictionary({
     'access_token': 'abc',

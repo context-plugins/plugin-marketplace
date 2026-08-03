@@ -10,8 +10,8 @@ description: Handle errors from an APIMatic-generated Java SDK — every synchro
 ```
 Exception
 ├── io.apimatic.core.types.CoreApiException
-│   └── com.adyen.checkouttest.exceptions.ApiException          ← base for all non-2xx API responses
-│       └── com.adyen.checkouttest.exceptions.{Name}Exception   ← typed subclass with payload fields
+│   └── com.adyen.balanceplatformapitest.exceptions.ApiException          ← base for all non-2xx API responses
+│       └── com.adyen.balanceplatformapitest.exceptions.{Name}Exception   ← typed subclass with payload fields
 └── IOException                                     ← transport / network failures
 ```
 
@@ -41,7 +41,7 @@ HttpContext ctx   = e.getHttpContext();       // full request + response pair
 > **`getResponseCode()`, not `getStatusCode()`** — the correct method is `getResponseCode()`, inherited
 > from `CoreApiException`. The ApiException doc confirms this; using `getStatusCode()` will not compile.
 
-`getHttpContext()` returns the SDK's `com.adyen.checkouttest.http.client.HttpContext`, which carries:
+`getHttpContext()` returns the SDK's `com.adyen.balanceplatformapitest.http.client.HttpContext`, which carries:
 - `ctx.getRequest()` — the outgoing `HttpRequest` (method, URL, headers)
 - `ctx.getResponse()` — the incoming `HttpResponse` (status, headers, raw body)
 

@@ -1,8 +1,8 @@
 {
   "name": "adyen",
-  "displayName": "Adyen",
+  "displayName": "Adyen SDK",
   "version": "0.1.0",
-  "description": "Global payment processing for online and in-person transactions with Adyen.",
+  "description": "TODO_AUTO_DESCRIPTION: Adyen API",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
@@ -14,11 +14,10 @@
     "apimatic",
     "sdk",
     "api-integration",
-    "adyen-api",
+    "adyen",
     "dotnet",
     "typescript",
     "java",
-    "php",
     "python",
     "go"
   ],
@@ -27,8 +26,8 @@
     "./skills/dotnet",
     "./skills/typescript",
     "./skills/java",
-    "./skills/php",
     "./skills/python",
     "./skills/go"
-  ]
+  ],
+  "agents": "./agents/"
 }

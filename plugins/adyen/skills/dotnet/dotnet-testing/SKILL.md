@@ -1,6 +1,6 @@
 ---
 name: dotnet-testing
-description: Unit-test code that uses an APIMatic-generated C#/.NET SDK by injecting a fake HttpClient — the client's HttpClient constructor argument is the test seam (no SDK mocking helpers) — stub success and error responses with a custom HttpMessageHandler, assert the outgoing request, assert SdkException<TError> on error paths, and register a stub client in DI. Use when writing, mocking, or stubbing tests for calls made through an APIMatic .NET SDK client — load it even after reading the constructor in the source, since the seam alone won't tell you to match the project's test stack or assert the right exception per operation.
+description: Testing code that calls an APIMatic-generated .NET SDK in C# — which seam to fake, covering error and edge paths, asserting real behaviour rather than execution, and keeping tests independent of SDK internals. Load before writing tests for the integration layer.
 ---
 
 # Testing code that uses an APIMatic .NET SDK
@@ -15,9 +15,9 @@ style**: if it uses an assertion library such as FluentAssertions or Shouldly, w
 (e.g. `result.StatusCode.Should().Be(HttpStatusCode.OK)`) rather than the framework's built-in asserts. The
 code samples below use xUnit `[Fact]` + the built-in `Assert` **purely for reference** — they show the SDK
 testing seam and *what* to assert, not a mandated framework or assertion library. Substitute your
-`AdyenApiClient`/`AdyenApiClientOptions` as well.
+`{Api}Client`/`{Api}ClientOptions` as well.
 
-> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `AdyenApiClient`,
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{Api}Client`,
 > `{ApiGroup}`, `{Operation}`) — replace it with the concrete identifier from the source.
 
 ## A reusable stub handler
@@ -28,25 +28,28 @@ using System.Net;
 public sealed class StubHandler : HttpMessageHandler
 {
     private readonly Func<HttpRequestMessage, HttpResponseMessage> _responder;
-    public HttpRequestMessage? LastRequest { get; private set; }
+
+    // Every request, in order — retries append, so this is what you count.
+    public List<HttpRequestMessage> Requests { get; } = new();
+    public HttpRequestMessage? LastRequest => Requests.Count == 0 ? null : Requests[^1];
 
     public StubHandler(Func<HttpRequestMessage, HttpResponseMessage> responder) => _responder = responder;
 
     protected override Task<HttpResponseMessage> SendAsync(
         HttpRequestMessage request, CancellationToken ct)
     {
-        LastRequest = request;
+        Requests.Add(request);
         return Task.FromResult(_responder(request));
     }
 }
 
-static AdyenApiClient ClientReturning(HttpStatusCode status, string json)
+static {Api}Client ClientReturning(HttpStatusCode status, string json)
 {
     var handler = new StubHandler(_ => new HttpResponseMessage(status)
     {
         Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
     });
-    return new AdyenApiClient(new HttpClient(handler), new AdyenApiClientOptions { /* auth not needed for stubs */ });
+    return new {Api}Client(new HttpClient(handler), new {Api}ClientOptions { /* auth not needed for stubs */ });
 }
 ```
 
@@ -73,8 +76,8 @@ type, or `RawError` **directly** (**Case B**) otherwise — so assert the type t
 **Case A — typed `{Operation}Error`:**
 
 ```csharp
-using AdyenApi.Core.Exceptions;     // SdkException<TError>
-using AdyenApi.Errors;              // {Operation}Error types
+using {RootNamespace}.Core.Exceptions;     // SdkException<TError>
+using {RootNamespace}.Errors;              // {Operation}Error types
 
 [Fact]
 public async Task ThrowsOnApiError()
@@ -85,8 +88,8 @@ public async Task ThrowsOnApiError()
         () => client.{ApiGroup}.{Operation}(/* args */, ct: default));
 
     // ex.Error is the typed ApiError. For a status the operation maps to a typed body (e.g. 422), assert the
-    // typed accessor — its name embeds the body type, so open the {Operation}Error under Errors/ for the
-    // exact name. TryGetRawError is FALSE for those statuses, so don't assert through it here:
+    // typed accessor — its name embeds the body type; the contract sheet lists the exact accessor name.
+    // TryGetRawError is FALSE for those statuses, so don't assert through it here:
     Assert.True(ex.Error.TryGetSomeTypedBody(out var typed));
     // ...assert on 'typed'. (Only statuses the operation maps to RawError populate TryGetRawError.)
 }
@@ -96,8 +99,8 @@ public async Task ThrowsOnApiError()
 the `RawError` — there is no `TryGet*` / `TryGetRawError`; read it directly:
 
 ```csharp
-using AdyenApi.Core.Exceptions;
-using AdyenApi.Core.ErrorResponse;
+using {RootNamespace}.Core.Exceptions;
+using {RootNamespace}.Core.ErrorResponse;
 
 var ex = await Assert.ThrowsAsync<SdkException<RawError>>(
     () => client.{ApiGroup}.{Operation}(/* args */, ct: default));
@@ -113,9 +116,9 @@ there is nothing to catch — stub the response and assert on the returned `ApiR
 directly. The status code and headers are available on both the success and failure outcomes.
 
 ```csharp
-using AdyenApi.Core.Models;        // ApiResult<TResponse, TError>
-using AdyenApi.Core.ErrorResponse; // RawError (Case B)
-using AdyenApi.Errors;             // {Operation}Error (Case A only)
+using {RootNamespace}.Core.Models;        // ApiResult<TResponse, TError>
+using {RootNamespace}.Core.ErrorResponse; // RawError (Case B)
+using {RootNamespace}.Errors;             // {Operation}Error (Case A only)
 
 [Fact]
 public async Task ResultVariantReportsFailureWithoutThrowing()
@@ -138,7 +141,7 @@ Because the stub captures `LastRequest`, you can assert method, path, query, hea
 ```csharp
 var handler = new StubHandler(_ => new HttpResponseMessage(HttpStatusCode.OK)
                                    { Content = new StringContent("{}") });
-var client = new AdyenApiClient(new HttpClient(handler), new AdyenApiClientOptions());
+var client = new {Api}Client(new HttpClient(handler), new {Api}ClientOptions());
 
 await client.{ApiGroup}.{Operation}(/* args */, ct: default);
 
@@ -156,18 +159,34 @@ Assert.Contains("\"expected_field\"", sentJson);
 - Mocking libraries (Moq, NSubstitute) work too — mock `HttpMessageHandler.SendAsync` (it's `protected`,
   so use `Protected()` with Moq). The hand-written stub above avoids that friction.
 - A stubbed retryable response (`408/429/5xx`) on a retryable method will be retried by the SDK before the
-  call returns — retries apply to `GET/HEAD/PUT/OPTIONS` only by default, so a `POST` won't retry unless you
-  add its method to `HttpMethodsToRetry` (see `dotnet-configuration-resilience`). To observe retries firing,
-  have the stub return `503` then `200` and count invocations.
-- For DI-based code, the SDK's `AddAdyenApiClient` resolves the **default (unnamed)** `IHttpClientFactory`
-  client, so register your stub on that one, then resolve `AdyenApiClient` from the provider:
+  call returns — *status* retries apply to `GET/HEAD/PUT/OPTIONS` only by default, so a `POST` won't retry
+  on a `503` unless you add its method to `HttpMethodsToRetry`. A stub that **throws**
+  (`HttpRequestException`) is a different trigger and *is* retried on every verb, `POST` included (see
+  `dotnet-configuration-resilience`). To observe status retries firing, have the stub return `503` then
+  `200` and count invocations.
+- **Status faults and transport faults are separate retry triggers** — the SDK distinguishes them itself
+  (`RetryAttempt.Reason` is `RetryReason.Status(...)` *or* `RetryReason.Failure(Exception)`). A test that
+  stubs a `503` therefore proves nothing about what happens when the *connection* fails. If a duplicated
+  write would be unacceptable in your domain (a charge, an enrollment, an order), assert write-once under
+  **both** triggers explicitly rather than inferring one from the other:
   ```csharp
-  services.AddAdyenApiClient(o => { /* ... */ });
-  services.AddHttpClient(Options.DefaultName).ConfigurePrimaryHttpMessageHandler(() => stubHandler);
-  var client = services.BuildServiceProvider().GetRequiredService<AdyenApiClient>();
+  // Transport fault: the stub throws instead of answering, then we count what the server actually received.
+  var handler = new StubHandler(_ => throw new HttpRequestException("connection reset"));
+  var client = new {Api}Client(new HttpClient(handler), new {Api}ClientOptions());
+
+  await Assert.ThrowsAnyAsync<Exception>(() => client.{ApiGroup}.{Operation}(body, ct: default));
+
+  Assert.Equal(1, handler.Requests.Count(r => r.Method == HttpMethod.Post));   // no resend
   ```
-- To look up an operation's signature, its request type, or a `{Operation}Error`'s accessor names, read the
-  SDK source `.cs` files — don't decompile or reflect over the installed package, which drops the XML-doc
-  comments and the request-builder details.
+- For DI-based code, the SDK's `Add{Api}Client` resolves the **default (unnamed)** `IHttpClientFactory`
+  client, so register your stub on that one, then resolve `{Api}Client` from the provider:
+  ```csharp
+  services.Add{Api}Client(o => { /* ... */ });
+  services.AddHttpClient(Options.DefaultName).ConfigurePrimaryHttpMessageHandler(() => stubHandler);
+  var client = services.BuildServiceProvider().GetRequiredService<{Api}Client>();
+  ```
+- To look up an operation's signature, its request type, or a `{Operation}Error`'s accessor names, take them
+  from the contract sheet (the SDK helper agent grounds it from the SDK map/source) — not a decompiled or
+  reflected view of the installed package, and not memory.
 - Prefer this `HttpClient`-seam approach over wrapping the SDK in your own interface unless you need to
   abstract the SDK for other reasons.

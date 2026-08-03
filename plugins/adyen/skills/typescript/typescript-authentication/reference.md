@@ -98,5 +98,5 @@ Some endpoints/APIs need no credentials — leave the credentials properties uns
 
 ## Discovering what a specific SDK uses
 
-1. Open `AdyenAPIClientConfig` and list its optional credentials properties — this is the **source of truth** for what the SDK accepts.
+1. Open `Configuration` and list its optional credentials properties — this is the **source of truth** for what the SDK accepts.
 2. The `src/authentication/` folder ships every scheme as shared runtime code, so it lists schemes the API may not accept — rely on the config interface instead.

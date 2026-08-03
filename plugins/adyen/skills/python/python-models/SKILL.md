@@ -7,7 +7,7 @@ description: Construct and read the non-obvious model shapes of an APIMatic-gene
 
 Most request/response data are plain Python classes constructed with keyword arguments. This skill
 covers the **non-obvious shapes** that trip integrations up. Take the real type and field names from
-your SDK source (`adyenapi/models/`).
+your SDK source (`adyen/models/`).
 
 > Throughout, `{...}` tokens are placeholders for names you take from your SDK. The generated
 > `doc/models/*.md` files describe each model's fields and types.
@@ -19,7 +19,7 @@ passed to the constructor, the attribute is **not set** on the instance — so c
 `model.field is None` will raise `AttributeError`. Always use `hasattr`:
 
 ```python
-from adyenapi.api_helper import APIHelper
+from adyen.api_helper import APIHelper
 
 # Constructing — omit optional fields or pass APIHelper.SKIP:
 token = OAuthToken(
@@ -61,7 +61,7 @@ class OAuthProviderErrorEnum(object):
 Usage:
 
 ```python
-from adyenapi.models.suite_code_enum import SuiteCodeEnum
+from adyen.models.suite_code_enum import SuiteCodeEnum
 
 # Known constant:
 client.{resource}.{operation}(suites=SuiteCodeEnum.HEARTS)
@@ -76,13 +76,13 @@ and returns the default if the value is unrecognized.
 ## oneOf / anyOf union types — UnionTypeLookUp + validate()
 
 When a field or operation parameter can hold one of several model types, the SDK uses a
-`UnionTypeLookUp` registry (in `adyenapi/utilities/union_type_lookup.py`) and each candidate model
+`UnionTypeLookUp` registry (in `adyen/utilities/union_type_lookup.py`) and each candidate model
 implements a `validate(dictionary)` class method.
 
 **Building a union value** — construct the concrete model class directly and pass it:
 
 ```python
-from adyenapi.models.animal import Cat, Dog
+from adyen.models.animal import Cat, Dog
 
 # Cat instance to pass where a OneOf(Cat, Dog) is expected:
 value = Cat(
@@ -119,7 +119,7 @@ When the API defines inheritance (e.g. `Animal` as a base with `Cat` and `Dog` s
 generated classes share a common base. Construct with the concrete subclass:
 
 ```python
-from adyenapi.models.animal import Animal, Cat, Dog
+from adyen.models.animal import Animal, Cat, Dog
 
 cat = Cat(name='my cat', color='yellow', pet_type='Cat', id='c1', kind='small')
 # cat is an instance of both Cat and Animal.

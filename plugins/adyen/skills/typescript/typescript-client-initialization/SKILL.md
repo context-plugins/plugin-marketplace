@@ -1,6 +1,6 @@
 ---
 name: typescript-client-initialization
-description: Construct and configure an APIMatic-generated TypeScript/Node SDK client — `new Client(config?: Partial<Configuration>)` takes a single options object (environment, credential objects, and a nested `httpClientOptions` for timeout/retries/proxy/agents), with static `Client.fromEnvironment(...)` / `Client.fromJsonConfig(...)` factories, a `client.withConfiguration(...)` clone, and controllers you instantiate yourself with `new {Resource}Controller(client)`. Use the moment you call `new Client(...)`, build its `Configuration`, pick an `Environment`, or wire the client into your app — load it even after reading the constructor in the source, since the signature shows the arguments but not the options-object shape, the instantiate-the-controller-yourself rule, or the reuse-one-client lifetime guidance.
+description: Construct and configure an APIMatic-generated TypeScript/Node SDK client — `new Client(config?: Partial<Configuration>)` takes a single options object (environment, credential objects, and a nested `httpClientOptions` for timeout/retries/proxy/agents), with static `Client.fromEnvironment(...)` / `Client.fromJsonConfig(...)` factories, a `client.withConfiguration(...)` clone, and controllers you instantiate yourself with `new {Resource}Api(client)`. Use the moment you call `new Client(...)`, build its `Configuration`, pick an `Environment`, or wire the client into your app — load it even after reading the constructor in the source, since the signature shows the arguments but not the options-object shape, the instantiate-the-controller-yourself rule, or the reuse-one-client lifetime guidance.
 ---
 
 # Initializing an APIMatic-generated TypeScript SDK client
@@ -8,8 +8,8 @@ description: Construct and configure an APIMatic-generated TypeScript/Node SDK c
 This applies to **any** APIMatic-generated TypeScript SDK (APIMATIC v3.0). Replace placeholders with the
 real names from the SDK you are using:
 
-- `adyen-apilib` — the npm package name (the `"name"` in `package.json`, e.g. `multiauth-samplelib`).
-- `{Resource}Controller` — a controller class exported from the package root.
+- `adyenlib` — the npm package name (the `"name"` in `package.json`, e.g. `multiauth-samplelib`).
+- `{Resource}Api` — a controller class exported from the package root.
 
 ## The shape: one options object, no builder
 
@@ -17,7 +17,7 @@ The SDK exports a single `Client` class. You construct it with **one options obj
 `Partial<Configuration>` — every field is optional and missing fields fall back to `DEFAULT_CONFIGURATION`:
 
 ```ts
-import { Client, Environment } from 'adyen-apilib';
+import { Client, Environment } from 'adyenlib';
 
 const client = new Client({
   environment: Environment.Production,
@@ -37,11 +37,16 @@ argument. Open `src/configuration.ts` for the exact field set; it varies per API
 
 ## Choosing the environment / base URL
 
-Environments are members of an `enum Environment` in `src/configuration.ts` (e.g. `Environment.Production`,
-`Environment.Testing`). The base URL is **derived** from the selected environment (plus any server
-parameters like `port`) by a private resolver in `src/client.ts` — there is no free-form `baseUrl`
-option. The default environment is whatever `DEFAULT_CONFIGURATION.environment` sets (often
-`Environment.Testing`).
+Environments are members of an `enum Environment` in `src/configuration.ts`. **Read the enum for the
+real member names before naming one.**
+
+`Environment.Production` also does **not** imply a live host — it is simply the first server the spec
+lists, which for many APIs is the sandbox. Match the enum member to the base URL it resolves to in the
+`environments` map, not to what its name suggests.
+
+The base URL is **derived** from the selected environment (plus any server parameters like `port`) by a
+private resolver in `src/client.ts` — there is no free-form `baseUrl` option. The default environment is
+whatever `DEFAULT_CONFIGURATION.environment` sets.
 
 ```ts
 const client = new Client({ environment: Environment.Production });
@@ -97,9 +102,9 @@ Unlike some SDKs, the `Client` exposes **no controller accessor methods**. You c
 yourself, passing the client, then call operations on it (see **typescript-calling-endpoints**):
 
 ```ts
-import { {Resource}Controller } from 'adyen-apilib';
+import { {Resource}Api } from 'adyenlib';
 
-const controller = new {Resource}Controller(client);
+const controller = new {Resource}Api(client);
 const response = await controller.{operation}(/* params */);
 ```
 
@@ -119,7 +124,7 @@ any cached OAuth token). Controllers are cheap, stateless wrappers over the clie
 export const apiClient = new Client({ environment: Environment.Production /* + auth */ });
 
 // elsewhere — reuse, wrap in a controller per call site as needed:
-const controller = new {Resource}Controller(apiClient);
+const controller = new {Resource}Api(apiClient);
 ```
 
 To produce a variant with a few options changed (e.g. attach a fetched OAuth token), call

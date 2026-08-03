@@ -5,7 +5,7 @@ description: Handle errors from an APIMatic-generated TypeScript/Node.js SDK —
 
 # Error handling for an APIMatic TypeScript SDK
 
-> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{operation}`, `{apiGroup}`, `adyen-apilib`) — replace it with the concrete identifier from the source.
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{operation}`, `{apiGroup}`, `adyenlib`) — replace it with the concrete identifier from the source.
 
 Endpoint methods **throw on non-success responses** by default (for a non-throwing alternative, see the **`ApiResult`** section below). The thrown type is always `ApiError` — but it comes in **two shapes**, depending on the operation:
 
@@ -26,12 +26,12 @@ Check whether a `{Operation}Error` type exists under `src/errors/` for that oper
 ### Case A — operation has a typed `{Operation}Error`
 
 ```typescript
-import { AdyenAPIClient } from 'adyen-apilib';
-import { ApiError } from 'adyen-apilib';
-import { {Operation}Error } from 'adyen-apilib/errors';
+import { Client } from 'adyenlib';
+import { ApiError } from 'adyenlib';
+import { {Operation}Error } from 'adyenlib/errors';
 
 try {
-  const response = await client.{apiGroup}.{operation}({ /* ... */ });
+  const response = await api.{operation}({ /* ... */ });
   // use response
 } catch (err) {
   if (err instanceof {Operation}Error) {
@@ -51,10 +51,10 @@ try {
 For operations with no `{Operation}Error` type, `err` is `ApiError` — read the status and body straight off it:
 
 ```typescript
-import { ApiError } from 'adyen-apilib';
+import { ApiError } from 'adyenlib';
 
 try {
-  const response = await client.{apiGroup}.{operation}({ /* ... */ });
+  const response = await api.{operation}({ /* ... */ });
   // use response
 } catch (err) {
   if (err instanceof ApiError) {
@@ -71,7 +71,7 @@ try {
 The generator can **optionally** emit a result-style variant of an operation — so it's not guaranteed to exist. When enabled, it appears as a **sibling method** named `{operation}OrFail` or `{operation}Result` (depending on the SDK version), and **does not throw** on a non-success status — the error is carried in the returned value. `ApiResult` exposes the HTTP **`statusCode`** and **`headers`** on both success and failure.
 
 ```typescript
-const result = await client.{apiGroup}.{operation}Result({ /* ... */ });
+const result = await api.{operation}Result({ /* ... */ });
 
 if (result.isSuccess()) {
   console.log(`OK ${result.statusCode}`);

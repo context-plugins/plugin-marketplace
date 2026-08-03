@@ -2,7 +2,7 @@
   "name": "tesla-fleet-management-api",
   "displayName": "Tesla Fleet Management API SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Tesla Fleet Management API API",
+  "description": "Monitor, locate, and control connected vehicles remotely with real-time telemetry, commands, and energy data.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

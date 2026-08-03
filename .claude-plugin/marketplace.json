@@ -190,6 +190,11 @@
       "name": "finnhub-api",
       "source": "./plugins/finnhub-api",
       "description": "Real-time stock market data API for quotes, financials, and company news."
+    },
+    {
+      "name": "paze",
+      "source": "./plugins/paze",
+      "description": "TODO_AUTO_DESCRIPTION: Paze API"
     }
   ]
 }

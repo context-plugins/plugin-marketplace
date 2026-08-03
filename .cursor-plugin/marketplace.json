@@ -84,7 +84,7 @@
     {
       "name": "spotify-web-api",
       "source": "./plugins/spotify-web-api",
-      "description": "Access music catalog data, playlists, and playback control on Spotify."
+      "description": "TODO_AUTO_DESCRIPTION: Spotify Web API API"
     },
     {
       "name": "the-plaid-api",

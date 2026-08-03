@@ -245,6 +245,11 @@
       "name": "slack",
       "source": "./plugins/slack",
       "description": "Send messages, automate workflows, and connect apps within Slack workspaces."
+    },
+    {
+      "name": "tesla-fleet-management-api",
+      "source": "./plugins/tesla-fleet-management-api",
+      "description": "TODO_AUTO_DESCRIPTION: Tesla Fleet Management API API"
     }
   ]
 }

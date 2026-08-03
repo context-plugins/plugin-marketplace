@@ -114,7 +114,7 @@
     {
       "name": "klarna",
       "source": "./plugins/klarna",
-      "description": "Buy-now-pay-later checkout and payment options with Klarna."
+      "description": "TODO_AUTO_DESCRIPTION: klarna API"
     },
     {
       "name": "notion",

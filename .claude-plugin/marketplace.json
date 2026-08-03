@@ -234,7 +234,7 @@
     {
       "name": "ebay-sell",
       "source": "./plugins/ebay-sell",
-      "description": "TODO_AUTO_DESCRIPTION: Ebay Sell API"
+      "description": "List, manage, and fulfill inventory across global Ebay marketplaces."
     }
   ]
 }

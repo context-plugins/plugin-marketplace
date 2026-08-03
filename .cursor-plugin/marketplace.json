@@ -29,7 +29,7 @@
     {
       "name": "adyen",
       "source": "./plugins/adyen",
-      "description": "TODO_AUTO_DESCRIPTION: Adyen API"
+      "description": "Process global payments, manage fraud, and handle unified commerce across online and in-store channels."
     },
     {
       "name": "verizon",

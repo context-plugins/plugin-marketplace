@@ -244,7 +244,7 @@
     {
       "name": "slack",
       "source": "./plugins/slack",
-      "description": "TODO_AUTO_DESCRIPTION: Slack API"
+      "description": "Send messages, automate workflows, and connect apps within Slack workspaces."
     }
   ]
 }

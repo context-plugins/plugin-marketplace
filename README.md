@@ -64,41 +64,26 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | --- | --- | --- |
 | [`adyen`](plugins/adyen/) | Adyen | .NET, TS, Java, PHP, Python, Go |
 | [`alpaca`](plugins/alpaca/) | Alpaca | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`binance-public-spot-api`](plugins/binance-public-spot-api/) | Binance Public Spot API | .NET, TS |
+| [`binance`](plugins/binance/) | Binance SDK | .NET, TS |
 | [`cellpoint`](plugins/cellpoint/) | CellPoint | .NET, TS, Java, PHP, Python, Go |
-| [`coingecko-demo-api`](plugins/coingecko-demo-api/) | CoinGecko Demo API | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`coingecko`](plugins/coingecko/) | Coingecko SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`deepgram`](plugins/deepgram/) | Deepgram | .NET, TS, Java, PHP, Python, Go |
-| [`discourse-api-documentation`](plugins/discourse-api-documentation/) | Discourse API Documentation | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`docker`](plugins/docker/) | Docker SDK | TS, Python, Ruby |
-| [`finnhub-api`](plugins/finnhub-api/) | Finnhub API | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`firecrawl-api`](plugins/firecrawl-api/) | Firecrawl API | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`gitea-api`](plugins/gitea-api/) | Gitea API | .NET, Java, PHP, Python, Go |
+| [`discourse`](plugins/discourse/) | Discourse SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`ebay-sell`](plugins/ebay-sell/) | Ebay Sell SDK | .NET, TS, Java, PHP, Python, Ruby |
+| [`google-maps-platform`](plugins/google-maps-platform/) | Google Maps Platform SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`klarna`](plugins/klarna/) | klarna SDK | .NET, Java, PHP, Python, Ruby, Go |
+| [`kubernetes`](plugins/kubernetes/) | Kubernetes SDK | .NET, Go |
 | [`maxio-advanced-billing`](plugins/maxio-advanced-billing/) | Maxio Advanced Billing | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`notion`](plugins/notion/) | Notion SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`ny-times`](plugins/ny-times/) | NY TIMES | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`open-meteo-weather-forecast-api`](plugins/open-meteo-weather-forecast-api/) | Open-Meteo Weather Forecast API | .NET, TS, PHP, Python, Ruby, Go |
+| [`nytimes`](plugins/nytimes/) | NYTimes SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`paypal`](plugins/paypal/) | PayPal | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`paze-checkout`](plugins/paze-checkout/) | Paze Checkout | .NET, TS, Java, PHP, Python, Go |
-| [`pok-api`](plugins/pok-api/) | PokéAPI | .NET, TS, Java, Python, Ruby, Go |
-| [`pq-api-v2`](plugins/pq-api-v2/) | PQ API v2 SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`shell`](plugins/shell/) | Shell | TS, Java, PHP, Python, Ruby, Go |
-| [`shutterstock-api-explorer`](plugins/shutterstock-api-explorer/) | Shutterstock API Explorer SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`slack-web`](plugins/slack-web/) | Slack Web | TS, Java, PHP, Python, Ruby, Go |
-| [`splitit-web`](plugins/splitit-web/) | Splitit Web | TS, Java, PHP, Python, Ruby, Go |
-| [`sportsdata`](plugins/sportsdata/) | sportsdata SDK | .NET, TS, PHP, Python, Ruby, Go |
+| [`paze`](plugins/paze/) | Paze SDK | .NET, TS, Java, PHP, Python, Go |
+| [`pokeapi`](plugins/pokeapi/) | PokeApi SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`shutterstock`](plugins/shutterstock/) | Shutterstock SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`slack`](plugins/slack/) | Slack SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`spotify-web-api`](plugins/spotify-web-api/) | Spotify Web API SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`square-connect`](plugins/square-connect/) | Square Connect | .NET, TS, Java, PHP, Python, Go |
-| [`stax-fattmerchant-api`](plugins/stax-fattmerchant-api/) | Stax (FattMerchant) API SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`telegram-bot`](plugins/telegram-bot/) | Telegram Bot | TS, Java, PHP, Python, Go |
-| [`tesla`](plugins/tesla/) | Tesla | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`tesser`](plugins/tesser/) | Tesser | TS, Java, PHP, Python, Ruby |
-| [`the-plaid-api`](plugins/the-plaid-api/) | The Plaid API SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`twilio-apis`](plugins/twilio-apis/) | Twilio APIs SDK | TS, Java, PHP, Python, Go |
-| [`verizon`](plugins/verizon/) | Verizon | .NET, TS, Java, PHP, Python, Go |
-| [`vimeo`](plugins/vimeo/) | Vimeo | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`x-api-v2`](plugins/x-api-v2/) | X API v2 SDK | PHP, Python, Ruby, Go |
-| [`xero`](plugins/xero/) | Xero | .NET, Go |
+| [`tesla-fleet-management-api`](plugins/tesla-fleet-management-api/) | Tesla Fleet Management API SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`tesser-api-v1`](plugins/tesser-api-v1/) | Tesser API (v1) SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
 
 > Plugin ids change occasionally. `npx context-plugins list` is always the live source of truth.
 

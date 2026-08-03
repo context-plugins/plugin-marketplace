@@ -220,6 +220,11 @@
       "name": "coingecko",
       "source": "./plugins/coingecko",
       "description": "Track cryptocurrency prices, market caps, trading volume, and historical exchange data via CoinGecko."
+    },
+    {
+      "name": "discourse",
+      "source": "./plugins/discourse",
+      "description": "TODO_AUTO_DESCRIPTION: Discourse API"
     }
   ]
 }

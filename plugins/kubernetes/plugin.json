@@ -2,7 +2,7 @@
   "name": "kubernetes",
   "displayName": "Kubernetes SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Kubernetes API",
+  "description": "Automate container orchestration, scaling, and deployment across Kubernetes clusters.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

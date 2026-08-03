@@ -204,7 +204,7 @@
     {
       "name": "kubernetes",
       "source": "./plugins/kubernetes",
-      "description": "TODO_AUTO_DESCRIPTION: Kubernetes API"
+      "description": "Automate container orchestration, scaling, and deployment across Kubernetes clusters."
     }
   ]
 }

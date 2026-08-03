@@ -184,7 +184,7 @@
     {
       "name": "alpaca",
       "source": "./plugins/alpaca",
-      "description": "Commission-free stock trading and market data via Alpaca."
+      "description": "TODO_AUTO_DESCRIPTION: Alpaca API"
     },
     {
       "name": "finnhub-api",

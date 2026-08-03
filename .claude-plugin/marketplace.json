@@ -209,7 +209,7 @@
     {
       "name": "nytimes",
       "source": "./plugins/nytimes",
-      "description": "TODO_AUTO_DESCRIPTION: NYTimes API"
+      "description": "Access articles, bestseller lists, historical archives, and multimedia content from The New York Times."
     }
   ]
 }

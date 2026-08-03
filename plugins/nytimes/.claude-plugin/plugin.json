@@ -2,7 +2,7 @@
   "name": "nytimes",
   "displayName": "NYTimes SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: NYTimes API",
+  "description": "Access articles, bestseller lists, historical archives, and multimedia content from The New York Times.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

@@ -1,0 +1,156 @@
+# Subscriptions — operations
+
+Accessor: `client.Subscriptions` · Source: `Api/Subscriptions.cs` · 12 operations
+
+**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+
+### ActivateSubscription
+- **HTTP**: `PUT /subscriptions/{subscription_id}/activate.json` (Production)
+- **Notes**: Activates awaiting signup and trialing subscriptions. This feature is only available on the Relationship Invoicing architecture. Subscriptions in a group may not be activated immediately. For details on how the activation works, and how to activate subscriptions through the application, see activation . The `revert_on_failure` parameter controls the behavior upon activation failure. - If set to `true` and something goes wrong i.e. payment fails, then Advanced Billing will not change the subscription's state. The subscription’s billing period will also remain the same. - If set to `false` and something goes wrong i.e. payment fails, then Advanced Billing will continue through with the activation and enter an end of life state. For trialing subscriptions, that will either be trial ended (if the trial is no obligation), past due (if the trial has an obligation), or canceled (if the site has no dunning strategy, or has a strategy that says to cancel immediately). For awaiting signup subscriptions, that will always be canceled. The default activation failure behavior can be configured per activation attempt, or you may set a default value under Config &gt; Settings &gt; Subscription Activation Settings. Activation Scenarios Activate Awaiting Signup subscription Given you have a product without trial Given you have a site without dunning strategy flowchart LR AS[Awaiting Signup] --&gt; A{Activate} A --&gt;|Success| Active A --&gt;|Failure| ROF{revert_on_failure} ROF --&gt;|true| AS ROF --&gt;|false| Canceled Given you have a product with trial Given you have a site with dunning strategy flowchart LR AS[Awaiting Signup] --&gt; A{Activate} A --&gt;|Success| Trialing A --&gt;|Failure| ROF{revert_on_failure} ROF --&gt;|true| AS ROF --&gt;|false| PD[Past Due] Activate Trialing subscription You can read more about the behavior of trialing subscriptions here . When the `revert_on_failure` parameter is set to `true`, the subscription's state will remain as Trialing, we will void the invoice from activation and return any prepayments and credits applied to the invoice back to the subscription.
+- **Signature**: `ActivateSubscription(int subscriptionId, ActivateSubscriptionRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `body` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Returns**: `SubscriptionResponse`
+- **Error**: `SdkException<ActivateSubscriptionError>` — **Case A (typed)**
+- **Error accessors**: `TryGetErrorArrayMapResponse(out ErrorArrayMapResponse)` [400] · `TryGetRawError(out RawError)` [fallback]
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### ApplyCouponsToSubscription
+- **HTTP**: `POST /subscriptions/{subscription_id}/add_coupon.json` (Production)
+- **Notes**: Applies one or more coupon codes to an existing subscription. An existing subscription can accommodate multiple discounts/coupon codes. This is only applicable if each coupon is stackable. For more information on stackable coupons, we recommend reviewing our coupon documentation. Query Parameters vs Request Body Parameters Passing in a coupon code as a query parameter will add the code to the subscription, completely replacing all existing coupon codes on the subscription. For this reason, using this query parameter on this endpoint has been deprecated in favor of using the request body parameters as described below. When passing in request body parameters, the list of coupon codes will simply be added to any existing list of codes on the subscription.
+- **Signature**: `ApplyCouponsToSubscription(int subscriptionId, string? code, AddCouponsRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `code` — nullable, no default → **must pass explicitly**
+  - `body` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `code` ← `code`
+- **Returns**: `SubscriptionResponse`
+- **Error**: `SdkException<ApplyCouponsToSubscriptionError>` — **Case A (typed)**
+- **Error accessors**: `TryGetSubscriptionAddCouponError(out SubscriptionAddCouponError)` [422] · `TryGetRawError(out RawError)` [fallback]
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### CreateSubscription
+- **HTTP**: `POST /subscriptions.json` (Production)
+- **Notes**: Creates a Subscription for a customer and product. Specify the product with `product_id` or `product_handle`. To set a specific product price point, use `product_price_point_handle` or `product_price_point_id`. Identify an existing customer with `customer_id` or `customer_reference`. Optionally, include an existing payment profile using `payment_profile_id`. To create a new customer, pass customer_attributes. Select an option from the Request Examples drop-down on the right side of the portal to see examples of common scenarios for creating subscriptions. List vs Sales Pricing When a subscription uses custom pricing as the sales price, you can optionally provide a list price for any item. If omitted, the list price defaults to the sales price. The difference between the list price and sales price is used to calculate implicit discounts, which appear on Invoices and in reporting. List price can also support revenue allocations in Advanced Revenue . If your site has list pricing enabled, the API accepts `custom_price.list_price_point_id` for custom pricing, validates and persists it, and returns list price metadata in subscription responses. If list pricing is disabled, this input is ignored and related response fields are omitted. When list pricing is enabled: Subscription → Product `product_price_point_list_price_point_id` (integer) `product_price_point_list_price_point_handle` (string) Subscription Components (when components are included in the response, such as with subscriptions built from components or component serialization paths) `component_id` (integer) `price_point_id` (integer) `list_price_point_id` (integer) When list pricing is disabled: Subscription → Product `product_price_point_list_price_point_id`: omitted `product_price_point_list_price_point_handle`: omitted Subscription Components `list_price_point_id`: omitted This functionality is supported in the API, but is not currently supported in SDKs. Subscriptions can now work independently from the catalog If you have the new Catalog experience enabled, you can create subscriptions without a `product_id` or `product_handle` using POST /subscriptions, building them entirely from components. A valid subscription must include at least one active component with: - a positive `allocated_quantity`, - a positive `unit_balance`, or - 'enabled: true' (for on/off components) - a configured metered component `component_id` can be provided as a numeric ID or in handle: format. If `trial_interval` and `trial_interval_unit` are included, they are applied at creation. In the response, product and product price point fields are null, and component details are returned instead. This functionality is supported in the API, but is not currently supported in SDKs. Payment information Payment information may be required to create a subscription, depending on the options for the Product being subscribed. See product options for more information. See the Payments Profile endpoint for details on payment parameters. See the Subscription Signups article for more information on working with subscriptions in Advanced Billing. Payment information Payment information may be required to create a subscription, depending on the options for the Product being subscribed. See product options for more information. See the Payments Profile endpoint for details on payment parameters. Do not use real card information for testing. See the Sites articles that cover testing your site setup for more details on testing in your sandbox. Note that collecting and sending raw card details in production requires PCI compliance on your end. If your business is not PCI compliant, use Maxio.js (formerly Chargify.js) to collect credit card or bank account information. 3D Secure (3DS) Authentication post-authentication flow When a payment requires 3DS Authentication to adhere to Strong Customer Authentication (SCA), the request enters a post-authentication flow where a 422 Unprocessable Entity status is returned with an action_link that will direct the customer through 3DS Authentication. See the 3D Secure Post-Authentication Flow article in the product documentation to learn how to manage the redirect flow.
+- **Signature**: `CreateSubscription(CreateSubscriptionRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `body` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Returns**: `SubscriptionResponse`
+- **Error**: `SdkException<CreateSubscriptionError>` — **Case A (typed)**
+- **Error accessors**: `TryGetErrorListResponse(out ErrorListResponse)` [422] · `TryGetRawError(out RawError)` [fallback]
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### FindSubscription
+- **HTTP**: `GET /subscriptions/lookup.json` (Production)
+- **Notes**: Finds a subscription by its reference.
+- **Signature**: `FindSubscription(string? reference, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `reference` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `reference` ← `reference`
+- **Returns**: `SubscriptionResponse`
+- **Error**: `SdkException<FindSubscriptionError>` — **Case A (typed)**
+- **Error accessors**: `TryGetNoContent(out RawError)` [404] · `TryGetRawError(out RawError)` [fallback]
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### ListSubscriptions
+- **HTTP**: `GET /subscriptions.json` (Production)
+- **Notes**: Lists subscriptions for a site. Pay close attention to query string filters and pagination in order to control responses from the server. If you have the new Catalog experience enabled, some subscriptions may not have an associated product. For subscriptions without an associated product, 'product', 'product_price_point_id', and 'product_price_point_type' are returned as 'null'. Search for a subscription Use the query strings below to search for a subscription using the criteria available. The return value will be an array. Self-Service Page token Self-Service Page token for the subscriptions is not returned by default. If this information is desired, the include[]=self_service_page_token parameter must be provided with the request.
+- **Signature**: `ListSubscriptions(SubscriptionStateFilter? state, int? product, int? productPricePointId, int? coupon, string? couponCode, int? brandingThemeId, SubscriptionDateField? dateField, DateTimeOffset? startDate, DateTimeOffset? endDate, DateTimeOffset? startDatetime, DateTimeOffset? endDatetime, IReadOnlyDictionary<string, string>? metadata, SortingDirection? direction, SubscriptionSort? sort, IReadOnlyList<SubscriptionListInclude>? include, int? page = 1, int? perPage = 20, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - 15 params (`state` … `include`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
+  - defaults: `page` = 1, `perPage` = 20, `requestOptions` = null
+- **Query params (wire ← C#)**: `page` ← `page`, `per_page` ← `perPage`, `state` ← `state`, `product` ← `product`, `product_price_point_id` ← `productPricePointId`, `coupon` ← `coupon`, `coupon_code` ← `couponCode`, `branding_theme_id` ← `brandingThemeId`, `date_field` ← `dateField`, `start_date` ← `startDate`, `end_date` ← `endDate`, `start_datetime` ← `startDatetime`, `end_datetime` ← `endDatetime`, `metadata` ← `metadata`, `direction` ← `direction`, `sort` ← `sort`, `include` ← `include`
+- **Returns**: `IReadOnlyList<SubscriptionResponse>`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: manual `page`+`perPage`
+
+### OverrideSubscription
+- **HTTP**: `PUT /subscriptions/{subscription_id}/override.json` (Production)
+- **Notes**: Sets certain subscription fields that are usually managed automatically. Some of the fields can be set via the normal Subscriptions Update API, but others can only be set using this endpoint. This endpoint is provided for cases where you need to “align” Advanced Billing data with data that happened in your system, perhaps before you started using Advanced Billing. For example, you may choose to import your historical subscription data, and would like the activation and cancellation dates in Advanced Billing to match your existing historical dates. Advanced Billing does not backfill historical events (i.e. from the Events API), but some static data can be changed via this API. Why are some fields only settable from this endpoint, and not the normal subscription create and update endpoints? Because we want users of this endpoint to be aware that these fields are usually managed by Advanced Billing, and using this API means you are stepping out on your own. Changing these fields will not affect any other attributes. For example, adding an expiration date will not affect the next assessment date on the subscription. If you regularly need to override the current_period_starts_at for new subscriptions, this can also be accomplished by setting both `previous_billing_at` and `next_billing_at` at subscription creation. See the documentation on Importing Subscriptions for more information. Limitations When passing `current_period_starts_at` some validations are made: The subscription needs to be unbilled (no statements or invoices). The value passed must be a valid date/time. We recommend using the iso 8601 format. The value passed must be before the current date/time. If unpermitted parameters are sent, a 400 HTTP response is sent along with a string giving the reason for the problem.
+- **Signature**: `OverrideSubscription(int subscriptionId, OverrideSubscriptionRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `body` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Returns**: `void` (Task)
+- **Error**: `SdkException<OverrideSubscriptionError>` — **Case A (typed)**
+- **Error accessors**: `TryGetSingleErrorResponse(out SingleErrorResponse)` [422] · `TryGetRawError(out RawError)` [fallback]
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### PreviewSubscription
+- **HTTP**: `POST /subscriptions/preview.json` (Production)
+- **Notes**: Previews a subscription by POSTing the same JSON or XML as for a subscription creation. The "Next Billing" amount and "Next Billing" date are represented in each Subscriber's Summary. A subscription will not be created by utilizing this endpoint; it is meant to serve as a prediction. For more information, see our documentation here . Subscriptions can now work independently from the catalog If you have the new Catalog experience enabled, you can create subscriptions without a `product_id` or `product_handle` using POST /subscriptions, building them entirely from components. A valid subscription must include at least one active component with: - a positive `allocated_quantity`, - a positive `unit_balance`, or - 'enabled: true' (for on/off components) `component_id` can be provided as a numeric ID or in handle: format. If `trial_interval` and `trial_interval_unit` are included, they are applied at creation. In the response, product and product price point fields are null, and component details are returned instead. This functionality is supported in the API, but is not currently supported in SDKs. Taxable Subscriptions This endpoint will preview taxes applicable to a purchase. In order for taxes to be previewed, the following conditions must be met: Taxes must be configured on the subscription The preview must be for the purchase of a taxable product or component, or combination of the two. The subscription payload must contain a full billing or shipping address in order to calculate tax For more information about creating taxable previews, see our documentation guide on how to create taxable subscriptions. You do not need to include a card number to generate tax information when you are previewing a subscription. However, when you actually want to create the subscription, you must include the credit card information if you want the billing address to be stored in Advanced Billing. The billing address and the credit card information are stored together within the payment profile object. Also, you may not send a billing address to Advanced Billing without payment profile information, as the address is stored on the card. You can pass shipping and billing addresses and still decide not to calculate taxes. To do that, pass `skip_billing_manifest_taxes: true` attribute. Non-taxable Subscriptions If you'd like to calculate subscriptions that do not include tax you may leave off the billing information.
+- **Signature**: `PreviewSubscription(CreateSubscriptionRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `body` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Returns**: `SubscriptionPreviewResponse`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### PurgeSubscription
+- **HTTP**: `POST /subscriptions/{subscription_id}/purge.json` (Production)
+- **Notes**: Purges an individual subscription for sites in test mode. Provide the subscription ID in the url. To confirm, supply the customer ID in the query string `ack` parameter. You may also delete the customer record and/or payment profiles by passing `cascade` parameters. For example, to delete just the customer record, the query params would be: `?ack={customer_id}&amp;cascade[]=customer` If you need to remove subscriptions from a live site, contact support to discuss your use case. Delete customer and payment profile The query params will be: `?ack={customer_id}&amp;cascade[]=customer&amp;cascade[]=payment_profile`
+- **Signature**: `PurgeSubscription(int subscriptionId, int ack, IReadOnlyList<SubscriptionPurgeType>? cascade, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `cascade` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `ack` ← `ack`, `cascade` ← `cascade`
+- **Returns**: `SubscriptionResponse`
+- **Error**: `SdkException<PurgeSubscriptionError>` — **Case A (typed)**
+- **Error accessors**: `TryGetSubscriptionResponse(out SubscriptionResponse)` [400] · `TryGetRawError(out RawError)` [fallback]
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### ReadSubscription
+- **HTTP**: `GET /subscriptions/{subscription_id}.json` (Production)
+- **Notes**: Retrieves subscription details. If you have the new Catalog experience enabled, some subscriptions may not have an associated product. For subscriptions without an associated product, 'product', 'product_price_point_id', and 'product_price_point_type' are returned as 'null'. Self-Service Page token Self-Service Page token for the subscription is not returned by default. If this information is desired, the include[]=self_service_page_token parameter must be provided with the request.
+- **Signature**: `ReadSubscription(int subscriptionId, IReadOnlyList<SubscriptionInclude>? include, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `include` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `include` ← `include`
+- **Returns**: `SubscriptionResponse`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### RemoveCouponFromSubscription
+- **HTTP**: `DELETE /subscriptions/{subscription_id}/remove_coupon.json` (Production)
+- **Notes**: Removes a coupon from an existing subscription. For more information on the expected behavior of removing a coupon from a subscription, see our documentation here.
+- **Signature**: `RemoveCouponFromSubscription(int subscriptionId, string? couponCode, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `couponCode` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `coupon_code` ← `couponCode`
+- **Returns**: `string`
+- **Error**: `SdkException<RemoveCouponFromSubscriptionError>` — **Case A (typed)**
+- **Error accessors**: `TryGetSubscriptionRemoveCouponErrors(out SubscriptionRemoveCouponErrors)` [422] · `TryGetRawError(out RawError)` [fallback]
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### UpdatePrepaidSubscriptionConfiguration
+- **HTTP**: `POST /subscriptions/{subscription_id}/prepaid_configurations.json` (Production)
+- **Notes**: Updates a subscription's prepaid configuration.
+- **Signature**: `UpdatePrepaidSubscriptionConfiguration(int subscriptionId, UpsertPrepaidConfigurationRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `body` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Returns**: `PrepaidConfigurationResponse`
+- **Error**: `SdkException<UpdatePrepaidSubscriptionConfigurationError>` — **Case A (typed)**
+- **Error accessors**: `TryGetPrepaidConfigurationErrorResponse(out PrepaidConfigurationErrorResponse)` [422] · `TryGetRawError(out RawError)` [fallback]
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### UpdateSubscription
+- **HTTP**: `PUT /subscriptions/{subscription_id}.json` (Production)
+- **Notes**: Updates one or more attributes of a subscription. Update Subscription Payment Method Change the card that your subscriber uses for their subscription. You can also use this method to change the expiration date of the card if your gateway allows . Do not use real card information for testing. See the Sites articles that cover testing your site setup for more details on testing in your sandbox. Note that collecting and sending raw card details in production requires PCI compliance on your end. If your business is not PCI compliant, use Chargify.js to collect credit card or bank account information. &gt; Note: Partial card updates for Authorize.Net are not allowed via this endpoint. The existing Payment Profile must be directly updated instead. Update Product You also use this method to change the subscription to a different product by setting a new value for product_handle. A product change can be done in two different ways, product change or delayed product change . Product Change You can change a subscription's product. The new payment amount is calculated and charged at the normal start of the next period. If you require complex product changes or prorated upgrades and downgrades instead, please see the documentation on Migrating Subscription Products . To perform a product change, set either the `product_handle` or `product_id` attribute to that of a different product from the same site as the subscription. You can also change the price point by passing in either `product_price_point_id` or `product_price_point_handle` - otherwise the new product's default price point is used. Delayed Product Change This method also changes the product and/or price point, and the new payment amount is calculated and charged at the normal start of the next period. This method schedules the product change to happen automatically at the subscription’s next renewal date. To perform a delayed product change, set the `product_handle` attribute as you would in a regular product change, but also set the `product_change_delayed` attribute to `true`. No proration applies in this case. You can also perform a delayed change to the price point by passing in either `product_price_point_id` or `product_price_point_handle` &gt; Note: To cancel a delayed product change, set `next_product_id` to an empty string. Billing Date Changes You can update dates for a subscription. Regular Billing Date Changes Send the `next_billing_at` to set the next billing date for the subscription. After that date passes and the subscription is processed, the following billing date will be set according to the subscription's product period. &gt; Note: If you pass an invalid date, the correct date is automatically set to the correct date. For example, if February 30 is passed, the next billing would be set to March 2nd in a non-leap year. The server response will not return data under the key/value pair of `next_billing_at`. View the key/value pair of `current_period_ends_at` to verify that the `next_billing_at` date has been changed successfully. Calendar Billing and Snap Day Changes For a subscription using Calendar Billing, setting the next billing date is a bit different. Send the `snap_day` attribute to change the calendar billing date for a subscription using a product eligible for calendar billing . &gt; Note: If you change the product associated with a subscription that contains a `snap_day` and immediately READ/GET the subscription data, it will still contain the original `snap_day`. The `snap_day` will be reset to `null` on the next billing cycle. This is because a product change is instantaneous and only affects the product associated with a subscription. If you have the new Catalog experience enabled, some subscriptions may not have an associated product. For subscriptions without an associated product, `product`, `product_price_point_id`, and `product_price_point_type` are returned as `null`.
+- **Signature**: `UpdateSubscription(int subscriptionId, UpdateSubscriptionRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `body` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Returns**: `SubscriptionResponse`
+- **Error**: `SdkException<UpdateSubscriptionError>` — **Case A (typed)**
+- **Error accessors**: `TryGetErrorListResponse(out ErrorListResponse)` [422] · `TryGetRawError(out RawError)` [fallback]
+- **No-throw variant**: absent
+- **Pagination**: none

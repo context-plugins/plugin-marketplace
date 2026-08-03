@@ -139,7 +139,7 @@
     {
       "name": "maxio-advanced-billing",
       "source": "./plugins/maxio-advanced-billing",
-      "description": "Subscription billing and revenue management with Maxio Advanced Billing (formerly Chargify)."
+      "description": "TODO_AUTO_DESCRIPTION: Maxio Advanced Billing API"
     },
     {
       "name": "discourse-api-documentation",

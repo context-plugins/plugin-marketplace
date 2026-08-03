@@ -215,6 +215,11 @@
       "name": "binance",
       "source": "./plugins/binance",
       "description": "Trade crypto assets, monitor market data, and manage orders on Binance."
+    },
+    {
+      "name": "coingecko",
+      "source": "./plugins/coingecko",
+      "description": "TODO_AUTO_DESCRIPTION: Coingecko API"
     }
   ]
 }

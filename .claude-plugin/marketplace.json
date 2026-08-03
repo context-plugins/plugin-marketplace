@@ -205,6 +205,11 @@
       "name": "kubernetes",
       "source": "./plugins/kubernetes",
       "description": "Automate container orchestration, scaling, and deployment across Kubernetes clusters."
+    },
+    {
+      "name": "nytimes",
+      "source": "./plugins/nytimes",
+      "description": "TODO_AUTO_DESCRIPTION: NYTimes API"
     }
   ]
 }

@@ -7,21 +7,6 @@
   },
   "plugins": [
     {
-      "name": "telegram-bot",
-      "source": "./plugins/telegram-bot",
-      "description": "Build bots that send messages and interact with users on Telegram."
-    },
-    {
-      "name": "square-connect",
-      "source": "./plugins/square-connect",
-      "description": "Process payments, orders, inventory, and point-of-sale for Square merchants."
-    },
-    {
-      "name": "tesla",
-      "source": "./plugins/tesla",
-      "description": "Access vehicle data and send commands to Tesla vehicles via the Fleet API."
-    },
-    {
       "name": "paypal",
       "source": "./plugins/paypal",
       "description": "Process payments, accept global transactions, and manage subscriptions with PayPal."
@@ -32,84 +17,14 @@
       "description": "Process global payments, manage fraud, and handle unified commerce across online and in-store channels."
     },
     {
-      "name": "verizon",
-      "source": "./plugins/verizon",
-      "description": "Manage and monitor IoT device connectivity on Verizon's ThingSpace network."
-    },
-    {
-      "name": "tesser",
-      "source": "./plugins/tesser",
-      "description": "Send stablecoin-based cross-border payments for banks and PSPs."
-    },
-    {
-      "name": "slack-web",
-      "source": "./plugins/slack-web",
-      "description": "Send messages, manage channels, and build integrations for Slack."
-    },
-    {
-      "name": "paze-checkout",
-      "source": "./plugins/paze-checkout",
-      "description": "Digital wallet checkout for card payments on Paze."
-    },
-    {
       "name": "cellpoint",
       "source": "./plugins/cellpoint",
       "description": "Process mobile payments and manage travel commerce transactions."
     },
     {
-      "name": "splitit-web",
-      "source": "./plugins/splitit-web",
-      "description": "Offer interest-free installment payment plans on customers' existing credit cards."
-    },
-    {
-      "name": "shell",
-      "source": "./plugins/shell",
-      "description": "Manage Shell fuel cards, fleet payments, and EV charging (Shell Recharge)."
-    },
-    {
-      "name": "vimeo",
-      "source": "./plugins/vimeo",
-      "description": "Upload, manage, and stream video content on Vimeo."
-    },
-    {
-      "name": "xero",
-      "source": "./plugins/xero",
-      "description": "Cloud accounting software for invoicing, payroll, expenses, and bookkeeping."
-    },
-    {
-      "name": "shutterstock-api-explorer",
-      "source": "./plugins/shutterstock-api-explorer",
-      "description": "Search and license stock photos, videos, and music from Shutterstock."
-    },
-    {
       "name": "spotify-web-api",
       "source": "./plugins/spotify-web-api",
       "description": "Stream music, manage playlists, and access user data across Spotify catalogs."
-    },
-    {
-      "name": "the-plaid-api",
-      "source": "./plugins/the-plaid-api",
-      "description": "Connect to users' bank accounts for transactions, balances, and financial data."
-    },
-    {
-      "name": "stax-fattmerchant-api",
-      "source": "./plugins/stax-fattmerchant-api",
-      "description": "Process credit card payments and manage merchants on the Stax (Fattmerchant) platform."
-    },
-    {
-      "name": "pq-api-v2",
-      "source": "./plugins/pq-api-v2",
-      "description": "Send global payouts and disbursements via PayQuicker's Payouts platform."
-    },
-    {
-      "name": "twilio-apis",
-      "source": "./plugins/twilio-apis",
-      "description": "Send SMS, voice calls, and other programmable communications with Twilio."
-    },
-    {
-      "name": "docker",
-      "source": "./plugins/docker",
-      "description": "Manage containers, images, networks, and volumes via the Docker Engine API."
     },
     {
       "name": "klarna",
@@ -122,49 +37,9 @@
       "description": "Read and write pages, databases, and blocks in Notion workspaces."
     },
     {
-      "name": "sportsdata",
-      "source": "./plugins/sportsdata",
-      "description": "Real-time sports scores, stats, odds, and news from SportsDataIO."
-    },
-    {
-      "name": "x-api-v2",
-      "source": "./plugins/x-api-v2",
-      "description": "Post, read, and manage tweets, users, and engagement data on X (formerly Twitter)."
-    },
-    {
-      "name": "gitea-api",
-      "source": "./plugins/gitea-api",
-      "description": "Self-hosted Git service API for managing repositories, issues, and users."
-    },
-    {
       "name": "maxio-advanced-billing",
       "source": "./plugins/maxio-advanced-billing",
       "description": "Automate complex subscription billing, recurring invoicing, and revenue management at scale."
-    },
-    {
-      "name": "discourse-api-documentation",
-      "source": "./plugins/discourse-api-documentation",
-      "description": "Discourse forum platform API for managing topics, posts, users, and categories."
-    },
-    {
-      "name": "open-meteo-weather-forecast-api",
-      "source": "./plugins/open-meteo-weather-forecast-api",
-      "description": "Free weather forecast and historical weather data from Open-Meteo."
-    },
-    {
-      "name": "binance-public-spot-api",
-      "source": "./plugins/binance-public-spot-api",
-      "description": "Binance public market data API for spot trading pairs, order books, and price data."
-    },
-    {
-      "name": "pok-api",
-      "source": "./plugins/pok-api",
-      "description": "RESTful API for Pokémon species, moves, abilities, and game data."
-    },
-    {
-      "name": "firecrawl-api",
-      "source": "./plugins/firecrawl-api",
-      "description": "Web scraping and crawling API that converts websites into clean, LLM-ready data."
     },
     {
       "name": "deepgram",
@@ -172,24 +47,9 @@
       "description": "Transcribe, analyze, and understand audio in real-time with advanced speech-to-text models."
     },
     {
-      "name": "ny-times",
-      "source": "./plugins/ny-times",
-      "description": "New York Times API for searching articles, top stories, and archival content."
-    },
-    {
-      "name": "coingecko-demo-api",
-      "source": "./plugins/coingecko-demo-api",
-      "description": "Cryptocurrency market data — prices, market caps, and metadata — from CoinGecko."
-    },
-    {
       "name": "alpaca",
       "source": "./plugins/alpaca",
       "description": "Trade stocks and cryptocurrencies programmatically with zero-commission execution."
-    },
-    {
-      "name": "finnhub-api",
-      "source": "./plugins/finnhub-api",
-      "description": "Real-time stock market data API for quotes, financials, and company news."
     },
     {
       "name": "paze",

@@ -195,6 +195,11 @@
       "name": "paze",
       "source": "./plugins/paze",
       "description": "Checkout and digital wallet service for secure online payments."
+    },
+    {
+      "name": "google-maps-platform",
+      "source": "./plugins/google-maps-platform",
+      "description": "TODO_AUTO_DESCRIPTION: Google Maps Platform API"
     }
   ]
 }

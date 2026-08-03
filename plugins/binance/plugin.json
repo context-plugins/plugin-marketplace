@@ -1,0 +1,27 @@
+{
+  "name": "binance",
+  "displayName": "Binance SDK",
+  "version": "0.1.0",
+  "description": "TODO_AUTO_DESCRIPTION: Binance API",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "binance",
+    "dotnet",
+    "typescript"
+  ],
+  "logo": "assets/logo.svg",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/typescript"
+  ],
+  "agents": "agents-vscode/"
+}

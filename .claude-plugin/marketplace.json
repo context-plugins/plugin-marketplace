@@ -199,7 +199,7 @@
     {
       "name": "google-maps-platform",
       "source": "./plugins/google-maps-platform",
-      "description": "TODO_AUTO_DESCRIPTION: Google Maps Platform API"
+      "description": "Embed interactive maps, geocode addresses, and calculate routes with Google Maps."
     }
   ]
 }

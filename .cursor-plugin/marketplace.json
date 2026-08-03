@@ -194,7 +194,7 @@
     {
       "name": "paze",
       "source": "./plugins/paze",
-      "description": "TODO_AUTO_DESCRIPTION: Paze API"
+      "description": "Checkout and digital wallet service for secure online payments."
     }
   ]
 }

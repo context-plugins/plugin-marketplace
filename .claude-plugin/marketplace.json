@@ -139,7 +139,7 @@
     {
       "name": "maxio-advanced-billing",
       "source": "./plugins/maxio-advanced-billing",
-      "description": "TODO_AUTO_DESCRIPTION: Maxio Advanced Billing API"
+      "description": "Automate complex subscription billing, recurring invoicing, and revenue management at scale."
     },
     {
       "name": "discourse-api-documentation",

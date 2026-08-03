@@ -2,7 +2,7 @@
   "name": "maxio-advanced-billing",
   "displayName": "Maxio Advanced Billing SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Maxio Advanced Billing API",
+  "description": "Automate complex subscription billing, recurring invoicing, and revenue management at scale.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

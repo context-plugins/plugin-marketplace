@@ -184,7 +184,7 @@
     {
       "name": "alpaca",
       "source": "./plugins/alpaca",
-      "description": "TODO_AUTO_DESCRIPTION: Alpaca API"
+      "description": "Trade stocks and cryptocurrencies programmatically with zero-commission execution."
     },
     {
       "name": "finnhub-api",

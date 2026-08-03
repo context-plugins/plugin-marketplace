@@ -250,6 +250,11 @@
       "name": "tesla-fleet-management-api",
       "source": "./plugins/tesla-fleet-management-api",
       "description": "Monitor, locate, and control connected vehicles remotely with real-time telemetry, commands, and energy data."
+    },
+    {
+      "name": "tesser-api-v1",
+      "source": "./plugins/tesser-api-v1",
+      "description": "TODO_AUTO_DESCRIPTION: Tesser API (v1) API"
     }
   ]
 }

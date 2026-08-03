@@ -230,6 +230,11 @@
       "name": "pokeapi",
       "source": "./plugins/pokeapi",
       "description": "Access comprehensive data on Pokémon, items, regions, and moves."
+    },
+    {
+      "name": "ebay-sell",
+      "source": "./plugins/ebay-sell",
+      "description": "TODO_AUTO_DESCRIPTION: Ebay Sell API"
     }
   ]
 }

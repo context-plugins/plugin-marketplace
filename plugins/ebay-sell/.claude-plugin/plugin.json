@@ -1,0 +1,36 @@
+{
+  "name": "ebay-sell",
+  "displayName": "Ebay Sell SDK",
+  "version": "0.1.0",
+  "description": "TODO_AUTO_DESCRIPTION: Ebay Sell API",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "ebay-sell",
+    "dotnet",
+    "typescript",
+    "java",
+    "php",
+    "python",
+    "ruby"
+  ],
+  "skills": [
+    "./skills/dotnet",
+    "./skills/typescript",
+    "./skills/java",
+    "./skills/php",
+    "./skills/python",
+    "./skills/ruby"
+  ],
+  "agents": [
+    "./agents/dotnet-ebay-sell-sdk.md"
+  ]
+}

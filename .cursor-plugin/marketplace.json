@@ -239,7 +239,7 @@
     {
       "name": "shutterstock",
       "source": "./plugins/shutterstock",
-      "description": "TODO_AUTO_DESCRIPTION: Shutterstock API"
+      "description": "Search, license, and download millions of stock photos, vectors, and videos from Shutterstock."
     }
   ]
 }

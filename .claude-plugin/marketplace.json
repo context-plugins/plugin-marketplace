@@ -225,6 +225,11 @@
       "name": "discourse",
       "source": "./plugins/discourse",
       "description": "Build and manage online communities, discussion forums, and member spaces with Discourse."
+    },
+    {
+      "name": "pokeapi",
+      "source": "./plugins/pokeapi",
+      "description": "TODO_AUTO_DESCRIPTION: PokeApi API"
     }
   ]
 }

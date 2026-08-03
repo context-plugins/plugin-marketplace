@@ -54,7 +54,7 @@
     {
       "name": "cellpoint",
       "source": "./plugins/cellpoint",
-      "description": "Orchestrate travel payments across providers with CellPoint Digital."
+      "description": "TODO_AUTO_DESCRIPTION: Cellpoint API"
     },
     {
       "name": "splitit-web",

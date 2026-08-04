@@ -140,6 +140,11 @@
       "name": "stax-fattmerchant-api",
       "source": "./plugins/stax-fattmerchant-api",
       "description": "Process omnichannel payments, manage customer invoicing, and automate recurring billing through Stax."
+    },
+    {
+      "name": "twilio-apis",
+      "source": "./plugins/twilio-apis",
+      "description": "TODO_AUTO_DESCRIPTION: Twilio APIs API"
     }
   ]
 }

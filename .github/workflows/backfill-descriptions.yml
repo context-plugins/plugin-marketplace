@@ -1,11 +1,19 @@
-name: Backfill plugin descriptions
+name: Sync marketplace registries and docs
 
 # Push + daily schedule + manual. The push trigger is scoped to plugins/** so it only fires when
 # the crawler's ingest stage (see contextmatic-crawler's ARCHITECTURE.md, stage 6) actually lands a
-# new plugin — not on unrelated commits like workflow or doc changes. Racing an in-flight ingest
-# commit is fine: the commit/push step below already fetches, rebases, and retries on a rejected
-# push, and the concurrency group serializes overlapping runs of this workflow itself. The daily
-# schedule is just a backstop in case a push-triggered run is ever missed.
+# new plugin — not on unrelated commits like workflow or doc changes. Removing a plugin directory
+# is also a change under plugins/**, which is what makes the deletion path work: the sync step
+# below prunes the registry entries the crawler never removes (upsert_marketplace matches by name,
+# so a delete — or the losing half of a rename — leaves its entry behind forever).
+# Racing an in-flight ingest commit is fine: both commit/push steps below re-sync with origin/main
+# and retry on a rejected push, and the concurrency group serializes overlapping runs of this
+# workflow itself. The daily schedule is the backstop for a push-triggered run that never fired
+# (Actions outage, workflow auto-disabled on an idle repo) — worst case is drift for under a day,
+# then it self-heals with nobody watching.
+#
+# Nothing here writes plugins/**, so the bot's own pushes cannot retrigger this workflow (and
+# GITHUB_TOKEN-authored pushes do not trigger workflows anyway).
 on:
   workflow_dispatch: {}
   push:
@@ -21,21 +29,68 @@ permissions:
 # One run at a time — this job commits and pushes, and two overlapping runs racing the same push
 # is exactly the kind of thing the rebase-retry loop below exists to absorb, not invite.
 concurrency:
-  group: backfill-descriptions
+  group: marketplace-docs
   cancel-in-progress: false
 
 jobs:
-  backfill:
+  sync:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      # ---- 1. Registries + generated docs (deterministic; no secrets, no network) ----
+      # Runs BEFORE the description backfill so an entry adopted here gets its description filled
+      # in this same run rather than waiting for tomorrow's scheduled pass.
+      - name: Sync registries and generated docs
+        run: python3 .github/scripts/sync_marketplace.py
+
+      - name: Commit and push the sync
+        env:
+          MARKETPLACE_PUSH_TOKEN: ${{ secrets.MARKETPLACE_PUSH_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          git config user.name "apimatic-bot"
+          git config user.email "developer@apimatic.io"
+
+          # Only the four paths the sync script owns — never `git add -A`, which would sweep up any
+          # unrelated file that happened to be dirty in the runner.
+          owned=(README.md CLAUDE.md .claude-plugin/marketplace.json .cursor-plugin/marketplace.json)
+
+          # The script's output is derived entirely from plugins/, so on a rejected push the right
+          # move is to throw our commit away, re-derive against the new main, and try again —
+          # simpler than rebasing, and it cannot produce a README that predates the commit that
+          # beat us. Re-running the script is free (no API calls), unlike the backfill below.
+          for attempt in 1 2 3 4 5; do
+            if git diff --quiet -- "${owned[@]}"; then
+              echo "Registries and docs already in sync."
+              exit 0
+            fi
+            git add -- "${owned[@]}"
+            git commit -m "Sync marketplace registries and docs with the plugin set"
+            if bash .github/scripts/push-main.sh; then
+              echo "Pushed."
+              exit 0
+            fi
+            echo "Push rejected (attempt $attempt/5) — re-deriving against the latest main."
+            git fetch origin main
+            git reset --hard origin/main
+            python3 .github/scripts/sync_marketplace.py
+          done
+
+          echo "Failed to push the sync after 5 attempts." >&2
+          exit 1
+
+      # ---- 2. Descriptions (calls Gemini; kept separate so a quota/API failure cannot roll back
+      #         the deterministic sync above, which has already landed) ----
       - name: Backfill TODO_AUTO_DESCRIPTION placeholders
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python3 .github/scripts/backfill_descriptions.py
 
       - name: Commit and push
+        env:
+          MARKETPLACE_PUSH_TOKEN: ${{ secrets.MARKETPLACE_PUSH_TOKEN }}
         run: |
           set -euo pipefail
 
@@ -57,7 +112,7 @@ jobs:
           git commit -m "Backfill description for $names"
 
           for attempt in 1 2 3 4 5; do
-            if git push origin HEAD:main; then
+            if bash .github/scripts/push-main.sh; then
               echo "Pushed."
               exit 0
             fi

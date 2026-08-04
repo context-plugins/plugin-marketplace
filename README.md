@@ -15,7 +15,7 @@ Coding agents hallucinate APIs. They are trained on public code and documentatio
 outdated — and have no awareness of the API version you are actually on, the current SDK, or the
 integration workflow the SDK author recommends.
 
-This repository is the **`context-plugins` marketplace**: a collection of **37 plugins**, one per
+This repository is the **`context-plugins` marketplace**: a collection of **<!-- BEGIN:PLUGIN_COUNT -->34<!-- END:PLUGIN_COUNT --> plugins**, one per
 API, that give your agent authoritative, version-aware, SDK-native context at the moment it's
 needed. Every plugin is generated from the API's definition and its APIMatic-generated SDKs, so the
 agent is grounded in the real SDK contract instead of guessing from memory.
@@ -57,33 +57,50 @@ Then run `/reload-plugins`, or start a new `claude` session.
 
 ## Available plugins
 
-37 plugins, listed in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
+<!-- BEGIN:PLUGIN_COUNT -->34<!-- END:PLUGIN_COUNT --> plugins, listed in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
 The **Languages** column is the set of SDK languages that plugin ships skills for.
 
+<!-- This table is generated from plugins/ by .github/scripts/sync_marketplace.py. Do not edit by
+     hand — edits between the markers are overwritten on the next sync. To change a row, change
+     the plugin's own .claude-plugin/plugin.json (displayName) or its skills/ directories. -->
+<!-- BEGIN:PLUGIN_TABLE -->
 | Plugin | API | Languages |
 | --- | --- | --- |
-| [`adyen`](plugins/adyen/) | Adyen | .NET, TS, Java, PHP, Python, Go |
+| [`adyen`](plugins/adyen/) | Adyen | .NET, TS, Java, Python, Go |
 | [`alpaca`](plugins/alpaca/) | Alpaca | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`binance`](plugins/binance/) | Binance SDK | .NET, TS |
-| [`cellpoint`](plugins/cellpoint/) | CellPoint | .NET, TS, Java, PHP, Python, Go |
-| [`coingecko`](plugins/coingecko/) | Coingecko SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`binance`](plugins/binance/) | Binance | .NET, TS |
+| [`cellpoint`](plugins/cellpoint/) | CellPoint | .NET, Java, PHP, Python, Go |
+| [`coingecko`](plugins/coingecko/) | Coingecko | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`deepgram`](plugins/deepgram/) | Deepgram | .NET, TS, Java, PHP, Python, Go |
-| [`discourse`](plugins/discourse/) | Discourse SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`ebay-sell`](plugins/ebay-sell/) | Ebay Sell SDK | .NET, TS, Java, PHP, Python, Ruby |
-| [`google-maps-platform`](plugins/google-maps-platform/) | Google Maps Platform SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`klarna`](plugins/klarna/) | klarna SDK | .NET, Java, PHP, Python, Ruby, Go |
-| [`kubernetes`](plugins/kubernetes/) | Kubernetes SDK | .NET, Go |
+| [`discourse`](plugins/discourse/) | Discourse | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`ebay-sell`](plugins/ebay-sell/) | eBay Sell | .NET, TS, Java, PHP, Python, Ruby |
+| [`finnhub`](plugins/finnhub/) | Finnhub | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`firecrawl`](plugins/firecrawl/) | Firecrawl | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`gitea`](plugins/gitea/) | Gitea | .NET, Java, PHP, Python, Go |
+| [`google-maps-platform`](plugins/google-maps-platform/) | Google Maps Platform | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`klarna`](plugins/klarna/) | Klarna | .NET, Java, PHP, Python, Ruby, Go |
+| [`kubernetes`](plugins/kubernetes/) | Kubernetes | .NET, Go |
 | [`maxio-advanced-billing`](plugins/maxio-advanced-billing/) | Maxio Advanced Billing | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`notion`](plugins/notion/) | Notion SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`nytimes`](plugins/nytimes/) | NYTimes SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`notion`](plugins/notion/) | Notion | .NET, Java, Python, Ruby, Go |
+| [`nytimes`](plugins/nytimes/) | NYTimes | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`paypal`](plugins/paypal/) | PayPal | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`paze`](plugins/paze/) | Paze SDK | .NET, TS, Java, PHP, Python, Go |
-| [`pokeapi`](plugins/pokeapi/) | PokeApi SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`shutterstock`](plugins/shutterstock/) | Shutterstock SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`slack`](plugins/slack/) | Slack SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`spotify-web-api`](plugins/spotify-web-api/) | Spotify Web API SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`tesla-fleet-management-api`](plugins/tesla-fleet-management-api/) | Tesla Fleet Management API SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`tesser-api-v1`](plugins/tesser-api-v1/) | Tesser API (v1) SDK | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`payquicker`](plugins/payquicker/) | Payquicker | .NET, Java, PHP, Python, Ruby, Go |
+| [`paze`](plugins/paze/) | Paze | .NET, TS, Java, PHP, Python, Go |
+| [`pokeapi`](plugins/pokeapi/) | PokeApi | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`shutterstock`](plugins/shutterstock/) | Shutterstock | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`slack`](plugins/slack/) | Slack | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`splitit`](plugins/splitit/) | Splitit | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`sportsdata`](plugins/sportsdata/) | Sportsdata | .NET, TS, PHP, Python, Ruby, Go |
+| [`spotify-web-api`](plugins/spotify-web-api/) | Spotify Web API | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`square`](plugins/square/) | Square | .NET, TS, Java, PHP, Ruby, Go |
+| [`stax-fattmerchant-api`](plugins/stax-fattmerchant-api/) | Stax (FattMerchant) API | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`tesla-fleet-management-api`](plugins/tesla-fleet-management-api/) | Tesla Fleet Management API | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`tesser-api-v1`](plugins/tesser-api-v1/) | Tesser API (v1) | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`twilio-apis`](plugins/twilio-apis/) | Twilio APIs | .NET, TS, Java, PHP, Python, Go |
+| [`vimeo-api`](plugins/vimeo-api/) | Vimeo API | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`x-api-v2`](plugins/x-api-v2/) | X API v2 | .NET, PHP, Python, Ruby, Go |
+| [`xero`](plugins/xero/) | Xero | .NET, Go |
+<!-- END:PLUGIN_TABLE -->
 
 > Plugin ids change occasionally. `npx context-plugins list` is always the live source of truth.
 
@@ -106,7 +123,7 @@ Each supported language ships the same eight:
 The `getting-started` skill is the entry point: it directs the agent to clone and grep the real SDK
 source, so every fact is grounded in the actual contract rather than model knowledge.
 
-Across the marketplace that's **171 language packs and 1,368 skills**. See
+Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->205<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->1,674<!-- END:SKILL_COUNT --> skills**. See
 [`plugins/paypal/README.md`](plugins/paypal/README.md) for a worked example.
 
 ## Repository structure

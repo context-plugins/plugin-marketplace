@@ -1,6 +1,6 @@
 {
   "name": "context-plugins",
-  "description": "APIMatic plugin marketplace — SDK-native, version-aware API context for your AI coding agent.",
+  "description": "APIMatic plugin marketplace \u2014 SDK-native, version-aware API context for your AI coding agent.",
   "owner": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
@@ -89,7 +89,7 @@
     {
       "name": "pokeapi",
       "source": "./plugins/pokeapi",
-      "description": "Access comprehensive data on Pokémon, items, regions, and moves."
+      "description": "Access comprehensive data on Pok\u00e9mon, items, regions, and moves."
     },
     {
       "name": "ebay-sell",
@@ -175,6 +175,11 @@
       "name": "xero",
       "source": "./plugins/xero",
       "description": "Manage invoices, expenses, payroll, and banking with cloud accounting software."
+    },
+    {
+      "name": "discourse-probe",
+      "source": "./plugins/discourse-probe",
+      "description": "Throwaway entry for verifying the marketplace sync check."
     }
   ]
 }

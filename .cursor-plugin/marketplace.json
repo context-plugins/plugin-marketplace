@@ -155,6 +155,11 @@
       "name": "finnhub",
       "source": "./plugins/finnhub",
       "description": "TODO_AUTO_DESCRIPTION: Finnhub API"
+    },
+    {
+      "name": "vimeo-api",
+      "source": "./plugins/vimeo-api",
+      "description": "TODO_AUTO_DESCRIPTION: Vimeo API API"
     }
   ]
 }

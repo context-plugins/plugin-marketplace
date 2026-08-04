@@ -130,6 +130,11 @@
       "name": "splitit",
       "source": "./plugins/splitit",
       "description": "Offer installment payments on existing credit cards at checkout with Splitit."
+    },
+    {
+      "name": "square",
+      "source": "./plugins/square",
+      "description": "TODO_AUTO_DESCRIPTION: Square API"
     }
   ]
 }

@@ -144,7 +144,7 @@
     {
       "name": "twilio-apis",
       "source": "./plugins/twilio-apis",
-      "description": "TODO_AUTO_DESCRIPTION: Twilio APIs API"
+      "description": "Send and receive SMS messages, make voice calls, and manage programmable communications at scale."
     }
   ]
 }

@@ -2,7 +2,7 @@
   "name": "twilio-apis",
   "displayName": "Twilio APIs SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Twilio APIs API",
+  "description": "Send and receive SMS messages, make voice calls, and manage programmable communications at scale.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

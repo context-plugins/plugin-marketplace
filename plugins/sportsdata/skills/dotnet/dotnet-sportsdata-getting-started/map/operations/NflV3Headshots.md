@@ -1,0 +1,16 @@
+# NflV3Headshots — operations
+
+Accessor: `client.NflV3Headshots` · Source: `Api/NflV3Headshots.cs` · 1 operations
+
+**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+
+### NflV3HeadshotsHeadshots
+- **HTTP**: `GET /v3/nfl/headshots/{format}/Headshots` (Default (api))
+- **Notes**: USA Today/IMAGN cropped action headshots for all active NFL players, delivered shortly after the season starts.
+- **Signature**: `NflV3HeadshotsHeadshots(Format format, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - defaults: `requestOptions` = null
+- **Returns**: `IReadOnlyList<Headshot1>`
+- **Error**: `SdkException<NflV3HeadshotsHeadshotsError>` — **Case A (typed)**
+- **Error accessors**: `TryGetUnauthorized(out Unauthorized)` [401] · `TryGetRawError(out RawError)` [fallback]
+- **No-throw variant**: absent
+- **Pagination**: none

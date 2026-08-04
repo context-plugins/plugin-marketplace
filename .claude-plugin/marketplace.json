@@ -120,6 +120,11 @@
       "name": "payquicker",
       "source": "./plugins/payquicker",
       "description": "Disburse global payouts and manage corporate disbursements with automated payment accounts."
+    },
+    {
+      "name": "sportsdata",
+      "source": "./plugins/sportsdata",
+      "description": "TODO_AUTO_DESCRIPTION: sportsdata API"
     }
   ]
 }

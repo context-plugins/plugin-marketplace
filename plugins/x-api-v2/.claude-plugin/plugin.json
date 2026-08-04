@@ -1,0 +1,34 @@
+{
+  "name": "x-api-v2",
+  "displayName": "X API v2 SDK",
+  "version": "0.1.0",
+  "description": "TODO_AUTO_DESCRIPTION: X API v2 API",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "x-api-v2",
+    "dotnet",
+    "php",
+    "python",
+    "ruby",
+    "go"
+  ],
+  "skills": [
+    "./skills/dotnet",
+    "./skills/php",
+    "./skills/python",
+    "./skills/ruby",
+    "./skills/go"
+  ],
+  "agents": [
+    "./agents/dotnet-x-api-v2-sdk.md"
+  ]
+}

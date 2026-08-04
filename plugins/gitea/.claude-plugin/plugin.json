@@ -2,7 +2,7 @@
   "name": "gitea",
   "displayName": "Gitea SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Gitea API",
+  "description": "Host, manage, and collaborate on Git repositories using self-hosted Gitea instances.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

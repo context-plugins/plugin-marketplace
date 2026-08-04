@@ -154,27 +154,27 @@
     {
       "name": "finnhub",
       "source": "./plugins/finnhub",
-      "description": "TODO_AUTO_DESCRIPTION: Finnhub API"
+      "description": "Stream real-time stock prices, global company fundamentals, and financial news."
     },
     {
       "name": "vimeo-api",
       "source": "./plugins/vimeo-api",
-      "description": "TODO_AUTO_DESCRIPTION: Vimeo API API"
+      "description": "Upload, host, and stream high-definition video content through Vimeo."
     },
     {
       "name": "firecrawl",
       "source": "./plugins/firecrawl",
-      "description": "TODO_AUTO_DESCRIPTION: Firecrawl API"
+      "description": "Scrape, convert, and format entire websites into clean LLM-ready markdown."
     },
     {
       "name": "gitea",
       "source": "./plugins/gitea",
-      "description": "TODO_AUTO_DESCRIPTION: Gitea API"
+      "description": "Host, manage, and collaborate on Git repositories using self-hosted Gitea instances."
     },
     {
       "name": "xero",
       "source": "./plugins/xero",
-      "description": "TODO_AUTO_DESCRIPTION: Xero API"
+      "description": "Manage invoices, expenses, payroll, and banking with cloud accounting software."
     }
   ]
 }

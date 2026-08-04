@@ -2,7 +2,7 @@
   "name": "vimeo-api",
   "displayName": "Vimeo API SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Vimeo API API",
+  "description": "Upload, host, and stream high-definition video content through Vimeo.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

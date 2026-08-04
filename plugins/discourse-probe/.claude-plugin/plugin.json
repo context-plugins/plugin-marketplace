@@ -1,0 +1,3 @@
+{ "name": "discourse-probe", "displayName": "Discourse Probe SDK", "version": "0.1.0",
+  "description": "Throwaway plugin for verifying the marketplace sync check. Safe to delete.",
+  "skills": ["./skills/python"] }

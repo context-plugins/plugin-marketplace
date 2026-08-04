@@ -115,6 +115,11 @@
       "name": "tesser-api-v1",
       "source": "./plugins/tesser-api-v1",
       "description": "Extract text from images and documents using optical character recognition."
+    },
+    {
+      "name": "payquicker",
+      "source": "./plugins/payquicker",
+      "description": "TODO_AUTO_DESCRIPTION: Payquicker API"
     }
   ]
 }

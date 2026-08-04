@@ -125,6 +125,11 @@
       "name": "sportsdata",
       "source": "./plugins/sportsdata",
       "description": "Track live scores, player stats, and schedule data across major sports leagues."
+    },
+    {
+      "name": "splitit",
+      "source": "./plugins/splitit",
+      "description": "TODO_AUTO_DESCRIPTION: Splitit API"
     }
   ]
 }

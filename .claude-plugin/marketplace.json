@@ -160,6 +160,11 @@
       "name": "vimeo-api",
       "source": "./plugins/vimeo-api",
       "description": "TODO_AUTO_DESCRIPTION: Vimeo API API"
+    },
+    {
+      "name": "firecrawl",
+      "source": "./plugins/firecrawl",
+      "description": "TODO_AUTO_DESCRIPTION: Firecrawl API"
     }
   ]
 }

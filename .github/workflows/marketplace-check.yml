@@ -1,0 +1,69 @@
+name: Check marketplace is in sync
+
+# Prevention, as opposed to the repair that `Sync marketplace registries and docs` performs on main.
+#
+# Both exist because they fail in opposite directions. A PR check cannot see the crawler's ingest,
+# which commits straight to main with no PR at all (Ingest:MergeMode), nor a web-UI edit, nor drift
+# that predates this workflow — the repair job on main covers those. But the repair job only runs
+# AFTER a change has landed, so main is briefly wrong, and if the script hits a case it cannot
+# handle it fails on main where nobody is watching a green checkmark. This check fails in the
+# author's face while they are still waiting to merge.
+#
+# Read-only: `--check` writes nothing, so this needs no write permission and cannot fight the
+# repair job. It reports every problem it finds (one line each) and additionally exits non-zero —
+# the lines say what is wrong, the exit code is what blocks the merge.
+#
+# Deliberately NOT scoped with `paths:`, even though only a handful of paths can affect the result.
+# A required status check that is skipped never reports at all, and GitHub then waits on a status
+# that will never arrive — a docs-only PR would sit on "Expected — waiting for status" and could
+# never be merged, deadlocked by a check that had no reason to run. Running always costs a checkout
+# plus a ~1s script, which is cheaper than that failure mode.
+on:
+  pull_request:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    # This name — not the workflow's — is what the status check is called, and therefore what has
+    # to be selected when adding it as a required check in a ruleset. Without it the check would
+    # show up as the job id, "check", which is impossible to identify in that list.
+    name: marketplace-in-sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: plugins/ vs registries vs generated docs
+        run: |
+          set -uo pipefail
+          # Tee the report into the run summary so it renders on the PR page itself; without this
+          # a reviewer sees only a red X and has to open the log to learn why.
+          if python3 .github/scripts/sync_marketplace.py --check > report.txt 2>&1; then
+            {
+              echo "### Marketplace is in sync"
+              echo
+              echo '```'
+              cat report.txt
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+            cat report.txt
+            exit 0
+          fi
+
+          {
+            echo "### Marketplace is out of sync with \`plugins/\`"
+            echo
+            echo '```'
+            cat report.txt
+            echo '```'
+            echo
+            echo "Fix it by running this at the repo root and committing the result:"
+            echo
+            echo '```bash'
+            echo 'python3 .github/scripts/sync_marketplace.py'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          cat report.txt
+          exit 1

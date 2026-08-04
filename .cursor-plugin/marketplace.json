@@ -134,7 +134,7 @@
     {
       "name": "square",
       "source": "./plugins/square",
-      "description": "TODO_AUTO_DESCRIPTION: Square API"
+      "description": "Process payments, manage inventory, and track sales with Square."
     }
   ]
 }

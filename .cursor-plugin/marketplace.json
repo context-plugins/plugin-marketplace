@@ -119,7 +119,7 @@
     {
       "name": "payquicker",
       "source": "./plugins/payquicker",
-      "description": "TODO_AUTO_DESCRIPTION: Payquicker API"
+      "description": "Disburse global payouts and manage corporate disbursements with automated payment accounts."
     }
   ]
 }

@@ -2,7 +2,7 @@
   "name": "payquicker",
   "displayName": "Payquicker SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Payquicker API",
+  "description": "Disburse global payouts and manage corporate disbursements with automated payment accounts.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

@@ -1,9 +1,9 @@
 ---
 name: dotnet-discourse-getting-started
-description: Discourse .NET SDK identity and lookup layer for the dotnet-discourse-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
+description: discourse .NET SDK identity and lookup layer for the dotnet-discourse-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
 ---
 
-# Getting started with the Discourse .NET SDK
+# Getting started with the discourse .NET SDK
 
 > **Who this skill is for.** This is the **map layer**, preloaded for the `dotnet-discourse-sdk` helper
 > agent — if you are it, this skill is yours to follow directly and fully. It is the only place
@@ -37,7 +37,7 @@ confirm names against the map.
 
 | | |
 | --- | --- |
-| API | Discourse |
+| API | discourse |
 | Source repo | https://github.com/context-plugins/discourse-csharp-sdk (branch `main`) |
 | Root namespace | `DiscourseApiDocumentation` (the `using` namespace) |
 | Client class | `DiscourseApiDocumentationClient` |

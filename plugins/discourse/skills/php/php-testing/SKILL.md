@@ -5,9 +5,9 @@ description: Unit-test code that uses an APIMatic-generated PHP SDK by injecting
 
 # Testing code that uses an APIMatic PHP SDK
 
-> `DiscourseApiDocumentationClient` is the SDK's client class — **read the real name** from the `*Client.php` file in
+> `DiscourseClient` is the SDK's client class — **read the real name** from the `*Client.php` file in
 > `src/` (it is derived from the API title with APIMatic's own casing, so do not guess it from the
-> API name). `DiscourseApiDocumentationClientBuilder` sits beside it.
+> API name). `DiscourseClientBuilder` sits beside it.
 
 The SDK uses Guzzle internally, which is the seam for testing: pass a Guzzle `Client` backed by
 a `MockHandler`, so no real network calls happen. The SDK ships no mocking helpers — this is
@@ -19,7 +19,7 @@ style**. The code samples below use PHPUnit `TestCase` purely for reference — 
 testing seam and *what* to assert, not a mandated style.
 
 > Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g.
-> `DiscourseApiDocumentationClient`, `{apiGroup}`, `{operation}`) — replace it with the concrete identifier from the
+> `DiscourseClient`, `{apiGroup}`, `{operation}`) — replace it with the concrete identifier from the
 > source.
 
 ## A reusable mock client helper
@@ -30,7 +30,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
-use DiscourseApiDocumentationLib\DiscourseApiDocumentationClient;
+use DiscourseLib\DiscourseClient;
 
 /**
  * Build an SDK client that returns the given stub responses in order.
@@ -38,13 +38,13 @@ use DiscourseApiDocumentationLib\DiscourseApiDocumentationClient;
  * @param Response[] $responses
  * @param array      &$container  Pass by reference to capture transaction history.
  */
-function clientWithResponses(array $responses, array &$container = []): DiscourseApiDocumentationClient
+function clientWithResponses(array $responses, array &$container = []): DiscourseClient
 {
     $mock  = new MockHandler($responses);
     $stack = HandlerStack::create($mock);
     $stack->push(Middleware::history($container));
 
-    return new DiscourseApiDocumentationClient([
+    return new DiscourseClient([
         'httpClient' => new Client(['handler' => $stack]),
         // credentials not needed for stub tests:
     ]);
@@ -78,7 +78,7 @@ class {Operation}Test extends TestCase
 Endpoint methods throw `ApiException` on non-2xx (see **php-error-handling**).
 
 ```php
-use DiscourseApiDocumentationLib\Exceptions\ApiException;
+use DiscourseLib\Exceptions\ApiException;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
@@ -116,8 +116,8 @@ public function testErrorBodyIsAccessible(): void
 If the operation throws a typed subclass, catch that first:
 
 ```php
-use DiscourseApiDocumentationLib\Exceptions\{OperationException};
-use DiscourseApiDocumentationLib\Exceptions\ApiException;
+use DiscourseLib\Exceptions\{OperationException};
+use DiscourseLib\Exceptions\ApiException;
 
 try {
     $client->{apiGroup}()->{operation}(/* args */);
@@ -187,10 +187,10 @@ public function testPaginatesAllResults(): void
 ## Bind a stub client in a DI container (Laravel example)
 
 ```php
-use DiscourseApiDocumentationLib\DiscourseApiDocumentationClient;
+use DiscourseLib\DiscourseClient;
 
 // In a test setUp or a service provider override:
-app()->instance(DiscourseApiDocumentationClient::class, clientWithResponses([
+app()->instance(DiscourseClient::class, clientWithResponses([
     new Response(200, [], '{"id": 1}'),
 ]));
 

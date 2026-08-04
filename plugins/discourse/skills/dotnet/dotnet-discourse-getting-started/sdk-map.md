@@ -1,4 +1,4 @@
-# SDK map — Discourse (.NET)
+# SDK map — discourse (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,11 +6,11 @@
 
 | | |
 |---|---|
-| SDK display name | Discourse |
+| SDK display name | discourse |
 | Root namespace/module | `DiscourseApiDocumentation` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `824d7f8` (`824d7f89677d195838f33a44d6412fb3269fa452`, tagged `824d7f8`) |
+| Source commit (spec stamp) | `978f997` (`978f99768238267e47d9f1e526e35dd238e0dc2a`, tagged `978f997`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/discourse-csharp-sdk (branch `main`) |

@@ -84,7 +84,7 @@
     {
       "name": "discourse",
       "source": "./plugins/discourse",
-      "description": "Build and manage online communities, discussion forums, and member spaces with Discourse."
+      "description": "TODO_AUTO_DESCRIPTION: discourse API"
     },
     {
       "name": "pokeapi",

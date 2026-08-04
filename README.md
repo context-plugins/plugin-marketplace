@@ -66,40 +66,40 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 <!-- BEGIN:PLUGIN_TABLE -->
 | Plugin | API | Languages |
 | --- | --- | --- |
-| [`adyen`](plugins/adyen/) | Adyen | .NET, TS, Java, Python, Go |
-| [`alpaca`](plugins/alpaca/) | Alpaca | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`adyen`](plugins/adyen/) | Adyen | .NET, TS, Java, Python |
+| [`alpaca`](plugins/alpaca/) | Alpaca | .NET, TS, Java, PHP, Python, Ruby |
 | [`binance`](plugins/binance/) | Binance | .NET, TS |
-| [`cellpoint`](plugins/cellpoint/) | CellPoint | .NET, Java, PHP, Python, Go |
-| [`coingecko`](plugins/coingecko/) | Coingecko | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`deepgram`](plugins/deepgram/) | Deepgram | .NET, TS, Java, PHP, Python, Go |
-| [`discourse`](plugins/discourse/) | Discourse | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`cellpoint`](plugins/cellpoint/) | CellPoint | .NET, Java, PHP, Python |
+| [`coingecko`](plugins/coingecko/) | Coingecko | .NET, TS, Java, PHP, Python, Ruby |
+| [`deepgram`](plugins/deepgram/) | Deepgram | .NET, TS, Java, PHP, Python |
+| [`discourse`](plugins/discourse/) | Discourse | .NET, TS, Java, PHP, Python, Ruby |
 | [`ebay-sell`](plugins/ebay-sell/) | eBay Sell | .NET, TS, Java, PHP, Python, Ruby |
-| [`finnhub`](plugins/finnhub/) | Finnhub | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`firecrawl`](plugins/firecrawl/) | Firecrawl | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`gitea`](plugins/gitea/) | Gitea | .NET, Java, PHP, Python, Go |
-| [`google-maps-platform`](plugins/google-maps-platform/) | Google Maps Platform | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`klarna`](plugins/klarna/) | Klarna | .NET, Java, PHP, Python, Ruby, Go |
-| [`kubernetes`](plugins/kubernetes/) | Kubernetes | .NET, Go |
-| [`maxio-advanced-billing`](plugins/maxio-advanced-billing/) | Maxio Advanced Billing | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`notion`](plugins/notion/) | Notion | .NET, Java, Python, Ruby, Go |
-| [`nytimes`](plugins/nytimes/) | NYTimes | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`paypal`](plugins/paypal/) | PayPal | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`payquicker`](plugins/payquicker/) | Payquicker | .NET, Java, PHP, Python, Ruby, Go |
-| [`paze`](plugins/paze/) | Paze | .NET, TS, Java, PHP, Python, Go |
-| [`pokeapi`](plugins/pokeapi/) | PokeApi | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`shutterstock`](plugins/shutterstock/) | Shutterstock | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`slack`](plugins/slack/) | Slack | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`splitit`](plugins/splitit/) | Splitit | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`sportsdata`](plugins/sportsdata/) | Sportsdata | .NET, TS, PHP, Python, Ruby, Go |
-| [`spotify-web-api`](plugins/spotify-web-api/) | Spotify Web API | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`square`](plugins/square/) | Square | .NET, TS, Java, PHP, Ruby, Go |
-| [`stax-fattmerchant-api`](plugins/stax-fattmerchant-api/) | Stax (FattMerchant) API | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`tesla-fleet-management-api`](plugins/tesla-fleet-management-api/) | Tesla Fleet Management API | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`tesser-api-v1`](plugins/tesser-api-v1/) | Tesser API (v1) | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`twilio-apis`](plugins/twilio-apis/) | Twilio APIs | .NET, TS, Java, PHP, Python, Go |
-| [`vimeo-api`](plugins/vimeo-api/) | Vimeo API | .NET, TS, Java, PHP, Python, Ruby, Go |
-| [`x-api-v2`](plugins/x-api-v2/) | X API v2 | .NET, PHP, Python, Ruby, Go |
-| [`xero`](plugins/xero/) | Xero | .NET, Go |
+| [`finnhub`](plugins/finnhub/) | Finnhub | .NET, TS, Java, PHP, Python, Ruby |
+| [`firecrawl`](plugins/firecrawl/) | Firecrawl | .NET, TS, Java, PHP, Python, Ruby |
+| [`gitea`](plugins/gitea/) | Gitea | .NET, Java, PHP, Python |
+| [`google-maps-platform`](plugins/google-maps-platform/) | Google Maps Platform | .NET, TS, Java, PHP, Python, Ruby |
+| [`klarna`](plugins/klarna/) | Klarna | .NET, Java, PHP, Python, Ruby |
+| [`kubernetes`](plugins/kubernetes/) | Kubernetes | .NET |
+| [`maxio-advanced-billing`](plugins/maxio-advanced-billing/) | Maxio Advanced Billing | .NET, TS, Java, PHP, Python, Ruby |
+| [`notion`](plugins/notion/) | Notion | .NET, Java, Python, Ruby |
+| [`nytimes`](plugins/nytimes/) | NYTimes | .NET, TS, Java, PHP, Python, Ruby |
+| [`paypal`](plugins/paypal/) | PayPal | .NET, TS, Java, PHP, Python, Ruby |
+| [`payquicker`](plugins/payquicker/) | Payquicker | .NET, Java, PHP, Python, Ruby |
+| [`paze`](plugins/paze/) | Paze | .NET, TS, Java, PHP, Python |
+| [`pokeapi`](plugins/pokeapi/) | PokeApi | .NET, TS, Java, PHP, Python, Ruby |
+| [`shutterstock`](plugins/shutterstock/) | Shutterstock | .NET, TS, Java, PHP, Python, Ruby |
+| [`slack`](plugins/slack/) | Slack | .NET, TS, Java, PHP, Python, Ruby |
+| [`splitit`](plugins/splitit/) | Splitit | .NET, TS, Java, PHP, Python, Ruby |
+| [`sportsdata`](plugins/sportsdata/) | Sportsdata | .NET, TS, PHP, Python, Ruby |
+| [`spotify-web-api`](plugins/spotify-web-api/) | Spotify Web API | .NET, TS, Java, PHP, Python, Ruby |
+| [`square`](plugins/square/) | Square | .NET, TS, Java, PHP, Ruby |
+| [`stax-fattmerchant-api`](plugins/stax-fattmerchant-api/) | Stax (FattMerchant) API | .NET, TS, Java, PHP, Python, Ruby |
+| [`tesla-fleet-management-api`](plugins/tesla-fleet-management-api/) | Tesla Fleet Management API | .NET, TS, Java, PHP, Python, Ruby |
+| [`tesser-api-v1`](plugins/tesser-api-v1/) | Tesser API (v1) | .NET, TS, Java, PHP, Python, Ruby |
+| [`twilio-apis`](plugins/twilio-apis/) | Twilio APIs | .NET, TS, Java, PHP, Python |
+| [`vimeo-api`](plugins/vimeo-api/) | Vimeo API | .NET, TS, Java, PHP, Python, Ruby |
+| [`x-api-v2`](plugins/x-api-v2/) | X API v2 | .NET, PHP, Python, Ruby |
+| [`xero`](plugins/xero/) | Xero | .NET |
 <!-- END:PLUGIN_TABLE -->
 
 > Plugin ids change occasionally. `npx context-plugins list` is always the live source of truth.
@@ -123,7 +123,7 @@ Each supported language ships the same eight:
 The `getting-started` skill is the entry point: it directs the agent to clone and grep the real SDK
 source, so every fact is grounded in the actual contract rather than model knowledge.
 
-Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->205<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->1,674<!-- END:SKILL_COUNT --> skills**. See
+Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->173<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->1,418<!-- END:SKILL_COUNT --> skills**. See
 [`plugins/paypal/README.md`](plugins/paypal/README.md) for a worked example.
 
 ## Repository structure

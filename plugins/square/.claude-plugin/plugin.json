@@ -19,16 +19,14 @@
     "typescript",
     "java",
     "php",
-    "ruby",
-    "go"
+    "ruby"
   ],
   "skills": [
     "./skills/dotnet",
     "./skills/typescript",
     "./skills/java",
     "./skills/php",
-    "./skills/ruby",
-    "./skills/go"
+    "./skills/ruby"
   ],
   "agents": [
     "./agents/dotnet-square-sdk.md"

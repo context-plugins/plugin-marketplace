@@ -19,8 +19,7 @@
     "typescript",
     "java",
     "php",
-    "ruby",
-    "go"
+    "ruby"
   ],
   "logo": "assets/logo.svg",
   "skills": [
@@ -28,8 +27,7 @@
     "./skills/typescript",
     "./skills/java",
     "./skills/php",
-    "./skills/ruby",
-    "./skills/go"
+    "./skills/ruby"
   ],
   "agents": "./agents/"
 }

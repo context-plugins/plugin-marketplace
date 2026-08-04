@@ -15,12 +15,10 @@
     "sdk",
     "api-integration",
     "xero",
-    "dotnet",
-    "go"
+    "dotnet"
   ],
   "skills": [
-    "./skills/dotnet",
-    "./skills/go"
+    "./skills/dotnet"
   ],
   "agents": [
     "./agents/dotnet-xero-sdk.md"

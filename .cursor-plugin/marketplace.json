@@ -135,6 +135,11 @@
       "name": "square",
       "source": "./plugins/square",
       "description": "Process payments, manage inventory, and track sales with Square."
+    },
+    {
+      "name": "stax-fattmerchant-api",
+      "source": "./plugins/stax-fattmerchant-api",
+      "description": "TODO_AUTO_DESCRIPTION: Stax (FattMerchant) API API"
     }
   ]
 }

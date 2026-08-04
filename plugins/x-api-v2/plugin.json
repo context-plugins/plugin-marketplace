@@ -2,7 +2,7 @@
   "name": "x-api-v2",
   "displayName": "X API v2 SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: X API v2 API",
+  "description": "Post, search, and analyze tweets and user data across the X platform.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

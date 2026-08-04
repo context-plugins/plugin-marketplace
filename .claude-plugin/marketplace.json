@@ -149,7 +149,7 @@
     {
       "name": "x-api-v2",
       "source": "./plugins/x-api-v2",
-      "description": "TODO_AUTO_DESCRIPTION: X API v2 API"
+      "description": "Post, search, and analyze tweets and user data across the X platform."
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "context-plugins",
-  "description": "APIMatic plugin marketplace — SDK-native, version-aware API context for your AI coding agent.",
+  "description": "APIMatic plugin marketplace \u2014 SDK-native, version-aware API context for your AI coding agent.",
   "owner": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
@@ -82,14 +82,9 @@
       "description": "Track cryptocurrency prices, market caps, trading volume, and historical exchange data via CoinGecko."
     },
     {
-      "name": "discourse",
-      "source": "./plugins/discourse",
-      "description": "Build and manage online communities, discussion forums, and member spaces with Discourse."
-    },
-    {
       "name": "pokeapi",
       "source": "./plugins/pokeapi",
-      "description": "Access comprehensive data on Pokémon, items, regions, and moves."
+      "description": "Access comprehensive data on Pok\u00e9mon, items, regions, and moves."
     },
     {
       "name": "ebay-sell",

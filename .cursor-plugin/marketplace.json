@@ -150,6 +150,11 @@
       "name": "x-api-v2",
       "source": "./plugins/x-api-v2",
       "description": "Post, search, and analyze tweets and user data across the X platform."
+    },
+    {
+      "name": "finnhub",
+      "source": "./plugins/finnhub",
+      "description": "TODO_AUTO_DESCRIPTION: Finnhub API"
     }
   ]
 }

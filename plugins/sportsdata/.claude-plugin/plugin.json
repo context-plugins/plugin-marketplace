@@ -2,7 +2,7 @@
   "name": "sportsdata",
   "displayName": "sportsdata SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: sportsdata API",
+  "description": "Track live scores, player stats, and schedule data across major sports leagues.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

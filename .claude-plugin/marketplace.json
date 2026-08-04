@@ -124,7 +124,7 @@
     {
       "name": "sportsdata",
       "source": "./plugins/sportsdata",
-      "description": "TODO_AUTO_DESCRIPTION: sportsdata API"
+      "description": "Track live scores, player stats, and schedule data across major sports leagues."
     }
   ]
 }

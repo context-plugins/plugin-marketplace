@@ -19,16 +19,14 @@
     "typescript",
     "java",
     "php",
-    "python",
-    "go"
+    "python"
   ],
   "skills": [
     "./skills/dotnet",
     "./skills/typescript",
     "./skills/java",
     "./skills/php",
-    "./skills/python",
-    "./skills/go"
+    "./skills/python"
   ],
   "agents": [
     "./agents/dotnet-deepgram-sdk.md"

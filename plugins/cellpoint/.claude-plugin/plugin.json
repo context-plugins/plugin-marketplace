@@ -18,15 +18,13 @@
     "dotnet",
     "java",
     "php",
-    "python",
-    "go"
+    "python"
   ],
   "skills": [
     "./skills/dotnet",
     "./skills/java",
     "./skills/php",
-    "./skills/python",
-    "./skills/go"
+    "./skills/python"
   ],
   "agents": [
     "./agents/dotnet-cellpoint-sdk.md"

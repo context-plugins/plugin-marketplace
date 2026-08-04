@@ -15,12 +15,10 @@
     "sdk",
     "api-integration",
     "kubernetes",
-    "dotnet",
-    "go"
+    "dotnet"
   ],
   "skills": [
-    "./skills/dotnet",
-    "./skills/go"
+    "./skills/dotnet"
   ],
   "agents": [
     "./agents/dotnet-kubernetes-sdk.md"

@@ -15,13 +15,11 @@
     "sdk",
     "api-integration",
     "kubernetes",
-    "dotnet",
-    "go"
+    "dotnet"
   ],
   "logo": "assets/logo.svg",
   "skills": [
-    "./skills/dotnet",
-    "./skills/go"
+    "./skills/dotnet"
   ],
   "agents": "agents-vscode/"
 }

@@ -170,6 +170,11 @@
       "name": "gitea",
       "source": "./plugins/gitea",
       "description": "TODO_AUTO_DESCRIPTION: Gitea API"
+    },
+    {
+      "name": "xero",
+      "source": "./plugins/xero",
+      "description": "TODO_AUTO_DESCRIPTION: Xero API"
     }
   ]
 }

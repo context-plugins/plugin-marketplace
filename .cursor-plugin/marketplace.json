@@ -139,7 +139,7 @@
     {
       "name": "stax-fattmerchant-api",
       "source": "./plugins/stax-fattmerchant-api",
-      "description": "TODO_AUTO_DESCRIPTION: Stax (FattMerchant) API API"
+      "description": "Process omnichannel payments, manage customer invoicing, and automate recurring billing through Stax."
     }
   ]
 }

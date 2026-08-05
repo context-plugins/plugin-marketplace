@@ -2,7 +2,7 @@
   "name": "mindbody",
   "displayName": "mindbody SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: mindbody API",
+  "description": "Book classes, manage appointments, and process payments for fitness and wellness businesses.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

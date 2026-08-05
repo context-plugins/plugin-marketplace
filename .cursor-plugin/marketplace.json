@@ -209,7 +209,7 @@
     {
       "name": "mindbody",
       "source": "./plugins/mindbody",
-      "description": "TODO_AUTO_DESCRIPTION: mindbody API"
+      "description": "Book classes, manage appointments, and process payments for fitness and wellness businesses."
     }
   ]
 }

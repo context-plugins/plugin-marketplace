@@ -224,7 +224,7 @@
     {
       "name": "fdx",
       "source": "./plugins/fdx",
-      "description": "TODO_AUTO_DESCRIPTION: fdx API"
+      "description": "Securely share and access financial data through the Financial Data Exchange standard."
     }
   ]
 }

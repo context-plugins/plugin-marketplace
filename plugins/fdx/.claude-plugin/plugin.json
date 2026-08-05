@@ -2,7 +2,7 @@
   "name": "fdx",
   "displayName": "fdx SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: fdx API",
+  "description": "Securely share and access financial data through the Financial Data Exchange standard.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

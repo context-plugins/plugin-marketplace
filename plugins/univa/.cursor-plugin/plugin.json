@@ -1,0 +1,30 @@
+{
+  "name": "univa",
+  "displayName": "univa SDK",
+  "version": "0.1.0",
+  "description": "TODO_AUTO_DESCRIPTION: univa API",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "univa",
+    "java",
+    "php",
+    "python",
+    "ruby"
+  ],
+  "logo": "assets/logo.svg",
+  "skills": [
+    "./skills/java",
+    "./skills/php",
+    "./skills/python",
+    "./skills/ruby"
+  ]
+}

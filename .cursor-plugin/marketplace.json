@@ -235,6 +235,11 @@
       "name": "paragon",
       "source": "./plugins/paragon",
       "description": "TODO_AUTO_DESCRIPTION: paragon API"
+    },
+    {
+      "name": "univa",
+      "source": "./plugins/univa",
+      "description": "TODO_AUTO_DESCRIPTION: univa API"
     }
   ]
 }

@@ -240,6 +240,11 @@
       "name": "univa",
       "source": "./plugins/univa",
       "description": "Execute high-performance distributed computing workloads and manage grid cluster resources."
+    },
+    {
+      "name": "verizon",
+      "source": "./plugins/verizon",
+      "description": "TODO_AUTO_DESCRIPTION: verizon API"
     }
   ]
 }

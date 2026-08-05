@@ -1,0 +1,36 @@
+{
+  "name": "verizon",
+  "displayName": "verizon SDK",
+  "version": "0.1.0",
+  "description": "TODO_AUTO_DESCRIPTION: verizon API",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "verizon",
+    "dotnet",
+    "typescript",
+    "java",
+    "php",
+    "python",
+    "go"
+  ],
+  "skills": [
+    "./skills/dotnet",
+    "./skills/typescript",
+    "./skills/java",
+    "./skills/php",
+    "./skills/python",
+    "./skills/go"
+  ],
+  "agents": [
+    "./agents/dotnet-verizon-sdk.md"
+  ]
+}

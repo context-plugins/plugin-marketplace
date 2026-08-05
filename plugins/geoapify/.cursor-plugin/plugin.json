@@ -2,7 +2,7 @@
   "name": "geoapify",
   "displayName": "Geoapify SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Geoapify API",
+  "description": "Build maps, geocode addresses, and calculate routes with location intelligence tools.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

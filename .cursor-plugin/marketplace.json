@@ -184,7 +184,7 @@
     {
       "name": "geoapify",
       "source": "./plugins/geoapify",
-      "description": "TODO_AUTO_DESCRIPTION: Geoapify API"
+      "description": "Build maps, geocode addresses, and calculate routes with location intelligence tools."
     }
   ]
 }

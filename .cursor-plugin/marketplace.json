@@ -195,6 +195,11 @@
       "name": "frankfurter",
       "source": "./plugins/frankfurter",
       "description": "Track current and historical foreign exchange rates published by the European Central Bank."
+    },
+    {
+      "name": "geoapify",
+      "source": "./plugins/geoapify",
+      "description": "TODO_AUTO_DESCRIPTION: Geoapify API"
     }
   ]
 }

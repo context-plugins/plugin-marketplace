@@ -91,7 +91,7 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`mist`](plugins/mist/) | Mist | .NET |
 | [`notion`](plugins/notion/) | Notion | .NET, Java, Python, Ruby |
 | [`nytimes`](plugins/nytimes/) | NYTimes | .NET, TS, Java, PHP, Python, Ruby |
-| [`paypal`](plugins/paypal/) | PayPal | .NET, TS, Java, PHP, Python, Ruby |
+| [`paypal`](plugins/paypal/) | PayPal | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`payquicker`](plugins/payquicker/) | Payquicker | .NET, Java, PHP, Python, Ruby |
 | [`paze`](plugins/paze/) | Paze | .NET, TS, Java, PHP, Python |
 | [`pokeapi`](plugins/pokeapi/) | PokeApi | .NET, TS, Java, PHP, Python, Ruby |
@@ -131,7 +131,7 @@ Each supported language ships the same eight:
 The `getting-started` skill is the entry point: it directs the agent to clone and grep the real SDK
 source, so every fact is grounded in the actual contract rather than model knowledge.
 
-Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->219<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->1,794<!-- END:SKILL_COUNT --> skills**. See
+Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->220<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->1,802<!-- END:SKILL_COUNT --> skills**. See
 [`plugins/paypal/README.md`](plugins/paypal/README.md) for a worked example.
 
 ## Repository structure

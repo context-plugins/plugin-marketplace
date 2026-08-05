@@ -189,7 +189,7 @@
     {
       "name": "akoya",
       "source": "./plugins/akoya",
-      "description": "TODO_AUTO_DESCRIPTION: akoya API"
+      "description": "Access and share consumer financial data securely through open banking networks."
     }
   ]
 }

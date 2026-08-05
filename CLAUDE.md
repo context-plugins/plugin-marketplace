@@ -1,7 +1,7 @@
 # Context Plugins Marketplace
 
 This repository is a multi-plugin marketplace (`name: context-plugins`) targeting **Claude Code,
-Cursor, and VS Code**. It ships **<!-- BEGIN:PLUGIN_COUNT -->39<!-- END:PLUGIN_COUNT --> plugins** under `plugins/`, one per API.
+Cursor, and VS Code**. It ships **<!-- BEGIN:PLUGIN_COUNT -->40<!-- END:PLUGIN_COUNT --> plugins** under `plugins/`, one per API.
 
 Each plugin is a bundle of **skills** — Markdown files an agent loads on demand — that ground the
 agent in an APIMatic-generated SDK's real contract instead of model knowledge. There are no MCP

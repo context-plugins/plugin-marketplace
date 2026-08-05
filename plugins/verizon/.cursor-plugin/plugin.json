@@ -2,7 +2,7 @@
   "name": "verizon",
   "displayName": "verizon SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: verizon API",
+  "description": "Manage IoT devices, track global assets, and access network services through Verizon.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

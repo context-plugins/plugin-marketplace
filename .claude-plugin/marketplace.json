@@ -244,7 +244,7 @@
     {
       "name": "verizon",
       "source": "./plugins/verizon",
-      "description": "TODO_AUTO_DESCRIPTION: verizon API"
+      "description": "Manage IoT devices, track global assets, and access network services through Verizon."
     }
   ]
 }

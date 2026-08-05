@@ -194,7 +194,7 @@
     {
       "name": "boku",
       "source": "./plugins/boku",
-      "description": "TODO_AUTO_DESCRIPTION: boku API"
+      "description": "Process carrier billing and mobile payments globally through Boku."
     }
   ]
 }

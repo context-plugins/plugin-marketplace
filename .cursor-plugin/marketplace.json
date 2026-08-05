@@ -234,12 +234,12 @@
     {
       "name": "paragon",
       "source": "./plugins/paragon",
-      "description": "TODO_AUTO_DESCRIPTION: paragon API"
+      "description": "Embed pre-built B2B SaaS integrations into your application."
     },
     {
       "name": "univa",
       "source": "./plugins/univa",
-      "description": "TODO_AUTO_DESCRIPTION: univa API"
+      "description": "Execute high-performance distributed computing workloads and manage grid cluster resources."
     }
   ]
 }

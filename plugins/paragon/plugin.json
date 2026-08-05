@@ -2,7 +2,7 @@
   "name": "paragon",
   "displayName": "paragon SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: paragon API",
+  "description": "Embed pre-built B2B SaaS integrations into your application.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

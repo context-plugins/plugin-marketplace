@@ -2,7 +2,7 @@
   "name": "univa",
   "displayName": "univa SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: univa API",
+  "description": "Execute high-performance distributed computing workloads and manage grid cluster resources.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

@@ -215,6 +215,11 @@
       "name": "mist",
       "source": "./plugins/mist",
       "description": "Monitor, automate, and troubleshoot wireless networks and client experiences in Mist environments."
+    },
+    {
+      "name": "postnl",
+      "source": "./plugins/postnl",
+      "description": "TODO_AUTO_DESCRIPTION: postnl API"
     }
   ]
 }

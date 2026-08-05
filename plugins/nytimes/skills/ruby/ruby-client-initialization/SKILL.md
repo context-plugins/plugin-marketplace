@@ -8,7 +8,7 @@ description: Construct and configure an APIMatic-generated Ruby SDK client — C
 This applies to **any** APIMatic-generated Ruby SDK (APIMATIC v3.0). Replace placeholders with the
 real names from the SDK you are using:
 
-- `NYTimes` — the root Ruby module (e.g. `MultiAuthSample`, `ApimaticCalculatorByClient`).
+- `Nytimes` — the root Ruby module (e.g. `MultiAuthSample`, `ApimaticCalculatorByClient`).
 - `nytimes` — the gem name from the `.gemspec` (e.g. `multi_auth_sample`).
 - `{Resource}` — a controller accessor snake_case name on the client (e.g. `simple_calculator`).
 
@@ -19,7 +19,7 @@ are no positional parameters. All HTTP, retry, and credentials options are keywo
 
 ```ruby
 require 'nytimes'
-include NYTimes
+include Nytimes
 
 client = Client.new(
   environment: Environment::PRODUCTION,   # selects the base URL
@@ -73,7 +73,7 @@ secrets via the environment rather than code:
 
 ```ruby
 require 'nytimes'
-include NYTimes
+include Nytimes
 
 client = Client.from_env
 ```
@@ -166,7 +166,7 @@ sockets; creating a new client per request wastes connections and discards any c
 
 ```ruby
 # Application startup:
-CLIENT = NYTimes::Client.from_env
+CLIENT = Nytimes::Client.from_env
 
 # In handlers or services:
 result = CLIENT.{resource}.{operation}(...)

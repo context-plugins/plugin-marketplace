@@ -9,7 +9,7 @@ How you authenticate depends on the security scheme(s) the API uses. APIMatic su
 a **typed `{Scheme}Credentials` data class**: you build it with keyword args and pass it as a named
 kwarg to `Client.new`. Set the one(s) your API uses when constructing the client.
 
-> Throughout, `NYTimes` and other `{...}` tokens are placeholders for names you take from your SDK —
+> Throughout, `Nytimes` and other `{...}` tokens are placeholders for names you take from your SDK —
 > replace them with the concrete identifiers from the source.
 
 To see which schemes a specific SDK accepts, read the `initialize` keyword list in
@@ -21,7 +21,7 @@ SDK whose API uses only basic auth, for instance, only accepts `basic_auth_crede
 
 ```ruby
 require 'nytimes'
-include NYTimes
+include Nytimes
 
 client = Client.new(
   basic_auth_credentials: BasicAuthCredentials.new(

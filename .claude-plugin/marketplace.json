@@ -69,7 +69,7 @@
     {
       "name": "nytimes",
       "source": "./plugins/nytimes",
-      "description": "Access articles, bestseller lists, historical archives, and multimedia content from The New York Times."
+      "description": "TODO_AUTO_DESCRIPTION: nytimes API"
     },
     {
       "name": "binance",

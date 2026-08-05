@@ -2,14 +2,14 @@
 
 Companion to **java-authentication**. Covers the OAuth grant flows that need extra steps, token
 persistence, combined scheme requirements, environment configuration, and no-auth. Confirm every name
-against the `NyTimesClient.Builder` setters, the `com.nytimes.api.authentication/` source, and `doc/auth/*.md`
+against the `NytimesClient.Builder` setters, the `com.nytimes.api.authentication/` source, and `doc/auth/*.md`
 in the cloned SDK.
 
 ## How credentials are wired (recap)
 
 Each scheme generates a `{Scheme}Model` with a `Builder` inner class. Required fields are constructor
 arguments; optional fields use fluent builder methods. Build the model and pass it to the matching setter
-on `NyTimesClient.Builder` before calling `.build()`. The client is **immutable** after construction. To
+on `NytimesClient.Builder` before calling `.build()`. The client is **immutable** after construction. To
 change credentials later, call `client.newBuilder().{scheme}Credentials(newModel).build()`.
 
 ## OAuth 2.0 — client credentials grant (CCG)
@@ -18,7 +18,7 @@ change credentials later, call `client.newBuilder().{scheme}Credentials(newModel
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
-NyTimesClient client = new NyTimesClient.Builder()
+NytimesClient client = new NytimesClient.Builder()
     .oAuthCCGCredentials(new OAuthCCGModel.Builder(
             System.getenv("{CLIENT_ID_ENV}"),
             System.getenv("{CLIENT_SECRET_ENV}")
@@ -56,13 +56,13 @@ ACG is a redirect flow. The SDK does **not** perform the browser redirect; your 
 ### 1. Initialize the client
 
 ```java
-NyTimesClient client = new NyTimesClient.Builder()
+NytimesClient client = new NytimesClient.Builder()
     .oAuthACGCredentials(new OAuthACGModel.Builder(
             System.getenv("{CLIENT_ID_ENV}"),
             System.getenv("{CLIENT_SECRET_ENV}"),
             "{redirectUri}"
         )
-        .oAuthScopes(Arrays.asList(OAuthScopeNYTimesEnum.READ_SCOPE))  // per-API scope enum
+        .oAuthScopes(Arrays.asList(OAuthScopeNytimesEnum.READ_SCOPE))  // per-API scope enum
         .build())
     .build();
 ```
@@ -127,7 +127,7 @@ client = client.newBuilder()
 ## OAuth 2.0 — resource owner password credentials grant (ROPCG)
 
 ```java
-NyTimesClient client = new NyTimesClient.Builder()
+NytimesClient client = new NytimesClient.Builder()
     .oAuthROPCGCredentials(new OAuthROPCGModel.Builder(
             System.getenv("{CLIENT_ID_ENV}"),
             System.getenv("{CLIENT_SECRET_ENV}"),
@@ -190,14 +190,14 @@ Each operation's doc states its requirement. Configure accordingly:
 
 ```java
 // AND — configure all three:
-new NyTimesClient.Builder()
+new NytimesClient.Builder()
     .basicAuthCredentials(new BasicAuthModel.Builder(user, pass).build())
     .apiKeyCredentials(new ApiKeyModel.Builder(token, apiKey).build())
     .apiHeaderCredentials(new ApiHeaderModel.Builder(token2, apiKey2).build())
     .build();
 
 // OR — configure any one:
-new NyTimesClient.Builder()
+new NytimesClient.Builder()
     .apiKeyCredentials(new ApiKeyModel.Builder(token, apiKey).build())
     .build();
 
@@ -229,7 +229,7 @@ If the API (or an operation) requires no authentication, construct the client wi
 generated SDKs mark a no-auth operation as deprecated for security reasons — heed that notice:
 
 ```java
-NyTimesClient client = new NyTimesClient.Builder()
+NytimesClient client = new NytimesClient.Builder()
     .environment(Environment.PRODUCTION)
     .build();
 ```

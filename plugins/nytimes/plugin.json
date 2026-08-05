@@ -1,8 +1,8 @@
 {
   "name": "nytimes",
-  "displayName": "NYTimes SDK",
+  "displayName": "nytimes SDK",
   "version": "0.1.0",
-  "description": "Access articles, bestseller lists, historical archives, and multimedia content from The New York Times.",
+  "description": "TODO_AUTO_DESCRIPTION: nytimes API",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
@@ -20,7 +20,8 @@
     "java",
     "php",
     "python",
-    "ruby"
+    "ruby",
+    "go"
   ],
   "logo": "assets/logo.svg",
   "skills": [
@@ -29,7 +30,8 @@
     "./skills/java",
     "./skills/php",
     "./skills/python",
-    "./skills/ruby"
+    "./skills/ruby",
+    "./skills/go"
   ],
   "agents": "agents-vscode/"
 }

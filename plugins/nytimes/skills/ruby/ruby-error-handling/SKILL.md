@@ -28,7 +28,7 @@ below) or deserialize `e.response.raw_body` manually.
 ```ruby
 begin
   result = client.{resource_controller}.{operation}(...)
-rescue NYTimes::APIException => e
+rescue Nytimes::APIException => e
   puts "HTTP #{e.response_code}"   # e.g. 404
   puts e.reason                    # e.g. "Not Found"
 end
@@ -57,11 +57,11 @@ end
 # OAuthProviderException — raised on 400/401 from OAuth endpoints
 begin
   client.o_auth_authorization.request_token(...)
-rescue NYTimes::OAuthProviderException => e
+rescue Nytimes::OAuthProviderException => e
   puts e.response_code          # HTTP status
   puts e.error                  # OAuthProviderErrorEnum value, e.g. "invalid_client"
   puts e.error_description      # human-readable detail (optional field)
-rescue NYTimes::APIException => e
+rescue Nytimes::APIException => e
   puts "Generic error #{e.response_code}: #{e.reason}"
 end
 ```
@@ -77,7 +77,7 @@ Branch on `e.response_code` when no typed subclass exists for a status:
 ```ruby
 begin
   result = client.{resource_controller}.{operation}(...)
-rescue NYTimes::APIException => e
+rescue Nytimes::APIException => e
   case e.response_code
   when 400
     warn "Bad request: #{e.reason}"
@@ -101,7 +101,7 @@ The raw body is on `e.response.raw_body` (a `String`). For typed subclasses, fie
 parsed into attributes by `unbox`. For the base class:
 
 ```ruby
-rescue NYTimes::APIException => e
+rescue Nytimes::APIException => e
   begin
     body = APIHelper.json_deserialize(e.response.raw_body)
     message = body&.dig('error', 'message') || e.reason
@@ -120,7 +120,7 @@ surface as Faraday exceptions from the underlying `FaradayClient`:
 ```ruby
 begin
   result = client.{resource_controller}.{operation}(...)
-rescue NYTimes::APIException => e
+rescue Nytimes::APIException => e
   # HTTP error — response was received
 rescue Faraday::ConnectionFailed => e
   warn "Network unreachable: #{e.message}"
@@ -137,8 +137,8 @@ Retries (when enabled) fire **before** the exception bubbles up — see **ruby-c
 ```
 StandardError
   └── CoreLibrary::ApiException
-        └── NYTimes::APIException          ← base for all HTTP errors
-              └── NYTimes::{OperationError}  ← typed, if generated (in exceptions/)
+        └── Nytimes::APIException          ← base for all HTTP errors
+              └── Nytimes::{OperationError}  ← typed, if generated (in exceptions/)
 
 Faraday::Error                                  ← transport errors — separate hierarchy
   ├── Faraday::ConnectionFailed
@@ -147,7 +147,7 @@ Faraday::Error                                  ← transport errors — separat
 
 Typed subclasses are generated per-operation or per-resource. Check `exceptions/` for the full list
 and `controllers/` for which status codes wire them: each operation's response handler registers them
-with `.local_error('400', '...message...', NYTimes::{OperationError})`, and any status without a
+with `.local_error('400', '...message...', Nytimes::{OperationError})`, and any status without a
 registered `local_error` falls through to the `'default'` entry in `BaseController::GLOBAL_ERRORS`
 (an `ErrorCase` whose `exception_type` is the base `APIException`).
 

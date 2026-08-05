@@ -78,10 +78,10 @@ optional key means the parameter is not sent.
 For body parameters that are typed models, construct the model class with keyword args:
 
 ```ruby
-body = NYTimes::{RequestModel}.new(
+body = Nytimes::{RequestModel}.new(
   field_one: 'value',
   field_two: 42,
-  nested: NYTimes::{NestedModel}.new(sub_field: true)
+  nested: Nytimes::{NestedModel}.new(sub_field: true)
 )
 result = client.{resource}.{create_operation}(body)
 ```

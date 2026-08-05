@@ -1,9 +1,9 @@
 ---
 name: dotnet-nytimes-getting-started
-description: NYTimes .NET SDK identity and lookup layer for the dotnet-nytimes-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
+description: nytimes .NET SDK identity and lookup layer for the dotnet-nytimes-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
 ---
 
-# Getting started with the NYTimes .NET SDK
+# Getting started with the nytimes .NET SDK
 
 > **Who this skill is for.** This is the **map layer**, preloaded for the `dotnet-nytimes-sdk` helper
 > agent — if you are it, this skill is yours to follow directly and fully. It is the only place
@@ -37,7 +37,7 @@ confirm names against the map.
 
 | | |
 | --- | --- |
-| API | NYTimes |
+| API | nytimes |
 | Source repo | https://github.com/context-plugins/nytimes-csharp-sdk (branch `main`) |
 | Root namespace | `Nytimes` (the `using` namespace) |
 | Client class | `NytimesClient` |

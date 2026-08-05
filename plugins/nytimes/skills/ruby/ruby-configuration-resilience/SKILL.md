@@ -16,7 +16,7 @@ config across multiple clients; otherwise pass kwargs directly.
 Retries are **disabled by default** (`max_retries: 0`). Enable them by setting `max_retries > 0`.
 
 ```ruby
-client = NYTimes::Client.new(
+client = Nytimes::Client.new(
   max_retries:    3,
   retry_interval: 1,      # base wait in seconds
   backoff_factor: 2,      # exponential multiplier
@@ -39,7 +39,7 @@ the exception surfaces to your code — the exception you rescue is from the fin
 ## Timeout
 
 ```ruby
-client = NYTimes::Client.new(timeout: 30)  # seconds per attempt; default 60
+client = Nytimes::Client.new(timeout: 30)  # seconds per attempt; default 60
 ```
 
 `timeout` is a per-attempt budget. With `max_retries: 3` and `timeout: 30`, worst-case wall time is
@@ -51,7 +51,7 @@ The SDK uses Faraday internally with `CoreLibrary::FaradayClient`. The adapter d
 `:net_http_persistent`. You can change it:
 
 ```ruby
-client = NYTimes::Client.new(adapter: :net_http)
+client = Nytimes::Client.new(adapter: :net_http)
 ```
 
 Pass a custom `Faraday::Connection` via `connection:` when you need full control (middleware stack,
@@ -62,7 +62,7 @@ conn = Faraday.new do |f|
   f.response :logger, Logger.new($stdout), headers: true, bodies: false
   f.adapter  Faraday.default_adapter
 end
-client = NYTimes::Client.new(connection: conn)
+client = Nytimes::Client.new(connection: conn)
 ```
 
 ## Environment and base URL
@@ -72,13 +72,13 @@ The base URL is derived from the `environment` enum constant and server template
 
 ```ruby
 # Use a named environment (the generated constants are per-API — read Configuration for the real ones):
-client = NYTimes::Client.new(environment: Environment::{MEMBER})
+client = Nytimes::Client.new(environment: Environment::{MEMBER})
 ```
 
 The URL template may include server parameters (e.g. `port`, `sub_url`) that you can also set:
 
 ```ruby
-client = NYTimes::Client.new(
+client = Nytimes::Client.new(
   environment: Environment::PRODUCTION,
   port: '443'
 )
@@ -95,21 +95,21 @@ rewrites the host (see **ruby-testing**).
 Pass proxy configuration via `ProxySettings`:
 
 ```ruby
-proxy = NYTimes::ProxySettings.new(
+proxy = Nytimes::ProxySettings.new(
   address:  'http://proxy.example.com',
   port:     8080,
   username: 'user',        # optional
   password: 'pass'         # optional
 )
-client = NYTimes::Client.new(proxy_settings: proxy)
+client = Nytimes::Client.new(proxy_settings: proxy)
 ```
 
 Or load from environment variables — the generated `ProxySettings.from_env` reads `PROXY_ADDRESS`,
 `PROXY_PORT`, `PROXY_USERNAME`, and `PROXY_PASSWORD`:
 
 ```ruby
-proxy = NYTimes::ProxySettings.from_env
-client = NYTimes::Client.new(proxy_settings: proxy)
+proxy = Nytimes::ProxySettings.from_env
+client = Nytimes::Client.new(proxy_settings: proxy)
 ```
 
 ## HttpCallBack — observability hook
@@ -118,7 +118,7 @@ client = NYTimes::Client.new(proxy_settings: proxy)
 without replacing the transport:
 
 ```ruby
-class LogCallback < NYTimes::HttpCallBack
+class LogCallback < Nytimes::HttpCallBack
   # Called before the request goes out (see the generated HttpResponseCatcher in test/):
   def on_before_request(request)
     puts "--> #{request.http_method} #{request.query_url}"
@@ -130,7 +130,7 @@ class LogCallback < NYTimes::HttpCallBack
   end
 end
 
-client = NYTimes::Client.new(http_callback: LogCallback.new)
+client = Nytimes::Client.new(http_callback: LogCallback.new)
 ```
 
 Override `on_before_request(request)` / `on_after_response(response)` (the exact method names the
@@ -144,9 +144,9 @@ The generated `Client.from_env` class method reads all configuration from enviro
 returns a ready client:
 
 ```ruby
-client = NYTimes::Client.from_env
+client = Nytimes::Client.from_env
 # Overrides take precedence over env vars:
-client = NYTimes::Client.from_env(timeout: 30, max_retries: 3)
+client = Nytimes::Client.from_env(timeout: 30, max_retries: 3)
 ```
 
 Key env vars (exact names match the generated `.env` example in `doc/`):

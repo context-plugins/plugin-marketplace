@@ -25,7 +25,7 @@ def stub_client(stubs)
   conn = Faraday.new do |f|
     f.adapter :test, stubs
   end
-  NYTimes::Client.new(
+  Nytimes::Client.new(
     connection:  conn,
     max_retries: 0   # disable retries — deterministic test behavior
   )
@@ -54,7 +54,7 @@ stubs.get('/some/endpoint') do |_env|
 end
 
 client = stub_client(stubs)
-assert_raises NYTimes::APIException do
+assert_raises Nytimes::APIException do
   client.{resource_controller}.{operation}(...)
 end
 ```
@@ -97,11 +97,11 @@ Build a client pointed at a known base URL and stub that URL:
 
 ```ruby
 # Read the real base URL from the SDK -- no environment resolves to localhost.
-BASE = NYTimes::Configuration.new(environment: NYTimes::Environment::PRODUCTION).get_base_uri
+BASE = Nytimes::Configuration.new(environment: Nytimes::Environment::PRODUCTION).get_base_uri
 
 def build_test_client
-  NYTimes::Client.new(
-    environment: NYTimes::Environment::PRODUCTION,  # read the real base URL from configuration.rb
+  Nytimes::Client.new(
+    environment: Nytimes::Environment::PRODUCTION,  # read the real base URL from configuration.rb
     max_retries: 0
   )
 end
@@ -123,7 +123,7 @@ stub_request(:get, "#{BASE}/auth/customAuthentication")
   )
 
 expect { client.authentication.custom_authentication }
-  .to raise_error NYTimes::APIException
+  .to raise_error Nytimes::APIException
 ```
 
 ### Asserting the outgoing request with WebMock
@@ -144,12 +144,12 @@ subclasses (in `exceptions/`) add structured body fields:
 
 ```ruby
 # Base APIException:
-rescue NYTimes::APIException => e
+rescue Nytimes::APIException => e
   assert_equal 404, e.response_code
   assert_includes e.reason, 'Not Found'
 
 # Typed subclass (e.g. OAuthProviderException):
-rescue NYTimes::OAuthProviderException => e
+rescue Nytimes::OAuthProviderException => e
   assert_equal 401, e.response_code
   assert_equal 'invalid_client', e.error
 ```
@@ -157,7 +157,7 @@ rescue NYTimes::OAuthProviderException => e
 In RSpec with `raise_error`:
 
 ```ruby
-expect { call }.to raise_error(NYTimes::OAuthProviderException) do |e|
+expect { call }.to raise_error(Nytimes::OAuthProviderException) do |e|
   expect(e.response_code).to eq(401)
   expect(e.error).to eq('invalid_client')
 end
@@ -184,14 +184,14 @@ capture what crossed the wire with an `HttpCallBack`. That same hook is a useful
 to assert the raw request/response in your own tests (combine it with a stub adapter above):
 
 ```ruby
-class ResponseCatcher < NYTimes::HttpCallBack
+class ResponseCatcher < Nytimes::HttpCallBack
   attr_reader :response
   def on_before_request(request); @request = request; end
   def on_after_response(response); @response = response; end
 end
 
 catcher = ResponseCatcher.new
-client  = NYTimes::Client.new(connection: conn, max_retries: 0, http_callback: catcher)
+client  = Nytimes::Client.new(connection: conn, max_retries: 0, http_callback: catcher)
 
 client.{resource_controller}.{operation}(...)
 assert_equal 200, catcher.response.status_code

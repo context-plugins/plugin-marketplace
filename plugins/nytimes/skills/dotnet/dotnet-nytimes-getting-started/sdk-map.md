@@ -1,4 +1,4 @@
-# SDK map — NYTimes (.NET)
+# SDK map — nytimes (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,11 +6,11 @@
 
 | | |
 |---|---|
-| SDK display name | NYTimes |
+| SDK display name | nytimes |
 | Root namespace/module | `Nytimes` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `dfb07f7` (`dfb07f7ba92ed089ec68907bd512fa553c28257e`, tagged `dfb07f7`) |
+| Source commit (spec stamp) | `3cb4b17` (`3cb4b1760c5409617e7413982aba274c50bb5e87`, tagged `3cb4b17`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/nytimes-csharp-sdk (branch `main`) |
@@ -96,7 +96,7 @@ Core error types (`Core/ErrorResponse/`) — public members with their **declare
 
 | Type | Public members | Source |
 |---|---|---|
-| `ApiError` — abstract base of all 9 typed error classes in `Errors/` | `TryGetRawError(out RawError error): bool` | `Core/ErrorResponse/ApiError.cs` |
+| `ApiError` — abstract base of all 10 typed error classes in `Errors/` | `TryGetRawError(out RawError error): bool` | `Core/ErrorResponse/ApiError.cs` |
 | `RawError` | `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?` | `Core/ErrorResponse/RawError.cs` |
 
 Typed-error payload shapes (the `out` types in each operation page's error-accessor cells) are ordinary records/unions: field names, declared types, and JSON wire names live on the records pages / `unions.md` like any other model.
@@ -118,12 +118,12 @@ catch (SdkException<RawError> ex)                     // Case B
 
 <!-- crawler:op-stats -->
 **No-throw ("`…Result`") variants: absent across this SDK** — every operation is throw-only.
-Of **8 operations**, **7 are Case A (typed)** and **1 are Case B (raw)**.
+Of **9 operations**, **8 are Case A (typed)** and **1 are Case B (raw)**.
 <!-- /crawler:op-stats -->
 
 ---
 
-## Operations — by controller (5 groups, 8 operations)
+## Operations — by controller (5 groups, 9 operations)
 
 Each links to a sub-page with one row per operation (HTTP, signature with must-pass-explicitly params, return
 type, error Case A/B + accessors, pagination).
@@ -134,7 +134,7 @@ type, error Case A/B + accessors, pagination).
 | `Archive` | 1 | [map/operations/Archive.md](map/operations/Archive.md) |
 | `MostPopular` | 4 | [map/operations/MostPopular.md](map/operations/MostPopular.md) |
 | `Rss` | 1 | [map/operations/Rss.md](map/operations/Rss.md) |
-| `Search` | 1 | [map/operations/Search.md](map/operations/Search.md) |
+| `Search` | 2 | [map/operations/Search.md](map/operations/Search.md) |
 | `Stories` | 1 | [map/operations/Stories.md](map/operations/Stories.md) |
 <!-- /crawler:ops-table -->
 
@@ -145,7 +145,7 @@ type, error Case A/B + accessors, pagination).
 <!-- gen:models-table -->
 | Group | Count | Page |
 |---|---:|---|
-| Records (plain `record` data models) | 46 | [`Article` … `ViewedArticle`](map/models/records-1-Ar-Vi.md) |
+| Records (plain `record` data models) | 50 | [`Article` … `ViewedArticle`](map/models/records-1-Ar-Vi.md) |
 | Unions (`OneOf` / `AnyOf`) — variant factories + `TryGet…` | 0 + 0 | [map/models/unions.md](map/models/unions.md) |
 | Enums (`StringEnum<T>` / `IntEnum<T>`) — literal C# member names + wire values | 4 | [map/models/enums.md](map/models/enums.md) |
 <!-- /gen:models-table -->

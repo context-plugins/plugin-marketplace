@@ -18,15 +18,13 @@
     "typescript",
     "java",
     "python",
-    "ruby",
-    "go"
+    "ruby"
   ],
   "logo": "assets/logo.svg",
   "skills": [
     "./skills/typescript",
     "./skills/java",
     "./skills/python",
-    "./skills/ruby",
-    "./skills/go"
+    "./skills/ruby"
   ]
 }

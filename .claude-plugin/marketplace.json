@@ -1,6 +1,6 @@
 {
   "name": "context-plugins",
-  "description": "APIMatic plugin marketplace \u2014 SDK-native, version-aware API context for your AI coding agent.",
+  "description": "APIMatic plugin marketplace — SDK-native, version-aware API context for your AI coding agent.",
   "owner": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
@@ -64,7 +64,7 @@
     {
       "name": "nytimes",
       "source": "./plugins/nytimes",
-      "description": "TODO_AUTO_DESCRIPTION: nytimes API"
+      "description": "Access historical articles, bestseller lists, and editorial content from The New York Times."
     },
     {
       "name": "binance",
@@ -84,7 +84,7 @@
     {
       "name": "pokeapi",
       "source": "./plugins/pokeapi",
-      "description": "Access comprehensive data on Pok\u00e9mon, items, regions, and moves."
+      "description": "Access comprehensive data on Pokémon, items, regions, and moves."
     },
     {
       "name": "ebay-sell",
@@ -99,7 +99,7 @@
     {
       "name": "slack",
       "source": "./plugins/slack",
-      "description": "TODO_AUTO_DESCRIPTION: slack API"
+      "description": "Send messages, manage channels, and automate team workflows in Slack."
     },
     {
       "name": "tesser-api-v1",

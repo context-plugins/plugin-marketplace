@@ -205,6 +205,11 @@
       "name": "greenbyte",
       "source": "./plugins/greenbyte",
       "description": "Monitor, analyze, and optimize renewable energy assets and wind turbine performance."
+    },
+    {
+      "name": "mindbody",
+      "source": "./plugins/mindbody",
+      "description": "TODO_AUTO_DESCRIPTION: mindbody API"
     }
   ]
 }

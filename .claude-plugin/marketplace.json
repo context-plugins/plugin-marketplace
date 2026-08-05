@@ -225,6 +225,11 @@
       "name": "fdx",
       "source": "./plugins/fdx",
       "description": "Securely share and access financial data through the Financial Data Exchange standard."
+    },
+    {
+      "name": "maxio",
+      "source": "./plugins/maxio",
+      "description": "TODO_AUTO_DESCRIPTION: maxio API"
     }
   ]
 }

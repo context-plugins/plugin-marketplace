@@ -1,0 +1,50 @@
+# MessagingV1ShortCode — operations
+
+Accessor: `client.MessagingV1ShortCode` · Source: `Api/MessagingV1ShortCode.cs` · 4 operations
+
+**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+
+### CreateShortCode
+- **HTTP**: `POST /v1/Services/{ServiceSid}/ShortCodes` (Default6 (messaging))
+- **Signature**: `CreateShortCode(string serviceSid, string shortCodeSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `ShortCodeSid` ← `shortCodeSid`
+- **Returns**: `MessagingV1ServiceShortCode`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### DeleteShortCode
+- **HTTP**: `DELETE /v1/Services/{ServiceSid}/ShortCodes/{Sid}` (Default6 (messaging))
+- **Signature**: `DeleteShortCode(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - defaults: `requestOptions` = null
+- **Returns**: `void` (Task)
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### FetchShortCode2
+- **HTTP**: `GET /v1/Services/{ServiceSid}/ShortCodes/{Sid}` (Default6 (messaging))
+- **Signature**: `FetchShortCode2(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - defaults: `requestOptions` = null
+- **Returns**: `MessagingV1ServiceShortCode`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### ListShortCode2
+- **HTTP**: `GET /v1/Services/{ServiceSid}/ShortCodes` (Default6 (messaging))
+- **Signature**: `ListShortCode2(string serviceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `pageSize` — nullable, no default → **must pass explicitly**
+  - `page` — nullable, no default → **must pass explicitly**
+  - `pageToken` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
+- **Returns**: `ListShortCodeResponse1`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none (only `page`, no `perPage`)

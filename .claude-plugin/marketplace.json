@@ -175,6 +175,11 @@
       "name": "xero",
       "source": "./plugins/xero",
       "description": "Manage invoices, expenses, payroll, and banking with cloud accounting software."
+    },
+    {
+      "name": "twilio",
+      "source": "./plugins/twilio",
+      "description": "TODO_AUTO_DESCRIPTION: Twilio API"
     }
   ]
 }

@@ -1,0 +1,17 @@
+# TaskrouterV1WorkersRealTimeStatistics — operations
+
+Accessor: `client.TaskrouterV1WorkersRealTimeStatistics` · Source: `Api/TaskrouterV1WorkersRealTimeStatistics.cs` · 1 operations
+
+**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+
+### FetchWorkersRealTimeStatistics
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers/RealTimeStatistics` (Default11 (taskrouter))
+- **Signature**: `FetchWorkersRealTimeStatistics(string workspaceSid, string? taskChannel, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `taskChannel` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `TaskChannel` ← `taskChannel`
+- **Returns**: `TaskrouterV1WorkspaceWorkerWorkersRealTimeStatistics`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none

@@ -210,6 +210,11 @@
       "name": "mindbody",
       "source": "./plugins/mindbody",
       "description": "Book classes, manage appointments, and process payments for fitness and wellness businesses."
+    },
+    {
+      "name": "mist",
+      "source": "./plugins/mist",
+      "description": "TODO_AUTO_DESCRIPTION: mist API"
     }
   ]
 }

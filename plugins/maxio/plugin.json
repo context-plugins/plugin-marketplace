@@ -2,7 +2,7 @@
   "name": "maxio",
   "displayName": "maxio SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: maxio API",
+  "description": "Automate B2B recurring billing, subscription management, and revenue analytics with Maxio.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

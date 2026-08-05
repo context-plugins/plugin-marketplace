@@ -15,7 +15,7 @@ Coding agents hallucinate APIs. They are trained on public code and documentatio
 outdated — and have no awareness of the API version you are actually on, the current SDK, or the
 integration workflow the SDK author recommends.
 
-This repository is the **`context-plugins` marketplace**: a collection of **<!-- BEGIN:PLUGIN_COUNT -->34<!-- END:PLUGIN_COUNT --> plugins**, one per
+This repository is the **`context-plugins` marketplace**: a collection of **<!-- BEGIN:PLUGIN_COUNT -->35<!-- END:PLUGIN_COUNT --> plugins**, one per
 API, that give your agent authoritative, version-aware, SDK-native context at the moment it's
 needed. Every plugin is generated from the API's definition and its APIMatic-generated SDKs, so the
 agent is grounded in the real SDK contract instead of guessing from memory.
@@ -57,7 +57,7 @@ Then run `/reload-plugins`, or start a new `claude` session.
 
 ## Available plugins
 
-<!-- BEGIN:PLUGIN_COUNT -->34<!-- END:PLUGIN_COUNT --> plugins, listed in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
+<!-- BEGIN:PLUGIN_COUNT -->35<!-- END:PLUGIN_COUNT --> plugins, listed in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
 The **Languages** column is the set of SDK languages that plugin ships skills for.
 
 <!-- This table is generated from plugins/ by .github/scripts/sync_marketplace.py. Do not edit by
@@ -96,6 +96,7 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`stax-fattmerchant-api`](plugins/stax-fattmerchant-api/) | Stax (FattMerchant) API | .NET, TS, Java, PHP, Python, Ruby |
 | [`tesla-fleet-management-api`](plugins/tesla-fleet-management-api/) | Tesla Fleet Management API | .NET, TS, Java, PHP, Python, Ruby |
 | [`tesser-api-v1`](plugins/tesser-api-v1/) | Tesser API (v1) | .NET, TS, Java, PHP, Python, Ruby |
+| [`twilio`](plugins/twilio/) | Twilio | .NET |
 | [`twilio-apis`](plugins/twilio-apis/) | Twilio APIs | .NET, TS, Java, PHP, Python |
 | [`vimeo-api`](plugins/vimeo-api/) | Vimeo API | .NET, TS, Java, PHP, Python, Ruby |
 | [`x-api-v2`](plugins/x-api-v2/) | X API v2 | .NET, PHP, Python, Ruby |
@@ -123,7 +124,7 @@ Each supported language ships the same eight:
 The `getting-started` skill is the entry point: it directs the agent to clone and grep the real SDK
 source, so every fact is grounded in the actual contract rather than model knowledge.
 
-Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->173<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->1,418<!-- END:SKILL_COUNT --> skills**. See
+Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->174<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->1,427<!-- END:SKILL_COUNT --> skills**. See
 [`plugins/paypal/README.md`](plugins/paypal/README.md) for a worked example.
 
 ## Repository structure

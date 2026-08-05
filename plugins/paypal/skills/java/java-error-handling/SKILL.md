@@ -10,8 +10,8 @@ description: Handle errors from an APIMatic-generated Java SDK — every synchro
 ```
 Exception
 ├── io.apimatic.core.types.CoreApiException
-│   └── com.paypal.sandbox.apim.exceptions.ApiException          ← base for all non-2xx API responses
-│       └── com.paypal.sandbox.apim.exceptions.{Name}Exception   ← typed subclass with payload fields
+│   └── com.paypal.sdk.exceptions.ApiException          ← base for all non-2xx API responses
+│       └── com.paypal.sdk.exceptions.{Name}Exception   ← typed subclass with payload fields
 └── IOException                                     ← transport / network failures
 ```
 
@@ -41,7 +41,7 @@ HttpContext ctx   = e.getHttpContext();       // full request + response pair
 > **`getResponseCode()`, not `getStatusCode()`** — the correct method is `getResponseCode()`, inherited
 > from `CoreApiException`. The ApiException doc confirms this; using `getStatusCode()` will not compile.
 
-`getHttpContext()` returns the SDK's `com.paypal.sandbox.apim.http.client.HttpContext`, which carries:
+`getHttpContext()` returns the SDK's `com.paypal.sdk.http.client.HttpContext`, which carries:
 - `ctx.getRequest()` — the outgoing `HttpRequest` (method, URL, headers)
 - `ctx.getResponse()` — the incoming `HttpResponse` (status, headers, raw body)
 

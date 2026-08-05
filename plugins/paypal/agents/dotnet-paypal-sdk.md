@@ -72,7 +72,7 @@ Write is for the file's initial creation only.
 ## When the main agent reports an SDK issue
 
 The main agent sends a compile or runtime error involving an SDK type or member (`CS1061`,
-`CS0117`, `CS0234`, `CS0104`, `CS1503`, `CS7036`, … on `Paypal.*`, or a provider
+`CS0117`, `CS0234`, `CS0104`, `CS1503`, `CS7036`, … on `PayPalServerSdk.*`, or a provider
 error) with the error output and the files involved. Resolve it — never send it back unresolved.
 
 1. **Map row first.** Find the failing symbol's row in the map (`sdk-map.md` →

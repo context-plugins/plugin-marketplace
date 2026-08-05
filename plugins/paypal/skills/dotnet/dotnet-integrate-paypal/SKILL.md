@@ -29,7 +29,7 @@ guidance, they are yours to load, and Step 1c below makes loading them mandatory
   its whole map context from scratch (the dominant helper cost); reuse is not optional.
 
 **Scope guard:** the APIMatic-generated paypal **.NET SDK** (root namespace
-`Paypal`) in **C#/.NET projects only**. Unrelated API, or any language other than
+`PayPalServerSdk`) in **C#/.NET projects only**. Unrelated API, or any language other than
 C#/.NET — do nothing; this router and its agent do not apply.
 
 ## Workflow
@@ -109,7 +109,7 @@ ask the warm `dotnet-paypal-sdk` agent, never guess.
    contract sheet or the warm `dotnet-paypal-sdk` agent — never re-derive one from a companion.
 3. After every change: `dotnet build`; fix non-SDK errors yourself.
 4. **Any compile or runtime error involving an SDK type or member** (`CS1061`, `CS0117`,
-   `CS0234`, `CS0104`, `CS1503`, `CS7036`, … on `Paypal.*`, or a provider error
+   `CS0234`, `CS0104`, `CS1503`, `CS7036`, … on `PayPalServerSdk.*`, or a provider error
    at runtime) → send the exact error output and the files involved to your EXISTING
    `dotnet-paypal-sdk` agent (a follow-up message, NOT a new spawn), and wait. It fixes the code in
    place and reports what changed and whether it could build-verify. **If it reports it could

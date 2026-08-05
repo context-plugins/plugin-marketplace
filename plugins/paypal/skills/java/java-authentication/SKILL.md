@@ -5,7 +5,7 @@ description: Configure authentication on an APIMatic-generated Java SDK client �
 
 # Authenticating an APIMatic Java SDK client
 
-> `PaypalClient` is the SDK's client class — **read the real name** from the `*Client.java` file in
+> `PaypalServerSdkClient` is the SDK's client class — **read the real name** from the `*Client.java` file in
 > the root package (it is derived from the API title with APIMatic's own casing, so do not guess
 > it from the API name).
 
@@ -17,7 +17,7 @@ builder methods, call `.build()`, and pass the result when constructing the clie
 > Throughout, `{...}` tokens are placeholders for names you take from your SDK — replace them with
 > the concrete identifiers from the source.
 
-To see which schemes a specific SDK accepts, read the credential setter methods on `PaypalClient.Builder`
+To see which schemes a specific SDK accepts, read the credential setter methods on `PaypalServerSdkClient.Builder`
 (and the generated `doc/auth/*.md` files, which list each scheme's fields and a usage snippet). An SDK
 whose API uses only Basic auth, for example, exposes only `.basicAuthCredentials(...)`.
 
@@ -28,7 +28,7 @@ pattern and the gotchas the signatures don't show.
 ## Basic auth
 
 ```java
-PaypalClient client = new PaypalClient.Builder()
+PaypalServerSdkClient client = new PaypalServerSdkClient.Builder()
     .basicAuthCredentials(new BasicAuthModel.Builder(
             System.getenv("{USERNAME_ENV}"),
             System.getenv("{PASSWORD_ENV}")
@@ -80,7 +80,7 @@ Sends `Authorization: Bearer <token>`.
 ## OAuth 2.0 — client credentials grant
 
 ```java
-PaypalClient client = new PaypalClient.Builder()
+PaypalServerSdkClient client = new PaypalServerSdkClient.Builder()
     .oAuthCCGCredentials(new OAuthCCGModel.Builder(
             System.getenv("{CLIENT_ID_ENV}"),
             System.getenv("{CLIENT_SECRET_ENV}")
@@ -117,7 +117,7 @@ environment variables, and no-auth — see [reference.md](reference.md).
 
 - A given SDK only exports the `{Scheme}Model` / setter for the schemes its API uses; names are generated
   per-API (hence the `{...}` placeholders above).
-- Set credentials **on the `PaypalClient.Builder`** before calling `.build()` — the client is immutable
+- Set credentials **on the `PaypalServerSdkClient.Builder`** before calling `.build()` — the client is immutable
   after construction. To change credentials (e.g. attach a fetched OAuth token), use
   `client.newBuilder().{scheme}Credentials(...).build()`.
 - An endpoint may require **several** schemes (`A AND B`) or **any of** several (`A OR B`). Configure

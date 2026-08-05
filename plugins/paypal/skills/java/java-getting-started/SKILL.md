@@ -1,6 +1,6 @@
 ---
 name: java-getting-started
-description: APIMatic-generated Java SDK (APIMATIC v3.0, OkHttp3 + Jackson runtime) reference and grounding layer — Maven/Gradle install, the PaypalClient.Builder() construction pattern, Environment enum constants, controller accessors via get{Resource}Api(), both synchronous and CompletableFuture async method shapes, ApiException base exception, and how to navigate the generated source. Entry point into the companion java-* skills (java-client-initialization, java-authentication, java-calling-endpoints, java-models, java-error-handling, java-configuration-resilience, java-testing) — gates loading each at its integration step, since the source shows signatures but not the usage gotchas these skills carry.
+description: APIMatic-generated Java SDK (APIMATIC v3.0, OkHttp3 + Jackson runtime) reference and grounding layer — Maven/Gradle install, the PaypalServerSdkClient.Builder() construction pattern, Environment enum constants, controller accessors via get{Resource}Api(), both synchronous and CompletableFuture async method shapes, ApiException base exception, and how to navigate the generated source. Entry point into the companion java-* skills (java-client-initialization, java-authentication, java-calling-endpoints, java-models, java-error-handling, java-configuration-resilience, java-testing) — gates loading each at its integration step, since the source shows signatures but not the usage gotchas these skills carry.
 ---
 
 # Getting started with an APIMatic-generated Java SDK
@@ -9,7 +9,7 @@ description: APIMatic-generated Java SDK (APIMATIC v3.0, OkHttp3 + Jackson runti
 > `client.get{Resource}Api()`. The `Api` suffix is a generator setting, so **confirm it** from the
 > class names in the `apis` (or `controllers`) package before writing the accessor name.
 
-> `PaypalClient` is the SDK's client class — **read the real name** from the `*Client.java` file in
+> `PaypalServerSdkClient` is the SDK's client class — **read the real name** from the `*Client.java` file in
 > the root package (it is derived from the API title with APIMatic's own casing, so do not guess
 > it from the API name).
 
@@ -44,11 +44,11 @@ the skill for that step, so at each step below load the companion *and* confirm 
 | Runtime deps | `io.apimatic:core-interfaces:[0.3.4,0.4)`, `io.apimatic:core:[0.6.15,0.7)`, `io.apimatic:okhttp-client-adapter:[0.3.5,0.4)` — pulled transitively from a published jar |
 | HTTP engine | OkHttp3 (via `okhttp-client-adapter`) |
 | JSON library | Jackson (`com.fasterxml.jackson`) |
-| Client class | `PaypalClient` — a `final` class implementing `Configuration`; built via `new PaypalClient.Builder()...build()` |
-| Builder | `PaypalClient.Builder` inner static class; `client.newBuilder()` returns a builder seeded from the current client |
+| Client class | `PaypalServerSdkClient` — a `final` class implementing `Configuration`; built via `new PaypalServerSdkClient.Builder()...build()` |
+| Builder | `PaypalServerSdkClient.Builder` inner static class; `client.newBuilder()` returns a builder seeded from the current client |
 | Environments | `enum Environment` in the root package — read `Environment.java` for the real member names |
 | Async model | Every operation has a synchronous form (`throws ApiException, IOException`) and a `CompletableFuture<T>` async form (`{op}Async(...)`) |
-| Base exception | `com.paypal.sandbox.apim.exceptions.ApiException` (extends `io.apimatic.core.types.CoreApiException`) |
+| Base exception | `com.paypal.sdk.exceptions.ApiException` (extends `io.apimatic.core.types.CoreApiException`) |
 | JDK minimum | Java 8 (`maven.compiler.source=1.8` / `requireJavaVersion 1.8` in the generated `pom.xml`) |
 
 The table above is **orientation, not a copy-paste recipe** — it gives you the structure (client/builder
@@ -58,23 +58,23 @@ its names against the cloned source.
 
 ## Package layout
 
-APIMatic Java SDKs split public types across sub-packages under the root package (`com.paypal.sandbox.apim`):
+APIMatic Java SDKs split public types across sub-packages under the root package (`com.paypal.sdk`):
 
-- **root package** — `PaypalClient` (the gateway class), `Configuration` (interface), `Environment`,
+- **root package** — `PaypalServerSdkClient` (the gateway class), `Configuration` (interface), `Environment`,
   `Server`, `ApiHelper`, `CompatibilityFactoryImpl`.
-- `com.paypal.sandbox.apim.authentication/` — one `{Scheme}Model` (the builder/data holder), `{Scheme}Credentials`
+- `com.paypal.sdk.authentication/` — one `{Scheme}Model` (the builder/data holder), `{Scheme}Credentials`
   (read interface), and `{Scheme}Manager` (handles wire injection) per auth scheme the API uses.
-- `com.paypal.sandbox.apim.controllers/` — `BaseController` plus one `{Resource}Api` per API resource group.
+- `com.paypal.sdk.controllers/` — `BaseController` plus one `{Resource}Api` per API resource group.
   **Controller accessors live on the client**: `client.get{Resource}Api()`.
-- `com.paypal.sandbox.apim.exceptions/` — `ApiException` base class plus per-operation `{Name}Exception` subclasses
+- `com.paypal.sdk.exceptions/` — `ApiException` base class plus per-operation `{Name}Exception` subclasses
   (when the API documents typed error responses).
-- `com.paypal.sandbox.apim.models/` — request/response POJOs extending `BaseModel` (Jackson `@JsonGetter`/
+- `com.paypal.sdk.models/` — request/response POJOs extending `BaseModel` (Jackson `@JsonGetter`/
   `@JsonSetter`), Java `enum` types with custom JSON (un)marshalling, and `containers/` for oneOf/anyOf
   union types.
-- `com.paypal.sandbox.apim.http/client/` — `HttpClientConfiguration`, `ReadonlyHttpClientConfiguration`,
+- `com.paypal.sdk.http/client/` — `HttpClientConfiguration`, `ReadonlyHttpClientConfiguration`,
   `HttpCallback` (request/response logging seam), `HttpContext`, `HttpProxyConfiguration`.
-- `com.paypal.sandbox.apim.http/request/` — `HttpMethod`, `HttpRequest`.
-- `com.paypal.sandbox.apim.http/response/` — `HttpResponse`, `HttpStringResponse`.
+- `com.paypal.sdk.http/request/` — `HttpMethod`, `HttpRequest`.
+- `com.paypal.sdk.http/response/` — `HttpResponse`, `HttpStringResponse`.
 
 ## Maven / Gradle install
 
@@ -138,7 +138,7 @@ Then confirm the SDK shape **only** from that local clone:
 Layout — grep the clone here first:
 
 - `pom.xml` — `groupId`, `artifactId`, `version`, and the exact runtime dependency version ranges.
-- `PaypalClient.java` — builder methods, controller accessors (`get{Resource}Api()`), `shutdown()`.
+- `PaypalServerSdkClient.java` — builder methods, controller accessors (`get{Resource}Api()`), `shutdown()`.
 - `Configuration.java` — the `Configuration` interface (environment, port, auth credential getters).
 - `Environment.java` — the `Environment` enum constants and the default environment.
 - `controllers/*.java` — operation method signatures, declared exceptions, and `{Op}Input` types.
@@ -164,7 +164,7 @@ Before you write the code for each step, load the named companion skill — even
 the relevant source. Each step calls out the trap the signature hides (in *parens*).
 
 1. **Client construction** — load **java-client-initialization** before you call
-   `new PaypalClient.Builder()...build()`. (*The signature won't tell you:* there is no public
+   `new PaypalServerSdkClient.Builder()...build()`. (*The signature won't tell you:* there is no public
    constructor — you must use the inner `Builder` class; `httpClientConfig` is set via a lambda, not a
    config object; the client is immutable and thread-safe after `build()` and must be shared, not
    recreated per request.)

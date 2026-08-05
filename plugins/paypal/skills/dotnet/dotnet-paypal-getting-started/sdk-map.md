@@ -7,10 +7,10 @@
 | | |
 |---|---|
 | SDK display name | paypal |
-| Root namespace/module | `Paypal` |
+| Root namespace/module | `PayPalServerSdk` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `166d107` (`166d1071ba980b60109c2c8b2728f975b439dc97`, tagged `166d107`) |
+| Source commit (spec stamp) | `3b45ec4` (`3b45ec485591e50bb2acfd2879005addf362dd49`, tagged `3b45ec4`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/paypal-csharp-sdk (branch `main`) |
@@ -24,31 +24,31 @@ file linked in the row.
 ## Getting a client
 
 ```csharp
-using Paypal;
-using Paypal.Servers; // ServerEnvironment lives here
+using PayPalServerSdk;
+using PayPalServerSdk.Servers; // ServerEnvironment lives here
 
-var options = new PaypalClientOptions
+var options = new PayPalServerSdkClientOptions
 {
     // Set the credentials properties for the scheme(s) this API uses — see Servers & auth below.
     // Environment selects the server environment; see Servers & auth below.
 };
-var client = new PaypalClient(httpClient, options); // httpClient: System.Net.Http.HttpClient
+var client = new PayPalServerSdkClient(httpClient, options); // httpClient: System.Net.Http.HttpClient
 ```
 
 DI alternative (`ServiceCollectionExtensions.cs`):
 
 ```csharp
-services.AddPaypalClient(o =>
+services.AddPayPalServerSdkClient(o =>
 {
     // set credentials / environment on o here
 });
 ```
 
 Every API group is a property on the client (e.g. `client.Customers`). Source:
-`PaypalClient.cs`.
+`PayPalServerSdkClient.cs`.
 
 <!-- crawler:client-options -->
-All `PaypalClientOptions` properties (source: `PaypalClientOptions.cs`):
+All `PayPalServerSdkClientOptions` properties (source: `PayPalServerSdkClientOptions.cs`):
 
 | Property | Type |
 |---|---|
@@ -75,7 +75,7 @@ All `PaypalClientOptions` properties (source: `PaypalClientOptions.cs`):
 
 Client constructor(s):
 
-- `PaypalClient(HttpClient httpClient, PaypalClientOptions options)`
+- `PayPalServerSdkClient(HttpClient httpClient, PayPalServerSdkClientOptions options)`
 <!-- /crawler:client-options -->
 
 ---
@@ -97,7 +97,7 @@ Core error types (`Core/ErrorResponse/`) — public members with their **declare
 
 | Type | Public members | Source |
 |---|---|---|
-| `ApiError` — abstract base of all 43 typed error classes in `Errors/` | `TryGetRawError(out RawError error): bool` | `Core/ErrorResponse/ApiError.cs` |
+| `ApiError` — abstract base of all 42 typed error classes in `Errors/` | `TryGetRawError(out RawError error): bool` | `Core/ErrorResponse/ApiError.cs` |
 | `RawError` | `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?` | `Core/ErrorResponse/RawError.cs` |
 
 Typed-error payload shapes (the `out` types in each operation page's error-accessor cells) are ordinary records/unions: field names, declared types, and JSON wire names live on the records pages / `unions.md` like any other model.
@@ -119,12 +119,12 @@ catch (SdkException<RawError> ex)                     // Case B
 
 <!-- crawler:op-stats -->
 **No-throw ("`…Result`") variants: absent across this SDK** — every operation is throw-only.
-Of **44 operations**, **43 are Case A (typed)** and **1 are Case B (raw)**.
+Of **43 operations**, **42 are Case A (typed)** and **1 are Case B (raw)**.
 <!-- /crawler:op-stats -->
 
 ---
 
-## Operations — by controller (5 groups, 44 operations)
+## Operations — by controller (5 groups, 43 operations)
 
 Each links to a sub-page with one row per operation (HTTP, signature with must-pass-explicitly params, return
 type, error Case A/B + accessors, pagination).
@@ -134,7 +134,7 @@ type, error Case A/B + accessors, pagination).
 |---|---:|---|
 | `Orders` | 8 | [map/operations/Orders.md](map/operations/Orders.md) |
 | `Payments` | 9 | [map/operations/Payments.md](map/operations/Payments.md) |
-| `Subscriptions` | 19 | [map/operations/Subscriptions.md](map/operations/Subscriptions.md) |
+| `Subscriptions` | 18 | [map/operations/Subscriptions.md](map/operations/Subscriptions.md) |
 | `TransactionSearch` | 2 | [map/operations/TransactionSearch.md](map/operations/TransactionSearch.md) |
 | `Vault` | 6 | [map/operations/Vault.md](map/operations/Vault.md) |
 <!-- /crawler:ops-table -->
@@ -146,9 +146,9 @@ type, error Case A/B + accessors, pagination).
 <!-- gen:models-table -->
 | Group | Count | Page |
 |---|---:|---|
-| Records (plain `record` data models) | 294 | [`ActivateSubscriptionRequest` … `ParticipantMetadata`](map/models/records-1-Ac-Pa.md) · [`Patch` … `VaultExperienceContext`](map/models/records-2-Pa-Va.md) · [`VaultExperienceContext1` … `VenmoWalletVaultAttributes`](map/models/records-3-Va-Ve.md) |
+| Records (plain `record` data models) | 291 | [`ActivateSubscriptionRequest` … `PayeeBase`](map/models/records-1-Ac-Pa.md) · [`Payer` … `VaultExperienceContext`](map/models/records-2-Pa-Va.md) · [`VaultExperienceContext1` … `VenmoWalletVaultAttributes`](map/models/records-3-Va-Ve.md) |
 | Unions (`OneOf` / `AnyOf`) — variant factories + `TryGet…` | 0 + 0 | [map/models/unions.md](map/models/unions.md) |
-| Enums (`StringEnum<T>` / `IntEnum<T>`) — literal C# member names + wire values | 85 | [map/models/enums.md](map/models/enums.md) |
+| Enums (`StringEnum<T>` / `IntEnum<T>`) — literal C# member names + wire values | 87 | [map/models/enums.md](map/models/enums.md) |
 <!-- /gen:models-table -->
 
 Model conventions: records are immutable with `init`-only setters; `required` properties must be set in the
@@ -164,11 +164,11 @@ Namespaces by content type (add `using` accordingly):
 
 | Contents | Namespace(s) |
 |---|---|
-| Client & options (root) | `Paypal` |
-| Operation controllers (`Api/`) | `Paypal.Api` |
-| Records (`Models/`) | `Paypal.Models` |
-| Enums (`Models/Enums/`) | `Paypal.Models.Enums` |
-| Error classes (`Errors/`) | `Paypal.Errors` |
+| Client & options (root) | `PayPalServerSdk` |
+| Operation controllers (`Api/`) | `PayPalServerSdk.Api` |
+| Records (`Models/`) | `PayPalServerSdk.Models` |
+| Enums (`Models/Enums/`) | `PayPalServerSdk.Models.Enums` |
+| Error classes (`Errors/`) | `PayPalServerSdk.Errors` |
 <!-- /gen:namespaces -->
 
 ---
@@ -176,12 +176,12 @@ Namespaces by content type (add `using` accordingly):
 ## Servers & auth
 
 <!-- crawler:servers-auth -->
-**Auth.** The scheme(s) this API uses surface as credentials properties on `PaypalClientOptions` (source: `PaypalClientOptions.cs`) — set them before constructing the client; load `dotnet-authentication` for the wiring:
+**Auth.** The scheme(s) this API uses surface as credentials properties on `PayPalServerSdkClientOptions` (source: `PayPalServerSdkClientOptions.cs`) — set them before constructing the client; load `dotnet-authentication` for the wiring:
 
 | Property | Type | Notes (from the source XML docs) |
 |---|---|---|
-| `Oauth2` | `OAuth2ClientCredentials?` | Oauth 2.0 authentication, Oauth 2.0 authentication, OAuth 2.0 authentication, Oauth 2.0 authentication, Oauth 2.0 authentication, Oauth 2.0 authentication, OAuth 2.0 authentication, Oauth 2.0 authentication, Oauth 2.0 authentication |
+| `Oauth2` | `OAuth2ClientCredentials?` | Oauth 2.0 authentication, OAuth 2.0 authentication, Oauth 2.0 authentication, Oauth 2.0 authentication, Oauth 2.0 authentication, OAuth 2.0 authentication, Oauth 2.0 authentication, Oauth 2.0 authentication, Oauth 2.0 authentication |
 | `Oauth2TokenStrategy` | `IOAuth2TokenStrategy<OAuth2ClientCredentials>?` | — |
 
-**Environments.** `options.Environment` is a `ServerEnvironment` (`Servers/ServerEnvironment.cs`) with members: `ServerEnvironment.Production`, `ServerEnvironment.Sandbox`. Base-URL templates and override points live under `Servers/` and `options.Server`.
+**Environments.** `options.Environment` is a `ServerEnvironment` (`Servers/ServerEnvironment.cs`) with members: `ServerEnvironment.Sandbox`. Base-URL templates and override points live under `Servers/` and `options.Server`.
 <!-- /crawler:servers-auth -->

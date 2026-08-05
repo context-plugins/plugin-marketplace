@@ -79,9 +79,9 @@ npm install "https://github.com/context-plugins/paypal-typescript-sdk#main"
 ```
 
 ```ts
-import { Client, Environment, ApiError } from 'paypallib';
+import { Client, Environment, ApiError } from 'paypal-server-sdklib';
 // controllers and model types are also exported from the package root:
-import { {Resource}Api } from 'paypallib';
+import { {Resource}Api } from 'paypal-server-sdklib';
 ```
 
 Everything public is re-exported from `src/index.ts`, so import names come from the **package root** — you

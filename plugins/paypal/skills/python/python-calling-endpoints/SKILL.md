@@ -5,7 +5,7 @@ description: Call API operations on an APIMatic-generated Python SDK — access 
 
 # Calling endpoints on an APIMatic Python SDK
 
-> `PaypalClient` is the SDK's client class — **read the real name** from `paypal/paypal_client.py`
+> `PaypalServersdkClient` is the SDK's client class — **read the real name** from `paypal/paypal_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
 Operations are **synchronous methods** on a **controller** you get from the client as a
@@ -24,7 +24,7 @@ Open `paypal/paypal_client.py` for the controller property names, then the relev
 
 ## Controller access — property, not constructor
 
-Controllers are `@LazyProperty` properties on `PaypalClient`. Access them as attributes:
+Controllers are `@LazyProperty` properties on `PaypalServersdkClient`. Access them as attributes:
 
 ```python
 # Correct — the controller is a property:
@@ -146,7 +146,7 @@ class ResponseCapture(HttpCallBack):
         self.last_response = response
 
 capture = ResponseCapture()
-client = PaypalClient(http_call_back=capture, ...)
+client = PaypalServersdkClient(http_call_back=capture, ...)
 result = client.authentication.custom_authentication()
 print(capture.last_response.status_code)
 print(capture.last_response.headers)
@@ -179,7 +179,7 @@ an iterator over the items on that page. Inspect `paypal/pagination/` in the sou
 
 ## Finding the right method
 
-- Controller property names are on `PaypalClient` in `paypal/paypal_client.py`.
+- Controller property names are on `PaypalServersdkClient` in `paypal/paypal_client.py`.
 - Operation method signatures are in `paypal/controllers/{resource}_controller.py`.
 - `doc/controllers/*.md` lists every operation with parameters and usage snippets — grep it first.
 - Request/response model types are under `paypal/models/`; enum types have `from_value()`.

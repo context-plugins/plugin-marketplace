@@ -2,7 +2,7 @@
   "name": "paypal",
   "displayName": "paypal SDK",
   "version": "0.1.0",
-  "description": "Process payments, accept global transactions, and manage subscriptions with PayPal.",
+  "description": "TODO_AUTO_DESCRIPTION: paypal API",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
@@ -20,7 +20,8 @@
     "java",
     "php",
     "python",
-    "ruby"
+    "ruby",
+    "go"
   ],
   "logo": "assets/logo.svg",
   "skills": [
@@ -29,7 +30,8 @@
     "./skills/java",
     "./skills/php",
     "./skills/python",
-    "./skills/ruby"
+    "./skills/ruby",
+    "./skills/go"
   ],
   "agents": "agents-vscode/"
 }

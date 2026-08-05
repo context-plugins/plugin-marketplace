@@ -1,6 +1,6 @@
 # Subscriptions — operations
 
-Accessor: `client.Subscriptions` · Source: `Api/Subscriptions.cs` · 19 operations
+Accessor: `client.Subscriptions` · Source: `Api/Subscriptions.cs` · 18 operations
 
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
@@ -48,19 +48,6 @@ Accessor: `client.Subscriptions` · Source: `Api/Subscriptions.cs` · 19 operati
   - defaults: `requestOptions` = null
 - **Returns**: `SubscriptionTransactionDetails`
 - **Error**: `SdkException<CaptureSubscriptionError>` — **Case A (typed)**
-- **Error accessors**: `TryGetSubscriptionError(out SubscriptionError)` [400, 401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
-
-### CaptureSubscription1
-- **HTTP**: `POST /v1/billing/subscriptions/{id}/capture` (Default (api-m))
-- **Notes**: Captures an authorized payment from the subscriber on the subscription.
-- **Signature**: `CaptureSubscription1(string id, string? payPalRequestId, CaptureSubscriptionRequest1? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - `payPalRequestId` — nullable, no default → **must pass explicitly**
-  - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Returns**: `SubscriptionTransactionDetails`
-- **Error**: `SdkException<CaptureSubscription1Error>` — **Case A (typed)**
 - **Error accessors**: `TryGetSubscriptionError(out SubscriptionError)` [400, 401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
 - **No-throw variant**: absent
 - **Pagination**: none

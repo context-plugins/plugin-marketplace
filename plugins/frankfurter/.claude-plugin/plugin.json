@@ -2,7 +2,7 @@
   "name": "frankfurter",
   "displayName": "Frankfurter SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: Frankfurter API",
+  "description": "Track current and historical foreign exchange rates published by the European Central Bank.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

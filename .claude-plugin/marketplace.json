@@ -194,7 +194,7 @@
     {
       "name": "frankfurter",
       "source": "./plugins/frankfurter",
-      "description": "TODO_AUTO_DESCRIPTION: Frankfurter API"
+      "description": "Track current and historical foreign exchange rates published by the European Central Bank."
     }
   ]
 }

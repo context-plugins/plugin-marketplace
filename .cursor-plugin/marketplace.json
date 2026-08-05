@@ -230,6 +230,11 @@
       "name": "maxio",
       "source": "./plugins/maxio",
       "description": "Automate B2B recurring billing, subscription management, and revenue analytics with Maxio."
+    },
+    {
+      "name": "paragon",
+      "source": "./plugins/paragon",
+      "description": "TODO_AUTO_DESCRIPTION: paragon API"
     }
   ]
 }

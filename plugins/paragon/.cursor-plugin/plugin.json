@@ -1,0 +1,29 @@
+{
+  "name": "paragon",
+  "displayName": "paragon SDK",
+  "version": "0.1.0",
+  "description": "TODO_AUTO_DESCRIPTION: paragon API",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "paragon",
+    "dotnet",
+    "typescript",
+    "php"
+  ],
+  "logo": "assets/logo.svg",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/typescript",
+    "./skills/php"
+  ],
+  "agents": "./agents/"
+}

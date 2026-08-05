@@ -15,7 +15,7 @@ Coding agents hallucinate APIs. They are trained on public code and documentatio
 outdated — and have no awareness of the API version you are actually on, the current SDK, or the
 integration workflow the SDK author recommends.
 
-This repository is the **`context-plugins` marketplace**: a collection of **<!-- BEGIN:PLUGIN_COUNT -->38<!-- END:PLUGIN_COUNT --> plugins**, one per
+This repository is the **`context-plugins` marketplace**: a collection of **<!-- BEGIN:PLUGIN_COUNT -->39<!-- END:PLUGIN_COUNT --> plugins**, one per
 API, that give your agent authoritative, version-aware, SDK-native context at the moment it's
 needed. Every plugin is generated from the API's definition and its APIMatic-generated SDKs, so the
 agent is grounded in the real SDK contract instead of guessing from memory.
@@ -57,7 +57,7 @@ Then run `/reload-plugins`, or start a new `claude` session.
 
 ## Available plugins
 
-<!-- BEGIN:PLUGIN_COUNT -->38<!-- END:PLUGIN_COUNT --> plugins, listed in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
+<!-- BEGIN:PLUGIN_COUNT -->39<!-- END:PLUGIN_COUNT --> plugins, listed in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
 The **Languages** column is the set of SDK languages that plugin ships skills for.
 
 <!-- This table is generated from plugins/ by .github/scripts/sync_marketplace.py. Do not edit by
@@ -77,6 +77,7 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`finnhub`](plugins/finnhub/) | Finnhub | .NET, TS, Java, PHP, Python, Ruby |
 | [`firecrawl`](plugins/firecrawl/) | Firecrawl | .NET, TS, Java, PHP, Python, Ruby |
 | [`frankfurter`](plugins/frankfurter/) | Frankfurter | .NET, TS, Java, PHP, Python, Ruby, Go |
+| [`geoapify`](plugins/geoapify/) | Geoapify | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`gitea`](plugins/gitea/) | Gitea | .NET, Java, PHP, Python |
 | [`google-maps-platform`](plugins/google-maps-platform/) | Google Maps Platform | .NET, TS, Java, PHP, Python, Ruby |
 | [`klarna`](plugins/klarna/) | Klarna | .NET, Java, PHP, Python, Ruby |
@@ -127,7 +128,7 @@ Each supported language ships the same eight:
 The `getting-started` skill is the entry point: it directs the agent to clone and grep the real SDK
 source, so every fact is grounded in the actual contract rather than model knowledge.
 
-Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->194<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->1,590<!-- END:SKILL_COUNT --> skills**. See
+Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->201<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->1,647<!-- END:SKILL_COUNT --> skills**. See
 [`plugins/paypal/README.md`](plugins/paypal/README.md) for a worked example.
 
 ## Repository structure

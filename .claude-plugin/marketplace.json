@@ -245,6 +245,11 @@
       "name": "verizon",
       "source": "./plugins/verizon",
       "description": "Manage IoT devices, track global assets, and access network services through Verizon."
+    },
+    {
+      "name": "newstore",
+      "source": "./plugins/newstore",
+      "description": "TODO_AUTO_DESCRIPTION: newstore API"
     }
   ]
 }

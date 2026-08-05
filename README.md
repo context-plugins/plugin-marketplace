@@ -101,7 +101,7 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`pokeapi`](plugins/pokeapi/) | PokeApi | .NET, TS, Java, PHP, Python, Ruby |
 | [`postnl`](plugins/postnl/) | Postnl | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`shutterstock`](plugins/shutterstock/) | Shutterstock | .NET, TS, Java, PHP, Python, Ruby |
-| [`slack`](plugins/slack/) | Slack | .NET, TS, Java, PHP, Python, Ruby |
+| [`slack`](plugins/slack/) | Slack | .NET, TS, Java, PHP, Python, Ruby, Go |
 | [`splitit`](plugins/splitit/) | Splitit | .NET, TS, Java, PHP, Python, Ruby |
 | [`sportsdata`](plugins/sportsdata/) | Sportsdata | .NET, TS, PHP, Python, Ruby |
 | [`spotify-web-api`](plugins/spotify-web-api/) | Spotify Web API | .NET, TS, Java, PHP, Python, Ruby |
@@ -138,7 +138,7 @@ Each supported language ships the same eight:
 The `getting-started` skill is the entry point: it directs the agent to clone and grep the real SDK
 source, so every fact is grounded in the actual contract rather than model knowledge.
 
-Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->259<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->2,119<!-- END:SKILL_COUNT --> skills**. See
+Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->260<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->2,127<!-- END:SKILL_COUNT --> skills**. See
 [`plugins/paypal/README.md`](plugins/paypal/README.md) for a worked example.
 
 ## Repository structure

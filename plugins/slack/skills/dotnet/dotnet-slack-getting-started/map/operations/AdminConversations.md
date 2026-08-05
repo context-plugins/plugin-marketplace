@@ -1,6 +1,6 @@
 # AdminConversations — operations
 
-Accessor: `client.AdminConversations` · Source: `Api/AdminConversations.cs` · 13 operations
+Accessor: `client.AdminConversations` · Source: `Api/AdminConversations.cs` · 26 operations
 
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
@@ -16,6 +16,18 @@ Accessor: `client.AdminConversations` · Source: `Api/AdminConversations.cs` · 
 - **No-throw variant**: absent
 - **Pagination**: none
 
+### AdminConversationsArchive1
+- **HTTP**: `POST /admin.conversations.archive` (Default (slack))
+- **Notes**: Archive a public or private channel.
+- **Signature**: `AdminConversationsArchive1(string token, ContentType contentType, string channelId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `channel_id` ← `channelId`
+- **Returns**: `AdminConversationsArchiveschema1`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
 ### AdminConversationsConvertToPrivate
 - **HTTP**: `POST /admin.conversations.convertToPrivate` (Default (slack))
 - **Notes**: Convert a public channel to a private channel.
@@ -23,6 +35,18 @@ Accessor: `client.AdminConversations` · Source: `Api/AdminConversations.cs` · 
   - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `channel_id` ← `channelId`
 - **Returns**: `AdminConversationsConvertToPrivateschema`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### AdminConversationsConvertToPrivate1
+- **HTTP**: `POST /admin.conversations.convertToPrivate` (Default (slack))
+- **Notes**: Convert a public channel to a private channel.
+- **Signature**: `AdminConversationsConvertToPrivate1(string token, ContentType contentType, string channelId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `channel_id` ← `channelId`
+- **Returns**: `AdminConversationsConvertToPrivateschema1`
 - **Error**: `SdkException<RawError>` — **Case B**
 - **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
 - **No-throw variant**: absent
@@ -43,6 +67,21 @@ Accessor: `client.AdminConversations` · Source: `Api/AdminConversations.cs` · 
 - **No-throw variant**: absent
 - **Pagination**: none
 
+### AdminConversationsCreate1
+- **HTTP**: `POST /admin.conversations.create` (Default (slack))
+- **Notes**: Create a public or private channel-based conversation.
+- **Signature**: `AdminConversationsCreate1(string token, ContentType contentType, string name, bool isPrivate, string? description, bool? orgWide, string? teamId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `description` — nullable, no default → **must pass explicitly**
+  - `orgWide` — nullable, no default → **must pass explicitly**
+  - `teamId` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `name` ← `name`, `is_private` ← `isPrivate`, `description` ← `description`, `org_wide` ← `orgWide`, `team_id` ← `teamId`
+- **Returns**: `AdminConversationsCreateschema1`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
 ### AdminConversationsDelete
 - **HTTP**: `POST /admin.conversations.delete` (Default (slack))
 - **Notes**: Delete a public or private channel.
@@ -50,6 +89,18 @@ Accessor: `client.AdminConversations` · Source: `Api/AdminConversations.cs` · 
   - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `channel_id` ← `channelId`
 - **Returns**: `AdminConversationsDeleteschema`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### AdminConversationsDelete1
+- **HTTP**: `POST /admin.conversations.delete` (Default (slack))
+- **Notes**: Delete a public or private channel.
+- **Signature**: `AdminConversationsDelete1(string token, ContentType contentType, string channelId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `channel_id` ← `channelId`
+- **Returns**: `AdminConversationsDeleteschema1`
 - **Error**: `SdkException<RawError>` — **Case B**
 - **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
 - **No-throw variant**: absent
@@ -68,6 +119,19 @@ Accessor: `client.AdminConversations` · Source: `Api/AdminConversations.cs` · 
 - **No-throw variant**: absent
 - **Pagination**: none
 
+### AdminConversationsDisconnectShared1
+- **HTTP**: `POST /admin.conversations.disconnectShared` (Default (slack))
+- **Notes**: Disconnect a connected channel from one or more workspaces.
+- **Signature**: `AdminConversationsDisconnectShared1(string token, ContentType contentType, string channelId, string? leavingTeamIds, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `leavingTeamIds` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `channel_id` ← `channelId`, `leaving_team_ids` ← `leavingTeamIds`
+- **Returns**: `AdminConversationsRenameschema2`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
 ### AdminConversationsGetConversationPrefs
 - **HTTP**: `GET /admin.conversations.getConversationPrefs` (Default (slack))
 - **Notes**: Get conversation preferences for a public or private channel.
@@ -75,6 +139,18 @@ Accessor: `client.AdminConversations` · Source: `Api/AdminConversations.cs` · 
   - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `channel_id` ← `channelId`
 - **Returns**: `AdminConversationsGetConversationPrefsschema`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### AdminConversationsGetConversationPrefs1
+- **HTTP**: `GET /admin.conversations.getConversationPrefs` (Default (slack))
+- **Notes**: Get conversation preferences for a public or private channel.
+- **Signature**: `AdminConversationsGetConversationPrefs1(string channelId, string token, ContentType contentType, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `channel_id` ← `channelId`
+- **Returns**: `AdminConversationsGetConversationPrefsschema1`
 - **Error**: `SdkException<RawError>` — **Case B**
 - **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
 - **No-throw variant**: absent
@@ -94,6 +170,20 @@ Accessor: `client.AdminConversations` · Source: `Api/AdminConversations.cs` · 
 - **No-throw variant**: absent
 - **Pagination**: none
 
+### AdminConversationsGetTeams1
+- **HTTP**: `GET /admin.conversations.getTeams` (Default (slack))
+- **Notes**: Get all the workspaces a given public or private channel is connected to within this Enterprise org.
+- **Signature**: `AdminConversationsGetTeams1(string channelId, string? cursor, int? limit, string token, ContentType contentType, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `cursor` — nullable, no default → **must pass explicitly**
+  - `limit` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `channel_id` ← `channelId`, `cursor` ← `cursor`, `limit` ← `limit`
+- **Returns**: `AdminConversationsGetTeamsschema1`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
 ### AdminConversationsInvite
 - **HTTP**: `POST /admin.conversations.invite` (Default (slack))
 - **Notes**: Invite a user to a public or private channel.
@@ -101,6 +191,18 @@ Accessor: `client.AdminConversations` · Source: `Api/AdminConversations.cs` · 
   - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `user_ids` ← `userIds`, `channel_id` ← `channelId`
 - **Returns**: `AdminConversationsInviteschema`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### AdminConversationsInvite1
+- **HTTP**: `POST /admin.conversations.invite` (Default (slack))
+- **Notes**: Invite a user to a public or private channel.
+- **Signature**: `AdminConversationsInvite1(string token, ContentType contentType, string userIds, string channelId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `user_ids` ← `userIds`, `channel_id` ← `channelId`
+- **Returns**: `AdminConversationsInviteschema1`
 - **Error**: `SdkException<RawError>` — **Case B**
 - **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
 - **No-throw variant**: absent
@@ -118,10 +220,35 @@ Accessor: `client.AdminConversations` · Source: `Api/AdminConversations.cs` · 
 - **No-throw variant**: absent
 - **Pagination**: none
 
+### AdminConversationsRename1
+- **HTTP**: `POST /admin.conversations.rename` (Default (slack))
+- **Notes**: Rename a public or private channel.
+- **Signature**: `AdminConversationsRename1(string token, ContentType contentType, string channelId, string name, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `channel_id` ← `channelId`, `name` ← `name`
+- **Returns**: `AdminConversationsRenameschema11`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
 ### AdminConversationsSearch
 - **HTTP**: `GET /admin.conversations.search` (Default (slack))
 - **Notes**: Search for public or private channels in an Enterprise organization.
 - **Signature**: `AdminConversationsSearch(string? teamIds, string? query, int? limit, string? cursor, string? searchChannelTypes, string? sort, string? sortDir, string token, ContentType contentType, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - 7 params (`teamIds` … `sortDir`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `team_ids` ← `teamIds`, `query` ← `query`, `limit` ← `limit`, `cursor` ← `cursor`, `search_channel_types` ← `searchChannelTypes`, `sort` ← `sort`, `sort_dir` ← `sortDir`
+- **Returns**: `AdminConversationsSearchschema`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### AdminConversationsSearch1
+- **HTTP**: `GET /admin.conversations.search` (Default (slack))
+- **Notes**: Search for public or private channels in an Enterprise organization.
+- **Signature**: `AdminConversationsSearch1(string? teamIds, string? query, int? limit, string? cursor, string? searchChannelTypes, string? sort, string? sortDir, string token, ContentType contentType, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 7 params (`teamIds` … `sortDir`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `team_ids` ← `teamIds`, `query` ← `query`, `limit` ← `limit`, `cursor` ← `cursor`, `search_channel_types` ← `searchChannelTypes`, `sort` ← `sort`, `sort_dir` ← `sortDir`
@@ -143,6 +270,18 @@ Accessor: `client.AdminConversations` · Source: `Api/AdminConversations.cs` · 
 - **No-throw variant**: absent
 - **Pagination**: none
 
+### AdminConversationsSetConversationPrefs1
+- **HTTP**: `POST /admin.conversations.setConversationPrefs` (Default (slack))
+- **Notes**: Set the posting permissions for a public or private channel.
+- **Signature**: `AdminConversationsSetConversationPrefs1(string token, ContentType contentType, string channelId, string prefs, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `channel_id` ← `channelId`, `prefs` ← `prefs`
+- **Returns**: `AdminConversationsSetConversationPrefsschema1`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
 ### AdminConversationsSetTeams
 - **HTTP**: `POST /admin.conversations.setTeams` (Default (slack))
 - **Notes**: Set the workspaces in an Enterprise grid org that connect to a public or private channel.
@@ -158,6 +297,21 @@ Accessor: `client.AdminConversations` · Source: `Api/AdminConversations.cs` · 
 - **No-throw variant**: absent
 - **Pagination**: none
 
+### AdminConversationsSetTeams1
+- **HTTP**: `POST /admin.conversations.setTeams` (Default (slack))
+- **Notes**: Set the workspaces in an Enterprise grid org that connect to a public or private channel.
+- **Signature**: `AdminConversationsSetTeams1(string token, ContentType contentType, string channelId, string? teamId, string? targetTeamIds, bool? orgChannel, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `teamId` — nullable, no default → **must pass explicitly**
+  - `targetTeamIds` — nullable, no default → **must pass explicitly**
+  - `orgChannel` — nullable, no default → **must pass explicitly**
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `channel_id` ← `channelId`, `team_id` ← `teamId`, `target_team_ids` ← `targetTeamIds`, `org_channel` ← `orgChannel`
+- **Returns**: `Defaultsuccesstemplate1`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
 ### AdminConversationsUnarchive
 - **HTTP**: `POST /admin.conversations.unarchive` (Default (slack))
 - **Notes**: Unarchive a public or private channel.
@@ -165,6 +319,18 @@ Accessor: `client.AdminConversations` · Source: `Api/AdminConversations.cs` · 
   - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `channel_id` ← `channelId`
 - **Returns**: `AdminConversationsUnarchiveschema`
+- **Error**: `SdkException<RawError>` — **Case B**
+- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
+- **No-throw variant**: absent
+- **Pagination**: none
+
+### AdminConversationsUnarchive1
+- **HTTP**: `POST /admin.conversations.unarchive` (Default (slack))
+- **Notes**: Unarchive a public or private channel.
+- **Signature**: `AdminConversationsUnarchive1(string token, ContentType contentType, string channelId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - defaults: `requestOptions` = null
+- **Query params (wire ← C#)**: `channel_id` ← `channelId`
+- **Returns**: `AdminConversationsUnarchiveschema1`
 - **Error**: `SdkException<RawError>` — **Case B**
 - **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
 - **No-throw variant**: absent

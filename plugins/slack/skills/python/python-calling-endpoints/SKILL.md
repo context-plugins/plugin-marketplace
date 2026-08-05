@@ -5,7 +5,7 @@ description: Call API operations on an APIMatic-generated Python SDK — access 
 
 # Calling endpoints on an APIMatic Python SDK
 
-> `SlackwebapiClient` is the SDK's client class — **read the real name** from `slack/slack_client.py`
+> `SlackClient` is the SDK's client class — **read the real name** from `slack/slack_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
 Operations are **synchronous methods** on a **controller** you get from the client as a
@@ -24,7 +24,7 @@ Open `slack/slack_client.py` for the controller property names, then the relevan
 
 ## Controller access — property, not constructor
 
-Controllers are `@LazyProperty` properties on `SlackwebapiClient`. Access them as attributes:
+Controllers are `@LazyProperty` properties on `SlackClient`. Access them as attributes:
 
 ```python
 # Correct — the controller is a property:
@@ -146,7 +146,7 @@ class ResponseCapture(HttpCallBack):
         self.last_response = response
 
 capture = ResponseCapture()
-client = SlackwebapiClient(http_call_back=capture, ...)
+client = SlackClient(http_call_back=capture, ...)
 result = client.authentication.custom_authentication()
 print(capture.last_response.status_code)
 print(capture.last_response.headers)
@@ -179,7 +179,7 @@ an iterator over the items on that page. Inspect `slack/pagination/` in the sour
 
 ## Finding the right method
 
-- Controller property names are on `SlackwebapiClient` in `slack/slack_client.py`.
+- Controller property names are on `SlackClient` in `slack/slack_client.py`.
 - Operation method signatures are in `slack/controllers/{resource}_controller.py`.
 - `doc/controllers/*.md` lists every operation with parameters and usage snippets — grep it first.
 - Request/response model types are under `slack/models/`; enum types have `from_value()`.

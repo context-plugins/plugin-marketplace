@@ -5,10 +5,10 @@ description: Tune an APIMatic-generated Python SDK client — retry defaults (ma
 
 # Configuration & resilience for an APIMatic Python SDK
 
-> `SlackwebapiClient` is the SDK's client class — **read the real name** from `slack/slack_client.py`
+> `SlackClient` is the SDK's client class — **read the real name** from `slack/slack_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
-All settings are passed as keyword arguments to `Configuration.__init__` (or to `SlackwebapiClient`
+All settings are passed as keyword arguments to `Configuration.__init__` (or to `SlackClient`
 directly, which wraps them in a `Configuration` internally). Confirm defaults from
 `slack/configuration.py` in the cloned source.
 
@@ -149,7 +149,7 @@ as `http_call_back=`:
 import logging
 from slack.http.http_call_back import HttpCallBack
 from slack.configuration import Configuration
-from slack.slack_client import SlackwebapiClient
+from slack.slack_client import SlackClient
 
 logger = logging.getLogger(__name__)
 
@@ -164,7 +164,7 @@ config = Configuration(
     http_call_back=LoggingCallBack(),
     # other kwargs ...
 )
-client = SlackwebapiClient(config=config)
+client = SlackClient(config=config)
 ```
 
 `HttpCallBack` inherits from `apimatic_core`'s `CoreHttpCallback` and provides two hook methods:

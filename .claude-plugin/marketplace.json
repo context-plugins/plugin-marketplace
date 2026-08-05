@@ -104,7 +104,7 @@
     {
       "name": "slack",
       "source": "./plugins/slack",
-      "description": "Send messages, automate workflows, and connect apps within Slack workspaces."
+      "description": "TODO_AUTO_DESCRIPTION: slack API"
     },
     {
       "name": "tesser-api-v1",

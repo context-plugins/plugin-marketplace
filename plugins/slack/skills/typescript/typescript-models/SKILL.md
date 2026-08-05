@@ -33,7 +33,7 @@ const body: {RequestType} = {
 The union's namespace exports one `is{Variant}` guard per variant. These are **read-side only**:
 
 ```typescript
-import { {Union} } from 'slack-web-apilib';
+import { {Union} } from 'slacklib';
 
 if ({Union}.is{Variant}(response.result.{field})) {
   // narrowed to {Variant}
@@ -88,7 +88,7 @@ A `null` or `undefined` collection is omitted from the JSON; an **empty** array 
 Enums are string literal unions with exported constants. Use the exported constants, or pass the raw string value for unknown/dynamic values:
 
 ```typescript
-import { {EnumType} } from 'slack-web-apilib';
+import { {EnumType} } from 'slacklib';
 
 request.{enumProp} = {EnumType}.SomeConstant;
 request.{enumProp} = 'server_provided_value' as {EnumType};  // unknown-tolerant

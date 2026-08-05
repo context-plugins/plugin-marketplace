@@ -1,38 +1,38 @@
 ---
 name: java-client-initialization
-description: Construct and configure an APIMatic-generated Java SDK client — build via the inner SlackWebApiClient.Builder() class (never a public constructor), set httpClientConfig via a lambda (not a config object), choose an Environment constant, access controllers via client.get{Resource}Api(), call client.shutdown() at process exit, clone a live client with client.newBuilder(), and wire the client into Spring or plain-constructor DI. Use the moment you call new SlackWebApiClient.Builder(), pick an environment, or wire the client into your application — load it even after reading the constructor in the source, since the signature shows the arguments but not the builder pattern, the httpClientConfig lambda, or the lifetime/reuse rules.
+description: Construct and configure an APIMatic-generated Java SDK client — build via the inner SlackClient.Builder() class (never a public constructor), set httpClientConfig via a lambda (not a config object), choose an Environment constant, access controllers via client.get{Resource}Api(), call client.shutdown() at process exit, clone a live client with client.newBuilder(), and wire the client into Spring or plain-constructor DI. Use the moment you call new SlackClient.Builder(), pick an environment, or wire the client into your application — load it even after reading the constructor in the source, since the signature shows the arguments but not the builder pattern, the httpClientConfig lambda, or the lifetime/reuse rules.
 ---
 
 # Initializing an APIMatic Java SDK client
 
-> `SlackWebApiClient` is the SDK's client class — **read the real name** from the `*Client.java` file in
+> `SlackClient` is the SDK's client class — **read the real name** from the `*Client.java` file in
 > the root package (it is derived from the API title with APIMatic's own casing, so do not guess
 > it from the API name).
 
 This applies to **any** APIMatic-generated Java SDK (APIMATIC v3.0). Replace placeholders with the
 real names from the SDK you are using:
 
-- `SlackWebApiClient` — the gateway class, named after the API (read it from the `*Client.java` file in the root package).
+- `SlackClient` — the gateway class, named after the API (read it from the `*Client.java` file in the root package).
 - `com.slack` — the root Java package (e.g. `io.apimatic.examples`, `localhost3000`).
 - `{Resource}Api` — a controller class accessed via `client.get{Resource}Api()`.
 
 ## The builder pattern
 
 APIMatic Java SDKs have **no public constructor** on the client class. You must use the inner
-`SlackWebApiClient.Builder` class. A minimal initialization:
+`SlackClient.Builder` class. A minimal initialization:
 
 ```java
-import com.slack.SlackWebApiClient;
+import com.slack.SlackClient;
 import com.slack.Environment;
 
-SlackWebApiClient client = new SlackWebApiClient.Builder()
+SlackClient client = new SlackClient.Builder()
     .environment(Environment.PRODUCTION)
     .httpClientConfig(configBuilder -> configBuilder
             .timeout(30))
     .build();
 ```
 
-The `Builder` is the only entry point — confirm its fluent methods in `SlackWebApiClient.java`. The common
+The `Builder` is the only entry point — confirm its fluent methods in `SlackClient.java`. The common
 builder methods (confirm the exact set in the cloned source):
 
 | Builder method | Sets |
@@ -41,9 +41,9 @@ builder methods (confirm the exact set in the cloned source):
 | `.httpClientConfig(configBuilder -> ...)` | timeout, retries, OkHttp instance, proxy — see **java-configuration-resilience** |
 | `.{schemeNameCamelCase}Credentials(new {Scheme}Model.Builder(...).build())` | one per auth scheme the API uses — see **java-authentication** |
 | `.httpCallback(callback)` | `HttpCallback` for request/response logging/capture — see **java-testing** |
-| other per-API methods | API-specific parameters (e.g. `.port("80")`, `.suites(SuiteCodeEnum.HEARTS)`) — check `SlackWebApiClient.java` |
+| other per-API methods | API-specific parameters (e.g. `.port("80")`, `.suites(SuiteCodeEnum.HEARTS)`) — check `SlackClient.java` |
 
-Call `.build()` to produce an immutable `SlackWebApiClient` instance.
+Call `.build()` to produce an immutable `SlackClient` instance.
 
 ## Choosing the environment / base URL
 
@@ -55,7 +55,7 @@ The default is per-API — check `Environment.java` or `doc/client.md` in the cl
 the builder:
 
 ```java
-SlackWebApiClient client = new SlackWebApiClient.Builder()
+SlackClient client = new SlackClient.Builder()
     .environment(Environment.PRODUCTION)
     .build();
 ```
@@ -70,7 +70,7 @@ HTTP client options (timeout, retries, OkHttp instance, proxy) are configured vi
 the builder — do **not** try to construct `HttpClientConfiguration` directly:
 
 ```java
-SlackWebApiClient client = new SlackWebApiClient.Builder()
+SlackClient client = new SlackClient.Builder()
     .httpClientConfig(configBuilder -> configBuilder
             .timeout(30)                        // seconds; 0 = no timeout (default)
             .numberOfRetries(3)                 // default is 0 (retries OFF)
@@ -135,21 +135,21 @@ in your DI container.
 @Configuration
 public class ApiConfig {
     @Bean
-    public SlackWebApiClient apiClient() {
-        return new SlackWebApiClient.Builder()
+    public SlackClient apiClient() {
+        return new SlackClient.Builder()
             .environment(Environment.PRODUCTION)
             // auth credentials — see java-authentication
             .build();
     }
 
     @PreDestroy
-    public void shutdown(@Autowired SlackWebApiClient client) {
+    public void shutdown(@Autowired SlackClient client) {
         client.shutdown();
     }
 }
 ```
 
-Inject `SlackWebApiClient` into your services as a normal Spring dependency. Build only one bean.
+Inject `SlackClient` into your services as a normal Spring dependency. Build only one bean.
 
 ## Next
 

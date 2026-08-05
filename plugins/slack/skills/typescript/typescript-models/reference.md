@@ -18,7 +18,7 @@ export type {EnumType} = typeof {EnumType}[keyof typeof {EnumType}];
 Usage:
 
 ```typescript
-import { {EnumType} } from 'slack-web-apilib';
+import { {EnumType} } from 'slacklib';
 
 const v: {EnumType} = {EnumType}.FirstValue;    // known constant
 const u: {EnumType} = 'new_value' as {EnumType}; // unknown-tolerant cast

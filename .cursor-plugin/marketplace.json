@@ -107,11 +107,6 @@
       "description": "Send messages, automate workflows, and connect apps within Slack workspaces."
     },
     {
-      "name": "tesla-fleet-management-api",
-      "source": "./plugins/tesla-fleet-management-api",
-      "description": "Monitor, locate, and control connected vehicles remotely with real-time telemetry, commands, and energy data."
-    },
-    {
       "name": "tesser-api-v1",
       "source": "./plugins/tesser-api-v1",
       "description": "Extract text from images and documents using optical character recognition."
@@ -142,11 +137,6 @@
       "description": "Process omnichannel payments, manage customer invoicing, and automate recurring billing through Stax."
     },
     {
-      "name": "twilio-apis",
-      "source": "./plugins/twilio-apis",
-      "description": "Send and receive SMS messages, make voice calls, and manage programmable communications at scale."
-    },
-    {
       "name": "x-api-v2",
       "source": "./plugins/x-api-v2",
       "description": "Post, search, and analyze tweets and user data across the X platform."
@@ -155,11 +145,6 @@
       "name": "finnhub",
       "source": "./plugins/finnhub",
       "description": "Stream real-time stock prices, global company fundamentals, and financial news."
-    },
-    {
-      "name": "vimeo-api",
-      "source": "./plugins/vimeo-api",
-      "description": "Upload, host, and stream high-definition video content through Vimeo."
     },
     {
       "name": "firecrawl",

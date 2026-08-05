@@ -204,7 +204,7 @@
     {
       "name": "greenbyte",
       "source": "./plugins/greenbyte",
-      "description": "TODO_AUTO_DESCRIPTION: greenbyte API"
+      "description": "Monitor, analyze, and optimize renewable energy assets and wind turbine performance."
     }
   ]
 }

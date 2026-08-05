@@ -2,7 +2,7 @@
   "name": "mist",
   "displayName": "mist SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: mist API",
+  "description": "Monitor, automate, and troubleshoot wireless networks and client experiences in Mist environments.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

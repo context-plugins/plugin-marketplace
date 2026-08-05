@@ -214,7 +214,7 @@
     {
       "name": "mist",
       "source": "./plugins/mist",
-      "description": "TODO_AUTO_DESCRIPTION: mist API"
+      "description": "Monitor, automate, and troubleshoot wireless networks and client experiences in Mist environments."
     }
   ]
 }

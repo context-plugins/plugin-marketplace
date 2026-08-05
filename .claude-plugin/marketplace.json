@@ -179,7 +179,7 @@
     {
       "name": "twilio",
       "source": "./plugins/twilio",
-      "description": "TODO_AUTO_DESCRIPTION: Twilio API"
+      "description": "Send and receive programmable SMS, voice, and video communications globally."
     }
   ]
 }

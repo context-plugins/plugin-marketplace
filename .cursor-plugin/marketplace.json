@@ -249,7 +249,7 @@
     {
       "name": "newstore",
       "source": "./plugins/newstore",
-      "description": "TODO_AUTO_DESCRIPTION: newstore API"
+      "description": "Sync inventory, process orders, and manage omnichannel retail operations through NewStore."
     }
   ]
 }

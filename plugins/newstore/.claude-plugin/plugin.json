@@ -2,7 +2,7 @@
   "name": "newstore",
   "displayName": "newstore SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: newstore API",
+  "description": "Sync inventory, process orders, and manage omnichannel retail operations through NewStore.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

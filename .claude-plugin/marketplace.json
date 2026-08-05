@@ -200,6 +200,11 @@
       "name": "goe",
       "source": "./plugins/goe",
       "description": "Execute multi-cloud governance policies and automate compliance workflows."
+    },
+    {
+      "name": "greenbyte",
+      "source": "./plugins/greenbyte",
+      "description": "TODO_AUTO_DESCRIPTION: greenbyte API"
     }
   ]
 }

@@ -5,7 +5,7 @@ description: Unit-test code that uses an APIMatic-generated Python SDK — the p
 
 # Testing code that uses an APIMatic Python SDK
 
-> `GreenbyteapiClient` is the SDK's client class — **read the real name** from `greenbyte/greenbyte_client.py`
+> `GreenbyteClient` is the SDK's client class — **read the real name** from `greenbyte/greenbyte_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
 The SDK uses `apimatic-requests-client-adapter` wrapping `requests`. Two seams are available:
@@ -18,7 +18,7 @@ The SDK uses `apimatic-requests-client-adapter` wrapping `requests`. Two seams a
 
 **Match the project's existing test stack.** Check the test files for `pytest` vs `unittest` and
 the assertion style already in use. The samples below use `unittest` + `pytest.raises` for
-reference; substitute your `greenbyte` and `GreenbyteapiClient` names.
+reference; substitute your `greenbyte` and `GreenbyteClient` names.
 
 > `{...}` tokens are placeholders for names from your SDK.
 
@@ -49,7 +49,7 @@ Wire it into the client:
 
 ```python
 from greenbyte.configuration import Configuration, Environment
-from greenbyte.greenbyte_client import GreenbyteapiClient
+from greenbyte.greenbyte_client import GreenbyteClient
 
 catcher = HttpResponseCatcher()
 config = Configuration(
@@ -57,7 +57,7 @@ config = Configuration(
     http_call_back=catcher,
     # auth credentials ...
 )
-client = GreenbyteapiClient(config=config)
+client = GreenbyteClient(config=config)
 
 result = client.{resource}.{operation}(...)
 assert catcher.response.status_code == 200
@@ -83,7 +83,7 @@ No real network traffic happens; auth credentials can be dummy values.
 import responses as rsps_lib
 import pytest
 from greenbyte.configuration import Configuration, Environment
-from greenbyte.greenbyte_client import GreenbyteapiClient
+from greenbyte.greenbyte_client import GreenbyteClient
 from greenbyte.exceptions.api_exception import APIException
 
 @rsps_lib.activate
@@ -99,7 +99,7 @@ def test_{operation}_success():
         environment=Environment.PRODUCTION,
         max_retries=0,   # disable retries so a stubbed 5xx fails fast
     )
-    client = GreenbyteapiClient(config=config)
+    client = GreenbyteClient(config=config)
     result = client.{resource}.{operation}(...)
 
     assert result.access_token == 'abc'
@@ -114,7 +114,7 @@ If you prefer not to add the `responses` dependency, patch `requests.Session.sen
 import json
 from unittest.mock import MagicMock, patch
 from greenbyte.configuration import Configuration, Environment
-from greenbyte.greenbyte_client import GreenbyteapiClient
+from greenbyte.greenbyte_client import GreenbyteClient
 from greenbyte.exceptions.api_exception import APIException
 
 def make_mock_response(status_code, body):
@@ -130,7 +130,7 @@ def test_{operation}_success():
         mock_send.return_value = make_mock_response(200, {'id': 1, 'name': 'widget'})
 
         config = Configuration(environment=Environment.PRODUCTION, max_retries=0)
-        client = GreenbyteapiClient(config=config)
+        client = GreenbyteClient(config=config)
         result = client.{resource}.{operation}(...)
 
         assert result.id == 1
@@ -160,7 +160,7 @@ def test_{operation}_raises_on_4xx():
     )
 
     config = Configuration(environment=Environment.PRODUCTION, max_retries=0)
-    client = GreenbyteapiClient(config=config)
+    client = GreenbyteClient(config=config)
 
     with pytest.raises(OAuthProviderException) as exc_info:
         client.{resource}.{operation}(...)
@@ -177,7 +177,7 @@ def test_{operation}_raises_api_exception():
                  json={'message': 'not found'}, status=404)
 
     config = Configuration(environment=Environment.PRODUCTION, max_retries=0)
-    client = GreenbyteapiClient(config=config)
+    client = GreenbyteClient(config=config)
 
     with pytest.raises(APIException) as exc_info:
         client.{resource}.{operation}(...)
@@ -196,7 +196,7 @@ def test_outgoing_request_shape():
                  json={}, status=200)
 
     config = Configuration(environment=Environment.PRODUCTION, max_retries=0)
-    client = GreenbyteapiClient(config=config)
+    client = GreenbyteClient(config=config)
     client.{resource}.{operation}(body=...)
 
     sent = rsps_lib.calls[0].request

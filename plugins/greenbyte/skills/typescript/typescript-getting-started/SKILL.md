@@ -79,9 +79,9 @@ npm install "https://github.com/context-plugins/greenbyte-typescript-sdk#main"
 ```
 
 ```ts
-import { Client, Environment, ApiError } from 'greenbyte-apilib';
+import { Client, Environment, ApiError } from 'greenbyte';
 // controllers and model types are also exported from the package root:
-import { {Resource}Api } from 'greenbyte-apilib';
+import { {Resource}Api } from 'greenbyte';
 ```
 
 Everything public is re-exported from `src/index.ts`, so import names come from the **package root** — you

@@ -1,6 +1,6 @@
 ---
 name: java-getting-started
-description: APIMatic-generated Java SDK (APIMATIC v3.0, OkHttp3 + Jackson runtime) reference and grounding layer — Maven/Gradle install, the GreenbyteApiClient.Builder() construction pattern, Environment enum constants, controller accessors via get{Resource}Api(), both synchronous and CompletableFuture async method shapes, ApiException base exception, and how to navigate the generated source. Entry point into the companion java-* skills (java-client-initialization, java-authentication, java-calling-endpoints, java-models, java-error-handling, java-configuration-resilience, java-testing) — gates loading each at its integration step, since the source shows signatures but not the usage gotchas these skills carry.
+description: APIMatic-generated Java SDK (APIMATIC v3.0, OkHttp3 + Jackson runtime) reference and grounding layer — Maven/Gradle install, the GreenbyteClient.Builder() construction pattern, Environment enum constants, controller accessors via get{Resource}Api(), both synchronous and CompletableFuture async method shapes, ApiException base exception, and how to navigate the generated source. Entry point into the companion java-* skills (java-client-initialization, java-authentication, java-calling-endpoints, java-models, java-error-handling, java-configuration-resilience, java-testing) — gates loading each at its integration step, since the source shows signatures but not the usage gotchas these skills carry.
 ---
 
 # Getting started with an APIMatic-generated Java SDK
@@ -9,7 +9,7 @@ description: APIMatic-generated Java SDK (APIMATIC v3.0, OkHttp3 + Jackson runti
 > `client.get{Resource}Api()`. The `Api` suffix is a generator setting, so **confirm it** from the
 > class names in the `apis` (or `controllers`) package before writing the accessor name.
 
-> `GreenbyteApiClient` is the SDK's client class — **read the real name** from the `*Client.java` file in
+> `GreenbyteClient` is the SDK's client class — **read the real name** from the `*Client.java` file in
 > the root package (it is derived from the API title with APIMatic's own casing, so do not guess
 > it from the API name).
 
@@ -44,8 +44,8 @@ the skill for that step, so at each step below load the companion *and* confirm 
 | Runtime deps | `io.apimatic:core-interfaces:[0.3.4,0.4)`, `io.apimatic:core:[0.6.15,0.7)`, `io.apimatic:okhttp-client-adapter:[0.3.5,0.4)` — pulled transitively from a published jar |
 | HTTP engine | OkHttp3 (via `okhttp-client-adapter`) |
 | JSON library | Jackson (`com.fasterxml.jackson`) |
-| Client class | `GreenbyteApiClient` — a `final` class implementing `Configuration`; built via `new GreenbyteApiClient.Builder()...build()` |
-| Builder | `GreenbyteApiClient.Builder` inner static class; `client.newBuilder()` returns a builder seeded from the current client |
+| Client class | `GreenbyteClient` — a `final` class implementing `Configuration`; built via `new GreenbyteClient.Builder()...build()` |
+| Builder | `GreenbyteClient.Builder` inner static class; `client.newBuilder()` returns a builder seeded from the current client |
 | Environments | `enum Environment` in the root package — read `Environment.java` for the real member names |
 | Async model | Every operation has a synchronous form (`throws ApiException, IOException`) and a `CompletableFuture<T>` async form (`{op}Async(...)`) |
 | Base exception | `cloud.greenbyte.intro.exceptions.ApiException` (extends `io.apimatic.core.types.CoreApiException`) |
@@ -60,7 +60,7 @@ its names against the cloned source.
 
 APIMatic Java SDKs split public types across sub-packages under the root package (`cloud.greenbyte.intro`):
 
-- **root package** — `GreenbyteApiClient` (the gateway class), `Configuration` (interface), `Environment`,
+- **root package** — `GreenbyteClient` (the gateway class), `Configuration` (interface), `Environment`,
   `Server`, `ApiHelper`, `CompatibilityFactoryImpl`.
 - `cloud.greenbyte.intro.authentication/` — one `{Scheme}Model` (the builder/data holder), `{Scheme}Credentials`
   (read interface), and `{Scheme}Manager` (handles wire injection) per auth scheme the API uses.
@@ -138,7 +138,7 @@ Then confirm the SDK shape **only** from that local clone:
 Layout — grep the clone here first:
 
 - `pom.xml` — `groupId`, `artifactId`, `version`, and the exact runtime dependency version ranges.
-- `GreenbyteApiClient.java` — builder methods, controller accessors (`get{Resource}Api()`), `shutdown()`.
+- `GreenbyteClient.java` — builder methods, controller accessors (`get{Resource}Api()`), `shutdown()`.
 - `Configuration.java` — the `Configuration` interface (environment, port, auth credential getters).
 - `Environment.java` — the `Environment` enum constants and the default environment.
 - `controllers/*.java` — operation method signatures, declared exceptions, and `{Op}Input` types.
@@ -164,7 +164,7 @@ Before you write the code for each step, load the named companion skill — even
 the relevant source. Each step calls out the trap the signature hides (in *parens*).
 
 1. **Client construction** — load **java-client-initialization** before you call
-   `new GreenbyteApiClient.Builder()...build()`. (*The signature won't tell you:* there is no public
+   `new GreenbyteClient.Builder()...build()`. (*The signature won't tell you:* there is no public
    constructor — you must use the inner `Builder` class; `httpClientConfig` is set via a lambda, not a
    config object; the client is immutable and thread-safe after `build()` and must be shared, not
    recreated per request.)

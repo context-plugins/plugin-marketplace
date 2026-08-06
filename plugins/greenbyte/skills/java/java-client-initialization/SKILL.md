@@ -1,38 +1,38 @@
 ---
 name: java-client-initialization
-description: Construct and configure an APIMatic-generated Java SDK client — build via the inner GreenbyteApiClient.Builder() class (never a public constructor), set httpClientConfig via a lambda (not a config object), choose an Environment constant, access controllers via client.get{Resource}Api(), call client.shutdown() at process exit, clone a live client with client.newBuilder(), and wire the client into Spring or plain-constructor DI. Use the moment you call new GreenbyteApiClient.Builder(), pick an environment, or wire the client into your application — load it even after reading the constructor in the source, since the signature shows the arguments but not the builder pattern, the httpClientConfig lambda, or the lifetime/reuse rules.
+description: Construct and configure an APIMatic-generated Java SDK client — build via the inner GreenbyteClient.Builder() class (never a public constructor), set httpClientConfig via a lambda (not a config object), choose an Environment constant, access controllers via client.get{Resource}Api(), call client.shutdown() at process exit, clone a live client with client.newBuilder(), and wire the client into Spring or plain-constructor DI. Use the moment you call new GreenbyteClient.Builder(), pick an environment, or wire the client into your application — load it even after reading the constructor in the source, since the signature shows the arguments but not the builder pattern, the httpClientConfig lambda, or the lifetime/reuse rules.
 ---
 
 # Initializing an APIMatic Java SDK client
 
-> `GreenbyteApiClient` is the SDK's client class — **read the real name** from the `*Client.java` file in
+> `GreenbyteClient` is the SDK's client class — **read the real name** from the `*Client.java` file in
 > the root package (it is derived from the API title with APIMatic's own casing, so do not guess
 > it from the API name).
 
 This applies to **any** APIMatic-generated Java SDK (APIMATIC v3.0). Replace placeholders with the
 real names from the SDK you are using:
 
-- `GreenbyteApiClient` — the gateway class, named after the API (read it from the `*Client.java` file in the root package).
+- `GreenbyteClient` — the gateway class, named after the API (read it from the `*Client.java` file in the root package).
 - `cloud.greenbyte.intro` — the root Java package (e.g. `io.apimatic.examples`, `localhost3000`).
 - `{Resource}Api` — a controller class accessed via `client.get{Resource}Api()`.
 
 ## The builder pattern
 
 APIMatic Java SDKs have **no public constructor** on the client class. You must use the inner
-`GreenbyteApiClient.Builder` class. A minimal initialization:
+`GreenbyteClient.Builder` class. A minimal initialization:
 
 ```java
-import cloud.greenbyte.intro.GreenbyteApiClient;
+import cloud.greenbyte.intro.GreenbyteClient;
 import cloud.greenbyte.intro.Environment;
 
-GreenbyteApiClient client = new GreenbyteApiClient.Builder()
+GreenbyteClient client = new GreenbyteClient.Builder()
     .environment(Environment.PRODUCTION)
     .httpClientConfig(configBuilder -> configBuilder
             .timeout(30))
     .build();
 ```
 
-The `Builder` is the only entry point — confirm its fluent methods in `GreenbyteApiClient.java`. The common
+The `Builder` is the only entry point — confirm its fluent methods in `GreenbyteClient.java`. The common
 builder methods (confirm the exact set in the cloned source):
 
 | Builder method | Sets |
@@ -41,9 +41,9 @@ builder methods (confirm the exact set in the cloned source):
 | `.httpClientConfig(configBuilder -> ...)` | timeout, retries, OkHttp instance, proxy — see **java-configuration-resilience** |
 | `.{schemeNameCamelCase}Credentials(new {Scheme}Model.Builder(...).build())` | one per auth scheme the API uses — see **java-authentication** |
 | `.httpCallback(callback)` | `HttpCallback` for request/response logging/capture — see **java-testing** |
-| other per-API methods | API-specific parameters (e.g. `.port("80")`, `.suites(SuiteCodeEnum.HEARTS)`) — check `GreenbyteApiClient.java` |
+| other per-API methods | API-specific parameters (e.g. `.port("80")`, `.suites(SuiteCodeEnum.HEARTS)`) — check `GreenbyteClient.java` |
 
-Call `.build()` to produce an immutable `GreenbyteApiClient` instance.
+Call `.build()` to produce an immutable `GreenbyteClient` instance.
 
 ## Choosing the environment / base URL
 
@@ -55,7 +55,7 @@ The default is per-API — check `Environment.java` or `doc/client.md` in the cl
 the builder:
 
 ```java
-GreenbyteApiClient client = new GreenbyteApiClient.Builder()
+GreenbyteClient client = new GreenbyteClient.Builder()
     .environment(Environment.PRODUCTION)
     .build();
 ```
@@ -70,7 +70,7 @@ HTTP client options (timeout, retries, OkHttp instance, proxy) are configured vi
 the builder — do **not** try to construct `HttpClientConfiguration` directly:
 
 ```java
-GreenbyteApiClient client = new GreenbyteApiClient.Builder()
+GreenbyteClient client = new GreenbyteClient.Builder()
     .httpClientConfig(configBuilder -> configBuilder
             .timeout(30)                        // seconds; 0 = no timeout (default)
             .numberOfRetries(3)                 // default is 0 (retries OFF)
@@ -135,21 +135,21 @@ in your DI container.
 @Configuration
 public class ApiConfig {
     @Bean
-    public GreenbyteApiClient apiClient() {
-        return new GreenbyteApiClient.Builder()
+    public GreenbyteClient apiClient() {
+        return new GreenbyteClient.Builder()
             .environment(Environment.PRODUCTION)
             // auth credentials — see java-authentication
             .build();
     }
 
     @PreDestroy
-    public void shutdown(@Autowired GreenbyteApiClient client) {
+    public void shutdown(@Autowired GreenbyteClient client) {
         client.shutdown();
     }
 }
 ```
 
-Inject `GreenbyteApiClient` into your services as a normal Spring dependency. Build only one bean.
+Inject `GreenbyteClient` into your services as a normal Spring dependency. Build only one bean.
 
 ## Next
 

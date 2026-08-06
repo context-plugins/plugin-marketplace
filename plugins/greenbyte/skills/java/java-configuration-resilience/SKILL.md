@@ -16,7 +16,7 @@ lambda. There is no separate configuration object you pass around — the client
 All HTTP and retry tuning goes through the `httpClientConfig` lambda on the client builder:
 
 ```java
-GreenbyteApiClient client = new GreenbyteApiClient.Builder()
+GreenbyteClient client = new GreenbyteClient.Builder()
     .httpClientConfig(configBuilder -> configBuilder
         .timeout(30)             // read/socket timeout in seconds; 0 = no timeout
         .numberOfRetries(3)      // retries to make after the initial attempt
@@ -90,7 +90,7 @@ OkHttpClient customClient = new OkHttpClient.Builder()
     })
     .build();
 
-GreenbyteApiClient client = new GreenbyteApiClient.Builder()
+GreenbyteClient client = new GreenbyteClient.Builder()
     .httpClientConfig(configBuilder -> configBuilder
         .httpClientInstance(customClient, true))  // true = allow SDK to override timeouts/retries
     .build();
@@ -108,7 +108,7 @@ settings with its own configuration; when `false`, the OkHttpClient's own settin
 ```java
 import localhost3000.http.client.HttpProxyConfiguration;
 
-GreenbyteApiClient client = new GreenbyteApiClient.Builder()
+GreenbyteClient client = new GreenbyteClient.Builder()
     .httpClientConfig(configBuilder -> configBuilder
         .proxyConfig(new HttpProxyConfiguration.Builder("http://proxy.example.com", 8080)
             .auth("username", "password")))  // optional auth
@@ -125,7 +125,7 @@ check `Environment.java` in the root package of the SDK:
 ```java
 import localhost3000.Environment;
 
-GreenbyteApiClient client = new GreenbyteApiClient.Builder()
+GreenbyteClient client = new GreenbyteClient.Builder()
     .environment(Environment.{Member})   // read Environment.java for the real member names
     .port("80")                         // additional base-URL parameters if the SDK supports them
     .build();
@@ -153,7 +153,7 @@ import localhost3000.http.response.HttpResponse;
 import io.apimatic.coreinterfaces.http.request.Request;
 import io.apimatic.coreinterfaces.http.Context;
 
-GreenbyteApiClient client = new GreenbyteApiClient.Builder()
+GreenbyteClient client = new GreenbyteClient.Builder()
     .httpCallback(new HttpCallback() {
         @Override
         public void onBeforeRequest(Request request) {
@@ -176,7 +176,7 @@ response for assertion in tests (see **java-testing**).
 The built client exposes a read-only view of its HTTP config:
 
 ```java
-// Read the accessor off GreenbyteApiClient in the generated source.
+// Read the accessor off GreenbyteClient in the generated source.
 ReadonlyHttpClientConfiguration cfg = client.getHttpClientConfig();
 long timeout       = cfg.getTimeout();
 int  retries       = cfg.getNumberOfRetries();
@@ -221,4 +221,4 @@ Call `shutdown()` on the client when done to release OkHttp's connection pool an
 client.shutdown();
 ```
 
-Confirm `GreenbyteApiClient.shutdown()` in the generated source.
+Confirm `GreenbyteClient.shutdown()` in the generated source.

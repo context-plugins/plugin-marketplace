@@ -10,7 +10,7 @@
 | Root namespace/module | `GreenbyteApi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `0d7fafd` (`0d7fafddb5b768b2e2de7afe18cbe56c3f2ca767`, tagged `0d7fafd`) |
+| Source commit (spec stamp) | `98195b6` (`98195b68e9abfcb58aa0967f5b970dc25a69ca4b`, tagged `98195b6`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/greenbyte-csharp-sdk (branch `main`) |

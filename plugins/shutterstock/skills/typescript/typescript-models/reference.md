@@ -18,7 +18,7 @@ export type {EnumType} = typeof {EnumType}[keyof typeof {EnumType}];
 Usage:
 
 ```typescript
-import { {EnumType} } from 'shutterstock-api-explorerlib';
+import { {EnumType} } from 'shutterstock';
 
 const v: {EnumType} = {EnumType}.FirstValue;    // known constant
 const u: {EnumType} = 'new_value' as {EnumType}; // unknown-tolerant cast

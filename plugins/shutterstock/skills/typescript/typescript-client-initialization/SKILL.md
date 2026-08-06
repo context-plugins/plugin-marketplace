@@ -8,7 +8,7 @@ description: Construct and configure an APIMatic-generated TypeScript/Node SDK c
 This applies to **any** APIMatic-generated TypeScript SDK (APIMATIC v3.0). Replace placeholders with the
 real names from the SDK you are using:
 
-- `shutterstock-api-explorerlib` — the npm package name (the `"name"` in `package.json`, e.g. `multiauth-samplelib`).
+- `shutterstock` — the npm package name (the `"name"` in `package.json`, e.g. `multiauth-samplelib`).
 - `{Resource}Api` — a controller class exported from the package root.
 
 ## The shape: one options object, no builder
@@ -17,7 +17,7 @@ The SDK exports a single `Client` class. You construct it with **one options obj
 `Partial<Configuration>` — every field is optional and missing fields fall back to `DEFAULT_CONFIGURATION`:
 
 ```ts
-import { Client, Environment } from 'shutterstock-api-explorerlib';
+import { Client, Environment } from 'shutterstock';
 
 const client = new Client({
   environment: Environment.Production,
@@ -102,7 +102,7 @@ Unlike some SDKs, the `Client` exposes **no controller accessor methods**. You c
 yourself, passing the client, then call operations on it (see **typescript-calling-endpoints**):
 
 ```ts
-import { {Resource}Api } from 'shutterstock-api-explorerlib';
+import { {Resource}Api } from 'shutterstock';
 
 const controller = new {Resource}Api(client);
 const response = await controller.{operation}(/* params */);

@@ -5,7 +5,7 @@ description: Handle errors from an APIMatic-generated TypeScript/Node.js SDK —
 
 # Error handling for an APIMatic TypeScript SDK
 
-> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{operation}`, `{apiGroup}`, `shutterstock-api-explorerlib`) — replace it with the concrete identifier from the source.
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{operation}`, `{apiGroup}`, `shutterstock`) — replace it with the concrete identifier from the source.
 
 Endpoint methods **throw on non-success responses** by default (for a non-throwing alternative, see the **`ApiResult`** section below). The thrown type is always `ApiError` — but it comes in **two shapes**, depending on the operation:
 
@@ -26,9 +26,9 @@ Check whether a `{Operation}Error` type exists under `src/errors/` for that oper
 ### Case A — operation has a typed `{Operation}Error`
 
 ```typescript
-import { Client } from 'shutterstock-api-explorerlib';
-import { ApiError } from 'shutterstock-api-explorerlib';
-import { {Operation}Error } from 'shutterstock-api-explorerlib/errors';
+import { Client } from 'shutterstock';
+import { ApiError } from 'shutterstock';
+import { {Operation}Error } from 'shutterstock/errors';
 
 try {
   const response = await api.{operation}({ /* ... */ });
@@ -51,7 +51,7 @@ try {
 For operations with no `{Operation}Error` type, `err` is `ApiError` — read the status and body straight off it:
 
 ```typescript
-import { ApiError } from 'shutterstock-api-explorerlib';
+import { ApiError } from 'shutterstock';
 
 try {
   const response = await api.{operation}({ /* ... */ });

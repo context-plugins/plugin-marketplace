@@ -1,4 +1,4 @@
-# SDK map — Shutterstock (.NET)
+# SDK map — shutterstock (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,11 +6,11 @@
 
 | | |
 |---|---|
-| SDK display name | Shutterstock |
+| SDK display name | shutterstock |
 | Root namespace/module | `ShutterstockApiExplorer` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `95c9178` (`95c917822c1349677a6633d591ee5f83fec99317`, tagged `95c9178`) |
+| Source commit (spec stamp) | `03cca5a` (`03cca5a3e9bf79b1bc2a744cd55a2da565bb79aa`, tagged `03cca5a`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/shutterstock-csharp-sdk (branch `main`) |

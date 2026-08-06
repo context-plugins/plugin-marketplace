@@ -66,7 +66,7 @@
 | `Type1` | StringEnum | `User (USER)` | — | `Models/Enums/Type1.cs` |
 | `Type14` | StringEnum | `Addition (addition)`, `Deletion (deletion)`, `Edit (edit)` | — | `Models/Enums/Type14.cs` |
 | `Type15` | StringEnum | `Edit (edit)`, `Addition (addition)` | — | `Models/Enums/Type15.cs` |
-| `TypeModel` | StringEnum | `Image (image)`, `Video (video)`, `Audio (audio)`, `EditorialImage (editorial-image)`, `EditorialVideo (editorial-video)` | — | `Models/Enums/TypeModel.cs` |
+| `TypeEnum` | StringEnum | `Image (image)`, `Video (video)`, `Audio (audio)`, `EditorialImage (editorial-image)`, `EditorialVideo (editorial-video)` | — | `Models/Enums/TypeEnum.cs` |
 | `View` | StringEnum | `Minimal (minimal)`, `Full (full)` | Amount of detail to render in the response | `Models/Enums/View.cs` |
 | `View2` | StringEnum | `Minimal (minimal)`, `Full (full)` | — | `Models/Enums/View2.cs` |
 | `Visibility` | StringEnum | `Private (private)`, `Public (public)` | — | `Models/Enums/Visibility.cs` |

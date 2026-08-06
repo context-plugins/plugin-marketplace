@@ -1,6 +1,6 @@
-# Shutterstock SDK Plugin
+# shutterstock SDK Plugin
 
-Integrate and consume the **APIMatic-generated Shutterstock SDK** (the "APIMATIC v3.0" generic
+Integrate and consume the **APIMatic-generated shutterstock SDK** (the "APIMATIC v3.0" generic
 libraries, built on `apimatic-*-core` / `apimatic/*-core-runtime` runtimes) across C#/.NET, TypeScript, Java, PHP, Python, Ruby.
 Works in **Claude Code**, **Cursor**, and **VS Code**. Every SDK fact is grounded in the cloned SDK
 source and the bundled skills.

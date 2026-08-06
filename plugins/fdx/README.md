@@ -1,7 +1,7 @@
 # fdx SDK Plugin
 
 Integrate and consume the **APIMatic-generated fdx SDK** (the "APIMATIC v3.0" generic
-libraries, built on `apimatic-*-core` / `apimatic/*-core-runtime` runtimes) across C#/.NET, TypeScript, Java, PHP, Python, Ruby.
+libraries, built on `apimatic-*-core` / `apimatic/*-core-runtime` runtimes) across C#/.NET, TypeScript, Java, Python, Ruby.
 Works in **Claude Code**, **Cursor**, and **VS Code**. Every SDK fact is grounded in the cloned SDK
 source and the bundled skills.
 
@@ -30,7 +30,6 @@ skills layer usage guidance on top.
 | C#/.NET | `dotnet-` | `APIMatic.Core (NuGet)` |
 | TypeScript | `typescript-` | `@apimatic/core (npm)` |
 | Java | `java-` | `io.apimatic:core (Maven/Gradle)` |
-| PHP | `php-` | `apimatic/core (Composer)` |
 | Python | `python-` | `apimatic-core (PyPI)` |
 | Ruby | `ruby-` | `apimatic_core (Rubygems)` |
 

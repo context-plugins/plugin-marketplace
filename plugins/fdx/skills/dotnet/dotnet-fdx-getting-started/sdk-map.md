@@ -10,7 +10,7 @@
 | Root namespace/module | `FdxApi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `408aefe` (`408aefefd4ea60c58d237107c9d3851630746bfc`, tagged `408aefe`) |
+| Source commit (spec stamp) | `3558446` (`3558446648f3fdcaa8dbd3feb5923f0ff6eb8268`, tagged `3558446`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/fdx-csharp-sdk (branch `main`) |

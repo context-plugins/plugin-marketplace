@@ -2,7 +2,7 @@
   "name": "mist",
   "displayName": "mist SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: mist API",
+  "description": "Manage, automate, and secure enterprise wireless networks through Juniper Mist.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

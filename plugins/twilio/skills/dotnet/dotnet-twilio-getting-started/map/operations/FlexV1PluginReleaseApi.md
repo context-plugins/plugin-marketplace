@@ -5,7 +5,7 @@ Accessor: `client.FlexV1PluginReleaseApi` · Source: `Api/FlexV1PluginReleaseApi
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreatePluginRelease
-- **HTTP**: `POST /v1/PluginService/Releases` (Default3 (flex-api))
+- **HTTP**: `POST /v1/PluginService/Releases` (Default13 (flex-api))
 - **Signature**: `CreatePluginRelease(string? flexMetadata, string configurationId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `flexMetadata` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -17,7 +17,7 @@ Accessor: `client.FlexV1PluginReleaseApi` · Source: `Api/FlexV1PluginReleaseApi
 - **Pagination**: none
 
 ### FetchPluginRelease
-- **HTTP**: `GET /v1/PluginService/Releases/{Sid}` (Default3 (flex-api))
+- **HTTP**: `GET /v1/PluginService/Releases/{Sid}` (Default13 (flex-api))
 - **Signature**: `FetchPluginRelease(string sid, string? flexMetadata, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `flexMetadata` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -28,7 +28,7 @@ Accessor: `client.FlexV1PluginReleaseApi` · Source: `Api/FlexV1PluginReleaseApi
 - **Pagination**: none
 
 ### ListPluginRelease
-- **HTTP**: `GET /v1/PluginService/Releases` (Default3 (flex-api))
+- **HTTP**: `GET /v1/PluginService/Releases` (Default13 (flex-api))
 - **Signature**: `ListPluginRelease(long? pageSize, int? page, string? pageToken, string? flexMetadata, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`pageSize` … `flexMetadata`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null

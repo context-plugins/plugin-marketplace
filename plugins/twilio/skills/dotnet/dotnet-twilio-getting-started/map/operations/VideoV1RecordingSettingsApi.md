@@ -5,7 +5,7 @@ Accessor: `client.VideoV1RecordingSettingsApi` · Source: `Api/VideoV1RecordingS
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateRecordingSettings
-- **HTTP**: `POST /v1/RecordingSettings/Default` (Default14 (video))
+- **HTTP**: `POST /v1/RecordingSettings/Default` (Default6 (video))
 - **Signature**: `CreateRecordingSettings(string friendlyName, string? awsCredentialsSid, string? encryptionKeySid, string? awsS3Url, bool? awsStorageEnabled, bool? encryptionEnabled, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`awsCredentialsSid` … `encryptionEnabled`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -17,7 +17,7 @@ Accessor: `client.VideoV1RecordingSettingsApi` · Source: `Api/VideoV1RecordingS
 - **Pagination**: none
 
 ### FetchRecordingSettings
-- **HTTP**: `GET /v1/RecordingSettings/Default` (Default14 (video))
+- **HTTP**: `GET /v1/RecordingSettings/Default` (Default6 (video))
 - **Signature**: `FetchRecordingSettings(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `VideoV1RecordingSettings`

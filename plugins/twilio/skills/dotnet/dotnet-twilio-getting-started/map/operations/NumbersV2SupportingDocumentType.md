@@ -5,7 +5,7 @@ Accessor: `client.NumbersV2SupportingDocumentType` · Source: `Api/NumbersV2Supp
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchSupportingDocumentType
-- **HTTP**: `GET /v2/RegulatoryCompliance/SupportingDocumentTypes/{Sid}` (Default7 (numbers))
+- **HTTP**: `GET /v2/RegulatoryCompliance/SupportingDocumentTypes/{Sid}` (Default5 (numbers))
 - **Notes**: Fetch a specific Supporting Document Type Instance.
 - **Signature**: `FetchSupportingDocumentType(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.NumbersV2SupportingDocumentType` · Source: `Api/NumbersV2Supp
 - **Pagination**: none
 
 ### ListSupportingDocumentType
-- **HTTP**: `GET /v2/RegulatoryCompliance/SupportingDocumentTypes` (Default7 (numbers))
+- **HTTP**: `GET /v2/RegulatoryCompliance/SupportingDocumentTypes` (Default5 (numbers))
 - **Notes**: Retrieve a list of all Supporting Document Types.
 - **Signature**: `ListSupportingDocumentType(long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**

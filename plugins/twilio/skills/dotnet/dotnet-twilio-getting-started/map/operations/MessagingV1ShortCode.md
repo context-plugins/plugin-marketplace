@@ -5,7 +5,7 @@ Accessor: `client.MessagingV1ShortCode` · Source: `Api/MessagingV1ShortCode.cs`
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateShortCode
-- **HTTP**: `POST /v1/Services/{ServiceSid}/ShortCodes` (Default6 (messaging))
+- **HTTP**: `POST /v1/Services/{ServiceSid}/ShortCodes` (Default1 (messaging))
 - **Signature**: `CreateShortCode(string serviceSid, string shortCodeSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `ShortCodeSid` ← `shortCodeSid`
@@ -16,7 +16,7 @@ Accessor: `client.MessagingV1ShortCode` · Source: `Api/MessagingV1ShortCode.cs`
 - **Pagination**: none
 
 ### DeleteShortCode
-- **HTTP**: `DELETE /v1/Services/{ServiceSid}/ShortCodes/{Sid}` (Default6 (messaging))
+- **HTTP**: `DELETE /v1/Services/{ServiceSid}/ShortCodes/{Sid}` (Default1 (messaging))
 - **Signature**: `DeleteShortCode(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -26,7 +26,7 @@ Accessor: `client.MessagingV1ShortCode` · Source: `Api/MessagingV1ShortCode.cs`
 - **Pagination**: none
 
 ### FetchShortCode2
-- **HTTP**: `GET /v1/Services/{ServiceSid}/ShortCodes/{Sid}` (Default6 (messaging))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/ShortCodes/{Sid}` (Default1 (messaging))
 - **Signature**: `FetchShortCode2(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1ServiceShortCode`
@@ -36,7 +36,7 @@ Accessor: `client.MessagingV1ShortCode` · Source: `Api/MessagingV1ShortCode.cs`
 - **Pagination**: none
 
 ### ListShortCode2
-- **HTTP**: `GET /v1/Services/{ServiceSid}/ShortCodes` (Default6 (messaging))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/ShortCodes` (Default1 (messaging))
 - **Signature**: `ListShortCode2(string serviceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**

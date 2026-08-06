@@ -5,7 +5,7 @@ Accessor: `client.MessagingV1UsAppToPerson` · Source: `Api/MessagingV1UsAppToPe
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateUsAppToPerson
-- **HTTP**: `POST /v1/Services/{MessagingServiceSid}/Compliance/Usa2p` (Default6 (messaging))
+- **HTTP**: `POST /v1/Services/{MessagingServiceSid}/Compliance/Usa2p` (Default1 (messaging))
 - **Signature**: `CreateUsAppToPerson(string messagingServiceSid, string? xTwilioApiVersion, string brandRegistrationSid, string description, string messageFlow, IReadOnlyList<string> messageSamples, string usAppToPersonUsecase, bool hasEmbeddedLinks, bool hasEmbeddedPhone, string? optInMessage, string? optOutMessage, string? helpMessage, IReadOnlyList<string>? optInKeywords, IReadOnlyList<string>? optOutKeywords, IReadOnlyList<string>? helpKeywords, bool? subscriberOptIn, bool? ageGated, bool? directLending, string? privacyPolicyUrl, string? termsAndConditionsUrl, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 12 params (`xTwilioApiVersion` … `termsAndConditionsUrl`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -17,7 +17,7 @@ Accessor: `client.MessagingV1UsAppToPerson` · Source: `Api/MessagingV1UsAppToPe
 - **Pagination**: none
 
 ### DeleteUsAppToPerson
-- **HTTP**: `DELETE /v1/Services/{MessagingServiceSid}/Compliance/Usa2p/{Sid}` (Default6 (messaging))
+- **HTTP**: `DELETE /v1/Services/{MessagingServiceSid}/Compliance/Usa2p/{Sid}` (Default1 (messaging))
 - **Signature**: `DeleteUsAppToPerson(string messagingServiceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -27,7 +27,7 @@ Accessor: `client.MessagingV1UsAppToPerson` · Source: `Api/MessagingV1UsAppToPe
 - **Pagination**: none
 
 ### FetchUsAppToPerson
-- **HTTP**: `GET /v1/Services/{MessagingServiceSid}/Compliance/Usa2p/{Sid}` (Default6 (messaging))
+- **HTTP**: `GET /v1/Services/{MessagingServiceSid}/Compliance/Usa2p/{Sid}` (Default1 (messaging))
 - **Signature**: `FetchUsAppToPerson(string messagingServiceSid, string sid, string? xTwilioApiVersion, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `xTwilioApiVersion` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -38,7 +38,7 @@ Accessor: `client.MessagingV1UsAppToPerson` · Source: `Api/MessagingV1UsAppToPe
 - **Pagination**: none
 
 ### ListUsAppToPerson
-- **HTTP**: `GET /v1/Services/{MessagingServiceSid}/Compliance/Usa2p` (Default6 (messaging))
+- **HTTP**: `GET /v1/Services/{MessagingServiceSid}/Compliance/Usa2p` (Default1 (messaging))
 - **Signature**: `ListUsAppToPerson(string messagingServiceSid, long? pageSize, int? page, string? pageToken, string? xTwilioApiVersion, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`pageSize` … `xTwilioApiVersion`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -50,7 +50,7 @@ Accessor: `client.MessagingV1UsAppToPerson` · Source: `Api/MessagingV1UsAppToPe
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateUsAppToPerson
-- **HTTP**: `POST /v1/Services/{MessagingServiceSid}/Compliance/Usa2p/{Sid}` (Default6 (messaging))
+- **HTTP**: `POST /v1/Services/{MessagingServiceSid}/Compliance/Usa2p/{Sid}` (Default1 (messaging))
 - **Signature**: `UpdateUsAppToPerson(string messagingServiceSid, string sid, string? xTwilioApiVersion, bool hasEmbeddedLinks, bool hasEmbeddedPhone, IReadOnlyList<string> messageSamples, string messageFlow, string description, bool ageGated, bool directLending, string? privacyPolicyUrl, string? termsAndConditionsUrl, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `xTwilioApiVersion` — nullable, no default → **must pass explicitly**
   - `privacyPolicyUrl` — nullable, no default → **must pass explicitly**

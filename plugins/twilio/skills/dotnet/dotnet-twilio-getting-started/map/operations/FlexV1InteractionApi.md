@@ -5,7 +5,7 @@ Accessor: `client.FlexV1InteractionApi` · Source: `Api/FlexV1InteractionApi.cs`
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateInteraction
-- **HTTP**: `POST /v1/Interactions` (Default3 (flex-api))
+- **HTTP**: `POST /v1/Interactions` (Default13 (flex-api))
 - **Notes**: Create a new Interaction.
 - **Signature**: `CreateInteraction(object channel, object? routing, string? interactionContextSid, string? webhookTtid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `routing` — nullable, no default → **must pass explicitly**
@@ -19,9 +19,9 @@ Accessor: `client.FlexV1InteractionApi` · Source: `Api/FlexV1InteractionApi.cs`
 - **No-throw variant**: absent
 - **Pagination**: none
 
-### FetchInteraction
-- **HTTP**: `GET /v1/Interactions/{Sid}` (Default3 (flex-api))
-- **Signature**: `FetchInteraction(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+### FetchInteraction2
+- **HTTP**: `GET /v1/Interactions/{Sid}` (Default13 (flex-api))
+- **Signature**: `FetchInteraction2(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `FlexV1Interaction`
 - **Error**: `SdkException<RawError>` — **Case B**
@@ -30,7 +30,7 @@ Accessor: `client.FlexV1InteractionApi` · Source: `Api/FlexV1InteractionApi.cs`
 - **Pagination**: none
 
 ### UpdateInteraction
-- **HTTP**: `POST /v1/Interactions/{Sid}` (Default3 (flex-api))
+- **HTTP**: `POST /v1/Interactions/{Sid}` (Default13 (flex-api))
 - **Notes**: Updates an interaction.
 - **Signature**: `UpdateInteraction(string sid, string? webhookTtid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `webhookTtid` — nullable, no default → **must pass explicitly**

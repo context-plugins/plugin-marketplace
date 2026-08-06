@@ -5,7 +5,7 @@ Accessor: `client.Contentv1ContentApi` Â· Source: `Api/Contentv1ContentApi.cs` Â
 **Parameter names are literal.** Signatures are generated code verbatim â€” in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateContent
-- **HTTP**: `POST /v1/Content` (Default1 (content))
+- **HTTP**: `POST /v1/Content` (Default2 (content))
 - **Notes**: Create a Content resource
 - **Signature**: `CreateContent(ContentCreateRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.Contentv1ContentApi` Â· Source: `Api/Contentv1ContentApi.cs` Â
 - **Pagination**: none
 
 ### DeleteContent
-- **HTTP**: `DELETE /v1/Content/{Sid}` (Default1 (content))
+- **HTTP**: `DELETE /v1/Content/{Sid}` (Default2 (content))
 - **Notes**: Deletes a Content resource
 - **Signature**: `DeleteContent(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -27,7 +27,7 @@ Accessor: `client.Contentv1ContentApi` Â· Source: `Api/Contentv1ContentApi.cs` Â
 - **Pagination**: none
 
 ### FetchContent
-- **HTTP**: `GET /v1/Content/{Sid}` (Default1 (content))
+- **HTTP**: `GET /v1/Content/{Sid}` (Default2 (content))
 - **Notes**: Fetch a Content resource by its unique Content Sid
 - **Signature**: `FetchContent(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -38,7 +38,7 @@ Accessor: `client.Contentv1ContentApi` Â· Source: `Api/Contentv1ContentApi.cs` Â
 - **Pagination**: none
 
 ### ListContent
-- **HTTP**: `GET /v1/Content` (Default1 (content))
+- **HTTP**: `GET /v1/Content` (Default2 (content))
 - **Notes**: Retrieve a list of Contents belonging to the account used to make the request
 - **Signature**: `ListContent(int? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` â€” nullable, no default â†’ **must pass explicitly**
@@ -53,7 +53,7 @@ Accessor: `client.Contentv1ContentApi` Â· Source: `Api/Contentv1ContentApi.cs` Â
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateContent
-- **HTTP**: `PUT /v1/Content/{Sid}` (Default1 (content))
+- **HTTP**: `PUT /v1/Content/{Sid}` (Default2 (content))
 - **Notes**: Update a Content resource
 - **Signature**: `UpdateContent(string sid, ContentUpdateRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null

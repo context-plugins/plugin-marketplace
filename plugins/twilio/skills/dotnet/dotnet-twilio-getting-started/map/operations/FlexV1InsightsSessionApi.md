@@ -5,7 +5,7 @@ Accessor: `client.FlexV1InsightsSessionApi` · Source: `Api/FlexV1InsightsSessio
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateInsightsSession
-- **HTTP**: `POST /v1/Insights/Session` (Default3 (flex-api))
+- **HTTP**: `POST /v1/Insights/Session` (Default13 (flex-api))
 - **Notes**: To obtain session details for fetching reports and dashboards
 - **Signature**: `CreateInsightsSession(string? authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `authorization` — nullable, no default → **must pass explicitly**

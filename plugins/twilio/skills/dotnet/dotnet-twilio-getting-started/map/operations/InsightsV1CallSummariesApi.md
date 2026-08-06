@@ -5,7 +5,7 @@ Accessor: `client.InsightsV1CallSummariesApi` · Source: `Api/InsightsV1CallSumm
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### ListCallSummaries
-- **HTTP**: `GET /v1/Voice/Summaries` (Default4 (insights))
+- **HTTP**: `GET /v1/Voice/Summaries` (Default14 (insights))
 - **Notes**: Get a list of Call Summaries.
 - **Signature**: `ListCallSummaries(string? from, string? to, string? fromCarrier, string? toCarrier, string? fromCountryCode, string? toCountryCode, bool? verifiedCaller, bool? hasTag, string? startTime, string? endTime, string? callType, string? callState, string? direction, CallSummariesEnumProcessingStateRequest? processingState, CallSummariesEnumSortBy? sortBy, string? subaccount, bool? abnormalSession, CallSummariesEnumAnsweredBy? answeredBy, string? answeredByAnnotation, string? connectivityIssueAnnotation, string? qualityIssueAnnotation, bool? spamAnnotation, string? callScoreAnnotation, bool? brandedEnabled, bool? voiceIntegrityEnabled, string? brandedBundleSid, bool? brandedLogo, string? brandedType, string? brandedUseCase, string? brandedCallReason, string? voiceIntegrityBundleSid, string? voiceIntegrityUseCase, string? businessProfileIdentity, string? businessProfileIndustry, string? businessProfileBundleSid, string? businessProfileType, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 39 params (`from` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

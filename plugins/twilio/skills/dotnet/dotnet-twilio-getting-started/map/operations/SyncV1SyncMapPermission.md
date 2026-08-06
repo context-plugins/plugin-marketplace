@@ -5,7 +5,7 @@ Accessor: `client.SyncV1SyncMapPermission` · Source: `Api/SyncV1SyncMapPermissi
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### DeleteSyncMapPermission
-- **HTTP**: `DELETE /v1/Services/{ServiceSid}/Maps/{MapSid}/Permissions/{Identity}` (Default10 (sync))
+- **HTTP**: `DELETE /v1/Services/{ServiceSid}/Maps/{MapSid}/Permissions/{Identity}` (Default12 (sync))
 - **Notes**: Delete a specific Sync Map Permission.
 - **Signature**: `DeleteSyncMapPermission(string serviceSid, string mapSid, string identity, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.SyncV1SyncMapPermission` · Source: `Api/SyncV1SyncMapPermissi
 - **Pagination**: none
 
 ### FetchSyncMapPermission
-- **HTTP**: `GET /v1/Services/{ServiceSid}/Maps/{MapSid}/Permissions/{Identity}` (Default10 (sync))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/Maps/{MapSid}/Permissions/{Identity}` (Default12 (sync))
 - **Notes**: Fetch a specific Sync Map Permission.
 - **Signature**: `FetchSyncMapPermission(string serviceSid, string mapSid, string identity, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -27,7 +27,7 @@ Accessor: `client.SyncV1SyncMapPermission` · Source: `Api/SyncV1SyncMapPermissi
 - **Pagination**: none
 
 ### ListSyncMapPermission
-- **HTTP**: `GET /v1/Services/{ServiceSid}/Maps/{MapSid}/Permissions` (Default10 (sync))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/Maps/{MapSid}/Permissions` (Default12 (sync))
 - **Notes**: Retrieve a list of all Permissions applying to a Sync Map.
 - **Signature**: `ListSyncMapPermission(string serviceSid, string mapSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
@@ -42,7 +42,7 @@ Accessor: `client.SyncV1SyncMapPermission` · Source: `Api/SyncV1SyncMapPermissi
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateSyncMapPermission
-- **HTTP**: `POST /v1/Services/{ServiceSid}/Maps/{MapSid}/Permissions/{Identity}` (Default10 (sync))
+- **HTTP**: `POST /v1/Services/{ServiceSid}/Maps/{MapSid}/Permissions/{Identity}` (Default12 (sync))
 - **Notes**: Update an identity's access to a specific Sync Map.
 - **Signature**: `UpdateSyncMapPermission(string serviceSid, string mapSid, string identity, bool read, bool write, bool manage, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null

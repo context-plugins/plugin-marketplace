@@ -5,7 +5,7 @@ Accessor: `client.ProxyV1Participant` · Source: `Api/ProxyV1Participant.cs` · 
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateParticipant2
-- **HTTP**: `POST /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants` (Default8 (proxy))
+- **HTTP**: `POST /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants` (Default10 (proxy))
 - **Notes**: Add a new Participant to the Session
 - **Signature**: `CreateParticipant2(string serviceSid, string sessionSid, string identifier, string? friendlyName, string? proxyIdentifier, string? proxyIdentifierSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `friendlyName` — nullable, no default → **must pass explicitly**
@@ -20,7 +20,7 @@ Accessor: `client.ProxyV1Participant` · Source: `Api/ProxyV1Participant.cs` · 
 - **Pagination**: none
 
 ### DeleteParticipant2
-- **HTTP**: `DELETE /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants/{Sid}` (Default8 (proxy))
+- **HTTP**: `DELETE /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants/{Sid}` (Default10 (proxy))
 - **Notes**: Delete a specific Participant. This is a soft-delete. The participant remains associated with the session and cannot be re-added. Participants are only permanently deleted when the Session is deleted.
 - **Signature**: `DeleteParticipant2(string serviceSid, string sessionSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -31,7 +31,7 @@ Accessor: `client.ProxyV1Participant` · Source: `Api/ProxyV1Participant.cs` · 
 - **Pagination**: none
 
 ### FetchParticipant3
-- **HTTP**: `GET /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants/{Sid}` (Default8 (proxy))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants/{Sid}` (Default10 (proxy))
 - **Notes**: Fetch a specific Participant.
 - **Signature**: `FetchParticipant3(string serviceSid, string sessionSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -42,7 +42,7 @@ Accessor: `client.ProxyV1Participant` · Source: `Api/ProxyV1Participant.cs` · 
 - **Pagination**: none
 
 ### ListParticipant2
-- **HTTP**: `GET /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants` (Default8 (proxy))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants` (Default10 (proxy))
 - **Notes**: Retrieve a list of all Participants in a Session.
 - **Signature**: `ListParticipant2(string serviceSid, string sessionSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**

@@ -5,7 +5,7 @@ Accessor: `client.ConversationsV1Participant` · Source: `Api/ConversationsV1Par
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateConversationParticipant
-- **HTTP**: `POST /v1/Conversations/{ConversationSid}/Participants` (Default2 (conversations))
+- **HTTP**: `POST /v1/Conversations/{ConversationSid}/Participants` (Default7 (conversations))
 - **Notes**: Add a new participant to the conversation
 - **Signature**: `CreateConversationParticipant(string conversationSid, Confirmation? xTwilioWebhookEnabled, string? identity, string? messagingBindingAddress, string? messagingBindingProxyAddress, DateTimeOffset? dateCreated, DateTimeOffset? dateUpdated, string? attributes, string? messagingBindingProjectedAddress, string? roleSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 9 params (`xTwilioWebhookEnabled` … `roleSid`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -18,7 +18,7 @@ Accessor: `client.ConversationsV1Participant` · Source: `Api/ConversationsV1Par
 - **Pagination**: none
 
 ### CreateServiceConversationParticipant
-- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Participants` (Default2 (conversations))
+- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Participants` (Default7 (conversations))
 - **Notes**: Add a new participant to the conversation in a specific service
 - **Signature**: `CreateServiceConversationParticipant(string chatServiceSid, string conversationSid, Confirmation? xTwilioWebhookEnabled, string? identity, string? messagingBindingAddress, string? messagingBindingProxyAddress, DateTimeOffset? dateCreated, DateTimeOffset? dateUpdated, string? attributes, string? messagingBindingProjectedAddress, string? roleSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 9 params (`xTwilioWebhookEnabled` … `roleSid`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -31,7 +31,7 @@ Accessor: `client.ConversationsV1Participant` · Source: `Api/ConversationsV1Par
 - **Pagination**: none
 
 ### DeleteConversationParticipant
-- **HTTP**: `DELETE /v1/Conversations/{ConversationSid}/Participants/{Sid}` (Default2 (conversations))
+- **HTTP**: `DELETE /v1/Conversations/{ConversationSid}/Participants/{Sid}` (Default7 (conversations))
 - **Notes**: Remove a participant from the conversation
 - **Signature**: `DeleteConversationParticipant(string conversationSid, string sid, Confirmation? xTwilioWebhookEnabled, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `xTwilioWebhookEnabled` — nullable, no default → **must pass explicitly**
@@ -43,7 +43,7 @@ Accessor: `client.ConversationsV1Participant` · Source: `Api/ConversationsV1Par
 - **Pagination**: none
 
 ### DeleteServiceConversationParticipant
-- **HTTP**: `DELETE /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Participants/{Sid}` (Default2 (conversations))
+- **HTTP**: `DELETE /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Participants/{Sid}` (Default7 (conversations))
 - **Notes**: Remove a participant from the conversation
 - **Signature**: `DeleteServiceConversationParticipant(string chatServiceSid, string conversationSid, string sid, Confirmation? xTwilioWebhookEnabled, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `xTwilioWebhookEnabled` — nullable, no default → **must pass explicitly**
@@ -55,7 +55,7 @@ Accessor: `client.ConversationsV1Participant` · Source: `Api/ConversationsV1Par
 - **Pagination**: none
 
 ### FetchConversationParticipant
-- **HTTP**: `GET /v1/Conversations/{ConversationSid}/Participants/{Sid}` (Default2 (conversations))
+- **HTTP**: `GET /v1/Conversations/{ConversationSid}/Participants/{Sid}` (Default7 (conversations))
 - **Notes**: Fetch a participant of the conversation
 - **Signature**: `FetchConversationParticipant(string conversationSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -66,7 +66,7 @@ Accessor: `client.ConversationsV1Participant` · Source: `Api/ConversationsV1Par
 - **Pagination**: none
 
 ### FetchServiceConversationParticipant
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Participants/{Sid}` (Default2 (conversations))
+- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Participants/{Sid}` (Default7 (conversations))
 - **Notes**: Fetch a participant of the conversation
 - **Signature**: `FetchServiceConversationParticipant(string chatServiceSid, string conversationSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -77,7 +77,7 @@ Accessor: `client.ConversationsV1Participant` · Source: `Api/ConversationsV1Par
 - **Pagination**: none
 
 ### ListConversationParticipant
-- **HTTP**: `GET /v1/Conversations/{ConversationSid}/Participants` (Default2 (conversations))
+- **HTTP**: `GET /v1/Conversations/{ConversationSid}/Participants` (Default7 (conversations))
 - **Notes**: Retrieve a list of all participants of the conversation
 - **Signature**: `ListConversationParticipant(string conversationSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
@@ -92,7 +92,7 @@ Accessor: `client.ConversationsV1Participant` · Source: `Api/ConversationsV1Par
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### ListServiceConversationParticipant
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Participants` (Default2 (conversations))
+- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Participants` (Default7 (conversations))
 - **Notes**: Retrieve a list of all participants of the conversation
 - **Signature**: `ListServiceConversationParticipant(string chatServiceSid, string conversationSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
@@ -107,7 +107,7 @@ Accessor: `client.ConversationsV1Participant` · Source: `Api/ConversationsV1Par
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateConversationParticipant
-- **HTTP**: `POST /v1/Conversations/{ConversationSid}/Participants/{Sid}` (Default2 (conversations))
+- **HTTP**: `POST /v1/Conversations/{ConversationSid}/Participants/{Sid}` (Default7 (conversations))
 - **Notes**: Update an existing participant in the conversation
 - **Signature**: `UpdateConversationParticipant(string conversationSid, string sid, Confirmation? xTwilioWebhookEnabled, DateTimeOffset? dateCreated, DateTimeOffset? dateUpdated, string? attributes, string? roleSid, string? messagingBindingProxyAddress, string? messagingBindingProjectedAddress, string? identity, int? lastReadMessageIndex, string? lastReadTimestamp, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 10 params (`xTwilioWebhookEnabled` … `lastReadTimestamp`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -120,7 +120,7 @@ Accessor: `client.ConversationsV1Participant` · Source: `Api/ConversationsV1Par
 - **Pagination**: none
 
 ### UpdateServiceConversationParticipant
-- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Participants/{Sid}` (Default2 (conversations))
+- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Participants/{Sid}` (Default7 (conversations))
 - **Notes**: Update an existing participant in the conversation
 - **Signature**: `UpdateServiceConversationParticipant(string chatServiceSid, string conversationSid, string sid, Confirmation? xTwilioWebhookEnabled, DateTimeOffset? dateCreated, DateTimeOffset? dateUpdated, string? identity, string? attributes, string? roleSid, string? messagingBindingProxyAddress, string? messagingBindingProjectedAddress, int? lastReadMessageIndex, string? lastReadTimestamp, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 10 params (`xTwilioWebhookEnabled` … `lastReadTimestamp`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

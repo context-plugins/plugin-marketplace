@@ -5,7 +5,7 @@ Accessor: `client.VideoV1SubscribeRules` · Source: `Api/VideoV1SubscribeRules.c
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchRoomParticipantSubscribeRule
-- **HTTP**: `GET /v1/Rooms/{RoomSid}/Participants/{ParticipantSid}/SubscribeRules` (Default14 (video))
+- **HTTP**: `GET /v1/Rooms/{RoomSid}/Participants/{ParticipantSid}/SubscribeRules` (Default6 (video))
 - **Notes**: Returns a list of Subscribe Rules for the Participant.
 - **Signature**: `FetchRoomParticipantSubscribeRule(string roomSid, string participantSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.VideoV1SubscribeRules` · Source: `Api/VideoV1SubscribeRules.c
 - **Pagination**: none
 
 ### UpdateRoomParticipantSubscribeRule
-- **HTTP**: `POST /v1/Rooms/{RoomSid}/Participants/{ParticipantSid}/SubscribeRules` (Default14 (video))
+- **HTTP**: `POST /v1/Rooms/{RoomSid}/Participants/{ParticipantSid}/SubscribeRules` (Default6 (video))
 - **Notes**: Update the Subscribe Rules for the Participant
 - **Signature**: `UpdateRoomParticipantSubscribeRule(string roomSid, string participantSid, object? rules, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `rules` — nullable, no default → **must pass explicitly**

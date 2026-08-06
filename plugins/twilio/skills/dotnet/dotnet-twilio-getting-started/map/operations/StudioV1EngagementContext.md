@@ -5,7 +5,7 @@ Accessor: `client.StudioV1EngagementContext` · Source: `Api/StudioV1EngagementC
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchEngagementContext
-- **HTTP**: `GET /v1/Flows/{FlowSid}/Engagements/{EngagementSid}/Context` (Default9 (studio))
+- **HTTP**: `GET /v1/Flows/{FlowSid}/Engagements/{EngagementSid}/Context` (Default11 (studio))
 - **Notes**: Retrieve the most recent context for an Engagement.
 - **Signature**: `FetchEngagementContext(string flowSid, string engagementSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null

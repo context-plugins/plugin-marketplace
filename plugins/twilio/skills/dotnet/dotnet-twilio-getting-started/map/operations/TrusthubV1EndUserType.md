@@ -5,7 +5,7 @@ Accessor: `client.TrusthubV1EndUserType` · Source: `Api/TrusthubV1EndUserType.c
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchEndUserType2
-- **HTTP**: `GET /v1/EndUserTypes/{Sid}` (Default12 (trusthub))
+- **HTTP**: `GET /v1/EndUserTypes/{Sid}` (Default9 (trusthub))
 - **Notes**: Fetch a specific End-User Type Instance.
 - **Signature**: `FetchEndUserType2(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.TrusthubV1EndUserType` · Source: `Api/TrusthubV1EndUserType.c
 - **Pagination**: none
 
 ### ListEndUserType2
-- **HTTP**: `GET /v1/EndUserTypes` (Default12 (trusthub))
+- **HTTP**: `GET /v1/EndUserTypes` (Default9 (trusthub))
 - **Notes**: Retrieve a list of all End-User Types.
 - **Signature**: `ListEndUserType2(long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**

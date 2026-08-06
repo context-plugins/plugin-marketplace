@@ -5,7 +5,7 @@ Accessor: `client.MessagingV1BrandVetting` · Source: `Api/MessagingV1BrandVetti
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateBrandVetting
-- **HTTP**: `POST /v1/a2p/BrandRegistrations/{BrandSid}/Vettings` (Default6 (messaging))
+- **HTTP**: `POST /v1/a2p/BrandRegistrations/{BrandSid}/Vettings` (Default1 (messaging))
 - **Signature**: `CreateBrandVetting(string brandSid, BrandVettingEnumVettingProvider vettingProvider, string? vettingId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `vettingId` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -17,7 +17,7 @@ Accessor: `client.MessagingV1BrandVetting` · Source: `Api/MessagingV1BrandVetti
 - **Pagination**: none
 
 ### FetchBrandVetting
-- **HTTP**: `GET /v1/a2p/BrandRegistrations/{BrandSid}/Vettings/{BrandVettingSid}` (Default6 (messaging))
+- **HTTP**: `GET /v1/a2p/BrandRegistrations/{BrandSid}/Vettings/{BrandVettingSid}` (Default1 (messaging))
 - **Signature**: `FetchBrandVetting(string brandSid, string brandVettingSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1BrandRegistrationsBrandVetting`
@@ -27,7 +27,7 @@ Accessor: `client.MessagingV1BrandVetting` · Source: `Api/MessagingV1BrandVetti
 - **Pagination**: none
 
 ### ListBrandVetting
-- **HTTP**: `GET /v1/a2p/BrandRegistrations/{BrandSid}/Vettings` (Default6 (messaging))
+- **HTTP**: `GET /v1/a2p/BrandRegistrations/{BrandSid}/Vettings` (Default1 (messaging))
 - **Signature**: `ListBrandVetting(string brandSid, BrandVettingEnumVettingProvider? vettingProvider, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `vettingProvider` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null

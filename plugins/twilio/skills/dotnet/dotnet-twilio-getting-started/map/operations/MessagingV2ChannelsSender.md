@@ -5,7 +5,7 @@ Accessor: `client.MessagingV2ChannelsSender` · Source: `Api/MessagingV2Channels
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateChannelsSender
-- **HTTP**: `POST /v2/Channels/Senders` (Default6 (messaging))
+- **HTTP**: `POST /v2/Channels/Senders` (Default1 (messaging))
 - **Notes**: Create a Sender.
 - **Signature**: `CreateChannelsSender(MessagingV2ChannelsSenderRequestsCreate body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.MessagingV2ChannelsSender` · Source: `Api/MessagingV2Channels
 - **Pagination**: none
 
 ### DeleteChannelsSender
-- **HTTP**: `DELETE /v2/Channels/Senders/{Sid}` (Default6 (messaging))
+- **HTTP**: `DELETE /v2/Channels/Senders/{Sid}` (Default1 (messaging))
 - **Notes**: (WhatsApp only) Delete a Sender.
 - **Signature**: `DeleteChannelsSender(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -27,7 +27,7 @@ Accessor: `client.MessagingV2ChannelsSender` · Source: `Api/MessagingV2Channels
 - **Pagination**: none
 
 ### FetchChannelsSender
-- **HTTP**: `GET /v2/Channels/Senders/{Sid}` (Default6 (messaging))
+- **HTTP**: `GET /v2/Channels/Senders/{Sid}` (Default1 (messaging))
 - **Notes**: Retrieve a Sender.
 - **Signature**: `FetchChannelsSender(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -38,7 +38,7 @@ Accessor: `client.MessagingV2ChannelsSender` · Source: `Api/MessagingV2Channels
 - **Pagination**: none
 
 ### ListChannelsSender
-- **HTTP**: `GET /v2/Channels/Senders` (Default6 (messaging))
+- **HTTP**: `GET /v2/Channels/Senders` (Default1 (messaging))
 - **Notes**: Retrieve a list of Senders for an account.
 - **Signature**: `ListChannelsSender(string channel, int? page, string? pageToken, long? pageSize = 50L, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
@@ -52,7 +52,7 @@ Accessor: `client.MessagingV2ChannelsSender` · Source: `Api/MessagingV2Channels
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateChannelsSender
-- **HTTP**: `POST /v2/Channels/Senders/{Sid}` (Default6 (messaging))
+- **HTTP**: `POST /v2/Channels/Senders/{Sid}` (Default1 (messaging))
 - **Notes**: (WhatsApp only) Update a Sender. You can update a sender's information, including `profile`, `webhook`, and `configuration`. To verify a phone number, set `configuration.verification_code` to the One-time Password (OTP) that you received.
 - **Signature**: `UpdateChannelsSender(string sid, MessagingV2ChannelsSenderRequestsUpdate? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**

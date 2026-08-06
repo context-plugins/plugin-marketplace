@@ -5,7 +5,7 @@ Accessor: `client.TaskrouterV1WorkspaceCumulativeStatistics` · Source: `Api/Tas
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchWorkspaceCumulativeStatistics
-- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/CumulativeStatistics` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/CumulativeStatistics` (Default8 (taskrouter))
 - **Signature**: `FetchWorkspaceCumulativeStatistics(string workspaceSid, DateTimeOffset? endDate, int? minutes, DateTimeOffset? startDate, string? taskChannel, string? splitByWaitTime, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`endDate` … `splitByWaitTime`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null

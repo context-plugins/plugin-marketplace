@@ -5,7 +5,7 @@ Accessor: `client.StudioV2FlowApi` · Source: `Api/StudioV2FlowApi.cs` · 5 oper
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateFlow
-- **HTTP**: `POST /v2/Flows` (Default9 (studio))
+- **HTTP**: `POST /v2/Flows` (Default11 (studio))
 - **Notes**: Create a Flow.
 - **Signature**: `CreateFlow(string friendlyName, FlowEnumStatus status, object definition, string? commitMessage, string? authorSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `commitMessage` — nullable, no default → **must pass explicitly**
@@ -19,7 +19,7 @@ Accessor: `client.StudioV2FlowApi` · Source: `Api/StudioV2FlowApi.cs` · 5 oper
 - **Pagination**: none
 
 ### DeleteFlow2
-- **HTTP**: `DELETE /v2/Flows/{Sid}` (Default9 (studio))
+- **HTTP**: `DELETE /v2/Flows/{Sid}` (Default11 (studio))
 - **Notes**: Delete a specific Flow.
 - **Signature**: `DeleteFlow2(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -30,7 +30,7 @@ Accessor: `client.StudioV2FlowApi` · Source: `Api/StudioV2FlowApi.cs` · 5 oper
 - **Pagination**: none
 
 ### FetchFlow2
-- **HTTP**: `GET /v2/Flows/{Sid}` (Default9 (studio))
+- **HTTP**: `GET /v2/Flows/{Sid}` (Default11 (studio))
 - **Notes**: Retrieve a specific Flow.
 - **Signature**: `FetchFlow2(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -41,7 +41,7 @@ Accessor: `client.StudioV2FlowApi` · Source: `Api/StudioV2FlowApi.cs` · 5 oper
 - **Pagination**: none
 
 ### ListFlow2
-- **HTTP**: `GET /v2/Flows` (Default9 (studio))
+- **HTTP**: `GET /v2/Flows` (Default11 (studio))
 - **Notes**: Retrieve a list of all Flows.
 - **Signature**: `ListFlow2(long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
@@ -56,7 +56,7 @@ Accessor: `client.StudioV2FlowApi` · Source: `Api/StudioV2FlowApi.cs` · 5 oper
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateFlow
-- **HTTP**: `POST /v2/Flows/{Sid}` (Default9 (studio))
+- **HTTP**: `POST /v2/Flows/{Sid}` (Default11 (studio))
 - **Notes**: Update a Flow.
 - **Signature**: `UpdateFlow(string sid, FlowEnumStatus status, string? friendlyName, object? definition, string? commitMessage, string? authorSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`friendlyName` … `authorSid`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

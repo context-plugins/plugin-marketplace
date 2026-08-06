@@ -5,7 +5,7 @@ Accessor: `client.VideoV1CompositionApi` · Source: `Api/VideoV1CompositionApi.c
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateComposition
-- **HTTP**: `POST /v1/Compositions` (Default14 (video))
+- **HTTP**: `POST /v1/Compositions` (Default6 (video))
 - **Signature**: `CreateComposition(string roomSid, object? videoLayout, IReadOnlyList<string>? audioSources, IReadOnlyList<string>? audioSourcesExcluded, string? resolution, CompositionEnumFormat? format, string? statusCallback, AmdStatusCallbackMethod? statusCallbackMethod, bool? trim, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 8 params (`videoLayout` … `trim`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -17,7 +17,7 @@ Accessor: `client.VideoV1CompositionApi` · Source: `Api/VideoV1CompositionApi.c
 - **Pagination**: none
 
 ### DeleteComposition
-- **HTTP**: `DELETE /v1/Compositions/{Sid}` (Default14 (video))
+- **HTTP**: `DELETE /v1/Compositions/{Sid}` (Default6 (video))
 - **Notes**: Delete a Recording Composition resource identified by a Composition SID.
 - **Signature**: `DeleteComposition(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -28,7 +28,7 @@ Accessor: `client.VideoV1CompositionApi` · Source: `Api/VideoV1CompositionApi.c
 - **Pagination**: none
 
 ### FetchComposition
-- **HTTP**: `GET /v1/Compositions/{Sid}` (Default14 (video))
+- **HTTP**: `GET /v1/Compositions/{Sid}` (Default6 (video))
 - **Notes**: Returns a single Composition resource identified by a Composition SID.
 - **Signature**: `FetchComposition(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -39,7 +39,7 @@ Accessor: `client.VideoV1CompositionApi` · Source: `Api/VideoV1CompositionApi.c
 - **Pagination**: none
 
 ### ListComposition
-- **HTTP**: `GET /v1/Compositions` (Default14 (video))
+- **HTTP**: `GET /v1/Compositions` (Default6 (video))
 - **Notes**: List of all Recording compositions.
 - **Signature**: `ListComposition(CompositionEnumStatus? status, DateTimeOffset? dateCreatedAfter, DateTimeOffset? dateCreatedBefore, string? roomSid, int? page, string? pageToken, long? pageSize = 50L, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 6 params (`status` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

@@ -5,7 +5,7 @@ Accessor: `client.TaskrouterV1Worker` · Source: `Api/TaskrouterV1Worker.cs` · 
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateWorker
-- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/Workers` (Default11 (taskrouter))
+- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/Workers` (Default8 (taskrouter))
 - **Signature**: `CreateWorker(string workspaceSid, string friendlyName, string? activitySid, string? attributes, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `activitySid` — nullable, no default → **must pass explicitly**
   - `attributes` — nullable, no default → **must pass explicitly**
@@ -18,7 +18,7 @@ Accessor: `client.TaskrouterV1Worker` · Source: `Api/TaskrouterV1Worker.cs` · 
 - **Pagination**: none
 
 ### DeleteWorker
-- **HTTP**: `DELETE /v1/Workspaces/{WorkspaceSid}/Workers/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `DELETE /v1/Workspaces/{WorkspaceSid}/Workers/{Sid}` (Default8 (taskrouter))
 - **Signature**: `DeleteWorker(string workspaceSid, string sid, string? ifMatch, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `ifMatch` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -29,7 +29,7 @@ Accessor: `client.TaskrouterV1Worker` · Source: `Api/TaskrouterV1Worker.cs` · 
 - **Pagination**: none
 
 ### FetchWorker
-- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers/{Sid}` (Default8 (taskrouter))
 - **Signature**: `FetchWorker(string workspaceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `TaskrouterV1WorkspaceWorker`
@@ -39,7 +39,7 @@ Accessor: `client.TaskrouterV1Worker` · Source: `Api/TaskrouterV1Worker.cs` · 
 - **Pagination**: none
 
 ### ListWorker
-- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers` (Default8 (taskrouter))
 - **Signature**: `ListWorker(string workspaceSid, string? activityName, string? activitySid, string? available, string? friendlyName, string? targetWorkersExpression, string? taskQueueName, string? taskQueueSid, string? ordering, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 11 params (`activityName` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -51,7 +51,7 @@ Accessor: `client.TaskrouterV1Worker` · Source: `Api/TaskrouterV1Worker.cs` · 
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateWorker
-- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/Workers/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/Workers/{Sid}` (Default8 (taskrouter))
 - **Signature**: `UpdateWorker(string workspaceSid, string sid, string? ifMatch, string? activitySid, string? attributes, string? friendlyName, bool? rejectPendingReservations, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`ifMatch` … `rejectPendingReservations`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null

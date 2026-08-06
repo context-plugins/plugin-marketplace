@@ -5,7 +5,7 @@ Accessor: `client.NumbersV1SenderIdRegistrationEmbeddedSession` · Source: `Api/
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateSenderIdRegistrationEmbeddedSession
-- **HTTP**: `POST /v1/SenderIdRegistrations/{BundleSid}/EmbeddedSessions` (Default7 (numbers))
+- **HTTP**: `POST /v1/SenderIdRegistrations/{BundleSid}/EmbeddedSessions` (Default5 (numbers))
 - **Notes**: Creates a new embedded Persona inquiry session for an existing registration in DRAFT or TWILIO_REJECTED status. Use this to resume an incomplete registration or resubmit a rejected one.
 - **Signature**: `CreateSenderIdRegistrationEmbeddedSession(string bundleSid, NumbersV1CreateEmbeddedSessionRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null

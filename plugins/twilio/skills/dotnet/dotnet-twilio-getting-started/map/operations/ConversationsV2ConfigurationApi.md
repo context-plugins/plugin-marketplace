@@ -5,7 +5,7 @@ Accessor: `client.ConversationsV2ConfigurationApi` · Source: `Api/Conversations
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateConfiguration
-- **HTTP**: `POST /v2/ControlPlane/Configurations` (Default2 (conversations))
+- **HTTP**: `POST /v2/ControlPlane/Configurations` (Default7 (conversations))
 - **Notes**: Create a new Configuration
 - **Signature**: `CreateConfiguration(string? idempotencyKey, V2ControlPlaneConfigurationsRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `idempotencyKey` — nullable, no default → **must pass explicitly**
@@ -18,7 +18,7 @@ Accessor: `client.ConversationsV2ConfigurationApi` · Source: `Api/Conversations
 - **Pagination**: none
 
 ### DeleteConfiguration
-- **HTTP**: `DELETE /v2/ControlPlane/Configurations/{Sid}` (Default2 (conversations))
+- **HTTP**: `DELETE /v2/ControlPlane/Configurations/{Sid}` (Default7 (conversations))
 - **Notes**: Delete a Configuration
 - **Signature**: `DeleteConfiguration(string sid, string? idempotencyKey, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `idempotencyKey` — nullable, no default → **must pass explicitly**
@@ -30,7 +30,7 @@ Accessor: `client.ConversationsV2ConfigurationApi` · Source: `Api/Conversations
 - **Pagination**: none
 
 ### FetchConfiguration2
-- **HTTP**: `GET /v2/ControlPlane/Configurations/{Sid}` (Default2 (conversations))
+- **HTTP**: `GET /v2/ControlPlane/Configurations/{Sid}` (Default7 (conversations))
 - **Notes**: Retrieve a Configuration.
 - **Signature**: `FetchConfiguration2(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -41,7 +41,7 @@ Accessor: `client.ConversationsV2ConfigurationApi` · Source: `Api/Conversations
 - **Pagination**: none
 
 ### ListConfiguration
-- **HTTP**: `GET /v2/ControlPlane/Configurations` (Default2 (conversations))
+- **HTTP**: `GET /v2/ControlPlane/Configurations` (Default7 (conversations))
 - **Notes**: Retrieve a list of Configurations.
 - **Signature**: `ListConfiguration(string? pageToken, string? memoryStoreId, int? pageSize = 50, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageToken` — nullable, no default → **must pass explicitly**
@@ -55,7 +55,7 @@ Accessor: `client.ConversationsV2ConfigurationApi` · Source: `Api/Conversations
 - **Pagination**: none
 
 ### UpdateConfiguration2
-- **HTTP**: `PUT /v2/ControlPlane/Configurations/{Sid}` (Default2 (conversations))
+- **HTTP**: `PUT /v2/ControlPlane/Configurations/{Sid}` (Default7 (conversations))
 - **Notes**: Update an existing Configuration
 - **Signature**: `UpdateConfiguration2(string sid, string? idempotencyKey, V2ControlPlaneConfigurationsRequest1? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `idempotencyKey` — nullable, no default → **must pass explicitly**

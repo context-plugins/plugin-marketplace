@@ -4,14 +4,14 @@ Accessor: `client.InsightsV1Event` · Source: `Api/InsightsV1Event.cs` · 1 oper
 
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
-### ListEvent
-- **HTTP**: `GET /v1/Voice/{CallSid}/Events` (Default4 (insights))
+### ListEvent2
+- **HTTP**: `GET /v1/Voice/{CallSid}/Events` (Default14 (insights))
 - **Notes**: Get a list of Call Insight Events for a Call.
-- **Signature**: `ListEvent(string callSid, EventEnumTwilioEdge? edge, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `ListEvent2(string callSid, EventEnumTwilioEdge? edge, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`edge` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `Edge` ← `edge`, `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
-- **Returns**: `ListEventResponse`
+- **Returns**: `ListEventResponse1`
 - **Error**: `SdkException<RawError>` — **Case B**
 - **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
 - **No-throw variant**: absent

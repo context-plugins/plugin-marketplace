@@ -5,7 +5,7 @@ Accessor: `client.ConversationsV1ConversationWithParticipantsApi` · Source: `Ap
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateConversationWithParticipants
-- **HTTP**: `POST /v1/ConversationWithParticipants` (Default2 (conversations))
+- **HTTP**: `POST /v1/ConversationWithParticipants` (Default7 (conversations))
 - **Notes**: Create a new conversation with the list of participants in your account's default service
 - **Signature**: `CreateConversationWithParticipants(Confirmation? xTwilioWebhookEnabled, string? friendlyName, string? uniqueName, DateTimeOffset? dateCreated, DateTimeOffset? dateUpdated, string? messagingServiceSid, string? attributes, ConversationWithParticipantsEnumState? state, string? timersInactive, string? timersClosed, string? bindingsEmailAddress, string? bindingsEmailName, IReadOnlyList<string>? participant, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 13 params (`xTwilioWebhookEnabled` … `participant`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -18,7 +18,7 @@ Accessor: `client.ConversationsV1ConversationWithParticipantsApi` · Source: `Ap
 - **Pagination**: none
 
 ### CreateServiceConversationWithParticipants
-- **HTTP**: `POST /v1/Services/{ChatServiceSid}/ConversationWithParticipants` (Default2 (conversations))
+- **HTTP**: `POST /v1/Services/{ChatServiceSid}/ConversationWithParticipants` (Default7 (conversations))
 - **Notes**: Create a new conversation with the list of participants in your account's default service
 - **Signature**: `CreateServiceConversationWithParticipants(string chatServiceSid, Confirmation? xTwilioWebhookEnabled, string? friendlyName, string? uniqueName, DateTimeOffset? dateCreated, DateTimeOffset? dateUpdated, string? messagingServiceSid, string? attributes, ServiceConversationWithParticipantsEnumState? state, string? timersInactive, string? timersClosed, string? bindingsEmailAddress, string? bindingsEmailName, IReadOnlyList<string>? participant, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 13 params (`xTwilioWebhookEnabled` … `participant`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

@@ -5,7 +5,7 @@ Accessor: `client.MessagingV1DomainConfigApi` · Source: `Api/MessagingV1DomainC
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchDomainConfig
-- **HTTP**: `GET /v1/LinkShortening/Domains/{DomainSid}/Config` (Default6 (messaging))
+- **HTTP**: `GET /v1/LinkShortening/Domains/{DomainSid}/Config` (Default1 (messaging))
 - **Signature**: `FetchDomainConfig(string domainSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1DomainConfig`
@@ -15,7 +15,7 @@ Accessor: `client.MessagingV1DomainConfigApi` · Source: `Api/MessagingV1DomainC
 - **Pagination**: none
 
 ### UpdateDomainConfig
-- **HTTP**: `POST /v1/LinkShortening/Domains/{DomainSid}/Config` (Default6 (messaging))
+- **HTTP**: `POST /v1/LinkShortening/Domains/{DomainSid}/Config` (Default1 (messaging))
 - **Signature**: `UpdateDomainConfig(string domainSid, string? fallbackUrl, string? callbackUrl, bool? continueOnFailure, bool? disableHttps, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`fallbackUrl` … `disableHttps`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null

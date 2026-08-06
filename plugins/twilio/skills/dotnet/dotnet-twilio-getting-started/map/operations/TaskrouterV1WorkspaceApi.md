@@ -5,7 +5,7 @@ Accessor: `client.TaskrouterV1WorkspaceApi` · Source: `Api/TaskrouterV1Workspac
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateWorkspace
-- **HTTP**: `POST /v1/Workspaces` (Default11 (taskrouter))
+- **HTTP**: `POST /v1/Workspaces` (Default8 (taskrouter))
 - **Signature**: `CreateWorkspace(string friendlyName, string? eventCallbackUrl, string? eventsFilter, bool? multiTaskEnabled, string? template, WorkspaceEnumQueueOrder? prioritizeQueueOrder, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`eventCallbackUrl` … `prioritizeQueueOrder`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -17,7 +17,7 @@ Accessor: `client.TaskrouterV1WorkspaceApi` · Source: `Api/TaskrouterV1Workspac
 - **Pagination**: none
 
 ### DeleteWorkspace
-- **HTTP**: `DELETE /v1/Workspaces/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `DELETE /v1/Workspaces/{Sid}` (Default8 (taskrouter))
 - **Signature**: `DeleteWorkspace(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -27,7 +27,7 @@ Accessor: `client.TaskrouterV1WorkspaceApi` · Source: `Api/TaskrouterV1Workspac
 - **Pagination**: none
 
 ### FetchWorkspace
-- **HTTP**: `GET /v1/Workspaces/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{Sid}` (Default8 (taskrouter))
 - **Signature**: `FetchWorkspace(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `TaskrouterV1Workspace`
@@ -37,7 +37,7 @@ Accessor: `client.TaskrouterV1WorkspaceApi` · Source: `Api/TaskrouterV1Workspac
 - **Pagination**: none
 
 ### ListWorkspace
-- **HTTP**: `GET /v1/Workspaces` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces` (Default8 (taskrouter))
 - **Signature**: `ListWorkspace(string? friendlyName, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`friendlyName` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -49,7 +49,7 @@ Accessor: `client.TaskrouterV1WorkspaceApi` · Source: `Api/TaskrouterV1Workspac
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateWorkspace
-- **HTTP**: `POST /v1/Workspaces/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `POST /v1/Workspaces/{Sid}` (Default8 (taskrouter))
 - **Signature**: `UpdateWorkspace(string sid, string? defaultActivitySid, string? eventCallbackUrl, string? eventsFilter, string? friendlyName, bool? multiTaskEnabled, string? timeoutActivitySid, WorkspaceEnumQueueOrder? prioritizeQueueOrder, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 7 params (`defaultActivitySid` … `prioritizeQueueOrder`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null

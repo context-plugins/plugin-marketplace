@@ -5,7 +5,7 @@ Accessor: `client.SyncV1Document` · Source: `Api/SyncV1Document.cs` · 5 operat
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateDocument
-- **HTTP**: `POST /v1/Services/{ServiceSid}/Documents` (Default10 (sync))
+- **HTTP**: `POST /v1/Services/{ServiceSid}/Documents` (Default12 (sync))
 - **Signature**: `CreateDocument(string serviceSid, string? uniqueName, object? data, int? ttl, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `uniqueName` — nullable, no default → **must pass explicitly**
   - `data` — nullable, no default → **must pass explicitly**
@@ -19,7 +19,7 @@ Accessor: `client.SyncV1Document` · Source: `Api/SyncV1Document.cs` · 5 operat
 - **Pagination**: none
 
 ### DeleteDocument
-- **HTTP**: `DELETE /v1/Services/{ServiceSid}/Documents/{Sid}` (Default10 (sync))
+- **HTTP**: `DELETE /v1/Services/{ServiceSid}/Documents/{Sid}` (Default12 (sync))
 - **Signature**: `DeleteDocument(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -29,7 +29,7 @@ Accessor: `client.SyncV1Document` · Source: `Api/SyncV1Document.cs` · 5 operat
 - **Pagination**: none
 
 ### FetchDocument
-- **HTTP**: `GET /v1/Services/{ServiceSid}/Documents/{Sid}` (Default10 (sync))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/Documents/{Sid}` (Default12 (sync))
 - **Signature**: `FetchDocument(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `SyncV1ServiceDocument`
@@ -39,7 +39,7 @@ Accessor: `client.SyncV1Document` · Source: `Api/SyncV1Document.cs` · 5 operat
 - **Pagination**: none
 
 ### ListDocument
-- **HTTP**: `GET /v1/Services/{ServiceSid}/Documents` (Default10 (sync))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/Documents` (Default12 (sync))
 - **Signature**: `ListDocument(string serviceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
@@ -53,7 +53,7 @@ Accessor: `client.SyncV1Document` · Source: `Api/SyncV1Document.cs` · 5 operat
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateDocument
-- **HTTP**: `POST /v1/Services/{ServiceSid}/Documents/{Sid}` (Default10 (sync))
+- **HTTP**: `POST /v1/Services/{ServiceSid}/Documents/{Sid}` (Default12 (sync))
 - **Signature**: `UpdateDocument(string serviceSid, string sid, string? ifMatch, object? data, int? ttl, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `ifMatch` — nullable, no default → **must pass explicitly**
   - `data` — nullable, no default → **must pass explicitly**

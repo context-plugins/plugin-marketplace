@@ -5,7 +5,7 @@ Accessor: `client.StudioV2FlowRevision` · Source: `Api/StudioV2FlowRevision.cs`
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchFlowRevision
-- **HTTP**: `GET /v2/Flows/{Sid}/Revisions/{Revision}` (Default9 (studio))
+- **HTTP**: `GET /v2/Flows/{Sid}/Revisions/{Revision}` (Default11 (studio))
 - **Notes**: Retrieve a specific Flow revision.
 - **Signature**: `FetchFlowRevision(string sid, string revision, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.StudioV2FlowRevision` · Source: `Api/StudioV2FlowRevision.cs`
 - **Pagination**: none
 
 ### ListFlowRevision
-- **HTTP**: `GET /v2/Flows/{Sid}/Revisions` (Default9 (studio))
+- **HTTP**: `GET /v2/Flows/{Sid}/Revisions` (Default11 (studio))
 - **Notes**: Retrieve a list of all Flows revisions.
 - **Signature**: `ListFlowRevision(string sid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**

@@ -5,7 +5,7 @@ Accessor: `client.InsightsV1CallApi` · Source: `Api/InsightsV1CallApi.cs` · 1 
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchCall2
-- **HTTP**: `GET /v1/Voice/{Sid}` (Default4 (insights))
+- **HTTP**: `GET /v1/Voice/{Sid}` (Default14 (insights))
 - **Signature**: `FetchCall2(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `InsightsV1Call`

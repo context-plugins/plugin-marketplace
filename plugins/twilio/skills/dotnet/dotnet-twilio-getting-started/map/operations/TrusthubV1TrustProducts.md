@@ -5,7 +5,7 @@ Accessor: `client.TrusthubV1TrustProducts` · Source: `Api/TrusthubV1TrustProduc
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateTrustProduct
-- **HTTP**: `POST /v1/TrustProducts` (Default12 (trusthub))
+- **HTTP**: `POST /v1/TrustProducts` (Default9 (trusthub))
 - **Notes**: Create a new Trust Product.
 - **Signature**: `CreateTrustProduct(string friendlyName, string email, string policySid, string? statusCallback, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `statusCallback` — nullable, no default → **must pass explicitly**
@@ -18,7 +18,7 @@ Accessor: `client.TrusthubV1TrustProducts` · Source: `Api/TrusthubV1TrustProduc
 - **Pagination**: none
 
 ### DeleteTrustProduct
-- **HTTP**: `DELETE /v1/TrustProducts/{Sid}` (Default12 (trusthub))
+- **HTTP**: `DELETE /v1/TrustProducts/{Sid}` (Default9 (trusthub))
 - **Notes**: Delete a specific Trust Product.
 - **Signature**: `DeleteTrustProduct(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -29,7 +29,7 @@ Accessor: `client.TrusthubV1TrustProducts` · Source: `Api/TrusthubV1TrustProduc
 - **Pagination**: none
 
 ### FetchTrustProduct
-- **HTTP**: `GET /v1/TrustProducts/{Sid}` (Default12 (trusthub))
+- **HTTP**: `GET /v1/TrustProducts/{Sid}` (Default9 (trusthub))
 - **Notes**: Fetch a specific Trust Product instance.
 - **Signature**: `FetchTrustProduct(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -40,7 +40,7 @@ Accessor: `client.TrusthubV1TrustProducts` · Source: `Api/TrusthubV1TrustProduc
 - **Pagination**: none
 
 ### ListTrustProduct
-- **HTTP**: `GET /v1/TrustProducts` (Default12 (trusthub))
+- **HTTP**: `GET /v1/TrustProducts` (Default9 (trusthub))
 - **Notes**: Retrieve a list of all Trust Products for an account.
 - **Signature**: `ListTrustProduct(TrustProductEnumStatus? status, string? friendlyName, string? policySid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 6 params (`status` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -53,7 +53,7 @@ Accessor: `client.TrusthubV1TrustProducts` · Source: `Api/TrusthubV1TrustProduc
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateTrustProduct
-- **HTTP**: `POST /v1/TrustProducts/{Sid}` (Default12 (trusthub))
+- **HTTP**: `POST /v1/TrustProducts/{Sid}` (Default9 (trusthub))
 - **Notes**: Updates a Trust Product in an account.
 - **Signature**: `UpdateTrustProduct(string sid, TrustProductEnumStatus? status, string? statusCallback, string? friendlyName, string? email, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`status` … `email`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

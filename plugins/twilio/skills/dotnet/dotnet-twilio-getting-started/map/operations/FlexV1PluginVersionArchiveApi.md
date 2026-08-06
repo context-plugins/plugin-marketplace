@@ -5,7 +5,7 @@ Accessor: `client.FlexV1PluginVersionArchiveApi` · Source: `Api/FlexV1PluginVer
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### UpdatePluginVersionArchive
-- **HTTP**: `POST /v1/PluginService/Plugins/{PluginSid}/Versions/{Sid}/Archive` (Default3 (flex-api))
+- **HTTP**: `POST /v1/PluginService/Plugins/{PluginSid}/Versions/{Sid}/Archive` (Default13 (flex-api))
 - **Signature**: `UpdatePluginVersionArchive(string pluginSid, string sid, string? flexMetadata, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `flexMetadata` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null

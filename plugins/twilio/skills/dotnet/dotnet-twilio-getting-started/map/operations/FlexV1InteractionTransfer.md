@@ -5,7 +5,7 @@ Accessor: `client.FlexV1InteractionTransfer` · Source: `Api/FlexV1InteractionTr
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateInteractionTransfer
-- **HTTP**: `POST /v1/Interactions/{InteractionSid}/Channels/{ChannelSid}/Transfers` (Default3 (flex-api))
+- **HTTP**: `POST /v1/Interactions/{InteractionSid}/Channels/{ChannelSid}/Transfers` (Default13 (flex-api))
 - **Notes**: Create a new Transfer.
 - **Signature**: `CreateInteractionTransfer(string interactionSid, string channelSid, object? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
@@ -17,7 +17,7 @@ Accessor: `client.FlexV1InteractionTransfer` · Source: `Api/FlexV1InteractionTr
 - **Pagination**: none
 
 ### FetchInteractionTransfer
-- **HTTP**: `GET /v1/Interactions/{InteractionSid}/Channels/{ChannelSid}/Transfers/{Sid}` (Default3 (flex-api))
+- **HTTP**: `GET /v1/Interactions/{InteractionSid}/Channels/{ChannelSid}/Transfers/{Sid}` (Default13 (flex-api))
 - **Notes**: Fetch a specific Transfer by SID.
 - **Signature**: `FetchInteractionTransfer(string interactionSid, string channelSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -28,7 +28,7 @@ Accessor: `client.FlexV1InteractionTransfer` · Source: `Api/FlexV1InteractionTr
 - **Pagination**: none
 
 ### UpdateInteractionTransfer
-- **HTTP**: `POST /v1/Interactions/{InteractionSid}/Channels/{ChannelSid}/Transfers/{Sid}` (Default3 (flex-api))
+- **HTTP**: `POST /v1/Interactions/{InteractionSid}/Channels/{ChannelSid}/Transfers/{Sid}` (Default13 (flex-api))
 - **Notes**: Update an existing Transfer.
 - **Signature**: `UpdateInteractionTransfer(string interactionSid, string channelSid, string sid, object? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**

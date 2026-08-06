@@ -5,7 +5,7 @@ Accessor: `client.InsightsV1Metric` · Source: `Api/InsightsV1Metric.cs` · 1 op
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### ListMetric
-- **HTTP**: `GET /v1/Voice/{CallSid}/Metrics` (Default4 (insights))
+- **HTTP**: `GET /v1/Voice/{CallSid}/Metrics` (Default14 (insights))
 - **Notes**: Get a list of Call Metrics for a Call.
 - **Signature**: `ListMetric(string callSid, MetricEnumTwilioEdge? edge, MetricEnumStreamDirection? direction, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`edge` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

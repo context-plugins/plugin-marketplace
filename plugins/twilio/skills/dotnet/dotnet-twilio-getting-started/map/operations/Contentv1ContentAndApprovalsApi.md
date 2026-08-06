@@ -5,7 +5,7 @@ Accessor: `client.Contentv1ContentAndApprovalsApi` · Source: `Api/Contentv1Cont
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### ListContentAndApprovals
-- **HTTP**: `GET /v1/ContentAndApprovals` (Default1 (content))
+- **HTTP**: `GET /v1/ContentAndApprovals` (Default2 (content))
 - **Notes**: Retrieve a list of Contents with approval statuses belonging to the account used to make the request
 - **Signature**: `ListContentAndApprovals(int? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**

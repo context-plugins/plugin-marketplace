@@ -1,6 +1,6 @@
-# Records (`ListInteractionChannelParticipantResponse` … `MessagingV1ServiceUsAppToPersonV2`)
+# Records (`ListInteractionResponse` … `MessagingV1ServiceUsAppToPersonV2`)
 
-**Exact coverage: `ListInteractionChannelParticipantResponse` through `MessagingV1ServiceUsAppToPersonV2`**, alphabetical — these are the literal first and last record names on this page; a name outside that range is on a neighbouring page.
+**Exact coverage: `ListInteractionResponse` through `MessagingV1ServiceUsAppToPersonV2`**, alphabetical — these are the literal first and last record names on this page; a name outside that range is on a neighbouring page.
 
 Plain `record` data models (immutable, `init`-only). Each field is `CSharpName (wire_name): Type` —
 the parenthesized name is the JSON wire name (`[JsonPropertyName]`). `!req` = C# `required` (must be
@@ -10,12 +10,10 @@ is optional with a generated default — where the source declares an explicit d
 models (the `out` types named by the operation pages' error accessors) are listed here like any
 other record. A field whose type is a `OneOf`/`AnyOf` union is tagged `(union)` — construct and
 read it via `unions.md` (factories + `TryGet…`), not as a record.
-All records on these pages live in namespace `Twilio.Models`.
+All records on these pages live in namespace `TwilioSdk.Models`.
 
 | Record | Summary | Fields | Source |
 |---|---|---|---|
-| `ListInteractionChannelParticipantResponse` | — | `Participants (participants): IReadOnlyList<FlexV1InteractionInteractionChannelInteractionChannelParticipant>?`, `Meta (meta): Meta?` | `Models/ListInteractionChannelParticipantResponse.cs` |
-| `ListInteractionChannelResponse` | — | `Channels (channels): IReadOnlyList<FlexV1InteractionInteractionChannel>?`, `Meta (meta): Meta?` | `Models/ListInteractionChannelResponse.cs` |
 | `ListInteractionResponse` | — | `Interactions (interactions): IReadOnlyList<ProxyV1ServiceSessionInteraction>?`, `Meta (meta): Meta?` | `Models/ListInteractionResponse.cs` |
 | `ListItem` | — | `Id (id): string !req`, `Item (item): string !req`, `Description (description): string?` | `Models/ListItem.cs` |
 | `ListItemAssignmentResponse` | — | `Results (results): IReadOnlyList<NumbersV2RegulatoryComplianceBundleItemAssignment>?`, `Meta (meta): Meta?` | `Models/ListItemAssignmentResponse.cs` |
@@ -63,11 +61,11 @@ All records on these pages live in namespace `Twilio.Models`.
 | `ListServiceConversationResponse` | — | `Conversations (conversations): IReadOnlyList<ConversationsV1ServiceServiceConversation>?`, `Meta (meta): Meta?` | `Models/ListServiceConversationResponse.cs` |
 | `ListServiceConversationScopedWebhookResponse` | — | `Webhooks (webhooks): IReadOnlyList<ConversationsV1ServiceServiceConversationServiceConversationScopedWebhook>?`, `Meta (meta): Meta?` | `Models/ListServiceConversationScopedWebhookResponse.cs` |
 | `ListServiceParticipantConversationResponse` | — | `Conversations (conversations): IReadOnlyList<ConversationsV1ServiceServiceParticipantConversation>?`, `Meta (meta): Meta?` | `Models/ListServiceParticipantConversationResponse.cs` |
-| `ListServiceResponse` | — | `Services (services): IReadOnlyList<ConversationsV1Service>?`, `Meta (meta): Meta?` | `Models/ListServiceResponse.cs` |
-| `ListServiceResponse1` | — | `Services (services): IReadOnlyList<MessagingV1Service>?`, `Meta (meta): Meta?` | `Models/ListServiceResponse1.cs` |
-| `ListServiceResponse2` | — | `Services (services): IReadOnlyList<ProxyV1Service>?`, `Meta (meta): Meta?` | `Models/ListServiceResponse2.cs` |
-| `ListServiceResponse3` | — | `Services (services): IReadOnlyList<SyncV1Service>?`, `Meta (meta): Meta?` | `Models/ListServiceResponse3.cs` |
-| `ListServiceResponse4` | — | `Services (services): IReadOnlyList<VerifyV2Service>?`, `Meta (meta): Meta?` | `Models/ListServiceResponse4.cs` |
+| `ListServiceResponse` | — | `Services (services): IReadOnlyList<MessagingV1Service>?`, `Meta (meta): Meta?` | `Models/ListServiceResponse.cs` |
+| `ListServiceResponse1` | — | `Services (services): IReadOnlyList<VerifyV2Service>?`, `Meta (meta): Meta?` | `Models/ListServiceResponse1.cs` |
+| `ListServiceResponse2` | — | `Services (services): IReadOnlyList<ConversationsV1Service>?`, `Meta (meta): Meta?` | `Models/ListServiceResponse2.cs` |
+| `ListServiceResponse3` | — | `Services (services): IReadOnlyList<ProxyV1Service>?`, `Meta (meta): Meta?` | `Models/ListServiceResponse3.cs` |
+| `ListServiceResponse4` | — | `Services (services): IReadOnlyList<SyncV1Service>?`, `Meta (meta): Meta?` | `Models/ListServiceResponse4.cs` |
 | `ListServiceRoleResponse` | — | `Roles (roles): IReadOnlyList<ConversationsV1ServiceServiceRole>?`, `Meta (meta): Meta?` | `Models/ListServiceRoleResponse.cs` |
 | `ListServiceUserConversationResponse` | — | `Conversations (conversations): IReadOnlyList<ConversationsV1ServiceServiceUserServiceUserConversation>?`, `Meta (meta): Meta?` | `Models/ListServiceUserConversationResponse.cs` |
 | `ListServiceUserResponse` | — | `Users (users): IReadOnlyList<ConversationsV1ServiceServiceUser>?`, `Meta (meta): Meta?` | `Models/ListServiceUserResponse.cs` |
@@ -142,7 +140,7 @@ All records on these pages live in namespace `Twilio.Models`.
 | `LookupResponse` | — | `CallingCountryCode (calling_country_code): string?`, `CountryCode (country_code): string?`, `PhoneNumber (phone_number): string?`, `NationalFormat (national_format): string?`, `Valid (valid): bool?`, `ValidationErrors (validation_errors): IReadOnlyList<ValidationError>?`, `CallerName (caller_name): CallerNameInfo?`, `SimSwap (sim_swap): SimSwapInfo?`, `CallForwarding (call_forwarding): CallForwardingInfo?`, `LineTypeIntelligence (line_type_intelligence): LineTypeIntelligenceInfo?`, `LineStatus (line_status): LineStatusInfo?`, `IdentityMatch (identity_match): IdentityMatchInfo?`, `ReassignedNumber (reassigned_number): ReassignedNumberInfo?`, `SmsPumpingRisk (sms_pumping_risk): SmsPumpingRiskInfo?`, `PhoneNumberQualityScore (phone_number_quality_score): object?`, `PreFill (pre_fill): object?`, `Url (url): string?` | `Models/LookupResponse.cs` |
 | `LookupResponse1` | — | `PhoneNumbers (phone_numbers): IReadOnlyList<LookupBatchResponse>?` | `Models/LookupResponse1.cs` |
 | `LookupsV1PhoneNumber` | — | `CallerName (caller_name): object?`, `CountryCode (country_code): string?`, `PhoneNumber (phone_number): string?`, `NationalFormat (national_format): string?`, `Carrier (carrier): object?`, `AddOns (add_ons): object?`, `Url (url): string?` | `Models/LookupsV1PhoneNumber.cs` |
-| `LosingCarrierInformation` | — | `CustomerName (customer_name): string !req`, `AccountNumber (account_number): string?`, `AccountTelephoneNumber (account_telephone_number): string?`, `AddressSid (address_sid): string?`, `Address (address): Address2?`, `AuthorizedRepresentative (authorized_representative): string !req`, `AuthorizedRepresentativeEmail (authorized_representative_email): string !req`, `CustomerType (customer_type): CustomerType?`, `AuthorizedRepresentativeKatakana (authorized_representative_katakana): string?`, `SubMunicipality (sub_municipality): string?`, `Building (building): string?`, `KatakanaName (katakana_name): string?` | `Models/LosingCarrierInformation.cs` |
+| `LosingCarrierInformation` | — | `CustomerName (customer_name): string !req`, `AccountNumber (account_number): string?`, `AccountTelephoneNumber (account_telephone_number): string?`, `AddressSid (address_sid): string?`, `Address (address): Address?`, `AuthorizedRepresentative (authorized_representative): string !req`, `AuthorizedRepresentativeEmail (authorized_representative_email): string !req`, `CustomerType (customer_type): CustomerType?`, `AuthorizedRepresentativeKatakana (authorized_representative_katakana): string?`, `SubMunicipality (sub_municipality): string?`, `Building (building): string?`, `KatakanaName (katakana_name): string?` | `Models/LosingCarrierInformation.cs` |
 | `Measure` | — | `Name (name): string !req`, `Description (description): string?`, `Type (type): string !req`, `Aggregation (aggregation): string?` | `Models/Measure.cs` |
 | `MessageProperties` | — | `KeywordType (keyword_type): string !req`, `MessageType (message_type): string !req`, `Message (message): string !req` | `Models/MessageProperties.cs` |
 | `MessagesResponse` | — | `AccountSid (account_sid): string !req`, `OptOutSid (opt_out_sid): string !req`, `Config (config): IReadOnlyList<MessageProperties> !req` | `Models/MessagesResponse.cs` |

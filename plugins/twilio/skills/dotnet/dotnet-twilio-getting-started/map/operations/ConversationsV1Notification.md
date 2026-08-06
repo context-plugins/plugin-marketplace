@@ -5,7 +5,7 @@ Accessor: `client.ConversationsV1Notification` · Source: `Api/ConversationsV1No
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchServiceNotification
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Configuration/Notifications` (Default2 (conversations))
+- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Configuration/Notifications` (Default7 (conversations))
 - **Notes**: Fetch push notification service settings
 - **Signature**: `FetchServiceNotification(string chatServiceSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.ConversationsV1Notification` · Source: `Api/ConversationsV1No
 - **Pagination**: none
 
 ### UpdateServiceNotification
-- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Configuration/Notifications` (Default2 (conversations))
+- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Configuration/Notifications` (Default7 (conversations))
 - **Notes**: Update push notification service settings
 - **Signature**: `UpdateServiceNotification(string chatServiceSid, bool? logEnabled, bool? newMessageEnabled, string? newMessageTemplate, string? newMessageSound, bool? newMessageBadgeCountEnabled, bool? addedToConversationEnabled, string? addedToConversationTemplate, string? addedToConversationSound, bool? removedFromConversationEnabled, string? removedFromConversationTemplate, string? removedFromConversationSound, bool? newMessageWithMediaEnabled, string? newMessageWithMediaTemplate, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 13 params (`logEnabled` … `newMessageWithMediaTemplate`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

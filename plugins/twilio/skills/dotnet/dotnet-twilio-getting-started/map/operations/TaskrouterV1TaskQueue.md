@@ -5,7 +5,7 @@ Accessor: `client.TaskrouterV1TaskQueue` · Source: `Api/TaskrouterV1TaskQueue.c
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateTaskQueue
-- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/TaskQueues` (Default11 (taskrouter))
+- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/TaskQueues` (Default8 (taskrouter))
 - **Signature**: `CreateTaskQueue(string workspaceSid, string friendlyName, string? targetWorkers, int? maxReservedWorkers, TaskQueueEnumTaskOrder? taskOrder, string? reservationActivitySid, string? assignmentActivitySid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`targetWorkers` … `assignmentActivitySid`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -17,7 +17,7 @@ Accessor: `client.TaskrouterV1TaskQueue` · Source: `Api/TaskrouterV1TaskQueue.c
 - **Pagination**: none
 
 ### DeleteTaskQueue
-- **HTTP**: `DELETE /v1/Workspaces/{WorkspaceSid}/TaskQueues/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `DELETE /v1/Workspaces/{WorkspaceSid}/TaskQueues/{Sid}` (Default8 (taskrouter))
 - **Signature**: `DeleteTaskQueue(string workspaceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -27,7 +27,7 @@ Accessor: `client.TaskrouterV1TaskQueue` · Source: `Api/TaskrouterV1TaskQueue.c
 - **Pagination**: none
 
 ### FetchTaskQueue
-- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/TaskQueues/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/TaskQueues/{Sid}` (Default8 (taskrouter))
 - **Signature**: `FetchTaskQueue(string workspaceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `TaskrouterV1WorkspaceTaskQueue`
@@ -37,7 +37,7 @@ Accessor: `client.TaskrouterV1TaskQueue` · Source: `Api/TaskrouterV1TaskQueue.c
 - **Pagination**: none
 
 ### ListTaskQueue
-- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/TaskQueues` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/TaskQueues` (Default8 (taskrouter))
 - **Signature**: `ListTaskQueue(string workspaceSid, string? friendlyName, string? evaluateWorkerAttributes, string? workerSid, string? ordering, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 7 params (`friendlyName` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -49,7 +49,7 @@ Accessor: `client.TaskrouterV1TaskQueue` · Source: `Api/TaskrouterV1TaskQueue.c
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateTaskQueue
-- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/TaskQueues/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/TaskQueues/{Sid}` (Default8 (taskrouter))
 - **Signature**: `UpdateTaskQueue(string workspaceSid, string sid, string? friendlyName, string? targetWorkers, string? reservationActivitySid, string? assignmentActivitySid, int? maxReservedWorkers, TaskQueueEnumTaskOrder? taskOrder, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 6 params (`friendlyName` … `taskOrder`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null

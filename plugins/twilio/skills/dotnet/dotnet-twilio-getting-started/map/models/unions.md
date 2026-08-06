@@ -2,11 +2,12 @@
 
 Union types wrap several `Optional<T>` variants. Construct with a static factory (`Union.Factory(variant)`) or an implicit conversion where listed; read back with the matching `TryGet…(out …)` — it returns `true` when that variant is set. Cells show `—` when the union declares none.
 
-## OneOf (1)
+## OneOf (2)
 
 | Union | Variants | Factories | TryGet accessors | Implicit from | Source |
 |---|---|---|---|---|---|
-| `TypingIndicatorRequest` | WhatsAppTypingIndicatorRequest, AppleTypingIndicatorRequest | `TypingIndicatorRequest.WhatsAppTypingIndicatorRequest(WhatsAppTypingIndicatorRequest)`, `TypingIndicatorRequest.AppleTypingIndicatorRequest(AppleTypingIndicatorRequest)` | `TryGetWhatsAppTypingIndicatorRequest(out …)`, `TryGetAppleTypingIndicatorRequest(out …)` | `WhatsAppTypingIndicatorRequest`, `AppleTypingIndicatorRequest` | `Models/OneOf/TypingIndicatorRequest.cs` |
+| `TypingIndicatorRequest` | MessagingV2WhatsappTypingIndicator, AppleTypingIndicatorRequest | `TypingIndicatorRequest.MessagingV2WhatsappTypingIndicator(MessagingV2WhatsappTypingIndicator)`, `TypingIndicatorRequest.AppleTypingIndicatorRequest(AppleTypingIndicatorRequest)` | `TryGetMessagingV2WhatsappTypingIndicator(out …)`, `TryGetAppleTypingIndicatorRequest(out …)` | `MessagingV2WhatsappTypingIndicator`, `AppleTypingIndicatorRequest` | `Models/OneOf/TypingIndicatorRequest.cs` |
+| `V2ConversationsActionsRequest` | — | — | — | — | `Models/OneOf/V2ConversationsActionsRequest.cs` |
 
 ## AnyOf (3)
 

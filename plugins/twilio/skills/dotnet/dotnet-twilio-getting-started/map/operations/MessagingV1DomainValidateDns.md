@@ -5,7 +5,7 @@ Accessor: `client.MessagingV1DomainValidateDns` · Source: `Api/MessagingV1Domai
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchDomainDnsValidation
-- **HTTP**: `GET /v1/LinkShortening/Domains/{DomainSid}/ValidateDns` (Default6 (messaging))
+- **HTTP**: `GET /v1/LinkShortening/Domains/{DomainSid}/ValidateDns` (Default1 (messaging))
 - **Signature**: `FetchDomainDnsValidation(string domainSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1DomainDnsValidation`

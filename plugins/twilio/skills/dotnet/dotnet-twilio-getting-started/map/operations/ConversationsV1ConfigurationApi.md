@@ -5,7 +5,7 @@ Accessor: `client.ConversationsV1ConfigurationApi` · Source: `Api/Conversations
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchConfiguration
-- **HTTP**: `GET /v1/Configuration` (Default2 (conversations))
+- **HTTP**: `GET /v1/Configuration` (Default7 (conversations))
 - **Notes**: Fetch the global configuration of conversations on your account
 - **Signature**: `FetchConfiguration(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.ConversationsV1ConfigurationApi` · Source: `Api/Conversations
 - **Pagination**: none
 
 ### FetchServiceConfiguration
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Configuration` (Default2 (conversations))
+- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Configuration` (Default7 (conversations))
 - **Notes**: Fetch the configuration of a conversation service
 - **Signature**: `FetchServiceConfiguration(string chatServiceSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -27,7 +27,7 @@ Accessor: `client.ConversationsV1ConfigurationApi` · Source: `Api/Conversations
 - **Pagination**: none
 
 ### UpdateConfiguration
-- **HTTP**: `POST /v1/Configuration` (Default2 (conversations))
+- **HTTP**: `POST /v1/Configuration` (Default7 (conversations))
 - **Notes**: Update the global configuration of conversations on your account
 - **Signature**: `UpdateConfiguration(string? defaultChatServiceSid, string? defaultMessagingServiceSid, string? defaultInactiveTimer, string? defaultClosedTimer, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`defaultChatServiceSid` … `defaultClosedTimer`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -40,7 +40,7 @@ Accessor: `client.ConversationsV1ConfigurationApi` · Source: `Api/Conversations
 - **Pagination**: none
 
 ### UpdateServiceConfiguration
-- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Configuration` (Default2 (conversations))
+- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Configuration` (Default7 (conversations))
 - **Notes**: Update configuration settings of a conversation service
 - **Signature**: `UpdateServiceConfiguration(string chatServiceSid, string? defaultConversationCreatorRoleSid, string? defaultConversationRoleSid, string? defaultChatServiceRoleSid, bool? reachabilityEnabled, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`defaultConversationCreatorRoleSid` … `reachabilityEnabled`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

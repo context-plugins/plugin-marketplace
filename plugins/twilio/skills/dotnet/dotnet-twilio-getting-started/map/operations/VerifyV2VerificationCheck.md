@@ -5,7 +5,7 @@ Accessor: `client.VerifyV2VerificationCheck` · Source: `Api/VerifyV2Verificatio
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateVerificationCheck
-- **HTTP**: `POST /v2/Services/{ServiceSid}/VerificationCheck` (Default13 (verify))
+- **HTTP**: `POST /v2/Services/{ServiceSid}/VerificationCheck` (Default3 (verify))
 - **Notes**: challenge a specific Verification Check.
 - **Signature**: `CreateVerificationCheck(string serviceSid, string? code, string? to, string? verificationSid, string? amount, string? payee, string? snaClientToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 6 params (`code` … `snaClientToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

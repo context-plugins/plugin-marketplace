@@ -5,7 +5,7 @@ Accessor: `client.ConversationsV2ConversationApi` · Source: `Api/ConversationsV
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateConversationWithConfig
-- **HTTP**: `POST /v2/Conversations` (Default2 (conversations))
+- **HTTP**: `POST /v2/Conversations` (Default7 (conversations))
 - **Notes**: Create a new conversation
 - **Signature**: `CreateConversationWithConfig(V2ConversationsRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
@@ -17,7 +17,7 @@ Accessor: `client.ConversationsV2ConversationApi` · Source: `Api/ConversationsV
 - **Pagination**: none
 
 ### DeleteConversationAsync
-- **HTTP**: `DELETE /v2/Conversations/{Sid}` (Default2 (conversations))
+- **HTTP**: `DELETE /v2/Conversations/{Sid}` (Default7 (conversations))
 - **Notes**: Asynchronously delete a conversation and all associated data. Returns 202 Accepted with an Operation-Id for status tracking via GET /v2/ControlPlane/Operations/{operationId}.
 - **Signature**: `DeleteConversationAsync(string sid, string? idempotencyKey, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `idempotencyKey` — nullable, no default → **must pass explicitly**
@@ -29,7 +29,7 @@ Accessor: `client.ConversationsV2ConversationApi` · Source: `Api/ConversationsV
 - **Pagination**: none
 
 ### FetchConversation2
-- **HTTP**: `GET /v2/Conversations/{Sid}` (Default2 (conversations))
+- **HTTP**: `GET /v2/Conversations/{Sid}` (Default7 (conversations))
 - **Notes**: Retrieve a Conversation.
 - **Signature**: `FetchConversation2(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -40,9 +40,9 @@ Accessor: `client.ConversationsV2ConversationApi` · Source: `Api/ConversationsV
 - **Pagination**: none
 
 ### ListConversationByAccount
-- **HTTP**: `GET /v2/Conversations` (Default2 (conversations))
+- **HTTP**: `GET /v2/Conversations` (Default7 (conversations))
 - **Notes**: Retrieve a list of Conversations.
-- **Signature**: `ListConversationByAccount(IReadOnlyList<Status3>? status, string? channelId, string? pageToken, int? pageSize = 50, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `ListConversationByAccount(IReadOnlyList<Status31>? status, string? channelId, string? pageToken, int? pageSize = 50, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `status` — nullable, no default → **must pass explicitly**
   - `channelId` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
@@ -55,7 +55,7 @@ Accessor: `client.ConversationsV2ConversationApi` · Source: `Api/ConversationsV
 - **Pagination**: none
 
 ### PatchConversationById
-- **HTTP**: `PATCH /v2/Conversations/{Sid}` (Default2 (conversations))
+- **HTTP**: `PATCH /v2/Conversations/{Sid}` (Default7 (conversations))
 - **Notes**: Partially update the details of an existing Conversation.
 - **Signature**: `PatchConversationById(string sid, V2ConversationsRequest2? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
@@ -67,7 +67,7 @@ Accessor: `client.ConversationsV2ConversationApi` · Source: `Api/ConversationsV
 - **Pagination**: none
 
 ### UpdateConversationById
-- **HTTP**: `PUT /v2/Conversations/{Sid}` (Default2 (conversations))
+- **HTTP**: `PUT /v2/Conversations/{Sid}` (Default7 (conversations))
 - **Notes**: Update an existing conversation
 - **Signature**: `UpdateConversationById(string sid, V2ConversationsRequest1? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**

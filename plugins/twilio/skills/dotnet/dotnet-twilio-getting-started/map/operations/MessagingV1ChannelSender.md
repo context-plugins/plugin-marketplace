@@ -5,7 +5,7 @@ Accessor: `client.MessagingV1ChannelSender` · Source: `Api/MessagingV1ChannelSe
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateChannelSender
-- **HTTP**: `POST /v1/Services/{MessagingServiceSid}/ChannelSenders` (Default6 (messaging))
+- **HTTP**: `POST /v1/Services/{MessagingServiceSid}/ChannelSenders` (Default1 (messaging))
 - **Signature**: `CreateChannelSender(string messagingServiceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `Sid` ← `sid`
@@ -16,7 +16,7 @@ Accessor: `client.MessagingV1ChannelSender` · Source: `Api/MessagingV1ChannelSe
 - **Pagination**: none
 
 ### DeleteChannelSender
-- **HTTP**: `DELETE /v1/Services/{MessagingServiceSid}/ChannelSenders/{Sid}` (Default6 (messaging))
+- **HTTP**: `DELETE /v1/Services/{MessagingServiceSid}/ChannelSenders/{Sid}` (Default1 (messaging))
 - **Signature**: `DeleteChannelSender(string messagingServiceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -26,7 +26,7 @@ Accessor: `client.MessagingV1ChannelSender` · Source: `Api/MessagingV1ChannelSe
 - **Pagination**: none
 
 ### FetchChannelSender
-- **HTTP**: `GET /v1/Services/{MessagingServiceSid}/ChannelSenders/{Sid}` (Default6 (messaging))
+- **HTTP**: `GET /v1/Services/{MessagingServiceSid}/ChannelSenders/{Sid}` (Default1 (messaging))
 - **Signature**: `FetchChannelSender(string messagingServiceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1ServiceChannelSender`
@@ -36,7 +36,7 @@ Accessor: `client.MessagingV1ChannelSender` · Source: `Api/MessagingV1ChannelSe
 - **Pagination**: none
 
 ### ListChannelSender
-- **HTTP**: `GET /v1/Services/{MessagingServiceSid}/ChannelSenders` (Default6 (messaging))
+- **HTTP**: `GET /v1/Services/{MessagingServiceSid}/ChannelSenders` (Default1 (messaging))
 - **Signature**: `ListChannelSender(string messagingServiceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**

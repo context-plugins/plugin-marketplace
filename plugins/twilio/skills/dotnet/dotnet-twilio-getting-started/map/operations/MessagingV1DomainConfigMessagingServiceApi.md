@@ -5,7 +5,7 @@ Accessor: `client.MessagingV1DomainConfigMessagingServiceApi` · Source: `Api/Me
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchDomainConfigMessagingService
-- **HTTP**: `GET /v1/LinkShortening/MessagingService/{MessagingServiceSid}/DomainConfig` (Default6 (messaging))
+- **HTTP**: `GET /v1/LinkShortening/MessagingService/{MessagingServiceSid}/DomainConfig` (Default1 (messaging))
 - **Signature**: `FetchDomainConfigMessagingService(string messagingServiceSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1DomainConfigMessagingService`

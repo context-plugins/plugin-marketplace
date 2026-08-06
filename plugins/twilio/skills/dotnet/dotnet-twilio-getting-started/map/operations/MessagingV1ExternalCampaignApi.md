@@ -5,7 +5,7 @@ Accessor: `client.MessagingV1ExternalCampaignApi` · Source: `Api/MessagingV1Ext
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateExternalCampaign
-- **HTTP**: `POST /v1/Services/PreregisteredUsa2p` (Default6 (messaging))
+- **HTTP**: `POST /v1/Services/PreregisteredUsa2p` (Default1 (messaging))
 - **Signature**: `CreateExternalCampaign(string campaignId, string messagingServiceSid, bool? cnpMigration, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `cnpMigration` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null

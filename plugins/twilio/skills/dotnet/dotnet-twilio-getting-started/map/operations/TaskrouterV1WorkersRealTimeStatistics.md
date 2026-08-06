@@ -5,7 +5,7 @@ Accessor: `client.TaskrouterV1WorkersRealTimeStatistics` · Source: `Api/Taskrou
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchWorkersRealTimeStatistics
-- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers/RealTimeStatistics` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers/RealTimeStatistics` (Default8 (taskrouter))
 - **Signature**: `FetchWorkersRealTimeStatistics(string workspaceSid, string? taskChannel, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `taskChannel` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null

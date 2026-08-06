@@ -1,6 +1,6 @@
-# Twilio SDK Plugin
+# twilio SDK Plugin
 
-Integrate and consume the **APIMatic-generated Twilio SDK** (the "APIMATIC v3.0" generic
+Integrate and consume the **APIMatic-generated twilio SDK** (the "APIMATIC v3.0" generic
 libraries, built on `apimatic-*-core` / `apimatic/*-core-runtime` runtimes) across C#/.NET.
 Works in **Claude Code**, **Cursor**, and **VS Code**. Every SDK fact is grounded in the cloned SDK
 source and the bundled skills.

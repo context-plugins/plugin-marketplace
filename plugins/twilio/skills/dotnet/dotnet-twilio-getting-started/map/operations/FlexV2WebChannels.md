@@ -5,7 +5,7 @@ Accessor: `client.FlexV2WebChannels` · Source: `Api/FlexV2WebChannels.cs` · 1 
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateWebChannel2
-- **HTTP**: `POST /v2/WebChats` (Default3 (flex-api))
+- **HTTP**: `POST /v2/WebChats` (Default13 (flex-api))
 - **Signature**: `CreateWebChannel2(string? uiVersion, string addressSid, string? chatFriendlyName, string? customerFriendlyName, string? preEngagementData, string? identity, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`uiVersion` … `identity`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null

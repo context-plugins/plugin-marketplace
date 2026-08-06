@@ -5,7 +5,7 @@ Accessor: `client.TaskrouterV1WorkerReservation` · Source: `Api/TaskrouterV1Wor
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchWorkerReservation
-- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers/{WorkerSid}/Reservations/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers/{WorkerSid}/Reservations/{Sid}` (Default8 (taskrouter))
 - **Signature**: `FetchWorkerReservation(string workspaceSid, string workerSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `TaskrouterV1WorkspaceWorkerWorkerReservation`
@@ -15,7 +15,7 @@ Accessor: `client.TaskrouterV1WorkerReservation` · Source: `Api/TaskrouterV1Wor
 - **Pagination**: none
 
 ### ListWorkerReservation
-- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers/{WorkerSid}/Reservations` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers/{WorkerSid}/Reservations` (Default8 (taskrouter))
 - **Signature**: `ListWorkerReservation(string workspaceSid, string workerSid, WorkerReservationEnumStatus? reservationStatus, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`reservationStatus` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -27,7 +27,7 @@ Accessor: `client.TaskrouterV1WorkerReservation` · Source: `Api/TaskrouterV1Wor
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateWorkerReservation
-- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/Workers/{WorkerSid}/Reservations/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/Workers/{WorkerSid}/Reservations/{Sid}` (Default8 (taskrouter))
 - **Signature**: `UpdateWorkerReservation(string workspaceSid, string workerSid, string sid, string? ifMatch, WorkerReservationEnumStatus? reservationStatus, string? workerActivitySid, string? instruction, string? dequeuePostWorkActivitySid, string? dequeueFrom, string? dequeueRecord, int? dequeueTimeout, string? dequeueTo, string? dequeueStatusCallbackUrl, string? callFrom, string? callRecord, int? callTimeout, string? callTo, string? callUrl, string? callStatusCallbackUrl, bool? callAccept, string? redirectCallSid, bool? redirectAccept, string? redirectUrl, string? to, string? from, string? statusCallback, AmdStatusCallbackMethod? statusCallbackMethod, IReadOnlyList<CallEnumEvent>? statusCallbackEvent, int? timeout, bool? record, bool? muted, string? beep, bool? startConferenceOnEnter, bool? endConferenceOnExit, string? waitUrl, AmdStatusCallbackMethod? waitMethod, bool? earlyMedia, int? maxParticipants, string? conferenceStatusCallback, AmdStatusCallbackMethod? conferenceStatusCallbackMethod, IReadOnlyList<WorkerReservationEnumConferenceEvent>? conferenceStatusCallbackEvent, string? conferenceRecord, string? conferenceTrim, string? recordingChannels, string? recordingStatusCallback, AmdStatusCallbackMethod? recordingStatusCallbackMethod, string? conferenceRecordingStatusCallback, AmdStatusCallbackMethod? conferenceRecordingStatusCallbackMethod, string? region, string? sipAuthUsername, string? sipAuthPassword, IReadOnlyList<string>? dequeueStatusCallbackEvent, string? postWorkActivitySid, bool? endConferenceOnCustomerExit, bool? beepOnCustomerEntrance, string? jitterBufferSize, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 53 params (`ifMatch` … `jitterBufferSize`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null

@@ -5,7 +5,7 @@ Accessor: `client.MessagingV1LinkshorteningMessagingServiceApi` · Source: `Api/
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateLinkshorteningMessagingService
-- **HTTP**: `POST /v1/LinkShortening/Domains/{DomainSid}/MessagingServices/{MessagingServiceSid}` (Default6 (messaging))
+- **HTTP**: `POST /v1/LinkShortening/Domains/{DomainSid}/MessagingServices/{MessagingServiceSid}` (Default1 (messaging))
 - **Signature**: `CreateLinkshorteningMessagingService(string domainSid, string messagingServiceSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1LinkshorteningMessagingService`
@@ -15,7 +15,7 @@ Accessor: `client.MessagingV1LinkshorteningMessagingServiceApi` · Source: `Api/
 - **Pagination**: none
 
 ### DeleteLinkshorteningMessagingService
-- **HTTP**: `DELETE /v1/LinkShortening/Domains/{DomainSid}/MessagingServices/{MessagingServiceSid}` (Default6 (messaging))
+- **HTTP**: `DELETE /v1/LinkShortening/Domains/{DomainSid}/MessagingServices/{MessagingServiceSid}` (Default1 (messaging))
 - **Signature**: `DeleteLinkshorteningMessagingService(string domainSid, string messagingServiceSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)

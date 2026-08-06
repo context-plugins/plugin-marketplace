@@ -5,7 +5,7 @@ Accessor: `client.NumbersV2EndUser` · Source: `Api/NumbersV2EndUser.cs` · 5 op
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateEndUser
-- **HTTP**: `POST /v2/RegulatoryCompliance/EndUsers` (Default7 (numbers))
+- **HTTP**: `POST /v2/RegulatoryCompliance/EndUsers` (Default5 (numbers))
 - **Notes**: Create a new End User.
 - **Signature**: `CreateEndUser(string friendlyName, EndUserEnumType type, object? attributes, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `attributes` — nullable, no default → **must pass explicitly**
@@ -18,7 +18,7 @@ Accessor: `client.NumbersV2EndUser` · Source: `Api/NumbersV2EndUser.cs` · 5 op
 - **Pagination**: none
 
 ### DeleteEndUser
-- **HTTP**: `DELETE /v2/RegulatoryCompliance/EndUsers/{Sid}` (Default7 (numbers))
+- **HTTP**: `DELETE /v2/RegulatoryCompliance/EndUsers/{Sid}` (Default5 (numbers))
 - **Notes**: Delete a specific End User.
 - **Signature**: `DeleteEndUser(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -29,7 +29,7 @@ Accessor: `client.NumbersV2EndUser` · Source: `Api/NumbersV2EndUser.cs` · 5 op
 - **Pagination**: none
 
 ### FetchEndUser
-- **HTTP**: `GET /v2/RegulatoryCompliance/EndUsers/{Sid}` (Default7 (numbers))
+- **HTTP**: `GET /v2/RegulatoryCompliance/EndUsers/{Sid}` (Default5 (numbers))
 - **Notes**: Fetch specific End User Instance.
 - **Signature**: `FetchEndUser(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -40,7 +40,7 @@ Accessor: `client.NumbersV2EndUser` · Source: `Api/NumbersV2EndUser.cs` · 5 op
 - **Pagination**: none
 
 ### ListEndUser
-- **HTTP**: `GET /v2/RegulatoryCompliance/EndUsers` (Default7 (numbers))
+- **HTTP**: `GET /v2/RegulatoryCompliance/EndUsers` (Default5 (numbers))
 - **Notes**: Retrieve a list of all End User for an account.
 - **Signature**: `ListEndUser(long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
@@ -55,7 +55,7 @@ Accessor: `client.NumbersV2EndUser` · Source: `Api/NumbersV2EndUser.cs` · 5 op
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateEndUser
-- **HTTP**: `POST /v2/RegulatoryCompliance/EndUsers/{Sid}` (Default7 (numbers))
+- **HTTP**: `POST /v2/RegulatoryCompliance/EndUsers/{Sid}` (Default5 (numbers))
 - **Notes**: Update an existing End User.
 - **Signature**: `UpdateEndUser(string sid, string? friendlyName, object? attributes, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `friendlyName` — nullable, no default → **must pass explicitly**

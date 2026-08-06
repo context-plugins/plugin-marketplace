@@ -5,7 +5,7 @@ Accessor: `client.ProxyV1Interaction` · Source: `Api/ProxyV1Interaction.cs` · 
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### DeleteInteraction
-- **HTTP**: `DELETE /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Interactions/{Sid}` (Default8 (proxy))
+- **HTTP**: `DELETE /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Interactions/{Sid}` (Default10 (proxy))
 - **Notes**: Delete a specific Interaction.
 - **Signature**: `DeleteInteraction(string serviceSid, string sessionSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -15,10 +15,10 @@ Accessor: `client.ProxyV1Interaction` · Source: `Api/ProxyV1Interaction.cs` · 
 - **No-throw variant**: absent
 - **Pagination**: none
 
-### FetchInteraction2
-- **HTTP**: `GET /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Interactions/{Sid}` (Default8 (proxy))
+### FetchInteraction
+- **HTTP**: `GET /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Interactions/{Sid}` (Default10 (proxy))
 - **Notes**: Retrieve a list of Interactions for a given Session .
-- **Signature**: `FetchInteraction2(string serviceSid, string sessionSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `FetchInteraction(string serviceSid, string sessionSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `ProxyV1ServiceSessionInteraction`
 - **Error**: `SdkException<RawError>` — **Case B**
@@ -27,7 +27,7 @@ Accessor: `client.ProxyV1Interaction` · Source: `Api/ProxyV1Interaction.cs` · 
 - **Pagination**: none
 
 ### ListInteraction
-- **HTTP**: `GET /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Interactions` (Default8 (proxy))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Interactions` (Default10 (proxy))
 - **Notes**: Retrieve a list of all Interactions for a Session. A maximum of 100 records will be returned per page.
 - **Signature**: `ListInteraction(string serviceSid, string sessionSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**

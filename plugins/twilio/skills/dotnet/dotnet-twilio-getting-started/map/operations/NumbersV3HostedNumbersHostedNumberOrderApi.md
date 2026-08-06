@@ -5,7 +5,7 @@ Accessor: `client.NumbersV3HostedNumbersHostedNumberOrderApi` · Source: `Api/Nu
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateHostedNumbersHostedNumberOrder
-- **HTTP**: `POST /v3/HostedNumbers/HostedNumberOrders` (Default7 (numbers))
+- **HTTP**: `POST /v3/HostedNumbers/HostedNumberOrders` (Default5 (numbers))
 - **Signature**: `CreateHostedNumbersHostedNumberOrder(string phoneNumber, bool smsCapability, string? accountSid, string? friendlyName, string? uniqueName, IReadOnlyList<string>? ccEmails, string? smsUrl, AmdStatusCallbackMethod? smsMethod, string? smsFallbackUrl, AmdStatusCallbackMethod? smsFallbackMethod, string? statusCallbackUrl, AmdStatusCallbackMethod? statusCallbackMethod, string? smsApplicationSid, string? addressSid, string? email, DependentOrderEnumVerificationType? verificationType, string? verificationDocumentSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 15 params (`accountSid` … `verificationDocumentSid`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null

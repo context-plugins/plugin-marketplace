@@ -5,7 +5,7 @@ Accessor: `client.VerifyV2Verification` · Source: `Api/VerifyV2Verification.cs`
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateVerification
-- **HTTP**: `POST /v2/Services/{ServiceSid}/Verifications` (Default13 (verify))
+- **HTTP**: `POST /v2/Services/{ServiceSid}/Verifications` (Default3 (verify))
 - **Notes**: Create a new Verification using a Service
 - **Signature**: `CreateVerification(string serviceSid, string to, string channel, string? customFriendlyName, string? customMessage, string? sendDigits, string? locale, string? customCode, string? amount, string? payee, object? rateLimits, object? channelConfiguration, string? appHash, string? templateSid, string? templateCustomSubstitutions, string? deviceIp, bool? enableSnaClientToken, MessageEnumRiskCheck? riskCheck, string? tags, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 16 params (`customFriendlyName` … `tags`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -18,7 +18,7 @@ Accessor: `client.VerifyV2Verification` · Source: `Api/VerifyV2Verification.cs`
 - **Pagination**: none
 
 ### FetchVerification
-- **HTTP**: `GET /v2/Services/{ServiceSid}/Verifications/{Sid}` (Default13 (verify))
+- **HTTP**: `GET /v2/Services/{ServiceSid}/Verifications/{Sid}` (Default3 (verify))
 - **Notes**: Fetch a specific Verification
 - **Signature**: `FetchVerification(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -29,7 +29,7 @@ Accessor: `client.VerifyV2Verification` · Source: `Api/VerifyV2Verification.cs`
 - **Pagination**: none
 
 ### UpdateVerification
-- **HTTP**: `POST /v2/Services/{ServiceSid}/Verifications/{Sid}` (Default13 (verify))
+- **HTTP**: `POST /v2/Services/{ServiceSid}/Verifications/{Sid}` (Default3 (verify))
 - **Notes**: Update a Verification status
 - **Signature**: `UpdateVerification(string serviceSid, string sid, VerificationEnumStatus status, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null

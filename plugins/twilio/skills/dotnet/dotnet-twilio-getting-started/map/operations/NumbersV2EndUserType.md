@@ -5,7 +5,7 @@ Accessor: `client.NumbersV2EndUserType` · Source: `Api/NumbersV2EndUserType.cs`
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchEndUserType
-- **HTTP**: `GET /v2/RegulatoryCompliance/EndUserTypes/{Sid}` (Default7 (numbers))
+- **HTTP**: `GET /v2/RegulatoryCompliance/EndUserTypes/{Sid}` (Default5 (numbers))
 - **Notes**: Fetch a specific End-User Type Instance.
 - **Signature**: `FetchEndUserType(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.NumbersV2EndUserType` · Source: `Api/NumbersV2EndUserType.cs`
 - **Pagination**: none
 
 ### ListEndUserType
-- **HTTP**: `GET /v2/RegulatoryCompliance/EndUserTypes` (Default7 (numbers))
+- **HTTP**: `GET /v2/RegulatoryCompliance/EndUserTypes` (Default5 (numbers))
 - **Notes**: Retrieve a list of all End-User Types.
 - **Signature**: `ListEndUserType(long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**

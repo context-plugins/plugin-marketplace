@@ -5,7 +5,7 @@ Accessor: `client.NumbersV1PortingWebhookConfigurationApi` · Source: `Api/Numbe
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreatePortingWebhookConfiguration
-- **HTTP**: `POST /v1/Porting/Configuration/Webhook` (Default7 (numbers))
+- **HTTP**: `POST /v1/Porting/Configuration/Webhook` (Default5 (numbers))
 - **Notes**: Create a Webhook Configuration
 - **Signature**: `CreatePortingWebhookConfiguration(object? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**

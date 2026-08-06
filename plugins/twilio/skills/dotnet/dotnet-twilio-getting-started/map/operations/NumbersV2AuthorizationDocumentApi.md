@@ -5,7 +5,7 @@ Accessor: `client.NumbersV2AuthorizationDocumentApi` · Source: `Api/NumbersV2Au
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateAuthorizationDocument
-- **HTTP**: `POST /v2/HostedNumber/AuthorizationDocuments` (Default7 (numbers))
+- **HTTP**: `POST /v2/HostedNumber/AuthorizationDocuments` (Default5 (numbers))
 - **Notes**: Create an AuthorizationDocument for authorizing the hosting of phone number capabilities on Twilio's platform.
 - **Signature**: `CreateAuthorizationDocument(string addressSid, string email, string contactPhoneNumber, IReadOnlyList<string> hostedNumberOrderSids, string? contactTitle, IReadOnlyList<string>? ccEmails, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `contactTitle` — nullable, no default → **must pass explicitly**
@@ -19,7 +19,7 @@ Accessor: `client.NumbersV2AuthorizationDocumentApi` · Source: `Api/NumbersV2Au
 - **Pagination**: none
 
 ### DeleteAuthorizationDocument
-- **HTTP**: `DELETE /v2/HostedNumber/AuthorizationDocuments/{Sid}` (Default7 (numbers))
+- **HTTP**: `DELETE /v2/HostedNumber/AuthorizationDocuments/{Sid}` (Default5 (numbers))
 - **Notes**: Cancel the AuthorizationDocument request.
 - **Signature**: `DeleteAuthorizationDocument(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -30,7 +30,7 @@ Accessor: `client.NumbersV2AuthorizationDocumentApi` · Source: `Api/NumbersV2Au
 - **Pagination**: none
 
 ### FetchAuthorizationDocument
-- **HTTP**: `GET /v2/HostedNumber/AuthorizationDocuments/{Sid}` (Default7 (numbers))
+- **HTTP**: `GET /v2/HostedNumber/AuthorizationDocuments/{Sid}` (Default5 (numbers))
 - **Notes**: Fetch a specific AuthorizationDocument.
 - **Signature**: `FetchAuthorizationDocument(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -41,7 +41,7 @@ Accessor: `client.NumbersV2AuthorizationDocumentApi` · Source: `Api/NumbersV2Au
 - **Pagination**: none
 
 ### ListAuthorizationDocument
-- **HTTP**: `GET /v2/HostedNumber/AuthorizationDocuments` (Default7 (numbers))
+- **HTTP**: `GET /v2/HostedNumber/AuthorizationDocuments` (Default5 (numbers))
 - **Notes**: Retrieve a list of AuthorizationDocuments belonging to the account initiating the request.
 - **Signature**: `ListAuthorizationDocument(string? email, AuthorizationDocumentEnumStatus? status, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`email` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

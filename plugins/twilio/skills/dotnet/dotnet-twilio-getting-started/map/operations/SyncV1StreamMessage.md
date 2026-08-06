@@ -5,7 +5,7 @@ Accessor: `client.SyncV1StreamMessage` · Source: `Api/SyncV1StreamMessage.cs` �
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateStreamMessage
-- **HTTP**: `POST /v1/Services/{ServiceSid}/Streams/{StreamSid}/Messages` (Default10 (sync))
+- **HTTP**: `POST /v1/Services/{ServiceSid}/Streams/{StreamSid}/Messages` (Default12 (sync))
 - **Notes**: Create a new Stream Message.
 - **Signature**: `CreateStreamMessage(string serviceSid, string streamSid, object data, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null

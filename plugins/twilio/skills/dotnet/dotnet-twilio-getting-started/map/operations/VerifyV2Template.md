@@ -5,7 +5,7 @@ Accessor: `client.VerifyV2Template` · Source: `Api/VerifyV2Template.cs` · 1 op
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### ListVerificationTemplate
-- **HTTP**: `GET /v2/Templates` (Default13 (verify))
+- **HTTP**: `GET /v2/Templates` (Default3 (verify))
 - **Notes**: List all the available templates for a given Account.
 - **Signature**: `ListVerificationTemplate(string? friendlyName, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`friendlyName` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

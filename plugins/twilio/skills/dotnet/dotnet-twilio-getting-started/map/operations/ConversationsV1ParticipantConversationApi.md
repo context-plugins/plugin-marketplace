@@ -5,7 +5,7 @@ Accessor: `client.ConversationsV1ParticipantConversationApi` · Source: `Api/Con
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### ListParticipantConversation
-- **HTTP**: `GET /v1/ParticipantConversations` (Default2 (conversations))
+- **HTTP**: `GET /v1/ParticipantConversations` (Default7 (conversations))
 - **Notes**: Retrieve a list of all Conversations that this Participant belongs to by identity or by address. Only one parameter should be specified.
 - **Signature**: `ListParticipantConversation(string? identity, string? address, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`identity` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -18,7 +18,7 @@ Accessor: `client.ConversationsV1ParticipantConversationApi` · Source: `Api/Con
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### ListServiceParticipantConversation
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/ParticipantConversations` (Default2 (conversations))
+- **HTTP**: `GET /v1/Services/{ChatServiceSid}/ParticipantConversations` (Default7 (conversations))
 - **Notes**: Retrieve a list of all Conversations that this Participant belongs to by identity or by address. Only one parameter should be specified.
 - **Signature**: `ListServiceParticipantConversation(string chatServiceSid, string? identity, string? address, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`identity` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

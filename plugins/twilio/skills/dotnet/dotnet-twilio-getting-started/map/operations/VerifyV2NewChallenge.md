@@ -5,7 +5,7 @@ Accessor: `client.VerifyV2NewChallenge` · Source: `Api/VerifyV2NewChallenge.cs`
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateChallengePasskeys
-- **HTTP**: `POST /v2/Services/{ServiceSid}/Passkeys/Challenges` (Default13 (verify))
+- **HTTP**: `POST /v2/Services/{ServiceSid}/Passkeys/Challenges` (Default3 (verify))
 - **Notes**: Create a Passkeys Challenge
 - **Signature**: `CreateChallengePasskeys(string serviceSid, CreatePasskeysChallengeRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null

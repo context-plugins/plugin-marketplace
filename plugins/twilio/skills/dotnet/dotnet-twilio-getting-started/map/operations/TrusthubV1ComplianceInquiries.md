@@ -5,7 +5,7 @@ Accessor: `client.TrusthubV1ComplianceInquiries` · Source: `Api/TrusthubV1Compl
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateComplianceInquiry
-- **HTTP**: `POST /v1/ComplianceInquiries/Customers/Initialize` (Default12 (trusthub))
+- **HTTP**: `POST /v1/ComplianceInquiries/Customers/Initialize` (Default9 (trusthub))
 - **Notes**: Create a new Compliance Inquiry for the authenticated account. This is necessary to start a new embedded session.
 - **Signature**: `CreateComplianceInquiry(string? notificationEmail, string? themeSetId, string? primaryProfileSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `notificationEmail` — nullable, no default → **must pass explicitly**
@@ -20,7 +20,7 @@ Accessor: `client.TrusthubV1ComplianceInquiries` · Source: `Api/TrusthubV1Compl
 - **Pagination**: none
 
 ### UpdateComplianceInquiry
-- **HTTP**: `POST /v1/ComplianceInquiries/Customers/{CustomerId}/Initialize` (Default12 (trusthub))
+- **HTTP**: `POST /v1/ComplianceInquiries/Customers/{CustomerId}/Initialize` (Default9 (trusthub))
 - **Notes**: Resume a specific Compliance Inquiry that has expired, or re-open a rejected Compliance Inquiry for editing.
 - **Signature**: `UpdateComplianceInquiry(string customerId, string primaryProfileSid, string? themeSetId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `themeSetId` — nullable, no default → **must pass explicitly**

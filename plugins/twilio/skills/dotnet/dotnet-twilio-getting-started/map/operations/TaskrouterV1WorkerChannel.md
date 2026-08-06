@@ -5,7 +5,7 @@ Accessor: `client.TaskrouterV1WorkerChannel` · Source: `Api/TaskrouterV1WorkerC
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchWorkerChannel
-- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers/{WorkerSid}/Channels/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers/{WorkerSid}/Channels/{Sid}` (Default8 (taskrouter))
 - **Signature**: `FetchWorkerChannel(string workspaceSid, string workerSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `TaskrouterV1WorkspaceWorkerWorkerChannel`
@@ -15,7 +15,7 @@ Accessor: `client.TaskrouterV1WorkerChannel` · Source: `Api/TaskrouterV1WorkerC
 - **Pagination**: none
 
 ### ListWorkerChannel
-- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers/{WorkerSid}/Channels` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers/{WorkerSid}/Channels` (Default8 (taskrouter))
 - **Signature**: `ListWorkerChannel(string workspaceSid, string workerSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
@@ -29,7 +29,7 @@ Accessor: `client.TaskrouterV1WorkerChannel` · Source: `Api/TaskrouterV1WorkerC
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateWorkerChannel
-- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/Workers/{WorkerSid}/Channels/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/Workers/{WorkerSid}/Channels/{Sid}` (Default8 (taskrouter))
 - **Signature**: `UpdateWorkerChannel(string workspaceSid, string workerSid, string sid, int? capacity, bool? available, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `capacity` — nullable, no default → **must pass explicitly**
   - `available` — nullable, no default → **must pass explicitly**

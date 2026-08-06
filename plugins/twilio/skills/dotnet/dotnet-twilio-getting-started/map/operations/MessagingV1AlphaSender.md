@@ -5,7 +5,7 @@ Accessor: `client.MessagingV1AlphaSender` · Source: `Api/MessagingV1AlphaSender
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateAlphaSender
-- **HTTP**: `POST /v1/Services/{ServiceSid}/AlphaSenders` (Default6 (messaging))
+- **HTTP**: `POST /v1/Services/{ServiceSid}/AlphaSenders` (Default1 (messaging))
 - **Signature**: `CreateAlphaSender(string serviceSid, string alphaSender, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `AlphaSender` ← `alphaSender`
@@ -16,7 +16,7 @@ Accessor: `client.MessagingV1AlphaSender` · Source: `Api/MessagingV1AlphaSender
 - **Pagination**: none
 
 ### DeleteAlphaSender
-- **HTTP**: `DELETE /v1/Services/{ServiceSid}/AlphaSenders/{Sid}` (Default6 (messaging))
+- **HTTP**: `DELETE /v1/Services/{ServiceSid}/AlphaSenders/{Sid}` (Default1 (messaging))
 - **Signature**: `DeleteAlphaSender(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -26,7 +26,7 @@ Accessor: `client.MessagingV1AlphaSender` · Source: `Api/MessagingV1AlphaSender
 - **Pagination**: none
 
 ### FetchAlphaSender
-- **HTTP**: `GET /v1/Services/{ServiceSid}/AlphaSenders/{Sid}` (Default6 (messaging))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/AlphaSenders/{Sid}` (Default1 (messaging))
 - **Signature**: `FetchAlphaSender(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1ServiceAlphaSender`
@@ -36,7 +36,7 @@ Accessor: `client.MessagingV1AlphaSender` · Source: `Api/MessagingV1AlphaSender
 - **Pagination**: none
 
 ### ListAlphaSender
-- **HTTP**: `GET /v1/Services/{ServiceSid}/AlphaSenders` (Default6 (messaging))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/AlphaSenders` (Default1 (messaging))
 - **Signature**: `ListAlphaSender(string serviceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**

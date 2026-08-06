@@ -5,7 +5,7 @@ Accessor: `client.InsightsV1Room` · Source: `Api/InsightsV1Room.cs` · 2 operat
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchVideoRoomSummary
-- **HTTP**: `GET /v1/Video/Rooms/{RoomSid}` (Default4 (insights))
+- **HTTP**: `GET /v1/Video/Rooms/{RoomSid}` (Default14 (insights))
 - **Notes**: Get Video Log Analyzer data for a Room.
 - **Signature**: `FetchVideoRoomSummary(string roomSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.InsightsV1Room` · Source: `Api/InsightsV1Room.cs` · 2 operat
 - **Pagination**: none
 
 ### ListVideoRoomSummary
-- **HTTP**: `GET /v1/Video/Rooms` (Default4 (insights))
+- **HTTP**: `GET /v1/Video/Rooms` (Default14 (insights))
 - **Notes**: Get a list of Programmable Video Rooms.
 - **Signature**: `ListVideoRoomSummary(IReadOnlyList<VideoRoomSummaryEnumRoomType>? roomType, IReadOnlyList<VideoRoomSummaryEnumCodec>? codec, string? roomName, DateTimeOffset? createdAfter, DateTimeOffset? createdBefore, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 8 params (`roomType` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

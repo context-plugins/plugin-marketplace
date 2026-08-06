@@ -5,7 +5,7 @@ Accessor: `client.VerifyV2Factor` · Source: `Api/VerifyV2Factor.cs` · 4 operat
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### DeleteFactor
-- **HTTP**: `DELETE /v2/Services/{ServiceSid}/Entities/{Identity}/Factors/{Sid}` (Default13 (verify))
+- **HTTP**: `DELETE /v2/Services/{ServiceSid}/Entities/{Identity}/Factors/{Sid}` (Default3 (verify))
 - **Notes**: Delete a specific Factor.
 - **Signature**: `DeleteFactor(string serviceSid, string identity, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.VerifyV2Factor` · Source: `Api/VerifyV2Factor.cs` · 4 operat
 - **Pagination**: none
 
 ### FetchFactor
-- **HTTP**: `GET /v2/Services/{ServiceSid}/Entities/{Identity}/Factors/{Sid}` (Default13 (verify))
+- **HTTP**: `GET /v2/Services/{ServiceSid}/Entities/{Identity}/Factors/{Sid}` (Default3 (verify))
 - **Notes**: Fetch a specific Factor.
 - **Signature**: `FetchFactor(string serviceSid, string identity, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -27,7 +27,7 @@ Accessor: `client.VerifyV2Factor` · Source: `Api/VerifyV2Factor.cs` · 4 operat
 - **Pagination**: none
 
 ### ListFactor
-- **HTTP**: `GET /v2/Services/{ServiceSid}/Entities/{Identity}/Factors` (Default13 (verify))
+- **HTTP**: `GET /v2/Services/{ServiceSid}/Entities/{Identity}/Factors` (Default3 (verify))
 - **Notes**: Retrieve a list of all Factors for an Entity.
 - **Signature**: `ListFactor(string serviceSid, string identity, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
@@ -42,7 +42,7 @@ Accessor: `client.VerifyV2Factor` · Source: `Api/VerifyV2Factor.cs` · 4 operat
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateFactor
-- **HTTP**: `POST /v2/Services/{ServiceSid}/Entities/{Identity}/Factors/{Sid}` (Default13 (verify))
+- **HTTP**: `POST /v2/Services/{ServiceSid}/Entities/{Identity}/Factors/{Sid}` (Default3 (verify))
 - **Notes**: Update a specific Factor. This endpoint can be used to Verify a Factor if passed an `AuthPayload` param.
 - **Signature**: `UpdateFactor(string serviceSid, string identity, string sid, string? authPayload, string? friendlyName, string? configNotificationToken, string? configSdkVersion, int? configTimeStep, int? configSkew, int? configCodeLength, FactorEnumTotpAlgorithms? configAlg, string? configNotificationPlatform, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 9 params (`authPayload` … `configNotificationPlatform`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

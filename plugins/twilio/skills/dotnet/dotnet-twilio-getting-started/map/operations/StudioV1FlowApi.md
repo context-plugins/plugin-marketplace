@@ -5,7 +5,7 @@ Accessor: `client.StudioV1FlowApi` · Source: `Api/StudioV1FlowApi.cs` · 3 oper
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### DeleteFlow
-- **HTTP**: `DELETE /v1/Flows/{Sid}` (Default9 (studio))
+- **HTTP**: `DELETE /v1/Flows/{Sid}` (Default11 (studio))
 - **Notes**: Delete a specific Flow.
 - **Signature**: `DeleteFlow(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.StudioV1FlowApi` · Source: `Api/StudioV1FlowApi.cs` · 3 oper
 - **Pagination**: none
 
 ### FetchFlow
-- **HTTP**: `GET /v1/Flows/{Sid}` (Default9 (studio))
+- **HTTP**: `GET /v1/Flows/{Sid}` (Default11 (studio))
 - **Notes**: Retrieve a specific Flow.
 - **Signature**: `FetchFlow(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -27,7 +27,7 @@ Accessor: `client.StudioV1FlowApi` · Source: `Api/StudioV1FlowApi.cs` · 3 oper
 - **Pagination**: none
 
 ### ListFlow
-- **HTTP**: `GET /v1/Flows` (Default9 (studio))
+- **HTTP**: `GET /v1/Flows` (Default11 (studio))
 - **Notes**: Retrieve a list of all Flows.
 - **Signature**: `ListFlow(long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**

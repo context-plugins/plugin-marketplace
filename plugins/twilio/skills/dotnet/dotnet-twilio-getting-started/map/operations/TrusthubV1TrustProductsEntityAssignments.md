@@ -5,7 +5,7 @@ Accessor: `client.TrusthubV1TrustProductsEntityAssignments` · Source: `Api/Trus
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateTrustProductEntityAssignment
-- **HTTP**: `POST /v1/TrustProducts/{TrustProductSid}/EntityAssignments` (Default12 (trusthub))
+- **HTTP**: `POST /v1/TrustProducts/{TrustProductSid}/EntityAssignments` (Default9 (trusthub))
 - **Notes**: Create a new Assigned Item.
 - **Signature**: `CreateTrustProductEntityAssignment(string trustProductSid, string objectSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -17,7 +17,7 @@ Accessor: `client.TrusthubV1TrustProductsEntityAssignments` · Source: `Api/Trus
 - **Pagination**: none
 
 ### DeleteTrustProductEntityAssignment
-- **HTTP**: `DELETE /v1/TrustProducts/{TrustProductSid}/EntityAssignments/{Sid}` (Default12 (trusthub))
+- **HTTP**: `DELETE /v1/TrustProducts/{TrustProductSid}/EntityAssignments/{Sid}` (Default9 (trusthub))
 - **Notes**: Remove an Assignment Item Instance.
 - **Signature**: `DeleteTrustProductEntityAssignment(string trustProductSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -28,7 +28,7 @@ Accessor: `client.TrusthubV1TrustProductsEntityAssignments` · Source: `Api/Trus
 - **Pagination**: none
 
 ### FetchTrustProductEntityAssignment
-- **HTTP**: `GET /v1/TrustProducts/{TrustProductSid}/EntityAssignments/{Sid}` (Default12 (trusthub))
+- **HTTP**: `GET /v1/TrustProducts/{TrustProductSid}/EntityAssignments/{Sid}` (Default9 (trusthub))
 - **Notes**: Fetch specific Assigned Item Instance.
 - **Signature**: `FetchTrustProductEntityAssignment(string trustProductSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -39,7 +39,7 @@ Accessor: `client.TrusthubV1TrustProductsEntityAssignments` · Source: `Api/Trus
 - **Pagination**: none
 
 ### ListTrustProductEntityAssignment
-- **HTTP**: `GET /v1/TrustProducts/{TrustProductSid}/EntityAssignments` (Default12 (trusthub))
+- **HTTP**: `GET /v1/TrustProducts/{TrustProductSid}/EntityAssignments` (Default9 (trusthub))
 - **Notes**: Retrieve a list of all Assigned Items for an account.
 - **Signature**: `ListTrustProductEntityAssignment(string trustProductSid, string? objectType, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`objectType` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

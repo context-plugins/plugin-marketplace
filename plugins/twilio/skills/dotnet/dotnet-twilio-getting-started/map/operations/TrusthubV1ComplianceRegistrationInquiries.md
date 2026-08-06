@@ -5,7 +5,7 @@ Accessor: `client.TrusthubV1ComplianceRegistrationInquiries` · Source: `Api/Tru
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateComplianceRegistration
-- **HTTP**: `POST /v1/ComplianceInquiries/Registration/RegulatoryCompliance/GB/Initialize` (Default12 (trusthub))
+- **HTTP**: `POST /v1/ComplianceInquiries/Registration/RegulatoryCompliance/GB/Initialize` (Default9 (trusthub))
 - **Notes**: Create a new Compliance Registration Inquiry for the authenticated account. This is necessary to start a new embedded session.
 - **Signature**: `CreateComplianceRegistration(CustomerType endUserType, ComplianceRegistrationEnumPhoneNumberType phoneNumberType, ComplianceRegistrationEnumBusinessIdentityType? businessIdentityType, ComplianceRegistrationEnumBusinessRegistrationAuthority? businessRegistrationAuthority, string? businessLegalName, string? notificationEmail, bool? acceptedNotificationReceipt, string? businessRegistrationNumber, string? businessWebsiteUrl, string? friendlyName, string? authorizedRepresentative1FirstName, string? authorizedRepresentative1LastName, string? authorizedRepresentative1Phone, string? authorizedRepresentative1Email, string? authorizedRepresentative1DateOfBirth, string? addressStreet, string? addressStreetSecondary, string? addressCity, string? addressSubdivision, string? addressPostalCode, string? addressCountryCode, string? emergencyAddressStreet, string? emergencyAddressStreetSecondary, string? emergencyAddressCity, string? emergencyAddressSubdivision, string? emergencyAddressPostalCode, string? emergencyAddressCountryCode, bool? useAddressAsEmergencyAddress, string? fileName, string? file, string? firstName, string? lastName, string? dateOfBirth, string? individualEmail, string? individualPhone, bool? isIsvEmbed, string? isvRegisteringForSelfOrTenant, string? statusCallbackUrl, string? themeSetId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 37 params (`businessIdentityType` … `themeSetId`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -18,7 +18,7 @@ Accessor: `client.TrusthubV1ComplianceRegistrationInquiries` · Source: `Api/Tru
 - **Pagination**: none
 
 ### UpdateComplianceRegistration
-- **HTTP**: `POST /v1/ComplianceInquiries/Registration/{RegistrationId}/RegulatoryCompliance/GB/Initialize` (Default12 (trusthub))
+- **HTTP**: `POST /v1/ComplianceInquiries/Registration/{RegistrationId}/RegulatoryCompliance/GB/Initialize` (Default9 (trusthub))
 - **Notes**: Resume a specific Regulatory Compliance Inquiry that has expired, or re-open a rejected Compliance Inquiry for editing.
 - **Signature**: `UpdateComplianceRegistration(string registrationId, bool? isIsvEmbed, string? themeSetId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `isIsvEmbed` — nullable, no default → **must pass explicitly**

@@ -5,7 +5,7 @@ Accessor: `client.VideoV1PublishedTrack` · Source: `Api/VideoV1PublishedTrack.c
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchRoomParticipantPublishedTrack
-- **HTTP**: `GET /v1/Rooms/{RoomSid}/Participants/{ParticipantSid}/PublishedTracks/{Sid}` (Default14 (video))
+- **HTTP**: `GET /v1/Rooms/{RoomSid}/Participants/{ParticipantSid}/PublishedTracks/{Sid}` (Default6 (video))
 - **Notes**: Returns a single Track resource represented by TrackName or SID.
 - **Signature**: `FetchRoomParticipantPublishedTrack(string roomSid, string participantSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.VideoV1PublishedTrack` · Source: `Api/VideoV1PublishedTrack.c
 - **Pagination**: none
 
 ### ListRoomParticipantPublishedTrack
-- **HTTP**: `GET /v1/Rooms/{RoomSid}/Participants/{ParticipantSid}/PublishedTracks` (Default14 (video))
+- **HTTP**: `GET /v1/Rooms/{RoomSid}/Participants/{ParticipantSid}/PublishedTracks` (Default6 (video))
 - **Notes**: Returns a list of tracks associated with a given Participant. Only `currently` Published Tracks are in the list resource.
 - **Signature**: `ListRoomParticipantPublishedTrack(string roomSid, string participantSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**

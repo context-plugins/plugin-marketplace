@@ -5,7 +5,7 @@ Accessor: `client.TrusthubV1SupportingDocumentType` · Source: `Api/TrusthubV1Su
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchSupportingDocumentType2
-- **HTTP**: `GET /v1/SupportingDocumentTypes/{Sid}` (Default12 (trusthub))
+- **HTTP**: `GET /v1/SupportingDocumentTypes/{Sid}` (Default9 (trusthub))
 - **Notes**: Fetch a specific Supporting Document Type Instance.
 - **Signature**: `FetchSupportingDocumentType2(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.TrusthubV1SupportingDocumentType` · Source: `Api/TrusthubV1Su
 - **Pagination**: none
 
 ### ListSupportingDocumentType2
-- **HTTP**: `GET /v1/SupportingDocumentTypes` (Default12 (trusthub))
+- **HTTP**: `GET /v1/SupportingDocumentTypes` (Default9 (trusthub))
 - **Notes**: Retrieve a list of all Supporting Document Types.
 - **Signature**: `ListSupportingDocumentType2(long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**

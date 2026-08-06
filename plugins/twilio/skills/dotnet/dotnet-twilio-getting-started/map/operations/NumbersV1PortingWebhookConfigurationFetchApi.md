@@ -5,7 +5,7 @@ Accessor: `client.NumbersV1PortingWebhookConfigurationFetchApi` · Source: `Api/
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchPortingWebhookConfigurationFetch
-- **HTTP**: `GET /v1/Porting/Configuration/Webhook` (Default7 (numbers))
+- **HTTP**: `GET /v1/Porting/Configuration/Webhook` (Default5 (numbers))
 - **Notes**: Allows to fetch the webhook configuration
 - **Signature**: `FetchPortingWebhookConfigurationFetch(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null

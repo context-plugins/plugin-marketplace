@@ -5,7 +5,7 @@ Accessor: `client.InsightsV1GetAccountReport` · Source: `Api/InsightsV1GetAccou
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchAccountReport
-- **HTTP**: `GET /v2/Voice/Reports/{reportId}` (Default4 (insights))
+- **HTTP**: `GET /v2/Voice/Reports/{reportId}` (Default14 (insights))
 - **Notes**: Get Account Level Report for the given Report Id.
 - **Signature**: `FetchAccountReport(string reportId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null

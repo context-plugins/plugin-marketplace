@@ -5,7 +5,7 @@ Accessor: `client.TaskrouterV1WorkersStatistics` · Source: `Api/TaskrouterV1Wor
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchWorkerStatistics
-- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers/Statistics` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Workers/Statistics` (Default8 (taskrouter))
 - **Signature**: `FetchWorkerStatistics(string workspaceSid, int? minutes, DateTimeOffset? startDate, DateTimeOffset? endDate, string? taskQueueSid, string? taskQueueName, string? friendlyName, string? taskChannel, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 7 params (`minutes` … `taskChannel`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null

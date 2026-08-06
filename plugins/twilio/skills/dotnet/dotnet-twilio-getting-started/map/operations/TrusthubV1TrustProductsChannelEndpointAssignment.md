@@ -5,7 +5,7 @@ Accessor: `client.TrusthubV1TrustProductsChannelEndpointAssignment` · Source: `
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateTrustProductChannelEndpointAssignment
-- **HTTP**: `POST /v1/TrustProducts/{TrustProductSid}/ChannelEndpointAssignments` (Default12 (trusthub))
+- **HTTP**: `POST /v1/TrustProducts/{TrustProductSid}/ChannelEndpointAssignments` (Default9 (trusthub))
 - **Notes**: Create a new Assigned Item.
 - **Signature**: `CreateTrustProductChannelEndpointAssignment(string trustProductSid, string channelEndpointType, string channelEndpointSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -17,7 +17,7 @@ Accessor: `client.TrusthubV1TrustProductsChannelEndpointAssignment` · Source: `
 - **Pagination**: none
 
 ### DeleteTrustProductChannelEndpointAssignment
-- **HTTP**: `DELETE /v1/TrustProducts/{TrustProductSid}/ChannelEndpointAssignments/{Sid}` (Default12 (trusthub))
+- **HTTP**: `DELETE /v1/TrustProducts/{TrustProductSid}/ChannelEndpointAssignments/{Sid}` (Default9 (trusthub))
 - **Notes**: Remove an Assignment Item Instance.
 - **Signature**: `DeleteTrustProductChannelEndpointAssignment(string trustProductSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -28,7 +28,7 @@ Accessor: `client.TrusthubV1TrustProductsChannelEndpointAssignment` · Source: `
 - **Pagination**: none
 
 ### FetchTrustProductChannelEndpointAssignment
-- **HTTP**: `GET /v1/TrustProducts/{TrustProductSid}/ChannelEndpointAssignments/{Sid}` (Default12 (trusthub))
+- **HTTP**: `GET /v1/TrustProducts/{TrustProductSid}/ChannelEndpointAssignments/{Sid}` (Default9 (trusthub))
 - **Notes**: Fetch specific Assigned Item Instance.
 - **Signature**: `FetchTrustProductChannelEndpointAssignment(string trustProductSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -39,7 +39,7 @@ Accessor: `client.TrusthubV1TrustProductsChannelEndpointAssignment` · Source: `
 - **Pagination**: none
 
 ### ListTrustProductChannelEndpointAssignment
-- **HTTP**: `GET /v1/TrustProducts/{TrustProductSid}/ChannelEndpointAssignments` (Default12 (trusthub))
+- **HTTP**: `GET /v1/TrustProducts/{TrustProductSid}/ChannelEndpointAssignments` (Default9 (trusthub))
 - **Notes**: Retrieve a list of all Assigned Items for an account.
 - **Signature**: `ListTrustProductChannelEndpointAssignment(string trustProductSid, string? channelEndpointSid, string? channelEndpointSids, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`channelEndpointSid` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

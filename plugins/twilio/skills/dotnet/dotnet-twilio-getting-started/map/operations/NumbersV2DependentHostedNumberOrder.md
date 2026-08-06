@@ -5,7 +5,7 @@ Accessor: `client.NumbersV2DependentHostedNumberOrder` · Source: `Api/NumbersV2
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### ListDependentHostedNumberOrder
-- **HTTP**: `GET /v2/HostedNumber/AuthorizationDocuments/{SigningDocumentSid}/DependentHostedNumberOrders` (Default7 (numbers))
+- **HTTP**: `GET /v2/HostedNumber/AuthorizationDocuments/{SigningDocumentSid}/DependentHostedNumberOrders` (Default5 (numbers))
 - **Notes**: Retrieve a list of dependent HostedNumberOrders belonging to the AuthorizationDocument.
 - **Signature**: `ListDependentHostedNumberOrder(string signingDocumentSid, DependentHostedNumberOrderEnumStatus? status, string? phoneNumber, string? incomingPhoneNumberSid, string? friendlyName, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 7 params (`status` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

@@ -5,7 +5,7 @@ Accessor: `client.TaskrouterV1Activity` · Source: `Api/TaskrouterV1Activity.cs`
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateActivity
-- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/Activities` (Default11 (taskrouter))
+- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/Activities` (Default8 (taskrouter))
 - **Signature**: `CreateActivity(string workspaceSid, string friendlyName, bool? available, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `available` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -17,7 +17,7 @@ Accessor: `client.TaskrouterV1Activity` · Source: `Api/TaskrouterV1Activity.cs`
 - **Pagination**: none
 
 ### DeleteActivity
-- **HTTP**: `DELETE /v1/Workspaces/{WorkspaceSid}/Activities/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `DELETE /v1/Workspaces/{WorkspaceSid}/Activities/{Sid}` (Default8 (taskrouter))
 - **Signature**: `DeleteActivity(string workspaceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -27,7 +27,7 @@ Accessor: `client.TaskrouterV1Activity` · Source: `Api/TaskrouterV1Activity.cs`
 - **Pagination**: none
 
 ### FetchActivity
-- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Activities/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Activities/{Sid}` (Default8 (taskrouter))
 - **Signature**: `FetchActivity(string workspaceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `TaskrouterV1WorkspaceActivity`
@@ -37,7 +37,7 @@ Accessor: `client.TaskrouterV1Activity` · Source: `Api/TaskrouterV1Activity.cs`
 - **Pagination**: none
 
 ### ListActivity
-- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Activities` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/Activities` (Default8 (taskrouter))
 - **Signature**: `ListActivity(string workspaceSid, string? friendlyName, string? available, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`friendlyName` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -49,7 +49,7 @@ Accessor: `client.TaskrouterV1Activity` · Source: `Api/TaskrouterV1Activity.cs`
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateActivity
-- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/Activities/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/Activities/{Sid}` (Default8 (taskrouter))
 - **Signature**: `UpdateActivity(string workspaceSid, string sid, string? friendlyName, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `friendlyName` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null

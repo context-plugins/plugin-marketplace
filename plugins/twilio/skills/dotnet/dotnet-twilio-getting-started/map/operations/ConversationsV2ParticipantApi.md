@@ -5,7 +5,7 @@ Accessor: `client.ConversationsV2ParticipantApi` · Source: `Api/ConversationsV2
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateParticipantInConversation
-- **HTTP**: `POST /v2/Conversations/{ConversationSid}/Participants` (Default2 (conversations))
+- **HTTP**: `POST /v2/Conversations/{ConversationSid}/Participants` (Default7 (conversations))
 - **Notes**: Create a Participant.
 - **Signature**: `CreateParticipantInConversation(string conversationSid, V2ConversationsParticipantsRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
@@ -17,7 +17,7 @@ Accessor: `client.ConversationsV2ParticipantApi` · Source: `Api/ConversationsV2
 - **Pagination**: none
 
 ### FetchParticipant2
-- **HTTP**: `GET /v2/Conversations/{ConversationSid}/Participants/{Sid}` (Default2 (conversations))
+- **HTTP**: `GET /v2/Conversations/{ConversationSid}/Participants/{Sid}` (Default7 (conversations))
 - **Notes**: Retrieve a Participant.
 - **Signature**: `FetchParticipant2(string conversationSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -28,7 +28,7 @@ Accessor: `client.ConversationsV2ParticipantApi` · Source: `Api/ConversationsV2
 - **Pagination**: none
 
 ### ListParticipantByConversation
-- **HTTP**: `GET /v2/Conversations/{ConversationSid}/Participants` (Default2 (conversations))
+- **HTTP**: `GET /v2/Conversations/{ConversationSid}/Participants` (Default7 (conversations))
 - **Notes**: Retrieve a list of Participants in a Conversation.
 - **Signature**: `ListParticipantByConversation(string conversationSid, string? pageToken, int? pageSize = 50, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageToken` — nullable, no default → **must pass explicitly**
@@ -41,7 +41,7 @@ Accessor: `client.ConversationsV2ParticipantApi` · Source: `Api/ConversationsV2
 - **Pagination**: none
 
 ### UpdateParticipantInConversation
-- **HTTP**: `PUT /v2/Conversations/{ConversationSid}/Participants/{Sid}` (Default2 (conversations))
+- **HTTP**: `PUT /v2/Conversations/{ConversationSid}/Participants/{Sid}` (Default7 (conversations))
 - **Notes**: Update an existing Participant
 - **Signature**: `UpdateParticipantInConversation(string conversationSid, string sid, V2ConversationsParticipantsRequest1? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**

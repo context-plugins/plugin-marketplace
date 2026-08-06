@@ -5,7 +5,7 @@ Accessor: `client.FlexV1InteractionChannelInvite` · Source: `Api/FlexV1Interact
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateInteractionChannelInvite
-- **HTTP**: `POST /v1/Interactions/{InteractionSid}/Channels/{ChannelSid}/Invites` (Default3 (flex-api))
+- **HTTP**: `POST /v1/Interactions/{InteractionSid}/Channels/{ChannelSid}/Invites` (Default13 (flex-api))
 - **Notes**: Invite an Agent or a TaskQueue to a Channel.
 - **Signature**: `CreateInteractionChannelInvite(string interactionSid, string channelSid, object routing, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -17,7 +17,7 @@ Accessor: `client.FlexV1InteractionChannelInvite` · Source: `Api/FlexV1Interact
 - **Pagination**: none
 
 ### ListInteractionChannelInvite
-- **HTTP**: `GET /v1/Interactions/{InteractionSid}/Channels/{ChannelSid}/Invites` (Default3 (flex-api))
+- **HTTP**: `GET /v1/Interactions/{InteractionSid}/Channels/{ChannelSid}/Invites` (Default13 (flex-api))
 - **Notes**: List all Invites for a Channel.
 - **Signature**: `ListInteractionChannelInvite(string interactionSid, string channelSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**

@@ -5,7 +5,7 @@ Accessor: `client.InsightsV1CallSummaryApi` · Source: `Api/InsightsV1CallSummar
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchSummary
-- **HTTP**: `GET /v1/Voice/{CallSid}/Summary` (Default4 (insights))
+- **HTTP**: `GET /v1/Voice/{CallSid}/Summary` (Default14 (insights))
 - **Notes**: Get a specific Call Summary.
 - **Signature**: `FetchSummary(string callSid, SummaryEnumProcessingState? processingState, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `processingState` — nullable, no default → **must pass explicitly**

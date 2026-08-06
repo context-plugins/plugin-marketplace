@@ -5,7 +5,7 @@ Accessor: `client.FlexV1InsightsQuestionnairesCategoryApi` · Source: `Api/FlexV
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateInsightsQuestionnairesCategory
-- **HTTP**: `POST /v1/Insights/QualityManagement/Categories` (Default3 (flex-api))
+- **HTTP**: `POST /v1/Insights/QualityManagement/Categories` (Default13 (flex-api))
 - **Notes**: To create a category for Questions
 - **Signature**: `CreateInsightsQuestionnairesCategory(string? authorization, string name, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `authorization` — nullable, no default → **must pass explicitly**
@@ -18,7 +18,7 @@ Accessor: `client.FlexV1InsightsQuestionnairesCategoryApi` · Source: `Api/FlexV
 - **Pagination**: none
 
 ### DeleteInsightsQuestionnairesCategory
-- **HTTP**: `DELETE /v1/Insights/QualityManagement/Categories/{CategorySid}` (Default3 (flex-api))
+- **HTTP**: `DELETE /v1/Insights/QualityManagement/Categories/{CategorySid}` (Default13 (flex-api))
 - **Signature**: `DeleteInsightsQuestionnairesCategory(string categorySid, string? authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `authorization` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -29,7 +29,7 @@ Accessor: `client.FlexV1InsightsQuestionnairesCategoryApi` · Source: `Api/FlexV
 - **Pagination**: none
 
 ### ListInsightsQuestionnairesCategory
-- **HTTP**: `GET /v1/Insights/QualityManagement/Categories` (Default3 (flex-api))
+- **HTTP**: `GET /v1/Insights/QualityManagement/Categories` (Default13 (flex-api))
 - **Notes**: To get all the categories
 - **Signature**: `ListInsightsQuestionnairesCategory(long? pageSize, int? page, string? pageToken, string? authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`pageSize` … `authorization`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -42,7 +42,7 @@ Accessor: `client.FlexV1InsightsQuestionnairesCategoryApi` · Source: `Api/FlexV
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateInsightsQuestionnairesCategory
-- **HTTP**: `POST /v1/Insights/QualityManagement/Categories/{CategorySid}` (Default3 (flex-api))
+- **HTTP**: `POST /v1/Insights/QualityManagement/Categories/{CategorySid}` (Default13 (flex-api))
 - **Notes**: To update the category for Questions
 - **Signature**: `UpdateInsightsQuestionnairesCategory(string categorySid, string? authorization, string name, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `authorization` — nullable, no default → **must pass explicitly**

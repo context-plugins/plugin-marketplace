@@ -5,7 +5,7 @@ Accessor: `client.InsightsV1GetInboundPhoneNumbersReport` · Source: `Api/Insigh
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### ListInboundPhoneNumbersReport
-- **HTTP**: `GET /v2/Voice/Reports/PhoneNumbers/Inbound/{reportId}` (Default4 (insights))
+- **HTTP**: `GET /v2/Voice/Reports/PhoneNumbers/Inbound/{reportId}` (Default14 (insights))
 - **Notes**: Get Inbound Phone Numbers Level Reports for the given Report Id.
 - **Signature**: `ListInboundPhoneNumbersReport(string reportId, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**

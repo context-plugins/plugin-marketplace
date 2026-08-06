@@ -5,7 +5,7 @@ Accessor: `client.MessagingV1LinkshorteningMessagingServiceDomainAssociationApi`
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchLinkshorteningMessagingServiceDomainAssociation
-- **HTTP**: `GET /v1/LinkShortening/MessagingServices/{MessagingServiceSid}/Domain` (Default6 (messaging))
+- **HTTP**: `GET /v1/LinkShortening/MessagingServices/{MessagingServiceSid}/Domain` (Default1 (messaging))
 - **Signature**: `FetchLinkshorteningMessagingServiceDomainAssociation(string messagingServiceSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1LinkshorteningMessagingServiceDomainAssociation`

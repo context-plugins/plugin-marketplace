@@ -5,7 +5,7 @@ Accessor: `client.NumbersV1EligibilityApi` · Source: `Api/NumbersV1EligibilityA
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateEligibility
-- **HTTP**: `POST /v1/HostedNumber/Eligibility` (Default7 (numbers))
+- **HTTP**: `POST /v1/HostedNumber/Eligibility` (Default5 (numbers))
 - **Notes**: Create an eligibility check for a number that you want to host in Twilio.
 - **Signature**: `CreateEligibility(object? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**

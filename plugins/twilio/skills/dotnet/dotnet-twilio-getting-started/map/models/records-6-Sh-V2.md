@@ -10,7 +10,7 @@ is optional with a generated default — where the source declares an explicit d
 models (the `out` types named by the operation pages' error accessors) are listed here like any
 other record. A field whose type is a `OneOf`/`AnyOf` union is tagged `(union)` — construct and
 read it via `unions.md` (factories + `TryGet…`), not as a record.
-All records on these pages live in namespace `Twilio.Models`.
+All records on these pages live in namespace `TwilioSdk.Models`.
 
 | Record | Summary | Fields | Source |
 |---|---|---|---|
@@ -24,7 +24,7 @@ All records on these pages live in namespace `Twilio.Models`.
 | `SmsPumpingRiskInfo` | — | `CarrierRiskCategory (carrier_risk_category): string?`, `NumberBlocked (number_blocked): bool?`, `NumberBlockedDate (number_blocked_date): DateTimeOffset?`, `NumberBlockedLast3Months (number_blocked_last_3_months): bool?`, `SmsPumpingRiskScore (sms_pumping_risk_score): int?`, `ErrorCode (error_code): int?` | `Models/SmsPumpingRiskInfo.cs` |
 | `StatusCallback` | — | `Url (url): string !req`, `Method (method): Method11? = Method11.Post` | `Models/StatusCallback.cs` |
 | `StatusCallback1` | — | `Url (url): string !req`, `Method (method): Method21? = Method21.Post` | `Models/StatusCallback1.cs` |
-| `StatusOverrideInfo` | The override status of the country for the sender Id | `Status (status): Status11?` | `Models/StatusOverrideInfo.cs` |
+| `StatusOverrideInfo` | The override status of the country for the sender Id | `Status (status): Status1?` | `Models/StatusOverrideInfo.cs` |
 | `StatusTimeouts` | — | `Inactive (inactive): int?`, `Closed (closed): int?` | `Models/StatusTimeouts.cs` |
 | `StatusTimeouts1` | — | `Inactive (inactive): int?`, `Closed (closed): int?` | `Models/StatusTimeouts1.cs` |
 | `StirShaken` | Metrics related to STIR/SHAKEN attestation A, B, and C for the report period. | `CallCount (call_count): CallCount?`, `Percentage (percentage): Percentage?`, `AnswerRate (answer_rate): AnswerRate?` | `Models/StirShaken.cs` |
@@ -120,8 +120,8 @@ All records on these pages live in namespace `Twilio.Models`.
 | `V2ControlPlaneConfigurationsResponse` | — | `Configurations (configurations): IReadOnlyList<ConversationsV2Configuration> !req`, `Meta (meta): Meta1 !req` | `Models/V2ControlPlaneConfigurationsResponse.cs` |
 | `V2ConversationsCommunicationsRequest` | — | `Author (author): Author !req`, `Content (content): Content2 !req` (union), `ChannelId (channelId): string?`, `Recipients (recipients): IReadOnlyList<Recipient2> !req` | `Models/V2ConversationsCommunicationsRequest.cs` |
 | `V2ConversationsCommunicationsResponse` | — | `Communications (communications): IReadOnlyList<ConversationsV2Communication> !req`, `Meta (meta): Meta2 !req` | `Models/V2ConversationsCommunicationsResponse.cs` |
-| `V2ConversationsParticipantsRequest` | — | `Name (name): string?`, `Type (type): Type5?`, `ProfileId (profileId): string?`, `Addresses (addresses): IReadOnlyList<Address1> !req` | `Models/V2ConversationsParticipantsRequest.cs` |
-| `V2ConversationsParticipantsRequest1` | — | `Name (name): string?`, `Type (type): Type5?`, `ProfileId (profileId): string?`, `Addresses (addresses): IReadOnlyList<Address1>?` | `Models/V2ConversationsParticipantsRequest1.cs` |
+| `V2ConversationsParticipantsRequest` | — | `Name (name): string?`, `Type (type): Type3?`, `ProfileId (profileId): string?`, `Addresses (addresses): IReadOnlyList<Address11> !req` | `Models/V2ConversationsParticipantsRequest.cs` |
+| `V2ConversationsParticipantsRequest1` | — | `Name (name): string?`, `Type (type): Type3?`, `ProfileId (profileId): string?`, `Addresses (addresses): IReadOnlyList<Address11>?` | `Models/V2ConversationsParticipantsRequest1.cs` |
 | `V2ConversationsParticipantsResponse` | — | `Participants (participants): IReadOnlyList<ConversationsV2Participant> !req`, `Meta (meta): Meta2 !req` | `Models/V2ConversationsParticipantsResponse.cs` |
 | `V2ConversationsRequest` | — | `ConfigurationId (configurationId): string !req`, `Name (name): string?`, `Configuration (configuration): Configuration3?`, `Participants (participants): IReadOnlyList<Participant>?` | `Models/V2ConversationsRequest.cs` |
 | `V2ConversationsRequest1` | — | `Name (name): string?`, `Status (status): Status7 !req` | `Models/V2ConversationsRequest1.cs` |

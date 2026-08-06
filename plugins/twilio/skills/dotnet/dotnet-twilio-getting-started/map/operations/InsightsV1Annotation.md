@@ -5,7 +5,7 @@ Accessor: `client.InsightsV1Annotation` · Source: `Api/InsightsV1Annotation.cs`
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchAnnotation
-- **HTTP**: `GET /v1/Voice/{CallSid}/Annotation` (Default4 (insights))
+- **HTTP**: `GET /v1/Voice/{CallSid}/Annotation` (Default14 (insights))
 - **Notes**: Get the Annotation for a specific Call.
 - **Signature**: `FetchAnnotation(string callSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.InsightsV1Annotation` · Source: `Api/InsightsV1Annotation.cs`
 - **Pagination**: none
 
 ### UpdateAnnotation
-- **HTTP**: `POST /v1/Voice/{CallSid}/Annotation` (Default4 (insights))
+- **HTTP**: `POST /v1/Voice/{CallSid}/Annotation` (Default14 (insights))
 - **Notes**: Update an Annotation for a specific Call.
 - **Signature**: `UpdateAnnotation(string callSid, AnnotationEnumAnsweredBy? answeredBy, AnnotationEnumConnectivityIssue? connectivityIssue, string? qualityIssues, bool? spam, int? callScore, string? comment, string? incident, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 7 params (`answeredBy` … `incident`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

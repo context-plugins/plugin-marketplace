@@ -5,7 +5,7 @@ Accessor: `client.NumbersV1PortingPortabilityApi` · Source: `Api/NumbersV1Porti
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchPortingPortability
-- **HTTP**: `GET /v1/Porting/Portability/PhoneNumber/{PhoneNumber}` (Default7 (numbers))
+- **HTTP**: `GET /v1/Porting/Portability/PhoneNumber/{PhoneNumber}` (Default5 (numbers))
 - **Notes**: Check if a single phone number can be ported to Twilio
 - **Signature**: `FetchPortingPortability(string phoneNumber, string? targetAccountSid, string? addressSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `targetAccountSid` — nullable, no default → **must pass explicitly**

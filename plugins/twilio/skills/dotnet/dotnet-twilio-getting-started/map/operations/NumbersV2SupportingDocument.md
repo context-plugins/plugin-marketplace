@@ -5,7 +5,7 @@ Accessor: `client.NumbersV2SupportingDocument` · Source: `Api/NumbersV2Supporti
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateSupportingDocument
-- **HTTP**: `POST /v2/RegulatoryCompliance/SupportingDocuments` (Default7 (numbers))
+- **HTTP**: `POST /v2/RegulatoryCompliance/SupportingDocuments` (Default5 (numbers))
 - **Notes**: Create a new Supporting Document.
 - **Signature**: `CreateSupportingDocument(string friendlyName, string type, object? attributes, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `attributes` — nullable, no default → **must pass explicitly**
@@ -18,7 +18,7 @@ Accessor: `client.NumbersV2SupportingDocument` · Source: `Api/NumbersV2Supporti
 - **Pagination**: none
 
 ### DeleteSupportingDocument
-- **HTTP**: `DELETE /v2/RegulatoryCompliance/SupportingDocuments/{Sid}` (Default7 (numbers))
+- **HTTP**: `DELETE /v2/RegulatoryCompliance/SupportingDocuments/{Sid}` (Default5 (numbers))
 - **Notes**: Delete a specific Supporting Document.
 - **Signature**: `DeleteSupportingDocument(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -29,7 +29,7 @@ Accessor: `client.NumbersV2SupportingDocument` · Source: `Api/NumbersV2Supporti
 - **Pagination**: none
 
 ### FetchSupportingDocument
-- **HTTP**: `GET /v2/RegulatoryCompliance/SupportingDocuments/{Sid}` (Default7 (numbers))
+- **HTTP**: `GET /v2/RegulatoryCompliance/SupportingDocuments/{Sid}` (Default5 (numbers))
 - **Notes**: Fetch specific Supporting Document Instance.
 - **Signature**: `FetchSupportingDocument(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -40,7 +40,7 @@ Accessor: `client.NumbersV2SupportingDocument` · Source: `Api/NumbersV2Supporti
 - **Pagination**: none
 
 ### ListSupportingDocument
-- **HTTP**: `GET /v2/RegulatoryCompliance/SupportingDocuments` (Default7 (numbers))
+- **HTTP**: `GET /v2/RegulatoryCompliance/SupportingDocuments` (Default5 (numbers))
 - **Notes**: Retrieve a list of all Supporting Document for an account.
 - **Signature**: `ListSupportingDocument(long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
@@ -55,7 +55,7 @@ Accessor: `client.NumbersV2SupportingDocument` · Source: `Api/NumbersV2Supporti
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateSupportingDocument
-- **HTTP**: `POST /v2/RegulatoryCompliance/SupportingDocuments/{Sid}` (Default7 (numbers))
+- **HTTP**: `POST /v2/RegulatoryCompliance/SupportingDocuments/{Sid}` (Default5 (numbers))
 - **Notes**: Update an existing Supporting Document.
 - **Signature**: `UpdateSupportingDocument(string sid, string? friendlyName, object? attributes, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `friendlyName` — nullable, no default → **must pass explicitly**

@@ -5,7 +5,7 @@ Accessor: `client.FlexV1Assessments` · Source: `Api/FlexV1Assessments.cs` · 3 
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateInsightsAssessments
-- **HTTP**: `POST /v1/Insights/QualityManagement/Assessments` (Default3 (flex-api))
+- **HTTP**: `POST /v1/Insights/QualityManagement/Assessments` (Default13 (flex-api))
 - **Notes**: Add assessments against conversation to dynamo db. Used in assessments screen by user. Users can select the questionnaire and pick up answers for each and every question.
 - **Signature**: `CreateInsightsAssessments(string? authorization, string categorySid, string categoryName, string segmentId, string agentId, double offset, string metricId, string metricName, string answerText, string answerId, string questionnaireSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `authorization` — nullable, no default → **must pass explicitly**
@@ -18,7 +18,7 @@ Accessor: `client.FlexV1Assessments` · Source: `Api/FlexV1Assessments.cs` · 3 
 - **Pagination**: none
 
 ### ListInsightsAssessments
-- **HTTP**: `GET /v1/Insights/QualityManagement/Assessments` (Default3 (flex-api))
+- **HTTP**: `GET /v1/Insights/QualityManagement/Assessments` (Default13 (flex-api))
 - **Notes**: Get assessments done for a conversation by logged in user
 - **Signature**: `ListInsightsAssessments(string? segmentId, long? pageSize, int? page, string? pageToken, string? authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`segmentId` … `authorization`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -31,7 +31,7 @@ Accessor: `client.FlexV1Assessments` · Source: `Api/FlexV1Assessments.cs` · 3 
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateInsightsAssessments
-- **HTTP**: `POST /v1/Insights/QualityManagement/Assessments/{AssessmentSid}` (Default3 (flex-api))
+- **HTTP**: `POST /v1/Insights/QualityManagement/Assessments/{AssessmentSid}` (Default13 (flex-api))
 - **Notes**: Update a specific Assessment assessed earlier
 - **Signature**: `UpdateInsightsAssessments(string assessmentSid, string? authorization, double offset, string answerText, string answerId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `authorization` — nullable, no default → **must pass explicitly**

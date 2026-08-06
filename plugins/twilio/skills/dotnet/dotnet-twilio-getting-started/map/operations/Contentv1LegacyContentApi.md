@@ -5,7 +5,7 @@ Accessor: `client.Contentv1LegacyContentApi` · Source: `Api/Contentv1LegacyCont
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### ListLegacyContent
-- **HTTP**: `GET /v1/LegacyContent` (Default1 (content))
+- **HTTP**: `GET /v1/LegacyContent` (Default2 (content))
 - **Notes**: Retrieve a list of Legacy Contents belonging to the account used to make the request
 - **Signature**: `ListLegacyContent(int? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**

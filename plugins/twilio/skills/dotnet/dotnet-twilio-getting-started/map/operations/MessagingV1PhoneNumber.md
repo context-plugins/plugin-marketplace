@@ -5,7 +5,7 @@ Accessor: `client.MessagingV1PhoneNumber` · Source: `Api/MessagingV1PhoneNumber
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreatePhoneNumber
-- **HTTP**: `POST /v1/Services/{ServiceSid}/PhoneNumbers` (Default6 (messaging))
+- **HTTP**: `POST /v1/Services/{ServiceSid}/PhoneNumbers` (Default1 (messaging))
 - **Signature**: `CreatePhoneNumber(string serviceSid, string phoneNumberSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PhoneNumberSid` ← `phoneNumberSid`
@@ -16,7 +16,7 @@ Accessor: `client.MessagingV1PhoneNumber` · Source: `Api/MessagingV1PhoneNumber
 - **Pagination**: none
 
 ### DeletePhoneNumber
-- **HTTP**: `DELETE /v1/Services/{ServiceSid}/PhoneNumbers/{Sid}` (Default6 (messaging))
+- **HTTP**: `DELETE /v1/Services/{ServiceSid}/PhoneNumbers/{Sid}` (Default1 (messaging))
 - **Signature**: `DeletePhoneNumber(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -25,9 +25,9 @@ Accessor: `client.MessagingV1PhoneNumber` · Source: `Api/MessagingV1PhoneNumber
 - **No-throw variant**: absent
 - **Pagination**: none
 
-### FetchPhoneNumber3
-- **HTTP**: `GET /v1/Services/{ServiceSid}/PhoneNumbers/{Sid}` (Default6 (messaging))
-- **Signature**: `FetchPhoneNumber3(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+### FetchPhoneNumber
+- **HTTP**: `GET /v1/Services/{ServiceSid}/PhoneNumbers/{Sid}` (Default1 (messaging))
+- **Signature**: `FetchPhoneNumber(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1ServicePhoneNumber`
 - **Error**: `SdkException<RawError>` — **Case B**
@@ -36,7 +36,7 @@ Accessor: `client.MessagingV1PhoneNumber` · Source: `Api/MessagingV1PhoneNumber
 - **Pagination**: none
 
 ### ListPhoneNumber
-- **HTTP**: `GET /v1/Services/{ServiceSid}/PhoneNumbers` (Default6 (messaging))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/PhoneNumbers` (Default1 (messaging))
 - **Signature**: `ListPhoneNumber(string serviceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**

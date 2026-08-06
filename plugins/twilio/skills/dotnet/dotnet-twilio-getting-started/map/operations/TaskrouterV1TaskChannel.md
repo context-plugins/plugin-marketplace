@@ -5,7 +5,7 @@ Accessor: `client.TaskrouterV1TaskChannel` · Source: `Api/TaskrouterV1TaskChann
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateTaskChannel
-- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/TaskChannels` (Default11 (taskrouter))
+- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/TaskChannels` (Default8 (taskrouter))
 - **Signature**: `CreateTaskChannel(string workspaceSid, string friendlyName, string uniqueName, bool? channelOptimizedRouting, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `channelOptimizedRouting` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -17,7 +17,7 @@ Accessor: `client.TaskrouterV1TaskChannel` · Source: `Api/TaskrouterV1TaskChann
 - **Pagination**: none
 
 ### DeleteTaskChannel
-- **HTTP**: `DELETE /v1/Workspaces/{WorkspaceSid}/TaskChannels/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `DELETE /v1/Workspaces/{WorkspaceSid}/TaskChannels/{Sid}` (Default8 (taskrouter))
 - **Signature**: `DeleteTaskChannel(string workspaceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -27,7 +27,7 @@ Accessor: `client.TaskrouterV1TaskChannel` · Source: `Api/TaskrouterV1TaskChann
 - **Pagination**: none
 
 ### FetchTaskChannel
-- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/TaskChannels/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/TaskChannels/{Sid}` (Default8 (taskrouter))
 - **Signature**: `FetchTaskChannel(string workspaceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `TaskrouterV1WorkspaceTaskChannel`
@@ -37,7 +37,7 @@ Accessor: `client.TaskrouterV1TaskChannel` · Source: `Api/TaskrouterV1TaskChann
 - **Pagination**: none
 
 ### ListTaskChannel
-- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/TaskChannels` (Default11 (taskrouter))
+- **HTTP**: `GET /v1/Workspaces/{WorkspaceSid}/TaskChannels` (Default8 (taskrouter))
 - **Signature**: `ListTaskChannel(string workspaceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
@@ -51,7 +51,7 @@ Accessor: `client.TaskrouterV1TaskChannel` · Source: `Api/TaskrouterV1TaskChann
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateTaskChannel
-- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/TaskChannels/{Sid}` (Default11 (taskrouter))
+- **HTTP**: `POST /v1/Workspaces/{WorkspaceSid}/TaskChannels/{Sid}` (Default8 (taskrouter))
 - **Signature**: `UpdateTaskChannel(string workspaceSid, string sid, string? friendlyName, bool? channelOptimizedRouting, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `friendlyName` — nullable, no default → **must pass explicitly**
   - `channelOptimizedRouting` — nullable, no default → **must pass explicitly**

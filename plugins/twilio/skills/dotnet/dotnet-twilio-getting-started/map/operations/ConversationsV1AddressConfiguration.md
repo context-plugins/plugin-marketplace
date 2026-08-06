@@ -5,7 +5,7 @@ Accessor: `client.ConversationsV1AddressConfiguration` · Source: `Api/Conversat
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateConfigurationAddress
-- **HTTP**: `POST /v1/Configuration/Addresses` (Default2 (conversations))
+- **HTTP**: `POST /v1/Configuration/Addresses` (Default7 (conversations))
 - **Notes**: Create a new address configuration
 - **Signature**: `CreateConfigurationAddress(ConfigurationAddressEnumType type, string address, string? friendlyName, bool? autoCreationEnabled, ConfigurationAddressEnumAutoCreationType? autoCreationType, string? autoCreationConversationServiceSid, string? autoCreationWebhookUrl, ConfigurationAddressEnumMethod? autoCreationWebhookMethod, IReadOnlyList<string>? autoCreationWebhookFilters, string? autoCreationStudioFlowSid, int? autoCreationStudioRetryCount, string? addressCountry, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 10 params (`friendlyName` … `addressCountry`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -18,7 +18,7 @@ Accessor: `client.ConversationsV1AddressConfiguration` · Source: `Api/Conversat
 - **Pagination**: none
 
 ### DeleteConfigurationAddress
-- **HTTP**: `DELETE /v1/Configuration/Addresses/{Sid}` (Default2 (conversations))
+- **HTTP**: `DELETE /v1/Configuration/Addresses/{Sid}` (Default7 (conversations))
 - **Notes**: Remove an existing address configuration
 - **Signature**: `DeleteConfigurationAddress(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -29,7 +29,7 @@ Accessor: `client.ConversationsV1AddressConfiguration` · Source: `Api/Conversat
 - **Pagination**: none
 
 ### FetchConfigurationAddress
-- **HTTP**: `GET /v1/Configuration/Addresses/{Sid}` (Default2 (conversations))
+- **HTTP**: `GET /v1/Configuration/Addresses/{Sid}` (Default7 (conversations))
 - **Notes**: Fetch an address configuration
 - **Signature**: `FetchConfigurationAddress(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -40,7 +40,7 @@ Accessor: `client.ConversationsV1AddressConfiguration` · Source: `Api/Conversat
 - **Pagination**: none
 
 ### ListConfigurationAddress
-- **HTTP**: `GET /v1/Configuration/Addresses` (Default2 (conversations))
+- **HTTP**: `GET /v1/Configuration/Addresses` (Default7 (conversations))
 - **Notes**: Retrieve a list of address configurations for an account
 - **Signature**: `ListConfigurationAddress(string? type, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`type` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -53,7 +53,7 @@ Accessor: `client.ConversationsV1AddressConfiguration` · Source: `Api/Conversat
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateConfigurationAddress
-- **HTTP**: `POST /v1/Configuration/Addresses/{Sid}` (Default2 (conversations))
+- **HTTP**: `POST /v1/Configuration/Addresses/{Sid}` (Default7 (conversations))
 - **Notes**: Update an existing address configuration
 - **Signature**: `UpdateConfigurationAddress(string sid, string? friendlyName, bool? autoCreationEnabled, ConfigurationAddressEnumAutoCreationType? autoCreationType, string? autoCreationConversationServiceSid, string? autoCreationWebhookUrl, ConfigurationAddressEnumMethod? autoCreationWebhookMethod, IReadOnlyList<string>? autoCreationWebhookFilters, string? autoCreationStudioFlowSid, int? autoCreationStudioRetryCount, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 9 params (`friendlyName` … `autoCreationStudioRetryCount`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

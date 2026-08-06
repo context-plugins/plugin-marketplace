@@ -5,7 +5,7 @@ Accessor: `client.InsightsV1Participant` · Source: `Api/InsightsV1Participant.c
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchVideoParticipantSummary
-- **HTTP**: `GET /v1/Video/Rooms/{RoomSid}/Participants/{ParticipantSid}` (Default4 (insights))
+- **HTTP**: `GET /v1/Video/Rooms/{RoomSid}/Participants/{ParticipantSid}` (Default14 (insights))
 - **Notes**: Get Video Log Analyzer data for a Room Participant.
 - **Signature**: `FetchVideoParticipantSummary(string roomSid, string participantSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.InsightsV1Participant` · Source: `Api/InsightsV1Participant.c
 - **Pagination**: none
 
 ### ListVideoParticipantSummary
-- **HTTP**: `GET /v1/Video/Rooms/{RoomSid}/Participants` (Default4 (insights))
+- **HTTP**: `GET /v1/Video/Rooms/{RoomSid}/Participants` (Default14 (insights))
 - **Notes**: Get a list of room participants.
 - **Signature**: `ListVideoParticipantSummary(string roomSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**

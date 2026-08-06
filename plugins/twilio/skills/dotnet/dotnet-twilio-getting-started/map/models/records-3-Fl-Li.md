@@ -1,6 +1,6 @@
-# Records (`FlexV1InsightsConversations` … `ListInteractionChannelInviteResponse`)
+# Records (`FlexV1InsightsQuestionnaires` … `ListInteractionChannelResponse`)
 
-**Exact coverage: `FlexV1InsightsConversations` through `ListInteractionChannelInviteResponse`**, alphabetical — these are the literal first and last record names on this page; a name outside that range is on a neighbouring page.
+**Exact coverage: `FlexV1InsightsQuestionnaires` through `ListInteractionChannelResponse`**, alphabetical — these are the literal first and last record names on this page; a name outside that range is on a neighbouring page.
 
 Plain `record` data models (immutable, `init`-only). Each field is `CSharpName (wire_name): Type` —
 the parenthesized name is the JSON wire name (`[JsonPropertyName]`). `!req` = C# `required` (must be
@@ -10,11 +10,10 @@ is optional with a generated default — where the source declares an explicit d
 models (the `out` types named by the operation pages' error accessors) are listed here like any
 other record. A field whose type is a `OneOf`/`AnyOf` union is tagged `(union)` — construct and
 read it via `unions.md` (factories + `TryGet…`), not as a record.
-All records on these pages live in namespace `Twilio.Models`.
+All records on these pages live in namespace `TwilioSdk.Models`.
 
 | Record | Summary | Fields | Source |
 |---|---|---|---|
-| `FlexV1InsightsConversations` | — | `AccountId (account_id): string?`, `ConversationId (conversation_id): string?`, `SegmentCount (segment_count): int? = 0`, `Segments (segments): IReadOnlyList<object?>?` | `Models/FlexV1InsightsConversations.cs` |
 | `FlexV1InsightsQuestionnaires` | — | `AccountSid (account_sid): string?`, `QuestionnaireSid (questionnaire_sid): string?`, `Name (name): string?`, `Description (description): string?`, `Active (active): bool?`, `Questions (questions): IReadOnlyList<object?>?`, `Url (url): string?` | `Models/FlexV1InsightsQuestionnaires.cs` |
 | `FlexV1InsightsQuestionnairesCategory` | — | `AccountSid (account_sid): string?`, `CategorySid (category_sid): string?`, `Name (name): string?`, `Url (url): string?` | `Models/FlexV1InsightsQuestionnairesCategory.cs` |
 | `FlexV1InsightsQuestionnairesQuestion` | — | `AccountSid (account_sid): string?`, `QuestionSid (question_sid): string?`, `Question (question): string?`, `Description (description): string?`, `Category (category): object?`, `AnswerSetId (answer_set_id): string?`, `AllowNa (allow_na): bool?`, `Usage (usage): int? = 0`, `AnswerSet (answer_set): object?`, `Url (url): string?` | `Models/FlexV1InsightsQuestionnairesQuestion.cs` |
@@ -51,7 +50,7 @@ All records on these pages live in namespace `Twilio.Models`.
 | `IncomingPhoneNumberAssignedAddOnExtension` | — | `Sid (sid): string?`, `AccountSid (account_sid): string?`, `ResourceSid (resource_sid): string?`, `AssignedAddOnSid (assigned_add_on_sid): string?`, `FriendlyName (friendly_name): string?`, `ProductName (product_name): string?`, `UniqueName (unique_name): string?`, `Uri (uri): string?`, `Enabled (enabled): bool?` | `Models/IncomingPhoneNumberAssignedAddOnExtension.cs` |
 | `InsightsMetadataResponse` | Response containing metadata about available cubes, measures, and dimensions for a domain | `Domain (domain): string?`, `Cubes (cubes): IReadOnlyList<Cube>?` | `Models/InsightsMetadataResponse.cs` |
 | `InsightsQueryRequest` | — | `Domain (domain): string?`, `Query (query): QueryDefinition !req` | `Models/InsightsQueryRequest.cs` |
-| `InsightsQueryResponse` | — | `Domain (domain): string?`, `Items (items): IReadOnlyList<object>?`, `Meta (meta): PaginationMeta?` | `Models/InsightsQueryResponse.cs` |
+| `InsightsQueryResponse` | — | `Domain (domain): string?`, `Items (items): IReadOnlyList<object>?`, `Meta (meta): PaginationMeta1?` | `Models/InsightsQueryResponse.cs` |
 | `InsightsV1AccountSettings` | — | `AccountSid (account_sid): string?`, `AdvancedFeatures (advanced_features): bool?`, `VoiceTrace (voice_trace): bool?`, `Url (url): string?` | `Models/InsightsV1AccountSettings.cs` |
 | `InsightsV1Call` | — | `Sid (sid): string?`, `Url (url): string?`, `Links (links): object?` | `Models/InsightsV1Call.cs` |
 | `InsightsV1CallAnnotation` | — | `CallSid (call_sid): string?`, `AccountSid (account_sid): string?`, `AnsweredBy (answered_by): AnnotationEnumAnsweredBy?`, `ConnectivityIssue (connectivity_issue): AnnotationEnumConnectivityIssue?`, `QualityIssues (quality_issues): IReadOnlyList<string?>?`, `Spam (spam): bool?`, `CallScore (call_score): int?`, `Comment (comment): string?`, `Incident (incident): string?`, `Url (url): string?` | `Models/InsightsV1CallAnnotation.cs` |
@@ -149,8 +148,8 @@ All records on these pages live in namespace `Twilio.Models`.
 | `ListEngagementResponse` | — | `Engagements (engagements): IReadOnlyList<StudioV1FlowEngagement>?`, `Meta (meta): Meta?` | `Models/ListEngagementResponse.cs` |
 | `ListEntityResponse` | — | `Entities (entities): IReadOnlyList<VerifyV2ServiceEntity>?`, `Meta (meta): Meta?` | `Models/ListEntityResponse.cs` |
 | `ListEvaluationResponse` | — | `Results (results): IReadOnlyList<NumbersV2RegulatoryComplianceBundleEvaluation>?`, `Meta (meta): Meta?` | `Models/ListEvaluationResponse.cs` |
-| `ListEventResponse` | — | `Events (events): IReadOnlyList<InsightsV1CallEvent>?`, `Meta (meta): Meta?` | `Models/ListEventResponse.cs` |
-| `ListEventResponse1` | — | `Events (events): IReadOnlyList<TaskrouterV1WorkspaceEvent>?`, `Meta (meta): Meta?` | `Models/ListEventResponse1.cs` |
+| `ListEventResponse` | — | `Events (events): IReadOnlyList<TaskrouterV1WorkspaceEvent>?`, `Meta (meta): Meta?` | `Models/ListEventResponse.cs` |
+| `ListEventResponse1` | — | `Events (events): IReadOnlyList<InsightsV1CallEvent>?`, `Meta (meta): Meta?` | `Models/ListEventResponse1.cs` |
 | `ListExecutionResponse` | — | `Executions (executions): IReadOnlyList<StudioV1FlowExecution>?`, `Meta (meta): Meta?` | `Models/ListExecutionResponse.cs` |
 | `ListExecutionResponse1` | — | `Executions (executions): IReadOnlyList<StudioV2FlowExecution>?`, `Meta (meta): Meta?` | `Models/ListExecutionResponse1.cs` |
 | `ListExecutionStepResponse` | — | `Steps (steps): IReadOnlyList<StudioV1FlowExecutionExecutionStep>?`, `Meta (meta): Meta?` | `Models/ListExecutionStepResponse.cs` |
@@ -175,3 +174,5 @@ All records on these pages live in namespace `Twilio.Models`.
 | `ListInsightsQuestionnairesResponse` | — | `Questionnaires (questionnaires): IReadOnlyList<FlexV1InsightsQuestionnaires>?`, `Meta (meta): Meta?` | `Models/ListInsightsQuestionnairesResponse.cs` |
 | `ListInsightsSegmentsResponse` | — | `Segments (segments): IReadOnlyList<FlexV1InsightsSegments>?`, `Meta (meta): Meta?` | `Models/ListInsightsSegmentsResponse.cs` |
 | `ListInteractionChannelInviteResponse` | — | `Invites (invites): IReadOnlyList<FlexV1InteractionInteractionChannelInteractionChannelInvite>?`, `Meta (meta): Meta?` | `Models/ListInteractionChannelInviteResponse.cs` |
+| `ListInteractionChannelParticipantResponse` | — | `Participants (participants): IReadOnlyList<FlexV1InteractionInteractionChannelInteractionChannelParticipant>?`, `Meta (meta): Meta?` | `Models/ListInteractionChannelParticipantResponse.cs` |
+| `ListInteractionChannelResponse` | — | `Channels (channels): IReadOnlyList<FlexV1InteractionInteractionChannel>?`, `Meta (meta): Meta?` | `Models/ListInteractionChannelResponse.cs` |

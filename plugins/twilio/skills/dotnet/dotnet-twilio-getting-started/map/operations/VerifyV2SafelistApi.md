@@ -5,7 +5,7 @@ Accessor: `client.VerifyV2SafelistApi` Â· Source: `Api/VerifyV2SafelistApi.cs` Â
 **Parameter names are literal.** Signatures are generated code verbatim â€” in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateSafelist
-- **HTTP**: `POST /v2/SafeList/Numbers` (Default13 (verify))
+- **HTTP**: `POST /v2/SafeList/Numbers` (Default3 (verify))
 - **Notes**: Add a new phone number to SafeList.
 - **Signature**: `CreateSafelist(string phoneNumber, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -17,7 +17,7 @@ Accessor: `client.VerifyV2SafelistApi` Â· Source: `Api/VerifyV2SafelistApi.cs` Â
 - **Pagination**: none
 
 ### DeleteSafelist
-- **HTTP**: `DELETE /v2/SafeList/Numbers/{PhoneNumber}` (Default13 (verify))
+- **HTTP**: `DELETE /v2/SafeList/Numbers/{PhoneNumber}` (Default3 (verify))
 - **Notes**: Remove a phone number from SafeList.
 - **Signature**: `DeleteSafelist(string phoneNumber, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -28,7 +28,7 @@ Accessor: `client.VerifyV2SafelistApi` Â· Source: `Api/VerifyV2SafelistApi.cs` Â
 - **Pagination**: none
 
 ### FetchSafelist
-- **HTTP**: `GET /v2/SafeList/Numbers/{PhoneNumber}` (Default13 (verify))
+- **HTTP**: `GET /v2/SafeList/Numbers/{PhoneNumber}` (Default3 (verify))
 - **Notes**: Check if a phone number exists in SafeList.
 - **Signature**: `FetchSafelist(string phoneNumber, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null

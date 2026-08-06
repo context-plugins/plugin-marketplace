@@ -5,7 +5,7 @@ Accessor: `client.ConversationsV1UserConversation` · Source: `Api/Conversations
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### DeleteServiceUserConversation
-- **HTTP**: `DELETE /v1/Services/{ChatServiceSid}/Users/{UserSid}/Conversations/{ConversationSid}` (Default2 (conversations))
+- **HTTP**: `DELETE /v1/Services/{ChatServiceSid}/Users/{UserSid}/Conversations/{ConversationSid}` (Default7 (conversations))
 - **Notes**: Delete a specific User Conversation.
 - **Signature**: `DeleteServiceUserConversation(string chatServiceSid, string userSid, string conversationSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.ConversationsV1UserConversation` · Source: `Api/Conversations
 - **Pagination**: none
 
 ### DeleteUserConversation
-- **HTTP**: `DELETE /v1/Users/{UserSid}/Conversations/{ConversationSid}` (Default2 (conversations))
+- **HTTP**: `DELETE /v1/Users/{UserSid}/Conversations/{ConversationSid}` (Default7 (conversations))
 - **Notes**: Delete a specific User Conversation.
 - **Signature**: `DeleteUserConversation(string userSid, string conversationSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -27,7 +27,7 @@ Accessor: `client.ConversationsV1UserConversation` · Source: `Api/Conversations
 - **Pagination**: none
 
 ### FetchServiceUserConversation
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Users/{UserSid}/Conversations/{ConversationSid}` (Default2 (conversations))
+- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Users/{UserSid}/Conversations/{ConversationSid}` (Default7 (conversations))
 - **Notes**: Fetch a specific User Conversation.
 - **Signature**: `FetchServiceUserConversation(string chatServiceSid, string userSid, string conversationSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -38,7 +38,7 @@ Accessor: `client.ConversationsV1UserConversation` · Source: `Api/Conversations
 - **Pagination**: none
 
 ### FetchUserConversation
-- **HTTP**: `GET /v1/Users/{UserSid}/Conversations/{ConversationSid}` (Default2 (conversations))
+- **HTTP**: `GET /v1/Users/{UserSid}/Conversations/{ConversationSid}` (Default7 (conversations))
 - **Notes**: Fetch a specific User Conversation.
 - **Signature**: `FetchUserConversation(string userSid, string conversationSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -49,7 +49,7 @@ Accessor: `client.ConversationsV1UserConversation` · Source: `Api/Conversations
 - **Pagination**: none
 
 ### ListServiceUserConversation
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Users/{UserSid}/Conversations` (Default2 (conversations))
+- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Users/{UserSid}/Conversations` (Default7 (conversations))
 - **Notes**: Retrieve a list of all User Conversations for the User.
 - **Signature**: `ListServiceUserConversation(string chatServiceSid, string userSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
@@ -64,7 +64,7 @@ Accessor: `client.ConversationsV1UserConversation` · Source: `Api/Conversations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### ListUserConversation
-- **HTTP**: `GET /v1/Users/{UserSid}/Conversations` (Default2 (conversations))
+- **HTTP**: `GET /v1/Users/{UserSid}/Conversations` (Default7 (conversations))
 - **Notes**: Retrieve a list of all User Conversations for the User.
 - **Signature**: `ListUserConversation(string userSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
@@ -79,7 +79,7 @@ Accessor: `client.ConversationsV1UserConversation` · Source: `Api/Conversations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateServiceUserConversation
-- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Users/{UserSid}/Conversations/{ConversationSid}` (Default2 (conversations))
+- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Users/{UserSid}/Conversations/{ConversationSid}` (Default7 (conversations))
 - **Notes**: Update a specific User Conversation.
 - **Signature**: `UpdateServiceUserConversation(string chatServiceSid, string userSid, string conversationSid, ServiceUserConversationEnumNotificationLevel? notificationLevel, DateTimeOffset? lastReadTimestamp, int? lastReadMessageIndex, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `notificationLevel` — nullable, no default → **must pass explicitly**
@@ -94,7 +94,7 @@ Accessor: `client.ConversationsV1UserConversation` · Source: `Api/Conversations
 - **Pagination**: none
 
 ### UpdateUserConversation
-- **HTTP**: `POST /v1/Users/{UserSid}/Conversations/{ConversationSid}` (Default2 (conversations))
+- **HTTP**: `POST /v1/Users/{UserSid}/Conversations/{ConversationSid}` (Default7 (conversations))
 - **Notes**: Update a specific User Conversation.
 - **Signature**: `UpdateUserConversation(string userSid, string conversationSid, UserConversationEnumNotificationLevel? notificationLevel, DateTimeOffset? lastReadTimestamp, int? lastReadMessageIndex, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `notificationLevel` — nullable, no default → **must pass explicitly**

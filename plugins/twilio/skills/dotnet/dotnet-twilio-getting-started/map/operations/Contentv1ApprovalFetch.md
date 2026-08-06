@@ -5,7 +5,7 @@ Accessor: `client.Contentv1ApprovalFetch` · Source: `Api/Contentv1ApprovalFetch
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchApprovalFetch
-- **HTTP**: `GET /v1/Content/{Sid}/ApprovalRequests` (Default1 (content))
+- **HTTP**: `GET /v1/Content/{Sid}/ApprovalRequests` (Default2 (content))
 - **Notes**: Fetch a Content resource's approval status by its unique Content Sid
 - **Signature**: `FetchApprovalFetch(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null

@@ -5,7 +5,7 @@ Accessor: `client.ConversationsV1DeliveryReceipt` · Source: `Api/ConversationsV
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchConversationMessageReceipt
-- **HTTP**: `GET /v1/Conversations/{ConversationSid}/Messages/{MessageSid}/Receipts/{Sid}` (Default2 (conversations))
+- **HTTP**: `GET /v1/Conversations/{ConversationSid}/Messages/{MessageSid}/Receipts/{Sid}` (Default7 (conversations))
 - **Notes**: Fetch the delivery and read receipts of the conversation message
 - **Signature**: `FetchConversationMessageReceipt(string conversationSid, string messageSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.ConversationsV1DeliveryReceipt` · Source: `Api/ConversationsV
 - **Pagination**: none
 
 ### FetchServiceConversationMessageReceipt
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Messages/{MessageSid}/Receipts/{Sid}` (Default2 (conversations))
+- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Messages/{MessageSid}/Receipts/{Sid}` (Default7 (conversations))
 - **Notes**: Fetch the delivery and read receipts of the conversation message
 - **Signature**: `FetchServiceConversationMessageReceipt(string chatServiceSid, string conversationSid, string messageSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -27,7 +27,7 @@ Accessor: `client.ConversationsV1DeliveryReceipt` · Source: `Api/ConversationsV
 - **Pagination**: none
 
 ### ListConversationMessageReceipt
-- **HTTP**: `GET /v1/Conversations/{ConversationSid}/Messages/{MessageSid}/Receipts` (Default2 (conversations))
+- **HTTP**: `GET /v1/Conversations/{ConversationSid}/Messages/{MessageSid}/Receipts` (Default7 (conversations))
 - **Notes**: Retrieve a list of all delivery and read receipts of the conversation message
 - **Signature**: `ListConversationMessageReceipt(string conversationSid, string messageSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
@@ -42,7 +42,7 @@ Accessor: `client.ConversationsV1DeliveryReceipt` · Source: `Api/ConversationsV
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### ListServiceConversationMessageReceipt
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Messages/{MessageSid}/Receipts` (Default2 (conversations))
+- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Messages/{MessageSid}/Receipts` (Default7 (conversations))
 - **Notes**: Retrieve a list of all delivery and read receipts of the conversation message
 - **Signature**: `ListServiceConversationMessageReceipt(string chatServiceSid, string conversationSid, string messageSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**

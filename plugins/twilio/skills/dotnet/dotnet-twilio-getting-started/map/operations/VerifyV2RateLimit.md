@@ -5,7 +5,7 @@ Accessor: `client.VerifyV2RateLimit` · Source: `Api/VerifyV2RateLimit.cs` · 5 
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateRateLimit
-- **HTTP**: `POST /v2/Services/{ServiceSid}/RateLimits` (Default13 (verify))
+- **HTTP**: `POST /v2/Services/{ServiceSid}/RateLimits` (Default3 (verify))
 - **Notes**: Create a new Rate Limit for a Service
 - **Signature**: `CreateRateLimit(string serviceSid, string uniqueName, string? description, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `description` — nullable, no default → **must pass explicitly**
@@ -18,7 +18,7 @@ Accessor: `client.VerifyV2RateLimit` · Source: `Api/VerifyV2RateLimit.cs` · 5 
 - **Pagination**: none
 
 ### DeleteRateLimit
-- **HTTP**: `DELETE /v2/Services/{ServiceSid}/RateLimits/{Sid}` (Default13 (verify))
+- **HTTP**: `DELETE /v2/Services/{ServiceSid}/RateLimits/{Sid}` (Default3 (verify))
 - **Notes**: Delete a specific Rate Limit.
 - **Signature**: `DeleteRateLimit(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -29,7 +29,7 @@ Accessor: `client.VerifyV2RateLimit` · Source: `Api/VerifyV2RateLimit.cs` · 5 
 - **Pagination**: none
 
 ### FetchRateLimit
-- **HTTP**: `GET /v2/Services/{ServiceSid}/RateLimits/{Sid}` (Default13 (verify))
+- **HTTP**: `GET /v2/Services/{ServiceSid}/RateLimits/{Sid}` (Default3 (verify))
 - **Notes**: Fetch a specific Rate Limit.
 - **Signature**: `FetchRateLimit(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -40,7 +40,7 @@ Accessor: `client.VerifyV2RateLimit` · Source: `Api/VerifyV2RateLimit.cs` · 5 
 - **Pagination**: none
 
 ### ListRateLimit
-- **HTTP**: `GET /v2/Services/{ServiceSid}/RateLimits` (Default13 (verify))
+- **HTTP**: `GET /v2/Services/{ServiceSid}/RateLimits` (Default3 (verify))
 - **Notes**: Retrieve a list of all Rate Limits for a service.
 - **Signature**: `ListRateLimit(string serviceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
@@ -55,7 +55,7 @@ Accessor: `client.VerifyV2RateLimit` · Source: `Api/VerifyV2RateLimit.cs` · 5 
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateRateLimit
-- **HTTP**: `POST /v2/Services/{ServiceSid}/RateLimits/{Sid}` (Default13 (verify))
+- **HTTP**: `POST /v2/Services/{ServiceSid}/RateLimits/{Sid}` (Default3 (verify))
 - **Notes**: Update a specific Rate Limit.
 - **Signature**: `UpdateRateLimit(string serviceSid, string sid, string? description, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `description` — nullable, no default → **must pass explicitly**

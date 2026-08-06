@@ -5,7 +5,7 @@ Accessor: `client.VerifyV2AccessToken` · Source: `Api/VerifyV2AccessToken.cs` �
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateAccessToken
-- **HTTP**: `POST /v2/Services/{ServiceSid}/AccessTokens` (Default13 (verify))
+- **HTTP**: `POST /v2/Services/{ServiceSid}/AccessTokens` (Default3 (verify))
 - **Notes**: Create a new enrollment Access Token for the Entity
 - **Signature**: `CreateAccessToken(string serviceSid, string identity, AccessTokenEnumFactorTypes factorType, string? factorFriendlyName, int? ttl, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `factorFriendlyName` — nullable, no default → **must pass explicitly**
@@ -19,7 +19,7 @@ Accessor: `client.VerifyV2AccessToken` · Source: `Api/VerifyV2AccessToken.cs` �
 - **Pagination**: none
 
 ### FetchAccessToken
-- **HTTP**: `GET /v2/Services/{ServiceSid}/AccessTokens/{Sid}` (Default13 (verify))
+- **HTTP**: `GET /v2/Services/{ServiceSid}/AccessTokens/{Sid}` (Default3 (verify))
 - **Notes**: Fetch an Access Token for the Entity
 - **Signature**: `FetchAccessToken(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null

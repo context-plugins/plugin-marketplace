@@ -5,7 +5,7 @@ Accessor: `client.ConversationsV2CommunicationApi` · Source: `Api/Conversations
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateCommunicationInConversation
-- **HTTP**: `POST /v2/Conversations/{ConversationSid}/Communications` (Default2 (conversations))
+- **HTTP**: `POST /v2/Conversations/{ConversationSid}/Communications` (Default7 (conversations))
 - **Notes**: Create a Communication.
 - **Signature**: `CreateCommunicationInConversation(string conversationSid, V2ConversationsCommunicationsRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
@@ -17,7 +17,7 @@ Accessor: `client.ConversationsV2CommunicationApi` · Source: `Api/Conversations
 - **Pagination**: none
 
 ### FetchCommunication
-- **HTTP**: `GET /v2/Conversations/{ConversationSid}/Communications/{Sid}` (Default2 (conversations))
+- **HTTP**: `GET /v2/Conversations/{ConversationSid}/Communications/{Sid}` (Default7 (conversations))
 - **Notes**: Retrieve a Communication.
 - **Signature**: `FetchCommunication(string conversationSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -28,7 +28,7 @@ Accessor: `client.ConversationsV2CommunicationApi` · Source: `Api/Conversations
 - **Pagination**: none
 
 ### ListCommunicationByConversation
-- **HTTP**: `GET /v2/Conversations/{ConversationSid}/Communications` (Default2 (conversations))
+- **HTTP**: `GET /v2/Conversations/{ConversationSid}/Communications` (Default7 (conversations))
 - **Notes**: Retrieve a list of Communications in a Conversation.
 - **Signature**: `ListCommunicationByConversation(string conversationSid, string? channelId, string? pageToken, int? pageSize = 50, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `channelId` — nullable, no default → **must pass explicitly**

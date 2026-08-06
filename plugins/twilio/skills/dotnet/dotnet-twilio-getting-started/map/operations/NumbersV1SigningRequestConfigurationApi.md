@@ -5,7 +5,7 @@ Accessor: `client.NumbersV1SigningRequestConfigurationApi` · Source: `Api/Numbe
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateSigningRequestConfiguration
-- **HTTP**: `POST /v1/SigningRequest/Configuration` (Default7 (numbers))
+- **HTTP**: `POST /v1/SigningRequest/Configuration` (Default5 (numbers))
 - **Notes**: Synchronous operation to insert or update a configuration for the customer.
 - **Signature**: `CreateSigningRequestConfiguration(object? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
@@ -17,7 +17,7 @@ Accessor: `client.NumbersV1SigningRequestConfigurationApi` · Source: `Api/Numbe
 - **Pagination**: none
 
 ### ListSigningRequestConfiguration
-- **HTTP**: `GET /v1/SigningRequest/Configuration` (Default7 (numbers))
+- **HTTP**: `GET /v1/SigningRequest/Configuration` (Default5 (numbers))
 - **Notes**: Synchronous operation to retrieve configurations for the customer.
 - **Signature**: `ListSigningRequestConfiguration(string? country, string? product, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`country` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

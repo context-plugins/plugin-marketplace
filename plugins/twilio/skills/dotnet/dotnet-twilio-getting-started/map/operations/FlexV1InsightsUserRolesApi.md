@@ -5,7 +5,7 @@ Accessor: `client.FlexV1InsightsUserRolesApi` · Source: `Api/FlexV1InsightsUser
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchInsightsUserRoles
-- **HTTP**: `GET /v1/Insights/UserRoles` (Default3 (flex-api))
+- **HTTP**: `GET /v1/Insights/UserRoles` (Default13 (flex-api))
 - **Notes**: This is used by Flex UI and Quality Management to fetch the Flex Insights roles for the user
 - **Signature**: `FetchInsightsUserRoles(string? authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `authorization` — nullable, no default → **must pass explicitly**

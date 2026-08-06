@@ -5,7 +5,7 @@ Accessor: `client.SyncV1SyncList` · Source: `Api/SyncV1SyncList.cs` · 5 operat
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateSyncList
-- **HTTP**: `POST /v1/Services/{ServiceSid}/Lists` (Default10 (sync))
+- **HTTP**: `POST /v1/Services/{ServiceSid}/Lists` (Default12 (sync))
 - **Signature**: `CreateSyncList(string serviceSid, string? uniqueName, int? ttl, int? collectionTtl, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `uniqueName` — nullable, no default → **must pass explicitly**
   - `ttl` — nullable, no default → **must pass explicitly**
@@ -19,7 +19,7 @@ Accessor: `client.SyncV1SyncList` · Source: `Api/SyncV1SyncList.cs` · 5 operat
 - **Pagination**: none
 
 ### DeleteSyncList
-- **HTTP**: `DELETE /v1/Services/{ServiceSid}/Lists/{Sid}` (Default10 (sync))
+- **HTTP**: `DELETE /v1/Services/{ServiceSid}/Lists/{Sid}` (Default12 (sync))
 - **Signature**: `DeleteSyncList(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -29,7 +29,7 @@ Accessor: `client.SyncV1SyncList` · Source: `Api/SyncV1SyncList.cs` · 5 operat
 - **Pagination**: none
 
 ### FetchSyncList
-- **HTTP**: `GET /v1/Services/{ServiceSid}/Lists/{Sid}` (Default10 (sync))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/Lists/{Sid}` (Default12 (sync))
 - **Signature**: `FetchSyncList(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `SyncV1ServiceSyncList`
@@ -39,7 +39,7 @@ Accessor: `client.SyncV1SyncList` · Source: `Api/SyncV1SyncList.cs` · 5 operat
 - **Pagination**: none
 
 ### ListSyncList
-- **HTTP**: `GET /v1/Services/{ServiceSid}/Lists` (Default10 (sync))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/Lists` (Default12 (sync))
 - **Signature**: `ListSyncList(string serviceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
@@ -53,7 +53,7 @@ Accessor: `client.SyncV1SyncList` · Source: `Api/SyncV1SyncList.cs` · 5 operat
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateSyncList
-- **HTTP**: `POST /v1/Services/{ServiceSid}/Lists/{Sid}` (Default10 (sync))
+- **HTTP**: `POST /v1/Services/{ServiceSid}/Lists/{Sid}` (Default12 (sync))
 - **Signature**: `UpdateSyncList(string serviceSid, string sid, int? ttl, int? collectionTtl, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `ttl` — nullable, no default → **must pass explicitly**
   - `collectionTtl` — nullable, no default → **must pass explicitly**

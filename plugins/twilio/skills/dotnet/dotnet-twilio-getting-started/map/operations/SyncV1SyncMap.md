@@ -5,7 +5,7 @@ Accessor: `client.SyncV1SyncMap` · Source: `Api/SyncV1SyncMap.cs` · 5 operatio
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateSyncMap
-- **HTTP**: `POST /v1/Services/{ServiceSid}/Maps` (Default10 (sync))
+- **HTTP**: `POST /v1/Services/{ServiceSid}/Maps` (Default12 (sync))
 - **Signature**: `CreateSyncMap(string serviceSid, string? uniqueName, int? ttl, int? collectionTtl, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `uniqueName` — nullable, no default → **must pass explicitly**
   - `ttl` — nullable, no default → **must pass explicitly**
@@ -19,7 +19,7 @@ Accessor: `client.SyncV1SyncMap` · Source: `Api/SyncV1SyncMap.cs` · 5 operatio
 - **Pagination**: none
 
 ### DeleteSyncMap
-- **HTTP**: `DELETE /v1/Services/{ServiceSid}/Maps/{Sid}` (Default10 (sync))
+- **HTTP**: `DELETE /v1/Services/{ServiceSid}/Maps/{Sid}` (Default12 (sync))
 - **Signature**: `DeleteSyncMap(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -29,7 +29,7 @@ Accessor: `client.SyncV1SyncMap` · Source: `Api/SyncV1SyncMap.cs` · 5 operatio
 - **Pagination**: none
 
 ### FetchSyncMap
-- **HTTP**: `GET /v1/Services/{ServiceSid}/Maps/{Sid}` (Default10 (sync))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/Maps/{Sid}` (Default12 (sync))
 - **Signature**: `FetchSyncMap(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `SyncV1ServiceSyncMap`
@@ -39,7 +39,7 @@ Accessor: `client.SyncV1SyncMap` · Source: `Api/SyncV1SyncMap.cs` · 5 operatio
 - **Pagination**: none
 
 ### ListSyncMap
-- **HTTP**: `GET /v1/Services/{ServiceSid}/Maps` (Default10 (sync))
+- **HTTP**: `GET /v1/Services/{ServiceSid}/Maps` (Default12 (sync))
 - **Signature**: `ListSyncMap(string serviceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
@@ -53,7 +53,7 @@ Accessor: `client.SyncV1SyncMap` · Source: `Api/SyncV1SyncMap.cs` · 5 operatio
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateSyncMap
-- **HTTP**: `POST /v1/Services/{ServiceSid}/Maps/{Sid}` (Default10 (sync))
+- **HTTP**: `POST /v1/Services/{ServiceSid}/Maps/{Sid}` (Default12 (sync))
 - **Signature**: `UpdateSyncMap(string serviceSid, string sid, int? ttl, int? collectionTtl, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `ttl` — nullable, no default → **must pass explicitly**
   - `collectionTtl` — nullable, no default → **must pass explicitly**

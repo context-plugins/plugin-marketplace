@@ -5,7 +5,7 @@ Accessor: `client.ConversationsV1UserApi` · Source: `Api/ConversationsV1UserApi
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateServiceUser
-- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Users` (Default2 (conversations))
+- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Users` (Default7 (conversations))
 - **Notes**: Add a new conversation user to your service
 - **Signature**: `CreateServiceUser(string chatServiceSid, Confirmation? xTwilioWebhookEnabled, string identity, string? friendlyName, string? attributes, string? roleSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`xTwilioWebhookEnabled` … `roleSid`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -18,7 +18,7 @@ Accessor: `client.ConversationsV1UserApi` · Source: `Api/ConversationsV1UserApi
 - **Pagination**: none
 
 ### CreateUser
-- **HTTP**: `POST /v1/Users` (Default2 (conversations))
+- **HTTP**: `POST /v1/Users` (Default7 (conversations))
 - **Notes**: Add a new conversation user to your account's default service
 - **Signature**: `CreateUser(Confirmation? xTwilioWebhookEnabled, string identity, string? friendlyName, string? attributes, string? roleSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`xTwilioWebhookEnabled` … `roleSid`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -31,7 +31,7 @@ Accessor: `client.ConversationsV1UserApi` · Source: `Api/ConversationsV1UserApi
 - **Pagination**: none
 
 ### DeleteServiceUser
-- **HTTP**: `DELETE /v1/Services/{ChatServiceSid}/Users/{Sid}` (Default2 (conversations))
+- **HTTP**: `DELETE /v1/Services/{ChatServiceSid}/Users/{Sid}` (Default7 (conversations))
 - **Notes**: Remove a conversation user from your service
 - **Signature**: `DeleteServiceUser(string chatServiceSid, string sid, Confirmation? xTwilioWebhookEnabled, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `xTwilioWebhookEnabled` — nullable, no default → **must pass explicitly**
@@ -43,7 +43,7 @@ Accessor: `client.ConversationsV1UserApi` · Source: `Api/ConversationsV1UserApi
 - **Pagination**: none
 
 ### DeleteUser
-- **HTTP**: `DELETE /v1/Users/{Sid}` (Default2 (conversations))
+- **HTTP**: `DELETE /v1/Users/{Sid}` (Default7 (conversations))
 - **Notes**: Remove a conversation user from your account's default service
 - **Signature**: `DeleteUser(string sid, Confirmation? xTwilioWebhookEnabled, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `xTwilioWebhookEnabled` — nullable, no default → **must pass explicitly**
@@ -55,7 +55,7 @@ Accessor: `client.ConversationsV1UserApi` · Source: `Api/ConversationsV1UserApi
 - **Pagination**: none
 
 ### FetchServiceUser
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Users/{Sid}` (Default2 (conversations))
+- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Users/{Sid}` (Default7 (conversations))
 - **Notes**: Fetch a conversation user from your service
 - **Signature**: `FetchServiceUser(string chatServiceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -66,7 +66,7 @@ Accessor: `client.ConversationsV1UserApi` · Source: `Api/ConversationsV1UserApi
 - **Pagination**: none
 
 ### FetchUser
-- **HTTP**: `GET /v1/Users/{Sid}` (Default2 (conversations))
+- **HTTP**: `GET /v1/Users/{Sid}` (Default7 (conversations))
 - **Notes**: Fetch a conversation user from your account's default service
 - **Signature**: `FetchUser(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -77,7 +77,7 @@ Accessor: `client.ConversationsV1UserApi` · Source: `Api/ConversationsV1UserApi
 - **Pagination**: none
 
 ### ListServiceUser
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Users` (Default2 (conversations))
+- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Users` (Default7 (conversations))
 - **Notes**: Retrieve a list of all conversation users in your service
 - **Signature**: `ListServiceUser(string chatServiceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
@@ -92,7 +92,7 @@ Accessor: `client.ConversationsV1UserApi` · Source: `Api/ConversationsV1UserApi
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### ListUser
-- **HTTP**: `GET /v1/Users` (Default2 (conversations))
+- **HTTP**: `GET /v1/Users` (Default7 (conversations))
 - **Notes**: Retrieve a list of all conversation users in your account's default service
 - **Signature**: `ListUser(long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
@@ -107,7 +107,7 @@ Accessor: `client.ConversationsV1UserApi` · Source: `Api/ConversationsV1UserApi
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateServiceUser
-- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Users/{Sid}` (Default2 (conversations))
+- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Users/{Sid}` (Default7 (conversations))
 - **Notes**: Update an existing conversation user in your service
 - **Signature**: `UpdateServiceUser(string chatServiceSid, string sid, Confirmation? xTwilioWebhookEnabled, string? friendlyName, string? attributes, string? roleSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`xTwilioWebhookEnabled` … `roleSid`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -120,7 +120,7 @@ Accessor: `client.ConversationsV1UserApi` · Source: `Api/ConversationsV1UserApi
 - **Pagination**: none
 
 ### UpdateUser
-- **HTTP**: `POST /v1/Users/{Sid}` (Default2 (conversations))
+- **HTTP**: `POST /v1/Users/{Sid}` (Default7 (conversations))
 - **Notes**: Update an existing conversation user in your account's default service
 - **Signature**: `UpdateUser(string sid, Confirmation? xTwilioWebhookEnabled, string? friendlyName, string? attributes, string? roleSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`xTwilioWebhookEnabled` … `roleSid`) — nullable, no default → **must pass explicitly** (pass `null` to skip)

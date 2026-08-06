@@ -5,7 +5,7 @@ Accessor: `client.StudioV1ExecutionStepContext` · Source: `Api/StudioV1Executio
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### FetchExecutionStepContext
-- **HTTP**: `GET /v1/Flows/{FlowSid}/Executions/{ExecutionSid}/Steps/{StepSid}/Context` (Default9 (studio))
+- **HTTP**: `GET /v1/Flows/{FlowSid}/Executions/{ExecutionSid}/Steps/{StepSid}/Context` (Default11 (studio))
 - **Notes**: Retrieve the context for an Execution Step.
 - **Signature**: `FetchExecutionStepContext(string flowSid, string executionSid, string stepSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null

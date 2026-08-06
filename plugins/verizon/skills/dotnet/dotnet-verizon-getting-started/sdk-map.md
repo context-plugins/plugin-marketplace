@@ -10,7 +10,7 @@
 | Root namespace/module | `Verizon` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `ebe0749` (`ebe074926869dc613741f61ff57bcf418dd181e2`, tagged `ebe0749`) |
+| Source commit (spec stamp) | `373cf91` (`373cf91a86a8d7a49569c1a4c22d3a959e26825d`, tagged `373cf91`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/verizon-csharp-sdk (branch `main`) |

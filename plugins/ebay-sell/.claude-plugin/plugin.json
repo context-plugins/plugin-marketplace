@@ -2,7 +2,7 @@
   "name": "ebay-sell",
   "displayName": "ebay-sell SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: ebay-sell API",
+  "description": "Create, manage, and scale product listings, inventory, and fulfillment across eBay marketplaces.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

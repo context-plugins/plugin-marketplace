@@ -89,7 +89,7 @@
     {
       "name": "ebay-sell",
       "source": "./plugins/ebay-sell",
-      "description": "TODO_AUTO_DESCRIPTION: ebay-sell API"
+      "description": "Create, manage, and scale product listings, inventory, and fulfillment across eBay marketplaces."
     },
     {
       "name": "shutterstock",

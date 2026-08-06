@@ -1,8 +1,8 @@
 {
   "name": "alpaca",
-  "displayName": "Alpaca SDK",
+  "displayName": "alpaca SDK",
   "version": "0.1.0",
-  "description": "Trade stocks and cryptocurrencies programmatically with zero-commission execution.",
+  "description": "TODO_AUTO_DESCRIPTION: alpaca API",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

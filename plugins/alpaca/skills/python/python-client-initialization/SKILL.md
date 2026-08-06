@@ -1,33 +1,33 @@
 ---
 name: python-client-initialization
-description: Construct and configure an APIMatic-generated Python SDK client — pass keyword args (credentials objects + environment= + timeout/retry/proxy kwargs) directly to the TraderapiClient constructor or to a separate Configuration object, use from_environment() to read from a .env file and env vars, access controllers via @LazyProperty properties (not constructors), pass a custom requests.Session via http_client_instance, and reuse the long-lived client. Use the moment you write TraderapiClient(...), build a Configuration, pick an environment, or wire the client into your application — load it even after reading the constructor in the source, since the signature shows the kwargs but not the credential-objects pattern, the @LazyProperty controller access, or the lifetime/reuse rules.
+description: Construct and configure an APIMatic-generated Python SDK client — pass keyword args (credentials objects + environment= + timeout/retry/proxy kwargs) directly to the TraderApiClient constructor or to a separate Configuration object, use from_environment() to read from a .env file and env vars, access controllers via @LazyProperty properties (not constructors), pass a custom requests.Session via http_client_instance, and reuse the long-lived client. Use the moment you write TraderApiClient(...), build a Configuration, pick an environment, or wire the client into your application — load it even after reading the constructor in the source, since the signature shows the kwargs but not the credential-objects pattern, the @LazyProperty controller access, or the lifetime/reuse rules.
 ---
 
 # Initializing an APIMatic Python SDK client
 
-> `TraderapiClient` is the SDK's client class — **read the real name** from `alpaca/alpaca_client.py`
+> `TraderApiClient` is the SDK's client class — **read the real name** from `alpaca/alpaca_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
 This applies to **any** APIMatic-generated Python SDK (APIMATIC v3.0). Replace placeholders with
 the real names from the SDK you are using:
 
 - `alpaca` — the root package name (e.g. `multiauthsample`, `batester`).
-- `TraderapiClient` — the generated client class (read it from the `class …Client` declaration in `alpaca/alpaca_client.py`).
+- `TraderApiClient` — the generated client class (read it from the `class …Client` declaration in `alpaca/alpaca_client.py`).
 - `{resource}` — a controller property name on the client (e.g. `authentication`, `transaction`).
 
 ## The constructor shape
 
-The `TraderapiClient` constructor accepts all configuration as **keyword arguments** — there is no
+The `TraderApiClient` constructor accepts all configuration as **keyword arguments** — there is no
 separate builder. You can pass them flat (the client creates a `Configuration` internally) or pass a
 pre-built `Configuration` object:
 
 ```python
-from alpaca.alpaca_client import TraderapiClient
+from alpaca.alpaca_client import TraderApiClient
 from alpaca.configuration import Environment
 from alpaca.http.auth.basic_auth import BasicAuthCredentials  # per-scheme import
 
 # Flat kwargs — the client wraps them in a Configuration internally:
-client = TraderapiClient(
+client = TraderApiClient(
     basic_auth_credentials=BasicAuthCredentials(
         username='Username',
         password='Password'
@@ -48,7 +48,7 @@ config = Configuration(
     environment=Environment.PRODUCTION,
     timeout=60,
 )
-client = TraderapiClient(config=config)
+client = TraderApiClient(config=config)
 ```
 
 Both patterns are equivalent — the client uses `config or Configuration(...)` in its `__init__`.
@@ -77,18 +77,18 @@ API-specific server parameters (e.g. `port`, `suites`) are also kwargs — check
 
 ## Environment-based initialization
 
-`from_environment()` is a class method on both `TraderapiClient` and `Configuration` that reads
+`from_environment()` is a class method on both `TraderApiClient` and `Configuration` that reads
 configuration from a `.env` file and environment variables automatically. Pass `dotenv_path` if your
 `.env` file is not in the working directory; pass keyword overrides to replace any env-var value:
 
 ```python
-from alpaca.alpaca_client import TraderapiClient
+from alpaca.alpaca_client import TraderApiClient
 
 # Read everything from environment variables / .env:
-client = TraderapiClient.from_environment()
+client = TraderApiClient.from_environment()
 
 # Override specific values:
-client = TraderapiClient.from_environment(
+client = TraderApiClient.from_environment(
     dotenv_path='/path/to/.env',
     timeout=30,
 )
@@ -100,7 +100,7 @@ Environment variable names follow a scheme-specific naming convention (e.g.
 
 ## Accessing controllers
 
-Controllers are `@LazyProperty` properties on `TraderapiClient`. Access them as attributes —
+Controllers are `@LazyProperty` properties on `TraderApiClient`. Access them as attributes —
 **do not instantiate them yourself**:
 
 ```python
@@ -127,7 +127,7 @@ host it resolves to, so match it against the base URL it actually resolves to ra
 ```python
 from alpaca.configuration import Environment
 
-client = TraderapiClient(environment=Environment.PRODUCTION)
+client = TraderApiClient(environment=Environment.PRODUCTION)
 ```
 
 To inspect the URL each environment resolves to, read the `environments` dict in
@@ -143,12 +143,12 @@ allow the SDK to apply its own retry/timeout settings to your session:
 
 ```python
 import requests
-from alpaca.alpaca_client import TraderapiClient
+from alpaca.alpaca_client import TraderApiClient
 
 session = requests.Session()
 session.verify = '/path/to/cert.pem'   # custom TLS CA bundle
 
-client = TraderapiClient(
+client = TraderApiClient(
     http_client_instance=session,
     override_http_client_configuration=True,
     timeout=30,
@@ -165,7 +165,7 @@ boilerplate — useful after fetching an OAuth token that must be re-attached:
 # After fetching a new OAuth token:
 new_creds = client.config.o_auth_ccg_credentials.clone_with(o_auth_token=token)
 new_config = client.config.clone_with(o_auth_ccg_credentials=new_creds)
-client = TraderapiClient(config=new_config)
+client = TraderApiClient(config=new_config)
 ```
 
 ## Client lifetime and reuse
@@ -176,7 +176,7 @@ destroys any cached OAuth token).
 
 ```python
 # Module-level singleton (scripts and simple services):
-client = TraderapiClient.from_environment()
+client = TraderApiClient.from_environment()
 
 def process():
     result = client.{resource}.{operation}(...)

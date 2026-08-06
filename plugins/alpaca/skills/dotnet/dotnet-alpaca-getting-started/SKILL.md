@@ -1,9 +1,9 @@
 ---
 name: dotnet-alpaca-getting-started
-description: Alpaca .NET SDK identity and lookup layer for the dotnet-alpaca-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
+description: alpaca .NET SDK identity and lookup layer for the dotnet-alpaca-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
 ---
 
-# Getting started with the Alpaca .NET SDK
+# Getting started with the alpaca .NET SDK
 
 > **Who this skill is for.** This is the **map layer**, preloaded for the `dotnet-alpaca-sdk` helper
 > agent — if you are it, this skill is yours to follow directly and fully. It is the only place
@@ -37,7 +37,7 @@ confirm names against the map.
 
 | | |
 | --- | --- |
-| API | Alpaca |
+| API | alpaca |
 | Source repo | https://github.com/context-plugins/alpaca-csharp-sdk (branch `main`) |
 | Root namespace | `TraderApi` (the `using` namespace) |
 | Client class | `TraderApiClient` |
@@ -46,7 +46,7 @@ confirm names against the map.
 | Auth | Credentials properties on `TraderApiClientOptions`: `ApiKey: string?`, `ApiSecret: string?` — see the SDK map's *Servers & auth* section |
 <!-- /crawler:auth -->
 <!-- crawler:environments -->
-| Environments | `options.Environment` — `ServerEnvironment` members: `Production`, `Environment2` (see the SDK map's *Servers & auth* section) |
+| Environments | `options.Environment` — `ServerEnvironment` members: `Paper`, `Live` (see the SDK map's *Servers & auth* section) |
 <!-- /crawler:environments -->
 
 The table above is **orientation, not a copy-paste recipe** — it gives you the names and facts (install,

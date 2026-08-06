@@ -17,4 +17,4 @@
 | `Status` | StringEnum | `Active (active)`, `Inactive (inactive)` | active or inactive | `Models/Enums/Status.cs` |
 | `Status1` | StringEnum | `Open (open)`, `Closed (closed)`, `All (all)` | — | `Models/Enums/Status1.cs` |
 | `TimeInForce` | StringEnum | `Day (day)`, `Gtc (gtc)`, `Opg (opg)`, `Cls (cls)`, `Ioc (ioc)`, `Fok (fok)` | Note: For Crypto Trading, Alpaca supports the following Time-In-Force designations: day, gtc, ioc and fok. OPG and CLS are not supported. Alpaca supports the following Time-In-Force designations: - day A day order is eligible for execution only on the day it is live. By default, the order is only valid during Regular Trading Hours (9:30am - 4:00pm … | `Models/Enums/TimeInForce.cs` |
-| `TypeModel` | StringEnum | `Fill (fill)`, `PartialFill (partial_fill)` | fill or partial_fill | `Models/Enums/TypeModel.cs` |
+| `TypeEnum` | StringEnum | `Fill (fill)`, `PartialFill (partial_fill)` | fill or partial_fill | `Models/Enums/TypeEnum.cs` |

@@ -1,4 +1,4 @@
-# SDK map — Alpaca (.NET)
+# SDK map — alpaca (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,11 +6,11 @@
 
 | | |
 |---|---|
-| SDK display name | Alpaca |
+| SDK display name | alpaca |
 | Root namespace/module | `TraderApi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `80c7de0` (`80c7de09b653ae0213d5ef5f9e37da0bfe98c203`, tagged `80c7de0`) |
+| Source commit (spec stamp) | `0f4227e` (`0f4227edc6ac7e08db721c4d428573caece8169a`, tagged `0f4227e`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/alpaca-csharp-sdk (branch `main`) |
@@ -188,5 +188,5 @@ Namespaces by content type (add `using` accordingly):
 | `ApiKey` | `string?` | — |
 | `ApiSecret` | `string?` | — |
 
-**Environments.** `options.Environment` is a `ServerEnvironment` (`Servers/ServerEnvironment.cs`) with members: `ServerEnvironment.Production`, `ServerEnvironment.Environment2`. Base-URL templates and override points live under `Servers/` and `options.Server`.
+**Environments.** `options.Environment` is a `ServerEnvironment` (`Servers/ServerEnvironment.cs`) with members: `ServerEnvironment.Paper`, `ServerEnvironment.Live`. Base-URL templates and override points live under `Servers/` and `options.Server`.
 <!-- /crawler:servers-auth -->

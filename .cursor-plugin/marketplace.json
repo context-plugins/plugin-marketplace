@@ -194,7 +194,7 @@
     {
       "name": "goe",
       "source": "./plugins/goe",
-      "description": "TODO_AUTO_DESCRIPTION: GOE API"
+      "description": "Manage energy trading, forecasting, and portfolio optimization."
     },
     {
       "name": "greenbyte",

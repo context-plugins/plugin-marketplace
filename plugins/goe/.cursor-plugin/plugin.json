@@ -2,7 +2,7 @@
   "name": "goe",
   "displayName": "GOE SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: GOE API",
+  "description": "Manage energy trading, forecasting, and portfolio optimization.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

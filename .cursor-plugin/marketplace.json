@@ -29,7 +29,7 @@
     {
       "name": "klarna",
       "source": "./plugins/klarna",
-      "description": "Offer flexible buy-now-pay-later financing, smooth checkout experiences, and installment payments for your customers."
+      "description": "TODO_AUTO_DESCRIPTION: klarna API"
     },
     {
       "name": "notion",

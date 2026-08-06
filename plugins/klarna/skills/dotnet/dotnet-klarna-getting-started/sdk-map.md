@@ -10,7 +10,7 @@
 | Root namespace/module | `Klarna` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `5068c40` (`5068c408ba90087a3a3c4d9e56cbb746f65b78bf`, tagged `5068c40`) |
+| Source commit (spec stamp) | `02d8707` (`02d8707b5f30d0dafe8c6531dd04b61af8f26b46`, tagged `02d8707`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/klarna-csharp-sdk (branch `main`) |
@@ -145,9 +145,9 @@ type, error Case A/B + accessors, pagination).
 <!-- gen:models-table -->
 | Group | Count | Page |
 |---|---:|---|
-| Records (plain `record` data models) | 161 | [`AccessErrorRateLimited` … `ResourceErrorNotFoundError`](map/models/records-1-Ac-Re.md) · [`ResourceErrorNotFoundErrorError` … `WebhookMetadata`](map/models/records-2-Re-We.md) |
+| Records (plain `record` data models) | 161 | [`AccessErrorRateLimited` … `ResourceErrorConflictErrorError`](map/models/records-1-Ac-Re.md) · [`ResourceErrorNotFoundError` … `WebhookMetadata`](map/models/records-2-Re-We.md) |
 | Unions (`OneOf` / `AnyOf`) — variant factories + `TryGet…` | 4 + 0 | [map/models/unions.md](map/models/unions.md) |
-| Enums (`StringEnum<T>` / `IntEnum<T>`) — literal C# member names + wire values | 41 | [map/models/enums.md](map/models/enums.md) |
+| Enums (`StringEnum<T>` / `IntEnum<T>`) — literal C# member names + wire values | 57 | [map/models/enums.md](map/models/enums.md) |
 <!-- /gen:models-table -->
 
 Model conventions: records are immutable with `init`-only setters; `required` properties must be set in the

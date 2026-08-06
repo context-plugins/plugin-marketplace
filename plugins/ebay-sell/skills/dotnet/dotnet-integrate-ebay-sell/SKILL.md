@@ -1,9 +1,9 @@
 ---
 name: dotnet-integrate-ebay-sell
-description: Entry point for Ebay Sell .NET SDK work in a C#/.NET project — this router is for the .NET/C# SDK ONLY; never load it for any other language. Load this first when asked to integrate the Ebay Sell API in C#, or when a Ebay Sell .NET SDK call errors or behaves unexpectedly. Defines the delegation contract, the agent reuse rules, and which companion skills are required reading before you write code.
+description: Entry point for ebay-sell .NET SDK work in a C#/.NET project — this router is for the .NET/C# SDK ONLY; never load it for any other language. Load this first when asked to integrate the ebay-sell API in C#, or when a ebay-sell .NET SDK call errors or behaves unexpectedly. Defines the delegation contract, the agent reuse rules, and which companion skills are required reading before you write code.
 ---
 
-# Ebay Sell .NET SDK — Router (map + one agent)
+# ebay-sell .NET SDK — Router (map + one agent)
 
 You (the main agent) orchestrate; the `dotnet-ebay-sell-sdk` agent carries the SDK knowledge. The
 division of labour keeps YOUR code grounded and keeps the **SDK map and source** off your
@@ -28,13 +28,13 @@ guidance, they are yours to load, and Step 1c below makes loading them mandatory
   every later need is a follow-up message to that same warm agent.** A fresh spawn rebuilds
   its whole map context from scratch (the dominant helper cost); reuse is not optional.
 
-**Scope guard:** the APIMatic-generated Ebay Sell **.NET SDK** (root namespace
+**Scope guard:** the APIMatic-generated ebay-sell **.NET SDK** (root namespace
 `EbaySell`) in **C#/.NET projects only**. Unrelated API, or any language other than
 C#/.NET — do nothing; this router and its agent do not apply.
 
 ## Workflow
 
-**If the user opens with a reported SDK error or unexpected Ebay Sell behaviour** (not new
+**If the user opens with a reported SDK error or unexpected ebay-sell behaviour** (not new
 feature work), spawn **`dotnet-ebay-sell-sdk`** directly with the error output and the files involved,
 and wait — do not run the plan-first flow for a bug report. Otherwise, for implementation
 work:
@@ -122,7 +122,7 @@ ask the warm `dotnet-ebay-sell-sdk` agent, never guess.
 
 ### Step 3 — Answering pure questions
 
-A standalone Ebay Sell question with no code change: ask the warm `dotnet-ebay-sell-sdk` agent (narrow-
+A standalone ebay-sell question with no code change: ask the warm `dotnet-ebay-sell-sdk` agent (narrow-
 question mode) and relay its grounded answer. Never answer from memory, even for "easy"
 questions.
 
@@ -138,7 +138,7 @@ agent is still running, wait.
 ## Anti-patterns — never do these
 
 - **Get SDK knowledge from the `dotnet-ebay-sell-sdk` agent, not yourself.** Don't clone or decompile the
-  SDK, don't fetch its source files, and don't web-search Ebay Sell topics to find an
+  SDK, don't fetch its source files, and don't web-search ebay-sell topics to find an
   implementation detail — that is the agent's job. (You have no SDK source or clone locally;
   the agent holds the bundled map and clones on a real gap.)
 - **Don't load `dotnet-ebay-sell-getting-started` or the SDK map pages** — the map is the agent's, and
@@ -147,7 +147,7 @@ agent is still running, wait.
   error accessors, and enum values come from the contract sheet (or you ask the warm `dotnet-ebay-sell-sdk`
   agent). Where a companion points at the SDK source or a clone, that path is the agent's, not
   yours — you have no local clone.
-- **Never write a Ebay Sell/SDK fact from memory** — every signature, field name, enum value, and
+- **Never write a ebay-sell/SDK fact from memory** — every signature, field name, enum value, and
   error type in your code must come from the contract sheet or a lookup. And **never write a
   call from memory "to fix later".**
 - **Don't re-derive or double-check a sheet row from memory.** If you are unsure what a row

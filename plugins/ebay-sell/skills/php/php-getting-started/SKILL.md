@@ -36,7 +36,7 @@ that step, so at each step below load the companion *and* confirm names against 
 
 | | |
 | --- | --- |
-| API | `Ebay Sell` |
+| API | `ebay-sell` |
 | Generator | APIMATIC v3.0 (header on every `.php` file) |
 | Runtime dependencies | `apimatic/core`, `apimatic/core-interfaces`, `apimatic/unirest-php` (HTTP call builder, auth managers, retries, response handling) — pulled in transitively |
 | Composer package | from `composer.json` `name` — e.g. `apimatic-sdks/multiauthsample`, `apimatic-sdks/apimaticcalculator` (the published id varies per SDK) |

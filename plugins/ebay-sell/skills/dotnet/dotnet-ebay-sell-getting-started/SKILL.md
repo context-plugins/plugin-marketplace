@@ -1,9 +1,9 @@
 ---
 name: dotnet-ebay-sell-getting-started
-description: Ebay Sell .NET SDK identity and lookup layer for the dotnet-ebay-sell-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
+description: ebay-sell .NET SDK identity and lookup layer for the dotnet-ebay-sell-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
 ---
 
-# Getting started with the Ebay Sell .NET SDK
+# Getting started with the ebay-sell .NET SDK
 
 > **Who this skill is for.** This is the **map layer**, preloaded for the `dotnet-ebay-sell-sdk` helper
 > agent — if you are it, this skill is yours to follow directly and fully. It is the only place
@@ -37,7 +37,7 @@ confirm names against the map.
 
 | | |
 | --- | --- |
-| API | Ebay Sell |
+| API | ebay-sell |
 | Source repo | https://github.com/context-plugins/ebay-sell-csharp-sdk (branch `main`) |
 | Root namespace | `EbaySell` (the `using` namespace) |
 | Client class | `EbaySellClient` |

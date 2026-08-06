@@ -1,4 +1,4 @@
-# SDK map — Ebay Sell (.NET)
+# SDK map — ebay-sell (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,11 +6,11 @@
 
 | | |
 |---|---|
-| SDK display name | Ebay Sell |
+| SDK display name | ebay-sell |
 | Root namespace/module | `EbaySell` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `6ccc76a` (`6ccc76a42209715f186a4d18cc3d26922d375345`, tagged `6ccc76a`) |
+| Source commit (spec stamp) | `c9f99af` (`c9f99af4ccf98663ef3c18d4f53f76e43118b5ef`, tagged `c9f99af`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/ebay-sell-csharp-sdk (branch `main`) |
@@ -146,7 +146,7 @@ type, error Case A/B + accessors, pagination).
 | `EventApi` | 2 | [map/operations/EventApi.md](map/operations/EventApi.md) |
 | `EventItemApi` | 1 | [map/operations/EventItemApi.md](map/operations/EventItemApi.md) |
 | `FeedTypeApi` | 2 | [map/operations/FeedTypeApi.md](map/operations/FeedTypeApi.md) |
-| `File` | 3 | [map/operations/File.md](map/operations/File.md) |
+| `FileApi` | 3 | [map/operations/FileApi.md](map/operations/FileApi.md) |
 | `GuestCheckoutSession` | 7 | [map/operations/GuestCheckoutSession.md](map/operations/GuestCheckoutSession.md) |
 | `GuestPurchaseOrder` | 1 | [map/operations/GuestPurchaseOrder.md](map/operations/GuestPurchaseOrder.md) |
 | `ItemApi` | 6 | [map/operations/ItemApi.md](map/operations/ItemApi.md) |

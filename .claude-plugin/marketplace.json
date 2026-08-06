@@ -89,7 +89,7 @@
     {
       "name": "ebay-sell",
       "source": "./plugins/ebay-sell",
-      "description": "List, manage, and fulfill inventory across global Ebay marketplaces."
+      "description": "TODO_AUTO_DESCRIPTION: ebay-sell API"
     },
     {
       "name": "shutterstock",

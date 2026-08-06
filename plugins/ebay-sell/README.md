@@ -1,6 +1,6 @@
-# Ebay Sell SDK Plugin
+# ebay-sell SDK Plugin
 
-Integrate and consume the **APIMatic-generated Ebay Sell SDK** (the "APIMATIC v3.0" generic
+Integrate and consume the **APIMatic-generated ebay-sell SDK** (the "APIMATIC v3.0" generic
 libraries, built on `apimatic-*-core` / `apimatic/*-core-runtime` runtimes) across C#/.NET, TypeScript, Java, PHP, Python, Ruby.
 Works in **Claude Code**, **Cursor**, and **VS Code**. Every SDK fact is grounded in the cloned SDK
 source and the bundled skills.

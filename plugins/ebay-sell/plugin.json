@@ -1,8 +1,8 @@
 {
   "name": "ebay-sell",
-  "displayName": "Ebay Sell SDK",
+  "displayName": "ebay-sell SDK",
   "version": "0.1.0",
-  "description": "List, manage, and fulfill inventory across global Ebay marketplaces.",
+  "description": "TODO_AUTO_DESCRIPTION: ebay-sell API",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

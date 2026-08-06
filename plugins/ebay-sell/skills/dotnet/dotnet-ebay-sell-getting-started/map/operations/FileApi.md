@@ -1,6 +1,6 @@
-# File — operations
+# FileApi — operations
 
-Accessor: `client.File` · Source: `Api/File.cs` · 3 operations
+Accessor: `client.FileApi` · Source: `Api/FileApi.cs` · 3 operations
 
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 

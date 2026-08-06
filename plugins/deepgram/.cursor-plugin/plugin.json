@@ -2,7 +2,7 @@
   "name": "deepgram",
   "displayName": "deepgram SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: deepgram API",
+  "description": "Transcribe audio and analyze spoken language with real-time speech-to-text models.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

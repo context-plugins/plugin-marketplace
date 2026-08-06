@@ -1,8 +1,8 @@
 {
   "name": "notion",
-  "displayName": "Notion SDK",
+  "displayName": "notion SDK",
   "version": "0.1.0",
-  "description": "Read and write pages, databases, and blocks in Notion workspaces.",
+  "description": "TODO_AUTO_DESCRIPTION: notion API",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

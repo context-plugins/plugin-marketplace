@@ -1,9 +1,9 @@
 ---
 name: dotnet-notion-getting-started
-description: Notion .NET SDK identity and lookup layer for the dotnet-notion-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
+description: notion .NET SDK identity and lookup layer for the dotnet-notion-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
 ---
 
-# Getting started with the Notion .NET SDK
+# Getting started with the notion .NET SDK
 
 > **Who this skill is for.** This is the **map layer**, preloaded for the `dotnet-notion-sdk` helper
 > agent — if you are it, this skill is yours to follow directly and fully. It is the only place
@@ -37,7 +37,7 @@ confirm names against the map.
 
 | | |
 | --- | --- |
-| API | Notion |
+| API | notion |
 | Source repo | https://github.com/context-plugins/notion-csharp-sdk (branch `main`) |
 | Root namespace | `Notion` (the `using` namespace) |
 | Client class | `NotionClient` |

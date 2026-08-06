@@ -34,7 +34,7 @@
     {
       "name": "notion",
       "source": "./plugins/notion",
-      "description": "Read and write pages, databases, and blocks in Notion workspaces."
+      "description": "TODO_AUTO_DESCRIPTION: notion API"
     },
     {
       "name": "deepgram",

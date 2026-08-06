@@ -11,7 +11,7 @@
 | `Object2` | StringEnum | `User (user)` | Always "user"., Always "user" for user objects. | `Models/Enums/Object2.cs` |
 | `Object21` | StringEnum | `Page (page)` | Always "page" for page objects. | `Models/Enums/Object21.cs` |
 | `Object3` | StringEnum | `Error (error)` | Always "error" for error responses. | `Models/Enums/Object3.cs` |
-| `ObjectModel` | StringEnum | `List (list)` | Always "list" for paginated responses. | `Models/Enums/ObjectModel.cs` |
+| `ObjectEnum` | StringEnum | `List (list)` | Always "list" for paginated responses. | `Models/Enums/ObjectEnum.cs` |
 | `Property` | StringEnum | `Object (object)` | Must be "object". | `Models/Enums/Property.cs` |
 | `Timestamp` | StringEnum | `CreatedTime (created_time)`, `LastEditedTime (last_edited_time)` | The timestamp to sort by. Possible values are created_time or last_edited_time. | `Models/Enums/Timestamp.cs` |
 | `Timestamp1` | StringEnum | `LastEditedTime (last_edited_time)` | The timestamp to sort by. | `Models/Enums/Timestamp1.cs` |
@@ -24,5 +24,5 @@
 | `Type31` | StringEnum | `Title (title)`, `RichText (rich_text)`, `Number (number)`, `Select (select)`, `MultiSelect (multi_select)`, `Date (date)`, `People (people)`, `Files (files)`, `Checkbox (checkbox)`, `Url (url)`, `Email (email)`, `PhoneNumber (phone_number)`, `Formula (formula)`, `Relation (relation)`, `Rollup (rollup)`, `CreatedTime (created_time)`, `CreatedBy (created_by)`, `LastEditedTime (last_edited_time)`, `LastEditedBy (last_edited_by)`, `Status (status)`, `UniqueId (unique_id)`, `Verification (verification)` | The type of property. | `Models/Enums/Type31.cs` |
 | `Type4` | StringEnum | `Person (person)`, `Bot (bot)` | The type of user. "person" for human workspace members, "bot" for API integrations. | `Models/Enums/Type4.cs` |
 | `Type5` | StringEnum | `External (external)` | Always "external". | `Models/Enums/Type5.cs` |
-| `TypeModel` | StringEnum | `DatabaseId (database_id)`, `PageId (page_id)`, `BlockId (block_id)`, `Workspace (workspace)` | The type of parent. | `Models/Enums/TypeModel.cs` |
+| `TypeEnum` | StringEnum | `DatabaseId (database_id)`, `PageId (page_id)`, `BlockId (block_id)`, `Workspace (workspace)` | The type of parent. | `Models/Enums/TypeEnum.cs` |
 | `Value` | StringEnum | `Page (page)`, `Database (database)` | The type of object to filter by. | `Models/Enums/Value.cs` |

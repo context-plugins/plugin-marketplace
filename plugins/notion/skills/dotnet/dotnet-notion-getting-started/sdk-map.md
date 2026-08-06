@@ -1,4 +1,4 @@
-# SDK map — Notion (.NET)
+# SDK map — notion (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,11 +6,11 @@
 
 | | |
 |---|---|
-| SDK display name | Notion |
+| SDK display name | notion |
 | Root namespace/module | `Notion` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `e530bdb` (`e530bdbd16a599a07c50115dfb4b668ec6d1f857`, tagged `e530bdb`) |
+| Source commit (spec stamp) | `e2e7b78` (`e2e7b787b009d472649fb5373f84f37ecdde8ae3`, tagged `e2e7b78`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/notion-csharp-sdk (branch `main`) |

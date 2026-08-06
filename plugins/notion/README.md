@@ -1,6 +1,6 @@
-# Notion SDK Plugin
+# notion SDK Plugin
 
-Integrate and consume the **APIMatic-generated Notion SDK** (the "APIMATIC v3.0" generic
+Integrate and consume the **APIMatic-generated notion SDK** (the "APIMATIC v3.0" generic
 libraries, built on `apimatic-*-core` / `apimatic/*-core-runtime` runtimes) across C#/.NET, Java, Python, Ruby.
 Works in **Claude Code**, **Cursor**, and **VS Code**. Every SDK fact is grounded in the cloned SDK
 source and the bundled skills.

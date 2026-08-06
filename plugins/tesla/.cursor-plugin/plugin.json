@@ -2,7 +2,7 @@
   "name": "tesla",
   "displayName": "tesla SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: tesla API",
+  "description": "Monitor, control, and automate your Tesla vehicle's charging, climate, and telemetry.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

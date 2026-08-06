@@ -18,7 +18,7 @@ export type {EnumType} = typeof {EnumType}[keyof typeof {EnumType}];
 Usage:
 
 ```typescript
-import { {EnumType} } from 'splitit-web-api-v-3-lib';
+import { {EnumType} } from 'splitit';
 
 const v: {EnumType} = {EnumType}.FirstValue;    // known constant
 const u: {EnumType} = 'new_value' as {EnumType}; // unknown-tolerant cast

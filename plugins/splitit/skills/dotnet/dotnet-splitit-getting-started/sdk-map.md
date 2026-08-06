@@ -1,4 +1,4 @@
-# SDK map — Splitit (.NET)
+# SDK map — splitit (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,11 +6,11 @@
 
 | | |
 |---|---|
-| SDK display name | Splitit |
+| SDK display name | splitit |
 | Root namespace/module | `SplititWebApiV3` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `ef0afa2` (`ef0afa23682548ea527825c2ec8276958a154602`, tagged `ef0afa2`) |
+| Source commit (spec stamp) | `0fe3432` (`0fe3432e7fd6a41e645cfc496e1cee2843ffefa8`, tagged `0fe3432`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/splitit-csharp-sdk (branch `main`) |

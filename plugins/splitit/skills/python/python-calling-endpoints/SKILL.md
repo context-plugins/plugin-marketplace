@@ -5,7 +5,7 @@ description: Call API operations on an APIMatic-generated Python SDK — access 
 
 # Calling endpoints on an APIMatic Python SDK
 
-> `Splititwebapiv3Client` is the SDK's client class — **read the real name** from `splitit/splitit_client.py`
+> `SplititClient` is the SDK's client class — **read the real name** from `splitit/splitit_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
 Operations are **synchronous methods** on a **controller** you get from the client as a
@@ -24,7 +24,7 @@ Open `splitit/splitit_client.py` for the controller property names, then the rel
 
 ## Controller access — property, not constructor
 
-Controllers are `@LazyProperty` properties on `Splititwebapiv3Client`. Access them as attributes:
+Controllers are `@LazyProperty` properties on `SplititClient`. Access them as attributes:
 
 ```python
 # Correct — the controller is a property:
@@ -146,7 +146,7 @@ class ResponseCapture(HttpCallBack):
         self.last_response = response
 
 capture = ResponseCapture()
-client = Splititwebapiv3Client(http_call_back=capture, ...)
+client = SplititClient(http_call_back=capture, ...)
 result = client.authentication.custom_authentication()
 print(capture.last_response.status_code)
 print(capture.last_response.headers)
@@ -179,7 +179,7 @@ an iterator over the items on that page. Inspect `splitit/pagination/` in the so
 
 ## Finding the right method
 
-- Controller property names are on `Splititwebapiv3Client` in `splitit/splitit_client.py`.
+- Controller property names are on `SplititClient` in `splitit/splitit_client.py`.
 - Operation method signatures are in `splitit/controllers/{resource}_controller.py`.
 - `doc/controllers/*.md` lists every operation with parameters and usage snippets — grep it first.
 - Request/response model types are under `splitit/models/`; enum types have `from_value()`.

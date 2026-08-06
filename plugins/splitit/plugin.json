@@ -1,8 +1,8 @@
 {
   "name": "splitit",
-  "displayName": "Splitit SDK",
+  "displayName": "splitit SDK",
   "version": "0.1.0",
-  "description": "Offer installment payments on existing credit cards at checkout with Splitit.",
+  "description": "TODO_AUTO_DESCRIPTION: splitit API",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

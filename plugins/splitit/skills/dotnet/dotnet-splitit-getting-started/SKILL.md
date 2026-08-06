@@ -1,9 +1,9 @@
 ---
 name: dotnet-splitit-getting-started
-description: Splitit .NET SDK identity and lookup layer for the dotnet-splitit-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
+description: splitit .NET SDK identity and lookup layer for the dotnet-splitit-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
 ---
 
-# Getting started with the Splitit .NET SDK
+# Getting started with the splitit .NET SDK
 
 > **Who this skill is for.** This is the **map layer**, preloaded for the `dotnet-splitit-sdk` helper
 > agent — if you are it, this skill is yours to follow directly and fully. It is the only place
@@ -37,7 +37,7 @@ confirm names against the map.
 
 | | |
 | --- | --- |
-| API | Splitit |
+| API | splitit |
 | Source repo | https://github.com/context-plugins/splitit-csharp-sdk (branch `main`) |
 | Root namespace | `SplititWebApiV3` (the `using` namespace) |
 | Client class | `SplititWebApiV3Client` |

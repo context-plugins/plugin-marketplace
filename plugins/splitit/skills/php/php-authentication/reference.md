@@ -6,7 +6,7 @@ constructor array and are generated per-API (hence the `{...Key}` placeholders b
 ## Basic
 
 ```php
-$client = new SplititWebApiV3Client([
+$client = new SplititClient([
     '{usernameKey}' => 'YOUR_USERNAME',
     '{passwordKey}' => 'YOUR_PASSWORD',
 ]);
@@ -17,7 +17,7 @@ Sends `Authorization: Basic base64(username:password)`.
 ## Bearer
 
 ```php
-$client = new SplititWebApiV3Client([
+$client = new SplititClient([
     '{tokenKey}' => 'YOUR_ACCESS_TOKEN',
 ]);
 ```
@@ -29,7 +29,7 @@ Sends `Authorization: Bearer YOUR_ACCESS_TOKEN`.
 A single key string; placement (header name or query param) is fixed by the generated scheme.
 
 ```php
-$client = new SplititWebApiV3Client([
+$client = new SplititClient([
     '{apiKeyConfigKey}' => 'YOUR_API_KEY',
 ]);
 ```
@@ -37,7 +37,7 @@ $client = new SplititWebApiV3Client([
 ## OAuth 2.0 — client credentials (machine-to-machine)
 
 ```php
-$client = new SplititWebApiV3Client([
+$client = new SplititClient([
     '{clientIdKey}'     => 'YOUR_CLIENT_ID',
     '{clientSecretKey}' => 'YOUR_CLIENT_SECRET',
     '{scopeKey}'        => 'read write',  // optional
@@ -49,7 +49,7 @@ Token is fetched automatically, cached in memory, and re-acquired near expiry or
 ## OAuth 2.0 — authorization code (3-legged)
 
 ```php
-$client = new SplititWebApiV3Client([
+$client = new SplititClient([
     '{clientIdKey}'     => 'YOUR_CLIENT_ID',
     '{clientSecretKey}' => 'YOUR_CLIENT_SECRET',
     '{redirectUriKey}'  => 'https://app.example.com/callback',
@@ -65,7 +65,7 @@ The SDK stores the token and refreshes it automatically when possible.
 ## OAuth 2.0 — resource owner password
 
 ```php
-$client = new SplititWebApiV3Client([
+$client = new SplititClient([
     '{clientIdKey}'     => 'YOUR_CLIENT_ID',
     '{clientSecretKey}' => 'YOUR_CLIENT_SECRET',
     '{usernameKey}'     => 'USER_USERNAME',
@@ -95,7 +95,7 @@ Leave all credential config keys unset. The SDK sends requests with no auth head
 
 ## Discovering what a specific SDK uses
 
-1. Open `SplititWebApiV3Client.php` in the SDK source and read the constructor docblock or `__construct`
+1. Open `SplititClient.php` in the SDK source and read the constructor docblock or `__construct`
    parameter list — this is the **source of truth** for accepted config keys.
 2. Cross-reference the `src/Http/Auth/` (or similar) folder to see how each scheme is applied,
    but rely on the constructor keys rather than the internal auth classes.

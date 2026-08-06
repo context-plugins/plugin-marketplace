@@ -1,19 +1,19 @@
 ---
 name: php-client-initialization
-description: Initialize an APIMatic-generated PHP API client — construct it from a config array (or options object) you supply, choose a server environment or override the base URL, and wire it into a PSR-11 container or plain instantiation. Use the moment you write `new SplititWebApiV3Client(...)`, configure its options, pick an environment, or register the client in a DI container — load it even after reading the constructor in the SDK source, since the signature shows the arguments but not the Guzzle lifetime rules or environment constant names.
+description: Initialize an APIMatic-generated PHP API client — construct it from a config array (or options object) you supply, choose a server environment or override the base URL, and wire it into a PSR-11 container or plain instantiation. Use the moment you write `new SplititClient(...)`, configure its options, pick an environment, or register the client in a DI container — load it even after reading the constructor in the SDK source, since the signature shows the arguments but not the Guzzle lifetime rules or environment constant names.
 ---
 
 # Initializing an APIMatic PHP SDK client
 
-> `SplititWebApiV3Client` is the SDK's client class — **read the real name** from the `*Client.php` file in
+> `SplititClient` is the SDK's client class — **read the real name** from the `*Client.php` file in
 > `src/` (it is derived from the API title with APIMatic's own casing, so do not guess it from the
-> API name). `SplititWebApiV3ClientBuilder` sits beside it.
+> API name). `SplititClientBuilder` sits beside it.
 
 This applies to **any** APIMatic-generated PHP SDK. Replace placeholders with the real names from
 the SDK you are using:
 
-- `SplititWebApiV3Client` — the single public client class (read it from the `*Client.php` file in `src/`).
-- `SplititWebApiV3Lib` — the SDK's root namespace used in `use` directives.
+- `SplititClient` — the single public client class (read it from the `*Client.php` file in `src/`).
+- `SplititLib` — the SDK's root namespace used in `use` directives.
 - `{apiGroup}` — a controller property/method name on the client (e.g. `widgets()`).
 
 ## Shape of the client
@@ -22,9 +22,9 @@ APIMatic PHP SDKs expose **one public client class** constructed from a configur
 typed options object, depending on the SDK version):
 
 ```php
-$client = new SplititWebApiV3Client([
+$client = new SplititClient([
     'timeout'     => 30,
-    'environment' => SplititWebApiV3Client::ENVIRONMENT_PRODUCTION,
+    'environment' => SplititClient::ENVIRONMENT_PRODUCTION,
     // ...auth credentials (see php-authentication)
 ]);
 ```
@@ -38,11 +38,11 @@ controller methods (and any direct operations). See **php-calling-endpoints**.
 ## Direct instantiation
 
 ```php
-use SplititWebApiV3Lib\SplititWebApiV3Client;
+use SplititLib\SplititClient;
 
-$client = new SplititWebApiV3Client([
+$client = new SplititClient([
     'timeout'     => 30,
-    'environment' => SplititWebApiV3Client::ENVIRONMENT_PRODUCTION,
+    'environment' => SplititClient::ENVIRONMENT_PRODUCTION,
     // ...set the auth credentials your API uses (see php-authentication)
 ]);
 ```
@@ -59,27 +59,27 @@ use GuzzleHttp\HandlerStack;
 $stack = HandlerStack::create();
 // push custom middleware onto $stack here
 
-$client = new SplititWebApiV3Client([
+$client = new SplititClient([
     'httpClient' => new Client(['handler' => $stack]),
     // ...other config
 ]);
 ```
 
 Reuse the SDK client for the lifetime of the request handler (or the application). Do not construct
-a new `SplititWebApiV3Client` per API call — Guzzle connection pooling is per-client-instance and per-request
+a new `SplititClient` per API call — Guzzle connection pooling is per-client-instance and per-request
 construction leaks connections.
 
 ## Choosing the server / base URL
 
-Environments are modeled as class constants on `SplititWebApiV3Client` (e.g.
-`SplititWebApiV3Client::ENVIRONMENT_PRODUCTION`, `SplititWebApiV3Client::ENVIRONMENT_SANDBOX`). Pass the constant in
+Environments are modeled as class constants on `SplititClient` (e.g.
+`SplititClient::ENVIRONMENT_PRODUCTION`, `SplititClient::ENVIRONMENT_SANDBOX`). Pass the constant in
 the config array. To override the base URL entirely (e.g. for a mock server or a self-hosted
 gateway), set the `baseUrl` or `baseUri` key (the exact key name varies per SDK — check the client
 constructor in the source):
 
 ```php
-$client = new SplititWebApiV3Client([
-    'environment' => SplititWebApiV3Client::ENVIRONMENT_PRODUCTION,
+$client = new SplititClient([
+    'environment' => SplititClient::ENVIRONMENT_PRODUCTION,
     // override the base URL (exact key — confirm in SDK source):
     'baseUrl'     => 'https://my-mock-server.example.com',
 ]);
@@ -92,12 +92,12 @@ constructed once and reused:
 
 ```php
 // Laravel service provider (AppServiceProvider or a dedicated provider):
-use SplititWebApiV3Lib\SplititWebApiV3Client;
+use SplititLib\SplititClient;
 
-$this->app->singleton(SplititWebApiV3Client::class, function ($app) {
-    return new SplititWebApiV3Client([
+$this->app->singleton(SplititClient::class, function ($app) {
+    return new SplititClient([
         'timeout'     => 30,
-        'environment' => SplititWebApiV3Client::ENVIRONMENT_PRODUCTION,
+        'environment' => SplititClient::ENVIRONMENT_PRODUCTION,
         // credentials from config/env (see php-authentication):
     ]);
 });
@@ -108,7 +108,7 @@ Then inject it via the constructor:
 ```php
 class MyService
 {
-    public function __construct(private readonly SplititWebApiV3Client $client) {}
+    public function __construct(private readonly SplititClient $client) {}
 
     public function doWork(): mixed
     {

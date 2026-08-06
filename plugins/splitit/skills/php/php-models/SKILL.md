@@ -20,7 +20,7 @@ APIMatic PHP SDKs generated for PHP 8.1+ use backed enums (string or int). Alway
 constant on requests; use `->value` only when you need the raw wire value:
 
 ```php
-use SplititWebApiV3Lib\Models\Enums\{EnumType};
+use SplititLib\Models\Enums\{EnumType};
 
 // Set on a request:
 $body->set{EnumProp}({EnumType}::Active);

@@ -169,7 +169,7 @@
     {
       "name": "vimeo",
       "source": "./plugins/vimeo",
-      "description": "TODO_AUTO_DESCRIPTION: vimeo API"
+      "description": "Upload, host, and stream high-definition video content through Vimeo."
     },
     {
       "name": "frankfurter",

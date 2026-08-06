@@ -10,7 +10,7 @@
 | Root namespace/module | `RoutingDirector` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `5012d34` (`5012d3480087f52d17416fb99d2327c48165c993`, tagged `5012d34`) |
+| Source commit (spec stamp) | `5a3d077` (`5a3d07763572c05f3eaab019452e3ec152928ecc`, tagged `5a3d077`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/paragon-csharp-sdk (branch `main`) |

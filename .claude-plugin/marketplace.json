@@ -229,7 +229,7 @@
     {
       "name": "paragon",
       "source": "./plugins/paragon",
-      "description": "Embed pre-built B2B SaaS integrations into your application."
+      "description": "TODO_AUTO_DESCRIPTION: paragon API"
     },
     {
       "name": "univa",

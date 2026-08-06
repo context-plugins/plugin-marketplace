@@ -79,7 +79,7 @@
     {
       "name": "discourse",
       "source": "./plugins/discourse",
-      "description": "TODO_AUTO_DESCRIPTION: discourse API"
+      "description": "Build, manage, and moderate community forums and discussion boards with Discourse."
     },
     {
       "name": "pokeapi",

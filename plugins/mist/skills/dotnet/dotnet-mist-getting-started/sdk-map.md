@@ -10,7 +10,7 @@
 | Root namespace/module | `MistApi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `77a1d53` (`77a1d53be8ba20fad04c7cd6a2adf2ea7cabffae`, tagged `77a1d53`) |
+| Source commit (spec stamp) | `de2dbde` (`de2dbdec8052c9ad8a1faf667d54bec53b5efa31`, tagged `de2dbde`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/mist-csharp-sdk (branch `main`) |

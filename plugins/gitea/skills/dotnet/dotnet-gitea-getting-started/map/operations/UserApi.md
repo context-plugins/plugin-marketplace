@@ -5,7 +5,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateCurrentUserRepo
-- **HTTP**: `POST /user/repos` (Server1 (gitea))
+- **HTTP**: `POST /user/repos` (Server1)
 - **Signature**: `CreateCurrentUserRepo(CreateRepoOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### CreateUserVariable
-- **HTTP**: `POST /user/actions/variables/{variablename}` (Server1 (gitea))
+- **HTTP**: `POST /user/actions/variables/{variablename}` (Server1)
 - **Signature**: `CreateUserVariable(string variablename, CreateVariableOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -27,7 +27,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### DeleteUserRunner
-- **HTTP**: `DELETE /user/actions/runners/{runner_id}` (Server1 (gitea))
+- **HTTP**: `DELETE /user/actions/runners/{runner_id}` (Server1)
 - **Signature**: `DeleteUserRunner(string runnerId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -37,7 +37,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### DeleteUserSecret
-- **HTTP**: `DELETE /user/actions/secrets/{secretname}` (Server1 (gitea))
+- **HTTP**: `DELETE /user/actions/secrets/{secretname}` (Server1)
 - **Signature**: `DeleteUserSecret(string secretname, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -47,7 +47,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### DeleteUserVariable
-- **HTTP**: `DELETE /user/actions/variables/{variablename}` (Server1 (gitea))
+- **HTTP**: `DELETE /user/actions/variables/{variablename}` (Server1)
 - **Signature**: `DeleteUserVariable(string variablename, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -57,7 +57,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### GetUserRunner
-- **HTTP**: `GET /user/actions/runners/{runner_id}` (Server1 (gitea))
+- **HTTP**: `GET /user/actions/runners/{runner_id}` (Server1)
 - **Signature**: `GetUserRunner(string runnerId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `ActionRunner`
@@ -67,7 +67,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### GetUserRunners
-- **HTTP**: `GET /user/actions/runners` (Server1 (gitea))
+- **HTTP**: `GET /user/actions/runners` (Server1)
 - **Signature**: `GetUserRunners(bool? disabled, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `disabled` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -79,7 +79,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### GetUserSettings
-- **HTTP**: `GET /user/settings` (Server1 (gitea))
+- **HTTP**: `GET /user/settings` (Server1)
 - **Signature**: `GetUserSettings(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `IReadOnlyList<UserSettings>`
@@ -89,7 +89,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### GetUserVariable
-- **HTTP**: `GET /user/actions/variables/{variablename}` (Server1 (gitea))
+- **HTTP**: `GET /user/actions/variables/{variablename}` (Server1)
 - **Signature**: `GetUserVariable(string variablename, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `ActionVariable`
@@ -99,7 +99,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### GetUserVariablesList
-- **HTTP**: `GET /user/actions/variables` (Server1 (gitea))
+- **HTTP**: `GET /user/actions/variables` (Server1)
 - **Signature**: `GetUserVariablesList(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -112,7 +112,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### GetUserWorkflowJobs
-- **HTTP**: `GET /user/actions/jobs` (Server1 (gitea))
+- **HTTP**: `GET /user/actions/jobs` (Server1)
 - **Signature**: `GetUserWorkflowJobs(string? status, int? page, int? limit, string? sort, string? order, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`status` … `order`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -124,7 +124,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### GetUserWorkflowRuns
-- **HTTP**: `GET /user/actions/runs` (Server1 (gitea))
+- **HTTP**: `GET /user/actions/runs` (Server1)
 - **Signature**: `GetUserWorkflowRuns(string? @event, string? branch, string? status, string? actor, string? headSha, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 7 params (`@event` … `limit`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -136,7 +136,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### GetVerificationToken
-- **HTTP**: `GET /user/gpg_key_token` (Server1 (gitea))
+- **HTTP**: `GET /user/gpg_key_token` (Server1)
 - **Signature**: `GetVerificationToken(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `string`
@@ -146,7 +146,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UpdateUserRunner
-- **HTTP**: `PATCH /user/actions/runners/{runner_id}` (Server1 (gitea))
+- **HTTP**: `PATCH /user/actions/runners/{runner_id}` (Server1)
 - **Signature**: `UpdateUserRunner(string runnerId, EditActionRunnerOptionRepresentsTheEditableFieldsForARunner? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -157,7 +157,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UpdateUserSecret
-- **HTTP**: `PUT /user/actions/secrets/{secretname}` (Server1 (gitea))
+- **HTTP**: `PUT /user/actions/secrets/{secretname}` (Server1)
 - **Signature**: `UpdateUserSecret(string secretname, CreateOrUpdateSecretOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -168,8 +168,9 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UpdateUserSettings
-- **HTTP**: `PATCH /user/settings` (Server1 (gitea))
-- **Signature**: `UpdateUserSettings(RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **HTTP**: `PATCH /user/settings` (Server1)
+- **Signature**: `UpdateUserSettings(UserSettingsOptions? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
 - **Returns**: `IReadOnlyList<UserSettings>`
 - **Error**: `SdkException<RawError>` — **Case B**
@@ -178,7 +179,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UpdateUserVariable
-- **HTTP**: `PUT /user/actions/variables/{variablename}` (Server1 (gitea))
+- **HTTP**: `PUT /user/actions/variables/{variablename}` (Server1)
 - **Signature**: `UpdateUserVariable(string variablename, UpdateVariableOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -189,8 +190,9 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserAddEmail
-- **HTTP**: `POST /user/emails` (Server1 (gitea))
-- **Signature**: `UserAddEmail(RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **HTTP**: `POST /user/emails` (Server1)
+- **Signature**: `UserAddEmail(CreateEmailOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
 - **Returns**: `IReadOnlyList<Email>`
 - **Error**: `SdkException<UserAddEmailError>` — **Case A (typed)**
@@ -199,7 +201,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserBlockUser
-- **HTTP**: `PUT /user/blocks/{username}` (Server1 (gitea))
+- **HTTP**: `PUT /user/blocks/{username}` (Server1)
 - **Signature**: `UserBlockUser(string username, string? note, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `note` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -211,7 +213,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCheckFollowing
-- **HTTP**: `GET /users/{username}/following/{target}` (Server1 (gitea))
+- **HTTP**: `GET /users/{username}/following/{target}` (Server1)
 - **Signature**: `UserCheckFollowing(string username, string target, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -221,7 +223,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCheckUserBlock
-- **HTTP**: `GET /user/blocks/{username}` (Server1 (gitea))
+- **HTTP**: `GET /user/blocks/{username}` (Server1)
 - **Signature**: `UserCheckUserBlock(string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -231,7 +233,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCreateHook
-- **HTTP**: `POST /user/hooks` (Server1 (gitea))
+- **HTTP**: `POST /user/hooks` (Server1)
 - **Signature**: `UserCreateHook(CreateHookOption body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Hook`
@@ -241,8 +243,8 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCreateOauth2Application
-- **HTTP**: `POST /user/applications/oauth2` (Server1 (gitea))
-- **Signature**: `UserCreateOauth2Application(RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **HTTP**: `POST /user/applications/oauth2` (Server1)
+- **Signature**: `UserCreateOauth2Application(CreateOauth2ApplicationOptions body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Oauth2ApplicationRepresentsAnOauth2Application`
 - **Error**: `SdkException<UserCreateOauth2ApplicationError>` — **Case A (typed)**
@@ -251,7 +253,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCreateRunnerRegistrationToken
-- **HTTP**: `POST /user/actions/runners/registration-token` (Server1 (gitea))
+- **HTTP**: `POST /user/actions/runners/registration-token` (Server1)
 - **Signature**: `UserCreateRunnerRegistrationToken(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -261,7 +263,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCreateToken
-- **HTTP**: `POST /users/{username}/tokens` (Server1 (gitea))
+- **HTTP**: `POST /users/{username}/tokens` (Server1)
 - **Signature**: `UserCreateToken(string username, CreateAccessTokenOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -272,7 +274,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCurrentCheckFollowing
-- **HTTP**: `GET /user/following/{username}` (Server1 (gitea))
+- **HTTP**: `GET /user/following/{username}` (Server1)
 - **Signature**: `UserCurrentCheckFollowing(string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -282,7 +284,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCurrentCheckStarring
-- **HTTP**: `GET /user/starred/{owner}/{repo}` (Server1 (gitea))
+- **HTTP**: `GET /user/starred/{owner}/{repo}` (Server1)
 - **Signature**: `UserCurrentCheckStarring(string owner, string repo, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -292,7 +294,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCurrentDeleteFollow
-- **HTTP**: `DELETE /user/following/{username}` (Server1 (gitea))
+- **HTTP**: `DELETE /user/following/{username}` (Server1)
 - **Signature**: `UserCurrentDeleteFollow(string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -302,7 +304,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCurrentDeleteGpgkey
-- **HTTP**: `DELETE /user/gpg_keys/{id}` (Server1 (gitea))
+- **HTTP**: `DELETE /user/gpg_keys/{id}` (Server1)
 - **Signature**: `UserCurrentDeleteGpgkey(long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -312,7 +314,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCurrentDeleteKey
-- **HTTP**: `DELETE /user/keys/{id}` (Server1 (gitea))
+- **HTTP**: `DELETE /user/keys/{id}` (Server1)
 - **Signature**: `UserCurrentDeleteKey(long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -322,7 +324,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCurrentDeleteStar
-- **HTTP**: `DELETE /user/starred/{owner}/{repo}` (Server1 (gitea))
+- **HTTP**: `DELETE /user/starred/{owner}/{repo}` (Server1)
 - **Signature**: `UserCurrentDeleteStar(string owner, string repo, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -332,7 +334,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCurrentGetGpgkey
-- **HTTP**: `GET /user/gpg_keys/{id}` (Server1 (gitea))
+- **HTTP**: `GET /user/gpg_keys/{id}` (Server1)
 - **Signature**: `UserCurrentGetGpgkey(long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Gpgkey`
@@ -342,7 +344,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCurrentGetKey
-- **HTTP**: `GET /user/keys/{id}` (Server1 (gitea))
+- **HTTP**: `GET /user/keys/{id}` (Server1)
 - **Signature**: `UserCurrentGetKey(long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `PublicKey`
@@ -352,7 +354,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCurrentListFollowers
-- **HTTP**: `GET /user/followers` (Server1 (gitea))
+- **HTTP**: `GET /user/followers` (Server1)
 - **Signature**: `UserCurrentListFollowers(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -365,7 +367,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserCurrentListFollowing
-- **HTTP**: `GET /user/following` (Server1 (gitea))
+- **HTTP**: `GET /user/following` (Server1)
 - **Signature**: `UserCurrentListFollowing(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -378,7 +380,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserCurrentListGpgkeys
-- **HTTP**: `GET /user/gpg_keys` (Server1 (gitea))
+- **HTTP**: `GET /user/gpg_keys` (Server1)
 - **Signature**: `UserCurrentListGpgkeys(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -391,7 +393,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserCurrentListKeys
-- **HTTP**: `GET /user/keys` (Server1 (gitea))
+- **HTTP**: `GET /user/keys` (Server1)
 - **Signature**: `UserCurrentListKeys(string? fingerprint, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `fingerprint` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
@@ -405,7 +407,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserCurrentListRepos
-- **HTTP**: `GET /user/repos` (Server1 (gitea))
+- **HTTP**: `GET /user/repos` (Server1)
 - **Signature**: `UserCurrentListRepos(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -418,7 +420,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserCurrentListStarred
-- **HTTP**: `GET /user/starred` (Server1 (gitea))
+- **HTTP**: `GET /user/starred` (Server1)
 - **Signature**: `UserCurrentListStarred(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -431,7 +433,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserCurrentListSubscriptions
-- **HTTP**: `GET /user/subscriptions` (Server1 (gitea))
+- **HTTP**: `GET /user/subscriptions` (Server1)
 - **Signature**: `UserCurrentListSubscriptions(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -444,7 +446,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserCurrentPostGpgkey
-- **HTTP**: `POST /user/gpg_keys` (Server1 (gitea))
+- **HTTP**: `POST /user/gpg_keys` (Server1)
 - **Signature**: `UserCurrentPostGpgkey(CreateGpgkeyOption? form, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `form` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -455,7 +457,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCurrentPostKey
-- **HTTP**: `POST /user/keys` (Server1 (gitea))
+- **HTTP**: `POST /user/keys` (Server1)
 - **Signature**: `UserCurrentPostKey(CreateKeyOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -466,7 +468,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCurrentPutFollow
-- **HTTP**: `PUT /user/following/{username}` (Server1 (gitea))
+- **HTTP**: `PUT /user/following/{username}` (Server1)
 - **Signature**: `UserCurrentPutFollow(string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -476,7 +478,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCurrentPutStar
-- **HTTP**: `PUT /user/starred/{owner}/{repo}` (Server1 (gitea))
+- **HTTP**: `PUT /user/starred/{owner}/{repo}` (Server1)
 - **Signature**: `UserCurrentPutStar(string owner, string repo, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -486,7 +488,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserCurrentTrackedTimes
-- **HTTP**: `GET /user/times` (Server1 (gitea))
+- **HTTP**: `GET /user/times` (Server1)
 - **Signature**: `UserCurrentTrackedTimes(int? page, int? limit, DateTimeOffset? since, DateTimeOffset? before, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`page` … `before`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -498,7 +500,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserDeleteAccessToken
-- **HTTP**: `DELETE /users/{username}/tokens/{token}` (Server1 (gitea))
+- **HTTP**: `DELETE /users/{username}/tokens/{token}` (Server1)
 - **Signature**: `UserDeleteAccessToken(string username, string token, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -508,7 +510,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserDeleteAvatar
-- **HTTP**: `DELETE /user/avatar` (Server1 (gitea))
+- **HTTP**: `DELETE /user/avatar` (Server1)
 - **Signature**: `UserDeleteAvatar(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -518,8 +520,9 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserDeleteEmail
-- **HTTP**: `DELETE /user/emails` (Server1 (gitea))
-- **Signature**: `UserDeleteEmail(RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **HTTP**: `DELETE /user/emails` (Server1)
+- **Signature**: `UserDeleteEmail(DeleteEmailOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<UserDeleteEmailError>` — **Case A (typed)**
@@ -528,7 +531,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserDeleteHook
-- **HTTP**: `DELETE /user/hooks/{id}` (Server1 (gitea))
+- **HTTP**: `DELETE /user/hooks/{id}` (Server1)
 - **Signature**: `UserDeleteHook(long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -538,7 +541,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserDeleteOauth2Application
-- **HTTP**: `DELETE /user/applications/oauth2/{id}` (Server1 (gitea))
+- **HTTP**: `DELETE /user/applications/oauth2/{id}` (Server1)
 - **Signature**: `UserDeleteOauth2Application(long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -548,7 +551,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserEditHook
-- **HTTP**: `PATCH /user/hooks/{id}` (Server1 (gitea))
+- **HTTP**: `PATCH /user/hooks/{id}` (Server1)
 - **Signature**: `UserEditHook(long id, EditHookOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -559,7 +562,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserGet
-- **HTTP**: `GET /users/{username}` (Server1 (gitea))
+- **HTTP**: `GET /users/{username}` (Server1)
 - **Signature**: `UserGet(string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `User`
@@ -569,7 +572,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserGetCurrent
-- **HTTP**: `GET /user` (Server1 (gitea))
+- **HTTP**: `GET /user` (Server1)
 - **Signature**: `UserGetCurrent(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `User`
@@ -579,7 +582,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserGetHeatmapData
-- **HTTP**: `GET /users/{username}/heatmap` (Server1 (gitea))
+- **HTTP**: `GET /users/{username}/heatmap` (Server1)
 - **Signature**: `UserGetHeatmapData(string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `IReadOnlyList<UserHeatmapData>`
@@ -589,7 +592,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserGetHook
-- **HTTP**: `GET /user/hooks/{id}` (Server1 (gitea))
+- **HTTP**: `GET /user/hooks/{id}` (Server1)
 - **Signature**: `UserGetHook(long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Hook`
@@ -599,7 +602,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserGetOauth2Application
-- **HTTP**: `GET /user/applications/oauth2/{id}` (Server1 (gitea))
+- **HTTP**: `GET /user/applications/oauth2/{id}` (Server1)
 - **Signature**: `UserGetOauth2Application(long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Oauth2ApplicationRepresentsAnOauth2Application`
@@ -609,7 +612,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserGetOauth2Application2
-- **HTTP**: `GET /user/applications/oauth2` (Server1 (gitea))
+- **HTTP**: `GET /user/applications/oauth2` (Server1)
 - **Signature**: `UserGetOauth2Application2(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -622,7 +625,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserGetStopWatches
-- **HTTP**: `GET /user/stopwatches` (Server1 (gitea))
+- **HTTP**: `GET /user/stopwatches` (Server1)
 - **Signature**: `UserGetStopWatches(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -635,7 +638,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserGetTokens
-- **HTTP**: `GET /users/{username}/tokens` (Server1 (gitea))
+- **HTTP**: `GET /users/{username}/tokens` (Server1)
 - **Signature**: `UserGetTokens(string username, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -648,7 +651,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserListActivityFeeds
-- **HTTP**: `GET /users/{username}/activities/feeds` (Server1 (gitea))
+- **HTTP**: `GET /users/{username}/activities/feeds` (Server1)
 - **Signature**: `UserListActivityFeeds(string username, bool? onlyPerformedBy, DateTimeOffset? date, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`onlyPerformedBy` … `limit`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -660,7 +663,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserListBlocks
-- **HTTP**: `GET /user/blocks` (Server1 (gitea))
+- **HTTP**: `GET /user/blocks` (Server1)
 - **Signature**: `UserListBlocks(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -673,7 +676,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserListEmails
-- **HTTP**: `GET /user/emails` (Server1 (gitea))
+- **HTTP**: `GET /user/emails` (Server1)
 - **Signature**: `UserListEmails(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `IReadOnlyList<Email>`
@@ -683,7 +686,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserListFollowers
-- **HTTP**: `GET /users/{username}/followers` (Server1 (gitea))
+- **HTTP**: `GET /users/{username}/followers` (Server1)
 - **Signature**: `UserListFollowers(string username, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -696,7 +699,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserListFollowing
-- **HTTP**: `GET /users/{username}/following` (Server1 (gitea))
+- **HTTP**: `GET /users/{username}/following` (Server1)
 - **Signature**: `UserListFollowing(string username, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -709,7 +712,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserListGpgkeys
-- **HTTP**: `GET /users/{username}/gpg_keys` (Server1 (gitea))
+- **HTTP**: `GET /users/{username}/gpg_keys` (Server1)
 - **Signature**: `UserListGpgkeys(string username, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -722,7 +725,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserListHooks
-- **HTTP**: `GET /user/hooks` (Server1 (gitea))
+- **HTTP**: `GET /user/hooks` (Server1)
 - **Signature**: `UserListHooks(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -735,7 +738,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserListKeys
-- **HTTP**: `GET /users/{username}/keys` (Server1 (gitea))
+- **HTTP**: `GET /users/{username}/keys` (Server1)
 - **Signature**: `UserListKeys(string username, string? fingerprint, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `fingerprint` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
@@ -749,7 +752,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserListRepos
-- **HTTP**: `GET /users/{username}/repos` (Server1 (gitea))
+- **HTTP**: `GET /users/{username}/repos` (Server1)
 - **Signature**: `UserListRepos(string username, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -762,7 +765,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserListStarred
-- **HTTP**: `GET /users/{username}/starred` (Server1 (gitea))
+- **HTTP**: `GET /users/{username}/starred` (Server1)
 - **Signature**: `UserListStarred(string username, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -775,7 +778,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserListSubscriptions
-- **HTTP**: `GET /users/{username}/subscriptions` (Server1 (gitea))
+- **HTTP**: `GET /users/{username}/subscriptions` (Server1)
 - **Signature**: `UserListSubscriptions(string username, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -788,7 +791,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserListTeams
-- **HTTP**: `GET /user/teams` (Server1 (gitea))
+- **HTTP**: `GET /user/teams` (Server1)
 - **Signature**: `UserListTeams(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -801,7 +804,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserSearch
-- **HTTP**: `GET /users/search` (Server1 (gitea))
+- **HTTP**: `GET /users/search` (Server1)
 - **Signature**: `UserSearch(string? q, long? uid, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`q` … `limit`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -813,7 +816,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UserUnblockUser
-- **HTTP**: `DELETE /user/blocks/{username}` (Server1 (gitea))
+- **HTTP**: `DELETE /user/blocks/{username}` (Server1)
 - **Signature**: `UserUnblockUser(string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -823,8 +826,9 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserUpdateAvatar
-- **HTTP**: `POST /user/avatar` (Server1 (gitea))
-- **Signature**: `UserUpdateAvatar(RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **HTTP**: `POST /user/avatar` (Server1)
+- **Signature**: `UserUpdateAvatar(UpdateUserAvatarOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
@@ -833,8 +837,8 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserUpdateOauth2Application
-- **HTTP**: `PATCH /user/applications/oauth2/{id}` (Server1 (gitea))
-- **Signature**: `UserUpdateOauth2Application(long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **HTTP**: `PATCH /user/applications/oauth2/{id}` (Server1)
+- **Signature**: `UserUpdateOauth2Application(long id, CreateOauth2ApplicationOptions body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Oauth2ApplicationRepresentsAnOauth2Application`
 - **Error**: `SdkException<UserUpdateOauth2ApplicationError>` — **Case A (typed)**
@@ -843,7 +847,7 @@ Accessor: `client.UserApi` · Source: `Api/UserApi.cs` · 76 operations
 - **Pagination**: none
 
 ### UserVerifyGpgkey
-- **HTTP**: `POST /user/gpg_key_verify` (Server1 (gitea))
+- **HTTP**: `POST /user/gpg_key_verify` (Server1)
 - **Signature**: `UserVerifyGpgkey(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Gpgkey`

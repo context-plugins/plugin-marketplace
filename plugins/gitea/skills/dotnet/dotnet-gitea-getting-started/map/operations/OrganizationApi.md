@@ -5,7 +5,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### CreateOrgRepo
-- **HTTP**: `POST /orgs/{org}/repos` (Server1 (gitea))
+- **HTTP**: `POST /orgs/{org}/repos` (Server1)
 - **Signature**: `CreateOrgRepo(string org, CreateRepoOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### CreateOrgRepoDeprecated
-- **HTTP**: `POST /org/{org}/repos` (Server1 (gitea))
+- **HTTP**: `POST /org/{org}/repos` (Server1)
 - **Signature**: `CreateOrgRepoDeprecated(string org, CreateRepoOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -27,7 +27,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### CreateOrgVariable
-- **HTTP**: `POST /orgs/{org}/actions/variables/{variablename}` (Server1 (gitea))
+- **HTTP**: `POST /orgs/{org}/actions/variables/{variablename}` (Server1)
 - **Signature**: `CreateOrgVariable(string org, string variablename, CreateVariableOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -38,7 +38,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### DeleteOrgRunner
-- **HTTP**: `DELETE /orgs/{org}/actions/runners/{runner_id}` (Server1 (gitea))
+- **HTTP**: `DELETE /orgs/{org}/actions/runners/{runner_id}` (Server1)
 - **Signature**: `DeleteOrgRunner(string org, string runnerId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -48,7 +48,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### DeleteOrgSecret
-- **HTTP**: `DELETE /orgs/{org}/actions/secrets/{secretname}` (Server1 (gitea))
+- **HTTP**: `DELETE /orgs/{org}/actions/secrets/{secretname}` (Server1)
 - **Signature**: `DeleteOrgSecret(string org, string secretname, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -58,7 +58,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### DeleteOrgVariable
-- **HTTP**: `DELETE /orgs/{org}/actions/variables/{variablename}` (Server1 (gitea))
+- **HTTP**: `DELETE /orgs/{org}/actions/variables/{variablename}` (Server1)
 - **Signature**: `DeleteOrgVariable(string org, string variablename, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `ActionVariable`
@@ -68,7 +68,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### GetOrgRunner
-- **HTTP**: `GET /orgs/{org}/actions/runners/{runner_id}` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/actions/runners/{runner_id}` (Server1)
 - **Signature**: `GetOrgRunner(string org, string runnerId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `ActionRunner`
@@ -78,7 +78,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### GetOrgRunners
-- **HTTP**: `GET /orgs/{org}/actions/runners` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/actions/runners` (Server1)
 - **Signature**: `GetOrgRunners(string org, bool? disabled, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `disabled` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -90,7 +90,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### GetOrgVariable
-- **HTTP**: `GET /orgs/{org}/actions/variables/{variablename}` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/actions/variables/{variablename}` (Server1)
 - **Signature**: `GetOrgVariable(string org, string variablename, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `ActionVariable`
@@ -100,7 +100,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### GetOrgVariablesList
-- **HTTP**: `GET /orgs/{org}/actions/variables` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/actions/variables` (Server1)
 - **Signature**: `GetOrgVariablesList(string org, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -113,7 +113,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### GetOrgWorkflowJobs
-- **HTTP**: `GET /orgs/{org}/actions/jobs` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/actions/jobs` (Server1)
 - **Signature**: `GetOrgWorkflowJobs(string org, string? status, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `status` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
@@ -127,7 +127,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### GetOrgWorkflowRuns
-- **HTTP**: `GET /orgs/{org}/actions/runs` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/actions/runs` (Server1)
 - **Signature**: `GetOrgWorkflowRuns(string org, string? @event, string? branch, string? status, string? actor, string? headSha, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 7 params (`@event` … `limit`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -139,7 +139,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrgAddTeamMember
-- **HTTP**: `PUT /teams/{id}/members/{username}` (Server1 (gitea))
+- **HTTP**: `PUT /teams/{id}/members/{username}` (Server1)
 - **Signature**: `OrgAddTeamMember(long id, string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -149,7 +149,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgAddTeamRepository
-- **HTTP**: `PUT /teams/{id}/repos/{org}/{repo}` (Server1 (gitea))
+- **HTTP**: `PUT /teams/{id}/repos/{org}/{repo}` (Server1)
 - **Signature**: `OrgAddTeamRepository(long id, string org, string repo, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -159,7 +159,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgConcealMember
-- **HTTP**: `DELETE /orgs/{org}/public_members/{username}` (Server1 (gitea))
+- **HTTP**: `DELETE /orgs/{org}/public_members/{username}` (Server1)
 - **Signature**: `OrgConcealMember(string org, string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -169,7 +169,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgCreate
-- **HTTP**: `POST /orgs` (Server1 (gitea))
+- **HTTP**: `POST /orgs` (Server1)
 - **Signature**: `OrgCreate(CreateOrgOption organization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Organization`
@@ -179,7 +179,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgCreateHook
-- **HTTP**: `POST /orgs/{org}/hooks` (Server1 (gitea))
+- **HTTP**: `POST /orgs/{org}/hooks` (Server1)
 - **Signature**: `OrgCreateHook(string org, CreateHookOption body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Hook`
@@ -189,7 +189,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgCreateLabel
-- **HTTP**: `POST /orgs/{org}/labels` (Server1 (gitea))
+- **HTTP**: `POST /orgs/{org}/labels` (Server1)
 - **Signature**: `OrgCreateLabel(string org, CreateLabelOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -200,7 +200,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgCreateRunnerRegistrationToken
-- **HTTP**: `POST /orgs/{org}/actions/runners/registration-token` (Server1 (gitea))
+- **HTTP**: `POST /orgs/{org}/actions/runners/registration-token` (Server1)
 - **Signature**: `OrgCreateRunnerRegistrationToken(string org, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -210,7 +210,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgCreateTeam
-- **HTTP**: `POST /orgs/{org}/teams` (Server1 (gitea))
+- **HTTP**: `POST /orgs/{org}/teams` (Server1)
 - **Signature**: `OrgCreateTeam(string org, CreateTeamOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -221,7 +221,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgDelete
-- **HTTP**: `DELETE /orgs/{org}` (Server1 (gitea))
+- **HTTP**: `DELETE /orgs/{org}` (Server1)
 - **Signature**: `OrgDelete(string org, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -231,7 +231,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgDeleteAvatar
-- **HTTP**: `DELETE /orgs/{org}/avatar` (Server1 (gitea))
+- **HTTP**: `DELETE /orgs/{org}/avatar` (Server1)
 - **Signature**: `OrgDeleteAvatar(string org, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -241,7 +241,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgDeleteHook
-- **HTTP**: `DELETE /orgs/{org}/hooks/{id}` (Server1 (gitea))
+- **HTTP**: `DELETE /orgs/{org}/hooks/{id}` (Server1)
 - **Signature**: `OrgDeleteHook(string org, long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -251,7 +251,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgDeleteLabel
-- **HTTP**: `DELETE /orgs/{org}/labels/{id}` (Server1 (gitea))
+- **HTTP**: `DELETE /orgs/{org}/labels/{id}` (Server1)
 - **Signature**: `OrgDeleteLabel(string org, long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -261,7 +261,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgDeleteMember
-- **HTTP**: `DELETE /orgs/{org}/members/{username}` (Server1 (gitea))
+- **HTTP**: `DELETE /orgs/{org}/members/{username}` (Server1)
 - **Signature**: `OrgDeleteMember(string org, string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -271,7 +271,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgDeleteRepos
-- **HTTP**: `DELETE /orgs/{org}/repos` (Server1 (gitea))
+- **HTTP**: `DELETE /orgs/{org}/repos` (Server1)
 - **Signature**: `OrgDeleteRepos(string org, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -281,7 +281,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgDeleteTeam
-- **HTTP**: `DELETE /teams/{id}` (Server1 (gitea))
+- **HTTP**: `DELETE /teams/{id}` (Server1)
 - **Signature**: `OrgDeleteTeam(long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -291,7 +291,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgEdit
-- **HTTP**: `PATCH /orgs/{org}` (Server1 (gitea))
+- **HTTP**: `PATCH /orgs/{org}` (Server1)
 - **Signature**: `OrgEdit(string org, EditOrgOption body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Organization`
@@ -301,7 +301,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgEditHook
-- **HTTP**: `PATCH /orgs/{org}/hooks/{id}` (Server1 (gitea))
+- **HTTP**: `PATCH /orgs/{org}/hooks/{id}` (Server1)
 - **Signature**: `OrgEditHook(string org, long id, EditHookOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -312,7 +312,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgEditLabel
-- **HTTP**: `PATCH /orgs/{org}/labels/{id}` (Server1 (gitea))
+- **HTTP**: `PATCH /orgs/{org}/labels/{id}` (Server1)
 - **Signature**: `OrgEditLabel(string org, long id, EditLabelOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -323,7 +323,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgEditTeam
-- **HTTP**: `PATCH /teams/{id}` (Server1 (gitea))
+- **HTTP**: `PATCH /teams/{id}` (Server1)
 - **Signature**: `OrgEditTeam(int id, EditTeamOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -334,7 +334,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgGet
-- **HTTP**: `GET /orgs/{org}` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}` (Server1)
 - **Signature**: `OrgGet(string org, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Organization`
@@ -344,7 +344,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgGetAll
-- **HTTP**: `GET /orgs` (Server1 (gitea))
+- **HTTP**: `GET /orgs` (Server1)
 - **Signature**: `OrgGetAll(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -357,7 +357,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrgGetHook
-- **HTTP**: `GET /orgs/{org}/hooks/{id}` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/hooks/{id}` (Server1)
 - **Signature**: `OrgGetHook(string org, long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Hook`
@@ -367,7 +367,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgGetLabel
-- **HTTP**: `GET /orgs/{org}/labels/{id}` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/labels/{id}` (Server1)
 - **Signature**: `OrgGetLabel(string org, long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Label`
@@ -377,7 +377,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgGetTeam
-- **HTTP**: `GET /teams/{id}` (Server1 (gitea))
+- **HTTP**: `GET /teams/{id}` (Server1)
 - **Signature**: `OrgGetTeam(long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Team`
@@ -387,7 +387,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgGetUserPermissions
-- **HTTP**: `GET /users/{username}/orgs/{org}/permissions` (Server1 (gitea))
+- **HTTP**: `GET /users/{username}/orgs/{org}/permissions` (Server1)
 - **Signature**: `OrgGetUserPermissions(string username, string org, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `OrganizationPermissions`
@@ -397,7 +397,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgIsMember
-- **HTTP**: `GET /orgs/{org}/members/{username}` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/members/{username}` (Server1)
 - **Signature**: `OrgIsMember(string org, string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -407,7 +407,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgIsPublicMember
-- **HTTP**: `GET /orgs/{org}/public_members/{username}` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/public_members/{username}` (Server1)
 - **Signature**: `OrgIsPublicMember(string org, string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -417,7 +417,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgListActionsSecrets
-- **HTTP**: `GET /orgs/{org}/actions/secrets` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/actions/secrets` (Server1)
 - **Signature**: `OrgListActionsSecrets(string org, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -430,7 +430,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrgListActivityFeeds
-- **HTTP**: `GET /orgs/{org}/activities/feeds` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/activities/feeds` (Server1)
 - **Signature**: `OrgListActivityFeeds(string org, DateTimeOffset? date, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `date` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
@@ -444,7 +444,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrgListCurrentUserOrgs
-- **HTTP**: `GET /user/orgs` (Server1 (gitea))
+- **HTTP**: `GET /user/orgs` (Server1)
 - **Signature**: `OrgListCurrentUserOrgs(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -457,7 +457,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrgListHooks
-- **HTTP**: `GET /orgs/{org}/hooks` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/hooks` (Server1)
 - **Signature**: `OrgListHooks(string org, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -470,7 +470,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrgListLabels
-- **HTTP**: `GET /orgs/{org}/labels` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/labels` (Server1)
 - **Signature**: `OrgListLabels(string org, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -483,7 +483,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrgListMembers
-- **HTTP**: `GET /orgs/{org}/members` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/members` (Server1)
 - **Signature**: `OrgListMembers(string org, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -496,7 +496,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrgListPublicMembers
-- **HTTP**: `GET /orgs/{org}/public_members` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/public_members` (Server1)
 - **Signature**: `OrgListPublicMembers(string org, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -509,7 +509,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrgListRepos
-- **HTTP**: `GET /orgs/{org}/repos` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/repos` (Server1)
 - **Signature**: `OrgListRepos(string org, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -522,7 +522,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrgListTeamActivityFeeds
-- **HTTP**: `GET /teams/{id}/activities/feeds` (Server1 (gitea))
+- **HTTP**: `GET /teams/{id}/activities/feeds` (Server1)
 - **Signature**: `OrgListTeamActivityFeeds(long id, DateTimeOffset? date, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `date` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
@@ -536,7 +536,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrgListTeamMember
-- **HTTP**: `GET /teams/{id}/members/{username}` (Server1 (gitea))
+- **HTTP**: `GET /teams/{id}/members/{username}` (Server1)
 - **Signature**: `OrgListTeamMember(long id, string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `User`
@@ -546,7 +546,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgListTeamMembers
-- **HTTP**: `GET /teams/{id}/members` (Server1 (gitea))
+- **HTTP**: `GET /teams/{id}/members` (Server1)
 - **Signature**: `OrgListTeamMembers(long id, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -559,7 +559,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrgListTeamRepo
-- **HTTP**: `GET /teams/{id}/repos/{org}/{repo}` (Server1 (gitea))
+- **HTTP**: `GET /teams/{id}/repos/{org}/{repo}` (Server1)
 - **Signature**: `OrgListTeamRepo(long id, string org, string repo, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Repository`
@@ -569,7 +569,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgListTeamRepos
-- **HTTP**: `GET /teams/{id}/repos` (Server1 (gitea))
+- **HTTP**: `GET /teams/{id}/repos` (Server1)
 - **Signature**: `OrgListTeamRepos(long id, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -582,7 +582,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrgListTeams
-- **HTTP**: `GET /orgs/{org}/teams` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/teams` (Server1)
 - **Signature**: `OrgListTeams(string org, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -595,7 +595,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrgListUserOrgs
-- **HTTP**: `GET /users/{username}/orgs` (Server1 (gitea))
+- **HTTP**: `GET /users/{username}/orgs` (Server1)
 - **Signature**: `OrgListUserOrgs(string username, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -608,7 +608,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrgPublicizeMember
-- **HTTP**: `PUT /orgs/{org}/public_members/{username}` (Server1 (gitea))
+- **HTTP**: `PUT /orgs/{org}/public_members/{username}` (Server1)
 - **Signature**: `OrgPublicizeMember(string org, string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -618,7 +618,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgRemoveTeamMember
-- **HTTP**: `DELETE /teams/{id}/members/{username}` (Server1 (gitea))
+- **HTTP**: `DELETE /teams/{id}/members/{username}` (Server1)
 - **Signature**: `OrgRemoveTeamMember(long id, string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -628,7 +628,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgRemoveTeamRepository
-- **HTTP**: `DELETE /teams/{id}/repos/{org}/{repo}` (Server1 (gitea))
+- **HTTP**: `DELETE /teams/{id}/repos/{org}/{repo}` (Server1)
 - **Signature**: `OrgRemoveTeamRepository(long id, string org, string repo, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -638,8 +638,9 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrgUpdateAvatar
-- **HTTP**: `POST /orgs/{org}/avatar` (Server1 (gitea))
-- **Signature**: `OrgUpdateAvatar(string org, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **HTTP**: `POST /orgs/{org}/avatar` (Server1)
+- **Signature**: `OrgUpdateAvatar(string org, UpdateUserAvatarOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<OrgUpdateAvatarError>` — **Case A (typed)**
@@ -648,7 +649,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrganizationBlockUser
-- **HTTP**: `PUT /orgs/{org}/blocks/{username}` (Server1 (gitea))
+- **HTTP**: `PUT /orgs/{org}/blocks/{username}` (Server1)
 - **Signature**: `OrganizationBlockUser(string org, string username, string? note, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `note` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -660,7 +661,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrganizationCheckUserBlock
-- **HTTP**: `GET /orgs/{org}/blocks/{username}` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/blocks/{username}` (Server1)
 - **Signature**: `OrganizationCheckUserBlock(string org, string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -670,7 +671,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### OrganizationListBlocks
-- **HTTP**: `GET /orgs/{org}/blocks` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/blocks` (Server1)
 - **Signature**: `OrganizationListBlocks(string org, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -683,7 +684,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### OrganizationUnblockUser
-- **HTTP**: `DELETE /orgs/{org}/blocks/{username}` (Server1 (gitea))
+- **HTTP**: `DELETE /orgs/{org}/blocks/{username}` (Server1)
 - **Signature**: `OrganizationUnblockUser(string org, string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -693,8 +694,8 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### RenameOrg
-- **HTTP**: `POST /orgs/{org}/rename` (Server1 (gitea))
-- **Signature**: `RenameOrg(string org, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **HTTP**: `POST /orgs/{org}/rename` (Server1)
+- **Signature**: `RenameOrg(string org, RenameOrgOption body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RenameOrgError>` — **Case A (typed)**
@@ -703,7 +704,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### TeamSearch
-- **HTTP**: `GET /orgs/{org}/teams/search` (Server1 (gitea))
+- **HTTP**: `GET /orgs/{org}/teams/search` (Server1)
 - **Signature**: `TeamSearch(string org, string? q, bool? includeDesc, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`q` … `limit`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -715,7 +716,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateOrgRunner
-- **HTTP**: `PATCH /orgs/{org}/actions/runners/{runner_id}` (Server1 (gitea))
+- **HTTP**: `PATCH /orgs/{org}/actions/runners/{runner_id}` (Server1)
 - **Signature**: `UpdateOrgRunner(string org, string runnerId, EditActionRunnerOptionRepresentsTheEditableFieldsForARunner? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -726,7 +727,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### UpdateOrgSecret
-- **HTTP**: `PUT /orgs/{org}/actions/secrets/{secretname}` (Server1 (gitea))
+- **HTTP**: `PUT /orgs/{org}/actions/secrets/{secretname}` (Server1)
 - **Signature**: `UpdateOrgSecret(string org, string secretname, CreateOrUpdateSecretOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -737,7 +738,7 @@ Accessor: `client.OrganizationApi` · Source: `Api/OrganizationApi.cs` · 67 ope
 - **Pagination**: none
 
 ### UpdateOrgVariable
-- **HTTP**: `PUT /orgs/{org}/actions/variables/{variablename}` (Server1 (gitea))
+- **HTTP**: `PUT /orgs/{org}/actions/variables/{variablename}` (Server1)
 - **Signature**: `UpdateOrgVariable(string org, string variablename, UpdateVariableOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null

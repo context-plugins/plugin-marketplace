@@ -1,4 +1,4 @@
-# SDK map — Gitea (.NET)
+# SDK map — gitea (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,11 +6,11 @@
 
 | | |
 |---|---|
-| SDK display name | Gitea |
+| SDK display name | gitea |
 | Root namespace/module | `GiteaApi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `60bd76a` (`60bd76ad166d8f832fd8d7ba4d057b0bfce8ba23`, tagged `60bd76a`) |
+| Source commit (spec stamp) | `6e1d667` (`6e1d667900f5b1e7b2b54003893cf570ad4f7961`, tagged `6e1d667`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/gitea-csharp-sdk (branch `main`) |

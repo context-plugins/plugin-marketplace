@@ -5,7 +5,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### AdminAddUserBadges
-- **HTTP**: `POST /admin/users/{username}/badges` (Server1 (gitea))
+- **HTTP**: `POST /admin/users/{username}/badges` (Server1)
 - **Signature**: `AdminAddUserBadges(string username, UserBadgeOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminAdoptRepository
-- **HTTP**: `POST /admin/unadopted/{owner}/{repo}` (Server1 (gitea))
+- **HTTP**: `POST /admin/unadopted/{owner}/{repo}` (Server1)
 - **Signature**: `AdminAdoptRepository(string owner, string repo, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -26,7 +26,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminCreateHook
-- **HTTP**: `POST /admin/hooks` (Server1 (gitea))
+- **HTTP**: `POST /admin/hooks` (Server1)
 - **Signature**: `AdminCreateHook(CreateHookOption body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Hook`
@@ -36,7 +36,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminCreateOrg
-- **HTTP**: `POST /admin/users/{username}/orgs` (Server1 (gitea))
+- **HTTP**: `POST /admin/users/{username}/orgs` (Server1)
 - **Signature**: `AdminCreateOrg(string username, CreateOrgOption organization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Organization`
@@ -46,7 +46,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminCreatePublicKey
-- **HTTP**: `POST /admin/users/{username}/keys` (Server1 (gitea))
+- **HTTP**: `POST /admin/users/{username}/keys` (Server1)
 - **Signature**: `AdminCreatePublicKey(string username, CreateKeyOption? key, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `key` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -57,7 +57,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminCreateRepo
-- **HTTP**: `POST /admin/users/{username}/repos` (Server1 (gitea))
+- **HTTP**: `POST /admin/users/{username}/repos` (Server1)
 - **Signature**: `AdminCreateRepo(string username, CreateRepoOption repository, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Repository`
@@ -67,7 +67,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminCreateRunnerRegistrationToken
-- **HTTP**: `POST /admin/actions/runners/registration-token` (Server1 (gitea))
+- **HTTP**: `POST /admin/actions/runners/registration-token` (Server1)
 - **Signature**: `AdminCreateRunnerRegistrationToken(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -77,7 +77,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminCreateUser
-- **HTTP**: `POST /admin/users` (Server1 (gitea))
+- **HTTP**: `POST /admin/users` (Server1)
 - **Signature**: `AdminCreateUser(CreateUserOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -88,7 +88,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminCronList
-- **HTTP**: `GET /admin/cron` (Server1 (gitea))
+- **HTTP**: `GET /admin/cron` (Server1)
 - **Signature**: `AdminCronList(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -101,7 +101,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### AdminCronRun
-- **HTTP**: `POST /admin/cron/{task}` (Server1 (gitea))
+- **HTTP**: `POST /admin/cron/{task}` (Server1)
 - **Signature**: `AdminCronRun(string task, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -111,7 +111,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminDeleteHook
-- **HTTP**: `DELETE /admin/hooks/{id}` (Server1 (gitea))
+- **HTTP**: `DELETE /admin/hooks/{id}` (Server1)
 - **Signature**: `AdminDeleteHook(long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -121,7 +121,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminDeleteUnadoptedRepository
-- **HTTP**: `DELETE /admin/unadopted/{owner}/{repo}` (Server1 (gitea))
+- **HTTP**: `DELETE /admin/unadopted/{owner}/{repo}` (Server1)
 - **Signature**: `AdminDeleteUnadoptedRepository(string owner, string repo, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -131,7 +131,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminDeleteUser
-- **HTTP**: `DELETE /admin/users/{username}` (Server1 (gitea))
+- **HTTP**: `DELETE /admin/users/{username}` (Server1)
 - **Signature**: `AdminDeleteUser(string username, bool? purge, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `purge` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -143,8 +143,9 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminDeleteUserBadges
-- **HTTP**: `DELETE /admin/users/{username}/badges` (Server1 (gitea))
-- **Signature**: `AdminDeleteUserBadges(string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **HTTP**: `DELETE /admin/users/{username}/badges` (Server1)
+- **Signature**: `AdminDeleteUserBadges(string username, UserBadgeOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+  - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<AdminDeleteUserBadgesError>` — **Case A (typed)**
@@ -153,7 +154,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminDeleteUserPublicKey
-- **HTTP**: `DELETE /admin/users/{username}/keys/{id}` (Server1 (gitea))
+- **HTTP**: `DELETE /admin/users/{username}/keys/{id}` (Server1)
 - **Signature**: `AdminDeleteUserPublicKey(string username, long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -163,7 +164,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminEditHook
-- **HTTP**: `PATCH /admin/hooks/{id}` (Server1 (gitea))
+- **HTTP**: `PATCH /admin/hooks/{id}` (Server1)
 - **Signature**: `AdminEditHook(long id, EditHookOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -174,7 +175,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminEditUser
-- **HTTP**: `PATCH /admin/users/{username}` (Server1 (gitea))
+- **HTTP**: `PATCH /admin/users/{username}` (Server1)
 - **Signature**: `AdminEditUser(string username, EditUserOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -185,7 +186,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminGetAllEmails
-- **HTTP**: `GET /admin/emails` (Server1 (gitea))
+- **HTTP**: `GET /admin/emails` (Server1)
 - **Signature**: `AdminGetAllEmails(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -198,7 +199,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### AdminGetAllOrgs
-- **HTTP**: `GET /admin/orgs` (Server1 (gitea))
+- **HTTP**: `GET /admin/orgs` (Server1)
 - **Signature**: `AdminGetAllOrgs(int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -211,7 +212,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### AdminGetHook
-- **HTTP**: `GET /admin/hooks/{id}` (Server1 (gitea))
+- **HTTP**: `GET /admin/hooks/{id}` (Server1)
 - **Signature**: `AdminGetHook(long id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `Hook`
@@ -221,7 +222,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminListHooks
-- **HTTP**: `GET /admin/hooks` (Server1 (gitea))
+- **HTTP**: `GET /admin/hooks` (Server1)
 - **Signature**: `AdminListHooks(int? page, int? limit, Type3? type, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -235,7 +236,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### AdminListUserBadges
-- **HTTP**: `GET /admin/users/{username}/badges` (Server1 (gitea))
+- **HTTP**: `GET /admin/users/{username}/badges` (Server1)
 - **Signature**: `AdminListUserBadges(string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `IReadOnlyList<Badge>`
@@ -245,8 +246,8 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminRenameUser
-- **HTTP**: `POST /admin/users/{username}/rename` (Server1 (gitea))
-- **Signature**: `AdminRenameUser(string username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **HTTP**: `POST /admin/users/{username}/rename` (Server1)
+- **Signature**: `AdminRenameUser(string username, RenameUserOption body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<AdminRenameUserError>` — **Case A (typed)**
@@ -255,7 +256,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### AdminSearchEmails
-- **HTTP**: `GET /admin/emails/search` (Server1 (gitea))
+- **HTTP**: `GET /admin/emails/search` (Server1)
 - **Signature**: `AdminSearchEmails(string? q, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `q` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
@@ -269,7 +270,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### AdminSearchUsers
-- **HTTP**: `GET /admin/users` (Server1 (gitea))
+- **HTTP**: `GET /admin/users` (Server1)
 - **Signature**: `AdminSearchUsers(long? sourceId, string? loginName, int? page, int? limit, string? sort, string? order, string? q, string? visibility, bool? isActive, bool? isAdmin, bool? isRestricted, bool? is2FaEnabled, bool? isProhibitLogin, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 13 params (`sourceId` … `isProhibitLogin`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -281,7 +282,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### AdminUnadoptedList
-- **HTTP**: `GET /admin/unadopted` (Server1 (gitea))
+- **HTTP**: `GET /admin/unadopted` (Server1)
 - **Signature**: `AdminUnadoptedList(int? page, int? limit, string? pattern, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
@@ -295,7 +296,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### DeleteAdminRunner
-- **HTTP**: `DELETE /admin/actions/runners/{runner_id}` (Server1 (gitea))
+- **HTTP**: `DELETE /admin/actions/runners/{runner_id}` (Server1)
 - **Signature**: `DeleteAdminRunner(string runnerId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -305,7 +306,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### GetAdminRunner
-- **HTTP**: `GET /admin/actions/runners/{runner_id}` (Server1 (gitea))
+- **HTTP**: `GET /admin/actions/runners/{runner_id}` (Server1)
 - **Signature**: `GetAdminRunner(string runnerId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `ActionRunner`
@@ -315,7 +316,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### GetAdminRunners
-- **HTTP**: `GET /admin/actions/runners` (Server1 (gitea))
+- **HTTP**: `GET /admin/actions/runners` (Server1)
 - **Signature**: `GetAdminRunners(bool? disabled, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `disabled` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -327,7 +328,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none
 
 ### ListAdminWorkflowJobs
-- **HTTP**: `GET /admin/actions/jobs` (Server1 (gitea))
+- **HTTP**: `GET /admin/actions/jobs` (Server1)
 - **Signature**: `ListAdminWorkflowJobs(string? status, int? page, int? limit, string? sort, string? order, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`status` … `order`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -339,7 +340,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### ListAdminWorkflowRuns
-- **HTTP**: `GET /admin/actions/runs` (Server1 (gitea))
+- **HTTP**: `GET /admin/actions/runs` (Server1)
 - **Signature**: `ListAdminWorkflowRuns(string? @event, string? branch, string? status, string? actor, string? headSha, int? page, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 7 params (`@event` … `limit`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
@@ -351,7 +352,7 @@ Accessor: `client.Admin` · Source: `Api/Admin.cs` · 32 operations
 - **Pagination**: none (only `page`, no `perPage`)
 
 ### UpdateAdminRunner
-- **HTTP**: `PATCH /admin/actions/runners/{runner_id}` (Server1 (gitea))
+- **HTTP**: `PATCH /admin/actions/runners/{runner_id}` (Server1)
 - **Signature**: `UpdateAdminRunner(string runnerId, EditActionRunnerOptionRepresentsTheEditableFieldsForARunner? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null

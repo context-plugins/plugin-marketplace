@@ -149,7 +149,7 @@
     {
       "name": "gitea",
       "source": "./plugins/gitea",
-      "description": "Host, manage, and collaborate on Git repositories using self-hosted Gitea instances."
+      "description": "TODO_AUTO_DESCRIPTION: gitea API"
     },
     {
       "name": "xero",

@@ -5,7 +5,7 @@ Accessor: `client.Miscellaneous` · Source: `Api/Miscellaneous.cs` · 14 operati
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### DeleteCurrentToken
-- **HTTP**: `DELETE /token` (Server1 (gitea))
+- **HTTP**: `DELETE /token` (Server1)
 - **Signature**: `DeleteCurrentToken(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -15,7 +15,7 @@ Accessor: `client.Miscellaneous` · Source: `Api/Miscellaneous.cs` · 14 operati
 - **Pagination**: none
 
 ### GetCurrentToken
-- **HTTP**: `GET /token` (Server1 (gitea))
+- **HTTP**: `GET /token` (Server1)
 - **Signature**: `GetCurrentToken(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `CurrentAccessTokenRepresentsTheMetadataOfTheCurrentlyAuthenticatedToken`
@@ -25,7 +25,7 @@ Accessor: `client.Miscellaneous` · Source: `Api/Miscellaneous.cs` · 14 operati
 - **Pagination**: none
 
 ### GetGitignoreTemplateInfo
-- **HTTP**: `GET /gitignore/templates/{name}` (Server1 (gitea))
+- **HTTP**: `GET /gitignore/templates/{name}` (Server1)
 - **Signature**: `GetGitignoreTemplateInfo(string name, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `GitignoreTemplateInfo`
@@ -35,7 +35,7 @@ Accessor: `client.Miscellaneous` · Source: `Api/Miscellaneous.cs` · 14 operati
 - **Pagination**: none
 
 ### GetLabelTemplateInfo
-- **HTTP**: `GET /label/templates/{name}` (Server1 (gitea))
+- **HTTP**: `GET /label/templates/{name}` (Server1)
 - **Signature**: `GetLabelTemplateInfo(string name, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `IReadOnlyList<LabelTemplate>`
@@ -45,7 +45,7 @@ Accessor: `client.Miscellaneous` · Source: `Api/Miscellaneous.cs` · 14 operati
 - **Pagination**: none
 
 ### GetLicenseTemplateInfo
-- **HTTP**: `GET /licenses/{name}` (Server1 (gitea))
+- **HTTP**: `GET /licenses/{name}` (Server1)
 - **Signature**: `GetLicenseTemplateInfo(string name, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `LicenseTemplateInfo`
@@ -55,7 +55,7 @@ Accessor: `client.Miscellaneous` · Source: `Api/Miscellaneous.cs` · 14 operati
 - **Pagination**: none
 
 ### GetSigningKey
-- **HTTP**: `GET /signing-key.gpg` (Server1 (gitea))
+- **HTTP**: `GET /signing-key.gpg` (Server1)
 - **Signature**: `GetSigningKey(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `string`
@@ -65,7 +65,7 @@ Accessor: `client.Miscellaneous` · Source: `Api/Miscellaneous.cs` · 14 operati
 - **Pagination**: none
 
 ### GetSigningKeySsh
-- **HTTP**: `GET /signing-key.pub` (Server1 (gitea))
+- **HTTP**: `GET /signing-key.pub` (Server1)
 - **Signature**: `GetSigningKeySsh(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `string`
@@ -75,7 +75,7 @@ Accessor: `client.Miscellaneous` · Source: `Api/Miscellaneous.cs` · 14 operati
 - **Pagination**: none
 
 ### GetVersion
-- **HTTP**: `GET /version` (Server1 (gitea))
+- **HTTP**: `GET /version` (Server1)
 - **Signature**: `GetVersion(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `ServerVersion`
@@ -85,7 +85,7 @@ Accessor: `client.Miscellaneous` · Source: `Api/Miscellaneous.cs` · 14 operati
 - **Pagination**: none
 
 ### ListGitignoresTemplates
-- **HTTP**: `GET /gitignore/templates` (Server1 (gitea))
+- **HTTP**: `GET /gitignore/templates` (Server1)
 - **Signature**: `ListGitignoresTemplates(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `IReadOnlyList<string>`
@@ -95,7 +95,7 @@ Accessor: `client.Miscellaneous` · Source: `Api/Miscellaneous.cs` · 14 operati
 - **Pagination**: none
 
 ### ListLabelTemplates
-- **HTTP**: `GET /label/templates` (Server1 (gitea))
+- **HTTP**: `GET /label/templates` (Server1)
 - **Signature**: `ListLabelTemplates(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `IReadOnlyList<string>`
@@ -105,7 +105,7 @@ Accessor: `client.Miscellaneous` · Source: `Api/Miscellaneous.cs` · 14 operati
 - **Pagination**: none
 
 ### ListLicenseTemplates
-- **HTTP**: `GET /licenses` (Server1 (gitea))
+- **HTTP**: `GET /licenses` (Server1)
 - **Signature**: `ListLicenseTemplates(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `IReadOnlyList<LicensesTemplateListEntry>`
@@ -115,7 +115,7 @@ Accessor: `client.Miscellaneous` · Source: `Api/Miscellaneous.cs` · 14 operati
 - **Pagination**: none
 
 ### RenderMarkdown
-- **HTTP**: `POST /markdown` (Server1 (gitea))
+- **HTTP**: `POST /markdown` (Server1)
 - **Signature**: `RenderMarkdown(MarkdownOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
@@ -126,7 +126,7 @@ Accessor: `client.Miscellaneous` · Source: `Api/Miscellaneous.cs` · 14 operati
 - **Pagination**: none
 
 ### RenderMarkdownRaw
-- **HTTP**: `POST /markdown/raw` (Server1 (gitea))
+- **HTTP**: `POST /markdown/raw` (Server1)
 - **Signature**: `RenderMarkdownRaw(string body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
@@ -136,7 +136,7 @@ Accessor: `client.Miscellaneous` · Source: `Api/Miscellaneous.cs` · 14 operati
 - **Pagination**: none
 
 ### RenderMarkup
-- **HTTP**: `POST /markup` (Server1 (gitea))
+- **HTTP**: `POST /markup` (Server1)
 - **Signature**: `RenderMarkup(MarkupOption? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null

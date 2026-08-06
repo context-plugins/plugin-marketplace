@@ -5,7 +5,7 @@ description: Call API operations on an APIMatic-generated Python SDK — access 
 
 # Calling endpoints on an APIMatic Python SDK
 
-> `GiteaapiClient` is the SDK's client class — **read the real name** from `gitea/gitea_client.py`
+> `GiteaClient` is the SDK's client class — **read the real name** from `gitea/gitea_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
 Operations are **synchronous methods** on a **controller** you get from the client as a
@@ -24,7 +24,7 @@ Open `gitea/gitea_client.py` for the controller property names, then the relevan
 
 ## Controller access — property, not constructor
 
-Controllers are `@LazyProperty` properties on `GiteaapiClient`. Access them as attributes:
+Controllers are `@LazyProperty` properties on `GiteaClient`. Access them as attributes:
 
 ```python
 # Correct — the controller is a property:
@@ -146,7 +146,7 @@ class ResponseCapture(HttpCallBack):
         self.last_response = response
 
 capture = ResponseCapture()
-client = GiteaapiClient(http_call_back=capture, ...)
+client = GiteaClient(http_call_back=capture, ...)
 result = client.authentication.custom_authentication()
 print(capture.last_response.status_code)
 print(capture.last_response.headers)
@@ -179,7 +179,7 @@ an iterator over the items on that page. Inspect `gitea/pagination/` in the sour
 
 ## Finding the right method
 
-- Controller property names are on `GiteaapiClient` in `gitea/gitea_client.py`.
+- Controller property names are on `GiteaClient` in `gitea/gitea_client.py`.
 - Operation method signatures are in `gitea/controllers/{resource}_controller.py`.
 - `doc/controllers/*.md` lists every operation with parameters and usage snippets — grep it first.
 - Request/response model types are under `gitea/models/`; enum types have `from_value()`.

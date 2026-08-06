@@ -10,8 +10,8 @@ description: Handle errors from an APIMatic-generated Java SDK — every synchro
 ```
 Exception
 ├── io.apimatic.core.types.CoreApiException
-│   └── com.gitea.exceptions.ApiException          ← base for all non-2xx API responses
-│       └── com.gitea.exceptions.{Name}Exception   ← typed subclass with payload fields
+│   └── com.example.www.exceptions.ApiException          ← base for all non-2xx API responses
+│       └── com.example.www.exceptions.{Name}Exception   ← typed subclass with payload fields
 └── IOException                                     ← transport / network failures
 ```
 
@@ -41,7 +41,7 @@ HttpContext ctx   = e.getHttpContext();       // full request + response pair
 > **`getResponseCode()`, not `getStatusCode()`** — the correct method is `getResponseCode()`, inherited
 > from `CoreApiException`. The ApiException doc confirms this; using `getStatusCode()` will not compile.
 
-`getHttpContext()` returns the SDK's `com.gitea.http.client.HttpContext`, which carries:
+`getHttpContext()` returns the SDK's `com.example.www.http.client.HttpContext`, which carries:
 - `ctx.getRequest()` — the outgoing `HttpRequest` (method, URL, headers)
 - `ctx.getResponse()` — the incoming `HttpResponse` (status, headers, raw body)
 

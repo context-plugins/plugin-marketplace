@@ -1,9 +1,9 @@
 ---
 name: dotnet-gitea-getting-started
-description: Gitea .NET SDK identity and lookup layer for the dotnet-gitea-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
+description: gitea .NET SDK identity and lookup layer for the dotnet-gitea-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
 ---
 
-# Getting started with the Gitea .NET SDK
+# Getting started with the gitea .NET SDK
 
 > **Who this skill is for.** This is the **map layer**, preloaded for the `dotnet-gitea-sdk` helper
 > agent — if you are it, this skill is yours to follow directly and fully. It is the only place
@@ -37,7 +37,7 @@ confirm names against the map.
 
 | | |
 | --- | --- |
-| API | Gitea |
+| API | gitea |
 | Source repo | https://github.com/context-plugins/gitea-csharp-sdk (branch `main`) |
 | Root namespace | `GiteaApi` (the `using` namespace) |
 | Client class | `GiteaApiClient` |

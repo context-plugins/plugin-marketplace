@@ -10,7 +10,7 @@
 | Root namespace/module | `DiscourseApiDocumentation` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `978f997` (`978f99768238267e47d9f1e526e35dd238e0dc2a`, tagged `978f997`) |
+| Source commit (spec stamp) | `75314ef` (`75314ef1ebdbf3af30db00db050257a9fc27add8`, tagged `75314ef`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/discourse-csharp-sdk (branch `main`) |

@@ -19,6 +19,6 @@
 | `Status` | StringEnum | `Public (public)`, `Private (private)`, `Standalone (standalone)` | — | `Models/Enums/Status.cs` |
 | `Status1` | StringEnum | `Closed (closed)`, `Pinned (pinned)`, `PinnedGlobally (pinned_globally)`, `Archived (archived)`, `Visible (visible)` | — | `Models/Enums/Status1.cs` |
 | `Type1` | StringEnum | `Uploaded (uploaded)`, `Custom (custom)`, `Gravatar (gravatar)`, `System (system)` | — | `Models/Enums/Type1.cs` |
-| `TypeModel` | StringEnum | `Avatar (avatar)`, `ProfileBackground (profile_background)`, `CardBackground (card_background)`, `CustomEmoji (custom_emoji)`, `Composer (composer)` | — | `Models/Enums/TypeModel.cs` |
+| `TypeEnum` | StringEnum | `Avatar (avatar)`, `ProfileBackground (profile_background)`, `CardBackground (card_background)`, `CustomEmoji (custom_emoji)`, `Composer (composer)` | — | `Models/Enums/TypeEnum.cs` |
 | `UploadType` | StringEnum | `Avatar (avatar)`, `ProfileBackground (profile_background)`, `CardBackground (card_background)`, `CustomEmoji (custom_emoji)`, `Composer (composer)` | — | `Models/Enums/UploadType.cs` |
 | `UploadType1` | StringEnum | `Avatar (avatar)`, `ProfileBackground (profile_background)`, `CardBackground (card_background)`, `CustomEmoji (custom_emoji)`, `Composer (composer)` | — | `Models/Enums/UploadType1.cs` |

@@ -5,7 +5,7 @@ description: Call API operations on an APIMatic-generated Java SDK — get a con
 
 # Calling endpoints on an APIMatic Java SDK
 
-> `VimeoApiClient` is the SDK's client class — **read the real name** from the `*Client.java` file in
+> `VimeoClient` is the SDK's client class — **read the real name** from the `*Client.java` file in
 > the root package (it is derived from the API title with APIMatic's own casing, so do not guess
 > it from the API name).
 
@@ -31,7 +31,7 @@ Controllers are obtained via getter methods on the client — one per API resour
 {Resource}Api ctrl = client.get{Resource}Api();
 ```
 
-Open `VimeoApiClient.java` for the full list of `get*Controller()` methods. Controllers are stateless;
+Open `VimeoClient.java` for the full list of `get*Controller()` methods. Controllers are stateless;
 obtain one and reuse it, or call the getter each time — there is no difference in behaviour.
 
 ## Method signature convention
@@ -182,7 +182,7 @@ See **java-models** for the two enum kinds and their factory methods.
 
 - `doc/controllers/*.md` — lists every operation with its signature, parameter table, and example
   usage. **Start here** before opening the `.java` file.
-- `VimeoApiClient.java` — controller accessor methods; each `get{Resource}Api()` returns a
+- `VimeoClient.java` — controller accessor methods; each `get{Resource}Api()` returns a
   `{Resource}Api`.
 - Each operation has both a sync method **and** a matching `{operation}Async` variant.
 - `doc/models/{op-input}.md` — describes an `{Op}Input`'s required vs optional fields.

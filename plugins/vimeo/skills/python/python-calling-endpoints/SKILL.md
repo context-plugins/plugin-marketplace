@@ -5,7 +5,7 @@ description: Call API operations on an APIMatic-generated Python SDK — access 
 
 # Calling endpoints on an APIMatic Python SDK
 
-> `VimeoapiClient` is the SDK's client class — **read the real name** from `vimeo/vimeo_client.py`
+> `VimeoClient` is the SDK's client class — **read the real name** from `vimeo/vimeo_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
 Operations are **synchronous methods** on a **controller** you get from the client as a
@@ -24,7 +24,7 @@ Open `vimeo/vimeo_client.py` for the controller property names, then the relevan
 
 ## Controller access — property, not constructor
 
-Controllers are `@LazyProperty` properties on `VimeoapiClient`. Access them as attributes:
+Controllers are `@LazyProperty` properties on `VimeoClient`. Access them as attributes:
 
 ```python
 # Correct — the controller is a property:
@@ -146,7 +146,7 @@ class ResponseCapture(HttpCallBack):
         self.last_response = response
 
 capture = ResponseCapture()
-client = VimeoapiClient(http_call_back=capture, ...)
+client = VimeoClient(http_call_back=capture, ...)
 result = client.authentication.custom_authentication()
 print(capture.last_response.status_code)
 print(capture.last_response.headers)
@@ -179,7 +179,7 @@ an iterator over the items on that page. Inspect `vimeo/pagination/` in the sour
 
 ## Finding the right method
 
-- Controller property names are on `VimeoapiClient` in `vimeo/vimeo_client.py`.
+- Controller property names are on `VimeoClient` in `vimeo/vimeo_client.py`.
 - Operation method signatures are in `vimeo/controllers/{resource}_controller.py`.
 - `doc/controllers/*.md` lists every operation with parameters and usage snippets — grep it first.
 - Request/response model types are under `vimeo/models/`; enum types have `from_value()`.

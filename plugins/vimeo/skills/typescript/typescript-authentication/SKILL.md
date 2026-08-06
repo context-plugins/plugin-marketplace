@@ -7,14 +7,14 @@ description: Configure authentication on an APIMatic-generated TypeScript/Node.j
 
 How you authenticate depends on the security scheme(s) the API uses. APIMatic surfaces each scheme as an **optional credentials property on the config object**; set the one(s) your API uses when constructing the client (see `typescript-client-initialization`).
 
-> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `vimeo-apilib`, `Configuration`, `{basicAuthProperty}`) — replace it with the concrete identifier from the source.
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `vimeo`, `Configuration`, `{basicAuthProperty}`) — replace it with the concrete identifier from the source.
 
 To see which schemes a specific SDK accepts, read the **credentials properties on its `Configuration` interface** — those are the source of truth. The `src/authentication` folder ships every scheme class as shared runtime code regardless of what the API accepts, so rely on the config interface rather than that folder.
 
 ## Basic auth
 
 ```typescript
-import { Client } from 'vimeo-apilib';
+import { Client } from 'vimeo';
 
 const client = new Client({
   {basicAuthProperty}: {

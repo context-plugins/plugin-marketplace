@@ -1,4 +1,4 @@
-# SDK map — Vimeo (.NET)
+# SDK map — vimeo (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,11 +6,11 @@
 
 | | |
 |---|---|
-| SDK display name | Vimeo |
+| SDK display name | vimeo |
 | Root namespace/module | `VimeoApi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `c25275f` (`c25275fd265d7f5987ad22d614e778dc047af940`, tagged `c25275f`) |
+| Source commit (spec stamp) | `bb94b40` (`bb94b405a75b46cbb6e814007ede7aac43f7e733`, tagged `bb94b40`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/vimeo-csharp-sdk (branch `main`) |

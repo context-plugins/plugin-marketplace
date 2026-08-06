@@ -14,7 +14,7 @@ The client accepts a `customFetch` option (when the SDK version supports it), wh
 ## A reusable stub helper
 
 ```typescript
-import { Client } from 'vimeo-apilib';
+import { Client } from 'vimeo';
 
 function clientReturning(status: number, body: unknown): {
   client: Client;
@@ -61,7 +61,7 @@ Endpoint methods throw `ApiError` on non-2xx (see `typescript-error-handling`). 
 **Case A — typed `{Operation}Error`:**
 
 ```typescript
-import { {Operation}Error } from 'vimeo-apilib/errors';
+import { {Operation}Error } from 'vimeo/errors';
 
 test('throws typed error on API error', async () => {
   const { client } = clientReturning(422, { errors: ['bad input'] });
@@ -75,7 +75,7 @@ test('throws typed error on API error', async () => {
 **Case B — base `ApiError`:**
 
 ```typescript
-import { ApiError } from 'vimeo-apilib';
+import { ApiError } from 'vimeo';
 
 test('throws ApiError on non-2xx', async () => {
   const { client } = clientReturning(422, { errors: ['bad input'] });

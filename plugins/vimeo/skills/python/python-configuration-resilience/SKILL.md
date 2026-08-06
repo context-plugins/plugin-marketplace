@@ -5,10 +5,10 @@ description: Tune an APIMatic-generated Python SDK client — retry defaults (ma
 
 # Configuration & resilience for an APIMatic Python SDK
 
-> `VimeoapiClient` is the SDK's client class — **read the real name** from `vimeo/vimeo_client.py`
+> `VimeoClient` is the SDK's client class — **read the real name** from `vimeo/vimeo_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
-All settings are passed as keyword arguments to `Configuration.__init__` (or to `VimeoapiClient`
+All settings are passed as keyword arguments to `Configuration.__init__` (or to `VimeoClient`
 directly, which wraps them in a `Configuration` internally). Confirm defaults from
 `vimeo/configuration.py` in the cloned source.
 
@@ -149,7 +149,7 @@ as `http_call_back=`:
 import logging
 from vimeo.http.http_call_back import HttpCallBack
 from vimeo.configuration import Configuration
-from vimeo.vimeo_client import VimeoapiClient
+from vimeo.vimeo_client import VimeoClient
 
 logger = logging.getLogger(__name__)
 
@@ -164,7 +164,7 @@ config = Configuration(
     http_call_back=LoggingCallBack(),
     # other kwargs ...
 )
-client = VimeoapiClient(config=config)
+client = VimeoClient(config=config)
 ```
 
 `HttpCallBack` inherits from `apimatic_core`'s `CoreHttpCallback` and provides two hook methods:

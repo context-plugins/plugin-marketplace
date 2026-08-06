@@ -159,7 +159,7 @@
     {
       "name": "twilio",
       "source": "./plugins/twilio",
-      "description": "TODO_AUTO_DESCRIPTION: twilio API"
+      "description": "Send and receive programmable SMS, voice calls, and multi-channel messages globally."
     },
     {
       "name": "tesla",

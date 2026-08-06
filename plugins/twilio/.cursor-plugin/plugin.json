@@ -2,7 +2,7 @@
   "name": "twilio",
   "displayName": "twilio SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: twilio API",
+  "description": "Send and receive programmable SMS, voice calls, and multi-channel messages globally.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

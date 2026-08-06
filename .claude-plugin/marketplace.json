@@ -9,7 +9,7 @@
     {
       "name": "paypal",
       "source": "./plugins/paypal",
-      "description": "Process payments, send payouts, and manage digital transactions globally with PayPal."
+      "description": "TODO_AUTO_DESCRIPTION: paypal API"
     },
     {
       "name": "adyen",

@@ -10,7 +10,7 @@
 | Root namespace/module | `PayPalServerSdk` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `a99c11a` (`a99c11a0cee9ef575d10ee649bead63e48ba0885`, tagged `a99c11a`) |
+| Source commit (spec stamp) | `0ee6181` (`0ee61811f31b76a05111ad2df3a38eec16b32e7b`, tagged `0ee6181`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/paypal-csharp-sdk (branch `main`) |

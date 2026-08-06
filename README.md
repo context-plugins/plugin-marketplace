@@ -83,7 +83,7 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`geoapify`](plugins/geoapify/) | Geoapify | .NET, TS, Java, PHP, Python, Ruby |
 | [`gitea`](plugins/gitea/) | Gitea | .NET, Java, PHP, Python |
 | [`goe`](plugins/goe/) | GOE | .NET, TS, Java, PHP, Python, Ruby |
-| [`google-maps-platform`](plugins/google-maps-platform/) | Google Maps Platform | .NET, TS, Java, PHP, Python, Ruby |
+| [`google-maps-platform`](plugins/google-maps-platform/) | Google-maps-platform | .NET, TS, Java, PHP, Python, Ruby |
 | [`greenbyte`](plugins/greenbyte/) | Greenbyte | .NET, TS, Java, PHP, Python |
 | [`klarna`](plugins/klarna/) | Klarna | .NET, Java, PHP, Python, Ruby |
 | [`kubernetes`](plugins/kubernetes/) | Kubernetes | .NET |

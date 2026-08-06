@@ -29,7 +29,7 @@
     {
       "name": "klarna",
       "source": "./plugins/klarna",
-      "description": "TODO_AUTO_DESCRIPTION: klarna API"
+      "description": "Offer flexible \"buy now, pay later\" payment options and financing at checkout with Klarna."
     },
     {
       "name": "notion",

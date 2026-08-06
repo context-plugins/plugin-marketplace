@@ -1,8 +1,8 @@
 {
   "name": "tesla",
-  "displayName": "Tesla SDK",
+  "displayName": "tesla SDK",
   "version": "0.1.0",
-  "description": "Monitor, control, and track electric vehicles, solar arrays, and Powerwalls with Tesla.",
+  "description": "TODO_AUTO_DESCRIPTION: tesla API",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

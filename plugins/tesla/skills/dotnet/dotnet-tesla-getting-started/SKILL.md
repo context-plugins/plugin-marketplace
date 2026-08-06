@@ -1,9 +1,9 @@
 ---
 name: dotnet-tesla-getting-started
-description: Tesla .NET SDK identity and lookup layer for the dotnet-tesla-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
+description: tesla .NET SDK identity and lookup layer for the dotnet-tesla-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
 ---
 
-# Getting started with the Tesla .NET SDK
+# Getting started with the tesla .NET SDK
 
 > **Who this skill is for.** This is the **map layer**, preloaded for the `dotnet-tesla-sdk` helper
 > agent — if you are it, this skill is yours to follow directly and fully. It is the only place
@@ -37,7 +37,7 @@ confirm names against the map.
 
 | | |
 | --- | --- |
-| API | Tesla |
+| API | tesla |
 | Source repo | https://github.com/context-plugins/tesla-csharp-sdk (branch `main`) |
 | Root namespace | `TeslaFleetManagementApi` (the `using` namespace) |
 | Client class | `TeslaFleetManagementApiClient` |

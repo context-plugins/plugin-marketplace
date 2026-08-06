@@ -164,7 +164,7 @@
     {
       "name": "tesla",
       "source": "./plugins/tesla",
-      "description": "Monitor, control, and track electric vehicles, solar arrays, and Powerwalls with Tesla."
+      "description": "TODO_AUTO_DESCRIPTION: tesla API"
     },
     {
       "name": "vimeo",

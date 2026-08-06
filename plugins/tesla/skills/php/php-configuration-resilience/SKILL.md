@@ -5,9 +5,9 @@ description: Tune an APIMatic-generated PHP SDK client — per-request timeout v
 
 # Configuration & resilience for an APIMatic PHP SDK
 
-> `TeslaFleetManagementApiClient` is the SDK's client class — **read the real name** from the `*Client.php` file in
+> `TeslaClient` is the SDK's client class — **read the real name** from the `*Client.php` file in
 > `src/` (it is derived from the API title with APIMatic's own casing, so do not guess it from the
-> API name). `TeslaFleetManagementApiClientBuilder` sits beside it.
+> API name). `TeslaClientBuilder` sits beside it.
 
 All configuration is passed in the constructor array or via a custom Guzzle `HandlerStack`. These
 patterns are generic across APIMatic PHP SDKs.
@@ -18,7 +18,7 @@ Set the per-request timeout in seconds in the constructor config. This maps to G
 option:
 
 ```php
-$client = new TeslaFleetManagementApiClient([
+$client = new TeslaClient([
     'timeout' => 30.0,  // seconds (float); 0 = no timeout
     // ...auth config
 ]);
@@ -32,7 +32,7 @@ $httpClient = new \GuzzleHttp\Client([
     'connect_timeout' => 5.0,
 ]);
 
-$client = new TeslaFleetManagementApiClient([
+$client = new TeslaClient([
     'httpClient' => $httpClient,
     // ...auth config
 ]);
@@ -77,7 +77,7 @@ $stack->push(Middleware::retry(
     }
 ));
 
-$client = new TeslaFleetManagementApiClient([
+$client = new TeslaClient([
     'httpClient' => new Client(['handler' => $stack, 'timeout' => 30.0]),
     // ...auth config
 ]);
@@ -94,8 +94,8 @@ To point the SDK at a mock server, staging environment, or self-hosted gateway, 
 base URL in the config:
 
 ```php
-$client = new TeslaFleetManagementApiClient([
-    'environment' => TeslaFleetManagementApiClient::ENVIRONMENT_PRODUCTION,  // picks server template
+$client = new TeslaClient([
+    'environment' => TeslaClient::ENVIRONMENT_PRODUCTION,  // picks server template
     'baseUrl'     => 'https://mock.example.com',           // overrides template entirely
     // exact config key — confirm in SDK source constructor
 ]);
@@ -143,7 +143,7 @@ $stack = HandlerStack::create();
 $stack->push(Middleware::history($container));
 
 $httpClient = new \GuzzleHttp\Client(['handler' => $stack]);
-$client = new TeslaFleetManagementApiClient(['httpClient' => $httpClient, /* ...auth */]);
+$client = new TeslaClient(['httpClient' => $httpClient, /* ...auth */]);
 
 // After the call:
 $client->{apiGroup}()->{operation}(/* ... */);

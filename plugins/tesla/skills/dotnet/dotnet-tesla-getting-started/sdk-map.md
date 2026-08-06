@@ -1,4 +1,4 @@
-# SDK map — Tesla (.NET)
+# SDK map — tesla (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,11 +6,11 @@
 
 | | |
 |---|---|
-| SDK display name | Tesla |
+| SDK display name | tesla |
 | Root namespace/module | `TeslaFleetManagementApi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `6bfd7ab` (`6bfd7abcb810e85976baa4b0d9246e21a45c9d65`, tagged `6bfd7ab`) |
+| Source commit (spec stamp) | `a5717c3` (`a5717c30c1e4133baaf6624292a5379cfe44e98f`, tagged `a5717c3`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/tesla-csharp-sdk (branch `main`) |

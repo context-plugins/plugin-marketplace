@@ -1,6 +1,6 @@
-# Tesla SDK Plugin
+# tesla SDK Plugin
 
-Integrate and consume the **APIMatic-generated Tesla SDK** (the "APIMATIC v3.0" generic
+Integrate and consume the **APIMatic-generated tesla SDK** (the "APIMATIC v3.0" generic
 libraries, built on `apimatic-*-core` / `apimatic/*-core-runtime` runtimes) across C#/.NET, TypeScript, Java, PHP, Python, Go.
 Works in **Claude Code**, **Cursor**, and **VS Code**. Every SDK fact is grounded in the cloned SDK
 source and the bundled skills.

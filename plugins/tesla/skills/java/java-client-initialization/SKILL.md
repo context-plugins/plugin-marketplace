@@ -1,38 +1,38 @@
 ---
 name: java-client-initialization
-description: Construct and configure an APIMatic-generated Java SDK client — build via the inner TeslaFleetManagementApiClient.Builder() class (never a public constructor), set httpClientConfig via a lambda (not a config object), choose an Environment constant, access controllers via client.get{Resource}Api(), call client.shutdown() at process exit, clone a live client with client.newBuilder(), and wire the client into Spring or plain-constructor DI. Use the moment you call new TeslaFleetManagementApiClient.Builder(), pick an environment, or wire the client into your application — load it even after reading the constructor in the source, since the signature shows the arguments but not the builder pattern, the httpClientConfig lambda, or the lifetime/reuse rules.
+description: Construct and configure an APIMatic-generated Java SDK client — build via the inner TeslaClient.Builder() class (never a public constructor), set httpClientConfig via a lambda (not a config object), choose an Environment constant, access controllers via client.get{Resource}Api(), call client.shutdown() at process exit, clone a live client with client.newBuilder(), and wire the client into Spring or plain-constructor DI. Use the moment you call new TeslaClient.Builder(), pick an environment, or wire the client into your application — load it even after reading the constructor in the source, since the signature shows the arguments but not the builder pattern, the httpClientConfig lambda, or the lifetime/reuse rules.
 ---
 
 # Initializing an APIMatic Java SDK client
 
-> `TeslaFleetManagementApiClient` is the SDK's client class — **read the real name** from the `*Client.java` file in
+> `TeslaClient` is the SDK's client class — **read the real name** from the `*Client.java` file in
 > the root package (it is derived from the API title with APIMatic's own casing, so do not guess
 > it from the API name).
 
 This applies to **any** APIMatic-generated Java SDK (APIMATIC v3.0). Replace placeholders with the
 real names from the SDK you are using:
 
-- `TeslaFleetManagementApiClient` — the gateway class, named after the API (read it from the `*Client.java` file in the root package).
+- `TeslaClient` — the gateway class, named after the API (read it from the `*Client.java` file in the root package).
 - `com.tesla.cloud.vn.na.prd.fleetapi` — the root Java package (e.g. `io.apimatic.examples`, `localhost3000`).
 - `{Resource}Api` — a controller class accessed via `client.get{Resource}Api()`.
 
 ## The builder pattern
 
 APIMatic Java SDKs have **no public constructor** on the client class. You must use the inner
-`TeslaFleetManagementApiClient.Builder` class. A minimal initialization:
+`TeslaClient.Builder` class. A minimal initialization:
 
 ```java
-import com.tesla.cloud.vn.na.prd.fleetapi.TeslaFleetManagementApiClient;
+import com.tesla.cloud.vn.na.prd.fleetapi.TeslaClient;
 import com.tesla.cloud.vn.na.prd.fleetapi.Environment;
 
-TeslaFleetManagementApiClient client = new TeslaFleetManagementApiClient.Builder()
+TeslaClient client = new TeslaClient.Builder()
     .environment(Environment.PRODUCTION)
     .httpClientConfig(configBuilder -> configBuilder
             .timeout(30))
     .build();
 ```
 
-The `Builder` is the only entry point — confirm its fluent methods in `TeslaFleetManagementApiClient.java`. The common
+The `Builder` is the only entry point — confirm its fluent methods in `TeslaClient.java`. The common
 builder methods (confirm the exact set in the cloned source):
 
 | Builder method | Sets |
@@ -41,9 +41,9 @@ builder methods (confirm the exact set in the cloned source):
 | `.httpClientConfig(configBuilder -> ...)` | timeout, retries, OkHttp instance, proxy — see **java-configuration-resilience** |
 | `.{schemeNameCamelCase}Credentials(new {Scheme}Model.Builder(...).build())` | one per auth scheme the API uses — see **java-authentication** |
 | `.httpCallback(callback)` | `HttpCallback` for request/response logging/capture — see **java-testing** |
-| other per-API methods | API-specific parameters (e.g. `.port("80")`, `.suites(SuiteCodeEnum.HEARTS)`) — check `TeslaFleetManagementApiClient.java` |
+| other per-API methods | API-specific parameters (e.g. `.port("80")`, `.suites(SuiteCodeEnum.HEARTS)`) — check `TeslaClient.java` |
 
-Call `.build()` to produce an immutable `TeslaFleetManagementApiClient` instance.
+Call `.build()` to produce an immutable `TeslaClient` instance.
 
 ## Choosing the environment / base URL
 
@@ -55,7 +55,7 @@ The default is per-API — check `Environment.java` or `doc/client.md` in the cl
 the builder:
 
 ```java
-TeslaFleetManagementApiClient client = new TeslaFleetManagementApiClient.Builder()
+TeslaClient client = new TeslaClient.Builder()
     .environment(Environment.PRODUCTION)
     .build();
 ```
@@ -70,7 +70,7 @@ HTTP client options (timeout, retries, OkHttp instance, proxy) are configured vi
 the builder — do **not** try to construct `HttpClientConfiguration` directly:
 
 ```java
-TeslaFleetManagementApiClient client = new TeslaFleetManagementApiClient.Builder()
+TeslaClient client = new TeslaClient.Builder()
     .httpClientConfig(configBuilder -> configBuilder
             .timeout(30)                        // seconds; 0 = no timeout (default)
             .numberOfRetries(3)                 // default is 0 (retries OFF)
@@ -135,21 +135,21 @@ in your DI container.
 @Configuration
 public class ApiConfig {
     @Bean
-    public TeslaFleetManagementApiClient apiClient() {
-        return new TeslaFleetManagementApiClient.Builder()
+    public TeslaClient apiClient() {
+        return new TeslaClient.Builder()
             .environment(Environment.PRODUCTION)
             // auth credentials — see java-authentication
             .build();
     }
 
     @PreDestroy
-    public void shutdown(@Autowired TeslaFleetManagementApiClient client) {
+    public void shutdown(@Autowired TeslaClient client) {
         client.shutdown();
     }
 }
 ```
 
-Inject `TeslaFleetManagementApiClient` into your services as a normal Spring dependency. Build only one bean.
+Inject `TeslaClient` into your services as a normal Spring dependency. Build only one bean.
 
 ## Next
 

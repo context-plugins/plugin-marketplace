@@ -10,7 +10,7 @@
 | Root namespace/module | `BokuDirectPaymentsApi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `ccb55c3` (`ccb55c30e9f7f1dc58073c42a527bfea6bbecf35`, tagged `ccb55c3`) |
+| Source commit (spec stamp) | `c9f7f76` (`c9f7f7692f6e7c70187fb17fc89209588c0ab088`, tagged `c9f7f76`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/boku-csharp-sdk (branch `main`) |

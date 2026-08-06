@@ -53,7 +53,7 @@ client. Replicate this structure in your own test base:
 ```java
 // Confirmed from MultiAuth-Sample: BaseControllerTest.java + AuthenticationControllerTest.java
 
-import com.boku.gbapi4stage.BokuDirectPaymentsApiClient;
+import com.boku.gbapi4stage.BokuClient;
 import localhost3000.testing.HttpCallbackCatcher;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -74,9 +74,9 @@ public class BaseControllerTest {
         httpResponse = null;
     }
 
-    protected static BokuDirectPaymentsApiClient createConfiguration() {
+    protected static BokuClient createConfiguration() {
         // Build the client with the catcher injected:
-        return new BokuDirectPaymentsApiClient.Builder()
+        return new BokuClient.Builder()
             // ... auth credentials, environment, etc. ...
             .httpCallback(httpResponse)   // ← the seam
             .build();
@@ -126,7 +126,7 @@ public void testCustomAuthentication() throws Exception {
 ## Controller test class structure
 
 ```java
-import com.boku.gbapi4stage.BokuDirectPaymentsApiClient;
+import com.boku.gbapi4stage.BokuClient;
 import localhost3000.controllers.AuthenticationController;
 import localhost3000.exceptions.ApiException;
 import org.junit.AfterClass;
@@ -134,7 +134,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AuthenticationControllerTest extends BaseControllerTest {
-    private static BokuDirectPaymentsApiClient client;
+    private static BokuClient client;
     private static AuthenticationController controller;
 
     @BeforeClass
@@ -241,7 +241,7 @@ server.start();
 OkHttpClient mockClient = new OkHttpClient.Builder()
     .build();
 
-BokuDirectPaymentsApiClient client = new BokuDirectPaymentsApiClient.Builder()
+BokuClient client = new BokuClient.Builder()
     .httpClientConfig(configBuilder -> configBuilder
         .httpClientInstance(mockClient, false)
         .numberOfRetries(0))    // disable retries so stubs fail fast

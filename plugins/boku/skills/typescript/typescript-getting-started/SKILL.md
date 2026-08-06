@@ -79,9 +79,9 @@ npm install "https://github.com/context-plugins/boku-typescript-sdk#main"
 ```
 
 ```ts
-import { Client, Environment, ApiError } from 'boku-direct-payments-apilib';
+import { Client, Environment, ApiError } from 'boku';
 // controllers and model types are also exported from the package root:
-import { {Resource}Api } from 'boku-direct-payments-apilib';
+import { {Resource}Api } from 'boku';
 ```
 
 Everything public is re-exported from `src/index.ts`, so import names come from the **package root** — you

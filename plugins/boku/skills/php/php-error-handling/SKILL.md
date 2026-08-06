@@ -6,11 +6,11 @@ description: Handle errors from an APIMatic-generated PHP SDK — all non-2xx re
 # Error handling for an APIMatic PHP SDK
 
 > Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g.
-> `{operation}`, `{apiGroup}`, `BokuDirectPaymentsApiLib`) — replace it with the concrete identifier from
+> `{operation}`, `{apiGroup}`, `BokuLib`) — replace it with the concrete identifier from
 > the source.
 
 Endpoint methods **throw on non-success responses**. The base thrown type is always `ApiException`
-(under `BokuDirectPaymentsApiLib\Exceptions\ApiException`, which extends `\Exception`). Depending on
+(under `BokuLib\Exceptions\ApiException`, which extends `\Exception`). Depending on
 the SDK, some operations throw typed subclasses of `ApiException` for specific status codes.
 
 ## `ApiException` — the base error type
@@ -34,7 +34,7 @@ From `getHttpResponse()` (a `CoreResponse` subclass), you can read:
 ### Standard catch (all non-2xx)
 
 ```php
-use BokuDirectPaymentsApiLib\Exceptions\ApiException;
+use BokuLib\Exceptions\ApiException;
 
 try {
     $response = $client->{apiGroup}()->{operation}(/* ... */);
@@ -68,8 +68,8 @@ controller file in the SDK source and check whether the `@throws` docblock lists
 beyond `ApiException`:
 
 ```php
-use BokuDirectPaymentsApiLib\Exceptions\ApiException;
-use BokuDirectPaymentsApiLib\Exceptions\{OperationException};
+use BokuLib\Exceptions\ApiException;
+use BokuLib\Exceptions\{OperationException};
 
 try {
     $response = $client->{apiGroup}()->{operation}(/* ... */);
@@ -117,7 +117,7 @@ Network-level failures (connection refused, DNS failure, timeout) surface as
 are `\RuntimeException` subclasses but **not** `ApiException`. Handle them separately:
 
 ```php
-use BokuDirectPaymentsApiLib\Exceptions\ApiException;
+use BokuLib\Exceptions\ApiException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 
@@ -138,5 +138,5 @@ try {
   thrown — see **php-configuration-resilience**.
 - When you need the raw request/response for debugging, attach a Guzzle middleware or history
   handler — see **php-configuration-resilience** for the logging pattern.
-- All `ApiException` subclasses live under `BokuDirectPaymentsApiLib\Exceptions\` — read the source to
+- All `ApiException` subclasses live under `BokuLib\Exceptions\` — read the source to
   find any operation-specific types.

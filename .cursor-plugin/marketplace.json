@@ -54,7 +54,7 @@
     {
       "name": "google-maps-platform",
       "source": "./plugins/google-maps-platform",
-      "description": "TODO_AUTO_DESCRIPTION: google-maps-platform API"
+      "description": "Embed interactive maps, calculate routes, and retrieve geocodes with Google Maps."
     },
     {
       "name": "kubernetes",

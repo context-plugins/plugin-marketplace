@@ -76,7 +76,7 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`deepgram`](plugins/deepgram/) | Deepgram | .NET, TS, Java, PHP, Python |
 | [`discourse`](plugins/discourse/) | Discourse | .NET, TS, Java, PHP, Python, Ruby |
 | [`ebay-sell`](plugins/ebay-sell/) | eBay Sell | .NET, TS, Java, PHP, Python, Ruby |
-| [`fdx`](plugins/fdx/) | Fdx | .NET, TS, Java, PHP, Python, Ruby |
+| [`fdx`](plugins/fdx/) | Fdx | .NET, TS, Java, Python, Ruby |
 | [`finnhub`](plugins/finnhub/) | Finnhub | .NET, TS, Java, PHP, Python, Ruby |
 | [`firecrawl`](plugins/firecrawl/) | Firecrawl | .NET, TS, Java, PHP, Python, Ruby |
 | [`frankfurter`](plugins/frankfurter/) | Frankfurter | .NET, TS, Java, PHP, Python, Ruby |
@@ -137,7 +137,7 @@ Each supported language ships the same eight:
 The `getting-started` skill is the entry point: it directs the agent to clone and grep the real SDK
 source, so every fact is grounded in the actual contract rather than model knowledge.
 
-Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->238<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->1,950<!-- END:SKILL_COUNT --> skills**. See
+Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->237<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->1,942<!-- END:SKILL_COUNT --> skills**. See
 [`plugins/paypal/README.md`](plugins/paypal/README.md) for a worked example.
 
 ## Repository structure

@@ -209,7 +209,7 @@ The SDK applies the appropriate scheme(s) per request automatically.
 
 ## Loading credentials from environment variables
 
-APIMatic Java SDKs have no built-in `fromEnvironment()` factory (unlike the Go SDK). The generated test
+APIMatic Java SDKs have no built-in `fromEnvironment()` factory. The generated test
 base class shows the idiom — read each credential via `System.getenv(...)` and pass to the builder:
 
 ```java

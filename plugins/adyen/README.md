@@ -1,6 +1,6 @@
-# Adyen SDK Plugin
+# adyen SDK Plugin
 
-Integrate and consume the **APIMatic-generated Adyen SDK** (the "APIMATIC v3.0" generic
+Integrate and consume the **APIMatic-generated adyen SDK** (the "APIMATIC v3.0" generic
 libraries, built on `apimatic-*-core` / `apimatic/*-core-runtime` runtimes) across C#/.NET, TypeScript, Java, Python.
 Works in **Claude Code**, **Cursor**, and **VS Code**. Every SDK fact is grounded in the cloned SDK
 source and the bundled skills.

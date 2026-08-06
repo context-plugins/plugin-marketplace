@@ -1,4 +1,4 @@
-# SDK map — Adyen (.NET)
+# SDK map — adyen (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,11 +6,11 @@
 
 | | |
 |---|---|
-| SDK display name | Adyen |
+| SDK display name | adyen |
 | Root namespace/module | `Adyen` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `25de759` (`25de75989762c46000d739f5a169614a2ac3cd90`, tagged `25de759`) |
+| Source commit (spec stamp) | `b849f5e` (`b849f5edd3d5c8e2d6339349b4ab950e29a86365`, tagged `b849f5e`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/adyen-csharp-sdk (branch `main`) |
@@ -235,7 +235,7 @@ type, error Case A/B + accessors, pagination).
 <!-- gen:models-table -->
 | Group | Count | Page |
 |---|---:|---|
-| Records (plain `record` data models) | 2539 | [`AbortRequest` … `AdditionalDataRisk`](map/models/records-1-Ab-Ad.md) · [`AdditionalDataRiskStandalone` … `BalanceAccountsPayoutSchedulesExecutions422Error`](map/models/records-2-Ad-Ba.md) · [`BalanceAccountsPayoutSchedulesExecutions422Error1` … `BankIdentification`](map/models/records-3-Ba-Ba.md) · [`BaseAmount` … `CashOutInfoCounterparty`](map/models/records-4-Ba-Ca.md) · [`CashOutInfoCounterparty1` … `CreateAllowedOriginRequest`](map/models/records-5-Ca-Cr.md) · [`CreateApiCredentialResponse` … `Donation1`](map/models/records-6-Cr-Do.md) · [`DonationAmount` … `GetUploadedDocumentsRequest`](map/models/records-7-Do-Ge.md) · [`GetUploadedDocumentsResponse` … `LegalArrangementDetail`](map/models/records-8-Ge-Le.md) · [`LegalArrangementEntityDetail` … `MerchantsGeneratePaymentsAppBoardingToken400Error`](map/models/records-9-Le-Me.md) · [`MerchantsGeneratePaymentsAppBoardingToken400Error1` … `OtherInfo`](map/models/records-10-Me-Ot.md) · [`OtherInfo1` … `PaymentRequest`](map/models/records-11-Ot-Pa.md) · [`PaymentRequest1` … `Previous`](map/models/records-12-Pa-Pr.md) · [`PrintOutput` … `SaleToIssuerData2`](map/models/records-13-Pr-Sa.md) · [`SaleToPoirequest` … `StoreDetailAndSubmitResponse`](map/models/records-14-Sa-St.md) · [`StoreDetailRequest` … `ThreeDs2RequestData11`](map/models/records-15-St-Th.md) · [`ThreeDs2RequestData2` … `TransferRoute`](map/models/records-16-Th-Tr.md) · [`TransferRouteRequest` … `Zip`](map/models/records-17-Tr-Zi.md) |
+| Records (plain `record` data models) | 2564 | [`AbortRequest` … `AdditionalDataRetry`](map/models/records-1-Ab-Ad.md) · [`AdditionalDataRisk` … `BalanceAccountsPayoutSchedulesExecutions401Error`](map/models/records-2-Ad-Ba.md) · [`BalanceAccountsPayoutSchedulesExecutions401Error1` … `BankAccountDetails1`](map/models/records-3-Ba-Ba.md) · [`BankAccountIdentification` … `CarRental`](map/models/records-4-Ba-Ca.md) · [`CarRental1` … `CounterpartyTypesRestriction1`](map/models/records-5-Ca-Co.md) · [`CounterpartyV3` … `DisputesAttachments422Error`](map/models/records-6-Co-Di.md) · [`DisputesAttachments422Error1` … `GetTerminalDetailsRequest`](map/models/records-7-Di-Ge.md) · [`GetTerminalDetailsResponse` … `KlarnaNetwork`](map/models/records-8-Ge-Kl.md) · [`KlarnaResponseInfo` … `MerchantNamesRestriction`](map/models/records-9-Kl-Me.md) · [`MerchantNamesRestriction1` … `OpenInvoice`](map/models/records-10-Me-Op.md) · [`Opi` … `PaymentMethodToStore`](map/models/records-11-Op-Pa.md) · [`PaymentMethodToStore1` … `PlatformChargebackLogic1`](map/models/records-12-Pa-Pl.md) · [`PlatformChargebackLogic4` … `RoutingDetails`](map/models/records-13-Pl-Ro.md) · [`SaleData` … `Status22`](map/models/records-14-Sa-St.md) · [`Status8` … `ThreeDs2CardRangeDetail`](map/models/records-15-St-Th.md) · [`ThreeDs2RequestData` … `TransferData`](map/models/records-16-Th-Tr.md) · [`TransferEvent` … `Zip`](map/models/records-17-Tr-Zi.md) |
 | Unions (`OneOf` / `AnyOf`) — variant factories + `TryGet…` | 0 + 27 | [map/models/unions.md](map/models/unions.md) |
 | Enums (`StringEnum<T>` / `IntEnum<T>`) — literal C# member names + wire values | 592 | [map/models/enums.md](map/models/enums.md) |
 <!-- /gen:models-table -->

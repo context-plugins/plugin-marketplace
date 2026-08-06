@@ -1,8 +1,8 @@
 {
   "name": "adyen",
-  "displayName": "Adyen SDK",
+  "displayName": "adyen SDK",
   "version": "0.1.0",
-  "description": "Process global payments, manage fraud, and handle unified commerce across online and in-store channels.",
+  "description": "TODO_AUTO_DESCRIPTION: adyen API",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

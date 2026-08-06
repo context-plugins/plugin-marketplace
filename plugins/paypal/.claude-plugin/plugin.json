@@ -2,7 +2,7 @@
   "name": "paypal",
   "displayName": "paypal SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: paypal API",
+  "description": "Process payments, send payouts, and manage digital transactions globally with PayPal.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

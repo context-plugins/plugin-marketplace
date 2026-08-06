@@ -204,7 +204,7 @@
     {
       "name": "mindbody",
       "source": "./plugins/mindbody",
-      "description": "TODO_AUTO_DESCRIPTION: mindbody API"
+      "description": "Book appointments, manage schedules, and process payments for fitness and wellness businesses."
     },
     {
       "name": "mist",

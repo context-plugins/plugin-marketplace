@@ -229,7 +229,7 @@
     {
       "name": "paragon",
       "source": "./plugins/paragon",
-      "description": "TODO_AUTO_DESCRIPTION: paragon API"
+      "description": "Sync data and authenticate B2B integrations across SaaS applications."
     },
     {
       "name": "univa",

@@ -2,7 +2,7 @@
   "name": "paragon",
   "displayName": "paragon SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: paragon API",
+  "description": "Sync data and authenticate B2B integrations across SaaS applications.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

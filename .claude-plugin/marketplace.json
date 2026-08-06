@@ -234,7 +234,7 @@
     {
       "name": "univa",
       "source": "./plugins/univa",
-      "description": "Execute high-performance distributed computing workloads and manage grid cluster resources."
+      "description": "TODO_AUTO_DESCRIPTION: univa API"
     },
     {
       "name": "verizon",

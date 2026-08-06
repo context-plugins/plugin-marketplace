@@ -2,7 +2,7 @@
   "name": "adyen",
   "displayName": "adyen SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: adyen API",
+  "description": "Process global payments, fraud prevention, and point-of-sale transactions.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

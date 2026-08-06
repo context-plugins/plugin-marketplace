@@ -245,6 +245,11 @@
       "name": "newstore",
       "source": "./plugins/newstore",
       "description": "Sync inventory, process orders, and manage omnichannel retail operations through NewStore."
+    },
+    {
+      "name": "shell-ev",
+      "source": "./plugins/shell-ev",
+      "description": "TODO_AUTO_DESCRIPTION: shell-ev API"
     }
   ]
 }

@@ -10,7 +10,7 @@
 | Root namespace/module | `TeslaFleetManagementApi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `a5717c3` (`a5717c30c1e4133baaf6624292a5379cfe44e98f`, tagged `a5717c3`) |
+| Source commit (spec stamp) | `4181a5d` (`4181a5d3af1daecc79df03743b9a568b45dbd4d5`, tagged `4181a5d`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/tesla-csharp-sdk (branch `main`) |

@@ -164,7 +164,7 @@
     {
       "name": "tesla",
       "source": "./plugins/tesla",
-      "description": "Monitor, control, and automate your Tesla vehicle's charging, climate, and telemetry."
+      "description": "TODO_AUTO_DESCRIPTION: tesla API"
     },
     {
       "name": "vimeo",

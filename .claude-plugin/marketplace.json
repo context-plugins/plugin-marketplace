@@ -255,6 +255,11 @@
       "name": "shell-digitalpayments",
       "source": "./plugins/shell-digitalpayments",
       "description": "Process secure digital payments, fuel transactions, and fleet card purchases through Shell."
+    },
+    {
+      "name": "shell-dataandreporting",
+      "source": "./plugins/shell-dataandreporting",
+      "description": "TODO_AUTO_DESCRIPTION: shell-dataandreporting API"
     }
   ]
 }

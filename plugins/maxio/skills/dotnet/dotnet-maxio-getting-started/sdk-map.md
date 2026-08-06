@@ -10,7 +10,7 @@
 | Root namespace/module | `MaxioAdvancedBilling` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `8b4fba1` (`8b4fba1b5180ac1e3222cae623414a8a4d580025`, tagged `8b4fba1`) |
+| Source commit (spec stamp) | `b8e5589` (`b8e55891d7e71c18f780cf7b2705519b1aaceca8`, tagged `b8e5589`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/maxio-csharp-sdk (branch `main`) |

@@ -2,7 +2,7 @@
   "name": "maxio",
   "displayName": "maxio SDK",
   "version": "0.1.0",
-  "description": "Automate B2B recurring billing, subscription management, and revenue analytics with Maxio.",
+  "description": "TODO_AUTO_DESCRIPTION: maxio API",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
@@ -20,8 +20,7 @@
     "java",
     "php",
     "python",
-    "ruby",
-    "go"
+    "ruby"
   ],
   "logo": "assets/logo.svg",
   "skills": [
@@ -30,8 +29,7 @@
     "./skills/java",
     "./skills/php",
     "./skills/python",
-    "./skills/ruby",
-    "./skills/go"
+    "./skills/ruby"
   ],
   "agents": "./agents/"
 }

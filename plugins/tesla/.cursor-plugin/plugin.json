@@ -2,7 +2,7 @@
   "name": "tesla",
   "displayName": "tesla SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: tesla API",
+  "description": "Monitor, locate, and control Tesla vehicles remotely with real-time telemetry and commands.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

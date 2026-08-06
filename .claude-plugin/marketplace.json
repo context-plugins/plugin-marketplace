@@ -34,7 +34,7 @@
     {
       "name": "notion",
       "source": "./plugins/notion",
-      "description": "TODO_AUTO_DESCRIPTION: notion API"
+      "description": "Read and write pages, databases, and blocks in Notion workspaces."
     },
     {
       "name": "deepgram",
@@ -64,7 +64,7 @@
     {
       "name": "nytimes",
       "source": "./plugins/nytimes",
-      "description": "TODO_AUTO_DESCRIPTION: nytimes API"
+      "description": "Access articles, bestsellers, archives, and historical data from The New York Times."
     },
     {
       "name": "binance",
@@ -164,7 +164,7 @@
     {
       "name": "tesla",
       "source": "./plugins/tesla",
-      "description": "TODO_AUTO_DESCRIPTION: tesla API"
+      "description": "Monitor, locate, and control Tesla vehicles remotely with real-time telemetry and commands."
     },
     {
       "name": "vimeo",

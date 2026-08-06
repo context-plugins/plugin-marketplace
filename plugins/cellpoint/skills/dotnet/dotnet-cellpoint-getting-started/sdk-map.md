@@ -1,4 +1,4 @@
-# SDK map — Cellpoint (.NET)
+# SDK map — cellpoint (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,11 +6,11 @@
 
 | | |
 |---|---|
-| SDK display name | Cellpoint |
+| SDK display name | cellpoint |
 | Root namespace/module | `CellPointApi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `96cfaa7` (`96cfaa7467fb4cf5bc5635c95c37dcaf0ef6282c`, tagged `96cfaa7`) |
+| Source commit (spec stamp) | `553b1c3` (`553b1c3311890c4a9aa1ce54ec40b046bb2f4885`, tagged `553b1c3`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/cellpoint-csharp-sdk (branch `main`) |

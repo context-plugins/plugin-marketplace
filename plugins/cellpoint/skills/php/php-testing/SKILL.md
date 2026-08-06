@@ -5,9 +5,9 @@ description: Unit-test code that uses an APIMatic-generated PHP SDK by injecting
 
 # Testing code that uses an APIMatic PHP SDK
 
-> `CellPointApiClient` is the SDK's client class — **read the real name** from the `*Client.php` file in
+> `CellpointClient` is the SDK's client class — **read the real name** from the `*Client.php` file in
 > `src/` (it is derived from the API title with APIMatic's own casing, so do not guess it from the
-> API name). `CellPointApiClientBuilder` sits beside it.
+> API name). `CellpointClientBuilder` sits beside it.
 
 The SDK uses Guzzle internally, which is the seam for testing: pass a Guzzle `Client` backed by
 a `MockHandler`, so no real network calls happen. The SDK ships no mocking helpers — this is
@@ -19,7 +19,7 @@ style**. The code samples below use PHPUnit `TestCase` purely for reference — 
 testing seam and *what* to assert, not a mandated style.
 
 > Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g.
-> `CellPointApiClient`, `{apiGroup}`, `{operation}`) — replace it with the concrete identifier from the
+> `CellpointClient`, `{apiGroup}`, `{operation}`) — replace it with the concrete identifier from the
 > source.
 
 ## A reusable mock client helper
@@ -30,7 +30,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
-use CellPointApiLib\CellPointApiClient;
+use CellpointLib\CellpointClient;
 
 /**
  * Build an SDK client that returns the given stub responses in order.
@@ -38,13 +38,13 @@ use CellPointApiLib\CellPointApiClient;
  * @param Response[] $responses
  * @param array      &$container  Pass by reference to capture transaction history.
  */
-function clientWithResponses(array $responses, array &$container = []): CellPointApiClient
+function clientWithResponses(array $responses, array &$container = []): CellpointClient
 {
     $mock  = new MockHandler($responses);
     $stack = HandlerStack::create($mock);
     $stack->push(Middleware::history($container));
 
-    return new CellPointApiClient([
+    return new CellpointClient([
         'httpClient' => new Client(['handler' => $stack]),
         // credentials not needed for stub tests:
     ]);
@@ -78,7 +78,7 @@ class {Operation}Test extends TestCase
 Endpoint methods throw `ApiException` on non-2xx (see **php-error-handling**).
 
 ```php
-use CellPointApiLib\Exceptions\ApiException;
+use CellpointLib\Exceptions\ApiException;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
@@ -116,8 +116,8 @@ public function testErrorBodyIsAccessible(): void
 If the operation throws a typed subclass, catch that first:
 
 ```php
-use CellPointApiLib\Exceptions\{OperationException};
-use CellPointApiLib\Exceptions\ApiException;
+use CellpointLib\Exceptions\{OperationException};
+use CellpointLib\Exceptions\ApiException;
 
 try {
     $client->{apiGroup}()->{operation}(/* args */);
@@ -187,10 +187,10 @@ public function testPaginatesAllResults(): void
 ## Bind a stub client in a DI container (Laravel example)
 
 ```php
-use CellPointApiLib\CellPointApiClient;
+use CellpointLib\CellpointClient;
 
 // In a test setUp or a service provider override:
-app()->instance(CellPointApiClient::class, clientWithResponses([
+app()->instance(CellpointClient::class, clientWithResponses([
     new Response(200, [], '{"id": 1}'),
 ]));
 

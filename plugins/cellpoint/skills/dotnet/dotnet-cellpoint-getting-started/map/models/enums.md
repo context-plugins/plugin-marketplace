@@ -53,7 +53,7 @@
 | `Type3` | StringEnum | `AutoRental (AUTO_RENTAL)` | Discriminator used to identify the type of line item. | `Models/Enums/Type3.cs` |
 | `Type4` | StringEnum | `Activity (ACTIVITY)`, `AirlineAncillary (AIRLINE_ANCILLARY)`, `AirlineFare (AIRLINE_FARE)`, `AutoRental (AUTO_RENTAL)`, `Discount (DISCOUNT)`, `LodgingReservation (LODGING_RESERVATION)`, `Product (PRODUCT)` | The type of line item &lt;table&gt; &lt;thead&gt; &lt;tr&gt; &lt;th&gt;Line Item Type&lt;/th&gt; &lt;th&gt;Description&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td&gt;ACTIVITY&lt;/td&gt; &lt;td&gt;Activities, such as tours, museum tickets, etc.&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;AIRLINE_ANCILLARY&lt;/td&gt; … | `Models/Enums/Type4.cs` |
 | `Type9` | StringEnum | `Discount (DISCOUNT)` | Discriminator used to identify the type of line item. | `Models/Enums/Type9.cs` |
-| `TypeModel` | StringEnum | `Activity (ACTIVITY)` | Discriminator used to identify the type of line item. | `Models/Enums/TypeModel.cs` |
+| `TypeEnum` | StringEnum | `Activity (ACTIVITY)` | Discriminator used to identify the type of line item. | `Models/Enums/TypeEnum.cs` |
 | `VoucherIssuer` | StringEnum | `SwavPaymentGateway (SWAV_PAYMENT_GATEWAY)` | Issuer of the voucher | `Models/Enums/VoucherIssuer.cs` |
 | `VoucherType` | StringEnum | `Vtc (VTC)`, `Rtf (RTF)` | Type of voucher | `Models/Enums/VoucherType.cs` |
 | `WalletType` | StringEnum | `ApplePay (APPLE_PAY)`, `FlexPay (FLEX_PAY)` | Digital wallet type | `Models/Enums/WalletType.cs` |

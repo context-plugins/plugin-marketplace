@@ -1,9 +1,9 @@
 ---
 name: dotnet-cellpoint-getting-started
-description: Cellpoint .NET SDK identity and lookup layer for the dotnet-cellpoint-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
+description: cellpoint .NET SDK identity and lookup layer for the dotnet-cellpoint-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
 ---
 
-# Getting started with the Cellpoint .NET SDK
+# Getting started with the cellpoint .NET SDK
 
 > **Who this skill is for.** This is the **map layer**, preloaded for the `dotnet-cellpoint-sdk` helper
 > agent — if you are it, this skill is yours to follow directly and fully. It is the only place
@@ -37,7 +37,7 @@ confirm names against the map.
 
 | | |
 | --- | --- |
-| API | Cellpoint |
+| API | cellpoint |
 | Source repo | https://github.com/context-plugins/cellpoint-csharp-sdk (branch `main`) |
 | Root namespace | `CellPointApi` (the `using` namespace) |
 | Client class | `CellPointApiClient` |

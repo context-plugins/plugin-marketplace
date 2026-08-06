@@ -5,10 +5,10 @@ description: Tune an APIMatic-generated Python SDK client — retry defaults (ma
 
 # Configuration & resilience for an APIMatic Python SDK
 
-> `CellpointapiClient` is the SDK's client class — **read the real name** from `cellpoint/cellpoint_client.py`
+> `CellpointClient` is the SDK's client class — **read the real name** from `cellpoint/cellpoint_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
-All settings are passed as keyword arguments to `Configuration.__init__` (or to `CellpointapiClient`
+All settings are passed as keyword arguments to `Configuration.__init__` (or to `CellpointClient`
 directly, which wraps them in a `Configuration` internally). Confirm defaults from
 `cellpoint/configuration.py` in the cloned source.
 
@@ -149,7 +149,7 @@ as `http_call_back=`:
 import logging
 from cellpoint.http.http_call_back import HttpCallBack
 from cellpoint.configuration import Configuration
-from cellpoint.cellpoint_client import CellpointapiClient
+from cellpoint.cellpoint_client import CellpointClient
 
 logger = logging.getLogger(__name__)
 
@@ -164,7 +164,7 @@ config = Configuration(
     http_call_back=LoggingCallBack(),
     # other kwargs ...
 )
-client = CellpointapiClient(config=config)
+client = CellpointClient(config=config)
 ```
 
 `HttpCallBack` inherits from `apimatic_core`'s `CoreHttpCallback` and provides two hook methods:

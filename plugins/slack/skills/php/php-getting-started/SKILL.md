@@ -41,7 +41,7 @@ that step, so at each step below load the companion *and* confirm names against 
 | Runtime dependencies | `apimatic/core`, `apimatic/core-interfaces`, `apimatic/unirest-php` (HTTP call builder, auth managers, retries, response handling) — pulled in transitively |
 | Composer package | from `composer.json` `name` — e.g. `apimatic-sdks/multiauthsample`, `apimatic-sdks/apimaticcalculator` (the published id varies per SDK) |
 | Root namespace | from `composer.json` `autoload.psr-4` — the API title concatenated + `Lib`, e.g. `MultiAuthSampleLib\`, `APIMATICCalculatorLib\` (maps to `src/`) |
-| Install | `composer require apimatic-sdks/slack:dev-main` |
+| Install | `composer require apimatic-sdks/slackwebapi:dev-main` |
 | Client class | `SlackClient` — read the real name from the `*Client.php` file in `src/`; implements `ConfigurationInterface`; a factory for API accessors + holder of config |
 | Client builder | `SlackClientBuilder` — `::init()->...->build()` (the only intended way to construct the client) |
 | Auth | each scheme set on the builder via a `{Scheme}CredentialsBuilder::init(...)` — see **php-authentication** |
@@ -75,7 +75,7 @@ and confirm its types against the source.
 ```bash
 # Add the SDK as a VCS repository, then require it:
 composer config repositories.slack-php-sdk vcs https://github.com/context-plugins/slack-php-sdk
-composer require apimatic-sdks/slack:dev-main
+composer require apimatic-sdks/slackwebapi:dev-main
 ```
 
 > Running outside an existing Composer project? `composer require` needs a `composer.json` to add to —
@@ -85,7 +85,7 @@ composer require apimatic-sdks/slack:dev-main
 require_once 'vendor/autoload.php';   // Composer PSR-4 autoloader — no manual requires
 ```
 
-> The package name (`apimatic-sdks/slack`) is declared in the SDK's `composer.json`. `composer require`
+> The package name (`apimatic-sdks/slackwebapi`) is declared in the SDK's `composer.json`. `composer require`
 > also pulls in `apimatic/core` and friends.
 
 ## SDK source — read it first; don't fetch files ad hoc

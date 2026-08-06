@@ -2,7 +2,7 @@
   "name": "slack",
   "displayName": "slack SDK",
   "version": "0.1.0",
-  "description": "Send messages, manage channels, and automate team workflows in Slack.",
+  "description": "TODO_AUTO_DESCRIPTION: slack API",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

@@ -79,9 +79,9 @@ npm install "https://github.com/context-plugins/slack-typescript-sdk#main"
 ```
 
 ```ts
-import { Client, Environment, ApiError } from 'slacklib';
+import { Client, Environment, ApiError } from 'slack';
 // controllers and model types are also exported from the package root:
-import { {Resource}Api } from 'slacklib';
+import { {Resource}Api } from 'slack';
 ```
 
 Everything public is re-exported from `src/index.ts`, so import names come from the **package root** — you

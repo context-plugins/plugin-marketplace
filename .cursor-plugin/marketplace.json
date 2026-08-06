@@ -259,7 +259,7 @@
     {
       "name": "shell-dataandreporting",
       "source": "./plugins/shell-dataandreporting",
-      "description": "TODO_AUTO_DESCRIPTION: shell-dataandreporting API"
+      "description": "Aggregate, analyze, and visualize energy data and reporting metrics."
     }
   ]
 }

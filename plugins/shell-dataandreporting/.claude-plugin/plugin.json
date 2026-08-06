@@ -2,7 +2,7 @@
   "name": "shell-dataandreporting",
   "displayName": "shell-dataandreporting SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: shell-dataandreporting API",
+  "description": "Aggregate, analyze, and visualize energy data and reporting metrics.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

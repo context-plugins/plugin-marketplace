@@ -264,7 +264,7 @@
     {
       "name": "shell-cardmanagement",
       "source": "./plugins/shell-cardmanagement",
-      "description": "TODO_AUTO_DESCRIPTION: shell-cardmanagement API"
+      "description": "Order, activate, and manage Shell fuel cards for business fleets."
     }
   ]
 }

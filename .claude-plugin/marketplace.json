@@ -260,6 +260,11 @@
       "name": "shell-dataandreporting",
       "source": "./plugins/shell-dataandreporting",
       "description": "Aggregate, analyze, and visualize energy data and reporting metrics."
+    },
+    {
+      "name": "shell-cardmanagement",
+      "source": "./plugins/shell-cardmanagement",
+      "description": "TODO_AUTO_DESCRIPTION: shell-cardmanagement API"
     }
   ]
 }

@@ -1,0 +1,35 @@
+{
+  "name": "shell-cardmanagement",
+  "displayName": "shell-cardmanagement SDK",
+  "version": "0.1.0",
+  "description": "TODO_AUTO_DESCRIPTION: shell-cardmanagement API",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://www.apimatic.io",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "keywords": [
+    "apimatic",
+    "sdk",
+    "api-integration",
+    "shell-cardmanagement",
+    "dotnet",
+    "typescript",
+    "java",
+    "php",
+    "python",
+    "ruby"
+  ],
+  "logo": "assets/logo.svg",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/typescript",
+    "./skills/java",
+    "./skills/php",
+    "./skills/python",
+    "./skills/ruby"
+  ],
+  "agents": "agents-vscode/"
+}

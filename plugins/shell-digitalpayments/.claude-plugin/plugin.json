@@ -2,7 +2,7 @@
   "name": "shell-digitalpayments",
   "displayName": "shell-digitalpayments SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: shell-digitalpayments API",
+  "description": "Process secure digital payments, fuel transactions, and fleet card purchases through Shell.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

@@ -5,7 +5,7 @@ description: Handle errors from an APIMatic-generated TypeScript/Node.js SDK —
 
 # Error handling for an APIMatic TypeScript SDK
 
-> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{operation}`, `{apiGroup}`, `mindbody-pushapi-apilib`) — replace it with the concrete identifier from the source.
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{operation}`, `{apiGroup}`, `mindbody`) — replace it with the concrete identifier from the source.
 
 Endpoint methods **throw on non-success responses** by default (for a non-throwing alternative, see the **`ApiResult`** section below). The thrown type is always `ApiError` — but it comes in **two shapes**, depending on the operation:
 
@@ -26,9 +26,9 @@ Check whether a `{Operation}Error` type exists under `src/errors/` for that oper
 ### Case A — operation has a typed `{Operation}Error`
 
 ```typescript
-import { Client } from 'mindbody-pushapi-apilib';
-import { ApiError } from 'mindbody-pushapi-apilib';
-import { {Operation}Error } from 'mindbody-pushapi-apilib/errors';
+import { Client } from 'mindbody';
+import { ApiError } from 'mindbody';
+import { {Operation}Error } from 'mindbody/errors';
 
 try {
   const response = await api.{operation}({ /* ... */ });
@@ -51,7 +51,7 @@ try {
 For operations with no `{Operation}Error` type, `err` is `ApiError` — read the status and body straight off it:
 
 ```typescript
-import { ApiError } from 'mindbody-pushapi-apilib';
+import { ApiError } from 'mindbody';
 
 try {
   const response = await api.{operation}({ /* ... */ });

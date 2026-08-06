@@ -1,33 +1,33 @@
 ---
 name: python-client-initialization
-description: Construct and configure an APIMatic-generated Python SDK client — pass keyword args (credentials objects + environment= + timeout/retry/proxy kwargs) directly to the MindbodypushapiapiClient constructor or to a separate Configuration object, use from_environment() to read from a .env file and env vars, access controllers via @LazyProperty properties (not constructors), pass a custom requests.Session via http_client_instance, and reuse the long-lived client. Use the moment you write MindbodypushapiapiClient(...), build a Configuration, pick an environment, or wire the client into your application — load it even after reading the constructor in the source, since the signature shows the kwargs but not the credential-objects pattern, the @LazyProperty controller access, or the lifetime/reuse rules.
+description: Construct and configure an APIMatic-generated Python SDK client — pass keyword args (credentials objects + environment= + timeout/retry/proxy kwargs) directly to the MindbodyClient constructor or to a separate Configuration object, use from_environment() to read from a .env file and env vars, access controllers via @LazyProperty properties (not constructors), pass a custom requests.Session via http_client_instance, and reuse the long-lived client. Use the moment you write MindbodyClient(...), build a Configuration, pick an environment, or wire the client into your application — load it even after reading the constructor in the source, since the signature shows the kwargs but not the credential-objects pattern, the @LazyProperty controller access, or the lifetime/reuse rules.
 ---
 
 # Initializing an APIMatic Python SDK client
 
-> `MindbodypushapiapiClient` is the SDK's client class — **read the real name** from `mindbody/mindbody_client.py`
+> `MindbodyClient` is the SDK's client class — **read the real name** from `mindbody/mindbody_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
 This applies to **any** APIMatic-generated Python SDK (APIMATIC v3.0). Replace placeholders with
 the real names from the SDK you are using:
 
 - `mindbody` — the root package name (e.g. `multiauthsample`, `batester`).
-- `MindbodypushapiapiClient` — the generated client class (read it from the `class …Client` declaration in `mindbody/mindbody_client.py`).
+- `MindbodyClient` — the generated client class (read it from the `class …Client` declaration in `mindbody/mindbody_client.py`).
 - `{resource}` — a controller property name on the client (e.g. `authentication`, `transaction`).
 
 ## The constructor shape
 
-The `MindbodypushapiapiClient` constructor accepts all configuration as **keyword arguments** — there is no
+The `MindbodyClient` constructor accepts all configuration as **keyword arguments** — there is no
 separate builder. You can pass them flat (the client creates a `Configuration` internally) or pass a
 pre-built `Configuration` object:
 
 ```python
-from mindbody.mindbody_client import MindbodypushapiapiClient
+from mindbody.mindbody_client import MindbodyClient
 from mindbody.configuration import Environment
 from mindbody.http.auth.basic_auth import BasicAuthCredentials  # per-scheme import
 
 # Flat kwargs — the client wraps them in a Configuration internally:
-client = MindbodypushapiapiClient(
+client = MindbodyClient(
     basic_auth_credentials=BasicAuthCredentials(
         username='Username',
         password='Password'
@@ -48,7 +48,7 @@ config = Configuration(
     environment=Environment.PRODUCTION,
     timeout=60,
 )
-client = MindbodypushapiapiClient(config=config)
+client = MindbodyClient(config=config)
 ```
 
 Both patterns are equivalent — the client uses `config or Configuration(...)` in its `__init__`.
@@ -77,18 +77,18 @@ API-specific server parameters (e.g. `port`, `suites`) are also kwargs — check
 
 ## Environment-based initialization
 
-`from_environment()` is a class method on both `MindbodypushapiapiClient` and `Configuration` that reads
+`from_environment()` is a class method on both `MindbodyClient` and `Configuration` that reads
 configuration from a `.env` file and environment variables automatically. Pass `dotenv_path` if your
 `.env` file is not in the working directory; pass keyword overrides to replace any env-var value:
 
 ```python
-from mindbody.mindbody_client import MindbodypushapiapiClient
+from mindbody.mindbody_client import MindbodyClient
 
 # Read everything from environment variables / .env:
-client = MindbodypushapiapiClient.from_environment()
+client = MindbodyClient.from_environment()
 
 # Override specific values:
-client = MindbodypushapiapiClient.from_environment(
+client = MindbodyClient.from_environment(
     dotenv_path='/path/to/.env',
     timeout=30,
 )
@@ -100,7 +100,7 @@ Environment variable names follow a scheme-specific naming convention (e.g.
 
 ## Accessing controllers
 
-Controllers are `@LazyProperty` properties on `MindbodypushapiapiClient`. Access them as attributes —
+Controllers are `@LazyProperty` properties on `MindbodyClient`. Access them as attributes —
 **do not instantiate them yourself**:
 
 ```python
@@ -127,7 +127,7 @@ host it resolves to, so match it against the base URL it actually resolves to ra
 ```python
 from mindbody.configuration import Environment
 
-client = MindbodypushapiapiClient(environment=Environment.PRODUCTION)
+client = MindbodyClient(environment=Environment.PRODUCTION)
 ```
 
 To inspect the URL each environment resolves to, read the `environments` dict in
@@ -143,12 +143,12 @@ allow the SDK to apply its own retry/timeout settings to your session:
 
 ```python
 import requests
-from mindbody.mindbody_client import MindbodypushapiapiClient
+from mindbody.mindbody_client import MindbodyClient
 
 session = requests.Session()
 session.verify = '/path/to/cert.pem'   # custom TLS CA bundle
 
-client = MindbodypushapiapiClient(
+client = MindbodyClient(
     http_client_instance=session,
     override_http_client_configuration=True,
     timeout=30,
@@ -165,7 +165,7 @@ boilerplate — useful after fetching an OAuth token that must be re-attached:
 # After fetching a new OAuth token:
 new_creds = client.config.o_auth_ccg_credentials.clone_with(o_auth_token=token)
 new_config = client.config.clone_with(o_auth_ccg_credentials=new_creds)
-client = MindbodypushapiapiClient(config=new_config)
+client = MindbodyClient(config=new_config)
 ```
 
 ## Client lifetime and reuse
@@ -176,7 +176,7 @@ destroys any cached OAuth token).
 
 ```python
 # Module-level singleton (scripts and simple services):
-client = MindbodypushapiapiClient.from_environment()
+client = MindbodyClient.from_environment()
 
 def process():
     result = client.{resource}.{operation}(...)

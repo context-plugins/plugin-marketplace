@@ -14,7 +14,7 @@ The client accepts a `customFetch` option (when the SDK version supports it), wh
 ## A reusable stub helper
 
 ```typescript
-import { Client } from 'mindbody-pushapi-apilib';
+import { Client } from 'mindbody';
 
 function clientReturning(status: number, body: unknown): {
   client: Client;
@@ -61,7 +61,7 @@ Endpoint methods throw `ApiError` on non-2xx (see `typescript-error-handling`). 
 **Case A — typed `{Operation}Error`:**
 
 ```typescript
-import { {Operation}Error } from 'mindbody-pushapi-apilib/errors';
+import { {Operation}Error } from 'mindbody/errors';
 
 test('throws typed error on API error', async () => {
   const { client } = clientReturning(422, { errors: ['bad input'] });
@@ -75,7 +75,7 @@ test('throws typed error on API error', async () => {
 **Case B — base `ApiError`:**
 
 ```typescript
-import { ApiError } from 'mindbody-pushapi-apilib';
+import { ApiError } from 'mindbody';
 
 test('throws ApiError on non-2xx', async () => {
   const { client } = clientReturning(422, { errors: ['bad input'] });

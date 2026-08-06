@@ -5,10 +5,10 @@ description: Tune an APIMatic-generated Python SDK client — retry defaults (ma
 
 # Configuration & resilience for an APIMatic Python SDK
 
-> `MindbodypushapiapiClient` is the SDK's client class — **read the real name** from `mindbody/mindbody_client.py`
+> `MindbodyClient` is the SDK's client class — **read the real name** from `mindbody/mindbody_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
-All settings are passed as keyword arguments to `Configuration.__init__` (or to `MindbodypushapiapiClient`
+All settings are passed as keyword arguments to `Configuration.__init__` (or to `MindbodyClient`
 directly, which wraps them in a `Configuration` internally). Confirm defaults from
 `mindbody/configuration.py` in the cloned source.
 
@@ -149,7 +149,7 @@ as `http_call_back=`:
 import logging
 from mindbody.http.http_call_back import HttpCallBack
 from mindbody.configuration import Configuration
-from mindbody.mindbody_client import MindbodypushapiapiClient
+from mindbody.mindbody_client import MindbodyClient
 
 logger = logging.getLogger(__name__)
 
@@ -164,7 +164,7 @@ config = Configuration(
     http_call_back=LoggingCallBack(),
     # other kwargs ...
 )
-client = MindbodypushapiapiClient(config=config)
+client = MindbodyClient(config=config)
 ```
 
 `HttpCallBack` inherits from `apimatic_core`'s `CoreHttpCallback` and provides two hook methods:

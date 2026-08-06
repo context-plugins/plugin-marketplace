@@ -10,7 +10,7 @@
 | Root namespace/module | `MindbodyPushApiApi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `7f9a079` (`7f9a0791333566fea655e80371c4f7f363b92185`, tagged `7f9a079`) |
+| Source commit (spec stamp) | `8418d58` (`8418d5844d670a45e9b96c04bf35e583b50efcd3`, tagged `8418d58`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/mindbody-csharp-sdk (branch `main`) |

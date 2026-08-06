@@ -214,7 +214,7 @@
     {
       "name": "postnl",
       "source": "./plugins/postnl",
-      "description": "Track shipments, generate shipping labels, and manage parcel deliveries across Benelux with PostNL."
+      "description": "TODO_AUTO_DESCRIPTION: postnl API"
     },
     {
       "name": "fdx",

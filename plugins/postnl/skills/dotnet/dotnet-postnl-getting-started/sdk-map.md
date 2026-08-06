@@ -10,7 +10,7 @@
 | Root namespace/module | `PostnlEcommerce` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `841bc41` (`841bc41162ba002aaf8e1b7b32d318892e786f9b`, tagged `841bc41`) |
+| Source commit (spec stamp) | `11413c2` (`11413c2fdda90011dee86f09622351658ffd77c2`, tagged `11413c2`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/postnl-csharp-sdk (branch `main`) |

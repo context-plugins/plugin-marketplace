@@ -7,7 +7,7 @@ Accessor: `client.ManageV1ProjectsMembersScopes` · Source: `Api/ManageV1Project
 ### List9
 - **HTTP**: `GET /v1/projects/{project_id}/members/{member_id}/scopes` (Default (agent))
 - **Notes**: Retrieves a list of scopes for a specific member
-- **Signature**: `List9(string projectId, string memberId, string authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `List9(string projectId, string memberId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `ListProjectMemberScopesV1Response`
 - **Error**: `SdkException<List9Error>` — **Case A (typed)**
@@ -18,7 +18,7 @@ Accessor: `client.ManageV1ProjectsMembersScopes` · Source: `Api/ManageV1Project
 ### Update4
 - **HTTP**: `PUT /v1/projects/{project_id}/members/{member_id}/scopes` (Default (agent))
 - **Notes**: Updates the scopes for a specific member
-- **Signature**: `Update4(string projectId, string memberId, string authorization, UpdateProjectMemberScopesV1Request? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `Update4(string projectId, string memberId, UpdateProjectMemberScopesV1Request? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
 - **Returns**: `UpdateProjectMemberScopesV1Response`

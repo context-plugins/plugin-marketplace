@@ -7,7 +7,7 @@ Accessor: `client.ManageV1ProjectsBillingBalances` · Source: `Api/ManageV1Proje
 ### Get10
 - **HTTP**: `GET /v1/projects/{project_id}/balances/{balance_id}` (Default (agent))
 - **Notes**: Retrieves details about the specified balance
-- **Signature**: `Get10(string projectId, string balanceId, string authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `Get10(string projectId, string balanceId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `GetProjectBalanceV1Response`
 - **Error**: `SdkException<Get10Error>` — **Case A (typed)**
@@ -18,7 +18,7 @@ Accessor: `client.ManageV1ProjectsBillingBalances` · Source: `Api/ManageV1Proje
 ### List13
 - **HTTP**: `GET /v1/projects/{project_id}/balances` (Default (agent))
 - **Notes**: Generates a list of outstanding balances for the specified project
-- **Signature**: `List13(string projectId, string authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `List13(string projectId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `ListProjectBalancesV1Response`
 - **Error**: `SdkException<List13Error>` — **Case A (typed)**

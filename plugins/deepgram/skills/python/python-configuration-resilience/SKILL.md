@@ -5,10 +5,10 @@ description: Tune an APIMatic-generated Python SDK client — retry defaults (ma
 
 # Configuration & resilience for an APIMatic Python SDK
 
-> `RestapiClient` is the SDK's client class — **read the real name** from `deepgram/deepgram_client.py`
+> `DeepgramClient` is the SDK's client class — **read the real name** from `deepgram/deepgram_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
-All settings are passed as keyword arguments to `Configuration.__init__` (or to `RestapiClient`
+All settings are passed as keyword arguments to `Configuration.__init__` (or to `DeepgramClient`
 directly, which wraps them in a `Configuration` internally). Confirm defaults from
 `deepgram/configuration.py` in the cloned source.
 
@@ -149,7 +149,7 @@ as `http_call_back=`:
 import logging
 from deepgram.http.http_call_back import HttpCallBack
 from deepgram.configuration import Configuration
-from deepgram.deepgram_client import RestapiClient
+from deepgram.deepgram_client import DeepgramClient
 
 logger = logging.getLogger(__name__)
 
@@ -164,7 +164,7 @@ config = Configuration(
     http_call_back=LoggingCallBack(),
     # other kwargs ...
 )
-client = RestapiClient(config=config)
+client = DeepgramClient(config=config)
 ```
 
 `HttpCallBack` inherits from `apimatic_core`'s `CoreHttpCallback` and provides two hook methods:

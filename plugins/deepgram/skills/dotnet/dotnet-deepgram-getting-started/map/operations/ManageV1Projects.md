@@ -7,7 +7,7 @@ Accessor: `client.ManageV1Projects` · Source: `Api/ManageV1Projects.cs` · 5 op
 ### Delete3
 - **HTTP**: `DELETE /v1/projects/{project_id}` (Default (agent))
 - **Notes**: Deletes the specified project
-- **Signature**: `Delete3(string projectId, string authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `Delete3(string projectId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `DeleteProjectV1Response`
 - **Error**: `SdkException<Delete3Error>` — **Case A (typed)**
@@ -18,7 +18,7 @@ Accessor: `client.ManageV1Projects` · Source: `Api/ManageV1Projects.cs` · 5 op
 ### Get3
 - **HTTP**: `GET /v1/projects/{project_id}` (Default (agent))
 - **Notes**: Retrieves information about the specified project
-- **Signature**: `Get3(string projectId, double? page, string authorization, double? limit = 10d, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `Get3(string projectId, double? page, double? limit = 10d, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - defaults: `limit` = 10d, `requestOptions` = null
 - **Query params (wire ← C#)**: `limit` ← `limit`, `page` ← `page`
@@ -31,7 +31,7 @@ Accessor: `client.ManageV1Projects` · Source: `Api/ManageV1Projects.cs` · 5 op
 ### Leave
 - **HTTP**: `DELETE /v1/projects/{project_id}/leave` (Default (agent))
 - **Notes**: Removes the authenticated account from the specific project
-- **Signature**: `Leave(string projectId, string authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `Leave(string projectId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `LeaveProjectV1Response`
 - **Error**: `SdkException<LeaveError>` — **Case A (typed)**
@@ -42,7 +42,7 @@ Accessor: `client.ManageV1Projects` · Source: `Api/ManageV1Projects.cs` · 5 op
 ### List4
 - **HTTP**: `GET /v1/projects` (Default (agent))
 - **Notes**: Retrieves basic information about the projects associated with the API key
-- **Signature**: `List4(string authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `List4(RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `ListProjectsV1Response`
 - **Error**: `SdkException<List4Error>` — **Case A (typed)**
@@ -53,7 +53,7 @@ Accessor: `client.ManageV1Projects` · Source: `Api/ManageV1Projects.cs` · 5 op
 ### Update3
 - **HTTP**: `PATCH /v1/projects/{project_id}` (Default (agent))
 - **Notes**: Updates the name or other properties of an existing project
-- **Signature**: `Update3(string projectId, string authorization, UpdateProjectV1Request? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `Update3(string projectId, UpdateProjectV1Request? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
 - **Returns**: `UpdateProjectV1Response`

@@ -1,9 +1,9 @@
 ---
 name: dotnet-deepgram-getting-started
-description: Deepgram .NET SDK identity and lookup layer for the dotnet-deepgram-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
+description: deepgram .NET SDK identity and lookup layer for the dotnet-deepgram-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
 ---
 
-# Getting started with the Deepgram .NET SDK
+# Getting started with the deepgram .NET SDK
 
 > **Who this skill is for.** This is the **map layer**, preloaded for the `dotnet-deepgram-sdk` helper
 > agent — if you are it, this skill is yours to follow directly and fully. It is the only place
@@ -37,7 +37,7 @@ confirm names against the map.
 
 | | |
 | --- | --- |
-| API | Deepgram |
+| API | deepgram |
 | Source repo | https://github.com/context-plugins/deepgram-csharp-sdk (branch `main`) |
 | Root namespace | `RestApi` (the `using` namespace) |
 | Client class | `RestApiClient` |

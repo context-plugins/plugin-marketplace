@@ -39,7 +39,7 @@
     {
       "name": "deepgram",
       "source": "./plugins/deepgram",
-      "description": "Transcribe, analyze, and understand audio in real-time with advanced speech-to-text models."
+      "description": "TODO_AUTO_DESCRIPTION: deepgram API"
     },
     {
       "name": "alpaca",

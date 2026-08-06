@@ -7,7 +7,7 @@ Accessor: `client.ManageV1Models` · Source: `Api/ManageV1Models.cs` · 2 operat
 ### Get5
 - **HTTP**: `GET /v1/models/{model_id}` (Default (agent))
 - **Notes**: Returns metadata for a specific public model
-- **Signature**: `Get5(string modelId, string authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `Get5(string modelId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `GetModelV1Response`
 - **Error**: `SdkException<Get5Error>` — **Case A (typed)**
@@ -18,7 +18,7 @@ Accessor: `client.ManageV1Models` · Source: `Api/ManageV1Models.cs` · 2 operat
 ### List6
 - **HTTP**: `GET /v1/models` (Default (agent))
 - **Notes**: Returns metadata on all the latest public models. To retrieve custom models, use Get Project Models.
-- **Signature**: `List6(bool? includeOutdated, string authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `List6(bool? includeOutdated, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `includeOutdated` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `include_outdated` ← `includeOutdated`

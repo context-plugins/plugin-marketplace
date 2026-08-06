@@ -2,14 +2,14 @@
 
 Companion to **java-authentication**. Covers the OAuth grant flows that need extra steps, token
 persistence, combined scheme requirements, environment configuration, and no-auth. Confirm every name
-against the `RestApiClient.Builder` setters, the `com.deepgram.agent.authentication/` source, and `doc/auth/*.md`
+against the `DeepgramClient.Builder` setters, the `com.deepgram.agent.authentication/` source, and `doc/auth/*.md`
 in the cloned SDK.
 
 ## How credentials are wired (recap)
 
 Each scheme generates a `{Scheme}Model` with a `Builder` inner class. Required fields are constructor
 arguments; optional fields use fluent builder methods. Build the model and pass it to the matching setter
-on `RestApiClient.Builder` before calling `.build()`. The client is **immutable** after construction. To
+on `DeepgramClient.Builder` before calling `.build()`. The client is **immutable** after construction. To
 change credentials later, call `client.newBuilder().{scheme}Credentials(newModel).build()`.
 
 ## OAuth 2.0 — client credentials grant (CCG)
@@ -18,7 +18,7 @@ change credentials later, call `client.newBuilder().{scheme}Credentials(newModel
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
-RestApiClient client = new RestApiClient.Builder()
+DeepgramClient client = new DeepgramClient.Builder()
     .oAuthCCGCredentials(new OAuthCCGModel.Builder(
             System.getenv("{CLIENT_ID_ENV}"),
             System.getenv("{CLIENT_SECRET_ENV}")
@@ -56,7 +56,7 @@ ACG is a redirect flow. The SDK does **not** perform the browser redirect; your 
 ### 1. Initialize the client
 
 ```java
-RestApiClient client = new RestApiClient.Builder()
+DeepgramClient client = new DeepgramClient.Builder()
     .oAuthACGCredentials(new OAuthACGModel.Builder(
             System.getenv("{CLIENT_ID_ENV}"),
             System.getenv("{CLIENT_SECRET_ENV}"),
@@ -127,7 +127,7 @@ client = client.newBuilder()
 ## OAuth 2.0 — resource owner password credentials grant (ROPCG)
 
 ```java
-RestApiClient client = new RestApiClient.Builder()
+DeepgramClient client = new DeepgramClient.Builder()
     .oAuthROPCGCredentials(new OAuthROPCGModel.Builder(
             System.getenv("{CLIENT_ID_ENV}"),
             System.getenv("{CLIENT_SECRET_ENV}"),
@@ -190,14 +190,14 @@ Each operation's doc states its requirement. Configure accordingly:
 
 ```java
 // AND — configure all three:
-new RestApiClient.Builder()
+new DeepgramClient.Builder()
     .basicAuthCredentials(new BasicAuthModel.Builder(user, pass).build())
     .apiKeyCredentials(new ApiKeyModel.Builder(token, apiKey).build())
     .apiHeaderCredentials(new ApiHeaderModel.Builder(token2, apiKey2).build())
     .build();
 
 // OR — configure any one:
-new RestApiClient.Builder()
+new DeepgramClient.Builder()
     .apiKeyCredentials(new ApiKeyModel.Builder(token, apiKey).build())
     .build();
 
@@ -209,7 +209,7 @@ The SDK applies the appropriate scheme(s) per request automatically.
 
 ## Loading credentials from environment variables
 
-APIMatic Java SDKs have no built-in `fromEnvironment()` factory (unlike the Go SDK). The generated test
+APIMatic Java SDKs have no built-in `fromEnvironment()` factory. The generated test
 base class shows the idiom — read each credential via `System.getenv(...)` and pass to the builder:
 
 ```java
@@ -229,7 +229,7 @@ If the API (or an operation) requires no authentication, construct the client wi
 generated SDKs mark a no-auth operation as deprecated for security reasons — heed that notice:
 
 ```java
-RestApiClient client = new RestApiClient.Builder()
+DeepgramClient client = new DeepgramClient.Builder()
     .environment(Environment.PRODUCTION)
     .build();
 ```

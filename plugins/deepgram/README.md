@@ -1,6 +1,6 @@
-# Deepgram SDK Plugin
+# deepgram SDK Plugin
 
-Integrate and consume the **APIMatic-generated Deepgram SDK** (the "APIMATIC v3.0" generic
+Integrate and consume the **APIMatic-generated deepgram SDK** (the "APIMATIC v3.0" generic
 libraries, built on `apimatic-*-core` / `apimatic/*-core-runtime` runtimes) across C#/.NET, TypeScript, Java, PHP, Python.
 Works in **Claude Code**, **Cursor**, and **VS Code**. Every SDK fact is grounded in the cloned SDK
 source and the bundled skills.

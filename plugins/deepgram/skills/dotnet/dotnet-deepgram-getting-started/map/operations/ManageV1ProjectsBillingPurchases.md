@@ -7,7 +7,7 @@ Accessor: `client.ManageV1ProjectsBillingPurchases` · Source: `Api/ManageV1Proj
 ### List16
 - **HTTP**: `GET /v1/projects/{project_id}/purchases` (Default (agent))
 - **Notes**: Returns the original purchased amount on an order transaction
-- **Signature**: `List16(string projectId, string authorization, double? limit = 10d, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `List16(string projectId, double? limit = 10d, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `limit` = 10d, `requestOptions` = null
 - **Query params (wire ← C#)**: `limit` ← `limit`
 - **Returns**: `ListProjectPurchasesV1Response`

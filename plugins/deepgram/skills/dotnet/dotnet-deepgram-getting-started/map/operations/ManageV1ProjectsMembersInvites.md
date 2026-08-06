@@ -7,7 +7,7 @@ Accessor: `client.ManageV1ProjectsMembersInvites` · Source: `Api/ManageV1Projec
 ### Create4
 - **HTTP**: `POST /v1/projects/{project_id}/invites` (Default (agent))
 - **Notes**: Generates an invite for a specific project
-- **Signature**: `Create4(string projectId, string authorization, CreateProjectInviteV1Request? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `Create4(string projectId, CreateProjectInviteV1Request? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
 - **Returns**: `CreateProjectInviteV1Response`
@@ -19,7 +19,7 @@ Accessor: `client.ManageV1ProjectsMembersInvites` · Source: `Api/ManageV1Projec
 ### Delete6
 - **HTTP**: `DELETE /v1/projects/{project_id}/invites/{email}` (Default (agent))
 - **Notes**: Deletes an invite for a specific project
-- **Signature**: `Delete6(string projectId, string email, string authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `Delete6(string projectId, string email, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `DeleteProjectInviteV1Response`
 - **Error**: `SdkException<Delete6Error>` — **Case A (typed)**
@@ -30,7 +30,7 @@ Accessor: `client.ManageV1ProjectsMembersInvites` · Source: `Api/ManageV1Projec
 ### List10
 - **HTTP**: `GET /v1/projects/{project_id}/invites` (Default (agent))
 - **Notes**: Generates a list of invites for a specific project
-- **Signature**: `List10(string projectId, string authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `List10(string projectId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `ListProjectInvitesV1Response`
 - **Error**: `SdkException<List10Error>` — **Case A (typed)**

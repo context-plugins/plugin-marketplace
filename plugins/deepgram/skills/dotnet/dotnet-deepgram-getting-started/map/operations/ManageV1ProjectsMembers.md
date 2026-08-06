@@ -7,7 +7,7 @@ Accessor: `client.ManageV1ProjectsMembers` · Source: `Api/ManageV1ProjectsMembe
 ### Delete5
 - **HTTP**: `DELETE /v1/projects/{project_id}/members/{member_id}` (Default (agent))
 - **Notes**: Removes a member from the project using their unique member ID
-- **Signature**: `Delete5(string projectId, string memberId, string authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `Delete5(string projectId, string memberId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `DeleteProjectMemberV1Response`
 - **Error**: `SdkException<Delete5Error>` — **Case A (typed)**
@@ -18,7 +18,7 @@ Accessor: `client.ManageV1ProjectsMembers` · Source: `Api/ManageV1ProjectsMembe
 ### List8
 - **HTTP**: `GET /v1/projects/{project_id}/members` (Default (agent))
 - **Notes**: Retrieves a list of members for a given project
-- **Signature**: `List8(string projectId, string authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `List8(string projectId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
 - **Returns**: `ListProjectMembersV1Response`
 - **Error**: `SdkException<List8Error>` — **Case A (typed)**

@@ -1,4 +1,4 @@
-# SDK map — Deepgram (.NET)
+# SDK map — deepgram (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,11 +6,11 @@
 
 | | |
 |---|---|
-| SDK display name | Deepgram |
+| SDK display name | deepgram |
 | Root namespace/module | `RestApi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `4b570a1` (`4b570a19aced8cfe7ffe6a2c4ade5b2f50516c23`, tagged `4b570a1`) |
+| Source commit (spec stamp) | `da04afa` (`da04afae97eedbdb283f897d337e7300d27c5388`, tagged `da04afa`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/deepgram-csharp-sdk (branch `main`) |

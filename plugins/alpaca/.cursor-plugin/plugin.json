@@ -2,7 +2,7 @@
   "name": "alpaca",
   "displayName": "alpaca SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: alpaca API",
+  "description": "Trade stocks and crypto programmatically with zero-commission orders and real-time market data.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

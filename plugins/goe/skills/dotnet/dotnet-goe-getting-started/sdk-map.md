@@ -10,7 +10,7 @@
 | Root namespace/module | `Goeapi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `baf8cfd` (`baf8cfd3cf342882c74c38128d0136cf23ef23b6`, tagged `baf8cfd`) |
+| Source commit (spec stamp) | `b285ab5` (`b285ab52dc649df6df34b011795c41c5f47ed5e9`, tagged `b285ab5`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/goe-csharp-sdk (branch `main`) |

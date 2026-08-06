@@ -2,7 +2,7 @@
   "name": "shutterstock",
   "displayName": "shutterstock SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: shutterstock API",
+  "description": "Search, license, and download millions of stock photos, vectors, and videos from Shutterstock.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

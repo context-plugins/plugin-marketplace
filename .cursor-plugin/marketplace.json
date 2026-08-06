@@ -99,7 +99,7 @@
     {
       "name": "slack",
       "source": "./plugins/slack",
-      "description": "TODO_AUTO_DESCRIPTION: slack API"
+      "description": "Send messages, manage channels, and automate workflows in Slack workspaces."
     },
     {
       "name": "tesser-api-v1",

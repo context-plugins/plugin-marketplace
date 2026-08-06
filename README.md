@@ -106,7 +106,7 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`spotify-web-api`](plugins/spotify-web-api/) | Spotify Web API | .NET, TS, Java, PHP, Python, Ruby |
 | [`square`](plugins/square/) | Square | .NET, TS, Java, PHP, Ruby |
 | [`stax-fattmerchant-api`](plugins/stax-fattmerchant-api/) | Stax (FattMerchant) API | .NET, TS, Java, PHP, Python, Ruby |
-| [`tesla`](plugins/tesla/) | Tesla | .NET, TS, Java, PHP, Python |
+| [`tesla`](plugins/tesla/) | Tesla | .NET, TS, Java, PHP, Python, Go |
 | [`tesser-api-v1`](plugins/tesser-api-v1/) | Tesser API (v1) | .NET, TS, Java, PHP, Python, Ruby |
 | [`twilio`](plugins/twilio/) | Twilio | .NET |
 | [`univa`](plugins/univa/) | Univa | Java, PHP, Python, Ruby |
@@ -137,7 +137,7 @@ Each supported language ships the same eight:
 The `getting-started` skill is the entry point: it directs the agent to clone and grep the real SDK
 source, so every fact is grounded in the actual contract rather than model knowledge.
 
-Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->238<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->1,950<!-- END:SKILL_COUNT --> skills**. See
+Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->239<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->1,958<!-- END:SKILL_COUNT --> skills**. See
 [`plugins/paypal/README.md`](plugins/paypal/README.md) for a worked example.
 
 ## Repository structure

@@ -1,19 +1,19 @@
 ---
 name: php-client-initialization
-description: Initialize an APIMatic-generated PHP API client — construct it from a config array (or options object) you supply, choose a server environment or override the base URL, and wire it into a PSR-11 container or plain instantiation. Use the moment you write `new GeoapifyClient(...)`, configure its options, pick an environment, or register the client in a DI container — load it even after reading the constructor in the SDK source, since the signature shows the arguments but not the Guzzle lifetime rules or environment constant names.
+description: Initialize an APIMatic-generated PHP API client — construct it from a config array (or options object) you supply, choose a server environment or override the base URL, and wire it into a PSR-11 container or plain instantiation. Use the moment you write `new GeoapifyApiClient(...)`, configure its options, pick an environment, or register the client in a DI container — load it even after reading the constructor in the SDK source, since the signature shows the arguments but not the Guzzle lifetime rules or environment constant names.
 ---
 
 # Initializing an APIMatic PHP SDK client
 
-> `GeoapifyClient` is the SDK's client class — **read the real name** from the `*Client.php` file in
+> `GeoapifyApiClient` is the SDK's client class — **read the real name** from the `*Client.php` file in
 > `src/` (it is derived from the API title with APIMatic's own casing, so do not guess it from the
-> API name). `GeoapifyClientBuilder` sits beside it.
+> API name). `GeoapifyApiClientBuilder` sits beside it.
 
 This applies to **any** APIMatic-generated PHP SDK. Replace placeholders with the real names from
 the SDK you are using:
 
-- `GeoapifyClient` — the single public client class (read it from the `*Client.php` file in `src/`).
-- `GeoapifyLib` — the SDK's root namespace used in `use` directives.
+- `GeoapifyApiClient` — the single public client class (read it from the `*Client.php` file in `src/`).
+- `GeoapifyApiLib` — the SDK's root namespace used in `use` directives.
 - `{apiGroup}` — a controller property/method name on the client (e.g. `widgets()`).
 
 ## Shape of the client
@@ -22,9 +22,9 @@ APIMatic PHP SDKs expose **one public client class** constructed from a configur
 typed options object, depending on the SDK version):
 
 ```php
-$client = new GeoapifyClient([
+$client = new GeoapifyApiClient([
     'timeout'     => 30,
-    'environment' => GeoapifyClient::ENVIRONMENT_PRODUCTION,
+    'environment' => GeoapifyApiClient::ENVIRONMENT_PRODUCTION,
     // ...auth credentials (see php-authentication)
 ]);
 ```
@@ -38,11 +38,11 @@ controller methods (and any direct operations). See **php-calling-endpoints**.
 ## Direct instantiation
 
 ```php
-use GeoapifyLib\GeoapifyClient;
+use GeoapifyApiLib\GeoapifyApiClient;
 
-$client = new GeoapifyClient([
+$client = new GeoapifyApiClient([
     'timeout'     => 30,
-    'environment' => GeoapifyClient::ENVIRONMENT_PRODUCTION,
+    'environment' => GeoapifyApiClient::ENVIRONMENT_PRODUCTION,
     // ...set the auth credentials your API uses (see php-authentication)
 ]);
 ```
@@ -59,27 +59,27 @@ use GuzzleHttp\HandlerStack;
 $stack = HandlerStack::create();
 // push custom middleware onto $stack here
 
-$client = new GeoapifyClient([
+$client = new GeoapifyApiClient([
     'httpClient' => new Client(['handler' => $stack]),
     // ...other config
 ]);
 ```
 
 Reuse the SDK client for the lifetime of the request handler (or the application). Do not construct
-a new `GeoapifyClient` per API call — Guzzle connection pooling is per-client-instance and per-request
+a new `GeoapifyApiClient` per API call — Guzzle connection pooling is per-client-instance and per-request
 construction leaks connections.
 
 ## Choosing the server / base URL
 
-Environments are modeled as class constants on `GeoapifyClient` (e.g.
-`GeoapifyClient::ENVIRONMENT_PRODUCTION`, `GeoapifyClient::ENVIRONMENT_SANDBOX`). Pass the constant in
+Environments are modeled as class constants on `GeoapifyApiClient` (e.g.
+`GeoapifyApiClient::ENVIRONMENT_PRODUCTION`, `GeoapifyApiClient::ENVIRONMENT_SANDBOX`). Pass the constant in
 the config array. To override the base URL entirely (e.g. for a mock server or a self-hosted
 gateway), set the `baseUrl` or `baseUri` key (the exact key name varies per SDK — check the client
 constructor in the source):
 
 ```php
-$client = new GeoapifyClient([
-    'environment' => GeoapifyClient::ENVIRONMENT_PRODUCTION,
+$client = new GeoapifyApiClient([
+    'environment' => GeoapifyApiClient::ENVIRONMENT_PRODUCTION,
     // override the base URL (exact key — confirm in SDK source):
     'baseUrl'     => 'https://my-mock-server.example.com',
 ]);
@@ -92,12 +92,12 @@ constructed once and reused:
 
 ```php
 // Laravel service provider (AppServiceProvider or a dedicated provider):
-use GeoapifyLib\GeoapifyClient;
+use GeoapifyApiLib\GeoapifyApiClient;
 
-$this->app->singleton(GeoapifyClient::class, function ($app) {
-    return new GeoapifyClient([
+$this->app->singleton(GeoapifyApiClient::class, function ($app) {
+    return new GeoapifyApiClient([
         'timeout'     => 30,
-        'environment' => GeoapifyClient::ENVIRONMENT_PRODUCTION,
+        'environment' => GeoapifyApiClient::ENVIRONMENT_PRODUCTION,
         // credentials from config/env (see php-authentication):
     ]);
 });
@@ -108,7 +108,7 @@ Then inject it via the constructor:
 ```php
 class MyService
 {
-    public function __construct(private readonly GeoapifyClient $client) {}
+    public function __construct(private readonly GeoapifyApiClient $client) {}
 
     public function doWork(): mixed
     {

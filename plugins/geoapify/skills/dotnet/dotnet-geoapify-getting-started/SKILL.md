@@ -1,9 +1,9 @@
 ---
 name: dotnet-geoapify-getting-started
-description: Geoapify .NET SDK identity and lookup layer for the dotnet-geoapify-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
+description: geoapify .NET SDK identity and lookup layer for the dotnet-geoapify-sdk helper agent (.NET/C# only) — install, root namespace, environments, auth pattern, and the bundled SDK map of every operation signature, model, enum, union and error type. The helper agent loads this to answer contract questions; other agents work from the contract sheet it produces.
 ---
 
-# Getting started with the Geoapify .NET SDK
+# Getting started with the geoapify .NET SDK
 
 > **Who this skill is for.** This is the **map layer**, preloaded for the `dotnet-geoapify-sdk` helper
 > agent — if you are it, this skill is yours to follow directly and fully. It is the only place
@@ -37,13 +37,13 @@ confirm names against the map.
 
 | | |
 | --- | --- |
-| API | Geoapify |
+| API | geoapify |
 | Source repo | https://github.com/context-plugins/geoapify-csharp-sdk (branch `main`) |
-| Root namespace | `Geoapify` (the `using` namespace) |
-| Client class | `GeoapifyClient` |
-| Options class | `GeoapifyClientOptions` |
+| Root namespace | `GeoapifyApi` (the `using` namespace) |
+| Client class | `GeoapifyApiClient` |
+| Options class | `GeoapifyApiClientOptions` |
 <!-- crawler:auth -->
-| Auth | See the credentials properties on `GeoapifyClientOptions` — the SDK map's *Servers & auth* section lists the scheme(s) |
+| Auth | See the credentials properties on `GeoapifyApiClientOptions` — the SDK map's *Servers & auth* section lists the scheme(s) |
 <!-- /crawler:auth -->
 <!-- crawler:environments -->
 | Environments | `options.Environment` — `ServerEnvironment` members: `Production` (see the SDK map's *Servers & auth* section) |
@@ -59,7 +59,7 @@ on.
 ## Namespaces (using-directives)
 
 The SDK splits its public types across **separate child namespaces**. C# does **not** import child
-namespaces transitively, so `using Geoapify.Models;` alone does **not** make enums, union
+namespaces transitively, so `using GeoapifyApi.Models;` alone does **not** make enums, union
 types, or error types visible — you get `CS0103`/`CS0246` ("name/type does not exist") on build. Add a
 separate `using` for each kind of type you reference — the map lists each type's namespace, so take it from
 the map row; only if the map is silent do you open the file in the clone and copy the `namespace`
@@ -72,7 +72,7 @@ This SDK is consumed from its source repo (it is not published to NuGet):
 ```bash
 # Clone the SDK and add a project reference to its .csproj:
 git clone --branch main https://github.com/context-plugins/geoapify-csharp-sdk
-dotnet add reference geoapify-csharp-sdk/Geoapify.csproj
+dotnet add reference geoapify-csharp-sdk/GeoapifyApi.csproj
 ```
 
 > The project reference pulls the SDK's runtime dependencies in transitively. This **install clone**
@@ -170,7 +170,7 @@ Layout — where the SDK map's file references resolve (open these directly; don
 - `Errors/` — per-operation `{Operation}Error` types (only Case-A operations have one; the map's rows say
   which case each operation is).
 - `Core/` — HTTP infrastructure (`SdkException<T>`, `RawError`, auth, retries).
-- `Servers/`, `GeoapifyClient.cs`, `ServiceCollectionExtensions.cs` — environments, the client, DI.
+- `Servers/`, `GeoapifyApiClient.cs`, `ServiceCollectionExtensions.cs` — environments, the client, DI.
 
 **Leave the clone in place — don't delete it.** It's a read-only reference with nothing of yours in it, and
 keeping it is what lets every later step in this session reuse it instead of cloning again. The OS reaps the
@@ -183,12 +183,12 @@ relevant source. Each step calls out the trap the signature hides (in *parens*).
 them in this order:
 
 1. **Client & DI setup** — load **dotnet-client-initialization** before you write
-   `new GeoapifyClient(...)`, build its options, or DI-register via
-   `AddGeoapifyClient`. (*The signature won't tell you:* the `HttpClient`/handler
+   `new GeoapifyApiClient(...)`, build its options, or DI-register via
+   `AddGeoapifyApiClient`. (*The signature won't tell you:* the `HttpClient`/handler
    pipeline must be long-lived and reused via `IHttpClientFactory`, not rebuilt per request; the SDK client
    wrapper over it may be transient.)
 2. **Authentication** — load **dotnet-authentication** before you set credentials. The scheme(s) this SDK
-   accepts are the credentials properties on `GeoapifyClientOptions` — the map's *Servers & auth* section
+   accepts are the credentials properties on `GeoapifyApiClientOptions` — the map's *Servers & auth* section
    lists them. (*The signature won't tell you:* set credentials before
    constructing the client or in the DI callback, and load secrets from configuration rather than hardcoding.)
 3. **Calling an endpoint / building a request body** — load **dotnet-calling-endpoints** before the first

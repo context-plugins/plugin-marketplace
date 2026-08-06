@@ -53,7 +53,7 @@ client. Replicate this structure in your own test base:
 ```java
 // Confirmed from MultiAuth-Sample: BaseControllerTest.java + AuthenticationControllerTest.java
 
-import com.geoapify.api.GeoapifyClient;
+import com.geoapify.api.GeoapifyApiClient;
 import localhost3000.testing.HttpCallbackCatcher;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -74,9 +74,9 @@ public class BaseControllerTest {
         httpResponse = null;
     }
 
-    protected static GeoapifyClient createConfiguration() {
+    protected static GeoapifyApiClient createConfiguration() {
         // Build the client with the catcher injected:
-        return new GeoapifyClient.Builder()
+        return new GeoapifyApiClient.Builder()
             // ... auth credentials, environment, etc. ...
             .httpCallback(httpResponse)   // ← the seam
             .build();
@@ -126,7 +126,7 @@ public void testCustomAuthentication() throws Exception {
 ## Controller test class structure
 
 ```java
-import com.geoapify.api.GeoapifyClient;
+import com.geoapify.api.GeoapifyApiClient;
 import localhost3000.controllers.AuthenticationController;
 import localhost3000.exceptions.ApiException;
 import org.junit.AfterClass;
@@ -134,7 +134,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AuthenticationControllerTest extends BaseControllerTest {
-    private static GeoapifyClient client;
+    private static GeoapifyApiClient client;
     private static AuthenticationController controller;
 
     @BeforeClass
@@ -241,7 +241,7 @@ server.start();
 OkHttpClient mockClient = new OkHttpClient.Builder()
     .build();
 
-GeoapifyClient client = new GeoapifyClient.Builder()
+GeoapifyApiClient client = new GeoapifyApiClient.Builder()
     .httpClientConfig(configBuilder -> configBuilder
         .httpClientInstance(mockClient, false)
         .numberOfRetries(0))    // disable retries so stubs fail fast

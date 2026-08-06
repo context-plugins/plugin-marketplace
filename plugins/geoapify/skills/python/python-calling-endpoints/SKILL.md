@@ -5,7 +5,7 @@ description: Call API operations on an APIMatic-generated Python SDK — access 
 
 # Calling endpoints on an APIMatic Python SDK
 
-> `GeoapifyClient` is the SDK's client class — **read the real name** from `geoapify/geoapify_client.py`
+> `GeoapifyapiClient` is the SDK's client class — **read the real name** from `geoapify/geoapify_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
 Operations are **synchronous methods** on a **controller** you get from the client as a
@@ -24,7 +24,7 @@ Open `geoapify/geoapify_client.py` for the controller property names, then the r
 
 ## Controller access — property, not constructor
 
-Controllers are `@LazyProperty` properties on `GeoapifyClient`. Access them as attributes:
+Controllers are `@LazyProperty` properties on `GeoapifyapiClient`. Access them as attributes:
 
 ```python
 # Correct — the controller is a property:
@@ -146,7 +146,7 @@ class ResponseCapture(HttpCallBack):
         self.last_response = response
 
 capture = ResponseCapture()
-client = GeoapifyClient(http_call_back=capture, ...)
+client = GeoapifyapiClient(http_call_back=capture, ...)
 result = client.authentication.custom_authentication()
 print(capture.last_response.status_code)
 print(capture.last_response.headers)
@@ -179,7 +179,7 @@ an iterator over the items on that page. Inspect `geoapify/pagination/` in the s
 
 ## Finding the right method
 
-- Controller property names are on `GeoapifyClient` in `geoapify/geoapify_client.py`.
+- Controller property names are on `GeoapifyapiClient` in `geoapify/geoapify_client.py`.
 - Operation method signatures are in `geoapify/controllers/{resource}_controller.py`.
 - `doc/controllers/*.md` lists every operation with parameters and usage snippets — grep it first.
 - Request/response model types are under `geoapify/models/`; enum types have `from_value()`.

@@ -1,4 +1,4 @@
-# SDK map — Geoapify (.NET)
+# SDK map — geoapify (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,11 +6,11 @@
 
 | | |
 |---|---|
-| SDK display name | Geoapify |
-| Root namespace/module | `Geoapify` |
+| SDK display name | geoapify |
+| Root namespace/module | `GeoapifyApi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `39f12d6` (`39f12d638203a82eba42164d18d9e8f8787454d1`, tagged `39f12d6`) |
+| Source commit (spec stamp) | `635b066` (`635b066efbdd8a7922995aa5e00a7c1c245e2451`, tagged `635b066`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/geoapify-csharp-sdk (branch `main`) |
@@ -24,31 +24,31 @@ file linked in the row.
 ## Getting a client
 
 ```csharp
-using Geoapify;
-using Geoapify.Servers; // ServerEnvironment lives here
+using GeoapifyApi;
+using GeoapifyApi.Servers; // ServerEnvironment lives here
 
-var options = new GeoapifyClientOptions
+var options = new GeoapifyApiClientOptions
 {
     // Set the credentials properties for the scheme(s) this API uses — see Servers & auth below.
     // Environment selects the server environment; see Servers & auth below.
 };
-var client = new GeoapifyClient(httpClient, options); // httpClient: System.Net.Http.HttpClient
+var client = new GeoapifyApiClient(httpClient, options); // httpClient: System.Net.Http.HttpClient
 ```
 
 DI alternative (`ServiceCollectionExtensions.cs`):
 
 ```csharp
-services.AddGeoapifyClient(o =>
+services.AddGeoapifyApiClient(o =>
 {
     // set credentials / environment on o here
 });
 ```
 
 Every API group is a property on the client (e.g. `client.Customers`). Source:
-`GeoapifyClient.cs`.
+`GeoapifyApiClient.cs`.
 
 <!-- crawler:client-options -->
-All `GeoapifyClientOptions` properties (source: `GeoapifyClientOptions.cs`):
+All `GeoapifyApiClientOptions` properties (source: `GeoapifyApiClientOptions.cs`):
 
 | Property | Type |
 |---|---|
@@ -73,7 +73,7 @@ All `GeoapifyClientOptions` properties (source: `GeoapifyClientOptions.cs`):
 
 Client constructor(s):
 
-- `GeoapifyClient(HttpClient httpClient, GeoapifyClientOptions options)`
+- `GeoapifyApiClient(HttpClient httpClient, GeoapifyApiClientOptions options)`
 <!-- /crawler:client-options -->
 
 ---
@@ -165,12 +165,12 @@ Namespaces by content type (add `using` accordingly):
 
 | Contents | Namespace(s) |
 |---|---|
-| Client & options (root) | `Geoapify` |
-| Operation controllers (`Api/`) | `Geoapify.Api` |
-| Records (`Models/`) | `Geoapify.Models` |
-| Enums (`Models/Enums/`) | `Geoapify.Models.Enums` |
-| Unions (`Models/AnyOf/`, `Models/OneOf/`) | `Geoapify.Models.AnyOf` |
-| Error classes (`Errors/`) | `Geoapify.Errors` |
+| Client & options (root) | `GeoapifyApi` |
+| Operation controllers (`Api/`) | `GeoapifyApi.Api` |
+| Records (`Models/`) | `GeoapifyApi.Models` |
+| Enums (`Models/Enums/`) | `GeoapifyApi.Models.Enums` |
+| Unions (`Models/AnyOf/`, `Models/OneOf/`) | `GeoapifyApi.Models.AnyOf` |
+| Error classes (`Errors/`) | `GeoapifyApi.Errors` |
 <!-- /gen:namespaces -->
 
 ---
@@ -178,7 +178,7 @@ Namespaces by content type (add `using` accordingly):
 ## Servers & auth
 
 <!-- crawler:servers-auth -->
-**Auth.** No credentials properties were detected on `GeoapifyClientOptions` — confirm the auth scheme in `dotnet-authentication` and the options class source.
+**Auth.** No credentials properties were detected on `GeoapifyApiClientOptions` — confirm the auth scheme in `dotnet-authentication` and the options class source.
 
 **Environments.** `options.Environment` is a `ServerEnvironment` (`Servers/ServerEnvironment.cs`) with members: `ServerEnvironment.Production`. Base-URL templates and override points live under `Servers/` and `options.Server`.
 <!-- /crawler:servers-auth -->

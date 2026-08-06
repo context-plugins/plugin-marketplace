@@ -179,7 +179,7 @@
     {
       "name": "geoapify",
       "source": "./plugins/geoapify",
-      "description": "Build maps, geocode addresses, and calculate routes with location intelligence tools."
+      "description": "TODO_AUTO_DESCRIPTION: geoapify API"
     },
     {
       "name": "akoya",

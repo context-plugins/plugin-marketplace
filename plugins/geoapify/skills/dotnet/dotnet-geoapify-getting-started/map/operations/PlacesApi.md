@@ -11,7 +11,7 @@ Accessor: `client.PlacesApi` · Source: `Api/PlacesApi.cs` · 1 operations
   - 7 params (`conditions` … `name`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
   - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `apiKey` ← `apiKey`, `categories` ← `categories`, `conditions` ← `conditions`, `filter` ← `filter`, `bias` ← `bias`, `limit` ← `limit`, `offset` ← `offset`, `lang` ← `lang`, `name` ← `name`
-- **Returns**: `void` (Task)
+- **Returns**: `PlacesResponse`
 - **Error**: `SdkException<GetPlacesError>` — **Case A (typed)**
 - **Error accessors**: `TryGetNoContent(out RawError)` [400, 401, 500] · `TryGetRawError(out RawError)` [fallback]
 - **No-throw variant**: absent

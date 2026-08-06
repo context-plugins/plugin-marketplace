@@ -10,7 +10,7 @@ is optional with a generated default — where the source declares an explicit d
 models (the `out` types named by the operation pages' error accessors) are listed here like any
 other record. A field whose type is a `OneOf`/`AnyOf` union is tagged `(union)` — construct and
 read it via `unions.md` (factories + `TryGet…`), not as a record.
-All records on these pages live in namespace `Geoapify.Models`.
+All records on these pages live in namespace `GeoapifyApi.Models`.
 
 | Record | Summary | Fields | Source |
 |---|---|---|---|

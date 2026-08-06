@@ -10,7 +10,7 @@
 | Root namespace/module | `Akoya` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `b2f8dfc` (`b2f8dfc4fcac29784242068e6a0afe57426eed2a`, tagged `b2f8dfc`) |
+| Source commit (spec stamp) | `2f2b761` (`2f2b761e8496ca0f91f9887a5b7c682c5bdd8b9d`, tagged `2f2b761`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/akoya-csharp-sdk (branch `main`) |

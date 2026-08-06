@@ -10,7 +10,7 @@ All config below is passed at construction time via the `Configuration` object.
 ## Base URL / environment override
 
 ```typescript
-import { Client, Environment } from 'google-maps-platformlib';
+import { Client, Environment } from 'googlemapsplatform';
 
 const client = new Client({
   environment: Environment.Production,
@@ -91,7 +91,7 @@ Each iteration yields **one page** (an array of items). A failed page fetch thro
 There is **no built-in logging hook**. Add logging by wrapping the client's underlying fetch:
 
 ```typescript
-import { Client } from 'google-maps-platformlib';
+import { Client } from 'googlemapsplatform';
 
 const client = new Client({
   customFetch: async (url, options) => {

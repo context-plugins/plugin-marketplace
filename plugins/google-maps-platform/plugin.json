@@ -1,8 +1,8 @@
 {
   "name": "google-maps-platform",
-  "displayName": "Google Maps Platform SDK",
+  "displayName": "google-maps-platform SDK",
   "version": "0.1.0",
-  "description": "Embed interactive maps, geocode addresses, and calculate routes with Google Maps.",
+  "description": "TODO_AUTO_DESCRIPTION: google-maps-platform API",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

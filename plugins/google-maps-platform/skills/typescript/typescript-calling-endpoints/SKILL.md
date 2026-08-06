@@ -9,7 +9,7 @@ Operations are **async methods on a controller class that you instantiate yourse
 properties on the client:
 
 ```typescript
-import { Client, {Resource}Api } from 'google-maps-platformlib';
+import { Client, {Resource}Api } from 'googlemapsplatform';
 
 const client = new Client({ /* ... */ });
 const api = new {Resource}Api(client);          // you construct this

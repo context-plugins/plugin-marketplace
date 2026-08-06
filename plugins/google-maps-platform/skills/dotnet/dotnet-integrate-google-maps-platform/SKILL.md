@@ -1,9 +1,9 @@
 ---
 name: dotnet-integrate-google-maps-platform
-description: Entry point for Google Maps Platform .NET SDK work in a C#/.NET project — this router is for the .NET/C# SDK ONLY; never load it for any other language. Load this first when asked to integrate the Google Maps Platform API in C#, or when a Google Maps Platform .NET SDK call errors or behaves unexpectedly. Defines the delegation contract, the agent reuse rules, and which companion skills are required reading before you write code.
+description: Entry point for google-maps-platform .NET SDK work in a C#/.NET project — this router is for the .NET/C# SDK ONLY; never load it for any other language. Load this first when asked to integrate the google-maps-platform API in C#, or when a google-maps-platform .NET SDK call errors or behaves unexpectedly. Defines the delegation contract, the agent reuse rules, and which companion skills are required reading before you write code.
 ---
 
-# Google Maps Platform .NET SDK — Router (map + one agent)
+# google-maps-platform .NET SDK — Router (map + one agent)
 
 You (the main agent) orchestrate; the `dotnet-google-maps-platform-sdk` agent carries the SDK knowledge. The
 division of labour keeps YOUR code grounded and keeps the **SDK map and source** off your
@@ -28,13 +28,13 @@ guidance, they are yours to load, and Step 1c below makes loading them mandatory
   every later need is a follow-up message to that same warm agent.** A fresh spawn rebuilds
   its whole map context from scratch (the dominant helper cost); reuse is not optional.
 
-**Scope guard:** the APIMatic-generated Google Maps Platform **.NET SDK** (root namespace
+**Scope guard:** the APIMatic-generated google-maps-platform **.NET SDK** (root namespace
 `GoogleMapsPlatform`) in **C#/.NET projects only**. Unrelated API, or any language other than
 C#/.NET — do nothing; this router and its agent do not apply.
 
 ## Workflow
 
-**If the user opens with a reported SDK error or unexpected Google Maps Platform behaviour** (not new
+**If the user opens with a reported SDK error or unexpected google-maps-platform behaviour** (not new
 feature work), spawn **`dotnet-google-maps-platform-sdk`** directly with the error output and the files involved,
 and wait — do not run the plan-first flow for a bug report. Otherwise, for implementation
 work:
@@ -122,7 +122,7 @@ ask the warm `dotnet-google-maps-platform-sdk` agent, never guess.
 
 ### Step 3 — Answering pure questions
 
-A standalone Google Maps Platform question with no code change: ask the warm `dotnet-google-maps-platform-sdk` agent (narrow-
+A standalone google-maps-platform question with no code change: ask the warm `dotnet-google-maps-platform-sdk` agent (narrow-
 question mode) and relay its grounded answer. Never answer from memory, even for "easy"
 questions.
 
@@ -138,7 +138,7 @@ agent is still running, wait.
 ## Anti-patterns — never do these
 
 - **Get SDK knowledge from the `dotnet-google-maps-platform-sdk` agent, not yourself.** Don't clone or decompile the
-  SDK, don't fetch its source files, and don't web-search Google Maps Platform topics to find an
+  SDK, don't fetch its source files, and don't web-search google-maps-platform topics to find an
   implementation detail — that is the agent's job. (You have no SDK source or clone locally;
   the agent holds the bundled map and clones on a real gap.)
 - **Don't load `dotnet-google-maps-platform-getting-started` or the SDK map pages** — the map is the agent's, and
@@ -147,7 +147,7 @@ agent is still running, wait.
   error accessors, and enum values come from the contract sheet (or you ask the warm `dotnet-google-maps-platform-sdk`
   agent). Where a companion points at the SDK source or a clone, that path is the agent's, not
   yours — you have no local clone.
-- **Never write a Google Maps Platform/SDK fact from memory** — every signature, field name, enum value, and
+- **Never write a google-maps-platform/SDK fact from memory** — every signature, field name, enum value, and
   error type in your code must come from the contract sheet or a lookup. And **never write a
   call from memory "to fix later".**
 - **Don't re-derive or double-check a sheet row from memory.** If you are unsure what a row

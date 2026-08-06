@@ -1,4 +1,4 @@
-# SDK map — Google Maps Platform (.NET)
+# SDK map — google-maps-platform (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,11 +6,11 @@
 
 | | |
 |---|---|
-| SDK display name | Google Maps Platform |
+| SDK display name | google-maps-platform |
 | Root namespace/module | `GoogleMapsPlatform` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `803e0b1` (`803e0b1da0360066ba3418903b746178fece9c1e`, tagged `803e0b1`) |
+| Source commit (spec stamp) | `222d93e` (`222d93e31f1d8e0407a76b6810ca4f4b42c8c3c7`, tagged `222d93e`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/google-maps-platform-csharp-sdk (branch `main`) |

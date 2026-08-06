@@ -2,7 +2,7 @@
   "name": "cellpoint",
   "displayName": "cellpoint SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: cellpoint API",
+  "description": "Process mobile payments and manage subscriber billing.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

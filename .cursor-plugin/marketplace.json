@@ -19,7 +19,7 @@
     {
       "name": "cellpoint",
       "source": "./plugins/cellpoint",
-      "description": "TODO_AUTO_DESCRIPTION: cellpoint API"
+      "description": "Process mobile payments and manage subscriber billing."
     },
     {
       "name": "spotify-web-api",

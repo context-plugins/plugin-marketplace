@@ -224,7 +224,7 @@
     {
       "name": "maxio",
       "source": "./plugins/maxio",
-      "description": "TODO_AUTO_DESCRIPTION: maxio API"
+      "description": "Manage recurring billing, subscription lifecycles, and financial operations with Maxio."
     },
     {
       "name": "paragon",

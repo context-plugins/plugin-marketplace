@@ -119,7 +119,7 @@
     {
       "name": "splitit",
       "source": "./plugins/splitit",
-      "description": "TODO_AUTO_DESCRIPTION: splitit API"
+      "description": "Offer installment payments at checkout with credit card authorization."
     },
     {
       "name": "square",

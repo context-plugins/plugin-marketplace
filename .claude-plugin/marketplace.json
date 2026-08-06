@@ -189,7 +189,7 @@
     {
       "name": "boku",
       "source": "./plugins/boku",
-      "description": "TODO_AUTO_DESCRIPTION: boku API"
+      "description": "Accept mobile and carrier-billed payments globally."
     },
     {
       "name": "goe",

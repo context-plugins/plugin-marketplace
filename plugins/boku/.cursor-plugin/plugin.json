@@ -2,7 +2,7 @@
   "name": "boku",
   "displayName": "boku SDK",
   "version": "0.1.0",
-  "description": "TODO_AUTO_DESCRIPTION: boku API",
+  "description": "Accept mobile and carrier-billed payments globally.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

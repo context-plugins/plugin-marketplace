@@ -1,7 +1,7 @@
 {
   "name": "deepgram",
   "displayName": "deepgram SDK",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Transcribe audio and analyze spoken language with real-time speech-to-text models.",
   "author": {
     "name": "APIMatic",

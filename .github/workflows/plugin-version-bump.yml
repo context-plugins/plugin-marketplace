@@ -7,7 +7,8 @@ name: Check plugin versions
 # increase (e.g. 0.1.0 -> 0.1.1 or 0.1.0 -> 1.2.3 pass; 0.1.3 -> 0.1.0 or 0.1.3 -> 0.1.3 fail), and
 # requires all three manifests to agree on the new version.
 #
-# Scoped to plugins/** so it only fires on plugin content, not workflow/doc changes.
+# Scoped to plugins/** so it only fires on plugin content, not workflow/doc changes, and skipped
+# entirely when a commit in the range is a backfill (see the skip step below).
 on:
   pull_request:
     branches: [main]
@@ -43,5 +44,26 @@ jobs:
           fi
           echo "BASE_SHA=$base" >> "$GITHUB_ENV"
 
+      # The `Sync marketplace registries and docs` workflow writes generated description text into
+      # plugins/** and commits it as apimatic-bot ("Backfill description for ..."), straight to main
+      # with no PR. That is a bot content fill, not a plugin change anyone chose to make, so there
+      # is no author to bump a version and nobody to fix the red X it would leave on main. If any
+      # commit in the range says "Backfill" (case-insensitive), the check below is skipped.
+      - name: Skip runs that carry a backfill commit
+        run: |
+          set -uo pipefail
+          # BASE_SHA is empty on the first workflow_dispatch of a branch and all-zeros on a
+          # branch-creation push; in both cases there is no range, so look at HEAD alone.
+          if [ -n "${BASE_SHA:-}" ] && git rev-parse --verify --quiet "${BASE_SHA}^{commit}" >/dev/null; then
+            messages="$(git log --format=%B "${BASE_SHA}..HEAD")"
+          else
+            messages="$(git log -1 --format=%B HEAD)"
+          fi
+          if printf '%s' "$messages" | grep -qi 'backfill'; then
+            echo "SKIP_VERSION_CHECK=true" >> "$GITHUB_ENV"
+            echo "Backfill commit in this range — skipping the plugin version check."
+          fi
+
       - name: Check plugin versions
+        if: env.SKIP_VERSION_CHECK != 'true'
         run: python3 .github/scripts/check_plugin_versions.py

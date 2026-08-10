@@ -63,5 +63,11 @@ covers all seven.
 - **Never hardcode the plugin count** in documentation. It changes as plugins are published; derive
   it from `.claude-plugin/marketplace.json` or point readers at `npx context-plugins list`.
 - The two `marketplace.json` files must stay in sync. When you touch one, touch the other.
+- A plugin's three manifests must carry the **same, incremented** `version`. A push to `main` that
+  touches `plugins/**` is checked by `.github/workflows/plugin-version-bump.yml`
+  (`bump_plugin_versions.py`): a genuine increase over the previous commit is synced across all
+  three files, anything else (forgotten bump, downgrade, only one file bumped) gets the previous
+  version's patch incremented instead, applied to all three. Don't hand-craft a version bump
+  expecting it to stick unless it is a real increase over what was there before.
 - Installation is handled entirely by the [`context-plugins`](https://github.com/apimatic/context-plugins-installer)
   CLI. Install instructions belong in its README; this repo documents what the plugins *are*.

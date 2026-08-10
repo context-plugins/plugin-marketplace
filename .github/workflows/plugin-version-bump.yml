@@ -1,0 +1,47 @@
+name: Check plugin versions
+
+# A commit or PR touching a plugin is supposed to bump `version` in all three of its manifests
+# (plugin.json, .claude-plugin/plugin.json, .cursor-plugin/plugin.json — see CLAUDE.md's "Per-IDE
+# manifest convention"). This fails the run instead of fixing anything up: it compares each changed
+# plugin's version against what it declared before the change and requires a genuine semver
+# increase (e.g. 0.1.0 -> 0.1.1 or 0.1.0 -> 1.2.3 pass; 0.1.3 -> 0.1.0 or 0.1.3 -> 0.1.3 fail), and
+# requires all three manifests to agree on the new version.
+#
+# Scoped to plugins/** so it only fires on plugin content, not workflow/doc changes.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'plugins/**'
+  push:
+    branches: [main]
+    paths:
+      - 'plugins/**'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || '' }}
+          fetch-depth: 0
+
+      - name: Determine base commit
+        run: |
+          set -uo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            base="${{ github.event.pull_request.base.sha }}"
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            base="${{ github.event.before }}"
+          else
+            base="$(git rev-parse HEAD^ 2>/dev/null || true)"
+          fi
+          echo "BASE_SHA=$base" >> "$GITHUB_ENV"
+
+      - name: Check plugin versions
+        run: python3 .github/scripts/check_plugin_versions.py

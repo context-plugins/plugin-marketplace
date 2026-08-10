@@ -1,7 +1,7 @@
 {
   "name": "paypal",
   "displayName": "paypal SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Process global payments, subscriptions, and payouts with PayPal.",
   "author": {
     "name": "APIMatic",

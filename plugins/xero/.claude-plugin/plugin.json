@@ -1,7 +1,7 @@
 {
   "name": "xero",
   "displayName": "Xero SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Manage invoices, expenses, payroll, and banking with cloud accounting software.",
   "author": {
     "name": "APIMatic",

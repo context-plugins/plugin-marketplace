@@ -1,7 +1,7 @@
 {
   "name": "ebay-sell",
   "displayName": "ebay-sell SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Create, manage, and scale product listings, inventory, and fulfillment across eBay marketplaces.",
   "author": {
     "name": "APIMatic",

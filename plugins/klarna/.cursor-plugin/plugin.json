@@ -1,7 +1,7 @@
 {
   "name": "klarna",
   "displayName": "klarna SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Offer flexible \"buy now, pay later\" payment options and financing at checkout with Klarna.",
   "author": {
     "name": "APIMatic",

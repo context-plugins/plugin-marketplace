@@ -1,7 +1,7 @@
 {
   "name": "binance",
   "displayName": "Binance SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Trade crypto assets, monitor market data, and manage orders on Binance.",
   "author": {
     "name": "APIMatic",

@@ -1,7 +1,7 @@
 {
   "name": "payquicker",
   "displayName": "Payquicker SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Disburse global payouts and manage corporate disbursements with automated payment accounts.",
   "author": {
     "name": "APIMatic",

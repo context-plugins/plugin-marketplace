@@ -1,7 +1,7 @@
 {
   "name": "shell-ev",
   "displayName": "shell-ev SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Locate charging stations, check real-time availability, and initiate EV charging sessions across the Shell Recharge network.",
   "author": {
     "name": "APIMatic",

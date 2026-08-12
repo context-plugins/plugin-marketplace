@@ -1,4 +1,4 @@
-# SDK map — GOE (.NET)
+# SDK map — goe (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,7 +6,7 @@
 
 | | |
 |---|---|
-| SDK display name | GOE |
+| SDK display name | goe |
 | Root namespace/module | `Goeapi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |

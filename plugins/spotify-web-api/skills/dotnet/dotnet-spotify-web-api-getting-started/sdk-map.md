@@ -1,4 +1,4 @@
-# SDK map — Spotify Web API (.NET)
+# SDK map — spotify-web-api (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,7 +6,7 @@
 
 | | |
 |---|---|
-| SDK display name | Spotify Web API |
+| SDK display name | spotify-web-api |
 | Root namespace/module | `SpotifyWebApi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |

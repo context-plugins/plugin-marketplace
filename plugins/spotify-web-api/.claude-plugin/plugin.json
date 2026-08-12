@@ -1,7 +1,7 @@
 {
   "name": "spotify-web-api",
   "displayName": "Spotify Web API SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Stream music, manage playlists, and access user data across Spotify catalogs.",
   "author": {
     "name": "APIMatic",

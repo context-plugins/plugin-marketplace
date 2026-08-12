@@ -1,7 +1,7 @@
 {
   "name": "adyen",
   "displayName": "adyen SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Process global payments, fraud prevention, and point-of-sale transactions.",
   "author": {
     "name": "APIMatic",

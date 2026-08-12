@@ -1,7 +1,7 @@
 {
   "name": "paze",
   "displayName": "Paze SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Checkout and digital wallet service for secure online payments.",
   "author": {
     "name": "APIMatic",

@@ -1,7 +1,7 @@
 {
   "name": "stax-fattmerchant-api",
   "displayName": "Stax (FattMerchant) API SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Process omnichannel payments, manage customer invoicing, and automate recurring billing through Stax.",
   "author": {
     "name": "APIMatic",

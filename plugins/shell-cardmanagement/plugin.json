@@ -1,7 +1,7 @@
 {
   "name": "shell-cardmanagement",
   "displayName": "shell-cardmanagement SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Order, activate, and manage Shell fuel cards for business fleets.",
   "author": {
     "name": "APIMatic",

@@ -1,7 +1,7 @@
 {
   "name": "google-maps-platform",
   "displayName": "google-maps-platform SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Embed interactive maps, calculate routes, and retrieve geocodes with Google Maps.",
   "author": {
     "name": "APIMatic",

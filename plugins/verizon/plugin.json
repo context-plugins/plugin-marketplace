@@ -1,7 +1,7 @@
 {
   "name": "verizon",
   "displayName": "verizon SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Manage network connectivity, device locations, and IoT services through Verizon infrastructure.",
   "author": {
     "name": "APIMatic",

@@ -1,7 +1,7 @@
 {
   "name": "fdx",
   "displayName": "fdx SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Access, aggregate, and share financial data securely through the Financial Data Exchange standard.",
   "author": {
     "name": "APIMatic",

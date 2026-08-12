@@ -1,7 +1,7 @@
 {
   "name": "akoya",
   "displayName": "akoya SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Access and share consumer financial data securely through open banking networks.",
   "author": {
     "name": "APIMatic",

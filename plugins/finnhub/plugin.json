@@ -1,7 +1,7 @@
 {
   "name": "finnhub",
   "displayName": "Finnhub SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Stream real-time stock prices, global company fundamentals, and financial news.",
   "author": {
     "name": "APIMatic",

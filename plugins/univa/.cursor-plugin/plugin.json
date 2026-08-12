@@ -1,7 +1,7 @@
 {
   "name": "univa",
   "displayName": "univa SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Accept and manage card and digital wallet payments through the Univapay gateway.",
   "author": {
     "name": "APIMatic",

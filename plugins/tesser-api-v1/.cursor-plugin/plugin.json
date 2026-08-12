@@ -2,7 +2,7 @@
   "name": "tesser-api-v1",
   "displayName": "Tesser API (v1) SDK",
   "version": "0.1.0",
-  "description": "Extract text from images and documents using optical character recognition.",
+  "description": "Move money and manage accounts, counterparties, and treasury operations across payment networks with Tesser.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

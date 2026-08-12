@@ -104,7 +104,7 @@
     {
       "name": "tesser-api-v1",
       "source": "./plugins/tesser-api-v1",
-      "description": "Extract text from images and documents using optical character recognition."
+      "description": "Move money and manage accounts, counterparties, and treasury operations across payment networks with Tesser."
     },
     {
       "name": "payquicker",
@@ -234,7 +234,7 @@
     {
       "name": "univa",
       "source": "./plugins/univa",
-      "description": "Manage high-performance grid computing workloads, clusters, and resource scheduling with Univa."
+      "description": "Accept and manage card and digital wallet payments through the Univapay gateway."
     },
     {
       "name": "verizon",

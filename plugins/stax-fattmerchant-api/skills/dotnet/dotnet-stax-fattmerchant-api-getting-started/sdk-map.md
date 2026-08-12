@@ -1,4 +1,4 @@
-# SDK map — Stax (FattMerchant) API (.NET)
+# SDK map — stax-fattmerchant-api (.NET)
 
 > A generated table-of-contents for this SDK. Consult this map and its sub-pages to learn signatures, error
 > types, enum values, and server/auth wiring **by lookup** — open a source file only for a full method/model
@@ -6,7 +6,7 @@
 
 | | |
 |---|---|
-| SDK display name | Stax (FattMerchant) API |
+| SDK display name | stax-fattmerchant-api |
 | Root namespace/module | `StaxFattMerchantApi` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |

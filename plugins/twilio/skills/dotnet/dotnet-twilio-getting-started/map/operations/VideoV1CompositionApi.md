@@ -1,52 +1,55 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # VideoV1CompositionApi — operations
 
 Accessor: `client.VideoV1CompositionApi` · Source: `Api/VideoV1CompositionApi.cs` · 4 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateComposition
-- **HTTP**: `POST /v1/Compositions` (Default6 (video))
+
+- **Server group**: `Default6`
 - **Signature**: `CreateComposition(string roomSid, object? videoLayout, IReadOnlyList<string>? audioSources, IReadOnlyList<string>? audioSourcesExcluded, string? resolution, CompositionEnumFormat? format, string? statusCallback, AmdStatusCallbackMethod? statusCallbackMethod, bool? trim, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 8 params (`videoLayout` … `trim`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `RoomSid` ← `roomSid`, `VideoLayout` ← `videoLayout`, `AudioSources` ← `audioSources`, `AudioSourcesExcluded` ← `audioSourcesExcluded`, `Resolution` ← `resolution`, `Format` ← `format`, `StatusCallback` ← `statusCallback`, `StatusCallbackMethod` ← `statusCallbackMethod`, `Trim` ← `trim`
 - **Returns**: `VideoV1Composition`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `CompositionEnumFormat` | `Models/Enums/CompositionEnumFormat.cs` |
+| `AmdStatusCallbackMethod` | `Models/Enums/AmdStatusCallbackMethod.cs` |
+| `VideoV1Composition` | `Models/VideoV1Composition.cs` |
 
 ### DeleteComposition
-- **HTTP**: `DELETE /v1/Compositions/{Sid}` (Default6 (video))
-- **Notes**: Delete a Recording Composition resource identified by a Composition SID.
+
+- **Server group**: `Default6`
 - **Signature**: `DeleteComposition(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchComposition
-- **HTTP**: `GET /v1/Compositions/{Sid}` (Default6 (video))
-- **Notes**: Returns a single Composition resource identified by a Composition SID.
+
+- **Server group**: `Default6`
 - **Signature**: `FetchComposition(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `VideoV1Composition`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VideoV1Composition` | `Models/VideoV1Composition.cs` |
 
 ### ListComposition
-- **HTTP**: `GET /v1/Compositions` (Default6 (video))
-- **Notes**: List of all Recording compositions.
+
+- **Server group**: `Default6`
 - **Signature**: `ListComposition(CompositionEnumStatus? status, DateTimeOffset? dateCreatedAfter, DateTimeOffset? dateCreatedBefore, string? roomSid, int? page, string? pageToken, long? pageSize = 50L, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 6 params (`status` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `pageSize` = 50L, `requestOptions` = null
+  - defaults: `pageSize` = `50L`
 - **Query params (wire ← C#)**: `Status` ← `status`, `DateCreatedAfter` ← `dateCreatedAfter`, `DateCreatedBefore` ← `dateCreatedBefore`, `RoomSid` ← `roomSid`, `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListCompositionResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `CompositionEnumStatus` | `Models/Enums/CompositionEnumStatus.cs` |
+| `ListCompositionResponse` | `Models/ListCompositionResponse.cs` |
+

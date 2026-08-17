@@ -1,16 +1,23 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # NumbersV1SenderIdRegistrationEmbeddedSession — operations
 
-Accessor: `client.NumbersV1SenderIdRegistrationEmbeddedSession` · Source: `Api/NumbersV1SenderIdRegistrationEmbeddedSession.cs` · 1 operations
+Accessor: `client.NumbersV1SenderIdRegistrationEmbeddedSession` · Source: `Api/NumbersV1SenderIdRegistrationEmbeddedSession.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateSenderIdRegistrationEmbeddedSession
-- **HTTP**: `POST /v1/SenderIdRegistrations/{BundleSid}/EmbeddedSessions` (Default5 (numbers))
-- **Notes**: Creates a new embedded Persona inquiry session for an existing registration in DRAFT or TWILIO_REJECTED status. Use this to resume an incomplete registration or resubmit a rejected one.
+
+- **Server group**: `Default5`
 - **Signature**: `CreateSenderIdRegistrationEmbeddedSession(string bundleSid, NumbersV1CreateEmbeddedSessionRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `NumbersV1CreateEmbeddedSessionResponse`
 - **Error**: `SdkException<CreateSenderIdRegistrationEmbeddedSessionError>` — **Case A (typed)**
 - **Error accessors**: `TryGetAccountsCallsRecordingsSidJson201041408Error1(out AccountsCallsRecordingsSidJson201041408Error1)` [400, 404, 409, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `NumbersV1CreateEmbeddedSessionRequest` | `Models/NumbersV1CreateEmbeddedSessionRequest.cs` |
+| `NumbersV1CreateEmbeddedSessionResponse` | `Models/NumbersV1CreateEmbeddedSessionResponse.cs` |
+| `CreateSenderIdRegistrationEmbeddedSessionError` | `Errors/CreateSenderIdRegistrationEmbeddedSessionError.cs` |
+| `AccountsCallsRecordingsSidJson201041408Error1` | `Models/AccountsCallsRecordingsSidJson201041408Error1.cs` |
+

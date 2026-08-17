@@ -1,18 +1,20 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # VerifyV2Notification — operations
 
-Accessor: `client.VerifyV2Notification` · Source: `Api/VerifyV2Notification.cs` · 1 operations
+Accessor: `client.VerifyV2Notification` · Source: `Api/VerifyV2Notification.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateNotification
-- **HTTP**: `POST /v2/Services/{ServiceSid}/Entities/{Identity}/Challenges/{ChallengeSid}/Notifications` (Default3 (verify))
-- **Notes**: Create a new Notification for the corresponding Challenge
+
+- **Server group**: `Default3`
 - **Signature**: `CreateNotification(string serviceSid, string identity, string challengeSid, int? ttl, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `ttl` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Ttl` ← `ttl`
 - **Returns**: `VerifyV2ServiceEntityChallengeNotification`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VerifyV2ServiceEntityChallengeNotification` | `Models/VerifyV2ServiceEntityChallengeNotification.cs` |
+

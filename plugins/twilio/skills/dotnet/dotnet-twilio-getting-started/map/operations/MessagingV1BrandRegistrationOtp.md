@@ -1,15 +1,19 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # MessagingV1BrandRegistrationOtp — operations
 
-Accessor: `client.MessagingV1BrandRegistrationOtp` · Source: `Api/MessagingV1BrandRegistrationOtp.cs` · 1 operations
+Accessor: `client.MessagingV1BrandRegistrationOtp` · Source: `Api/MessagingV1BrandRegistrationOtp.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateBrandRegistrationOtp
-- **HTTP**: `POST /v1/a2p/BrandRegistrations/{BrandRegistrationSid}/SmsOtp` (Default1 (messaging))
+
+- **Server group**: `Default1`
 - **Signature**: `CreateBrandRegistrationOtp(string brandRegistrationSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1BrandRegistrationsBrandRegistrationOtp`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `MessagingV1BrandRegistrationsBrandRegistrationOtp` | `Models/MessagingV1BrandRegistrationsBrandRegistrationOtp.cs` |
+

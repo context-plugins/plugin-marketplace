@@ -1,18 +1,22 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # VerifyV2VerificationAttemptsSummaryApi — operations
 
-Accessor: `client.VerifyV2VerificationAttemptsSummaryApi` · Source: `Api/VerifyV2VerificationAttemptsSummaryApi.cs` · 1 operations
+Accessor: `client.VerifyV2VerificationAttemptsSummaryApi` · Source: `Api/VerifyV2VerificationAttemptsSummaryApi.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchVerificationAttemptsSummary
-- **HTTP**: `GET /v2/Attempts/Summary` (Default3 (verify))
-- **Notes**: Get a summary of how many attempts were made and how many were converted.
+
+- **Server group**: `Default3`
 - **Signature**: `FetchVerificationAttemptsSummary(string? verifyServiceSid, DateTimeOffset? dateCreatedAfter, DateTimeOffset? dateCreatedBefore, string? country, VerificationAttemptsSummaryEnumChannels? channel, string? destinationPrefix, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 6 params (`verifyServiceSid` … `destinationPrefix`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `VerifyServiceSid` ← `verifyServiceSid`, `DateCreatedAfter` ← `dateCreatedAfter`, `DateCreatedBefore` ← `dateCreatedBefore`, `Country` ← `country`, `Channel` ← `channel`, `DestinationPrefix` ← `destinationPrefix`
 - **Returns**: `VerifyV2VerificationAttemptsSummary`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VerificationAttemptsSummaryEnumChannels` | `Models/Enums/VerificationAttemptsSummaryEnumChannels.cs` |
+| `VerifyV2VerificationAttemptsSummary` | `Models/VerifyV2VerificationAttemptsSummary.cs` |
+

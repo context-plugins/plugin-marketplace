@@ -1,64 +1,66 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # MessagingV2ChannelsSender — operations
 
 Accessor: `client.MessagingV2ChannelsSender` · Source: `Api/MessagingV2ChannelsSender.cs` · 5 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateChannelsSender
-- **HTTP**: `POST /v2/Channels/Senders` (Default1 (messaging))
-- **Notes**: Create a Sender.
+
+- **Server group**: `Default1`
 - **Signature**: `CreateChannelsSender(MessagingV2ChannelsSenderRequestsCreate body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `MessagingV2ChannelsSenderResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `MessagingV2ChannelsSenderRequestsCreate` | `Models/MessagingV2ChannelsSenderRequestsCreate.cs` |
+| `MessagingV2ChannelsSenderResponse` | `Models/MessagingV2ChannelsSenderResponse.cs` |
 
 ### DeleteChannelsSender
-- **HTTP**: `DELETE /v2/Channels/Senders/{Sid}` (Default1 (messaging))
-- **Notes**: (WhatsApp only) Delete a Sender.
+
+- **Server group**: `Default1`
 - **Signature**: `DeleteChannelsSender(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchChannelsSender
-- **HTTP**: `GET /v2/Channels/Senders/{Sid}` (Default1 (messaging))
-- **Notes**: Retrieve a Sender.
+
+- **Server group**: `Default1`
 - **Signature**: `FetchChannelsSender(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `MessagingV2ChannelsSenderResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `MessagingV2ChannelsSenderResponse` | `Models/MessagingV2ChannelsSenderResponse.cs` |
 
 ### ListChannelsSender
-- **HTTP**: `GET /v2/Channels/Senders` (Default1 (messaging))
-- **Notes**: Retrieve a list of Senders for an account.
+
+- **Server group**: `Default1`
 - **Signature**: `ListChannelsSender(string channel, int? page, string? pageToken, long? pageSize = 50L, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `pageSize` = 50L, `requestOptions` = null
+  - defaults: `pageSize` = `50L`
 - **Query params (wire ← C#)**: `Channel` ← `channel`, `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListChannelsSenderResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListChannelsSenderResponse` | `Models/ListChannelsSenderResponse.cs` |
 
 ### UpdateChannelsSender
-- **HTTP**: `POST /v2/Channels/Senders/{Sid}` (Default1 (messaging))
-- **Notes**: (WhatsApp only) Update a Sender. You can update a sender's information, including `profile`, `webhook`, and `configuration`. To verify a phone number, set `configuration.verification_code` to the One-time Password (OTP) that you received.
+
+- **Server group**: `Default1`
 - **Signature**: `UpdateChannelsSender(string sid, MessagingV2ChannelsSenderRequestsUpdate? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `MessagingV2ChannelsSenderResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `MessagingV2ChannelsSenderRequestsUpdate` | `Models/MessagingV2ChannelsSenderRequestsUpdate.cs` |
+| `MessagingV2ChannelsSenderResponse` | `Models/MessagingV2ChannelsSenderResponse.cs` |
+

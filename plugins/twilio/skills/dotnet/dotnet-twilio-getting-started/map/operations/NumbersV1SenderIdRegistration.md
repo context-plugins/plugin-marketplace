@@ -1,16 +1,23 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # NumbersV1SenderIdRegistration — operations
 
-Accessor: `client.NumbersV1SenderIdRegistration` · Source: `Api/NumbersV1SenderIdRegistration.cs` · 1 operations
+Accessor: `client.NumbersV1SenderIdRegistration` · Source: `Api/NumbersV1SenderIdRegistration.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateSenderIdRegistration
-- **HTTP**: `POST /v1/SenderIdRegistrations` (Default5 (numbers))
-- **Notes**: Creates a new sender ID registration and initializes an embedded Persona inquiry session. Returns registration details and embedded session credentials for rendering the Compliance Embeddable UI.
+
+- **Server group**: `Default5`
 - **Signature**: `CreateSenderIdRegistration(NumbersV1CreateEmbeddedRegistrationRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `NumbersV1CreateEmbeddedRegistrationResponse`
 - **Error**: `SdkException<CreateSenderIdRegistrationError>` — **Case A (typed)**
 - **Error accessors**: `TryGetAccountsCallsRecordingsSidJson201041408Error1(out AccountsCallsRecordingsSidJson201041408Error1)` [400, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `NumbersV1CreateEmbeddedRegistrationRequest` | `Models/NumbersV1CreateEmbeddedRegistrationRequest.cs` |
+| `NumbersV1CreateEmbeddedRegistrationResponse` | `Models/NumbersV1CreateEmbeddedRegistrationResponse.cs` |
+| `CreateSenderIdRegistrationError` | `Errors/CreateSenderIdRegistrationError.cs` |
+| `AccountsCallsRecordingsSidJson201041408Error1` | `Models/AccountsCallsRecordingsSidJson201041408Error1.cs` |
+

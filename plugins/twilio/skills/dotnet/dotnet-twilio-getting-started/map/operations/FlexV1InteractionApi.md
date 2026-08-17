@@ -1,43 +1,45 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # FlexV1InteractionApi — operations
 
 Accessor: `client.FlexV1InteractionApi` · Source: `Api/FlexV1InteractionApi.cs` · 3 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateInteraction
-- **HTTP**: `POST /v1/Interactions` (Default13 (flex-api))
-- **Notes**: Create a new Interaction.
+
+- **Server group**: `Default13`
 - **Signature**: `CreateInteraction(object channel, object? routing, string? interactionContextSid, string? webhookTtid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `routing` — nullable, no default → **must pass explicitly**
   - `interactionContextSid` — nullable, no default → **must pass explicitly**
   - `webhookTtid` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Channel` ← `channel`, `Routing` ← `routing`, `InteractionContextSid` ← `interactionContextSid`, `WebhookTtid` ← `webhookTtid`
 - **Returns**: `FlexV1Interaction`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `FlexV1Interaction` | `Models/FlexV1Interaction.cs` |
 
 ### FetchInteraction2
-- **HTTP**: `GET /v1/Interactions/{Sid}` (Default13 (flex-api))
+
+- **Server group**: `Default13`
 - **Signature**: `FetchInteraction2(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `FlexV1Interaction`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `FlexV1Interaction` | `Models/FlexV1Interaction.cs` |
 
 ### UpdateInteraction
-- **HTTP**: `POST /v1/Interactions/{Sid}` (Default13 (flex-api))
-- **Notes**: Updates an interaction.
+
+- **Server group**: `Default13`
 - **Signature**: `UpdateInteraction(string sid, string? webhookTtid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `webhookTtid` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `WebhookTtid` ← `webhookTtid`
 - **Returns**: `FlexV1Interaction`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `FlexV1Interaction` | `Models/FlexV1Interaction.cs` |
+

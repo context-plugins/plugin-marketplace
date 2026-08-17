@@ -1,27 +1,26 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # NumbersV1PortingPortInPhoneNumberApi — operations
 
 Accessor: `client.NumbersV1PortingPortInPhoneNumberApi` · Source: `Api/NumbersV1PortingPortInPhoneNumberApi.cs` · 2 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### DeletePortingPortInPhoneNumber
-- **HTTP**: `DELETE /v1/Porting/PortIn/{PortInRequestSid}/PhoneNumber/{PhoneNumberSid}` (Default5 (numbers))
-- **Notes**: Allows to cancel a port in request phone number by SID
+
+- **Server group**: `Default5`
 - **Signature**: `DeletePortingPortInPhoneNumber(string portInRequestSid, string phoneNumberSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchPortingPortInPhoneNumber
-- **HTTP**: `GET /v1/Porting/PortIn/{PortInRequestSid}/PhoneNumber/{PhoneNumberSid}` (Default5 (numbers))
-- **Notes**: Fetch a phone number by port in request SID and phone number SID
+
+- **Server group**: `Default5`
 - **Signature**: `FetchPortingPortInPhoneNumber(string portInRequestSid, string phoneNumberSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `NumbersV1PortingPortInPhoneNumber`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `NumbersV1PortingPortInPhoneNumber` | `Models/NumbersV1PortingPortInPhoneNumber.cs` |
+

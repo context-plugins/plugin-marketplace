@@ -1,17 +1,19 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # NumbersV2ReplaceItems — operations
 
-Accessor: `client.NumbersV2ReplaceItems` · Source: `Api/NumbersV2ReplaceItems.cs` · 1 operations
+Accessor: `client.NumbersV2ReplaceItems` · Source: `Api/NumbersV2ReplaceItems.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateReplaceItems
-- **HTTP**: `POST /v2/RegulatoryCompliance/Bundles/{BundleSid}/ReplaceItems` (Default5 (numbers))
-- **Notes**: Replaces all bundle items in the target bundle (specified in the path) with all the bundle items of the source bundle (specified by the from_bundle_sid body param)
+
+- **Server group**: `Default5`
 - **Signature**: `CreateReplaceItems(string bundleSid, string fromBundleSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `FromBundleSid` ← `fromBundleSid`
 - **Returns**: `NumbersV2RegulatoryComplianceBundleReplaceItems`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `NumbersV2RegulatoryComplianceBundleReplaceItems` | `Models/NumbersV2RegulatoryComplianceBundleReplaceItems.cs` |
+

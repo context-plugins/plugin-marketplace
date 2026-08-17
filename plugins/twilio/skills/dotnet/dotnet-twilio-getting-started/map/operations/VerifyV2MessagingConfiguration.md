@@ -1,66 +1,63 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # VerifyV2MessagingConfiguration — operations
 
 Accessor: `client.VerifyV2MessagingConfiguration` · Source: `Api/VerifyV2MessagingConfiguration.cs` · 5 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateMessagingConfiguration
-- **HTTP**: `POST /v2/Services/{ServiceSid}/MessagingConfigurations` (Default3 (verify))
-- **Notes**: Create a new MessagingConfiguration for a service.
+
+- **Server group**: `Default3`
 - **Signature**: `CreateMessagingConfiguration(string serviceSid, string country, string messagingServiceSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Country` ← `country`, `MessagingServiceSid` ← `messagingServiceSid`
 - **Returns**: `VerifyV2ServiceMessagingConfiguration`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VerifyV2ServiceMessagingConfiguration` | `Models/VerifyV2ServiceMessagingConfiguration.cs` |
 
 ### DeleteMessagingConfiguration
-- **HTTP**: `DELETE /v2/Services/{ServiceSid}/MessagingConfigurations/{Country}` (Default3 (verify))
-- **Notes**: Delete a specific MessagingConfiguration.
+
+- **Server group**: `Default3`
 - **Signature**: `DeleteMessagingConfiguration(string serviceSid, string country, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchMessagingConfiguration
-- **HTTP**: `GET /v2/Services/{ServiceSid}/MessagingConfigurations/{Country}` (Default3 (verify))
-- **Notes**: Fetch a specific MessagingConfiguration.
+
+- **Server group**: `Default3`
 - **Signature**: `FetchMessagingConfiguration(string serviceSid, string country, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `VerifyV2ServiceMessagingConfiguration`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VerifyV2ServiceMessagingConfiguration` | `Models/VerifyV2ServiceMessagingConfiguration.cs` |
 
 ### ListMessagingConfiguration
-- **HTTP**: `GET /v2/Services/{ServiceSid}/MessagingConfigurations` (Default3 (verify))
-- **Notes**: Retrieve a list of all Messaging Configurations for a Service.
+
+- **Server group**: `Default3`
 - **Signature**: `ListMessagingConfiguration(string serviceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListMessagingConfigurationResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListMessagingConfigurationResponse` | `Models/ListMessagingConfigurationResponse.cs` |
 
 ### UpdateMessagingConfiguration
-- **HTTP**: `POST /v2/Services/{ServiceSid}/MessagingConfigurations/{Country}` (Default3 (verify))
-- **Notes**: Update a specific MessagingConfiguration
+
+- **Server group**: `Default3`
 - **Signature**: `UpdateMessagingConfiguration(string serviceSid, string country, string messagingServiceSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `MessagingServiceSid` ← `messagingServiceSid`
 - **Returns**: `VerifyV2ServiceMessagingConfiguration`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VerifyV2ServiceMessagingConfiguration` | `Models/VerifyV2ServiceMessagingConfiguration.cs` |
+

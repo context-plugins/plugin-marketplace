@@ -1,15 +1,19 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # InsightsV1CallApi — operations
 
-Accessor: `client.InsightsV1CallApi` · Source: `Api/InsightsV1CallApi.cs` · 1 operations
+Accessor: `client.InsightsV1CallApi` · Source: `Api/InsightsV1CallApi.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchCall2
-- **HTTP**: `GET /v1/Voice/{Sid}` (Default14 (insights))
+
+- **Server group**: `Default14`
 - **Signature**: `FetchCall2(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `InsightsV1Call`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `InsightsV1Call` | `Models/InsightsV1Call.cs` |
+

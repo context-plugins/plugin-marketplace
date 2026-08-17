@@ -1,16 +1,19 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # NumbersV1PortingWebhookConfigurationFetchApi — operations
 
-Accessor: `client.NumbersV1PortingWebhookConfigurationFetchApi` · Source: `Api/NumbersV1PortingWebhookConfigurationFetchApi.cs` · 1 operations
+Accessor: `client.NumbersV1PortingWebhookConfigurationFetchApi` · Source: `Api/NumbersV1PortingWebhookConfigurationFetchApi.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchPortingWebhookConfigurationFetch
-- **HTTP**: `GET /v1/Porting/Configuration/Webhook` (Default5 (numbers))
-- **Notes**: Allows to fetch the webhook configuration
+
+- **Server group**: `Default5`
 - **Signature**: `FetchPortingWebhookConfigurationFetch(RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `NumbersV1PortingWebhookConfigurationFetch`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `NumbersV1PortingWebhookConfigurationFetch` | `Models/NumbersV1PortingWebhookConfigurationFetch.cs` |
+

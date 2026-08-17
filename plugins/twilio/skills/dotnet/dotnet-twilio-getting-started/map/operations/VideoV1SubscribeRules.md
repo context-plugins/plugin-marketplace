@@ -1,29 +1,31 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # VideoV1SubscribeRules — operations
 
 Accessor: `client.VideoV1SubscribeRules` · Source: `Api/VideoV1SubscribeRules.cs` · 2 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchRoomParticipantSubscribeRule
-- **HTTP**: `GET /v1/Rooms/{RoomSid}/Participants/{ParticipantSid}/SubscribeRules` (Default6 (video))
-- **Notes**: Returns a list of Subscribe Rules for the Participant.
+
+- **Server group**: `Default6`
 - **Signature**: `FetchRoomParticipantSubscribeRule(string roomSid, string participantSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `VideoV1RoomRoomParticipantRoomParticipantSubscribeRule`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VideoV1RoomRoomParticipantRoomParticipantSubscribeRule` | `Models/VideoV1RoomRoomParticipantRoomParticipantSubscribeRule.cs` |
 
 ### UpdateRoomParticipantSubscribeRule
-- **HTTP**: `POST /v1/Rooms/{RoomSid}/Participants/{ParticipantSid}/SubscribeRules` (Default6 (video))
-- **Notes**: Update the Subscribe Rules for the Participant
+
+- **Server group**: `Default6`
 - **Signature**: `UpdateRoomParticipantSubscribeRule(string roomSid, string participantSid, object? rules, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `rules` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Rules` ← `rules`
 - **Returns**: `VideoV1RoomRoomParticipantRoomParticipantSubscribeRule`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VideoV1RoomRoomParticipantRoomParticipantSubscribeRule` | `Models/VideoV1RoomRoomParticipantRoomParticipantSubscribeRule.cs` |
+

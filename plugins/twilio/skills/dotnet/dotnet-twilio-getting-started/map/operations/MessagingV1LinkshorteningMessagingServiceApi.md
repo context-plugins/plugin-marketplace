@@ -1,25 +1,26 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # MessagingV1LinkshorteningMessagingServiceApi — operations
 
 Accessor: `client.MessagingV1LinkshorteningMessagingServiceApi` · Source: `Api/MessagingV1LinkshorteningMessagingServiceApi.cs` · 2 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateLinkshorteningMessagingService
-- **HTTP**: `POST /v1/LinkShortening/Domains/{DomainSid}/MessagingServices/{MessagingServiceSid}` (Default1 (messaging))
+
+- **Server group**: `Default1`
 - **Signature**: `CreateLinkshorteningMessagingService(string domainSid, string messagingServiceSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1LinkshorteningMessagingService`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `MessagingV1LinkshorteningMessagingService` | `Models/MessagingV1LinkshorteningMessagingService.cs` |
 
 ### DeleteLinkshorteningMessagingService
-- **HTTP**: `DELETE /v1/LinkShortening/Domains/{DomainSid}/MessagingServices/{MessagingServiceSid}` (Default1 (messaging))
+
+- **Server group**: `Default1`
 - **Signature**: `DeleteLinkshorteningMessagingService(string domainSid, string messagingServiceSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+

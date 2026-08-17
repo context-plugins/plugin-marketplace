@@ -1,18 +1,22 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # InsightsV1CallSummaryApi — operations
 
-Accessor: `client.InsightsV1CallSummaryApi` · Source: `Api/InsightsV1CallSummaryApi.cs` · 1 operations
+Accessor: `client.InsightsV1CallSummaryApi` · Source: `Api/InsightsV1CallSummaryApi.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchSummary
-- **HTTP**: `GET /v1/Voice/{CallSid}/Summary` (Default14 (insights))
-- **Notes**: Get a specific Call Summary.
+
+- **Server group**: `Default14`
 - **Signature**: `FetchSummary(string callSid, SummaryEnumProcessingState? processingState, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `processingState` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `ProcessingState` ← `processingState`
 - **Returns**: `InsightsV1CallSummary`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `SummaryEnumProcessingState` | `Models/Enums/SummaryEnumProcessingState.cs` |
+| `InsightsV1CallSummary` | `Models/InsightsV1CallSummary.cs` |
+

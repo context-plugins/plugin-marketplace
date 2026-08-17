@@ -1,17 +1,21 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # InsightsV1CreateInboundPhoneNumbersReport — operations
 
-Accessor: `client.InsightsV1CreateInboundPhoneNumbersReport` · Source: `Api/InsightsV1CreateInboundPhoneNumbersReport.cs` · 1 operations
+Accessor: `client.InsightsV1CreateInboundPhoneNumbersReport` · Source: `Api/InsightsV1CreateInboundPhoneNumbersReport.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateInboundPhoneNumbersReport
-- **HTTP**: `POST /v2/Voice/Reports/PhoneNumbers/Inbound` (Default14 (insights))
-- **Notes**: Create Inbound specific Phone Numbers Report for a specific account with given time range.
+
+- **Server group**: `Default14`
 - **Signature**: `CreateInboundPhoneNumbersReport(InsightsV2CreatePhoneNumbersReportRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `InsightsV2CreateReportResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `InsightsV2CreatePhoneNumbersReportRequest` | `Models/InsightsV2CreatePhoneNumbersReportRequest.cs` |
+| `InsightsV2CreateReportResponse` | `Models/InsightsV2CreateReportResponse.cs` |
+

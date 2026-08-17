@@ -1,16 +1,20 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # VerifyV2NewChallenge — operations
 
-Accessor: `client.VerifyV2NewChallenge` · Source: `Api/VerifyV2NewChallenge.cs` · 1 operations
+Accessor: `client.VerifyV2NewChallenge` · Source: `Api/VerifyV2NewChallenge.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateChallengePasskeys
-- **HTTP**: `POST /v2/Services/{ServiceSid}/Passkeys/Challenges` (Default3 (verify))
-- **Notes**: Create a Passkeys Challenge
+
+- **Server group**: `Default3`
 - **Signature**: `CreateChallengePasskeys(string serviceSid, CreatePasskeysChallengeRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `V2ServicesPasskeysChallengesResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `CreatePasskeysChallengeRequest` | `Models/CreatePasskeysChallengeRequest.cs` |
+| `V2ServicesPasskeysChallengesResponse` | `Models/V2ServicesPasskeysChallengesResponse.cs` |
+

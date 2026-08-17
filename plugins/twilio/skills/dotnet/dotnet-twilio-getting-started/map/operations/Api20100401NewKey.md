@@ -1,17 +1,19 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # Api20100401NewKey — operations
 
-Accessor: `client.Api20100401NewKey` · Source: `Api/Api20100401NewKey.cs` · 1 operations
+Accessor: `client.Api20100401NewKey` · Source: `Api/Api20100401NewKey.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateNewKey
-- **HTTP**: `POST /2010-04-01/Accounts/{AccountSid}/Keys.json` (Default (api))
+
 - **Signature**: `CreateNewKey(string accountSid, string? friendlyName, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `friendlyName` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `FriendlyName` ← `friendlyName`
 - **Returns**: `ApiV2010AccountNewKey`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ApiV2010AccountNewKey` | `Models/ApiV2010AccountNewKey.cs` |
+

@@ -1,17 +1,20 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # NumbersV1PortingWebhookConfigurationApi — operations
 
-Accessor: `client.NumbersV1PortingWebhookConfigurationApi` · Source: `Api/NumbersV1PortingWebhookConfigurationApi.cs` · 1 operations
+Accessor: `client.NumbersV1PortingWebhookConfigurationApi` · Source: `Api/NumbersV1PortingWebhookConfigurationApi.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreatePortingWebhookConfiguration
-- **HTTP**: `POST /v1/Porting/Configuration/Webhook` (Default5 (numbers))
-- **Notes**: Create a Webhook Configuration
+
+- **Server group**: `Default5`
 - **Signature**: `CreatePortingWebhookConfiguration(object? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `NumbersV1PortingWebhookConfiguration`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `NumbersV1PortingWebhookConfiguration` | `Models/NumbersV1PortingWebhookConfiguration.cs` |
+

@@ -1,27 +1,31 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # MessagingV1DomainConfigApi — operations
 
 Accessor: `client.MessagingV1DomainConfigApi` · Source: `Api/MessagingV1DomainConfigApi.cs` · 2 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchDomainConfig
-- **HTTP**: `GET /v1/LinkShortening/Domains/{DomainSid}/Config` (Default1 (messaging))
+
+- **Server group**: `Default1`
 - **Signature**: `FetchDomainConfig(string domainSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1DomainConfig`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `MessagingV1DomainConfig` | `Models/MessagingV1DomainConfig.cs` |
 
 ### UpdateDomainConfig
-- **HTTP**: `POST /v1/LinkShortening/Domains/{DomainSid}/Config` (Default1 (messaging))
+
+- **Server group**: `Default1`
 - **Signature**: `UpdateDomainConfig(string domainSid, string? fallbackUrl, string? callbackUrl, bool? continueOnFailure, bool? disableHttps, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`fallbackUrl` … `disableHttps`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `FallbackUrl` ← `fallbackUrl`, `CallbackUrl` ← `callbackUrl`, `ContinueOnFailure` ← `continueOnFailure`, `DisableHttps` ← `disableHttps`
 - **Returns**: `MessagingV1DomainConfig`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `MessagingV1DomainConfig` | `Models/MessagingV1DomainConfig.cs` |
+

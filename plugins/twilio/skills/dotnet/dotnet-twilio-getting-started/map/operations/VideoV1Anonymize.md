@@ -1,15 +1,19 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # VideoV1Anonymize — operations
 
-Accessor: `client.VideoV1Anonymize` · Source: `Api/VideoV1Anonymize.cs` · 1 operations
+Accessor: `client.VideoV1Anonymize` · Source: `Api/VideoV1Anonymize.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### UpdateRoomParticipantAnonymize
-- **HTTP**: `POST /v1/Rooms/{RoomSid}/Participants/{Sid}/Anonymize` (Default6 (video))
+
+- **Server group**: `Default6`
 - **Signature**: `UpdateRoomParticipantAnonymize(string roomSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `VideoV1RoomRoomParticipantRoomParticipantAnonymize`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VideoV1RoomRoomParticipantRoomParticipantAnonymize` | `Models/VideoV1RoomRoomParticipantRoomParticipantAnonymize.cs` |
+

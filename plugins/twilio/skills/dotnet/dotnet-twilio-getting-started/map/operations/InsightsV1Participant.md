@@ -1,31 +1,34 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # InsightsV1Participant — operations
 
 Accessor: `client.InsightsV1Participant` · Source: `Api/InsightsV1Participant.cs` · 2 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchVideoParticipantSummary
-- **HTTP**: `GET /v1/Video/Rooms/{RoomSid}/Participants/{ParticipantSid}` (Default14 (insights))
-- **Notes**: Get Video Log Analyzer data for a Room Participant.
+
+- **Server group**: `Default14`
 - **Signature**: `FetchVideoParticipantSummary(string roomSid, string participantSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `InsightsV1VideoRoomSummaryVideoParticipantSummary`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `InsightsV1VideoRoomSummaryVideoParticipantSummary` | `Models/InsightsV1VideoRoomSummaryVideoParticipantSummary.cs` |
 
 ### ListVideoParticipantSummary
-- **HTTP**: `GET /v1/Video/Rooms/{RoomSid}/Participants` (Default14 (insights))
-- **Notes**: Get a list of room participants.
+
+- **Server group**: `Default14`
 - **Signature**: `ListVideoParticipantSummary(string roomSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListVideoParticipantSummaryResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListVideoParticipantSummaryResponse` | `Models/ListVideoParticipantSummaryResponse.cs` |
+

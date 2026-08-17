@@ -1,64 +1,68 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # SyncV1SyncMapItem — operations
 
 Accessor: `client.SyncV1SyncMapItem` · Source: `Api/SyncV1SyncMapItem.cs` · 5 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateSyncMapItem
-- **HTTP**: `POST /v1/Services/{ServiceSid}/Maps/{MapSid}/Items` (Default12 (sync))
+
+- **Server group**: `Default12`
 - **Signature**: `CreateSyncMapItem(string serviceSid, string mapSid, string key, object data, int? ttl, int? itemTtl, int? collectionTtl, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `ttl` — nullable, no default → **must pass explicitly**
   - `itemTtl` — nullable, no default → **must pass explicitly**
   - `collectionTtl` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Key` ← `key`, `Data` ← `data`, `Ttl` ← `ttl`, `ItemTtl` ← `itemTtl`, `CollectionTtl` ← `collectionTtl`
 - **Returns**: `SyncV1ServiceSyncMapSyncMapItem`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `SyncV1ServiceSyncMapSyncMapItem` | `Models/SyncV1ServiceSyncMapSyncMapItem.cs` |
 
 ### DeleteSyncMapItem
-- **HTTP**: `DELETE /v1/Services/{ServiceSid}/Maps/{MapSid}/Items/{Key}` (Default12 (sync))
+
+- **Server group**: `Default12`
 - **Signature**: `DeleteSyncMapItem(string serviceSid, string mapSid, string key, string? ifMatch, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `ifMatch` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchSyncMapItem
-- **HTTP**: `GET /v1/Services/{ServiceSid}/Maps/{MapSid}/Items/{Key}` (Default12 (sync))
+
+- **Server group**: `Default12`
 - **Signature**: `FetchSyncMapItem(string serviceSid, string mapSid, string key, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `SyncV1ServiceSyncMapSyncMapItem`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `SyncV1ServiceSyncMapSyncMapItem` | `Models/SyncV1ServiceSyncMapSyncMapItem.cs` |
 
 ### ListSyncMapItem
-- **HTTP**: `GET /v1/Services/{ServiceSid}/Maps/{MapSid}/Items` (Default12 (sync))
+
+- **Server group**: `Default12`
 - **Signature**: `ListSyncMapItem(string serviceSid, string mapSid, ChallengeEnumListOrders? order, string? from, SyncMapItemEnumQueryFromBoundType? bounds, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 6 params (`order` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `Order` ← `order`, `From` ← `from`, `Bounds` ← `bounds`, `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListSyncMapItemResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ChallengeEnumListOrders` | `Models/Enums/ChallengeEnumListOrders.cs` |
+| `SyncMapItemEnumQueryFromBoundType` | `Models/Enums/SyncMapItemEnumQueryFromBoundType.cs` |
+| `ListSyncMapItemResponse` | `Models/ListSyncMapItemResponse.cs` |
 
 ### UpdateSyncMapItem
-- **HTTP**: `POST /v1/Services/{ServiceSid}/Maps/{MapSid}/Items/{Key}` (Default12 (sync))
+
+- **Server group**: `Default12`
 - **Signature**: `UpdateSyncMapItem(string serviceSid, string mapSid, string key, string? ifMatch, object? data, int? ttl, int? itemTtl, int? collectionTtl, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`ifMatch` … `collectionTtl`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Data` ← `data`, `Ttl` ← `ttl`, `ItemTtl` ← `itemTtl`, `CollectionTtl` ← `collectionTtl`
 - **Returns**: `SyncV1ServiceSyncMapSyncMapItem`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `SyncV1ServiceSyncMapSyncMapItem` | `Models/SyncV1ServiceSyncMapSyncMapItem.cs` |
+

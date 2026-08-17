@@ -1,27 +1,37 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # ConversationsV2ActionApi — operations
 
 Accessor: `client.ConversationsV2ActionApi` · Source: `Api/ConversationsV2ActionApi.cs` · 2 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateConversationAction
-- **HTTP**: `POST /v2/Conversations/{ConversationId}/Actions` (Default7 (conversations))
-- **Notes**: Creates an Action within a Conversation. Currently supports SEND_MESSAGE, which sends a message to recipients via the configured channel. Returns 202 Accepted with the Action in PENDING status. Poll `GET /v2/Conversations/{ConversationId}/Actions/{ActionId}` to check completion.
+
+- **Server group**: `Default7`
 - **Signature**: `CreateConversationAction(string conversationId, V2ConversationsActionsRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `ConversationsV2Action`
 - **Error**: `SdkException<CreateConversationActionError>` — **Case A (typed)**
 - **Error accessors**: `TryGetAccountsCallsRecordingsSidJson201041408Error1(out AccountsCallsRecordingsSidJson201041408Error1)` [400, 404, 429, 500, 503] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `V2ConversationsActionsRequest` | `Models/OneOf/V2ConversationsActionsRequest.cs` |
+| `ConversationsV2Action` | `Models/ConversationsV2Action.cs` |
+| `CreateConversationActionError` | `Errors/CreateConversationActionError.cs` |
+| `AccountsCallsRecordingsSidJson201041408Error1` | `Models/AccountsCallsRecordingsSidJson201041408Error1.cs` |
 
 ### FetchConversationAction
-- **HTTP**: `GET /v2/Conversations/{ConversationId}/Actions/{ActionId}` (Default7 (conversations))
-- **Notes**: Retrieve the current status of an Action.
+
+- **Server group**: `Default7`
 - **Signature**: `FetchConversationAction(string conversationId, string actionId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `ConversationsV2Action`
 - **Error**: `SdkException<FetchConversationActionError>` — **Case A (typed)**
 - **Error accessors**: `TryGetAccountsCallsRecordingsSidJson201041408Error1(out AccountsCallsRecordingsSidJson201041408Error1)` [400, 404, 429, 500, 503] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ConversationsV2Action` | `Models/ConversationsV2Action.cs` |
+| `FetchConversationActionError` | `Errors/FetchConversationActionError.cs` |
+| `AccountsCallsRecordingsSidJson201041408Error1` | `Models/AccountsCallsRecordingsSidJson201041408Error1.cs` |
+

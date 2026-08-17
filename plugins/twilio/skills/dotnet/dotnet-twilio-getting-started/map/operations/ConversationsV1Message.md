@@ -1,129 +1,134 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # ConversationsV1Message — operations
 
 Accessor: `client.ConversationsV1Message` · Source: `Api/ConversationsV1Message.cs` · 10 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateConversationMessage
-- **HTTP**: `POST /v1/Conversations/{ConversationSid}/Messages` (Default7 (conversations))
-- **Notes**: Add a new message to the conversation
+
+- **Server group**: `Default7`
 - **Signature**: `CreateConversationMessage(string conversationSid, Confirmation? xTwilioWebhookEnabled, string? author, string? body, DateTimeOffset? dateCreated, DateTimeOffset? dateUpdated, string? attributes, string? mediaSid, string? contentSid, string? contentVariables, string? subject, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 10 params (`xTwilioWebhookEnabled` … `subject`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Author` ← `author`, `Body` ← `body`, `DateCreated` ← `dateCreated`, `DateUpdated` ← `dateUpdated`, `Attributes` ← `attributes`, `MediaSid` ← `mediaSid`, `ContentSid` ← `contentSid`, `ContentVariables` ← `contentVariables`, `Subject` ← `subject`
 - **Returns**: `ConversationsV1ConversationConversationMessage`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Confirmation` | `Models/Enums/Confirmation.cs` |
+| `ConversationsV1ConversationConversationMessage` | `Models/ConversationsV1ConversationConversationMessage.cs` |
 
 ### CreateServiceConversationMessage
-- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Messages` (Default7 (conversations))
-- **Notes**: Add a new message to the conversation in a specific service
+
+- **Server group**: `Default7`
 - **Signature**: `CreateServiceConversationMessage(string chatServiceSid, string conversationSid, Confirmation? xTwilioWebhookEnabled, string? author, string? body, DateTimeOffset? dateCreated, DateTimeOffset? dateUpdated, string? attributes, string? mediaSid, string? contentSid, string? contentVariables, string? subject, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 10 params (`xTwilioWebhookEnabled` … `subject`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Author` ← `author`, `Body` ← `body`, `DateCreated` ← `dateCreated`, `DateUpdated` ← `dateUpdated`, `Attributes` ← `attributes`, `MediaSid` ← `mediaSid`, `ContentSid` ← `contentSid`, `ContentVariables` ← `contentVariables`, `Subject` ← `subject`
 - **Returns**: `ConversationsV1ServiceServiceConversationServiceConversationMessage`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Confirmation` | `Models/Enums/Confirmation.cs` |
+| `ConversationsV1ServiceServiceConversationServiceConversationMessage` | `Models/ConversationsV1ServiceServiceConversationServiceConversationMessage.cs` |
 
 ### DeleteConversationMessage
-- **HTTP**: `DELETE /v1/Conversations/{ConversationSid}/Messages/{Sid}` (Default7 (conversations))
-- **Notes**: Remove a message from the conversation
+
+- **Server group**: `Default7`
 - **Signature**: `DeleteConversationMessage(string conversationSid, string sid, Confirmation? xTwilioWebhookEnabled, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `xTwilioWebhookEnabled` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Confirmation` | `Models/Enums/Confirmation.cs` |
 
 ### DeleteServiceConversationMessage
-- **HTTP**: `DELETE /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Messages/{Sid}` (Default7 (conversations))
-- **Notes**: Remove a message from the conversation
+
+- **Server group**: `Default7`
 - **Signature**: `DeleteServiceConversationMessage(string chatServiceSid, string conversationSid, string sid, Confirmation? xTwilioWebhookEnabled, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `xTwilioWebhookEnabled` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Confirmation` | `Models/Enums/Confirmation.cs` |
 
 ### FetchConversationMessage
-- **HTTP**: `GET /v1/Conversations/{ConversationSid}/Messages/{Sid}` (Default7 (conversations))
-- **Notes**: Fetch a message from the conversation
+
+- **Server group**: `Default7`
 - **Signature**: `FetchConversationMessage(string conversationSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `ConversationsV1ConversationConversationMessage`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ConversationsV1ConversationConversationMessage` | `Models/ConversationsV1ConversationConversationMessage.cs` |
 
 ### FetchServiceConversationMessage
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Messages/{Sid}` (Default7 (conversations))
-- **Notes**: Fetch a message from the conversation
+
+- **Server group**: `Default7`
 - **Signature**: `FetchServiceConversationMessage(string chatServiceSid, string conversationSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `ConversationsV1ServiceServiceConversationServiceConversationMessage`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ConversationsV1ServiceServiceConversationServiceConversationMessage` | `Models/ConversationsV1ServiceServiceConversationServiceConversationMessage.cs` |
 
 ### ListConversationMessage
-- **HTTP**: `GET /v1/Conversations/{ConversationSid}/Messages` (Default7 (conversations))
-- **Notes**: Retrieve a list of all messages in the conversation
+
+- **Server group**: `Default7`
 - **Signature**: `ListConversationMessage(string conversationSid, ChallengeEnumListOrders? order, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`order` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `Order` ← `order`, `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListConversationMessageResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ChallengeEnumListOrders` | `Models/Enums/ChallengeEnumListOrders.cs` |
+| `ListConversationMessageResponse` | `Models/ListConversationMessageResponse.cs` |
 
 ### ListServiceConversationMessage
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Messages` (Default7 (conversations))
-- **Notes**: Retrieve a list of all messages in the conversation
+
+- **Server group**: `Default7`
 - **Signature**: `ListServiceConversationMessage(string chatServiceSid, string conversationSid, ChallengeEnumListOrders? order, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`order` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `Order` ← `order`, `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListServiceConversationMessageResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ChallengeEnumListOrders` | `Models/Enums/ChallengeEnumListOrders.cs` |
+| `ListServiceConversationMessageResponse` | `Models/ListServiceConversationMessageResponse.cs` |
 
 ### UpdateConversationMessage
-- **HTTP**: `POST /v1/Conversations/{ConversationSid}/Messages/{Sid}` (Default7 (conversations))
-- **Notes**: Update an existing message in the conversation
+
+- **Server group**: `Default7`
 - **Signature**: `UpdateConversationMessage(string conversationSid, string sid, Confirmation? xTwilioWebhookEnabled, string? author, string? body, DateTimeOffset? dateCreated, DateTimeOffset? dateUpdated, string? attributes, string? subject, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 7 params (`xTwilioWebhookEnabled` … `subject`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Author` ← `author`, `Body` ← `body`, `DateCreated` ← `dateCreated`, `DateUpdated` ← `dateUpdated`, `Attributes` ← `attributes`, `Subject` ← `subject`
 - **Returns**: `ConversationsV1ConversationConversationMessage`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Confirmation` | `Models/Enums/Confirmation.cs` |
+| `ConversationsV1ConversationConversationMessage` | `Models/ConversationsV1ConversationConversationMessage.cs` |
 
 ### UpdateServiceConversationMessage
-- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Messages/{Sid}` (Default7 (conversations))
-- **Notes**: Update an existing message in the conversation
+
+- **Server group**: `Default7`
 - **Signature**: `UpdateServiceConversationMessage(string chatServiceSid, string conversationSid, string sid, Confirmation? xTwilioWebhookEnabled, string? author, string? body, DateTimeOffset? dateCreated, DateTimeOffset? dateUpdated, string? attributes, string? subject, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 7 params (`xTwilioWebhookEnabled` … `subject`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Author` ← `author`, `Body` ← `body`, `DateCreated` ← `dateCreated`, `DateUpdated` ← `dateUpdated`, `Attributes` ← `attributes`, `Subject` ← `subject`
 - **Returns**: `ConversationsV1ServiceServiceConversationServiceConversationMessage`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Confirmation` | `Models/Enums/Confirmation.cs` |
+| `ConversationsV1ServiceServiceConversationServiceConversationMessage` | `Models/ConversationsV1ServiceServiceConversationServiceConversationMessage.cs` |
+

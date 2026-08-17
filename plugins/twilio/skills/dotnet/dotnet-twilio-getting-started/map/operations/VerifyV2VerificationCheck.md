@@ -1,18 +1,20 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # VerifyV2VerificationCheck — operations
 
-Accessor: `client.VerifyV2VerificationCheck` · Source: `Api/VerifyV2VerificationCheck.cs` · 1 operations
+Accessor: `client.VerifyV2VerificationCheck` · Source: `Api/VerifyV2VerificationCheck.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateVerificationCheck
-- **HTTP**: `POST /v2/Services/{ServiceSid}/VerificationCheck` (Default3 (verify))
-- **Notes**: challenge a specific Verification Check.
+
+- **Server group**: `Default3`
 - **Signature**: `CreateVerificationCheck(string serviceSid, string? code, string? to, string? verificationSid, string? amount, string? payee, string? snaClientToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 6 params (`code` … `snaClientToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Code` ← `code`, `To` ← `to`, `VerificationSid` ← `verificationSid`, `Amount` ← `amount`, `Payee` ← `payee`, `SnaClientToken` ← `snaClientToken`
 - **Returns**: `VerifyV2ServiceVerificationCheck`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VerifyV2ServiceVerificationCheck` | `Models/VerifyV2ServiceVerificationCheck.cs` |
+

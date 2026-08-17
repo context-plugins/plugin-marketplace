@@ -1,17 +1,21 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # MessagingV1UsAppToPersonUsecase — operations
 
-Accessor: `client.MessagingV1UsAppToPersonUsecase` · Source: `Api/MessagingV1UsAppToPersonUsecase.cs` · 1 operations
+Accessor: `client.MessagingV1UsAppToPersonUsecase` · Source: `Api/MessagingV1UsAppToPersonUsecase.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchUsAppToPersonUsecase
-- **HTTP**: `GET /v1/Services/{MessagingServiceSid}/Compliance/Usa2p/Usecases` (Default1 (messaging))
+
+- **Server group**: `Default1`
 - **Signature**: `FetchUsAppToPersonUsecase(string messagingServiceSid, string? brandRegistrationSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `brandRegistrationSid` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `BrandRegistrationSid` ← `brandRegistrationSid`
 - **Returns**: `MessagingV1ServiceUsAppToPersonUsecase`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `MessagingV1ServiceUsAppToPersonUsecase` | `Models/MessagingV1ServiceUsAppToPersonUsecase.cs` |
+

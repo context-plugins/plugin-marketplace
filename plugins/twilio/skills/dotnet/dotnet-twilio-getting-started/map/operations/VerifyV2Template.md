@@ -1,18 +1,21 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # VerifyV2Template — operations
 
-Accessor: `client.VerifyV2Template` · Source: `Api/VerifyV2Template.cs` · 1 operations
+Accessor: `client.VerifyV2Template` · Source: `Api/VerifyV2Template.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### ListVerificationTemplate
-- **HTTP**: `GET /v2/Templates` (Default3 (verify))
-- **Notes**: List all the available templates for a given Account.
+
+- **Server group**: `Default3`
 - **Signature**: `ListVerificationTemplate(string? friendlyName, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`friendlyName` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `FriendlyName` ← `friendlyName`, `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListVerificationTemplateResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListVerificationTemplateResponse` | `Models/ListVerificationTemplateResponse.cs` |
+

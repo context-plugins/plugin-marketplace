@@ -1,65 +1,64 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # StudioV2Execution — operations
 
 Accessor: `client.StudioV2Execution` · Source: `Api/StudioV2Execution.cs` · 5 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateExecution2
-- **HTTP**: `POST /v2/Flows/{FlowSid}/Executions` (Default11 (studio))
-- **Notes**: Triggers a new Execution for the Flow
+
+- **Server group**: `Default11`
 - **Signature**: `CreateExecution2(string flowSid, string to, string from, object? parameters, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `parameters` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `To` ← `to`, `From` ← `from`, `Parameters` ← `parameters`
 - **Returns**: `StudioV2FlowExecution`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `StudioV2FlowExecution` | `Models/StudioV2FlowExecution.cs` |
 
 ### DeleteExecution2
-- **HTTP**: `DELETE /v2/Flows/{FlowSid}/Executions/{Sid}` (Default11 (studio))
-- **Notes**: Delete the Execution and all Steps relating to it.
+
+- **Server group**: `Default11`
 - **Signature**: `DeleteExecution2(string flowSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchExecution2
-- **HTTP**: `GET /v2/Flows/{FlowSid}/Executions/{Sid}` (Default11 (studio))
-- **Notes**: Retrieve an Execution
+
+- **Server group**: `Default11`
 - **Signature**: `FetchExecution2(string flowSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `StudioV2FlowExecution`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `StudioV2FlowExecution` | `Models/StudioV2FlowExecution.cs` |
 
 ### ListExecution2
-- **HTTP**: `GET /v2/Flows/{FlowSid}/Executions` (Default11 (studio))
-- **Notes**: Retrieve a list of all Executions for the Flow.
+
+- **Server group**: `Default11`
 - **Signature**: `ListExecution2(string flowSid, EngagementEnumStatus? status, DateTimeOffset? dateCreatedFrom, DateTimeOffset? dateCreatedTo, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 6 params (`status` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `status` ← `status`, `DateCreatedFrom` ← `dateCreatedFrom`, `DateCreatedTo` ← `dateCreatedTo`, `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListExecutionResponse1`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `EngagementEnumStatus` | `Models/Enums/EngagementEnumStatus.cs` |
+| `ListExecutionResponse1` | `Models/ListExecutionResponse1.cs` |
 
 ### UpdateExecution2
-- **HTTP**: `POST /v2/Flows/{FlowSid}/Executions/{Sid}` (Default11 (studio))
-- **Notes**: Update the status of an Execution to `ended`.
+
+- **Server group**: `Default11`
 - **Signature**: `UpdateExecution2(string flowSid, string sid, EngagementEnumStatus status, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Status` ← `status`
 - **Returns**: `StudioV2FlowExecution`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `EngagementEnumStatus` | `Models/Enums/EngagementEnumStatus.cs` |
+| `StudioV2FlowExecution` | `Models/StudioV2FlowExecution.cs` |
+

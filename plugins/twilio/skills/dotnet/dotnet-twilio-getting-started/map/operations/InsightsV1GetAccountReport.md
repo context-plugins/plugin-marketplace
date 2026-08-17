@@ -1,16 +1,19 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # InsightsV1GetAccountReport — operations
 
-Accessor: `client.InsightsV1GetAccountReport` · Source: `Api/InsightsV1GetAccountReport.cs` · 1 operations
+Accessor: `client.InsightsV1GetAccountReport` · Source: `Api/InsightsV1GetAccountReport.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchAccountReport
-- **HTTP**: `GET /v2/Voice/Reports/{reportId}` (Default14 (insights))
-- **Notes**: Get Account Level Report for the given Report Id.
+
+- **Server group**: `Default14`
 - **Signature**: `FetchAccountReport(string reportId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `InsightsV2AccountReport`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `InsightsV2AccountReport` | `Models/InsightsV2AccountReport.cs` |
+

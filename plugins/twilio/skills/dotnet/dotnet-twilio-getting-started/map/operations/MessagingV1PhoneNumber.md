@@ -1,50 +1,52 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # MessagingV1PhoneNumber — operations
 
 Accessor: `client.MessagingV1PhoneNumber` · Source: `Api/MessagingV1PhoneNumber.cs` · 4 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreatePhoneNumber
-- **HTTP**: `POST /v1/Services/{ServiceSid}/PhoneNumbers` (Default1 (messaging))
+
+- **Server group**: `Default1`
 - **Signature**: `CreatePhoneNumber(string serviceSid, string phoneNumberSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `PhoneNumberSid` ← `phoneNumberSid`
 - **Returns**: `MessagingV1ServicePhoneNumber`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `MessagingV1ServicePhoneNumber` | `Models/MessagingV1ServicePhoneNumber.cs` |
 
 ### DeletePhoneNumber
-- **HTTP**: `DELETE /v1/Services/{ServiceSid}/PhoneNumbers/{Sid}` (Default1 (messaging))
+
+- **Server group**: `Default1`
 - **Signature**: `DeletePhoneNumber(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchPhoneNumber
-- **HTTP**: `GET /v1/Services/{ServiceSid}/PhoneNumbers/{Sid}` (Default1 (messaging))
+
+- **Server group**: `Default1`
 - **Signature**: `FetchPhoneNumber(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1ServicePhoneNumber`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `MessagingV1ServicePhoneNumber` | `Models/MessagingV1ServicePhoneNumber.cs` |
 
 ### ListPhoneNumber
-- **HTTP**: `GET /v1/Services/{ServiceSid}/PhoneNumbers` (Default1 (messaging))
+
+- **Server group**: `Default1`
 - **Signature**: `ListPhoneNumber(string serviceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListPhoneNumberResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListPhoneNumberResponse` | `Models/ListPhoneNumberResponse.cs` |
+

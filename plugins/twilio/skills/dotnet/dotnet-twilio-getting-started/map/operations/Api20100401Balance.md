@@ -1,16 +1,18 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # Api20100401Balance — operations
 
-Accessor: `client.Api20100401Balance` · Source: `Api/Api20100401Balance.cs` · 1 operations
+Accessor: `client.Api20100401Balance` · Source: `Api/Api20100401Balance.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchBalance
-- **HTTP**: `GET /2010-04-01/Accounts/{AccountSid}/Balance.json` (Default (api))
-- **Notes**: Fetch the balance for an Account based on Account Sid. Balance changes may not be reflected immediately. Child accounts do not contain balance information
+
 - **Signature**: `FetchBalance(string accountSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `ApiV2010AccountBalance`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ApiV2010AccountBalance` | `Models/ApiV2010AccountBalance.cs` |
+

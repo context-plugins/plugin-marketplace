@@ -1,31 +1,34 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # VideoV1SubscribedTrack — operations
 
 Accessor: `client.VideoV1SubscribedTrack` · Source: `Api/VideoV1SubscribedTrack.cs` · 2 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchRoomParticipantSubscribedTrack
-- **HTTP**: `GET /v1/Rooms/{RoomSid}/Participants/{ParticipantSid}/SubscribedTracks/{Sid}` (Default6 (video))
-- **Notes**: Returns a single Track resource represented by `track_sid`. Note: This is one resource with the Video API that requires a SID, be Track Name on the subscriber side is not guaranteed to be unique.
+
+- **Server group**: `Default6`
 - **Signature**: `FetchRoomParticipantSubscribedTrack(string roomSid, string participantSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `VideoV1RoomRoomParticipantRoomParticipantSubscribedTrack`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VideoV1RoomRoomParticipantRoomParticipantSubscribedTrack` | `Models/VideoV1RoomRoomParticipantRoomParticipantSubscribedTrack.cs` |
 
 ### ListRoomParticipantSubscribedTrack
-- **HTTP**: `GET /v1/Rooms/{RoomSid}/Participants/{ParticipantSid}/SubscribedTracks` (Default6 (video))
-- **Notes**: Returns a list of tracks that are subscribed for the participant.
+
+- **Server group**: `Default6`
 - **Signature**: `ListRoomParticipantSubscribedTrack(string roomSid, string participantSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListRoomParticipantSubscribedTrackResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListRoomParticipantSubscribedTrackResponse` | `Models/ListRoomParticipantSubscribedTrackResponse.cs` |
+

@@ -1,57 +1,60 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # ConversationsV1DeliveryReceipt — operations
 
 Accessor: `client.ConversationsV1DeliveryReceipt` · Source: `Api/ConversationsV1DeliveryReceipt.cs` · 4 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchConversationMessageReceipt
-- **HTTP**: `GET /v1/Conversations/{ConversationSid}/Messages/{MessageSid}/Receipts/{Sid}` (Default7 (conversations))
-- **Notes**: Fetch the delivery and read receipts of the conversation message
+
+- **Server group**: `Default7`
 - **Signature**: `FetchConversationMessageReceipt(string conversationSid, string messageSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `ConversationsV1ConversationConversationMessageConversationMessageReceipt`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ConversationsV1ConversationConversationMessageConversationMessageReceipt` | `Models/ConversationsV1ConversationConversationMessageConversationMessageReceipt.cs` |
 
 ### FetchServiceConversationMessageReceipt
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Messages/{MessageSid}/Receipts/{Sid}` (Default7 (conversations))
-- **Notes**: Fetch the delivery and read receipts of the conversation message
+
+- **Server group**: `Default7`
 - **Signature**: `FetchServiceConversationMessageReceipt(string chatServiceSid, string conversationSid, string messageSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `ServiceConversationMessageReceipt`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ServiceConversationMessageReceipt` | `Models/ServiceConversationMessageReceipt.cs` |
 
 ### ListConversationMessageReceipt
-- **HTTP**: `GET /v1/Conversations/{ConversationSid}/Messages/{MessageSid}/Receipts` (Default7 (conversations))
-- **Notes**: Retrieve a list of all delivery and read receipts of the conversation message
+
+- **Server group**: `Default7`
 - **Signature**: `ListConversationMessageReceipt(string conversationSid, string messageSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListConversationMessageReceiptResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListConversationMessageReceiptResponse` | `Models/ListConversationMessageReceiptResponse.cs` |
 
 ### ListServiceConversationMessageReceipt
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Conversations/{ConversationSid}/Messages/{MessageSid}/Receipts` (Default7 (conversations))
-- **Notes**: Retrieve a list of all delivery and read receipts of the conversation message
+
+- **Server group**: `Default7`
 - **Signature**: `ListServiceConversationMessageReceipt(string chatServiceSid, string conversationSid, string messageSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListServiceConversationMessageReceiptResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListServiceConversationMessageReceiptResponse` | `Models/ListServiceConversationMessageReceiptResponse.cs` |
+

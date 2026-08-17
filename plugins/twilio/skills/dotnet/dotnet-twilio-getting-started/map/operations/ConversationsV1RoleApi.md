@@ -1,127 +1,120 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # ConversationsV1RoleApi — operations
 
 Accessor: `client.ConversationsV1RoleApi` · Source: `Api/ConversationsV1RoleApi.cs` · 10 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateRole
-- **HTTP**: `POST /v1/Roles` (Default7 (conversations))
-- **Notes**: Create a new user role in your account's default service
+
+- **Server group**: `Default7`
 - **Signature**: `CreateRole(string friendlyName, RoleEnumRoleType type, IReadOnlyList<string> permission, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `FriendlyName` ← `friendlyName`, `Type` ← `type`, `Permission` ← `permission`
 - **Returns**: `ConversationsV1Role`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `RoleEnumRoleType` | `Models/Enums/RoleEnumRoleType.cs` |
+| `ConversationsV1Role` | `Models/ConversationsV1Role.cs` |
 
 ### CreateServiceRole
-- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Roles` (Default7 (conversations))
-- **Notes**: Create a new user role in your service
+
+- **Server group**: `Default7`
 - **Signature**: `CreateServiceRole(string chatServiceSid, string friendlyName, ServiceRoleEnumRoleType type, IReadOnlyList<string> permission, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `FriendlyName` ← `friendlyName`, `Type` ← `type`, `Permission` ← `permission`
 - **Returns**: `ConversationsV1ServiceServiceRole`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ServiceRoleEnumRoleType` | `Models/Enums/ServiceRoleEnumRoleType.cs` |
+| `ConversationsV1ServiceServiceRole` | `Models/ConversationsV1ServiceServiceRole.cs` |
 
 ### DeleteRole
-- **HTTP**: `DELETE /v1/Roles/{Sid}` (Default7 (conversations))
-- **Notes**: Remove a user role from your account's default service
+
+- **Server group**: `Default7`
 - **Signature**: `DeleteRole(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### DeleteServiceRole
-- **HTTP**: `DELETE /v1/Services/{ChatServiceSid}/Roles/{Sid}` (Default7 (conversations))
-- **Notes**: Remove a user role from your service
+
+- **Server group**: `Default7`
 - **Signature**: `DeleteServiceRole(string chatServiceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchRole
-- **HTTP**: `GET /v1/Roles/{Sid}` (Default7 (conversations))
-- **Notes**: Fetch a user role from your account's default service
+
+- **Server group**: `Default7`
 - **Signature**: `FetchRole(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `ConversationsV1Role`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ConversationsV1Role` | `Models/ConversationsV1Role.cs` |
 
 ### FetchServiceRole
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Roles/{Sid}` (Default7 (conversations))
-- **Notes**: Fetch a user role from your service
+
+- **Server group**: `Default7`
 - **Signature**: `FetchServiceRole(string chatServiceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `ConversationsV1ServiceServiceRole`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ConversationsV1ServiceServiceRole` | `Models/ConversationsV1ServiceServiceRole.cs` |
 
 ### ListRole
-- **HTTP**: `GET /v1/Roles` (Default7 (conversations))
-- **Notes**: Retrieve a list of all user roles in your account's default service
+
+- **Server group**: `Default7`
 - **Signature**: `ListRole(long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListRoleResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListRoleResponse` | `Models/ListRoleResponse.cs` |
 
 ### ListServiceRole
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Roles` (Default7 (conversations))
-- **Notes**: Retrieve a list of all user roles in your service
+
+- **Server group**: `Default7`
 - **Signature**: `ListServiceRole(string chatServiceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListServiceRoleResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListServiceRoleResponse` | `Models/ListServiceRoleResponse.cs` |
 
 ### UpdateRole
-- **HTTP**: `POST /v1/Roles/{Sid}` (Default7 (conversations))
-- **Notes**: Update an existing user role in your account's default service
+
+- **Server group**: `Default7`
 - **Signature**: `UpdateRole(string sid, IReadOnlyList<string> permission, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Permission` ← `permission`
 - **Returns**: `ConversationsV1Role`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ConversationsV1Role` | `Models/ConversationsV1Role.cs` |
 
 ### UpdateServiceRole
-- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Roles/{Sid}` (Default7 (conversations))
-- **Notes**: Update an existing user role in your service
+
+- **Server group**: `Default7`
 - **Signature**: `UpdateServiceRole(string chatServiceSid, string sid, IReadOnlyList<string> permission, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Permission` ← `permission`
 - **Returns**: `ConversationsV1ServiceServiceRole`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ConversationsV1ServiceServiceRole` | `Models/ConversationsV1ServiceServiceRole.cs` |
+

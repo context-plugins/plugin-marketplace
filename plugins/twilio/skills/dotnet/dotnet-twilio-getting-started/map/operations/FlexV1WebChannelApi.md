@@ -1,65 +1,68 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # FlexV1WebChannelApi — operations
 
 Accessor: `client.FlexV1WebChannelApi` · Source: `Api/FlexV1WebChannelApi.cs` · 5 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateWebChannel
-- **HTTP**: `POST /v1/WebChannels` (Default13 (flex-api))
+
+- **Server group**: `Default13`
 - **Signature**: `CreateWebChannel(string flexFlowSid, string identity, string customerFriendlyName, string chatFriendlyName, string? chatUniqueName, string? preEngagementData, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `chatUniqueName` — nullable, no default → **must pass explicitly**
   - `preEngagementData` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `FlexFlowSid` ← `flexFlowSid`, `Identity` ← `identity`, `CustomerFriendlyName` ← `customerFriendlyName`, `ChatFriendlyName` ← `chatFriendlyName`, `ChatUniqueName` ← `chatUniqueName`, `PreEngagementData` ← `preEngagementData`
 - **Returns**: `FlexV1WebChannel`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `FlexV1WebChannel` | `Models/FlexV1WebChannel.cs` |
 
 ### DeleteWebChannel
-- **HTTP**: `DELETE /v1/WebChannels/{Sid}` (Default13 (flex-api))
+
+- **Server group**: `Default13`
 - **Signature**: `DeleteWebChannel(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchWebChannel
-- **HTTP**: `GET /v1/WebChannels/{Sid}` (Default13 (flex-api))
+
+- **Server group**: `Default13`
 - **Signature**: `FetchWebChannel(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `FlexV1WebChannel`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `FlexV1WebChannel` | `Models/FlexV1WebChannel.cs` |
 
 ### ListWebChannel
-- **HTTP**: `GET /v1/WebChannels` (Default13 (flex-api))
+
+- **Server group**: `Default13`
 - **Signature**: `ListWebChannel(long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListWebChannelResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListWebChannelResponse` | `Models/ListWebChannelResponse.cs` |
 
 ### UpdateWebChannel
-- **HTTP**: `POST /v1/WebChannels/{Sid}` (Default13 (flex-api))
+
+- **Server group**: `Default13`
 - **Signature**: `UpdateWebChannel(string sid, WebChannelEnumChatStatus? chatStatus, string? postEngagementData, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `chatStatus` — nullable, no default → **must pass explicitly**
   - `postEngagementData` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `ChatStatus` ← `chatStatus`, `PostEngagementData` ← `postEngagementData`
 - **Returns**: `FlexV1WebChannel`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `WebChannelEnumChatStatus` | `Models/Enums/WebChannelEnumChatStatus.cs` |
+| `FlexV1WebChannel` | `Models/FlexV1WebChannel.cs` |
+

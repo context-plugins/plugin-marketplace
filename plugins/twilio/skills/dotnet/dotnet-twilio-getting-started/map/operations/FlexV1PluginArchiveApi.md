@@ -1,16 +1,20 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # FlexV1PluginArchiveApi — operations
 
-Accessor: `client.FlexV1PluginArchiveApi` · Source: `Api/FlexV1PluginArchiveApi.cs` · 1 operations
+Accessor: `client.FlexV1PluginArchiveApi` · Source: `Api/FlexV1PluginArchiveApi.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### UpdatePluginArchive
-- **HTTP**: `POST /v1/PluginService/Plugins/{Sid}/Archive` (Default13 (flex-api))
+
+- **Server group**: `Default13`
 - **Signature**: `UpdatePluginArchive(string sid, string? flexMetadata, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `flexMetadata` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `FlexV1PluginArchive`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `FlexV1PluginArchive` | `Models/FlexV1PluginArchive.cs` |
+

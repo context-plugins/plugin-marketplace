@@ -1,68 +1,65 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # VerifyV2RateLimit — operations
 
 Accessor: `client.VerifyV2RateLimit` · Source: `Api/VerifyV2RateLimit.cs` · 5 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateRateLimit
-- **HTTP**: `POST /v2/Services/{ServiceSid}/RateLimits` (Default3 (verify))
-- **Notes**: Create a new Rate Limit for a Service
+
+- **Server group**: `Default3`
 - **Signature**: `CreateRateLimit(string serviceSid, string uniqueName, string? description, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `description` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `UniqueName` ← `uniqueName`, `Description` ← `description`
 - **Returns**: `VerifyV2ServiceRateLimit`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VerifyV2ServiceRateLimit` | `Models/VerifyV2ServiceRateLimit.cs` |
 
 ### DeleteRateLimit
-- **HTTP**: `DELETE /v2/Services/{ServiceSid}/RateLimits/{Sid}` (Default3 (verify))
-- **Notes**: Delete a specific Rate Limit.
+
+- **Server group**: `Default3`
 - **Signature**: `DeleteRateLimit(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchRateLimit
-- **HTTP**: `GET /v2/Services/{ServiceSid}/RateLimits/{Sid}` (Default3 (verify))
-- **Notes**: Fetch a specific Rate Limit.
+
+- **Server group**: `Default3`
 - **Signature**: `FetchRateLimit(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `VerifyV2ServiceRateLimit`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VerifyV2ServiceRateLimit` | `Models/VerifyV2ServiceRateLimit.cs` |
 
 ### ListRateLimit
-- **HTTP**: `GET /v2/Services/{ServiceSid}/RateLimits` (Default3 (verify))
-- **Notes**: Retrieve a list of all Rate Limits for a service.
+
+- **Server group**: `Default3`
 - **Signature**: `ListRateLimit(string serviceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListRateLimitResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListRateLimitResponse` | `Models/ListRateLimitResponse.cs` |
 
 ### UpdateRateLimit
-- **HTTP**: `POST /v2/Services/{ServiceSid}/RateLimits/{Sid}` (Default3 (verify))
-- **Notes**: Update a specific Rate Limit.
+
+- **Server group**: `Default3`
 - **Signature**: `UpdateRateLimit(string serviceSid, string sid, string? description, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `description` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Description` ← `description`
 - **Returns**: `VerifyV2ServiceRateLimit`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VerifyV2ServiceRateLimit` | `Models/VerifyV2ServiceRateLimit.cs` |
+

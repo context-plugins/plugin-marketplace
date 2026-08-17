@@ -1,133 +1,136 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # ConversationsV1UserApi — operations
 
 Accessor: `client.ConversationsV1UserApi` · Source: `Api/ConversationsV1UserApi.cs` · 10 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateServiceUser
-- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Users` (Default7 (conversations))
-- **Notes**: Add a new conversation user to your service
+
+- **Server group**: `Default7`
 - **Signature**: `CreateServiceUser(string chatServiceSid, Confirmation? xTwilioWebhookEnabled, string identity, string? friendlyName, string? attributes, string? roleSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`xTwilioWebhookEnabled` … `roleSid`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Identity` ← `identity`, `FriendlyName` ← `friendlyName`, `Attributes` ← `attributes`, `RoleSid` ← `roleSid`
 - **Returns**: `ConversationsV1ServiceServiceUser`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Confirmation` | `Models/Enums/Confirmation.cs` |
+| `ConversationsV1ServiceServiceUser` | `Models/ConversationsV1ServiceServiceUser.cs` |
 
 ### CreateUser
-- **HTTP**: `POST /v1/Users` (Default7 (conversations))
-- **Notes**: Add a new conversation user to your account's default service
+
+- **Server group**: `Default7`
 - **Signature**: `CreateUser(Confirmation? xTwilioWebhookEnabled, string identity, string? friendlyName, string? attributes, string? roleSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`xTwilioWebhookEnabled` … `roleSid`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Identity` ← `identity`, `FriendlyName` ← `friendlyName`, `Attributes` ← `attributes`, `RoleSid` ← `roleSid`
 - **Returns**: `ConversationsV1User`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Confirmation` | `Models/Enums/Confirmation.cs` |
+| `ConversationsV1User` | `Models/ConversationsV1User.cs` |
 
 ### DeleteServiceUser
-- **HTTP**: `DELETE /v1/Services/{ChatServiceSid}/Users/{Sid}` (Default7 (conversations))
-- **Notes**: Remove a conversation user from your service
+
+- **Server group**: `Default7`
 - **Signature**: `DeleteServiceUser(string chatServiceSid, string sid, Confirmation? xTwilioWebhookEnabled, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `xTwilioWebhookEnabled` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Confirmation` | `Models/Enums/Confirmation.cs` |
 
 ### DeleteUser
-- **HTTP**: `DELETE /v1/Users/{Sid}` (Default7 (conversations))
-- **Notes**: Remove a conversation user from your account's default service
+
+- **Server group**: `Default7`
 - **Signature**: `DeleteUser(string sid, Confirmation? xTwilioWebhookEnabled, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `xTwilioWebhookEnabled` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Confirmation` | `Models/Enums/Confirmation.cs` |
 
 ### FetchServiceUser
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Users/{Sid}` (Default7 (conversations))
-- **Notes**: Fetch a conversation user from your service
+
+- **Server group**: `Default7`
 - **Signature**: `FetchServiceUser(string chatServiceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `ConversationsV1ServiceServiceUser`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ConversationsV1ServiceServiceUser` | `Models/ConversationsV1ServiceServiceUser.cs` |
 
 ### FetchUser
-- **HTTP**: `GET /v1/Users/{Sid}` (Default7 (conversations))
-- **Notes**: Fetch a conversation user from your account's default service
+
+- **Server group**: `Default7`
 - **Signature**: `FetchUser(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `ConversationsV1User`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ConversationsV1User` | `Models/ConversationsV1User.cs` |
 
 ### ListServiceUser
-- **HTTP**: `GET /v1/Services/{ChatServiceSid}/Users` (Default7 (conversations))
-- **Notes**: Retrieve a list of all conversation users in your service
+
+- **Server group**: `Default7`
 - **Signature**: `ListServiceUser(string chatServiceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListServiceUserResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListServiceUserResponse` | `Models/ListServiceUserResponse.cs` |
 
 ### ListUser
-- **HTTP**: `GET /v1/Users` (Default7 (conversations))
-- **Notes**: Retrieve a list of all conversation users in your account's default service
+
+- **Server group**: `Default7`
 - **Signature**: `ListUser(long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListUserResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListUserResponse` | `Models/ListUserResponse.cs` |
 
 ### UpdateServiceUser
-- **HTTP**: `POST /v1/Services/{ChatServiceSid}/Users/{Sid}` (Default7 (conversations))
-- **Notes**: Update an existing conversation user in your service
+
+- **Server group**: `Default7`
 - **Signature**: `UpdateServiceUser(string chatServiceSid, string sid, Confirmation? xTwilioWebhookEnabled, string? friendlyName, string? attributes, string? roleSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`xTwilioWebhookEnabled` … `roleSid`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `FriendlyName` ← `friendlyName`, `Attributes` ← `attributes`, `RoleSid` ← `roleSid`
 - **Returns**: `ConversationsV1ServiceServiceUser`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Confirmation` | `Models/Enums/Confirmation.cs` |
+| `ConversationsV1ServiceServiceUser` | `Models/ConversationsV1ServiceServiceUser.cs` |
 
 ### UpdateUser
-- **HTTP**: `POST /v1/Users/{Sid}` (Default7 (conversations))
-- **Notes**: Update an existing conversation user in your account's default service
+
+- **Server group**: `Default7`
 - **Signature**: `UpdateUser(string sid, Confirmation? xTwilioWebhookEnabled, string? friendlyName, string? attributes, string? roleSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`xTwilioWebhookEnabled` … `roleSid`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `FriendlyName` ← `friendlyName`, `Attributes` ← `attributes`, `RoleSid` ← `roleSid`
 - **Returns**: `ConversationsV1User`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Confirmation` | `Models/Enums/Confirmation.cs` |
+| `ConversationsV1User` | `Models/ConversationsV1User.cs` |
+

@@ -1,66 +1,65 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # TrusthubV1TrustProducts — operations
 
 Accessor: `client.TrusthubV1TrustProducts` · Source: `Api/TrusthubV1TrustProducts.cs` · 5 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateTrustProduct
-- **HTTP**: `POST /v1/TrustProducts` (Default9 (trusthub))
-- **Notes**: Create a new Trust Product.
+
+- **Server group**: `Default9`
 - **Signature**: `CreateTrustProduct(string friendlyName, string email, string policySid, string? statusCallback, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `statusCallback` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `FriendlyName` ← `friendlyName`, `Email` ← `email`, `PolicySid` ← `policySid`, `StatusCallback` ← `statusCallback`
 - **Returns**: `TrusthubV1TrustProduct`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TrusthubV1TrustProduct` | `Models/TrusthubV1TrustProduct.cs` |
 
 ### DeleteTrustProduct
-- **HTTP**: `DELETE /v1/TrustProducts/{Sid}` (Default9 (trusthub))
-- **Notes**: Delete a specific Trust Product.
+
+- **Server group**: `Default9`
 - **Signature**: `DeleteTrustProduct(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchTrustProduct
-- **HTTP**: `GET /v1/TrustProducts/{Sid}` (Default9 (trusthub))
-- **Notes**: Fetch a specific Trust Product instance.
+
+- **Server group**: `Default9`
 - **Signature**: `FetchTrustProduct(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `TrusthubV1TrustProduct`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TrusthubV1TrustProduct` | `Models/TrusthubV1TrustProduct.cs` |
 
 ### ListTrustProduct
-- **HTTP**: `GET /v1/TrustProducts` (Default9 (trusthub))
-- **Notes**: Retrieve a list of all Trust Products for an account.
+
+- **Server group**: `Default9`
 - **Signature**: `ListTrustProduct(TrustProductEnumStatus? status, string? friendlyName, string? policySid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 6 params (`status` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `Status` ← `status`, `FriendlyName` ← `friendlyName`, `PolicySid` ← `policySid`, `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListTrustProductResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `TrustProductEnumStatus` | `Models/Enums/TrustProductEnumStatus.cs` |
+| `ListTrustProductResponse` | `Models/ListTrustProductResponse.cs` |
 
 ### UpdateTrustProduct
-- **HTTP**: `POST /v1/TrustProducts/{Sid}` (Default9 (trusthub))
-- **Notes**: Updates a Trust Product in an account.
+
+- **Server group**: `Default9`
 - **Signature**: `UpdateTrustProduct(string sid, TrustProductEnumStatus? status, string? statusCallback, string? friendlyName, string? email, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`status` … `email`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Status` ← `status`, `StatusCallback` ← `statusCallback`, `FriendlyName` ← `friendlyName`, `Email` ← `email`
 - **Returns**: `TrusthubV1TrustProduct`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TrustProductEnumStatus` | `Models/Enums/TrustProductEnumStatus.cs` |
+| `TrusthubV1TrustProduct` | `Models/TrusthubV1TrustProduct.cs` |
+

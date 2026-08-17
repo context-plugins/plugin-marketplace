@@ -1,42 +1,45 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # NumbersV2Evaluation — operations
 
 Accessor: `client.NumbersV2Evaluation` · Source: `Api/NumbersV2Evaluation.cs` · 3 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateEvaluation
-- **HTTP**: `POST /v2/RegulatoryCompliance/Bundles/{BundleSid}/Evaluations` (Default5 (numbers))
-- **Notes**: Creates an evaluation for a bundle
+
+- **Server group**: `Default5`
 - **Signature**: `CreateEvaluation(string bundleSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `NumbersV2RegulatoryComplianceBundleEvaluation`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `NumbersV2RegulatoryComplianceBundleEvaluation` | `Models/NumbersV2RegulatoryComplianceBundleEvaluation.cs` |
 
 ### FetchEvaluation
-- **HTTP**: `GET /v2/RegulatoryCompliance/Bundles/{BundleSid}/Evaluations/{Sid}` (Default5 (numbers))
-- **Notes**: Fetch specific Evaluation Instance.
+
+- **Server group**: `Default5`
 - **Signature**: `FetchEvaluation(string bundleSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `NumbersV2RegulatoryComplianceBundleEvaluation`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `NumbersV2RegulatoryComplianceBundleEvaluation` | `Models/NumbersV2RegulatoryComplianceBundleEvaluation.cs` |
 
 ### ListEvaluation
-- **HTTP**: `GET /v2/RegulatoryCompliance/Bundles/{BundleSid}/Evaluations` (Default5 (numbers))
-- **Notes**: Retrieve a list of Evaluations associated to the Bundle resource.
+
+- **Server group**: `Default5`
 - **Signature**: `ListEvaluation(string bundleSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListEvaluationResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListEvaluationResponse` | `Models/ListEvaluationResponse.cs` |
+

@@ -1,50 +1,52 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # MessagingV1AlphaSender — operations
 
 Accessor: `client.MessagingV1AlphaSender` · Source: `Api/MessagingV1AlphaSender.cs` · 4 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateAlphaSender
-- **HTTP**: `POST /v1/Services/{ServiceSid}/AlphaSenders` (Default1 (messaging))
+
+- **Server group**: `Default1`
 - **Signature**: `CreateAlphaSender(string serviceSid, string alphaSender, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `AlphaSender` ← `alphaSender`
 - **Returns**: `MessagingV1ServiceAlphaSender`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `MessagingV1ServiceAlphaSender` | `Models/MessagingV1ServiceAlphaSender.cs` |
 
 ### DeleteAlphaSender
-- **HTTP**: `DELETE /v1/Services/{ServiceSid}/AlphaSenders/{Sid}` (Default1 (messaging))
+
+- **Server group**: `Default1`
 - **Signature**: `DeleteAlphaSender(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchAlphaSender
-- **HTTP**: `GET /v1/Services/{ServiceSid}/AlphaSenders/{Sid}` (Default1 (messaging))
+
+- **Server group**: `Default1`
 - **Signature**: `FetchAlphaSender(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1ServiceAlphaSender`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `MessagingV1ServiceAlphaSender` | `Models/MessagingV1ServiceAlphaSender.cs` |
 
 ### ListAlphaSender
-- **HTTP**: `GET /v1/Services/{ServiceSid}/AlphaSenders` (Default1 (messaging))
+
+- **Server group**: `Default1`
 - **Signature**: `ListAlphaSender(string serviceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListAlphaSenderResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListAlphaSenderResponse` | `Models/ListAlphaSenderResponse.cs` |
+

@@ -1,68 +1,70 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # VerifyV2Webhook — operations
 
 Accessor: `client.VerifyV2Webhook` · Source: `Api/VerifyV2Webhook.cs` · 5 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateWebhook
-- **HTTP**: `POST /v2/Services/{ServiceSid}/Webhooks` (Default3 (verify))
-- **Notes**: Create a new Webhook for the Service
+
+- **Server group**: `Default3`
 - **Signature**: `CreateWebhook(string serviceSid, string friendlyName, IReadOnlyList<string> eventTypes, string webhookUrl, WebhookEnumStatus? status, WebhookEnumVersion? version, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `status` — nullable, no default → **must pass explicitly**
   - `version` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `FriendlyName` ← `friendlyName`, `EventTypes` ← `eventTypes`, `WebhookUrl` ← `webhookUrl`, `Status` ← `status`, `Version` ← `version`
 - **Returns**: `VerifyV2ServiceWebhook`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `WebhookEnumStatus` | `Models/Enums/WebhookEnumStatus.cs` |
+| `WebhookEnumVersion` | `Models/Enums/WebhookEnumVersion.cs` |
+| `VerifyV2ServiceWebhook` | `Models/VerifyV2ServiceWebhook.cs` |
 
 ### DeleteWebhook
-- **HTTP**: `DELETE /v2/Services/{ServiceSid}/Webhooks/{Sid}` (Default3 (verify))
-- **Notes**: Delete a specific Webhook.
+
+- **Server group**: `Default3`
 - **Signature**: `DeleteWebhook(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchWebhook
-- **HTTP**: `GET /v2/Services/{ServiceSid}/Webhooks/{Sid}` (Default3 (verify))
-- **Notes**: Fetch a specific Webhook.
+
+- **Server group**: `Default3`
 - **Signature**: `FetchWebhook(string serviceSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `VerifyV2ServiceWebhook`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VerifyV2ServiceWebhook` | `Models/VerifyV2ServiceWebhook.cs` |
 
 ### ListWebhook
-- **HTTP**: `GET /v2/Services/{ServiceSid}/Webhooks` (Default3 (verify))
-- **Notes**: Retrieve a list of all Webhooks for a Service.
+
+- **Server group**: `Default3`
 - **Signature**: `ListWebhook(string serviceSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListWebhookResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListWebhookResponse` | `Models/ListWebhookResponse.cs` |
 
 ### UpdateWebhook
-- **HTTP**: `POST /v2/Services/{ServiceSid}/Webhooks/{Sid}` (Default3 (verify))
+
+- **Server group**: `Default3`
 - **Signature**: `UpdateWebhook(string serviceSid, string sid, string? friendlyName, IReadOnlyList<string>? eventTypes, string? webhookUrl, WebhookEnumStatus? status, WebhookEnumVersion? version, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`friendlyName` … `version`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `FriendlyName` ← `friendlyName`, `EventTypes` ← `eventTypes`, `WebhookUrl` ← `webhookUrl`, `Status` ← `status`, `Version` ← `version`
 - **Returns**: `VerifyV2ServiceWebhook`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `WebhookEnumStatus` | `Models/Enums/WebhookEnumStatus.cs` |
+| `WebhookEnumVersion` | `Models/Enums/WebhookEnumVersion.cs` |
+| `VerifyV2ServiceWebhook` | `Models/VerifyV2ServiceWebhook.cs` |
+

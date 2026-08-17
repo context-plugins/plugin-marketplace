@@ -1,28 +1,30 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # StudioV2FlowTestUserApi — operations
 
 Accessor: `client.StudioV2FlowTestUserApi` · Source: `Api/StudioV2FlowTestUserApi.cs` · 2 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchTestUser
-- **HTTP**: `GET /v2/Flows/{Sid}/TestUsers` (Default11 (studio))
-- **Notes**: Fetch flow test users
+
+- **Server group**: `Default11`
 - **Signature**: `FetchTestUser(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `StudioV2FlowTestUser`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `StudioV2FlowTestUser` | `Models/StudioV2FlowTestUser.cs` |
 
 ### UpdateTestUser
-- **HTTP**: `POST /v2/Flows/{Sid}/TestUsers` (Default11 (studio))
-- **Notes**: Update flow test users
+
+- **Server group**: `Default11`
 - **Signature**: `UpdateTestUser(string sid, IReadOnlyList<string> testUsers, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `TestUsers` ← `testUsers`
 - **Returns**: `StudioV2FlowTestUser`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `StudioV2FlowTestUser` | `Models/StudioV2FlowTestUser.cs` |
+

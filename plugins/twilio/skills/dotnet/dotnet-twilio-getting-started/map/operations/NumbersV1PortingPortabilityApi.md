@@ -1,19 +1,22 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # NumbersV1PortingPortabilityApi — operations
 
-Accessor: `client.NumbersV1PortingPortabilityApi` · Source: `Api/NumbersV1PortingPortabilityApi.cs` · 1 operations
+Accessor: `client.NumbersV1PortingPortabilityApi` · Source: `Api/NumbersV1PortingPortabilityApi.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchPortingPortability
-- **HTTP**: `GET /v1/Porting/Portability/PhoneNumber/{PhoneNumber}` (Default5 (numbers))
-- **Notes**: Check if a single phone number can be ported to Twilio
+
+- **Server group**: `Default5`
 - **Signature**: `FetchPortingPortability(string phoneNumber, string? targetAccountSid, string? addressSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `targetAccountSid` — nullable, no default → **must pass explicitly**
   - `addressSid` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `TargetAccountSid` ← `targetAccountSid`, `AddressSid` ← `addressSid`
 - **Returns**: `NumbersV1PortingPortability`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `NumbersV1PortingPortability` | `Models/NumbersV1PortingPortability.cs` |
+

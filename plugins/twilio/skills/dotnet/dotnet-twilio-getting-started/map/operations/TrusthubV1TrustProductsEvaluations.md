@@ -1,43 +1,45 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # TrusthubV1TrustProductsEvaluations — operations
 
 Accessor: `client.TrusthubV1TrustProductsEvaluations` · Source: `Api/TrusthubV1TrustProductsEvaluations.cs` · 3 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateTrustProductEvaluation
-- **HTTP**: `POST /v1/TrustProducts/{TrustProductSid}/Evaluations` (Default9 (trusthub))
-- **Notes**: Create a new Evaluation
+
+- **Server group**: `Default9`
 - **Signature**: `CreateTrustProductEvaluation(string trustProductSid, string policySid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `PolicySid` ← `policySid`
 - **Returns**: `TrusthubV1TrustProductTrustProductEvaluation`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TrusthubV1TrustProductTrustProductEvaluation` | `Models/TrusthubV1TrustProductTrustProductEvaluation.cs` |
 
 ### FetchTrustProductEvaluation
-- **HTTP**: `GET /v1/TrustProducts/{TrustProductSid}/Evaluations/{Sid}` (Default9 (trusthub))
-- **Notes**: Fetch specific Evaluation Instance.
+
+- **Server group**: `Default9`
 - **Signature**: `FetchTrustProductEvaluation(string trustProductSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `TrusthubV1TrustProductTrustProductEvaluation`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TrusthubV1TrustProductTrustProductEvaluation` | `Models/TrusthubV1TrustProductTrustProductEvaluation.cs` |
 
 ### ListTrustProductEvaluation
-- **HTTP**: `GET /v1/TrustProducts/{TrustProductSid}/Evaluations` (Default9 (trusthub))
-- **Notes**: Retrieve a list of Evaluations associated to the trust_product resource.
+
+- **Server group**: `Default9`
 - **Signature**: `ListTrustProductEvaluation(string trustProductSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListTrustProductEvaluationResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListTrustProductEvaluationResponse` | `Models/ListTrustProductEvaluationResponse.cs` |
+

@@ -1,31 +1,34 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # NumbersV2SupportingDocumentType — operations
 
 Accessor: `client.NumbersV2SupportingDocumentType` · Source: `Api/NumbersV2SupportingDocumentType.cs` · 2 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchSupportingDocumentType
-- **HTTP**: `GET /v2/RegulatoryCompliance/SupportingDocumentTypes/{Sid}` (Default5 (numbers))
-- **Notes**: Fetch a specific Supporting Document Type Instance.
+
+- **Server group**: `Default5`
 - **Signature**: `FetchSupportingDocumentType(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `NumbersV2RegulatoryComplianceSupportingDocumentType`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `NumbersV2RegulatoryComplianceSupportingDocumentType` | `Models/NumbersV2RegulatoryComplianceSupportingDocumentType.cs` |
 
 ### ListSupportingDocumentType
-- **HTTP**: `GET /v2/RegulatoryCompliance/SupportingDocumentTypes` (Default5 (numbers))
-- **Notes**: Retrieve a list of all Supporting Document Types.
+
+- **Server group**: `Default5`
 - **Signature**: `ListSupportingDocumentType(long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListSupportingDocumentTypeResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListSupportingDocumentTypeResponse` | `Models/ListSupportingDocumentTypeResponse.cs` |
+

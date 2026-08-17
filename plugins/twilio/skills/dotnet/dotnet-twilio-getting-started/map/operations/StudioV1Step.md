@@ -1,31 +1,34 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # StudioV1Step — operations
 
 Accessor: `client.StudioV1Step` · Source: `Api/StudioV1Step.cs` · 2 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchStep
-- **HTTP**: `GET /v1/Flows/{FlowSid}/Engagements/{EngagementSid}/Steps/{Sid}` (Default11 (studio))
-- **Notes**: Retrieve a Step.
+
+- **Server group**: `Default11`
 - **Signature**: `FetchStep(string flowSid, string engagementSid, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `StudioV1FlowEngagementStep`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `StudioV1FlowEngagementStep` | `Models/StudioV1FlowEngagementStep.cs` |
 
 ### ListStep
-- **HTTP**: `GET /v1/Flows/{FlowSid}/Engagements/{EngagementSid}/Steps` (Default11 (studio))
-- **Notes**: Retrieve a list of all Steps for an Engagement.
+
+- **Server group**: `Default11`
 - **Signature**: `ListStep(string flowSid, string engagementSid, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListStepResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListStepResponse` | `Models/ListStepResponse.cs` |
+

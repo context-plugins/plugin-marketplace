@@ -1,64 +1,65 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # Contentv1ContentApi — operations
 
 Accessor: `client.Contentv1ContentApi` · Source: `Api/Contentv1ContentApi.cs` · 5 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateContent
-- **HTTP**: `POST /v1/Content` (Default2 (content))
-- **Notes**: Create a Content resource
+
+- **Server group**: `Default2`
 - **Signature**: `CreateContent(ContentCreateRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `ContentV1Content`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ContentCreateRequest` | `Models/ContentCreateRequest.cs` |
+| `ContentV1Content` | `Models/ContentV1Content.cs` |
 
 ### DeleteContent
-- **HTTP**: `DELETE /v1/Content/{Sid}` (Default2 (content))
-- **Notes**: Deletes a Content resource
+
+- **Server group**: `Default2`
 - **Signature**: `DeleteContent(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchContent
-- **HTTP**: `GET /v1/Content/{Sid}` (Default2 (content))
-- **Notes**: Fetch a Content resource by its unique Content Sid
+
+- **Server group**: `Default2`
 - **Signature**: `FetchContent(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `ContentV1Content`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ContentV1Content` | `Models/ContentV1Content.cs` |
 
 ### ListContent
-- **HTTP**: `GET /v1/Content` (Default2 (content))
-- **Notes**: Retrieve a list of Contents belonging to the account used to make the request
+
+- **Server group**: `Default2`
 - **Signature**: `ListContent(int? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListContentResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListContentResponse` | `Models/ListContentResponse.cs` |
 
 ### UpdateContent
-- **HTTP**: `PUT /v1/Content/{Sid}` (Default2 (content))
-- **Notes**: Update a Content resource
+
+- **Server group**: `Default2`
 - **Signature**: `UpdateContent(string sid, ContentUpdateRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `ContentV1Content`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ContentUpdateRequest` | `Models/ContentUpdateRequest.cs` |
+| `ContentV1Content` | `Models/ContentV1Content.cs` |
+

@@ -1,55 +1,54 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # VerifyV2Factor — operations
 
 Accessor: `client.VerifyV2Factor` · Source: `Api/VerifyV2Factor.cs` · 4 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### DeleteFactor
-- **HTTP**: `DELETE /v2/Services/{ServiceSid}/Entities/{Identity}/Factors/{Sid}` (Default3 (verify))
-- **Notes**: Delete a specific Factor.
+
+- **Server group**: `Default3`
 - **Signature**: `DeleteFactor(string serviceSid, string identity, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchFactor
-- **HTTP**: `GET /v2/Services/{ServiceSid}/Entities/{Identity}/Factors/{Sid}` (Default3 (verify))
-- **Notes**: Fetch a specific Factor.
+
+- **Server group**: `Default3`
 - **Signature**: `FetchFactor(string serviceSid, string identity, string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `VerifyV2ServiceEntityFactor`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `VerifyV2ServiceEntityFactor` | `Models/VerifyV2ServiceEntityFactor.cs` |
 
 ### ListFactor
-- **HTTP**: `GET /v2/Services/{ServiceSid}/Entities/{Identity}/Factors` (Default3 (verify))
-- **Notes**: Retrieve a list of all Factors for an Entity.
+
+- **Server group**: `Default3`
 - **Signature**: `ListFactor(string serviceSid, string identity, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `page` — nullable, no default → **must pass explicitly**
   - `pageToken` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListFactorResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListFactorResponse` | `Models/ListFactorResponse.cs` |
 
 ### UpdateFactor
-- **HTTP**: `POST /v2/Services/{ServiceSid}/Entities/{Identity}/Factors/{Sid}` (Default3 (verify))
-- **Notes**: Update a specific Factor. This endpoint can be used to Verify a Factor if passed an `AuthPayload` param.
+
+- **Server group**: `Default3`
 - **Signature**: `UpdateFactor(string serviceSid, string identity, string sid, string? authPayload, string? friendlyName, string? configNotificationToken, string? configSdkVersion, int? configTimeStep, int? configSkew, int? configCodeLength, FactorEnumTotpAlgorithms? configAlg, string? configNotificationPlatform, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 9 params (`authPayload` … `configNotificationPlatform`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `AuthPayload` ← `authPayload`, `FriendlyName` ← `friendlyName`, `Config.NotificationToken` ← `configNotificationToken`, `Config.SdkVersion` ← `configSdkVersion`, `Config.TimeStep` ← `configTimeStep`, `Config.Skew` ← `configSkew`, `Config.CodeLength` ← `configCodeLength`, `Config.Alg` ← `configAlg`, `Config.NotificationPlatform` ← `configNotificationPlatform`
 - **Returns**: `VerifyV2ServiceEntityFactor`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `FactorEnumTotpAlgorithms` | `Models/Enums/FactorEnumTotpAlgorithms.cs` |
+| `VerifyV2ServiceEntityFactor` | `Models/VerifyV2ServiceEntityFactor.cs` |
+

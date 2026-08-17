@@ -1,42 +1,47 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # FlexV1PluginConfigurationApi — operations
 
 Accessor: `client.FlexV1PluginConfigurationApi` · Source: `Api/FlexV1PluginConfigurationApi.cs` · 3 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreatePluginConfiguration
-- **HTTP**: `POST /v1/PluginService/Configurations` (Default13 (flex-api))
+
+- **Server group**: `Default13`
 - **Signature**: `CreatePluginConfiguration(string? flexMetadata, string name, IReadOnlyList<object>? plugins, string? description, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `flexMetadata` — nullable, no default → **must pass explicitly**
   - `plugins` — nullable, no default → **must pass explicitly**
   - `description` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `Name` ← `name`, `Plugins` ← `plugins`, `Description` ← `description`
 - **Returns**: `FlexV1PluginConfiguration`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `FlexV1PluginConfiguration` | `Models/FlexV1PluginConfiguration.cs` |
 
 ### FetchPluginConfiguration
-- **HTTP**: `GET /v1/PluginService/Configurations/{Sid}` (Default13 (flex-api))
+
+- **Server group**: `Default13`
 - **Signature**: `FetchPluginConfiguration(string sid, string? flexMetadata, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `flexMetadata` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `FlexV1PluginConfiguration`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `FlexV1PluginConfiguration` | `Models/FlexV1PluginConfiguration.cs` |
 
 ### ListPluginConfiguration
-- **HTTP**: `GET /v1/PluginService/Configurations` (Default13 (flex-api))
+
+- **Server group**: `Default13`
 - **Signature**: `ListPluginConfiguration(long? pageSize, int? page, string? pageToken, string? flexMetadata, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`pageSize` … `flexMetadata`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListPluginConfigurationResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListPluginConfigurationResponse` | `Models/ListPluginConfigurationResponse.cs` |
+

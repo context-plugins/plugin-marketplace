@@ -1,54 +1,53 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # NumbersV2AuthorizationDocumentApi — operations
 
 Accessor: `client.NumbersV2AuthorizationDocumentApi` · Source: `Api/NumbersV2AuthorizationDocumentApi.cs` · 4 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateAuthorizationDocument
-- **HTTP**: `POST /v2/HostedNumber/AuthorizationDocuments` (Default5 (numbers))
-- **Notes**: Create an AuthorizationDocument for authorizing the hosting of phone number capabilities on Twilio's platform.
+
+- **Server group**: `Default5`
 - **Signature**: `CreateAuthorizationDocument(string addressSid, string email, string contactPhoneNumber, IReadOnlyList<string> hostedNumberOrderSids, string? contactTitle, IReadOnlyList<string>? ccEmails, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `contactTitle` — nullable, no default → **must pass explicitly**
   - `ccEmails` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `AddressSid` ← `addressSid`, `Email` ← `email`, `ContactPhoneNumber` ← `contactPhoneNumber`, `HostedNumberOrderSids` ← `hostedNumberOrderSids`, `ContactTitle` ← `contactTitle`, `CcEmails` ← `ccEmails`
 - **Returns**: `NumbersV2AuthorizationDocument`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `NumbersV2AuthorizationDocument` | `Models/NumbersV2AuthorizationDocument.cs` |
 
 ### DeleteAuthorizationDocument
-- **HTTP**: `DELETE /v2/HostedNumber/AuthorizationDocuments/{Sid}` (Default5 (numbers))
-- **Notes**: Cancel the AuthorizationDocument request.
+
+- **Server group**: `Default5`
 - **Signature**: `DeleteAuthorizationDocument(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
 
 ### FetchAuthorizationDocument
-- **HTTP**: `GET /v2/HostedNumber/AuthorizationDocuments/{Sid}` (Default5 (numbers))
-- **Notes**: Fetch a specific AuthorizationDocument.
+
+- **Server group**: `Default5`
 - **Signature**: `FetchAuthorizationDocument(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `NumbersV2AuthorizationDocument`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `NumbersV2AuthorizationDocument` | `Models/NumbersV2AuthorizationDocument.cs` |
 
 ### ListAuthorizationDocument
-- **HTTP**: `GET /v2/HostedNumber/AuthorizationDocuments` (Default5 (numbers))
-- **Notes**: Retrieve a list of AuthorizationDocuments belonging to the account initiating the request.
+
+- **Server group**: `Default5`
 - **Signature**: `ListAuthorizationDocument(string? email, AuthorizationDocumentEnumStatus? status, long? pageSize, int? page, string? pageToken, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 5 params (`email` … `pageToken`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `Email` ← `email`, `Status` ← `status`, `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListAuthorizationDocumentResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `AuthorizationDocumentEnumStatus` | `Models/Enums/AuthorizationDocumentEnumStatus.cs` |
+| `ListAuthorizationDocumentResponse` | `Models/ListAuthorizationDocumentResponse.cs` |
+

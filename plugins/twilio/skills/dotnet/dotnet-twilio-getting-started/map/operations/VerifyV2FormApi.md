@@ -1,16 +1,20 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # VerifyV2FormApi — operations
 
-Accessor: `client.VerifyV2FormApi` · Source: `Api/VerifyV2FormApi.cs` · 1 operations
+Accessor: `client.VerifyV2FormApi` · Source: `Api/VerifyV2FormApi.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchForm
-- **HTTP**: `GET /v2/Forms/{FormType}` (Default3 (verify))
-- **Notes**: Fetch the forms for a specific Form Type.
+
+- **Server group**: `Default3`
 - **Signature**: `FetchForm(FormEnumFormTypes formType, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `VerifyV2Form`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `FormEnumFormTypes` | `Models/Enums/FormEnumFormTypes.cs` |
+| `VerifyV2Form` | `Models/VerifyV2Form.cs` |
+

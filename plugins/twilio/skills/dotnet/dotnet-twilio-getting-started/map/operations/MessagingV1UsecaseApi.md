@@ -1,15 +1,19 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # MessagingV1UsecaseApi — operations
 
-Accessor: `client.MessagingV1UsecaseApi` · Source: `Api/MessagingV1UsecaseApi.cs` · 1 operations
+Accessor: `client.MessagingV1UsecaseApi` · Source: `Api/MessagingV1UsecaseApi.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchUsecase
-- **HTTP**: `GET /v1/Services/Usecases` (Default1 (messaging))
+
+- **Server group**: `Default1`
 - **Signature**: `FetchUsecase(RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `MessagingV1Usecase`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `MessagingV1Usecase` | `Models/MessagingV1Usecase.cs` |
+

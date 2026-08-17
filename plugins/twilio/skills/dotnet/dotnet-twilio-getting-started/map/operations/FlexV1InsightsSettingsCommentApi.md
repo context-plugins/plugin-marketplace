@@ -1,17 +1,20 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # FlexV1InsightsSettingsCommentApi — operations
 
-Accessor: `client.FlexV1InsightsSettingsCommentApi` · Source: `Api/FlexV1InsightsSettingsCommentApi.cs` · 1 operations
+Accessor: `client.FlexV1InsightsSettingsCommentApi` · Source: `Api/FlexV1InsightsSettingsCommentApi.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchInsightsSettingsComment
-- **HTTP**: `GET /v1/Insights/QualityManagement/Settings/CommentTags` (Default13 (flex-api))
-- **Notes**: To get the Comment Settings for an Account
+
+- **Server group**: `Default13`
 - **Signature**: `FetchInsightsSettingsComment(string? authorization, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `authorization` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `FlexV1InsightsSettingsComment`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `FlexV1InsightsSettingsComment` | `Models/FlexV1InsightsSettingsComment.cs` |
+

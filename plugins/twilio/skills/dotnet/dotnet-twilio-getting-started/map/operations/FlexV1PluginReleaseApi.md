@@ -1,40 +1,45 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # FlexV1PluginReleaseApi — operations
 
 Accessor: `client.FlexV1PluginReleaseApi` · Source: `Api/FlexV1PluginReleaseApi.cs` · 3 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreatePluginRelease
-- **HTTP**: `POST /v1/PluginService/Releases` (Default13 (flex-api))
+
+- **Server group**: `Default13`
 - **Signature**: `CreatePluginRelease(string? flexMetadata, string configurationId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `flexMetadata` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
-- **Query params (wire ← C#)**: `ConfigurationId` ← `configurationId`
 - **Returns**: `FlexV1PluginRelease`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `FlexV1PluginRelease` | `Models/FlexV1PluginRelease.cs` |
 
 ### FetchPluginRelease
-- **HTTP**: `GET /v1/PluginService/Releases/{Sid}` (Default13 (flex-api))
+
+- **Server group**: `Default13`
 - **Signature**: `FetchPluginRelease(string sid, string? flexMetadata, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `flexMetadata` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `FlexV1PluginRelease`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `FlexV1PluginRelease` | `Models/FlexV1PluginRelease.cs` |
 
 ### ListPluginRelease
-- **HTTP**: `GET /v1/PluginService/Releases` (Default13 (flex-api))
+
+- **Server group**: `Default13`
 - **Signature**: `ListPluginRelease(long? pageSize, int? page, string? pageToken, string? flexMetadata, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`pageSize` … `flexMetadata`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `PageSize` ← `pageSize`, `Page` ← `page`, `PageToken` ← `pageToken`
 - **Returns**: `ListPluginReleaseResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none (only `page`, no `perPage`)
+
+| Type | Source |
+| --- | --- |
+| `ListPluginReleaseResponse` | `Models/ListPluginReleaseResponse.cs` |
+

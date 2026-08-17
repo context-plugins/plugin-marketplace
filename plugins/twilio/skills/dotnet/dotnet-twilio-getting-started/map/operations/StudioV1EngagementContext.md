@@ -1,16 +1,19 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # StudioV1EngagementContext — operations
 
-Accessor: `client.StudioV1EngagementContext` · Source: `Api/StudioV1EngagementContext.cs` · 1 operations
+Accessor: `client.StudioV1EngagementContext` · Source: `Api/StudioV1EngagementContext.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchEngagementContext
-- **HTTP**: `GET /v1/Flows/{FlowSid}/Engagements/{EngagementSid}/Context` (Default11 (studio))
-- **Notes**: Retrieve the most recent context for an Engagement.
+
+- **Server group**: `Default11`
 - **Signature**: `FetchEngagementContext(string flowSid, string engagementSid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `StudioV1FlowEngagementEngagementContext`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `StudioV1FlowEngagementEngagementContext` | `Models/StudioV1FlowEngagementEngagementContext.cs` |
+

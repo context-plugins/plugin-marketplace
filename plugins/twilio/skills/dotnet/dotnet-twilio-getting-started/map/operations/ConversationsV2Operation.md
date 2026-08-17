@@ -1,16 +1,22 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # ConversationsV2Operation — operations
 
-Accessor: `client.ConversationsV2Operation` · Source: `Api/ConversationsV2Operation.cs` · 1 operations
+Accessor: `client.ConversationsV2Operation` · Source: `Api/ConversationsV2Operation.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### FetchOperationStatus
-- **HTTP**: `GET /v2/ControlPlane/Operations/{Sid}` (Default7 (conversations))
-- **Notes**: Retrieve the current status of a long-running operation. Operations progress through: PENDING -&gt; RUNNING -&gt; COMPLETED or FAILED.
+
+- **Server group**: `Default7`
 - **Signature**: `FetchOperationStatus(string sid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `ConversationsV2OperationStatus`
 - **Error**: `SdkException<FetchOperationStatusError>` — **Case A (typed)**
 - **Error accessors**: `TryGetAccountsCallsRecordingsSidJson201041408Error1(out AccountsCallsRecordingsSidJson201041408Error1)` [400, 404, 429, 500, 503] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ConversationsV2OperationStatus` | `Models/ConversationsV2OperationStatus.cs` |
+| `FetchOperationStatusError` | `Errors/FetchOperationStatusError.cs` |
+| `AccountsCallsRecordingsSidJson201041408Error1` | `Models/AccountsCallsRecordingsSidJson201041408Error1.cs` |
+

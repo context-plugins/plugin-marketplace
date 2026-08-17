@@ -14,7 +14,8 @@
     {
       "name": "adyen",
       "source": "./plugins/adyen",
-      "description": "Process global payments, fraud prevention, and point-of-sale transactions."
+      "description": "TODO_AUTO_DESCRIPTION: adyen API",
+      "version": "0.2.0"
     },
     {
       "name": "cellpoint",

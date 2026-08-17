@@ -5,7 +5,7 @@ Accessor: `client.UsersCompanyLevel` · Source: `Api/UsersCompanyLevel.cs` · 4 
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### GetCompaniesCompanyIdUsers
-- **HTTP**: `GET /companies/{companyId}/users` (Default (balanceplatform-api-test))
+- **HTTP**: `GET /companies/{companyId}/users` (Default9 (management-test))
 - **Notes**: Returns the list of users for the `companyId` identified in the path. To make this request, your API credential must have the following role : * Management API—Users read and write
 - **Signature**: `GetCompaniesCompanyIdUsers(string companyId, int? pageNumber, int? pageSize, string? username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageNumber` — nullable, no default → **must pass explicitly**
@@ -20,7 +20,7 @@ Accessor: `client.UsersCompanyLevel` · Source: `Api/UsersCompanyLevel.cs` · 4 
 - **Pagination**: none
 
 ### GetCompaniesCompanyIdUsersUserId
-- **HTTP**: `GET /companies/{companyId}/users/{userId}` (Default (balanceplatform-api-test))
+- **HTTP**: `GET /companies/{companyId}/users/{userId}` (Default9 (management-test))
 - **Notes**: Returns user details for the `userId` and the `companyId` identified in the path. To make this request, your API credential must have the following role : * Management API—Users read and write
 - **Signature**: `GetCompaniesCompanyIdUsersUserId(string companyId, string userId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -31,7 +31,7 @@ Accessor: `client.UsersCompanyLevel` · Source: `Api/UsersCompanyLevel.cs` · 4 
 - **Pagination**: none
 
 ### PatchCompaniesCompanyIdUsersUserId
-- **HTTP**: `PATCH /companies/{companyId}/users/{userId}` (Default (balanceplatform-api-test))
+- **HTTP**: `PATCH /companies/{companyId}/users/{userId}` (Default9 (management-test))
 - **Notes**: Updates user details for the `userId` and the `companyId` identified in the path. To make this request, your API credential must have the following role : * Management API—Users read and write
 - **Signature**: `PatchCompaniesCompanyIdUsersUserId(string companyId, string userId, UpdateCompanyUserRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
@@ -43,7 +43,7 @@ Accessor: `client.UsersCompanyLevel` · Source: `Api/UsersCompanyLevel.cs` · 4 
 - **Pagination**: none
 
 ### PostCompaniesCompanyIdUsers
-- **HTTP**: `POST /companies/{companyId}/users` (Default (balanceplatform-api-test))
+- **HTTP**: `POST /companies/{companyId}/users` (Default9 (management-test))
 - **Notes**: Creates the user for the `companyId` identified in the path. To make this request, your API credential must have the following role : * Management API—Users read and write
 - **Signature**: `PostCompaniesCompanyIdUsers(string companyId, CreateCompanyUserRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**

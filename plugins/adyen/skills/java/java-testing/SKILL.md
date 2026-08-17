@@ -53,7 +53,7 @@ client. Replicate this structure in your own test base:
 ```java
 // Confirmed from MultiAuth-Sample: BaseControllerTest.java + AuthenticationControllerTest.java
 
-import com.adyen.balanceplatformapitest.AdyenClient;
+import com.adyen.checkouttest.AdyenClient;
 import localhost3000.testing.HttpCallbackCatcher;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -126,7 +126,7 @@ public void testCustomAuthentication() throws Exception {
 ## Controller test class structure
 
 ```java
-import com.adyen.balanceplatformapitest.AdyenClient;
+import com.adyen.checkouttest.AdyenClient;
 import localhost3000.controllers.AuthenticationController;
 import localhost3000.exceptions.ApiException;
 import org.junit.AfterClass;

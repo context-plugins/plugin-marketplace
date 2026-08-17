@@ -5,7 +5,7 @@ Accessor: `client.CardOrders` · Source: `Api/CardOrders.cs` · 2 operations
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### GetCardorders
-- **HTTP**: `GET /cardorders` (Default (balanceplatform-api-test))
+- **HTTP**: `GET /cardorders` (Default13 (balanceplatform-api-test))
 - **Notes**: Returns a paginated list of card orders.
 - **Signature**: `GetCardorders(string? id, string? cardManufacturingProfileId, string? status, string? txVariantCode, DateTimeOffset? createdSince, DateTimeOffset? createdUntil, DateTimeOffset? lockedSince, DateTimeOffset? lockedUntil, string? serviceCenter, int? offset, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 11 params (`id` … `limit`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -18,7 +18,7 @@ Accessor: `client.CardOrders` · Source: `Api/CardOrders.cs` · 2 operations
 - **Pagination**: none
 
 ### GetCardordersIdItems
-- **HTTP**: `GET /cardorders/{id}/items` (Default (balanceplatform-api-test))
+- **HTTP**: `GET /cardorders/{id}/items` (Default13 (balanceplatform-api-test))
 - **Notes**: Returns the item list of a specific card order.
 - **Signature**: `GetCardordersIdItems(string id, int? offset, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `offset` — nullable, no default → **must pass explicitly**

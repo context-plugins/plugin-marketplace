@@ -48,7 +48,7 @@ the skill for that step, so at each step below load the companion *and* confirm 
 | Builder | `AdyenClient.Builder` inner static class; `client.newBuilder()` returns a builder seeded from the current client |
 | Environments | `enum Environment` in the root package — read `Environment.java` for the real member names |
 | Async model | Every operation has a synchronous form (`throws ApiException, IOException`) and a `CompletableFuture<T>` async form (`{op}Async(...)`) |
-| Base exception | `com.adyen.balanceplatformapitest.exceptions.ApiException` (extends `io.apimatic.core.types.CoreApiException`) |
+| Base exception | `com.adyen.checkouttest.exceptions.ApiException` (extends `io.apimatic.core.types.CoreApiException`) |
 | JDK minimum | Java 8 (`maven.compiler.source=1.8` / `requireJavaVersion 1.8` in the generated `pom.xml`) |
 
 The table above is **orientation, not a copy-paste recipe** — it gives you the structure (client/builder
@@ -58,23 +58,23 @@ its names against the cloned source.
 
 ## Package layout
 
-APIMatic Java SDKs split public types across sub-packages under the root package (`com.adyen.balanceplatformapitest`):
+APIMatic Java SDKs split public types across sub-packages under the root package (`com.adyen.checkouttest`):
 
 - **root package** — `AdyenClient` (the gateway class), `Configuration` (interface), `Environment`,
   `Server`, `ApiHelper`, `CompatibilityFactoryImpl`.
-- `com.adyen.balanceplatformapitest.authentication/` — one `{Scheme}Model` (the builder/data holder), `{Scheme}Credentials`
+- `com.adyen.checkouttest.authentication/` — one `{Scheme}Model` (the builder/data holder), `{Scheme}Credentials`
   (read interface), and `{Scheme}Manager` (handles wire injection) per auth scheme the API uses.
-- `com.adyen.balanceplatformapitest.controllers/` — `BaseController` plus one `{Resource}Api` per API resource group.
+- `com.adyen.checkouttest.controllers/` — `BaseController` plus one `{Resource}Api` per API resource group.
   **Controller accessors live on the client**: `client.get{Resource}Api()`.
-- `com.adyen.balanceplatformapitest.exceptions/` — `ApiException` base class plus per-operation `{Name}Exception` subclasses
+- `com.adyen.checkouttest.exceptions/` — `ApiException` base class plus per-operation `{Name}Exception` subclasses
   (when the API documents typed error responses).
-- `com.adyen.balanceplatformapitest.models/` — request/response POJOs extending `BaseModel` (Jackson `@JsonGetter`/
+- `com.adyen.checkouttest.models/` — request/response POJOs extending `BaseModel` (Jackson `@JsonGetter`/
   `@JsonSetter`), Java `enum` types with custom JSON (un)marshalling, and `containers/` for oneOf/anyOf
   union types.
-- `com.adyen.balanceplatformapitest.http/client/` — `HttpClientConfiguration`, `ReadonlyHttpClientConfiguration`,
+- `com.adyen.checkouttest.http/client/` — `HttpClientConfiguration`, `ReadonlyHttpClientConfiguration`,
   `HttpCallback` (request/response logging seam), `HttpContext`, `HttpProxyConfiguration`.
-- `com.adyen.balanceplatformapitest.http/request/` — `HttpMethod`, `HttpRequest`.
-- `com.adyen.balanceplatformapitest.http/response/` — `HttpResponse`, `HttpStringResponse`.
+- `com.adyen.checkouttest.http/request/` — `HttpMethod`, `HttpRequest`.
+- `com.adyen.checkouttest.http/response/` — `HttpResponse`, `HttpStringResponse`.
 
 ## Maven / Gradle install
 

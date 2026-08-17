@@ -5,7 +5,7 @@ Accessor: `client.ApiKeyCompanyLevel` · Source: `Api/ApiKeyCompanyLevel.cs` · 
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### PostCompaniesCompanyIdApiCredentialsApiCredentialIdGenerateApiKey
-- **HTTP**: `POST /companies/{companyId}/apiCredentials/{apiCredentialId}/generateApiKey` (Default (balanceplatform-api-test))
+- **HTTP**: `POST /companies/{companyId}/apiCredentials/{apiCredentialId}/generateApiKey` (Default9 (management-test))
 - **Notes**: Returns a new API key for the API credential. You can use the new API key a few minutes after generating it. The old API key stops working 24 hours after generating a new one. To make this request, your API credential must have the following roles : * Management API—API credentials read and write
 - **Signature**: `PostCompaniesCompanyIdApiCredentialsApiCredentialIdGenerateApiKey(string companyId, string apiCredentialId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null

@@ -5,7 +5,7 @@ Accessor: `client.UsersMerchantLevel` · Source: `Api/UsersMerchantLevel.cs` · 
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### GetMerchantsMerchantIdUsers
-- **HTTP**: `GET /merchants/{merchantId}/users` (Default (balanceplatform-api-test))
+- **HTTP**: `GET /merchants/{merchantId}/users` (Default9 (management-test))
 - **Notes**: Returns a list of users associated with the `merchantId` specified in the path. To make this request, your API credential must have the following role : * Management API—Users read and write
 - **Signature**: `GetMerchantsMerchantIdUsers(string merchantId, int? pageNumber, int? pageSize, string? username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageNumber` — nullable, no default → **must pass explicitly**
@@ -20,7 +20,7 @@ Accessor: `client.UsersMerchantLevel` · Source: `Api/UsersMerchantLevel.cs` · 
 - **Pagination**: none
 
 ### GetMerchantsMerchantIdUsersUserId
-- **HTTP**: `GET /merchants/{merchantId}/users/{userId}` (Default (balanceplatform-api-test))
+- **HTTP**: `GET /merchants/{merchantId}/users/{userId}` (Default9 (management-test))
 - **Notes**: Returns user details for the `userId` and the `merchantId` specified in the path. To make this request, your API credential must have the following role : * Management API—Users read and write
 - **Signature**: `GetMerchantsMerchantIdUsersUserId(string merchantId, string userId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -31,7 +31,7 @@ Accessor: `client.UsersMerchantLevel` · Source: `Api/UsersMerchantLevel.cs` · 
 - **Pagination**: none
 
 ### PatchMerchantsMerchantIdUsersUserId
-- **HTTP**: `PATCH /merchants/{merchantId}/users/{userId}` (Default (balanceplatform-api-test))
+- **HTTP**: `PATCH /merchants/{merchantId}/users/{userId}` (Default9 (management-test))
 - **Notes**: Updates user details for the `userId` and the `merchantId` specified in the path. To make this request, your API credential must have the following role : * Management API—Users read and write
 - **Signature**: `PatchMerchantsMerchantIdUsersUserId(string merchantId, string userId, UpdateMerchantUserRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
@@ -43,7 +43,7 @@ Accessor: `client.UsersMerchantLevel` · Source: `Api/UsersMerchantLevel.cs` · 
 - **Pagination**: none
 
 ### PostMerchantsMerchantIdUsers
-- **HTTP**: `POST /merchants/{merchantId}/users` (Default (balanceplatform-api-test))
+- **HTTP**: `POST /merchants/{merchantId}/users` (Default9 (management-test))
 - **Notes**: Creates a user for the `merchantId` specified in the path. To make this request, your API credential must have the following role : * Management API—Users read and write
 - **Signature**: `PostMerchantsMerchantIdUsers(string merchantId, CreateMerchantUserRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**

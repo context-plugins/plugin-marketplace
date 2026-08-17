@@ -5,7 +5,7 @@ Accessor: `client.TransactionRules` · Source: `Api/TransactionRules.cs` · 4 op
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### DeleteTransactionRulesTransactionRuleId
-- **HTTP**: `DELETE /transactionRules/{transactionRuleId}` (Default (balanceplatform-api-test))
+- **HTTP**: `DELETE /transactionRules/{transactionRuleId}` (Default13 (balanceplatform-api-test))
 - **Notes**: Deletes a transaction rule.
 - **Signature**: `DeleteTransactionRulesTransactionRuleId(string transactionRuleId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.TransactionRules` · Source: `Api/TransactionRules.cs` · 4 op
 - **Pagination**: none
 
 ### GetTransactionRulesTransactionRuleId
-- **HTTP**: `GET /transactionRules/{transactionRuleId}` (Default (balanceplatform-api-test))
+- **HTTP**: `GET /transactionRules/{transactionRuleId}` (Default13 (balanceplatform-api-test))
 - **Notes**: Returns the details of a transaction rule.
 - **Signature**: `GetTransactionRulesTransactionRuleId(string transactionRuleId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -27,7 +27,7 @@ Accessor: `client.TransactionRules` · Source: `Api/TransactionRules.cs` · 4 op
 - **Pagination**: none
 
 ### PatchTransactionRulesTransactionRuleId
-- **HTTP**: `PATCH /transactionRules/{transactionRuleId}` (Default (balanceplatform-api-test))
+- **HTTP**: `PATCH /transactionRules/{transactionRuleId}` (Default13 (balanceplatform-api-test))
 - **Notes**: Updates a transaction rule. To update only the status of a transaction rule, send only the `status` parameter. All other parameters not provided in the request are left unchanged. When updating any other parameter, you need to send all existing resource parameters. If you omit a parameter in the request, that parameter is removed from the resource.
 - **Signature**: `PatchTransactionRulesTransactionRuleId(string transactionRuleId, TransactionRuleInfo? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
@@ -39,7 +39,7 @@ Accessor: `client.TransactionRules` · Source: `Api/TransactionRules.cs` · 4 op
 - **Pagination**: none
 
 ### PostTransactionRules
-- **HTTP**: `POST /transactionRules` (Default (balanceplatform-api-test))
+- **HTTP**: `POST /transactionRules` (Default13 (balanceplatform-api-test))
 - **Notes**: Creates a transaction rule . When your user makes a transaction with their Adyen-issued card, the transaction is allowed or declined based on the conditions and outcome defined in the transaction rule. You can apply the transaction rule to several cards, such as all the cards in your platform, or to a specific card. For use cases, see examples .
 - **Signature**: `PostTransactionRules(TransactionRuleInfo? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**

@@ -5,7 +5,7 @@ Accessor: `client.SplitConfigurationMerchantLevel` · Source: `Api/SplitConfigur
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### DeleteMerchantsMerchantIdSplitConfigurationsSplitConfigurationId
-- **HTTP**: `DELETE /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}` (Default (balanceplatform-api-test))
+- **HTTP**: `DELETE /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}` (Default9 (management-test))
 - **Notes**: Deletes the split configuration profile specified in the path. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
 - **Signature**: `DeleteMerchantsMerchantIdSplitConfigurationsSplitConfigurationId(string merchantId, string splitConfigurationId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -16,7 +16,7 @@ Accessor: `client.SplitConfigurationMerchantLevel` · Source: `Api/SplitConfigur
 - **Pagination**: none
 
 ### DeleteMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdRulesRuleId
-- **HTTP**: `DELETE /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}` (Default (balanceplatform-api-test))
+- **HTTP**: `DELETE /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}` (Default9 (management-test))
 - **Notes**: Deletes the rule specified in the path. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
 - **Signature**: `DeleteMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdRulesRuleId(string merchantId, string splitConfigurationId, string ruleId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -27,7 +27,7 @@ Accessor: `client.SplitConfigurationMerchantLevel` · Source: `Api/SplitConfigur
 - **Pagination**: none
 
 ### GetMerchantsMerchantIdSplitConfigurations
-- **HTTP**: `GET /merchants/{merchantId}/splitConfigurations` (Default (balanceplatform-api-test))
+- **HTTP**: `GET /merchants/{merchantId}/splitConfigurations` (Default9 (management-test))
 - **Notes**: Returns the list of split configuration profiles for the merchant account. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
 - **Signature**: `GetMerchantsMerchantIdSplitConfigurations(string merchantId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -38,7 +38,7 @@ Accessor: `client.SplitConfigurationMerchantLevel` · Source: `Api/SplitConfigur
 - **Pagination**: none
 
 ### GetMerchantsMerchantIdSplitConfigurationsSplitConfigurationId
-- **HTTP**: `GET /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}` (Default (balanceplatform-api-test))
+- **HTTP**: `GET /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}` (Default9 (management-test))
 - **Notes**: Returns the details of the split configuration profile specified in the path. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
 - **Signature**: `GetMerchantsMerchantIdSplitConfigurationsSplitConfigurationId(string merchantId, string splitConfigurationId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -49,7 +49,7 @@ Accessor: `client.SplitConfigurationMerchantLevel` · Source: `Api/SplitConfigur
 - **Pagination**: none
 
 ### PatchMerchantsMerchantIdSplitConfigurationsSplitConfigurationId
-- **HTTP**: `PATCH /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}` (Default (balanceplatform-api-test))
+- **HTTP**: `PATCH /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}` (Default9 (management-test))
 - **Notes**: Changes the description of the split configuration profile specified in the path. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
 - **Signature**: `PatchMerchantsMerchantIdSplitConfigurationsSplitConfigurationId(string merchantId, string splitConfigurationId, UpdateSplitConfigurationRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
@@ -61,7 +61,7 @@ Accessor: `client.SplitConfigurationMerchantLevel` · Source: `Api/SplitConfigur
 - **Pagination**: none
 
 ### PatchMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdRulesRuleId
-- **HTTP**: `PATCH /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}` (Default (balanceplatform-api-test))
+- **HTTP**: `PATCH /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}` (Default9 (management-test))
 - **Notes**: Changes the split conditions of the rule specified in the path. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
 - **Signature**: `PatchMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdRulesRuleId(string merchantId, string splitConfigurationId, string ruleId, UpdateSplitConfigurationRuleRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
@@ -73,9 +73,9 @@ Accessor: `client.SplitConfigurationMerchantLevel` · Source: `Api/SplitConfigur
 - **Pagination**: none
 
 ### PatchMerchantsSplitConfigurationsRulesSplitLogic
-- **HTTP**: `PATCH /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}/splitLogic/{splitLogicId}` (Default (balanceplatform-api-test))
+- **HTTP**: `PATCH /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}/splitLogic/{splitLogicId}` (Default9 (management-test))
 - **Notes**: Changes the split logic specified in the path. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
-- **Signature**: `PatchMerchantsSplitConfigurationsRulesSplitLogic(string merchantId, string splitConfigurationId, string ruleId, string splitLogicId, SplitConfigurationLogic? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
+- **Signature**: `PatchMerchantsSplitConfigurationsRulesSplitLogic(string merchantId, string splitConfigurationId, string ruleId, string splitLogicId, UpdateSplitConfigurationLogicRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
   - defaults: `requestOptions` = null
 - **Returns**: `SplitConfiguration`
@@ -85,7 +85,7 @@ Accessor: `client.SplitConfigurationMerchantLevel` · Source: `Api/SplitConfigur
 - **Pagination**: none
 
 ### PostMerchantsMerchantIdSplitConfigurations
-- **HTTP**: `POST /merchants/{merchantId}/splitConfigurations` (Default (balanceplatform-api-test))
+- **HTTP**: `POST /merchants/{merchantId}/splitConfigurations` (Default9 (management-test))
 - **Notes**: Creates a split configuration profile to split payments automatically . After you associate it with a store /stores/(storeId)request-splitConfiguration) in your merchant account, it splits the funds of all transactions processed through that store between your liable balance account and your user's balance account /stores/(storeId)request-splitConfiguration-balanceAccountId). To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
 - **Signature**: `PostMerchantsMerchantIdSplitConfigurations(string merchantId, SplitConfiguration? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
@@ -97,7 +97,7 @@ Accessor: `client.SplitConfigurationMerchantLevel` · Source: `Api/SplitConfigur
 - **Pagination**: none
 
 ### PostMerchantsMerchantIdSplitConfigurationsSplitConfigurationId
-- **HTTP**: `POST /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}` (Default (balanceplatform-api-test))
+- **HTTP**: `POST /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}` (Default9 (management-test))
 - **Notes**: Creates a rule in the split configuration profile specified in the path. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
 - **Signature**: `PostMerchantsMerchantIdSplitConfigurationsSplitConfigurationId(string merchantId, string splitConfigurationId, SplitConfigurationRule? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**

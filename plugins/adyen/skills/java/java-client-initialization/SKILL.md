@@ -13,7 +13,7 @@ This applies to **any** APIMatic-generated Java SDK (APIMATIC v3.0). Replace pla
 real names from the SDK you are using:
 
 - `AdyenClient` — the gateway class, named after the API (read it from the `*Client.java` file in the root package).
-- `com.adyen.balanceplatformapitest` — the root Java package (e.g. `io.apimatic.examples`, `localhost3000`).
+- `com.adyen.checkouttest` — the root Java package (e.g. `io.apimatic.examples`, `localhost3000`).
 - `{Resource}Api` — a controller class accessed via `client.get{Resource}Api()`.
 
 ## The builder pattern
@@ -22,8 +22,8 @@ APIMatic Java SDKs have **no public constructor** on the client class. You must 
 `AdyenClient.Builder` class. A minimal initialization:
 
 ```java
-import com.adyen.balanceplatformapitest.AdyenClient;
-import com.adyen.balanceplatformapitest.Environment;
+import com.adyen.checkouttest.AdyenClient;
+import com.adyen.checkouttest.Environment;
 
 AdyenClient client = new AdyenClient.Builder()
     .environment(Environment.PRODUCTION)

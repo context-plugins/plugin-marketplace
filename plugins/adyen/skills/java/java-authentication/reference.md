@@ -2,7 +2,7 @@
 
 Companion to **java-authentication**. Covers the OAuth grant flows that need extra steps, token
 persistence, combined scheme requirements, environment configuration, and no-auth. Confirm every name
-against the `AdyenClient.Builder` setters, the `com.adyen.balanceplatformapitest.authentication/` source, and `doc/auth/*.md`
+against the `AdyenClient.Builder` setters, the `com.adyen.checkouttest.authentication/` source, and `doc/auth/*.md`
 in the cloned SDK.
 
 ## How credentials are wired (recap)

@@ -5,7 +5,7 @@ Accessor: `client.TransferRoutes` · Source: `Api/TransferRoutes.cs` · 1 operat
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### PostTransferRoutesCalculate
-- **HTTP**: `POST /transferRoutes/calculate` (Default (balanceplatform-api-test))
+- **HTTP**: `POST /transferRoutes/calculate` (Default13 (balanceplatform-api-test))
 - **Notes**: Returns available transfer routes based on a combination of transfer `country`, `currency`, `counterparty`, and `priorities`. Use this endpoint to find optimal transfer priorities and associated requirements before you make a transfer .
 - **Signature**: `PostTransferRoutesCalculate(TransferRouteRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**

@@ -107,7 +107,7 @@ Open the enum source to find the exact constant names and integer mappings — d
 ## OneOf / AnyOf union container classes
 
 When a schema field can be one of several distinct types (oneOf) or satisfy one or more of several types
-(anyOf), APIMatic generates an abstract container class under `com.adyen.balanceplatformapitest.models.containers/`. The class
+(anyOf), APIMatic generates an abstract container class under `com.adyen.checkouttest.models.containers/`. The class
 exposes **static factory methods** for construction and an abstract **`match()`** visitor for reading.
 
 ### Building a union value

@@ -5,7 +5,7 @@ Accessor: `client.BankAccountValidation` · Source: `Api/BankAccountValidation.c
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### PostValidateBankAccountIdentification
-- **HTTP**: `POST /validateBankAccountIdentification` (Default (balanceplatform-api-test))
+- **HTTP**: `POST /validateBankAccountIdentification` (Default13 (balanceplatform-api-test))
 - **Notes**: Validates bank account identification details. You can use this endpoint to validate bank account details before you make a transfer or create a transfer instrument .
 - **Signature**: `PostValidateBankAccountIdentification(BankAccountIdentificationValidationRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**

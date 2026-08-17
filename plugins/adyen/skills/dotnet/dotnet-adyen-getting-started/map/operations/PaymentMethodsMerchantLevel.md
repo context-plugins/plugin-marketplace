@@ -5,7 +5,7 @@ Accessor: `client.PaymentMethodsMerchantLevel` · Source: `Api/PaymentMethodsMer
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### GetMerchantsMerchantIdPaymentMethodSettings
-- **HTTP**: `GET /merchants/{merchantId}/paymentMethodSettings` (Default (balanceplatform-api-test))
+- **HTTP**: `GET /merchants/{merchantId}/paymentMethodSettings` (Default9 (management-test))
 - **Notes**: Returns details for all payment methods of the merchant account identified in the path. To make this request, your API credential must have the following role : * Management API—Payment methods read
 - **Signature**: `GetMerchantsMerchantIdPaymentMethodSettings(string merchantId, string? storeId, string? businessLineId, int? pageSize, int? pageNumber, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`storeId` … `pageNumber`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
@@ -18,7 +18,7 @@ Accessor: `client.PaymentMethodsMerchantLevel` · Source: `Api/PaymentMethodsMer
 - **Pagination**: none
 
 ### GetMerchantsMerchantIdPaymentMethodSettingsPaymentMethodId
-- **HTTP**: `GET /merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}` (Default (balanceplatform-api-test))
+- **HTTP**: `GET /merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}` (Default9 (management-test))
 - **Notes**: Returns details for the merchant account and the payment method identified in the path. To make this request, your API credential must have the following role : * Management API—Payment methods read
 - **Signature**: `GetMerchantsMerchantIdPaymentMethodSettingsPaymentMethodId(string merchantId, string paymentMethodId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -29,7 +29,7 @@ Accessor: `client.PaymentMethodsMerchantLevel` · Source: `Api/PaymentMethodsMer
 - **Pagination**: none
 
 ### GetMerchantsMerchantIdPaymentMethodSettingsPaymentMethodIdGetApplePayDomains
-- **HTTP**: `GET /merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/getApplePayDomains` (Default (balanceplatform-api-test))
+- **HTTP**: `GET /merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/getApplePayDomains` (Default9 (management-test))
 - **Notes**: Returns all Apple Pay domains that are registered with the merchant account and the payment method identified in the path. For more information, see Apple Pay documentation . To make this request, your API credential must have the following role : * Management API—Payment methods read
 - **Signature**: `GetMerchantsMerchantIdPaymentMethodSettingsPaymentMethodIdGetApplePayDomains(string merchantId, string paymentMethodId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null
@@ -40,7 +40,7 @@ Accessor: `client.PaymentMethodsMerchantLevel` · Source: `Api/PaymentMethodsMer
 - **Pagination**: none
 
 ### PatchMerchantsMerchantIdPaymentMethodSettingsPaymentMethodId
-- **HTTP**: `PATCH /merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}` (Default (balanceplatform-api-test))
+- **HTTP**: `PATCH /merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}` (Default9 (management-test))
 - **Notes**: Updates payment method details for the merchant account and the payment method identified in the path. Depending the payment method `type` , you may need to send an additional object required for the payment method. To make this request, your API credential must have the following role : * Management API—Payment methods read and write
 - **Signature**: `PatchMerchantsMerchantIdPaymentMethodSettingsPaymentMethodId(string merchantId, string paymentMethodId, UpdatePaymentMethodInfo? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
@@ -52,7 +52,7 @@ Accessor: `client.PaymentMethodsMerchantLevel` · Source: `Api/PaymentMethodsMer
 - **Pagination**: none
 
 ### PostMerchantsMerchantIdPaymentMethodSettings
-- **HTTP**: `POST /merchants/{merchantId}/paymentMethodSettings` (Default (balanceplatform-api-test))
+- **HTTP**: `POST /merchants/{merchantId}/paymentMethodSettings` (Default9 (management-test))
 - **Notes**: Sends a request to add a new payment method to the merchant account identified in the path. Depending the payment method `type` , you may need to send an additional object required for the payment method. To make this request, your API credential must have the following role : * Management API—Payment methods read and write
 - **Signature**: `PostMerchantsMerchantIdPaymentMethodSettings(string merchantId, PaymentMethodSetupInfo? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
@@ -64,7 +64,7 @@ Accessor: `client.PaymentMethodsMerchantLevel` · Source: `Api/PaymentMethodsMer
 - **Pagination**: none
 
 ### PostMerchantsMerchantIdPaymentMethodSettingsPaymentMethodIdAddApplePayDomains
-- **HTTP**: `POST /merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/addApplePayDomains` (Default (balanceplatform-api-test))
+- **HTTP**: `POST /merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/addApplePayDomains` (Default9 (management-test))
 - **Notes**: Adds the new domain to the list of Apple Pay domains that are registered with the merchant account and the payment method identified in the path. For more information, see Apple Pay documentation . To make this request, your API credential must have the following role : * Management API—Payment methods read and write
 - **Signature**: `PostMerchantsMerchantIdPaymentMethodSettingsPaymentMethodIdAddApplePayDomains(string merchantId, string paymentMethodId, ApplePayInfo? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**

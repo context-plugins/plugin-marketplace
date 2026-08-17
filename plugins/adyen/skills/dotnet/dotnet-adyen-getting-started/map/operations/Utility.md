@@ -5,7 +5,7 @@ Accessor: `client.Utility` · Source: `Api/Utility.cs` · 4 operations
 **Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
 
 ### PostApplePaySessions
-- **HTTP**: `POST /applePay/sessions` (Default (balanceplatform-api-test))
+- **HTTP**: `POST /applePay/sessions` (Default (checkout-test))
 - **Notes**: You need to use this endpoint if you have an API-only integration with Apple Pay which uses Adyen's Apple Pay certificate. The endpoint returns the Apple Pay session data which you need to complete the Apple Pay session validation .
 - **Signature**: `PostApplePaySessions(string? idempotencyKey, ApplePaySessionRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `idempotencyKey` — nullable, no default → **must pass explicitly**
@@ -18,7 +18,7 @@ Accessor: `client.Utility` · Source: `Api/Utility.cs` · 4 operations
 - **Pagination**: none
 
 ### PostOriginKeys
-- **HTTP**: `POST /originKeys` (Default (balanceplatform-api-test))
+- **HTTP**: `POST /originKeys` (Default (checkout-test))
 - **Notes**: This operation takes the origin domains and returns a JSON object containing the corresponding origin keys for the domains. &gt; If you're still using origin key for your Web Drop-in or Components integration, we recommend switching to client key . This allows you to use a single key for all origins, add or remove origins without generating a new key, and detect the card type from the number entered in your payment form.
 - **Signature**: `PostOriginKeys(string? idempotencyKey, UtilityRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `idempotencyKey` — nullable, no default → **must pass explicitly**
@@ -26,12 +26,12 @@ Accessor: `client.Utility` · Source: `Api/Utility.cs` · 4 operations
   - defaults: `requestOptions` = null
 - **Returns**: `UtilityResponse`
 - **Error**: `SdkException<PostOriginKeysError>` — **Case A (typed)**
-- **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
+- **Error accessors**: `TryGetServiceError(out ServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
 - **No-throw variant**: absent
 - **Pagination**: none
 
 ### PostPaypalUpdateOrder
-- **HTTP**: `POST /paypal/updateOrder` (Default (balanceplatform-api-test))
+- **HTTP**: `POST /paypal/updateOrder` (Default (checkout-test))
 - **Notes**: Updates the order for PayPal Express Checkout. This can be used to update the PayPal lightbox with an updated amount and delivery methods based on the delivery address.
 - **Signature**: `PostPaypalUpdateOrder(string? idempotencyKey, PaypalUpdateOrderRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `idempotencyKey` — nullable, no default → **must pass explicitly**
@@ -39,12 +39,12 @@ Accessor: `client.Utility` · Source: `Api/Utility.cs` · 4 operations
   - defaults: `requestOptions` = null
 - **Returns**: `PaypalUpdateOrderResponse`
 - **Error**: `SdkException<PostPaypalUpdateOrderError>` — **Case A (typed)**
-- **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
+- **Error accessors**: `TryGetServiceError(out ServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
 - **No-throw variant**: absent
 - **Pagination**: none
 
 ### PostValidateShopperId
-- **HTTP**: `POST /validateShopperId` (Default (balanceplatform-api-test))
+- **HTTP**: `POST /validateShopperId` (Default (checkout-test))
 - **Notes**: Validates the shopperId.
 - **Signature**: `PostValidateShopperId(ValidateShopperIdRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - defaults: `requestOptions` = null

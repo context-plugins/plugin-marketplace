@@ -10,7 +10,7 @@
 | Root namespace/module | `Adyen` |
 <!-- gen:stamp -->
 | Target framework(s) | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| Source commit (spec stamp) | `b849f5e` (`b849f5edd3d5c8e2d6339349b4ab950e29a86365`, tagged `b849f5e`) |
+| Source commit (spec stamp) | `2476fe0` (`2476fe01fc0e1d8691bb97698aca354f4e48915b`, tagged `2476fe0`) |
 <!-- /gen:stamp -->
 | Generator | APIMatic |
 | Repo | https://github.com/context-plugins/adyen-csharp-sdk (branch `main`) |
@@ -98,7 +98,7 @@ Core error types (`Core/ErrorResponse/`) — public members with their **declare
 
 | Type | Public members | Source |
 |---|---|---|
-| `ApiError` — abstract base of all 416 typed error classes in `Errors/` | `TryGetRawError(out RawError error): bool` | `Core/ErrorResponse/ApiError.cs` |
+| `ApiError` — abstract base of all 420 typed error classes in `Errors/` | `TryGetRawError(out RawError error): bool` | `Core/ErrorResponse/ApiError.cs` |
 | `RawError` | `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?` | `Core/ErrorResponse/RawError.cs` |
 
 Typed-error payload shapes (the `out` types in each operation page's error-accessor cells) are ordinary records/unions: field names, declared types, and JSON wire names live on the records pages / `unions.md` like any other model.
@@ -120,12 +120,12 @@ catch (SdkException<RawError> ex)                     // Case B
 
 <!-- crawler:op-stats -->
 **No-throw ("`…Result`") variants: absent across this SDK** — every operation is throw-only.
-Of **428 operations**, **416 are Case A (typed)** and **12 are Case B (raw)**.
+Of **431 operations**, **420 are Case A (typed)** and **11 are Case B (raw)**.
 <!-- /crawler:op-stats -->
 
 ---
 
-## Operations — by controller (93 groups, 428 operations)
+## Operations — by controller (92 groups, 431 operations)
 
 Each links to a sub-page with one row per operation (HTTP, signature with must-pass-explicitly params, return
 type, error Case A/B + accessors, pagination).
@@ -148,17 +148,16 @@ type, error Case A/B + accessors, pagination).
 | `ApiKeyMerchantLevel` | 1 | [map/operations/ApiKeyMerchantLevel.md](map/operations/ApiKeyMerchantLevel.md) |
 | `AuthorizedCardUsers` | 4 | [map/operations/AuthorizedCardUsers.md](map/operations/AuthorizedCardUsers.md) |
 | `BalanceAccounts` | 5 | [map/operations/BalanceAccounts.md](map/operations/BalanceAccounts.md) |
-| `BalancesApi` | 5 | [map/operations/BalancesApi.md](map/operations/BalancesApi.md) |
+| `Balances` | 5 | [map/operations/Balances.md](map/operations/Balances.md) |
 | `BalancesOverview` | 2 | [map/operations/BalancesOverview.md](map/operations/BalancesOverview.md) |
 | `BalanceTransfers` | 1 | [map/operations/BalanceTransfers.md](map/operations/BalanceTransfers.md) |
 | `BankAccountValidation` | 1 | [map/operations/BankAccountValidation.md](map/operations/BankAccountValidation.md) |
 | `BusinessLinesApi` | 4 | [map/operations/BusinessLinesApi.md](map/operations/BusinessLinesApi.md) |
-| `Capital` | 1 | [map/operations/Capital.md](map/operations/Capital.md) |
+| `Capital` | 3 | [map/operations/Capital.md](map/operations/Capital.md) |
 | `CardOrders` | 2 | [map/operations/CardOrders.md](map/operations/CardOrders.md) |
 | `CashOutApi` | 1 | [map/operations/CashOutApi.md](map/operations/CashOutApi.md) |
 | `ClientKeyCompanyLevel` | 1 | [map/operations/ClientKeyCompanyLevel.md](map/operations/ClientKeyCompanyLevel.md) |
 | `ClientKeyMerchantLevel` | 1 | [map/operations/ClientKeyMerchantLevel.md](map/operations/ClientKeyMerchantLevel.md) |
-| `CloudEndpointsAndConnection` | 4 | [map/operations/CloudEndpointsAndConnection.md](map/operations/CloudEndpointsAndConnection.md) |
 | `CustomPayoutSchedulesSweeps` | 5 | [map/operations/CustomPayoutSchedulesSweeps.md](map/operations/CustomPayoutSchedulesSweeps.md) |
 | `DirectDebitMandates` | 4 | [map/operations/DirectDebitMandates.md](map/operations/DirectDebitMandates.md) |
 | `DisputeAttachments` | 4 | [map/operations/DisputeAttachments.md](map/operations/DisputeAttachments.md) |
@@ -166,9 +165,9 @@ type, error Case A/B + accessors, pagination).
 | `DonationCampaigns` | 6 | [map/operations/DonationCampaigns.md](map/operations/DonationCampaigns.md) |
 | `Donations` | 2 | [map/operations/Donations.md](map/operations/Donations.md) |
 | `DynamicOffers` | 3 | [map/operations/DynamicOffers.md](map/operations/DynamicOffers.md) |
-| `General` | 40 | [map/operations/General.md](map/operations/General.md) |
-| `GrantAccounts` | 1 | [map/operations/GrantAccounts.md](map/operations/GrantAccounts.md) |
-| `GrantOffersApi` | 3 | [map/operations/GrantOffersApi.md](map/operations/GrantOffersApi.md) |
+| `General` | 41 | [map/operations/General.md](map/operations/General.md) |
+| `GrantAccounts` | 2 | [map/operations/GrantAccounts.md](map/operations/GrantAccounts.md) |
+| `GrantOffersApi` | 4 | [map/operations/GrantOffersApi.md](map/operations/GrantOffersApi.md) |
 | `GrantsApi` | 6 | [map/operations/GrantsApi.md](map/operations/GrantsApi.md) |
 | `HostedOnboarding` | 3 | [map/operations/HostedOnboarding.md](map/operations/HostedOnboarding.md) |
 | `HostedOnboardingPage` | 1 | [map/operations/HostedOnboardingPage.md](map/operations/HostedOnboardingPage.md) |
@@ -187,7 +186,7 @@ type, error Case A/B + accessors, pagination).
 | `PaymentInstruments` | 9 | [map/operations/PaymentInstruments.md](map/operations/PaymentInstruments.md) |
 | `PaymentLinks` | 3 | [map/operations/PaymentLinks.md](map/operations/PaymentLinks.md) |
 | `PaymentMethodsMerchantLevel` | 6 | [map/operations/PaymentMethodsMerchantLevel.md](map/operations/PaymentMethodsMerchantLevel.md) |
-| `Payments` | 13 | [map/operations/Payments.md](map/operations/Payments.md) |
+| `Payments` | 14 | [map/operations/Payments.md](map/operations/Payments.md) |
 | `PaymentsApp` | 5 | [map/operations/PaymentsApp.md](map/operations/PaymentsApp.md) |
 | `PayoutSettingsMerchantLevel` | 5 | [map/operations/PayoutSettingsMerchantLevel.md](map/operations/PayoutSettingsMerchantLevel.md) |
 | `PciComplianceQuestionnairePage` | 1 | [map/operations/PciComplianceQuestionnairePage.md](map/operations/PciComplianceQuestionnairePage.md) |
@@ -200,7 +199,7 @@ type, error Case A/B + accessors, pagination).
 | `Reviewing` | 2 | [map/operations/Reviewing.md](map/operations/Reviewing.md) |
 | `ScaAssociationManagement` | 3 | [map/operations/ScaAssociationManagement.md](map/operations/ScaAssociationManagement.md) |
 | `ScaDeviceManagement` | 4 | [map/operations/ScaDeviceManagement.md](map/operations/ScaDeviceManagement.md) |
-| `SessionAuthentication` | 1 | [map/operations/SessionAuthentication.md](map/operations/SessionAuthentication.md) |
+| `SessionAuthentication` | 2 | [map/operations/SessionAuthentication.md](map/operations/SessionAuthentication.md) |
 | `SplitConfigurationMerchantLevel` | 9 | [map/operations/SplitConfigurationMerchantLevel.md](map/operations/SplitConfigurationMerchantLevel.md) |
 | `TaxEDeliveryConsent` | 2 | [map/operations/TaxEDeliveryConsent.md](map/operations/TaxEDeliveryConsent.md) |
 | `TerminalActionsCompanyLevel` | 2 | [map/operations/TerminalActionsCompanyLevel.md](map/operations/TerminalActionsCompanyLevel.md) |
@@ -235,9 +234,9 @@ type, error Case A/B + accessors, pagination).
 <!-- gen:models-table -->
 | Group | Count | Page |
 |---|---:|---|
-| Records (plain `record` data models) | 2564 | [`AbortRequest` … `AdditionalDataRetry`](map/models/records-1-Ab-Ad.md) · [`AdditionalDataRisk` … `BalanceAccountsPayoutSchedulesExecutions401Error`](map/models/records-2-Ad-Ba.md) · [`BalanceAccountsPayoutSchedulesExecutions401Error1` … `BankAccountDetails1`](map/models/records-3-Ba-Ba.md) · [`BankAccountIdentification` … `CarRental`](map/models/records-4-Ba-Ca.md) · [`CarRental1` … `CounterpartyTypesRestriction1`](map/models/records-5-Ca-Co.md) · [`CounterpartyV3` … `DisputesAttachments422Error`](map/models/records-6-Co-Di.md) · [`DisputesAttachments422Error1` … `GetTerminalDetailsRequest`](map/models/records-7-Di-Ge.md) · [`GetTerminalDetailsResponse` … `KlarnaNetwork`](map/models/records-8-Ge-Kl.md) · [`KlarnaResponseInfo` … `MerchantNamesRestriction`](map/models/records-9-Kl-Me.md) · [`MerchantNamesRestriction1` … `OpenInvoice`](map/models/records-10-Me-Op.md) · [`Opi` … `PaymentMethodToStore`](map/models/records-11-Op-Pa.md) · [`PaymentMethodToStore1` … `PlatformChargebackLogic1`](map/models/records-12-Pa-Pl.md) · [`PlatformChargebackLogic4` … `RoutingDetails`](map/models/records-13-Pl-Ro.md) · [`SaleData` … `Status22`](map/models/records-14-Sa-St.md) · [`Status8` … `ThreeDs2CardRangeDetail`](map/models/records-15-St-Th.md) · [`ThreeDs2RequestData` … `TransferData`](map/models/records-16-Th-Tr.md) · [`TransferEvent` … `Zip`](map/models/records-17-Tr-Zi.md) |
-| Unions (`OneOf` / `AnyOf`) — variant factories + `TryGet…` | 0 + 27 | [map/models/unions.md](map/models/unions.md) |
-| Enums (`StringEnum<T>` / `IntEnum<T>`) — literal C# member names + wire values | 592 | [map/models/enums.md](map/models/enums.md) |
+| Records (plain `record` data models) | 2053 | [`AbortRequest` … `AffirmInfo1`](map/models/records-1-Ab-Af.md) · [`AffirmResponseInfo` … `BillingEntity`](map/models/records-2-Af-Bi.md) · [`BillingEntity1` … `CheckoutErrorResponseEntityError`](map/models/records-3-Bi-Ch.md) · [`CheckoutForwardRequest` … `DeletePayoutMethodRequest`](map/models/records-4-Ch-De.md) · [`DeleteShareholderRequest` … `GenericPmWithTdiInfo`](map/models/records-5-De-Ge.md) · [`GenericPmWithTdiInfo1` … `KycCheckStatusData`](map/models/records-6-Ge-Ky.md) · [`KycCheckSummary` … `MinorUnitsMonetaryValue`](map/models/records-7-Ky-Mi.md) · [`MobileData` … `PaymentDetailsRequest1`](map/models/records-8-Mo-Pa.md) · [`PaymentDetailsResponse` … `PayU`](map/models/records-9-Pa-Pa.md) · [`PayWithGoogleDetails` … `Riverty`](map/models/records-10-Pa-Ri.md) · [`RixAccountIdentifier` … `StoredValueBalanceMergeResponse`](map/models/records-11-Ri-St.md) · [`StoredValueData` … `ThreeDsAvailabilityResponse`](map/models/records-12-St-Th.md) · [`ThreeDSecure` … `UpdateCompanyUserRequest`](map/models/records-13-Th-Up.md) · [`UpdateCompanyWebhookRequest` … `Zip`](map/models/records-14-Up-Zi.md) |
+| Unions (`OneOf` / `AnyOf`) — variant factories + `TryGet…` | 15 + 14 | [map/models/unions.md](map/models/unions.md) |
+| Enums (`StringEnum<T>` / `IntEnum<T>`) — literal C# member names + wire values | 522 | [map/models/enums.md](map/models/enums.md) |
 <!-- /gen:models-table -->
 
 Model conventions: records are immutable with `init`-only setters; `required` properties must be set in the
@@ -257,7 +256,7 @@ Namespaces by content type (add `using` accordingly):
 | Operation controllers (`Api/`) | `Adyen.Api` |
 | Records (`Models/`) | `Adyen.Models` |
 | Enums (`Models/Enums/`) | `Adyen.Models.Enums` |
-| Unions (`Models/AnyOf/`, `Models/OneOf/`) | `Adyen.Models.AnyOf` |
+| Unions (`Models/AnyOf/`, `Models/OneOf/`) | `Adyen.Models.AnyOf` · `Adyen.Models.OneOf` |
 | Error classes (`Errors/`) | `Adyen.Errors` |
 <!-- /gen:namespaces -->
 
@@ -274,5 +273,5 @@ Namespaces by content type (add `using` accordingly):
 | `BasicAuth` | `BasicAuthCredentials?` | — |
 | `ClientKey` | `string?` | — |
 
-**Environments.** `options.Environment` is a `ServerEnvironment` (`Servers/ServerEnvironment.cs`) with members: `ServerEnvironment.Production`, `ServerEnvironment.Environment2`, `ServerEnvironment.Environment3`, `ServerEnvironment.Environment4`, `ServerEnvironment.Environment5`, `ServerEnvironment.Environment6`, `ServerEnvironment.Environment7`, `ServerEnvironment.Environment8`, `ServerEnvironment.Environment9`, `ServerEnvironment.Environment10`, `ServerEnvironment.Environment11`, `ServerEnvironment.Environment12`, `ServerEnvironment.Environment13`, `ServerEnvironment.Environment14`, `ServerEnvironment.Environment15`, `ServerEnvironment.Environment16`, `ServerEnvironment.Environment17`, `ServerEnvironment.Environment18`, `ServerEnvironment.Environment19`, `ServerEnvironment.Environment20`, `ServerEnvironment.Environment21`, `ServerEnvironment.Environment22`, `ServerEnvironment.Environment23`, `ServerEnvironment.Environment24`, `ServerEnvironment.Environment25`, `ServerEnvironment.Environment26`, `ServerEnvironment.Environment27`, `ServerEnvironment.Environment28`, `ServerEnvironment.Environment29`, `ServerEnvironment.Environment30`, `ServerEnvironment.Environment31`, `ServerEnvironment.Environment32`, `ServerEnvironment.Environment33`, `ServerEnvironment.Environment34`, `ServerEnvironment.Environment35`, `ServerEnvironment.Environment36`, `ServerEnvironment.Environment37`, `ServerEnvironment.Environment38`, `ServerEnvironment.Environment39`, `ServerEnvironment.Environment40`, `ServerEnvironment.Environment41`, `ServerEnvironment.Environment42`, `ServerEnvironment.Environment43`, `ServerEnvironment.Environment44`, `ServerEnvironment.Environment45`, `ServerEnvironment.Environment46`, `ServerEnvironment.Environment47`, `ServerEnvironment.Environment48`, `ServerEnvironment.Environment49`, `ServerEnvironment.Environment50`, `ServerEnvironment.Environment51`, `ServerEnvironment.Environment52`, `ServerEnvironment.Environment53`, `ServerEnvironment.Environment54`, `ServerEnvironment.Environment55`, `ServerEnvironment.Environment56`, `ServerEnvironment.Environment57`, `ServerEnvironment.Environment58`, `ServerEnvironment.Environment59`, `ServerEnvironment.Environment60`, `ServerEnvironment.Environment61`, `ServerEnvironment.Environment62`, `ServerEnvironment.Environment63`, `ServerEnvironment.Environment64`, `ServerEnvironment.Environment65`, `ServerEnvironment.Environment66`, `ServerEnvironment.Environment67`, `ServerEnvironment.Environment68`, `ServerEnvironment.Environment69`, `ServerEnvironment.Environment70`, `ServerEnvironment.Environment71`, `ServerEnvironment.Environment72`, `ServerEnvironment.Environment73`, `ServerEnvironment.Environment74`, `ServerEnvironment.Environment75`, `ServerEnvironment.Environment76`, `ServerEnvironment.Environment77`, `ServerEnvironment.Environment78`, `ServerEnvironment.Environment79`, `ServerEnvironment.Environment80`, `ServerEnvironment.Environment81`, `ServerEnvironment.Environment82`, `ServerEnvironment.Environment83`, `ServerEnvironment.Environment84`, `ServerEnvironment.Environment85`, `ServerEnvironment.Environment86`, `ServerEnvironment.Environment87`, `ServerEnvironment.Environment88`, `ServerEnvironment.Environment89`, `ServerEnvironment.Environment90`, `ServerEnvironment.Environment91`, `ServerEnvironment.Environment92`, `ServerEnvironment.Environment93`, `ServerEnvironment.Environment94`, `ServerEnvironment.Environment95`, `ServerEnvironment.Environment96`, `ServerEnvironment.Environment97`, `ServerEnvironment.Environment98`, `ServerEnvironment.Environment99`, `ServerEnvironment.Environment100`, `ServerEnvironment.Environment101`, `ServerEnvironment.Environment102`, `ServerEnvironment.Environment103`, `ServerEnvironment.Environment104`, `ServerEnvironment.Environment105`, `ServerEnvironment.Environment106`, `ServerEnvironment.Environment107`, `ServerEnvironment.Environment108`, `ServerEnvironment.Environment109`, `ServerEnvironment.Environment110`, `ServerEnvironment.Environment111`, `ServerEnvironment.Environment112`, `ServerEnvironment.Environment113`, `ServerEnvironment.Environment114`, `ServerEnvironment.Environment115`, `ServerEnvironment.Environment116`, `ServerEnvironment.Environment117`, `ServerEnvironment.Environment118`, `ServerEnvironment.Environment119`, `ServerEnvironment.Environment120`, `ServerEnvironment.Environment121`, `ServerEnvironment.Environment122`, `ServerEnvironment.Environment123`, `ServerEnvironment.Environment124`, `ServerEnvironment.Environment125`, `ServerEnvironment.Environment126`, `ServerEnvironment.Environment127`, `ServerEnvironment.Environment128`, `ServerEnvironment.Environment129`, `ServerEnvironment.Environment130`, `ServerEnvironment.Environment131`, `ServerEnvironment.Environment132`, `ServerEnvironment.Environment133`, `ServerEnvironment.Environment134`, `ServerEnvironment.Environment135`, `ServerEnvironment.Environment136`, `ServerEnvironment.Environment137`, `ServerEnvironment.Environment138`, `ServerEnvironment.Environment139`, `ServerEnvironment.Environment140`, `ServerEnvironment.Environment141`, `ServerEnvironment.Environment142`, `ServerEnvironment.Environment143`, `ServerEnvironment.Environment144`, `ServerEnvironment.Environment145`, `ServerEnvironment.Environment146`, `ServerEnvironment.Environment147`, `ServerEnvironment.Environment148`, `ServerEnvironment.Environment149`, `ServerEnvironment.Environment150`, `ServerEnvironment.Environment151`, `ServerEnvironment.Environment152`, `ServerEnvironment.Environment153`, `ServerEnvironment.Environment154`, `ServerEnvironment.Environment155`, `ServerEnvironment.Environment156`, `ServerEnvironment.Environment157`, `ServerEnvironment.Environment158`, `ServerEnvironment.Environment159`, `ServerEnvironment.Environment160`, `ServerEnvironment.Environment161`, `ServerEnvironment.Environment162`, `ServerEnvironment.Environment163`, `ServerEnvironment.Environment164`, `ServerEnvironment.Environment165`, `ServerEnvironment.Environment166`, `ServerEnvironment.Environment167`, `ServerEnvironment.Environment168`, `ServerEnvironment.Environment169`, `ServerEnvironment.Environment170`, `ServerEnvironment.Environment171`, `ServerEnvironment.Environment172`, `ServerEnvironment.Environment173`, `ServerEnvironment.Environment174`, `ServerEnvironment.Environment175`, `ServerEnvironment.Environment176`, `ServerEnvironment.Environment177`, `ServerEnvironment.Environment178`, `ServerEnvironment.Environment179`, `ServerEnvironment.Environment180`. Base-URL templates and override points live under `Servers/` and `options.Server`.
+**Environments.** `options.Environment` is a `ServerEnvironment` (`Servers/ServerEnvironment.cs`) with members: `ServerEnvironment.Test`. Base-URL templates and override points live under `Servers/` and `options.Server`.
 <!-- /crawler:servers-auth -->

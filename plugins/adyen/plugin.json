@@ -2,7 +2,7 @@
   "name": "adyen",
   "displayName": "adyen SDK",
   "version": "0.2.0",
-  "description": "TODO_AUTO_DESCRIPTION: adyen API",
+  "description": "Process global online and in-person payments, payouts, and financial management.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

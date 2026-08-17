@@ -14,7 +14,7 @@
     {
       "name": "adyen",
       "source": "./plugins/adyen",
-      "description": "TODO_AUTO_DESCRIPTION: adyen API",
+      "description": "Process global online and in-person payments, payouts, and financial management.",
       "version": "0.2.0"
     },
     {

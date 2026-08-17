@@ -1,25 +1,35 @@
-# LlmsTxt — operations
+<!-- Generated file — do not edit; regenerated with the SDK. -->
 
-Accessor: `client.LlmsTxt` · Source: `Api/LlmsTxt.cs` · 2 operations
+# LlMsTxt — operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+Accessor: `client.LlMsTxt` · Source: `Api/LlMsTxt.cs` · 2 operations
 
-### GenerateLlmsTxt
-- **HTTP**: `POST /llmstxt` (Default (api))
-- **Signature**: `GenerateLlmsTxt(LlmstxtRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
+
+### GenerateLlMsTxt
+
+- **Signature**: `GenerateLlMsTxt(LlmstxtRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
 - **Returns**: `LlmstxtResponse`
-- **Error**: `SdkException<GenerateLlmsTxtError>` — **Case A (typed)**
+- **Error**: `SdkException<GenerateLlMsTxtError>` — **Case A (typed)**
 - **Error accessors**: `TryGetLlmstxt400Error1(out Llmstxt400Error1)` [400] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
 
-### GetLlmsTxtStatus
-- **HTTP**: `GET /llmstxt/{id}` (Default (api))
-- **Signature**: `GetLlmsTxtStatus(Guid id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
+| Type | Source |
+| --- | --- |
+| `LlmstxtRequest` | `Models/LlmstxtRequest.cs` |
+| `LlmstxtResponse` | `Models/LlmstxtResponse.cs` |
+| `GenerateLlMsTxtError` | `Errors/GenerateLlMsTxtError.cs` |
+| `Llmstxt400Error1` | `Models/Llmstxt400Error1.cs` |
+
+### GetLlMsTxtStatus
+
+- **Signature**: `GetLlMsTxtStatus(Guid id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
 - **Returns**: `LlmstxtResponse1`
-- **Error**: `SdkException<GetLlmsTxtStatusError>` — **Case A (typed)**
+- **Error**: `SdkException<GetLlMsTxtStatusError>` — **Case A (typed)**
 - **Error accessors**: `TryGetLlmstxt404Error1(out Llmstxt404Error1)` [404] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `LlmstxtResponse1` | `Models/LlmstxtResponse1.cs` |
+| `GetLlMsTxtStatusError` | `Errors/GetLlMsTxtStatusError.cs` |
+| `Llmstxt404Error1` | `Models/Llmstxt404Error1.cs` |
+

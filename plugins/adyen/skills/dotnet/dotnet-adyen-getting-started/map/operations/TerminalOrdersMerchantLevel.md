@@ -1,130 +1,155 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # TerminalOrdersMerchantLevel — operations
 
 Accessor: `client.TerminalOrdersMerchantLevel` · Source: `Api/TerminalOrdersMerchantLevel.cs` · 10 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### GetMerchantsMerchantIdBillingEntities
-- **HTTP**: `GET /merchants/{merchantId}/billingEntities` (Default9 (management-test))
-- **Notes**: Returns the billing entities of the merchant account identified in the path. A billing entity is a legal entity where we charge orders to. An order for terminal products must contain the ID of a billing entity. To make this request, your API credential must have one of the following roles : * Management API—Terminal ordering read * Management API—Terminal ordering read and write In the live environment, requests to this endpoint are subject to rate limits .
+- **Server group**: `Default9`
 - **Signature**: `GetMerchantsMerchantIdBillingEntities(string merchantId, string? name, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `name` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `name` ← `name`
 - **Returns**: `BillingEntitiesResponse`
 - **Error**: `SdkException<GetMerchantsMerchantIdBillingEntitiesError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `BillingEntitiesResponse` | `Models/BillingEntitiesResponse.cs` |
+| `GetMerchantsMerchantIdBillingEntitiesError` | `Errors/GetMerchantsMerchantIdBillingEntitiesError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetMerchantsMerchantIdShippingLocations
-- **HTTP**: `GET /merchants/{merchantId}/shippingLocations` (Default9 (management-test))
-- **Notes**: Returns the shipping locations for the merchant account identified in the path. A shipping location includes the address where orders can be delivered, and an ID which you need to specify when ordering terminal products. To make this request, your API credential must have one of the following roles : * Management API—Terminal ordering read * Management API—Terminal ordering read and write In the live environment, requests to this endpoint are subject to rate limits .
+- **Server group**: `Default9`
 - **Signature**: `GetMerchantsMerchantIdShippingLocations(string merchantId, string? name, int? offset, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `name` — nullable, no default → **must pass explicitly**
   - `offset` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `name` ← `name`, `offset` ← `offset`, `limit` ← `limit`
 - **Returns**: `ShippingLocationsResponse`
 - **Error**: `SdkException<GetMerchantsMerchantIdShippingLocationsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ShippingLocationsResponse` | `Models/ShippingLocationsResponse.cs` |
+| `GetMerchantsMerchantIdShippingLocationsError` | `Errors/GetMerchantsMerchantIdShippingLocationsError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetMerchantsMerchantIdTerminalModels
-- **HTTP**: `GET /merchants/{merchantId}/terminalModels` (Default9 (management-test))
-- **Notes**: Returns the payment terminal models that the merchant account identified in the path has access to. The response includes the terminal model ID, which can be used as a query parameter when getting a list of terminals or a list of products for ordering. To make this request, your API credential must have one of the following roles : * Management API—Terminal ordering read * Management API—Terminal ordering read and write In the live environment, requests to this endpoint are subject to rate limits .
+- **Server group**: `Default9`
 - **Signature**: `GetMerchantsMerchantIdTerminalModels(string merchantId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `TerminalModelsResponse`
 - **Error**: `SdkException<GetMerchantsMerchantIdTerminalModelsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TerminalModelsResponse` | `Models/TerminalModelsResponse.cs` |
+| `GetMerchantsMerchantIdTerminalModelsError` | `Errors/GetMerchantsMerchantIdTerminalModelsError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetMerchantsMerchantIdTerminalOrders
-- **HTTP**: `GET /merchants/{merchantId}/terminalOrders` (Default9 (management-test))
-- **Notes**: Returns a list of terminal products orders for the merchant account identified in the path. To make this request, your API credential must have one of the following roles : * Management API—Terminal ordering read * Management API—Terminal ordering read and write In the live environment, requests to this endpoint are subject to rate limits .
+- **Server group**: `Default9`
 - **Signature**: `GetMerchantsMerchantIdTerminalOrders(string merchantId, string? customerOrderReference, string? status, int? offset, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - 4 params (`customerOrderReference` … `limit`) — nullable, no default → **must pass explicitly** (pass `null` to skip)
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `customerOrderReference` ← `customerOrderReference`, `status` ← `status`, `offset` ← `offset`, `limit` ← `limit`
 - **Returns**: `TerminalOrdersResponse`
 - **Error**: `SdkException<GetMerchantsMerchantIdTerminalOrdersError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TerminalOrdersResponse` | `Models/TerminalOrdersResponse.cs` |
+| `GetMerchantsMerchantIdTerminalOrdersError` | `Errors/GetMerchantsMerchantIdTerminalOrdersError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetMerchantsMerchantIdTerminalOrdersOrderId
-- **HTTP**: `GET /merchants/{merchantId}/terminalOrders/{orderId}` (Default9 (management-test))
-- **Notes**: Returns the details of the terminal products order identified in the path. To make this request, your API credential must have one of the following roles : * Management API—Terminal ordering read * Management API—Terminal ordering read and write In the live environment, requests to this endpoint are subject to rate limits .
+- **Server group**: `Default9`
 - **Signature**: `GetMerchantsMerchantIdTerminalOrdersOrderId(string merchantId, string orderId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `TerminalOrder`
 - **Error**: `SdkException<GetMerchantsMerchantIdTerminalOrdersOrderIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TerminalOrder` | `Models/TerminalOrder.cs` |
+| `GetMerchantsMerchantIdTerminalOrdersOrderIdError` | `Errors/GetMerchantsMerchantIdTerminalOrdersOrderIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetMerchantsMerchantIdTerminalProducts
-- **HTTP**: `GET /merchants/{merchantId}/terminalProducts` (Default9 (management-test))
-- **Notes**: Returns a country-specific list of payment terminal packages and parts that the merchant account identified in the path has access to. To make this request, your API credential must have one of the following roles : * Management API—Terminal ordering read * Management API—Terminal ordering read and write In the live environment, requests to this endpoint are subject to rate limits .
+- **Server group**: `Default9`
 - **Signature**: `GetMerchantsMerchantIdTerminalProducts(string merchantId, string country, string? terminalModelId, int? offset, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `terminalModelId` — nullable, no default → **must pass explicitly**
   - `offset` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `country` ← `country`, `terminalModelId` ← `terminalModelId`, `offset` ← `offset`, `limit` ← `limit`
 - **Returns**: `TerminalProductsResponse`
 - **Error**: `SdkException<GetMerchantsMerchantIdTerminalProductsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TerminalProductsResponse` | `Models/TerminalProductsResponse.cs` |
+| `GetMerchantsMerchantIdTerminalProductsError` | `Errors/GetMerchantsMerchantIdTerminalProductsError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PatchMerchantsMerchantIdTerminalOrdersOrderId
-- **HTTP**: `PATCH /merchants/{merchantId}/terminalOrders/{orderId}` (Default9 (management-test))
-- **Notes**: Updates the terminal products order identified in the path. Updating is only possible while the order has the status Placed . The request body only needs to contain what you want to change. However, to update the products in the `items` array, you must provide the entire array. For example, if the array has three items: To remove one item, the array must include the remaining two items. Or to add one item, the array must include all four items. To make this request, your API credential must have the following role : * Management API—Terminal ordering read and write In the live environment, requests to this endpoint are subject to rate limits .
+- **Server group**: `Default9`
 - **Signature**: `PatchMerchantsMerchantIdTerminalOrdersOrderId(string merchantId, string orderId, TerminalOrderRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `TerminalOrder`
 - **Error**: `SdkException<PatchMerchantsMerchantIdTerminalOrdersOrderIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TerminalOrderRequest` | `Models/TerminalOrderRequest.cs` |
+| `TerminalOrder` | `Models/TerminalOrder.cs` |
+| `PatchMerchantsMerchantIdTerminalOrdersOrderIdError` | `Errors/PatchMerchantsMerchantIdTerminalOrdersOrderIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PostMerchantsMerchantIdShippingLocations
-- **HTTP**: `POST /merchants/{merchantId}/shippingLocations` (Default9 (management-test))
-- **Notes**: Creates a shipping location for the merchant account identified in the path. A shipping location defines an address where orders can be shipped to. To make this request, your API credential must have the following role : * Management API—Terminal ordering read and write In the live environment, requests to this endpoint are subject to rate limits .
+- **Server group**: `Default9`
 - **Signature**: `PostMerchantsMerchantIdShippingLocations(string merchantId, ShippingLocation? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `ShippingLocation`
 - **Error**: `SdkException<PostMerchantsMerchantIdShippingLocationsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ShippingLocation` | `Models/ShippingLocation.cs` |
+| `PostMerchantsMerchantIdShippingLocationsError` | `Errors/PostMerchantsMerchantIdShippingLocationsError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PostMerchantsMerchantIdTerminalOrders
-- **HTTP**: `POST /merchants/{merchantId}/terminalOrders` (Default9 (management-test))
-- **Notes**: Creates an order for payment terminal products for the merchant account identified in the path. To make this request, your API credential must have the following role : * Management API—Terminal ordering read and write &gt;Requests to the Management API test endpoint do not create actual orders for test terminals. To order test terminals, you need to submit a sales order in your Customer Area. In the live environment, requests to this endpoint are subject to rate limits .
+- **Server group**: `Default9`
 - **Signature**: `PostMerchantsMerchantIdTerminalOrders(string merchantId, TerminalOrderRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `TerminalOrder`
 - **Error**: `SdkException<PostMerchantsMerchantIdTerminalOrdersError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TerminalOrderRequest` | `Models/TerminalOrderRequest.cs` |
+| `TerminalOrder` | `Models/TerminalOrder.cs` |
+| `PostMerchantsMerchantIdTerminalOrdersError` | `Errors/PostMerchantsMerchantIdTerminalOrdersError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PostMerchantsMerchantIdTerminalOrdersOrderIdCancel
-- **HTTP**: `POST /merchants/{merchantId}/terminalOrders/{orderId}/cancel` (Default9 (management-test))
-- **Notes**: Cancels the terminal products order identified in the path. Cancelling is only possible while the order has the status Placed . To cancel an order, make a POST call without a request body. The response returns the full order details, but with the status changed to Cancelled . To make this request, your API credential must have the following role : * Management API—Terminal ordering read and write In the live environment, requests to this endpoint are subject to rate limits .
+- **Server group**: `Default9`
 - **Signature**: `PostMerchantsMerchantIdTerminalOrdersOrderIdCancel(string merchantId, string orderId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `TerminalOrder`
 - **Error**: `SdkException<PostMerchantsMerchantIdTerminalOrdersOrderIdCancelError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TerminalOrder` | `Models/TerminalOrder.cs` |
+| `PostMerchantsMerchantIdTerminalOrdersOrderIdCancelError` | `Errors/PostMerchantsMerchantIdTerminalOrdersOrderIdCancelError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
+

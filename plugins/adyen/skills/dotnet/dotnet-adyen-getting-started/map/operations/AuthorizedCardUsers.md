@@ -1,49 +1,59 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # AuthorizedCardUsers — operations
 
 Accessor: `client.AuthorizedCardUsers` · Source: `Api/AuthorizedCardUsers.cs` · 4 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### DeletePaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsers
-- **HTTP**: `DELETE /paymentInstruments/{paymentInstrumentId}/authorisedCardUsers` (Default13 (balanceplatform-api-test))
-- **Notes**: Deletes the list of authorized users assigned to a card.
+- **Server group**: `Default13`
 - **Signature**: `DeletePaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsers(string paymentInstrumentId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<DeletePaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsersError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [401, 403] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `DeletePaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsersError` | `Errors/DeletePaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsersError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### GetPaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsers
-- **HTTP**: `GET /paymentInstruments/{paymentInstrumentId}/authorisedCardUsers` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns the authorized users for a card.
+- **Server group**: `Default13`
 - **Signature**: `GetPaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsers(string paymentInstrumentId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `AuthorisedCardUsers`
 - **Error**: `SdkException<GetPaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsersError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [401, 403, 404, 422] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `AuthorisedCardUsers` | `Models/AuthorisedCardUsers.cs` |
+| `GetPaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsersError` | `Errors/GetPaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsersError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### PatchPaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsers
-- **HTTP**: `PATCH /paymentInstruments/{paymentInstrumentId}/authorisedCardUsers` (Default13 (balanceplatform-api-test))
-- **Notes**: Updates the list of authorized users for a card. &gt;This request replaces all existing authorized users for the card.
+- **Server group**: `Default13`
 - **Signature**: `PatchPaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsers(string paymentInstrumentId, AuthorisedCardUsers body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<PatchPaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsersError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [400, 401, 403, 422] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `AuthorisedCardUsers` | `Models/AuthorisedCardUsers.cs` |
+| `PatchPaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsersError` | `Errors/PatchPaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsersError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### PostPaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsers
-- **HTTP**: `POST /paymentInstruments/{paymentInstrumentId}/authorisedCardUsers` (Default13 (balanceplatform-api-test))
-- **Notes**: Assigns authorized users to a card. Users must have the authorisedPaymentInstrumentUser capability to be able to use the card.
+- **Server group**: `Default13`
 - **Signature**: `PostPaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsers(string paymentInstrumentId, AuthorisedCardUsers body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<PostPaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsersError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [400, 401, 403, 422] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `AuthorisedCardUsers` | `Models/AuthorisedCardUsers.cs` |
+| `PostPaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsersError` | `Errors/PostPaymentInstrumentsPaymentInstrumentIdAuthorisedCardUsersError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
+

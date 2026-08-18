@@ -1,102 +1,124 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # ManagedPayoutSchedules — operations
 
 Accessor: `client.ManagedPayoutSchedules` · Source: `Api/ManagedPayoutSchedules.cs` · 8 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### DeleteBalanceAccountsBalanceAccountIdPayoutSchedulesId
-- **HTTP**: `DELETE /balanceAccounts/{balanceAccountId}/payoutSchedules/{id}` (Default13 (balanceplatform-api-test))
-- **Notes**: Delete a payout schedule applied to a balance account.
+- **Server group**: `Default13`
 - **Signature**: `DeleteBalanceAccountsBalanceAccountIdPayoutSchedulesId(string balanceAccountId, string id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<DeleteBalanceAccountsBalanceAccountIdPayoutSchedulesIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `DeleteBalanceAccountsBalanceAccountIdPayoutSchedulesIdError` | `Errors/DeleteBalanceAccountsBalanceAccountIdPayoutSchedulesIdError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### GetBalanceAccountsBalanceAccountIdPayoutSchedules
-- **HTTP**: `GET /balanceAccounts/{balanceAccountId}/payoutSchedules` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns a list of all managed payout schedules that are configured on a balance account. You can use query parameters to filter the elements that are returned in the list.
+- **Server group**: `Default13`
 - **Signature**: `GetBalanceAccountsBalanceAccountIdPayoutSchedules(string balanceAccountId, string? currency, string? cursor, int? limit = 10, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `currency` — nullable, no default → **must pass explicitly**
   - `cursor` — nullable, no default → **must pass explicitly**
-  - defaults: `limit` = 10, `requestOptions` = null
+  - defaults: `limit` = `10`
 - **Query params (wire ← C#)**: `currency` ← `currency`, `cursor` ← `cursor`, `limit` ← `limit`
 - **Returns**: `BalanceAccountConfigurations`
 - **Error**: `SdkException<GetBalanceAccountsBalanceAccountIdPayoutSchedulesError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `BalanceAccountConfigurations` | `Models/BalanceAccountConfigurations.cs` |
+| `GetBalanceAccountsBalanceAccountIdPayoutSchedulesError` | `Errors/GetBalanceAccountsBalanceAccountIdPayoutSchedulesError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### GetBalanceAccountsBalanceAccountIdPayoutSchedulesId
-- **HTTP**: `GET /balanceAccounts/{balanceAccountId}/payoutSchedules/{id}` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns the specified payout schedule.
+- **Server group**: `Default13`
 - **Signature**: `GetBalanceAccountsBalanceAccountIdPayoutSchedulesId(string balanceAccountId, string id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `BalanceAccountConfiguration`
 - **Error**: `SdkException<GetBalanceAccountsBalanceAccountIdPayoutSchedulesIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `BalanceAccountConfiguration` | `Models/BalanceAccountConfiguration.cs` |
+| `GetBalanceAccountsBalanceAccountIdPayoutSchedulesIdError` | `Errors/GetBalanceAccountsBalanceAccountIdPayoutSchedulesIdError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### GetBalanceAccountsBalanceAccountIdPayoutSchedulesIdExecutions
-- **HTTP**: `GET /balanceAccounts/{balanceAccountId}/payoutSchedules/{id}/executions` (Default13 (balanceplatform-api-test))
-- **Notes**: View information about the executions of a managed payout schedule on the specified balance account. An execution is an attempt to make a payout according to the payout schedule.
+- **Server group**: `Default13`
 - **Signature**: `GetBalanceAccountsBalanceAccountIdPayoutSchedulesIdExecutions(string balanceAccountId, string id, int offset, IReadOnlyList<ExecutionResult>? results, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `results` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `offset` ← `offset`, `results` ← `results`, `limit` ← `limit`
 - **Returns**: `PayoutScheduleExecutions`
 - **Error**: `SdkException<GetBalanceAccountsBalanceAccountIdPayoutSchedulesIdExecutionsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ExecutionResult` | `Models/Enums/ExecutionResult.cs` |
+| `PayoutScheduleExecutions` | `Models/PayoutScheduleExecutions.cs` |
+| `GetBalanceAccountsBalanceAccountIdPayoutSchedulesIdExecutionsError` | `Errors/GetBalanceAccountsBalanceAccountIdPayoutSchedulesIdExecutionsError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### GetBalancePlatformsBalancePlatformIdPayoutSchedules
-- **HTTP**: `GET /balancePlatforms/{balancePlatformId}/payoutSchedules` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns a list of all the payout schedules that are configured for your balance platform. You can use query parameters to filter the elements that are returned in the list.
+- **Server group**: `Default13`
 - **Signature**: `GetBalancePlatformsBalancePlatformIdPayoutSchedules(string balancePlatformId, string? countryCode, string? currency, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `countryCode` — nullable, no default → **must pass explicitly**
   - `currency` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `countryCode` ← `countryCode`, `currency` ← `currency`
 - **Returns**: `BalancePlatformConfigurations`
 - **Error**: `SdkException<GetBalancePlatformsBalancePlatformIdPayoutSchedulesError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `BalancePlatformConfigurations` | `Models/BalancePlatformConfigurations.cs` |
+| `GetBalancePlatformsBalancePlatformIdPayoutSchedulesError` | `Errors/GetBalancePlatformsBalancePlatformIdPayoutSchedulesError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### GetBalancePlatformsBalancePlatformIdPayoutSchedulesId
-- **HTTP**: `GET /balancePlatforms/{balancePlatformId}/payoutSchedules/{id}` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns the specified managed payout schedule configured on your balance platform.
+- **Server group**: `Default13`
 - **Signature**: `GetBalancePlatformsBalancePlatformIdPayoutSchedulesId(string balancePlatformId, string id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `BalancePlatformConfiguration`
 - **Error**: `SdkException<GetBalancePlatformsBalancePlatformIdPayoutSchedulesIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `BalancePlatformConfiguration` | `Models/BalancePlatformConfiguration.cs` |
+| `GetBalancePlatformsBalancePlatformIdPayoutSchedulesIdError` | `Errors/GetBalancePlatformsBalancePlatformIdPayoutSchedulesIdError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### PatchBalanceAccountsBalanceAccountIdPayoutSchedulesId
-- **HTTP**: `PATCH /balanceAccounts/{balanceAccountId}/payoutSchedules/{id}` (Default13 (balanceplatform-api-test))
-- **Notes**: Update a managed payout schedule applied to a balance account. If an optional parameter is not included in the request, it remains unchanged.
+- **Server group**: `Default13`
 - **Signature**: `PatchBalanceAccountsBalanceAccountIdPayoutSchedulesId(string balanceAccountId, string id, BalanceAccountConfigurationUpdate body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `BalanceAccountConfiguration`
 - **Error**: `SdkException<PatchBalanceAccountsBalanceAccountIdPayoutSchedulesIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `BalanceAccountConfigurationUpdate` | `Models/BalanceAccountConfigurationUpdate.cs` |
+| `BalanceAccountConfiguration` | `Models/BalanceAccountConfiguration.cs` |
+| `PatchBalanceAccountsBalanceAccountIdPayoutSchedulesIdError` | `Errors/PatchBalanceAccountsBalanceAccountIdPayoutSchedulesIdError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### PostBalanceAccountsBalanceAccountIdPayoutSchedules
-- **HTTP**: `POST /balanceAccounts/{balanceAccountId}/payoutSchedules` (Default13 (balanceplatform-api-test))
-- **Notes**: Apply a managed payout schedule to a balance account. This payout schedule is based on an existing payout schedule in your balance platform.
+- **Server group**: `Default13`
 - **Signature**: `PostBalanceAccountsBalanceAccountIdPayoutSchedules(string balanceAccountId, BalanceAccountConfigurationRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `BalanceAccountConfiguration`
 - **Error**: `SdkException<PostBalanceAccountsBalanceAccountIdPayoutSchedulesError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `BalanceAccountConfigurationRequest` | `Models/BalanceAccountConfigurationRequest.cs` |
+| `BalanceAccountConfiguration` | `Models/BalanceAccountConfiguration.cs` |
+| `PostBalanceAccountsBalanceAccountIdPayoutSchedulesError` | `Errors/PostBalanceAccountsBalanceAccountIdPayoutSchedulesError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
+

@@ -1,17 +1,23 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # InstantPayouts — operations
 
-Accessor: `client.InstantPayouts` · Source: `Api/InstantPayouts.cs` · 1 operations
+Accessor: `client.InstantPayouts` · Source: `Api/InstantPayouts.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### PostPayout
-- **HTTP**: `POST /payout` (Default3 (pal-test))
-- **Notes**: &gt; This endpoint is deprecated and no longer supports new integrations. Do one of the following: &gt;- If you are building a new integration, use the POST /transfers endpoint instead. &gt; - If you are already using the Payout API, reach out to your Adyen contact to learn how to migrate to the Transfers API. &gt; &gt; With the Transfers API, you can: &gt; - Handle multiple payout use cases with a single API. &gt; - Use new payout functionalities, such as instant payouts to bank accounts. &gt; - Receive webhooks with more details and defined transfer states. &gt; &gt; For more information about the payout features of the Transfers API, see our Payouts documentation. With this call, you can pay out to your customers, and funds will be made available within 30 minutes on the cardholder's bank account (this is dependent on whether the issuer supports this functionality). Instant card payouts are only supported for Visa and Mastercard cards.
+- **Server group**: `Default3`
 - **Signature**: `PostPayout(PayoutRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `PayoutResponse`
 - **Error**: `SdkException<PostPayoutError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError(out ServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `PayoutRequest` | `Models/PayoutRequest.cs` |
+| `PayoutResponse` | `Models/PayoutResponse.cs` |
+| `PostPayoutError` | `Errors/PostPayoutError.cs` |
+| `ServiceError` | `Models/ServiceError.cs` |
+

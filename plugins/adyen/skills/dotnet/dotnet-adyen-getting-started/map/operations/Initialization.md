@@ -1,41 +1,53 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # Initialization — operations
 
 Accessor: `client.Initialization` · Source: `Api/Initialization.cs` · 3 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### PostStoreDetail
-- **HTTP**: `POST /storeDetail` (Default3 (pal-test))
-- **Notes**: &gt; This endpoint is deprecated and no longer supports new integrations. Do one of the following: &gt;- If you are building a new integration, use the Transfers API instead. &gt; - If you are already using the Payout API, reach out to your Adyen contact to learn how to migrate to the Transfers API. &gt; &gt; With the Transfers API, you can: &gt; - Handle multiple payout use cases with a single API. &gt; - Use new payout functionalities, such as instant payouts to bank accounts. &gt; - Receive webhooks with more details and defined transfer states. &gt; &gt; For more information about the payout features of the Transfers API, see our Payouts documentation. Stores payment details under the `PAYOUT` recurring contract. These payment details can be used later to submit a payout via the `/submitThirdParty` call.
+- **Server group**: `Default3`
 - **Signature**: `PostStoreDetail(StoreDetailRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `StoreDetailResponse`
 - **Error**: `SdkException<PostStoreDetailError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError(out ServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `StoreDetailRequest` | `Models/StoreDetailRequest.cs` |
+| `StoreDetailResponse` | `Models/StoreDetailResponse.cs` |
+| `PostStoreDetailError` | `Errors/PostStoreDetailError.cs` |
+| `ServiceError` | `Models/ServiceError.cs` |
 
 ### PostStoreDetailAndSubmitThirdParty
-- **HTTP**: `POST /storeDetailAndSubmitThirdParty` (Default3 (pal-test))
-- **Notes**: &gt; This endpoint is deprecated and no longer supports new integrations. Do one of the following: &gt;- If you are building a new integration, use the POST /transfers endpoint instead. &gt; - If you are already using the Payout API, reach out to your Adyen contact to learn how to migrate to the Transfers API. &gt; &gt; With the Transfers API, you can: &gt; - Handle multiple payout use cases with a single API. &gt; - Use new payout functionalities, such as instant payouts to bank accounts. &gt; - Receive webhooks with more details and defined transfer states. &gt; &gt; For more information about the payout features of the Transfers API, see our Payouts documentation. Submits a payout and stores its details for subsequent payouts. The submitted payout must be confirmed or declined either by a reviewer or via `/confirmThirdParty` or `/declineThirdParty` calls.
+- **Server group**: `Default3`
 - **Signature**: `PostStoreDetailAndSubmitThirdParty(StoreDetailAndSubmitRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `StoreDetailAndSubmitResponse`
 - **Error**: `SdkException<PostStoreDetailAndSubmitThirdPartyError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError(out ServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `StoreDetailAndSubmitRequest` | `Models/StoreDetailAndSubmitRequest.cs` |
+| `StoreDetailAndSubmitResponse` | `Models/StoreDetailAndSubmitResponse.cs` |
+| `PostStoreDetailAndSubmitThirdPartyError` | `Errors/PostStoreDetailAndSubmitThirdPartyError.cs` |
+| `ServiceError` | `Models/ServiceError.cs` |
 
 ### PostSubmitThirdParty
-- **HTTP**: `POST /submitThirdParty` (Default3 (pal-test))
-- **Notes**: &gt; This endpoint is deprecated and no longer supports new integrations. Do one of the following: &gt;- If you are building a new integration, use the POST /transfers endpoint instead. &gt; - If you are already using the Payout API, reach out to your Adyen contact to learn how to migrate to the Transfers API. &gt; &gt; With the Transfers API, you can: &gt; - Handle multiple payout use cases with a single API. &gt; - Use new payout functionalities, such as instant payouts to bank accounts. &gt; - Receive webhooks with more details and defined transfer states. &gt; &gt; For more information about the payout features of the Transfers API, see our Payouts documentation. Submits a payout using the previously stored payment details. To store payment details, use the `/storeDetail` API call. The submitted payout must be confirmed or declined either by a reviewer or via `/confirmThirdParty` or `/declineThirdParty` calls.
+- **Server group**: `Default3`
 - **Signature**: `PostSubmitThirdParty(SubmitRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `SubmitResponse`
 - **Error**: `SdkException<PostSubmitThirdPartyError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError(out ServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `SubmitRequest` | `Models/SubmitRequest.cs` |
+| `SubmitResponse` | `Models/SubmitResponse.cs` |
+| `PostSubmitThirdPartyError` | `Errors/PostSubmitThirdPartyError.cs` |
+| `ServiceError` | `Models/ServiceError.cs` |
+

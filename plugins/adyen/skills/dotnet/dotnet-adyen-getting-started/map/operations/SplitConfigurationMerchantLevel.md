@@ -1,109 +1,134 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # SplitConfigurationMerchantLevel — operations
 
 Accessor: `client.SplitConfigurationMerchantLevel` · Source: `Api/SplitConfigurationMerchantLevel.cs` · 9 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### DeleteMerchantsMerchantIdSplitConfigurationsSplitConfigurationId
-- **HTTP**: `DELETE /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}` (Default9 (management-test))
-- **Notes**: Deletes the split configuration profile specified in the path. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
+- **Server group**: `Default9`
 - **Signature**: `DeleteMerchantsMerchantIdSplitConfigurationsSplitConfigurationId(string merchantId, string splitConfigurationId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `SplitConfiguration`
 - **Error**: `SdkException<DeleteMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `SplitConfiguration` | `Models/SplitConfiguration.cs` |
+| `DeleteMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdError` | `Errors/DeleteMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### DeleteMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdRulesRuleId
-- **HTTP**: `DELETE /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}` (Default9 (management-test))
-- **Notes**: Deletes the rule specified in the path. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
+- **Server group**: `Default9`
 - **Signature**: `DeleteMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdRulesRuleId(string merchantId, string splitConfigurationId, string ruleId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `SplitConfiguration`
 - **Error**: `SdkException<DeleteMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdRulesRuleIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `SplitConfiguration` | `Models/SplitConfiguration.cs` |
+| `DeleteMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdRulesRuleIdError` | `Errors/DeleteMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdRulesRuleIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetMerchantsMerchantIdSplitConfigurations
-- **HTTP**: `GET /merchants/{merchantId}/splitConfigurations` (Default9 (management-test))
-- **Notes**: Returns the list of split configuration profiles for the merchant account. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
+- **Server group**: `Default9`
 - **Signature**: `GetMerchantsMerchantIdSplitConfigurations(string merchantId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `SplitConfigurationList`
 - **Error**: `SdkException<GetMerchantsMerchantIdSplitConfigurationsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `SplitConfigurationList` | `Models/SplitConfigurationList.cs` |
+| `GetMerchantsMerchantIdSplitConfigurationsError` | `Errors/GetMerchantsMerchantIdSplitConfigurationsError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetMerchantsMerchantIdSplitConfigurationsSplitConfigurationId
-- **HTTP**: `GET /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}` (Default9 (management-test))
-- **Notes**: Returns the details of the split configuration profile specified in the path. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
+- **Server group**: `Default9`
 - **Signature**: `GetMerchantsMerchantIdSplitConfigurationsSplitConfigurationId(string merchantId, string splitConfigurationId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `SplitConfiguration`
 - **Error**: `SdkException<GetMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `SplitConfiguration` | `Models/SplitConfiguration.cs` |
+| `GetMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdError` | `Errors/GetMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PatchMerchantsMerchantIdSplitConfigurationsSplitConfigurationId
-- **HTTP**: `PATCH /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}` (Default9 (management-test))
-- **Notes**: Changes the description of the split configuration profile specified in the path. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
+- **Server group**: `Default9`
 - **Signature**: `PatchMerchantsMerchantIdSplitConfigurationsSplitConfigurationId(string merchantId, string splitConfigurationId, UpdateSplitConfigurationRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `SplitConfiguration`
 - **Error**: `SdkException<PatchMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `UpdateSplitConfigurationRequest` | `Models/UpdateSplitConfigurationRequest.cs` |
+| `SplitConfiguration` | `Models/SplitConfiguration.cs` |
+| `PatchMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdError` | `Errors/PatchMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PatchMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdRulesRuleId
-- **HTTP**: `PATCH /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}` (Default9 (management-test))
-- **Notes**: Changes the split conditions of the rule specified in the path. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
+- **Server group**: `Default9`
 - **Signature**: `PatchMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdRulesRuleId(string merchantId, string splitConfigurationId, string ruleId, UpdateSplitConfigurationRuleRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `SplitConfiguration`
 - **Error**: `SdkException<PatchMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdRulesRuleIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `UpdateSplitConfigurationRuleRequest` | `Models/UpdateSplitConfigurationRuleRequest.cs` |
+| `SplitConfiguration` | `Models/SplitConfiguration.cs` |
+| `PatchMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdRulesRuleIdError` | `Errors/PatchMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdRulesRuleIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PatchMerchantsSplitConfigurationsRulesSplitLogic
-- **HTTP**: `PATCH /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}/splitLogic/{splitLogicId}` (Default9 (management-test))
-- **Notes**: Changes the split logic specified in the path. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
+- **Server group**: `Default9`
 - **Signature**: `PatchMerchantsSplitConfigurationsRulesSplitLogic(string merchantId, string splitConfigurationId, string ruleId, string splitLogicId, UpdateSplitConfigurationLogicRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `SplitConfiguration`
 - **Error**: `SdkException<PatchMerchantsSplitConfigurationsRulesSplitLogicError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `UpdateSplitConfigurationLogicRequest` | `Models/UpdateSplitConfigurationLogicRequest.cs` |
+| `SplitConfiguration` | `Models/SplitConfiguration.cs` |
+| `PatchMerchantsSplitConfigurationsRulesSplitLogicError` | `Errors/PatchMerchantsSplitConfigurationsRulesSplitLogicError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PostMerchantsMerchantIdSplitConfigurations
-- **HTTP**: `POST /merchants/{merchantId}/splitConfigurations` (Default9 (management-test))
-- **Notes**: Creates a split configuration profile to split payments automatically . After you associate it with a store /stores/(storeId)request-splitConfiguration) in your merchant account, it splits the funds of all transactions processed through that store between your liable balance account and your user's balance account /stores/(storeId)request-splitConfiguration-balanceAccountId). To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
+- **Server group**: `Default9`
 - **Signature**: `PostMerchantsMerchantIdSplitConfigurations(string merchantId, SplitConfiguration? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `SplitConfiguration`
 - **Error**: `SdkException<PostMerchantsMerchantIdSplitConfigurationsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `SplitConfiguration` | `Models/SplitConfiguration.cs` |
+| `PostMerchantsMerchantIdSplitConfigurationsError` | `Errors/PostMerchantsMerchantIdSplitConfigurationsError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PostMerchantsMerchantIdSplitConfigurationsSplitConfigurationId
-- **HTTP**: `POST /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}` (Default9 (management-test))
-- **Notes**: Creates a rule in the split configuration profile specified in the path. To make this request, your API credential must have the following role : * Management API - SplitConfiguration read and write
+- **Server group**: `Default9`
 - **Signature**: `PostMerchantsMerchantIdSplitConfigurationsSplitConfigurationId(string merchantId, string splitConfigurationId, SplitConfigurationRule? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `SplitConfiguration`
 - **Error**: `SdkException<PostMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `SplitConfigurationRule` | `Models/SplitConfigurationRule.cs` |
+| `SplitConfiguration` | `Models/SplitConfiguration.cs` |
+| `PostMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdError` | `Errors/PostMerchantsMerchantIdSplitConfigurationsSplitConfigurationIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
+

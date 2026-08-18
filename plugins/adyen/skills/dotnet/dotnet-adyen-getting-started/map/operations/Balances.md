@@ -1,60 +1,74 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # Balances — operations
 
 Accessor: `client.Balances` · Source: `Api/Balances.cs` · 5 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### DeleteBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsSettingId
-- **HTTP**: `DELETE /balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}` (Default13 (balanceplatform-api-test))
-- **Notes**: Deletes a balance webhook setting that contains the conditions for triggering balance webhooks .
+- **Server group**: `Default13`
 - **Signature**: `DeleteBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsSettingId(string balancePlatformId, string webhookId, string settingId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `JsonElement`
 - **Error**: `SdkException<DeleteBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsSettingIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [400, 401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `DeleteBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsSettingIdError` | `Errors/DeleteBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsSettingIdError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### GetBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettings
-- **HTTP**: `GET /balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns all balance webhook settings configured for triggering balance webhooks .
+- **Server group**: `Default13`
 - **Signature**: `GetBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettings(string balancePlatformId, string webhookId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `WebhookSettings`
 - **Error**: `SdkException<GetBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [400, 401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `WebhookSettings` | `Models/WebhookSettings.cs` |
+| `GetBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsError` | `Errors/GetBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### GetBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsSettingId
-- **HTTP**: `GET /balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns the details of a specific balance webhook setting configured for triggering balance webhooks .
+- **Server group**: `Default13`
 - **Signature**: `GetBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsSettingId(string balancePlatformId, string webhookId, string settingId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `WebhookSetting`
 - **Error**: `SdkException<GetBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsSettingIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [400, 401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `WebhookSetting` | `Models/WebhookSetting.cs` |
+| `GetBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsSettingIdError` | `Errors/GetBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsSettingIdError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### PatchBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsSettingId
-- **HTTP**: `PATCH /balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings/{settingId}` (Default13 (balanceplatform-api-test))
-- **Notes**: Updates the conditions the balance change needs to meet for Adyen to send a balance webhook .
+- **Server group**: `Default13`
 - **Signature**: `PatchBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsSettingId(string balancePlatformId, string webhookId, string settingId, BalanceWebhookSettingInfoUpdate body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `WebhookSetting`
 - **Error**: `SdkException<PatchBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsSettingIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [400, 401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `BalanceWebhookSettingInfoUpdate` | `Models/BalanceWebhookSettingInfoUpdate.cs` |
+| `WebhookSetting` | `Models/WebhookSetting.cs` |
+| `PatchBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsSettingIdError` | `Errors/PatchBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsSettingIdError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### PostBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettings
-- **HTTP**: `POST /balancePlatforms/{balancePlatformId}/webhooks/{webhookId}/settings` (Default13 (balanceplatform-api-test))
-- **Notes**: Configures the criteria for triggering balance webhooks . Adyen sends balance webhooks to notify you of balance changes in your balance platform. They can be triggered when the balance reaches, exceeds, or drops below a specific value in a specific currency. You can get notified about balance changes in your entire balance platform, in the balance accounts of a specific user, or a specific balance account. The hierarchy between the webhook settings are based on the following business logic: Settings on a higher level apply to all lower level resources (balance platform &gt; account holder &gt; balance acocunt). The most granular setting overrides higher level settings (balance account &gt; account holder &gt; balance platform).
+- **Server group**: `Default13`
 - **Signature**: `PostBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettings(string balancePlatformId, string webhookId, BalanceWebhookSettingInfo body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `WebhookSetting`
 - **Error**: `SdkException<PostBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [400, 401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `BalanceWebhookSettingInfo` | `Models/BalanceWebhookSettingInfo.cs` |
+| `WebhookSetting` | `Models/WebhookSetting.cs` |
+| `PostBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsError` | `Errors/PostBalancePlatformsBalancePlatformIdWebhooksWebhookIdSettingsError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
+

@@ -1,16 +1,22 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # CashOutApi — operations
 
-Accessor: `client.CashOutApi` · Source: `Api/CashOutApi.cs` · 1 operations
+Accessor: `client.CashOutApi` · Source: `Api/CashOutApi.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### PostCashouts
-- **HTTP**: `POST /cashouts` (Default14 (balanceplatform-api-test))
-- **Notes**: Initiates a cashout request.
+- **Server group**: `Default14`
 - **Signature**: `PostCashouts(CashOutInfo body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `CashOut`
 - **Error**: `SdkException<PostCashoutsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [400, 401, 403, 404, 422, 429, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `CashOutInfo` | `Models/CashOutInfo.cs` |
+| `CashOut` | `Models/CashOut.cs` |
+| `PostCashoutsError` | `Errors/PostCashoutsError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
+

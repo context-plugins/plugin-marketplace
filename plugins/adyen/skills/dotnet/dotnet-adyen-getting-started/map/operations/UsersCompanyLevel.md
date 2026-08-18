@@ -1,55 +1,68 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # UsersCompanyLevel — operations
 
 Accessor: `client.UsersCompanyLevel` · Source: `Api/UsersCompanyLevel.cs` · 4 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### GetCompaniesCompanyIdUsers
-- **HTTP**: `GET /companies/{companyId}/users` (Default9 (management-test))
-- **Notes**: Returns the list of users for the `companyId` identified in the path. To make this request, your API credential must have the following role : * Management API—Users read and write
+- **Server group**: `Default9`
 - **Signature**: `GetCompaniesCompanyIdUsers(string companyId, int? pageNumber, int? pageSize, string? username, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageNumber` — nullable, no default → **must pass explicitly**
   - `pageSize` — nullable, no default → **must pass explicitly**
   - `username` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `pageNumber` ← `pageNumber`, `pageSize` ← `pageSize`, `username` ← `username`
 - **Returns**: `ListCompanyUsersResponse`
 - **Error**: `SdkException<GetCompaniesCompanyIdUsersError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ListCompanyUsersResponse` | `Models/ListCompanyUsersResponse.cs` |
+| `GetCompaniesCompanyIdUsersError` | `Errors/GetCompaniesCompanyIdUsersError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetCompaniesCompanyIdUsersUserId
-- **HTTP**: `GET /companies/{companyId}/users/{userId}` (Default9 (management-test))
-- **Notes**: Returns user details for the `userId` and the `companyId` identified in the path. To make this request, your API credential must have the following role : * Management API—Users read and write
+- **Server group**: `Default9`
 - **Signature**: `GetCompaniesCompanyIdUsersUserId(string companyId, string userId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `CompanyUser`
 - **Error**: `SdkException<GetCompaniesCompanyIdUsersUserIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `CompanyUser` | `Models/CompanyUser.cs` |
+| `GetCompaniesCompanyIdUsersUserIdError` | `Errors/GetCompaniesCompanyIdUsersUserIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PatchCompaniesCompanyIdUsersUserId
-- **HTTP**: `PATCH /companies/{companyId}/users/{userId}` (Default9 (management-test))
-- **Notes**: Updates user details for the `userId` and the `companyId` identified in the path. To make this request, your API credential must have the following role : * Management API—Users read and write
+- **Server group**: `Default9`
 - **Signature**: `PatchCompaniesCompanyIdUsersUserId(string companyId, string userId, UpdateCompanyUserRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `CompanyUser`
 - **Error**: `SdkException<PatchCompaniesCompanyIdUsersUserIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `UpdateCompanyUserRequest` | `Models/UpdateCompanyUserRequest.cs` |
+| `CompanyUser` | `Models/CompanyUser.cs` |
+| `PatchCompaniesCompanyIdUsersUserIdError` | `Errors/PatchCompaniesCompanyIdUsersUserIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PostCompaniesCompanyIdUsers
-- **HTTP**: `POST /companies/{companyId}/users` (Default9 (management-test))
-- **Notes**: Creates the user for the `companyId` identified in the path. To make this request, your API credential must have the following role : * Management API—Users read and write
+- **Server group**: `Default9`
 - **Signature**: `PostCompaniesCompanyIdUsers(string companyId, CreateCompanyUserRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `CreateCompanyUserResponse`
 - **Error**: `SdkException<PostCompaniesCompanyIdUsersError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `CreateCompanyUserRequest` | `Models/CreateCompanyUserRequest.cs` |
+| `CreateCompanyUserResponse` | `Models/CreateCompanyUserResponse.cs` |
+| `PostCompaniesCompanyIdUsersError` | `Errors/PostCompaniesCompanyIdUsersError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
+

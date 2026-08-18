@@ -1,39 +1,49 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # HostedOnboarding — operations
 
 Accessor: `client.HostedOnboarding` · Source: `Api/HostedOnboarding.cs` · 3 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### GetThemes
-- **HTTP**: `GET /themes` (Default18 (kyc-test))
-- **Notes**: Returns a list of hosted onboarding page themes. Requests to this endpoint are subject to rate limits: Live environments: 700 requests per 5 seconds. Test environments: 200 requests per 5 seconds. Failed requests are subject to a limit of 5 failures per 10 seconds.
+- **Server group**: `Default18`
 - **Signature**: `GetThemes(RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `OnboardingThemes`
 - **Error**: `SdkException<GetThemesError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `OnboardingThemes` | `Models/OnboardingThemes.cs` |
+| `GetThemesError` | `Errors/GetThemesError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
 
 ### GetThemesId
-- **HTTP**: `GET /themes/{id}` (Default18 (kyc-test))
-- **Notes**: Returns the details of the theme identified in the path. Requests to this endpoint are subject to rate limits: Live environments: 700 requests per 5 seconds. Test environments: 200 requests per 5 seconds. Failed requests are subject to a limit of 5 failures per 10 seconds.
+- **Server group**: `Default18`
 - **Signature**: `GetThemesId(string id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `OnboardingTheme`
 - **Error**: `SdkException<GetThemesIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `OnboardingTheme` | `Models/OnboardingTheme.cs` |
+| `GetThemesIdError` | `Errors/GetThemesIdError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
 
 ### PostLegalEntitiesIdOnboardingLinks
-- **HTTP**: `POST /legalEntities/{id}/onboardingLinks` (Default18 (kyc-test))
-- **Notes**: Returns a link to an Adyen-hosted onboarding page where you need to redirect your user. Requests to this endpoint are subject to rate limits: Live environments: 700 requests per 5 seconds. Test environments: 200 requests per 5 seconds. Failed requests are subject to a limit of 5 failures per 10 seconds.
+- **Server group**: `Default18`
 - **Signature**: `PostLegalEntitiesIdOnboardingLinks(string id, OnboardingLinkInfo? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `OnboardingLink`
 - **Error**: `SdkException<PostLegalEntitiesIdOnboardingLinksError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `OnboardingLinkInfo` | `Models/OnboardingLinkInfo.cs` |
+| `OnboardingLink` | `Models/OnboardingLink.cs` |
+| `PostLegalEntitiesIdOnboardingLinksError` | `Errors/PostLegalEntitiesIdOnboardingLinksError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
+

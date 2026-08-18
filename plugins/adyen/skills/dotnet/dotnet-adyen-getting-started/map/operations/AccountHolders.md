@@ -1,198 +1,242 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # AccountHolders — operations
 
 Accessor: `client.AccountHolders` · Source: `Api/AccountHolders.cs` · 16 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### GetAccountHoldersId
-- **HTTP**: `GET /accountHolders/{id}` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns an account holder.
+- **Server group**: `Default13`
 - **Signature**: `GetAccountHoldersId(string id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `AccountHolder`
 - **Error**: `SdkException<GetAccountHoldersIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `AccountHolder` | `Models/AccountHolder.cs` |
+| `GetAccountHoldersIdError` | `Errors/GetAccountHoldersIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetAccountHoldersIdBalanceAccounts
-- **HTTP**: `GET /accountHolders/{id}/balanceAccounts` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns a paginated list of the balance accounts associated with an account holder. To fetch multiple pages, use the query parameters. For example, to limit the page to 5 balance accounts and skip the first 10, use `/accountHolders/{id}/balanceAccounts?limit=5&amp;offset=10`.
+- **Server group**: `Default13`
 - **Signature**: `GetAccountHoldersIdBalanceAccounts(string id, int? offset, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `offset` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `offset` ← `offset`, `limit` ← `limit`
 - **Returns**: `PaginatedBalanceAccountsResponse`
 - **Error**: `SdkException<GetAccountHoldersIdBalanceAccountsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `PaginatedBalanceAccountsResponse` | `Models/PaginatedBalanceAccountsResponse.cs` |
+| `GetAccountHoldersIdBalanceAccountsError` | `Errors/GetAccountHoldersIdBalanceAccountsError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetAccountHoldersIdTaxFormSummary
-- **HTTP**: `GET /accountHolders/{id}/taxFormSummary` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns a summary of all tax forms for an account holder.
+- **Server group**: `Default13`
 - **Signature**: `GetAccountHoldersIdTaxFormSummary(string id, string formType, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `formType` ← `formType`
 - **Returns**: `TaxFormSummaryResponse`
 - **Error**: `SdkException<RawError>` — **Case B**
-- **Error accessors**: `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?`
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TaxFormSummaryResponse` | `Models/TaxFormSummaryResponse.cs` |
 
 ### GetAccountHoldersIdTaxForms
-- **HTTP**: `GET /accountHolders/{id}/taxForms` (Default13 (balanceplatform-api-test))
-- **Notes**: Generates a tax form for account holders operating in the US. For more information, refer to US tax forms for marketplaces or platforms .
+- **Server group**: `Default13`
 - **Signature**: `GetAccountHoldersIdTaxForms(string id, FormType formType, int year, string? legalEntityId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `legalEntityId` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `formType` ← `formType`, `year` ← `year`, `legalEntityId` ← `legalEntityId`
 - **Returns**: `GetTaxFormResponse1`
 - **Error**: `SdkException<GetAccountHoldersIdTaxFormsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `FormType` | `Models/Enums/FormType.cs` |
+| `GetTaxFormResponse1` | `Models/GetTaxFormResponse1.cs` |
+| `GetAccountHoldersIdTaxFormsError` | `Errors/GetAccountHoldersIdTaxFormsError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetAccountHoldersIdTransactionRules
-- **HTTP**: `GET /accountHolders/{id}/transactionRules` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns a list of transaction rules associated with an account holder.
+- **Server group**: `Default13`
 - **Signature**: `GetAccountHoldersIdTransactionRules(string id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `TransactionRulesResponse`
 - **Error**: `SdkException<GetAccountHoldersIdTransactionRulesError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TransactionRulesResponse` | `Models/TransactionRulesResponse.cs` |
+| `GetAccountHoldersIdTransactionRulesError` | `Errors/GetAccountHoldersIdTransactionRulesError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PatchAccountHoldersId
-- **HTTP**: `PATCH /accountHolders/{id}` (Default13 (balanceplatform-api-test))
-- **Notes**: Updates an account holder. When updating an account holder resource, if a parameter is not provided in the request, it is left unchanged.
+- **Server group**: `Default13`
 - **Signature**: `PatchAccountHoldersId(string id, AccountHolderUpdateRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `AccountHolder`
 - **Error**: `SdkException<PatchAccountHoldersIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `AccountHolderUpdateRequest` | `Models/AccountHolderUpdateRequest.cs` |
+| `AccountHolder` | `Models/AccountHolder.cs` |
+| `PatchAccountHoldersIdError` | `Errors/PatchAccountHoldersIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PostAccountHolders
-- **HTTP**: `POST /accountHolders` (Default13 (balanceplatform-api-test))
-- **Notes**: Creates an account holder linked to a legal entity .
+- **Server group**: `Default13`
 - **Signature**: `PostAccountHolders(AccountHolderInfo? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `AccountHolder`
 - **Error**: `SdkException<PostAccountHoldersError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `AccountHolderInfo` | `Models/AccountHolderInfo.cs` |
+| `AccountHolder` | `Models/AccountHolder.cs` |
+| `PostAccountHoldersError` | `Errors/PostAccountHoldersError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PostCloseAccountHolder
-- **HTTP**: `POST /closeAccountHolder` (Default10 (cal-test))
-- **Notes**: Changes the status of an account holder to Closed . This state is final. If an account holder is closed, you can't process transactions, pay out funds, or reopen it. If payments are made to an account of an account holder with a Closed `status` , the payments are sent to your liable account.
+- **Server group**: `Default10`
 - **Signature**: `PostCloseAccountHolder(CloseAccountHolderRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `CloseAccountHolderResponse`
 - **Error**: `SdkException<PostCloseAccountHolderError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `CloseAccountHolderRequest` | `Models/CloseAccountHolderRequest.cs` |
+| `CloseAccountHolderResponse` | `Models/CloseAccountHolderResponse.cs` |
+| `PostCloseAccountHolderError` | `Errors/PostCloseAccountHolderError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
 
 ### PostCloseStores
-- **HTTP**: `POST /closeStores` (Default10 (cal-test))
-- **Notes**: Closes stores associated with an account holder.
+- **Server group**: `Default10`
 - **Signature**: `PostCloseStores(CloseStoresRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `GenericResponse`
 - **Error**: `SdkException<PostCloseStoresError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `CloseStoresRequest` | `Models/CloseStoresRequest.cs` |
+| `GenericResponse` | `Models/GenericResponse.cs` |
+| `PostCloseStoresError` | `Errors/PostCloseStoresError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
 
 ### PostCreateAccountHolder
-- **HTTP**: `POST /createAccountHolder` (Default10 (cal-test))
-- **Notes**: Creates an account holder that represents the sub-merchant's entity in your platform. The details that you need to provide in the request depend on the sub-merchant's legal entity type. For more information, refer to Account holder and accounts .
+- **Server group**: `Default10`
 - **Signature**: `PostCreateAccountHolder(CreateAccountHolderRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `CreateAccountHolderResponse`
 - **Error**: `SdkException<PostCreateAccountHolderError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `CreateAccountHolderRequest` | `Models/CreateAccountHolderRequest.cs` |
+| `CreateAccountHolderResponse` | `Models/CreateAccountHolderResponse.cs` |
+| `PostCreateAccountHolderError` | `Errors/PostCreateAccountHolderError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
 
 ### PostGetAccountHolder
-- **HTTP**: `POST /getAccountHolder` (Default10 (cal-test))
-- **Notes**: Returns the details of an account holder.
+- **Server group**: `Default10`
 - **Signature**: `PostGetAccountHolder(GetAccountHolderRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `GetAccountHolderResponse`
 - **Error**: `SdkException<PostGetAccountHolderError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `GetAccountHolderRequest` | `Models/GetAccountHolderRequest.cs` |
+| `GetAccountHolderResponse` | `Models/GetAccountHolderResponse.cs` |
+| `PostGetAccountHolderError` | `Errors/PostGetAccountHolderError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
 
 ### PostGetTaxForm
-- **HTTP**: `POST /getTaxForm` (Default10 (cal-test))
-- **Notes**: Generates a tax form for account holders operating in the US. For more information, refer to Providing tax forms .
+- **Server group**: `Default10`
 - **Signature**: `PostGetTaxForm(GetTaxFormRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `GetTaxFormResponse`
 - **Error**: `SdkException<PostGetTaxFormError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `GetTaxFormRequest` | `Models/GetTaxFormRequest.cs` |
+| `GetTaxFormResponse` | `Models/GetTaxFormResponse.cs` |
+| `PostGetTaxFormError` | `Errors/PostGetTaxFormError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
 
 ### PostSuspendAccountHolder
-- **HTTP**: `POST /suspendAccountHolder` (Default10 (cal-test))
-- **Notes**: Changes the status of an account holder to Suspended .
+- **Server group**: `Default10`
 - **Signature**: `PostSuspendAccountHolder(SuspendAccountHolderRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `SuspendAccountHolderResponse`
 - **Error**: `SdkException<PostSuspendAccountHolderError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `SuspendAccountHolderRequest` | `Models/SuspendAccountHolderRequest.cs` |
+| `SuspendAccountHolderResponse` | `Models/SuspendAccountHolderResponse.cs` |
+| `PostSuspendAccountHolderError` | `Errors/PostSuspendAccountHolderError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
 
 ### PostUnSuspendAccountHolder
-- **HTTP**: `POST /unSuspendAccountHolder` (Default10 (cal-test))
-- **Notes**: Changes the status of an account holder from Suspended to Inactive . Account holders can have a Suspended `status` if you suspend them through the `/suspendAccountHolder` endpoint or if a verification deadline expires. You can only unsuspend account holders if they do not have verification checks with a FAILED `status` .
+- **Server group**: `Default10`
 - **Signature**: `PostUnSuspendAccountHolder(UnSuspendAccountHolderRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `UnSuspendAccountHolderResponse`
 - **Error**: `SdkException<PostUnSuspendAccountHolderError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `UnSuspendAccountHolderRequest` | `Models/UnSuspendAccountHolderRequest.cs` |
+| `UnSuspendAccountHolderResponse` | `Models/UnSuspendAccountHolderResponse.cs` |
+| `PostUnSuspendAccountHolderError` | `Errors/PostUnSuspendAccountHolderError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
 
 ### PostUpdateAccountHolder
-- **HTTP**: `POST /updateAccountHolder` (Default10 (cal-test))
-- **Notes**: Updates the `accountHolderDetails` and `processingTier` of an account holder, and adds bank accounts and shareholders. When updating `accountHolderDetails`, parameters that are not included in the request are left unchanged except for the following object: `metadata`: Updating the metadata replaces the entire object. This means that to update an existing key-value pair, you must provide the changes, as well as other existing key-value pairs. When updating any field in the following objects, you must submit all the fields required for validation: `address` `fullPhoneNumber` `bankAccountDetails.BankAccountDetail` `businessDetails.shareholders.ShareholderContact` For example, to update the `address.postalCode`, you must also submit the `address.country`, `.city`, `.street`, `.postalCode`, and possibly `.stateOrProvince` so that the address can be validated. To add a bank account or shareholder, provide the bank account or shareholder details without a `bankAccountUUID` or a `shareholderCode`.
+- **Server group**: `Default10`
 - **Signature**: `PostUpdateAccountHolder(UpdateAccountHolderRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `UpdateAccountHolderResponse`
 - **Error**: `SdkException<PostUpdateAccountHolderError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `UpdateAccountHolderRequest` | `Models/UpdateAccountHolderRequest.cs` |
+| `UpdateAccountHolderResponse` | `Models/UpdateAccountHolderResponse.cs` |
+| `PostUpdateAccountHolderError` | `Errors/PostUpdateAccountHolderError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
 
 ### PostUpdateAccountHolderState
-- **HTTP**: `POST /updateAccountHolderState` (Default10 (cal-test))
-- **Notes**: Disables or enables the processing or payout state of an account holder.
+- **Server group**: `Default10`
 - **Signature**: `PostUpdateAccountHolderState(UpdateAccountHolderStateRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `GetAccountHolderStatusResponse`
 - **Error**: `SdkException<PostUpdateAccountHolderStateError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `UpdateAccountHolderStateRequest` | `Models/UpdateAccountHolderStateRequest.cs` |
+| `GetAccountHolderStatusResponse` | `Models/GetAccountHolderStatusResponse.cs` |
+| `PostUpdateAccountHolderStateError` | `Errors/PostUpdateAccountHolderStateError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
+

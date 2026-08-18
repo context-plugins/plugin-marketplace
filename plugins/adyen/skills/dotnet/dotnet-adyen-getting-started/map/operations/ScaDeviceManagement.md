@@ -1,52 +1,65 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # ScaDeviceManagement — operations
 
 Accessor: `client.ScaDeviceManagement` · Source: `Api/ScaDeviceManagement.cs` · 4 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### DeleteScaDevicesDeviceId
-- **HTTP**: `DELETE /scaDevices/{deviceId}` (Default13 (balanceplatform-api-test))
-- **Notes**: Deletes a Strong Customer Authentication (SCA) device.
+- **Server group**: `Default13`
 - **Signature**: `DeleteScaDevicesDeviceId(string deviceId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<DeleteScaDevicesDeviceIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [400, 401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `DeleteScaDevicesDeviceIdError` | `Errors/DeleteScaDevicesDeviceIdError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### PatchScaDevicesDeviceId
-- **HTTP**: `PATCH /scaDevices/{deviceId}` (Default13 (balanceplatform-api-test))
-- **Notes**: Finishes the registration process for a new Strong Customer Authentication (SCA) device.
+- **Server group**: `Default13`
 - **Signature**: `PatchScaDevicesDeviceId(string deviceId, FinishScaDeviceRegistrationRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `FinishScaDeviceRegistrationResponse`
 - **Error**: `SdkException<PatchScaDevicesDeviceIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [400, 401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `FinishScaDeviceRegistrationRequest` | `Models/FinishScaDeviceRegistrationRequest.cs` |
+| `FinishScaDeviceRegistrationResponse` | `Models/FinishScaDeviceRegistrationResponse.cs` |
+| `PatchScaDevicesDeviceIdError` | `Errors/PatchScaDevicesDeviceIdError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### PostScaDevices
-- **HTTP**: `POST /scaDevices` (Default13 (balanceplatform-api-test))
-- **Notes**: Begins the registration process for a new Strong Customer Authentication (SCA) device.
+- **Server group**: `Default13`
 - **Signature**: `PostScaDevices(BeginScaDeviceRegistrationRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `BeginScaDeviceRegistrationResponse`
 - **Error**: `SdkException<PostScaDevicesError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `BeginScaDeviceRegistrationRequest` | `Models/BeginScaDeviceRegistrationRequest.cs` |
+| `BeginScaDeviceRegistrationResponse` | `Models/BeginScaDeviceRegistrationResponse.cs` |
+| `PostScaDevicesError` | `Errors/PostScaDevicesError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### PostScaDevicesDeviceIdScaAssociations
-- **HTTP**: `POST /scaDevices/{deviceId}/scaAssociations` (Default13 (balanceplatform-api-test))
-- **Notes**: Creates an association between an SCA-enabled device and an entity, such as an account holder. This action does not guarantee the association is immediately ready for use; its status may be `pendingApproval` if the account holder has existing devices.
+- **Server group**: `Default13`
 - **Signature**: `PostScaDevicesDeviceIdScaAssociations(string deviceId, SubmitScaAssociationRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `SubmitScaAssociationResponse`
 - **Error**: `SdkException<PostScaDevicesDeviceIdScaAssociationsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [400, 401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `SubmitScaAssociationRequest` | `Models/SubmitScaAssociationRequest.cs` |
+| `SubmitScaAssociationResponse` | `Models/SubmitScaAssociationResponse.cs` |
+| `PostScaDevicesDeviceIdScaAssociationsError` | `Errors/PostScaDevicesDeviceIdScaAssociationsError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
+

@@ -1,41 +1,52 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # ScaAssociationManagement — operations
 
 Accessor: `client.ScaAssociationManagement` · Source: `Api/ScaAssociationManagement.cs` · 3 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### DeleteScaAssociations
-- **HTTP**: `DELETE /scaAssociations` (Default13 (balanceplatform-api-test))
-- **Notes**: Deletes one or more SCA associations for a device.
+- **Server group**: `Default13`
 - **Signature**: `DeleteScaAssociations(string wwwAuthenticate, RemoveAssociationRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<DeleteScaAssociationsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [401, 403, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `RemoveAssociationRequest` | `Models/RemoveAssociationRequest.cs` |
+| `DeleteScaAssociationsError` | `Errors/DeleteScaAssociationsError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### GetScaAssociations
-- **HTTP**: `GET /scaAssociations` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns a paginated list of the SCA devices associated with a specific entity.
+- **Server group**: `Default13`
 - **Signature**: `GetScaAssociations(ScaEntityType entityType, string entityId, int pageSize, int pageNumber, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `entityType` ← `entityType`, `entityId` ← `entityId`, `pageSize` ← `pageSize`, `pageNumber` ← `pageNumber`
 - **Returns**: `ListAssociationsResponse`
 - **Error**: `SdkException<GetScaAssociationsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [400, 401, 403, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ScaEntityType` | `Models/Enums/ScaEntityType.cs` |
+| `ListAssociationsResponse` | `Models/ListAssociationsResponse.cs` |
+| `GetScaAssociationsError` | `Errors/GetScaAssociationsError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### PatchScaAssociations
-- **HTTP**: `PATCH /scaAssociations` (Default13 (balanceplatform-api-test))
-- **Notes**: Approves a previously created association that is in a pending state.
+- **Server group**: `Default13`
 - **Signature**: `PatchScaAssociations(string wwwAuthenticate, ApproveAssociationRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `ApproveAssociationResponse`
 - **Error**: `SdkException<PatchScaAssociationsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [401, 403, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ApproveAssociationRequest` | `Models/ApproveAssociationRequest.cs` |
+| `ApproveAssociationResponse` | `Models/ApproveAssociationResponse.cs` |
+| `PatchScaAssociationsError` | `Errors/PatchScaAssociationsError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
+

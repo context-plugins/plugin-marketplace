@@ -145,7 +145,7 @@
     {
       "name": "firecrawl",
       "source": "./plugins/firecrawl",
-      "description": "TODO_AUTO_DESCRIPTION: firecrawl API",
+      "description": "Crawl websites and convert entire domains into clean LLM-ready markdown.",
       "version": "0.1.3"
     },
     {

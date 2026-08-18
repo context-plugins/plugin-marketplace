@@ -5,10 +5,10 @@ description: Tune an APIMatic-generated Python SDK client — retry defaults (ma
 
 # Configuration & resilience for an APIMatic Python SDK
 
-> `FirecrawlapiClient` is the SDK's client class — **read the real name** from `firecrawl/firecrawl_client.py`
+> `FirecrawlClient` is the SDK's client class — **read the real name** from `firecrawl/firecrawl_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
-All settings are passed as keyword arguments to `Configuration.__init__` (or to `FirecrawlapiClient`
+All settings are passed as keyword arguments to `Configuration.__init__` (or to `FirecrawlClient`
 directly, which wraps them in a `Configuration` internally). Confirm defaults from
 `firecrawl/configuration.py` in the cloned source.
 
@@ -149,7 +149,7 @@ as `http_call_back=`:
 import logging
 from firecrawl.http.http_call_back import HttpCallBack
 from firecrawl.configuration import Configuration
-from firecrawl.firecrawl_client import FirecrawlapiClient
+from firecrawl.firecrawl_client import FirecrawlClient
 
 logger = logging.getLogger(__name__)
 
@@ -164,7 +164,7 @@ config = Configuration(
     http_call_back=LoggingCallBack(),
     # other kwargs ...
 )
-client = FirecrawlapiClient(config=config)
+client = FirecrawlClient(config=config)
 ```
 
 `HttpCallBack` inherits from `apimatic_core`'s `CoreHttpCallback` and provides two hook methods:

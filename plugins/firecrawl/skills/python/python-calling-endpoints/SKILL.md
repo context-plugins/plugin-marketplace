@@ -5,7 +5,7 @@ description: Call API operations on an APIMatic-generated Python SDK — access 
 
 # Calling endpoints on an APIMatic Python SDK
 
-> `FirecrawlapiClient` is the SDK's client class — **read the real name** from `firecrawl/firecrawl_client.py`
+> `FirecrawlClient` is the SDK's client class — **read the real name** from `firecrawl/firecrawl_client.py`
 > (it is derived from the package name, not the API title, so do not guess it from the API name).
 
 Operations are **synchronous methods** on a **controller** you get from the client as a
@@ -24,7 +24,7 @@ Open `firecrawl/firecrawl_client.py` for the controller property names, then the
 
 ## Controller access — property, not constructor
 
-Controllers are `@LazyProperty` properties on `FirecrawlapiClient`. Access them as attributes:
+Controllers are `@LazyProperty` properties on `FirecrawlClient`. Access them as attributes:
 
 ```python
 # Correct — the controller is a property:
@@ -146,7 +146,7 @@ class ResponseCapture(HttpCallBack):
         self.last_response = response
 
 capture = ResponseCapture()
-client = FirecrawlapiClient(http_call_back=capture, ...)
+client = FirecrawlClient(http_call_back=capture, ...)
 result = client.authentication.custom_authentication()
 print(capture.last_response.status_code)
 print(capture.last_response.headers)
@@ -179,7 +179,7 @@ an iterator over the items on that page. Inspect `firecrawl/pagination/` in the 
 
 ## Finding the right method
 
-- Controller property names are on `FirecrawlapiClient` in `firecrawl/firecrawl_client.py`.
+- Controller property names are on `FirecrawlClient` in `firecrawl/firecrawl_client.py`.
 - Operation method signatures are in `firecrawl/controllers/{resource}_controller.py`.
 - `doc/controllers/*.md` lists every operation with parameters and usage snippets — grep it first.
 - Request/response model types are under `firecrawl/models/`; enum types have `from_value()`.

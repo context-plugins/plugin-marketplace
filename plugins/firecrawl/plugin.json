@@ -1,8 +1,8 @@
 {
   "name": "firecrawl",
-  "displayName": "Firecrawl SDK",
-  "version": "0.1.2",
-  "description": "Scrape, convert, and format entire websites into clean LLM-ready markdown.",
+  "displayName": "firecrawl SDK",
+  "version": "0.1.3",
+  "description": "TODO_AUTO_DESCRIPTION: firecrawl API",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

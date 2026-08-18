@@ -1,9 +1,9 @@
 ---
 name: dotnet-integrate-firecrawl
-description: Entry point for Firecrawl .NET SDK work in a C#/.NET project — this router is for the .NET/C# SDK ONLY; never load it for any other language. Load this first when asked to integrate the Firecrawl API in C#, or when a Firecrawl .NET SDK call errors or behaves unexpectedly. Defines the delegation contract, the agent reuse rules, and which companion skills are required reading before you write code.
+description: Entry point for firecrawl .NET SDK work in a C#/.NET project — this router is for the .NET/C# SDK ONLY; never load it for any other language. Load this first when asked to integrate the firecrawl API in C#, or when a firecrawl .NET SDK call errors or behaves unexpectedly. Defines the delegation contract, the agent reuse rules, and which companion skills are required reading before you write code.
 ---
 
-# Firecrawl .NET SDK — Router (map + one agent)
+# firecrawl .NET SDK — Router (map + one agent)
 
 You (the main agent) orchestrate; the `dotnet-firecrawl-sdk` agent carries the SDK knowledge. The
 division of labour keeps YOUR code grounded and keeps the **SDK map and source** off your
@@ -28,13 +28,13 @@ guidance, they are yours to load, and Step 1c below makes loading them mandatory
   every later need is a follow-up message to that same warm agent.** A fresh spawn rebuilds
   its whole map context from scratch (the dominant helper cost); reuse is not optional.
 
-**Scope guard:** the APIMatic-generated Firecrawl **.NET SDK** (root namespace
+**Scope guard:** the APIMatic-generated firecrawl **.NET SDK** (root namespace
 `FirecrawlApi`) in **C#/.NET projects only**. Unrelated API, or any language other than
 C#/.NET — do nothing; this router and its agent do not apply.
 
 ## Workflow
 
-**If the user opens with a reported SDK error or unexpected Firecrawl behaviour** (not new
+**If the user opens with a reported SDK error or unexpected firecrawl behaviour** (not new
 feature work), spawn **`dotnet-firecrawl-sdk`** directly with the error output and the files involved,
 and wait — do not run the plan-first flow for a bug report. Otherwise, for implementation
 work:
@@ -122,7 +122,7 @@ ask the warm `dotnet-firecrawl-sdk` agent, never guess.
 
 ### Step 3 — Answering pure questions
 
-A standalone Firecrawl question with no code change: ask the warm `dotnet-firecrawl-sdk` agent (narrow-
+A standalone firecrawl question with no code change: ask the warm `dotnet-firecrawl-sdk` agent (narrow-
 question mode) and relay its grounded answer. Never answer from memory, even for "easy"
 questions.
 
@@ -138,7 +138,7 @@ agent is still running, wait.
 ## Anti-patterns — never do these
 
 - **Get SDK knowledge from the `dotnet-firecrawl-sdk` agent, not yourself.** Don't clone or decompile the
-  SDK, don't fetch its source files, and don't web-search Firecrawl topics to find an
+  SDK, don't fetch its source files, and don't web-search firecrawl topics to find an
   implementation detail — that is the agent's job. (You have no SDK source or clone locally;
   the agent holds the bundled map and clones on a real gap.)
 - **Don't load `dotnet-firecrawl-getting-started` or the SDK map pages** — the map is the agent's, and
@@ -147,7 +147,7 @@ agent is still running, wait.
   error accessors, and enum values come from the contract sheet (or you ask the warm `dotnet-firecrawl-sdk`
   agent). Where a companion points at the SDK source or a clone, that path is the agent's, not
   yours — you have no local clone.
-- **Never write a Firecrawl/SDK fact from memory** — every signature, field name, enum value, and
+- **Never write a firecrawl/SDK fact from memory** — every signature, field name, enum value, and
   error type in your code must come from the contract sheet or a lookup. And **never write a
   call from memory "to fix later".**
 - **Don't re-derive or double-check a sheet row from memory.** If you are unsure what a row

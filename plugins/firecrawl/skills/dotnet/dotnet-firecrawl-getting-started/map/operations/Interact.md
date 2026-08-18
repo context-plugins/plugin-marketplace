@@ -1,47 +1,65 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # Interact — operations
 
 Accessor: `client.Interact` · Source: `Api/Interact.cs` · 4 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### CreateBrowserSession
-- **HTTP**: `POST /interact` (Default (api))
+
 - **Signature**: `CreateBrowserSession(InteractRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `InteractResponse`
 - **Error**: `SdkException<CreateBrowserSessionError>` — **Case A (typed)**
 - **Error accessors**: `TryGetInteract402Error1(out Interact402Error1)` [402] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `InteractRequest` | `Models/InteractRequest.cs` |
+| `InteractResponse` | `Models/InteractResponse.cs` |
+| `CreateBrowserSessionError` | `Errors/CreateBrowserSessionError.cs` |
+| `Interact402Error1` | `Models/Interact402Error1.cs` |
 
 ### DeleteBrowserSession
-- **HTTP**: `DELETE /interact/{sessionId}` (Default (api))
+
 - **Signature**: `DeleteBrowserSession(string sessionId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `InteractResponse2`
 - **Error**: `SdkException<DeleteBrowserSessionError>` — **Case A (typed)**
 - **Error accessors**: `TryGetInteract402Error1(out Interact402Error1)` [402] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `InteractResponse2` | `Models/InteractResponse2.cs` |
+| `DeleteBrowserSessionError` | `Errors/DeleteBrowserSessionError.cs` |
+| `Interact402Error1` | `Models/Interact402Error1.cs` |
 
 ### ExecuteBrowserCode
-- **HTTP**: `POST /interact/{sessionId}/execute` (Default (api))
+
 - **Signature**: `ExecuteBrowserCode(string sessionId, InteractExecuteRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `InteractExecuteResponse`
 - **Error**: `SdkException<ExecuteBrowserCodeError>` — **Case A (typed)**
 - **Error accessors**: `TryGetInteractExecute402Error1(out InteractExecute402Error1)` [402] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `InteractExecuteRequest` | `Models/InteractExecuteRequest.cs` |
+| `InteractExecuteResponse` | `Models/InteractExecuteResponse.cs` |
+| `ExecuteBrowserCodeError` | `Errors/ExecuteBrowserCodeError.cs` |
+| `InteractExecute402Error1` | `Models/InteractExecute402Error1.cs` |
 
 ### ListBrowserSessions
-- **HTTP**: `GET /interact` (Default (api))
+
 - **Signature**: `ListBrowserSessions(Status10? status, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `status` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `status` ← `status`
 - **Returns**: `InteractResponse1`
 - **Error**: `SdkException<ListBrowserSessionsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetInteract402Error1(out Interact402Error1)` [402] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Status10` | `Models/Enums/Status10.cs` |
+| `InteractResponse1` | `Models/InteractResponse1.cs` |
+| `ListBrowserSessionsError` | `Errors/ListBrowserSessionsError.cs` |
+| `Interact402Error1` | `Models/Interact402Error1.cs` |
+

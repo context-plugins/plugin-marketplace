@@ -1,28 +1,35 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # TaxEDeliveryConsent — operations
 
 Accessor: `client.TaxEDeliveryConsent` · Source: `Api/TaxEDeliveryConsent.cs` · 2 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### PostLegalEntitiesIdCheckTaxElectronicDeliveryConsent
-- **HTTP**: `POST /legalEntities/{id}/checkTaxElectronicDeliveryConsent` (Default18 (kyc-test))
-- **Notes**: Returns the consent status for electronic delivery of tax forms. Requests to this endpoint are subject to rate limits: Live environments: 700 requests per 5 seconds. Test environments: 200 requests per 5 seconds. Failed requests are subject to a limit of 5 failures per 10 seconds.
+- **Server group**: `Default18`
 - **Signature**: `PostLegalEntitiesIdCheckTaxElectronicDeliveryConsent(string id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `CheckTaxElectronicDeliveryConsentResponse`
 - **Error**: `SdkException<PostLegalEntitiesIdCheckTaxElectronicDeliveryConsentError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `CheckTaxElectronicDeliveryConsentResponse` | `Models/CheckTaxElectronicDeliveryConsentResponse.cs` |
+| `PostLegalEntitiesIdCheckTaxElectronicDeliveryConsentError` | `Errors/PostLegalEntitiesIdCheckTaxElectronicDeliveryConsentError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
 
 ### PostLegalEntitiesIdSetTaxElectronicDeliveryConsent
-- **HTTP**: `POST /legalEntities/{id}/setTaxElectronicDeliveryConsent` (Default18 (kyc-test))
-- **Notes**: Set the consent status for electronic delivery of tax forms. Requests to this endpoint are subject to rate limits: Live environments: 700 requests per 5 seconds. Test environments: 200 requests per 5 seconds. Failed requests are subject to a limit of 5 failures per 10 seconds.
+- **Server group**: `Default18`
 - **Signature**: `PostLegalEntitiesIdSetTaxElectronicDeliveryConsent(string id, SetTaxElectronicDeliveryConsentRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<PostLegalEntitiesIdSetTaxElectronicDeliveryConsentError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `SetTaxElectronicDeliveryConsentRequest` | `Models/SetTaxElectronicDeliveryConsentRequest.cs` |
+| `PostLegalEntitiesIdSetTaxElectronicDeliveryConsentError` | `Errors/PostLegalEntitiesIdSetTaxElectronicDeliveryConsentError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
+

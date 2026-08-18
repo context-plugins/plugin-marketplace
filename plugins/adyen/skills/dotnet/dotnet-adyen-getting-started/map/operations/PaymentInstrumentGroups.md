@@ -1,39 +1,49 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # PaymentInstrumentGroups — operations
 
 Accessor: `client.PaymentInstrumentGroups` · Source: `Api/PaymentInstrumentGroups.cs` · 3 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### GetPaymentInstrumentGroupsId
-- **HTTP**: `GET /paymentInstrumentGroups/{id}` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns the details of a payment instrument group.
+- **Server group**: `Default13`
 - **Signature**: `GetPaymentInstrumentGroupsId(string id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `PaymentInstrumentGroup`
 - **Error**: `SdkException<GetPaymentInstrumentGroupsIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `PaymentInstrumentGroup` | `Models/PaymentInstrumentGroup.cs` |
+| `GetPaymentInstrumentGroupsIdError` | `Errors/GetPaymentInstrumentGroupsIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetPaymentInstrumentGroupsIdTransactionRules
-- **HTTP**: `GET /paymentInstrumentGroups/{id}/transactionRules` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns a list of all the transaction rules associated with a payment instrument group.
+- **Server group**: `Default13`
 - **Signature**: `GetPaymentInstrumentGroupsIdTransactionRules(string id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `TransactionRulesResponse`
 - **Error**: `SdkException<GetPaymentInstrumentGroupsIdTransactionRulesError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TransactionRulesResponse` | `Models/TransactionRulesResponse.cs` |
+| `GetPaymentInstrumentGroupsIdTransactionRulesError` | `Errors/GetPaymentInstrumentGroupsIdTransactionRulesError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PostPaymentInstrumentGroups
-- **HTTP**: `POST /paymentInstrumentGroups` (Default13 (balanceplatform-api-test))
-- **Notes**: Creates a payment instrument group to associate and group payment instrument resources together. You can apply a transaction rule to a payment instrument group.
+- **Server group**: `Default13`
 - **Signature**: `PostPaymentInstrumentGroups(PaymentInstrumentGroupInfo? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `PaymentInstrumentGroup`
 - **Error**: `SdkException<PostPaymentInstrumentGroupsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `PaymentInstrumentGroupInfo` | `Models/PaymentInstrumentGroupInfo.cs` |
+| `PaymentInstrumentGroup` | `Models/PaymentInstrumentGroup.cs` |
+| `PostPaymentInstrumentGroupsError` | `Errors/PostPaymentInstrumentGroupsError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
+

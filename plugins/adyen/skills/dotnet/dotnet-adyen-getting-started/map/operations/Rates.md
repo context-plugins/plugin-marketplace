@@ -1,16 +1,22 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # Rates — operations
 
-Accessor: `client.Rates` · Source: `Api/Rates.cs` · 1 operations
+Accessor: `client.Rates` · Source: `Api/Rates.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### PostRatesCalculate
-- **HTTP**: `POST /rates/calculate` (Default7 (balanceplatform-api-test))
-- **Notes**: Returns the calculated amounts and rates required to convert the currency of a transaction.
+- **Server group**: `Default7`
 - **Signature**: `PostRatesCalculate(CalculateRateRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `CalculateRateResponse`
 - **Error**: `SdkException<PostRatesCalculateError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [401, 403, 422] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `CalculateRateRequest` | `Models/CalculateRateRequest.cs` |
+| `CalculateRateResponse` | `Models/CalculateRateResponse.cs` |
+| `PostRatesCalculateError` | `Errors/PostRatesCalculateError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
+

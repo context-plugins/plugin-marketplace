@@ -1,28 +1,35 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # NetworkTokens — operations
 
 Accessor: `client.NetworkTokens` · Source: `Api/NetworkTokens.cs` · 2 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### GetNetworkTokensNetworkTokenId
-- **HTTP**: `GET /networkTokens/{networkTokenId}` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns the details of a network token.
+- **Server group**: `Default13`
 - **Signature**: `GetNetworkTokensNetworkTokenId(string networkTokenId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `GetNetworkTokenResponse`
 - **Error**: `SdkException<GetNetworkTokensNetworkTokenIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `GetNetworkTokenResponse` | `Models/GetNetworkTokenResponse.cs` |
+| `GetNetworkTokensNetworkTokenIdError` | `Errors/GetNetworkTokensNetworkTokenIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PatchNetworkTokensNetworkTokenId
-- **HTTP**: `PATCH /networkTokens/{networkTokenId}` (Default13 (balanceplatform-api-test))
-- **Notes**: Updates the status of the network token.
+- **Server group**: `Default13`
 - **Signature**: `PatchNetworkTokensNetworkTokenId(string networkTokenId, UpdateNetworkTokenRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<PatchNetworkTokensNetworkTokenIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `UpdateNetworkTokenRequest` | `Models/UpdateNetworkTokenRequest.cs` |
+| `PatchNetworkTokensNetworkTokenIdError` | `Errors/PatchNetworkTokensNetworkTokenIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
+

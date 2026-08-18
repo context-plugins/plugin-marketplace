@@ -1,42 +1,52 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # Capital — operations
 
 Accessor: `client.Capital` · Source: `Api/Capital.cs` · 3 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### GetGrants
-- **HTTP**: `GET /grants` (Default14 (balanceplatform-api-test))
-- **Notes**: Returns a list of grants with status and outstanding balances.
+- **Server group**: `Default14`
 - **Signature**: `GetGrants(string? counterpartyAccountHolderId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `counterpartyAccountHolderId` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `counterpartyAccountHolderId` ← `counterpartyAccountHolderId`
 - **Returns**: `CapitalGrants`
 - **Error**: `SdkException<GetGrantsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `CapitalGrants` | `Models/CapitalGrants.cs` |
+| `GetGrantsError` | `Errors/GetGrantsError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetGrantsId
-- **HTTP**: `GET /grants/{id}` (Default14 (balanceplatform-api-test))
-- **Notes**: Returns the details of a capital account specified in the path.
+- **Server group**: `Default14`
 - **Signature**: `GetGrantsId(string id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `CapitalGrant`
 - **Error**: `SdkException<GetGrantsIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `CapitalGrant` | `Models/CapitalGrant.cs` |
+| `GetGrantsIdError` | `Errors/GetGrantsIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PostGrants
-- **HTTP**: `POST /grants` (Default14 (balanceplatform-api-test))
-- **Notes**: Requests the payout of the selected grant offer.
+- **Server group**: `Default14`
 - **Signature**: `PostGrants(string? idempotencyKey, CapitalGrantInfo? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `idempotencyKey` — nullable, no default → **must pass explicitly**
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `CapitalGrant`
 - **Error**: `SdkException<PostGrantsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 404, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `CapitalGrantInfo` | `Models/CapitalGrantInfo.cs` |
+| `CapitalGrant` | `Models/CapitalGrant.cs` |
+| `PostGrantsError` | `Errors/PostGrantsError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
+

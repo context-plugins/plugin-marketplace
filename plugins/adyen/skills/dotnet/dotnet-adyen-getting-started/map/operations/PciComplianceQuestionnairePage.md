@@ -1,17 +1,23 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # PciComplianceQuestionnairePage — operations
 
-Accessor: `client.PciComplianceQuestionnairePage` · Source: `Api/PciComplianceQuestionnairePage.cs` · 1 operations
+Accessor: `client.PciComplianceQuestionnairePage` · Source: `Api/PciComplianceQuestionnairePage.cs` · 1 operation
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### PostGetPciQuestionnaireUrl
-- **HTTP**: `POST /getPciQuestionnaireUrl` (Default19 (cal-test))
-- **Notes**: Returns a link to a PCI compliance questionnaire that you can send to your account holder. &gt; You should only use this endpoint if you have a partner platform setup .
+- **Server group**: `Default19`
 - **Signature**: `PostGetPciQuestionnaireUrl(GetPciUrlRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `GetPciUrlResponse`
 - **Error**: `SdkException<PostGetPciQuestionnaireUrlError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `GetPciUrlRequest` | `Models/GetPciUrlRequest.cs` |
+| `GetPciUrlResponse` | `Models/GetPciUrlResponse.cs` |
+| `PostGetPciQuestionnaireUrlError` | `Errors/PostGetPciQuestionnaireUrlError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
+

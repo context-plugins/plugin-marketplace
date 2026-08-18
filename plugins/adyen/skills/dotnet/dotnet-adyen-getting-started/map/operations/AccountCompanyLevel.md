@@ -1,44 +1,53 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # AccountCompanyLevel — operations
 
 Accessor: `client.AccountCompanyLevel` · Source: `Api/AccountCompanyLevel.cs` · 3 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### GetCompanies
-- **HTTP**: `GET /companies` (Default9 (management-test))
-- **Notes**: Returns the list of company accounts that your API credential has access to. The list is grouped into pages as defined by the query parameters. To make this request, your API credential must have the following roles : Management API—Account read
+- **Server group**: `Default9`
 - **Signature**: `GetCompanies(int? pageNumber, int? pageSize, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageNumber` — nullable, no default → **must pass explicitly**
   - `pageSize` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `pageNumber` ← `pageNumber`, `pageSize` ← `pageSize`
 - **Returns**: `ListCompanyResponse`
 - **Error**: `SdkException<GetCompaniesError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ListCompanyResponse` | `Models/ListCompanyResponse.cs` |
+| `GetCompaniesError` | `Errors/GetCompaniesError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetCompaniesCompanyId
-- **HTTP**: `GET /companies/{companyId}` (Default9 (management-test))
-- **Notes**: Returns the company account specified in the path. Your API credential must have access to the company account. To make this request, your API credential must have the following roles : * Management API—Account read
+- **Server group**: `Default9`
 - **Signature**: `GetCompaniesCompanyId(string companyId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `Company2`
 - **Error**: `SdkException<GetCompaniesCompanyIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Company2` | `Models/Company2.cs` |
+| `GetCompaniesCompanyIdError` | `Errors/GetCompaniesCompanyIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetCompaniesCompanyIdMerchants
-- **HTTP**: `GET /companies/{companyId}/merchants` (Default9 (management-test))
-- **Notes**: Returns the list of merchant accounts under the company account specified in the path. The list only includes merchant accounts that your API credential has access to. The list is grouped into pages as defined by the query parameters. To make this request, your API credential must have the following roles : * Management API—Account read
+- **Server group**: `Default9`
 - **Signature**: `GetCompaniesCompanyIdMerchants(string companyId, int? pageNumber, int? pageSize, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `pageNumber` — nullable, no default → **must pass explicitly**
   - `pageSize` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `pageNumber` ← `pageNumber`, `pageSize` ← `pageSize`
 - **Returns**: `ListMerchantResponse`
 - **Error**: `SdkException<GetCompaniesCompanyIdMerchantsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ListMerchantResponse` | `Models/ListMerchantResponse.cs` |
+| `GetCompaniesCompanyIdMerchantsError` | `Errors/GetCompaniesCompanyIdMerchantsError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
+

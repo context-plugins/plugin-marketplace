@@ -1,66 +1,81 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # BalanceAccounts — operations
 
 Accessor: `client.BalanceAccounts` · Source: `Api/BalanceAccounts.cs` · 5 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### GetBalanceAccountsId
-- **HTTP**: `GET /balanceAccounts/{id}` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns a balance account and its balances for the default currency and other currencies with a non-zero balance.
+- **Server group**: `Default13`
 - **Signature**: `GetBalanceAccountsId(string id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `BalanceAccount`
 - **Error**: `SdkException<GetBalanceAccountsIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `BalanceAccount` | `Models/BalanceAccount.cs` |
+| `GetBalanceAccountsIdError` | `Errors/GetBalanceAccountsIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetBalanceAccountsIdPaymentInstruments
-- **HTTP**: `GET /balanceAccounts/{id}/paymentInstruments` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns a paginated list of the payment instruments associated with a balance account. To fetch multiple pages, use the query parameters.For example, to limit the page to 3 payment instruments which are in active status and to skip the first 6, use `/balanceAccounts/{id}/paymentInstruments?limit=3&amp;offset=6&amp;status=active`.
+- **Server group**: `Default13`
 - **Signature**: `GetBalanceAccountsIdPaymentInstruments(string id, int? offset, int? limit, string? status, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `offset` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
   - `status` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `offset` ← `offset`, `limit` ← `limit`, `status` ← `status`
 - **Returns**: `PaginatedPaymentInstrumentsResponse`
 - **Error**: `SdkException<GetBalanceAccountsIdPaymentInstrumentsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `PaginatedPaymentInstrumentsResponse` | `Models/PaginatedPaymentInstrumentsResponse.cs` |
+| `GetBalanceAccountsIdPaymentInstrumentsError` | `Errors/GetBalanceAccountsIdPaymentInstrumentsError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetBalanceAccountsIdTransactionRules
-- **HTTP**: `GET /balanceAccounts/{id}/transactionRules` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns a list of transaction rules associated with a balance account.
+- **Server group**: `Default13`
 - **Signature**: `GetBalanceAccountsIdTransactionRules(string id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `TransactionRulesResponse`
 - **Error**: `SdkException<GetBalanceAccountsIdTransactionRulesError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TransactionRulesResponse` | `Models/TransactionRulesResponse.cs` |
+| `GetBalanceAccountsIdTransactionRulesError` | `Errors/GetBalanceAccountsIdTransactionRulesError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PatchBalanceAccountsId
-- **HTTP**: `PATCH /balanceAccounts/{id}` (Default13 (balanceplatform-api-test))
-- **Notes**: Updates a balance account.
+- **Server group**: `Default13`
 - **Signature**: `PatchBalanceAccountsId(string id, BalanceAccountUpdateRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `BalanceAccount`
 - **Error**: `SdkException<PatchBalanceAccountsIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `BalanceAccountUpdateRequest` | `Models/BalanceAccountUpdateRequest.cs` |
+| `BalanceAccount` | `Models/BalanceAccount.cs` |
+| `PatchBalanceAccountsIdError` | `Errors/PatchBalanceAccountsIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### PostBalanceAccounts
-- **HTTP**: `POST /balanceAccounts` (Default13 (balanceplatform-api-test))
-- **Notes**: Creates a balance account that holds the funds of the associated account holder.
+- **Server group**: `Default13`
 - **Signature**: `PostBalanceAccounts(BalanceAccountInfo? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `BalanceAccount`
 - **Error**: `SdkException<PostBalanceAccountsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `BalanceAccountInfo` | `Models/BalanceAccountInfo.cs` |
+| `BalanceAccount` | `Models/BalanceAccount.cs` |
+| `PostBalanceAccountsError` | `Errors/PostBalanceAccountsError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
+

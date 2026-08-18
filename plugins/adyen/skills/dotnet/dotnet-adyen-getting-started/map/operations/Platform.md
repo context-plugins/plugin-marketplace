@@ -1,41 +1,50 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # Platform — operations
 
 Accessor: `client.Platform` · Source: `Api/Platform.cs` · 3 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### GetBalancePlatformsId
-- **HTTP**: `GET /balancePlatforms/{id}` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns a balance platform.
+- **Server group**: `Default13`
 - **Signature**: `GetBalancePlatformsId(string id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `BalancePlatform`
 - **Error**: `SdkException<GetBalancePlatformsIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `BalancePlatform` | `Models/BalancePlatform.cs` |
+| `GetBalancePlatformsIdError` | `Errors/GetBalancePlatformsIdError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetBalancePlatformsIdAccountHolders
-- **HTTP**: `GET /balancePlatforms/{id}/accountHolders` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns a paginated list of all the account holders that belong to the balance platform. To fetch multiple pages, use the query parameters. For example, to limit the page to 5 account holders and to skip the first 20, use `/balancePlatforms/{id}/accountHolders?limit=5&amp;offset=20`.
+- **Server group**: `Default13`
 - **Signature**: `GetBalancePlatformsIdAccountHolders(string id, int? offset, int? limit, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `offset` — nullable, no default → **must pass explicitly**
   - `limit` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `offset` ← `offset`, `limit` ← `limit`
 - **Returns**: `PaginatedAccountHoldersResponse`
 - **Error**: `SdkException<GetBalancePlatformsIdAccountHoldersError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `PaginatedAccountHoldersResponse` | `Models/PaginatedAccountHoldersResponse.cs` |
+| `GetBalancePlatformsIdAccountHoldersError` | `Errors/GetBalancePlatformsIdAccountHoldersError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
 
 ### GetBalancePlatformsIdTransactionRules
-- **HTTP**: `GET /balancePlatforms/{id}/transactionRules` (Default13 (balanceplatform-api-test))
-- **Notes**: Returns a list of transaction rules associated with a balance platform.
+- **Server group**: `Default13`
 - **Signature**: `GetBalancePlatformsIdTransactionRules(string id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `TransactionRulesResponse`
 - **Error**: `SdkException<GetBalancePlatformsIdTransactionRulesError>` — **Case A (typed)**
 - **Error accessors**: `TryGetRestServiceError(out RestServiceError)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TransactionRulesResponse` | `Models/TransactionRulesResponse.cs` |
+| `GetBalancePlatformsIdTransactionRulesError` | `Errors/GetBalancePlatformsIdTransactionRulesError.cs` |
+| `RestServiceError` | `Models/RestServiceError.cs` |
+

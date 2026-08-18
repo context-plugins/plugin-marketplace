@@ -1,63 +1,79 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # PciQuestionnaires — operations
 
 Accessor: `client.PciQuestionnaires` · Source: `Api/PciQuestionnaires.cs` · 5 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### GetLegalEntitiesIdPciQuestionnaires
-- **HTTP**: `GET /legalEntities/{id}/pciQuestionnaires` (Default18 (kyc-test))
-- **Notes**: Get a list of signed PCI questionnaires. Requests to this endpoint are subject to rate limits: Live environments: 700 requests per 5 seconds. Test environments: 200 requests per 5 seconds. Failed requests are subject to a limit of 5 failures per 10 seconds.
+- **Server group**: `Default18`
 - **Signature**: `GetLegalEntitiesIdPciQuestionnaires(string id, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `GetPciQuestionnaireInfosResponse`
 - **Error**: `SdkException<GetLegalEntitiesIdPciQuestionnairesError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `GetPciQuestionnaireInfosResponse` | `Models/GetPciQuestionnaireInfosResponse.cs` |
+| `GetLegalEntitiesIdPciQuestionnairesError` | `Errors/GetLegalEntitiesIdPciQuestionnairesError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
 
 ### GetLegalEntitiesIdPciQuestionnairesPciid
-- **HTTP**: `GET /legalEntities/{id}/pciQuestionnaires/{pciid}` (Default18 (kyc-test))
-- **Notes**: Returns the signed PCI questionnaire. Requests to this endpoint are subject to rate limits: Live environments: 700 requests per 5 seconds. Test environments: 200 requests per 5 seconds. Failed requests are subject to a limit of 5 failures per 10 seconds.
+- **Server group**: `Default18`
 - **Signature**: `GetLegalEntitiesIdPciQuestionnairesPciid(string id, string pciid, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `GetPciQuestionnaireResponse`
 - **Error**: `SdkException<GetLegalEntitiesIdPciQuestionnairesPciidError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `GetPciQuestionnaireResponse` | `Models/GetPciQuestionnaireResponse.cs` |
+| `GetLegalEntitiesIdPciQuestionnairesPciidError` | `Errors/GetLegalEntitiesIdPciQuestionnairesPciidError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
 
 ### PostLegalEntitiesIdPciQuestionnairesGeneratePciTemplates
-- **HTTP**: `POST /legalEntities/{id}/pciQuestionnaires/generatePciTemplates` (Default18 (kyc-test))
-- **Notes**: Generates the required PCI questionnaires based on the user's salesChannel . Requests to this endpoint are subject to rate limits: Live environments: 700 requests per 5 seconds. Test environments: 200 requests per 5 seconds. Failed requests are subject to a limit of 5 failures per 10 seconds.
+- **Server group**: `Default18`
 - **Signature**: `PostLegalEntitiesIdPciQuestionnairesGeneratePciTemplates(string id, GeneratePciDescriptionRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `GeneratePciDescriptionResponse`
 - **Error**: `SdkException<PostLegalEntitiesIdPciQuestionnairesGeneratePciTemplatesError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `GeneratePciDescriptionRequest` | `Models/GeneratePciDescriptionRequest.cs` |
+| `GeneratePciDescriptionResponse` | `Models/GeneratePciDescriptionResponse.cs` |
+| `PostLegalEntitiesIdPciQuestionnairesGeneratePciTemplatesError` | `Errors/PostLegalEntitiesIdPciQuestionnairesGeneratePciTemplatesError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
 
 ### PostLegalEntitiesIdPciQuestionnairesSignPciTemplates
-- **HTTP**: `POST /legalEntities/{id}/pciQuestionnaires/signPciTemplates` (Default18 (kyc-test))
-- **Notes**: Signs the required PCI questionnaire. Requests to this endpoint are subject to rate limits: Live environments: 700 requests per 5 seconds. Test environments: 200 requests per 5 seconds. Failed requests are subject to a limit of 5 failures per 10 seconds.
+- **Server group**: `Default18`
 - **Signature**: `PostLegalEntitiesIdPciQuestionnairesSignPciTemplates(string id, PciSigningRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `PciSigningResponse`
 - **Error**: `SdkException<PostLegalEntitiesIdPciQuestionnairesSignPciTemplatesError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `PciSigningRequest` | `Models/PciSigningRequest.cs` |
+| `PciSigningResponse` | `Models/PciSigningResponse.cs` |
+| `PostLegalEntitiesIdPciQuestionnairesSignPciTemplatesError` | `Errors/PostLegalEntitiesIdPciQuestionnairesSignPciTemplatesError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
 
 ### PostLegalEntitiesIdPciQuestionnairesSigningRequired
-- **HTTP**: `POST /legalEntities/{id}/pciQuestionnaires/signingRequired` (Default18 (kyc-test))
-- **Notes**: Calculate PCI status of a legal entity. Requests to this endpoint are subject to rate limits: Live environments: 700 requests per 5 seconds. Test environments: 200 requests per 5 seconds. Failed requests are subject to a limit of 5 failures per 10 seconds.
+- **Server group**: `Default18`
 - **Signature**: `PostLegalEntitiesIdPciQuestionnairesSigningRequired(string id, CalculatePciStatusRequest? body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `body` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `CalculatePciStatusResponse`
 - **Error**: `SdkException<PostLegalEntitiesIdPciQuestionnairesSigningRequiredError>` — **Case A (typed)**
 - **Error accessors**: `TryGetServiceError1(out ServiceError1)` [400, 401, 403, 422, 500] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `CalculatePciStatusRequest` | `Models/CalculatePciStatusRequest.cs` |
+| `CalculatePciStatusResponse` | `Models/CalculatePciStatusResponse.cs` |
+| `PostLegalEntitiesIdPciQuestionnairesSigningRequiredError` | `Errors/PostLegalEntitiesIdPciQuestionnairesSigningRequiredError.cs` |
+| `ServiceError1` | `Models/ServiceError1.cs` |
+

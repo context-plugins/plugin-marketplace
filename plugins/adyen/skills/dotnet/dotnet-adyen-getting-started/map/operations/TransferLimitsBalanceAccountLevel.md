@@ -1,80 +1,100 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
 # TransferLimitsBalanceAccountLevel — operations
 
 Accessor: `client.TransferLimitsBalanceAccountLevel` · Source: `Api/TransferLimitsBalanceAccountLevel.cs` · 6 operations
 
-**Parameter names are literal.** Signatures are generated code verbatim — in named arguments use the exact parameter names shown (the cancellation-token parameter is named `ct`).
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
 
 ### DeleteBalanceAccountsIdTransferLimitsTransferLimitId
-- **HTTP**: `DELETE /balanceAccounts/{id}/transferLimits/{transferLimitId}` (Default13 (balanceplatform-api-test))
-- **Notes**: Delete a scheduled or pending transfer limit using its unique `transferLimitId`. You cannot delete an active limit.
+- **Server group**: `Default13`
 - **Signature**: `DeleteBalanceAccountsIdTransferLimitsTransferLimitId(string id, string transferLimitId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<DeleteBalanceAccountsIdTransferLimitsTransferLimitIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [404, 422] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `DeleteBalanceAccountsIdTransferLimitsTransferLimitIdError` | `Errors/DeleteBalanceAccountsIdTransferLimitsTransferLimitIdError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### GetBalanceAccountsIdTransferLimits
-- **HTTP**: `GET /balanceAccounts/{id}/transferLimits` (Default13 (balanceplatform-api-test))
-- **Notes**: Filter and view the transfer limits configured for a balance account using the balance account's unique `id` and the available query parameters.
+- **Server group**: `Default13`
 - **Signature**: `GetBalanceAccountsIdTransferLimits(string id, Scope? scope, TransferType? transferType, LimitStatus? status, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `scope` — nullable, no default → **must pass explicitly**
   - `transferType` — nullable, no default → **must pass explicitly**
   - `status` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `scope` ← `scope`, `transferType` ← `transferType`, `status` ← `status`
 - **Returns**: `TransferLimitListResponse`
 - **Error**: `SdkException<GetBalanceAccountsIdTransferLimitsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [404, 422] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Scope` | `Models/Enums/Scope.cs` |
+| `TransferType` | `Models/Enums/TransferType.cs` |
+| `LimitStatus` | `Models/Enums/LimitStatus.cs` |
+| `TransferLimitListResponse` | `Models/TransferLimitListResponse.cs` |
+| `GetBalanceAccountsIdTransferLimitsError` | `Errors/GetBalanceAccountsIdTransferLimitsError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### GetBalanceAccountsIdTransferLimitsCurrent
-- **HTTP**: `GET /balanceAccounts/{id}/transferLimits/current` (Default13 (balanceplatform-api-test))
-- **Notes**: Get all transfer limits that currently apply to a balance account using the unique `id` of the balance account.
+- **Server group**: `Default13`
 - **Signature**: `GetBalanceAccountsIdTransferLimitsCurrent(string id, Scope? scope, TransferType? transferType, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `scope` — nullable, no default → **must pass explicitly**
   - `transferType` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Query params (wire ← C#)**: `scope` ← `scope`, `transferType` ← `transferType`
 - **Returns**: `TransferLimitListResponse`
 - **Error**: `SdkException<GetBalanceAccountsIdTransferLimitsCurrentError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [404, 422] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `Scope` | `Models/Enums/Scope.cs` |
+| `TransferType` | `Models/Enums/TransferType.cs` |
+| `TransferLimitListResponse` | `Models/TransferLimitListResponse.cs` |
+| `GetBalanceAccountsIdTransferLimitsCurrentError` | `Errors/GetBalanceAccountsIdTransferLimitsCurrentError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### GetBalanceAccountsIdTransferLimitsTransferLimitId
-- **HTTP**: `GET /balanceAccounts/{id}/transferLimits/{transferLimitId}` (Default13 (balanceplatform-api-test))
-- **Notes**: Get the details of a transfer limit using its unique `transferLimitId`.
+- **Server group**: `Default13`
 - **Signature**: `GetBalanceAccountsIdTransferLimitsTransferLimitId(string id, string transferLimitId, RequestOptions? requestOptions = null, CancellationToken ct = default)`
-  - defaults: `requestOptions` = null
 - **Returns**: `TransferLimit`
 - **Error**: `SdkException<GetBalanceAccountsIdTransferLimitsTransferLimitIdError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [404, 422] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `TransferLimit` | `Models/TransferLimit.cs` |
+| `GetBalanceAccountsIdTransferLimitsTransferLimitIdError` | `Errors/GetBalanceAccountsIdTransferLimitsTransferLimitIdError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### PostBalanceAccountsIdTransferLimits
-- **HTTP**: `POST /balanceAccounts/{id}/transferLimits` (Default13 (balanceplatform-api-test))
-- **Notes**: Create a transfer limit for your balance account using the unique `id` of your balance account.
+- **Server group**: `Default13`
 - **Signature**: `PostBalanceAccountsIdTransferLimits(string id, string? wwwAuthenticate, CreateTransferLimitRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `wwwAuthenticate` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `TransferLimit`
 - **Error**: `SdkException<PostBalanceAccountsIdTransferLimitsError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [400, 401, 422] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `CreateTransferLimitRequest` | `Models/CreateTransferLimitRequest.cs` |
+| `TransferLimit` | `Models/TransferLimit.cs` |
+| `PostBalanceAccountsIdTransferLimitsError` | `Errors/PostBalanceAccountsIdTransferLimitsError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
 
 ### PostBalanceAccountsIdTransferLimitsApprove
-- **HTTP**: `POST /balanceAccounts/{id}/transferLimits/approve` (Default13 (balanceplatform-api-test))
-- **Notes**: Approve transfer limits that are pending SCA authentication.
+- **Server group**: `Default13`
 - **Signature**: `PostBalanceAccountsIdTransferLimitsApprove(string id, string? wwwAuthenticate, ApproveTransferLimitRequest body, RequestOptions? requestOptions = null, CancellationToken ct = default)`
   - `wwwAuthenticate` — nullable, no default → **must pass explicitly**
-  - defaults: `requestOptions` = null
 - **Returns**: `void` (Task)
 - **Error**: `SdkException<PostBalanceAccountsIdTransferLimitsApproveError>` — **Case A (typed)**
 - **Error accessors**: `TryGetDefaultErrorResponseEntity(out DefaultErrorResponseEntity)` [401, 404, 422] · `TryGetRawError(out RawError)` [fallback]
-- **No-throw variant**: absent
-- **Pagination**: none
+
+| Type | Source |
+| --- | --- |
+| `ApproveTransferLimitRequest` | `Models/ApproveTransferLimitRequest.cs` |
+| `PostBalanceAccountsIdTransferLimitsApproveError` | `Errors/PostBalanceAccountsIdTransferLimitsApproveError.cs` |
+| `DefaultErrorResponseEntity` | `Models/DefaultErrorResponseEntity.cs` |
+

@@ -301,8 +301,8 @@ contract sheet rather than assuming:
 
 | Spec type | Python type |
 |---|---|
-| `string` (plain, password, regex, ip, hostname, json-pointer, time) | `str` |
-| `string` / `email`, `string` / `uri` | pydantic `EmailStr`, `AnyUrl` |
+| `string` (plain, password, regex, ip, hostname, json-pointer, time, uri) | `str` |
+| `string` / `email` | pydantic `EmailStr` |
 | `string` / `uuid` | `uuid.UUID` |
 | integer widths (`integer`, `long`) | `int` |
 | fractional numbers (`number`, `decimal`) | **`float`** |

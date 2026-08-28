@@ -68,18 +68,18 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | --- | --- | --- |
 | [`adyen`](plugins/adyen/) | Adyen | .NET, TS, Java, PHP, Python |
 | [`akoya`](plugins/akoya/) | Akoya | .NET, TS, Java, PHP, Python, Ruby |
-| [`alpaca`](plugins/alpaca/) | Alpaca | .NET, TS, Java, PHP, Python, Ruby |
-| [`binance`](plugins/binance/) | Binance | .NET, TS |
+| [`alpaca`](plugins/alpaca/) | Alpaca | — |
+| [`binance`](plugins/binance/) | Binance | — |
 | [`boku`](plugins/boku/) | Boku | .NET, TS, Java, PHP, Python, Ruby |
 | [`cellpoint`](plugins/cellpoint/) | CellPoint | .NET, Java, PHP, Python |
-| [`coingecko`](plugins/coingecko/) | Coingecko | .NET, TS, Java, PHP, Python, Ruby |
+| [`coingecko`](plugins/coingecko/) | Coingecko | — |
 | [`deepgram`](plugins/deepgram/) | Deepgram | .NET, TS, Java, PHP, Python |
 | [`discourse`](plugins/discourse/) | Discourse | .NET, TS, Java, PHP, Python, Ruby |
 | [`ebay-sell`](plugins/ebay-sell/) | eBay Sell | .NET, TS, Java, PHP, Python, Ruby |
 | [`fdx`](plugins/fdx/) | Fdx | .NET, TS, Java, Python, Ruby |
-| [`finnhub`](plugins/finnhub/) | Finnhub | .NET, TS, Java, PHP, Python, Ruby |
-| [`firecrawl`](plugins/firecrawl/) | Firecrawl | .NET, TS, Java, PHP, Python, Ruby |
-| [`frankfurter`](plugins/frankfurter/) | Frankfurter | .NET, TS, Java, PHP, Python, Ruby |
+| [`finnhub`](plugins/finnhub/) | Finnhub | — |
+| [`firecrawl`](plugins/firecrawl/) | Firecrawl | — |
+| [`frankfurter`](plugins/frankfurter/) | Frankfurter | — |
 | [`geoapify`](plugins/geoapify/) | Geoapify | .NET, TS, Java, PHP, Python, Ruby |
 | [`gitea`](plugins/gitea/) | Gitea | .NET, Java, PHP, Python |
 | [`goe`](plugins/goe/) | GOE | .NET, TS, Java, PHP, Python, Ruby |
@@ -87,14 +87,14 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`greenbyte`](plugins/greenbyte/) | Greenbyte | .NET, TS, Java, PHP, Python |
 | [`klarna`](plugins/klarna/) | Klarna | .NET, Java, PHP, Python, Ruby |
 | [`kubernetes`](plugins/kubernetes/) | Kubernetes | .NET |
-| [`maxio`](plugins/maxio/) | Maxio | .NET, TS, Java, PHP, Python, Ruby |
+| [`maxio`](plugins/maxio/) | Maxio | — |
 | [`mindbody`](plugins/mindbody/) | Mindbody | .NET, TS, Java, PHP, Python, Ruby |
 | [`mist`](plugins/mist/) | Mist | .NET |
 | [`newstore`](plugins/newstore/) | Newstore | TS, Java, Python, Ruby |
 | [`notion`](plugins/notion/) | Notion | .NET, Java, Python, Ruby |
 | [`nytimes`](plugins/nytimes/) | Nytimes | .NET, TS, Java, PHP, Python, Ruby |
 | [`paragon`](plugins/paragon/) | Paragon | .NET, TS, PHP |
-| [`paypal`](plugins/paypal/) | PayPal | .NET, TS, Java, PHP, Python, Ruby |
+| [`paypal`](plugins/paypal/) | PayPal | — |
 | [`payquicker`](plugins/payquicker/) | Payquicker | .NET, Java, PHP, Python, Ruby |
 | [`paze`](plugins/paze/) | Paze | .NET, TS, Java, PHP, Python |
 | [`pokeapi`](plugins/pokeapi/) | PokeApi | .NET, TS, Java, PHP, Python, Ruby |
@@ -103,19 +103,19 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`shell-dataandreporting`](plugins/shell-dataandreporting/) | Shell-dataandreporting | .NET, TS, Java, PHP, Python, Ruby |
 | [`shell-digitalpayments`](plugins/shell-digitalpayments/) | Shell-digitalpayments | .NET, TS, Java, PHP, Python, Ruby |
 | [`shell-ev`](plugins/shell-ev/) | Shell-ev | .NET, TS, Java, PHP, Python, Ruby |
-| [`shutterstock`](plugins/shutterstock/) | Shutterstock | .NET, TS, Java, PHP, Python, Ruby |
-| [`slack`](plugins/slack/) | Slack | .NET, TS, Java, PHP, Python, Ruby |
+| [`shutterstock`](plugins/shutterstock/) | Shutterstock | — |
+| [`slack`](plugins/slack/) | Slack | — |
 | [`splitit`](plugins/splitit/) | Splitit | .NET, TS, Java, PHP, Python, Ruby |
-| [`sportsdata`](plugins/sportsdata/) | Sportsdata | .NET, TS, PHP, Python, Ruby |
+| [`sportsdata`](plugins/sportsdata/) | Sportsdata | — |
 | [`spotify-web-api`](plugins/spotify-web-api/) | Spotify Web API | .NET, TS, Java, PHP, Python, Ruby |
-| [`square`](plugins/square/) | Square | .NET, TS, Java, PHP, Ruby |
+| [`square`](plugins/square/) | Square | — |
 | [`stax-fattmerchant-api`](plugins/stax-fattmerchant-api/) | Stax (FattMerchant) API | .NET, TS, Java, PHP, Python, Ruby |
-| [`tesla`](plugins/tesla/) | Tesla | .NET, TS, Java, PHP, Python |
+| [`tesla`](plugins/tesla/) | Tesla | — |
 | [`tesser-api-v1`](plugins/tesser-api-v1/) | Tesser API (v1) | .NET, TS, Java, PHP, Python, Ruby |
-| [`twilio`](plugins/twilio/) | Twilio | .NET |
+| [`twilio`](plugins/twilio/) | Twilio | — |
 | [`univa`](plugins/univa/) | Univa | Java, PHP, Python, Ruby |
 | [`verizon`](plugins/verizon/) | Verizon | .NET, TS, Java, PHP, Python |
-| [`vimeo`](plugins/vimeo/) | Vimeo | .NET, TS, Java, PHP, Python, Ruby |
+| [`vimeo`](plugins/vimeo/) | Vimeo | — |
 | [`x-api-v2`](plugins/x-api-v2/) | X API v2 | .NET, PHP, Python, Ruby |
 | [`xero`](plugins/xero/) | Xero | .NET |
 <!-- END:PLUGIN_TABLE -->
@@ -141,7 +141,7 @@ Each supported language ships the same eight:
 The `getting-started` skill is the entry point: it directs the agent to clone and grep the real SDK
 source, so every fact is grounded in the actual contract rather than model knowledge.
 
-Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->262<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->2,146<!-- END:SKILL_COUNT --> skills**. See
+Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->184<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->1,507<!-- END:SKILL_COUNT --> skills**. See
 [`plugins/paypal/README.md`](plugins/paypal/README.md) for a worked example.
 
 ## Repository structure

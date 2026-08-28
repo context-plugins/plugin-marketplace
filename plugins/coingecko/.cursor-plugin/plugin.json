@@ -1,7 +1,7 @@
 {
   "name": "coingecko",
   "displayName": "Coingecko SDK",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Track cryptocurrency prices, market caps, trading volume, and historical exchange data via CoinGecko.",
   "author": {
     "name": "APIMatic",

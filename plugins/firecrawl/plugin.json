@@ -1,7 +1,7 @@
 {
   "name": "firecrawl",
   "displayName": "firecrawl SDK",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Crawl websites and convert entire domains into clean LLM-ready markdown.",
   "author": {
     "name": "APIMatic",

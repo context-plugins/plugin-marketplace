@@ -15,7 +15,7 @@ Coding agents hallucinate APIs. They are trained on public code and documentatio
 outdated — and have no awareness of the API version you are actually on, the current SDK, or the
 integration workflow the SDK author recommends.
 
-This repository is the **`context-plugins` marketplace**: a collection of **<!-- BEGIN:PLUGIN_COUNT -->15<!-- END:PLUGIN_COUNT --> plugins**, one per
+This repository is the **`context-plugins` marketplace**: a collection of **<!-- BEGIN:PLUGIN_COUNT -->1<!-- END:PLUGIN_COUNT --> plugins**, one per
 API, that give your agent authoritative, version-aware, SDK-native context at the moment it's
 needed. Every plugin is generated from the API's definition and its APIMatic-generated SDKs, so the
 agent is grounded in the real SDK contract instead of guessing from memory.
@@ -57,7 +57,7 @@ Then run `/reload-plugins`, or start a new `claude` session.
 
 ## Available plugins
 
-<!-- BEGIN:PLUGIN_COUNT -->15<!-- END:PLUGIN_COUNT --> plugins, listed in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
+<!-- BEGIN:PLUGIN_COUNT -->1<!-- END:PLUGIN_COUNT --> plugins, listed in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
 The **Languages** column is the set of SDK languages that plugin ships skills for.
 
 <!-- This table is generated from plugins/ by .github/scripts/sync_marketplace.py. Do not edit by
@@ -66,21 +66,7 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 <!-- BEGIN:PLUGIN_TABLE -->
 | Plugin | API | Languages |
 | --- | --- | --- |
-| [`alpaca`](plugins/alpaca/) | Alpaca | — |
-| [`binance`](plugins/binance/) | Binance | — |
-| [`coingecko`](plugins/coingecko/) | Coingecko | — |
-| [`finnhub`](plugins/finnhub/) | Finnhub | — |
-| [`firecrawl`](plugins/firecrawl/) | Firecrawl | — |
-| [`frankfurter`](plugins/frankfurter/) | Frankfurter | — |
 | [`maxio`](plugins/maxio/) | Maxio | .NET, Python |
-| [`paypal`](plugins/paypal/) | PayPal | — |
-| [`shutterstock`](plugins/shutterstock/) | Shutterstock | — |
-| [`slack`](plugins/slack/) | Slack | — |
-| [`sportsdata`](plugins/sportsdata/) | Sportsdata | — |
-| [`square`](plugins/square/) | Square | — |
-| [`tesla`](plugins/tesla/) | Tesla | — |
-| [`twilio`](plugins/twilio/) | Twilio | — |
-| [`vimeo`](plugins/vimeo/) | Vimeo | — |
 <!-- END:PLUGIN_TABLE -->
 
 > Plugin ids change occasionally. `npx context-plugins list` is always the live source of truth.

@@ -1,7 +1,7 @@
 {
   "name": "frankfurter",
   "displayName": "Frankfurter SDK",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Track current and historical foreign exchange rates published by the European Central Bank.",
   "author": {
     "name": "APIMatic",
@@ -16,20 +16,12 @@
     "api-integration",
     "frankfurter",
     "dotnet",
-    "typescript",
-    "java",
-    "php",
-    "python",
-    "ruby"
+    "python"
   ],
   "logo": "assets/logo.svg",
   "skills": [
     "./skills/dotnet",
-    "./skills/typescript",
-    "./skills/java",
-    "./skills/php",
-    "./skills/python",
-    "./skills/ruby"
+    "./skills/python"
   ],
   "agents": "agents-vscode/"
 }

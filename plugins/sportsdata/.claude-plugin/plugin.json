@@ -1,7 +1,7 @@
 {
   "name": "sportsdata",
   "displayName": "sportsdata SDK",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Track live scores, player stats, and schedule data across major sports leagues.",
   "author": {
     "name": "APIMatic",
@@ -16,17 +16,11 @@
     "api-integration",
     "sportsdata",
     "dotnet",
-    "typescript",
-    "php",
-    "python",
-    "ruby"
+    "python"
   ],
   "skills": [
     "./skills/dotnet",
-    "./skills/typescript",
-    "./skills/php",
-    "./skills/python",
-    "./skills/ruby"
+    "./skills/python"
   ],
   "agents": [
     "./agents/dotnet-sportsdata-sdk.md"

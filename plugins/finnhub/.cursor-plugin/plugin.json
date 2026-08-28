@@ -1,7 +1,7 @@
 {
   "name": "finnhub",
   "displayName": "Finnhub SDK",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Stream real-time stock prices, global company fundamentals, and financial news.",
   "author": {
     "name": "APIMatic",
@@ -16,20 +16,12 @@
     "api-integration",
     "finnhub",
     "dotnet",
-    "typescript",
-    "java",
-    "php",
-    "python",
-    "ruby"
+    "python"
   ],
   "logo": "assets/logo.svg",
   "skills": [
     "./skills/dotnet",
-    "./skills/typescript",
-    "./skills/java",
-    "./skills/php",
-    "./skills/python",
-    "./skills/ruby"
+    "./skills/python"
   ],
   "agents": "./agents/"
 }

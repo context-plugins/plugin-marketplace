@@ -1,7 +1,7 @@
 {
   "name": "alpaca",
   "displayName": "alpaca SDK",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Trade stocks and crypto programmatically with zero-commission orders and real-time market data.",
   "author": {
     "name": "APIMatic",
@@ -16,20 +16,12 @@
     "api-integration",
     "alpaca",
     "dotnet",
-    "typescript",
-    "java",
-    "php",
-    "python",
-    "ruby"
+    "python"
   ],
   "logo": "assets/logo.svg",
   "skills": [
     "./skills/dotnet",
-    "./skills/typescript",
-    "./skills/java",
-    "./skills/php",
-    "./skills/python",
-    "./skills/ruby"
+    "./skills/python"
   ],
   "agents": "./agents/"
 }

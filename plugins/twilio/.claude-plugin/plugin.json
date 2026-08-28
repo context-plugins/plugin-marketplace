@@ -1,7 +1,7 @@
 {
   "name": "twilio",
   "displayName": "twilio SDK",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Send and receive programmable SMS, voice calls, and multi-channel messages globally.",
   "author": {
     "name": "APIMatic",
@@ -15,10 +15,12 @@
     "sdk",
     "api-integration",
     "twilio",
-    "dotnet"
+    "dotnet",
+    "python"
   ],
   "skills": [
-    "./skills/dotnet"
+    "./skills/dotnet",
+    "./skills/python"
   ],
   "agents": [
     "./agents/dotnet-twilio-sdk.md"

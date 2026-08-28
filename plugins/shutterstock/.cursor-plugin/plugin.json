@@ -1,7 +1,7 @@
 {
   "name": "shutterstock",
   "displayName": "shutterstock SDK",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Search, license, and download millions of stock photos, vectors, and videos from Shutterstock.",
   "author": {
     "name": "APIMatic",
@@ -16,20 +16,12 @@
     "api-integration",
     "shutterstock",
     "dotnet",
-    "typescript",
-    "java",
-    "php",
-    "python",
-    "ruby"
+    "python"
   ],
   "logo": "assets/logo.svg",
   "skills": [
     "./skills/dotnet",
-    "./skills/typescript",
-    "./skills/java",
-    "./skills/php",
-    "./skills/python",
-    "./skills/ruby"
+    "./skills/python"
   ],
   "agents": "./agents/"
 }

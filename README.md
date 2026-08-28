@@ -66,21 +66,21 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 <!-- BEGIN:PLUGIN_TABLE -->
 | Plugin | API | Languages |
 | --- | --- | --- |
-| [`alpaca`](plugins/alpaca/) | Alpaca | — |
-| [`binance`](plugins/binance/) | Binance | — |
-| [`coingecko`](plugins/coingecko/) | Coingecko | — |
-| [`finnhub`](plugins/finnhub/) | Finnhub | — |
-| [`firecrawl`](plugins/firecrawl/) | Firecrawl | — |
-| [`frankfurter`](plugins/frankfurter/) | Frankfurter | — |
+| [`alpaca`](plugins/alpaca/) | Alpaca | .NET, Python |
+| [`binance`](plugins/binance/) | Binance | .NET, Python |
+| [`coingecko`](plugins/coingecko/) | Coingecko | .NET, Python |
+| [`finnhub`](plugins/finnhub/) | Finnhub | .NET, Python |
+| [`firecrawl`](plugins/firecrawl/) | Firecrawl | .NET, Python |
+| [`frankfurter`](plugins/frankfurter/) | Frankfurter | .NET, Python |
 | [`maxio`](plugins/maxio/) | Maxio | .NET, Python |
-| [`paypal`](plugins/paypal/) | PayPal | — |
-| [`shutterstock`](plugins/shutterstock/) | Shutterstock | — |
-| [`slack`](plugins/slack/) | Slack | — |
-| [`sportsdata`](plugins/sportsdata/) | Sportsdata | — |
-| [`square`](plugins/square/) | Square | — |
-| [`tesla`](plugins/tesla/) | Tesla | — |
-| [`twilio`](plugins/twilio/) | Twilio | — |
-| [`vimeo`](plugins/vimeo/) | Vimeo | — |
+| [`paypal`](plugins/paypal/) | PayPal | .NET, Python |
+| [`shutterstock`](plugins/shutterstock/) | Shutterstock | .NET, Python |
+| [`slack`](plugins/slack/) | Slack | .NET, Python |
+| [`sportsdata`](plugins/sportsdata/) | Sportsdata | .NET, Python |
+| [`square`](plugins/square/) | Square | .NET, Python |
+| [`tesla`](plugins/tesla/) | Tesla | .NET, Python |
+| [`twilio`](plugins/twilio/) | Twilio | .NET, Python |
+| [`vimeo`](plugins/vimeo/) | Vimeo | .NET, Python |
 <!-- END:PLUGIN_TABLE -->
 
 > Plugin ids change occasionally. `npx context-plugins list` is always the live source of truth.
@@ -104,7 +104,7 @@ Each supported language ships the same eight:
 The `getting-started` skill is the entry point: it directs the agent to clone and grep the real SDK
 source, so every fact is grounded in the actual contract rather than model knowledge.
 
-Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->2<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->18<!-- END:SKILL_COUNT --> skills**. See
+Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->30<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->270<!-- END:SKILL_COUNT --> skills**. See
 [`plugins/paypal/README.md`](plugins/paypal/README.md) for a worked example.
 
 ## Repository structure

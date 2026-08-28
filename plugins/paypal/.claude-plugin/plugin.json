@@ -1,28 +1,17 @@
 {
   "name": "paypal",
-  "displayName": "paypal SDK",
+  "displayName": "Paypal",
   "version": "0.2.0",
-  "description": "Process global payments, subscriptions, and payouts with PayPal.",
+  "description": "Integrate and consume the APIMatic-generated Paypal SDK — bundled skills for C#/.NET, Python.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
   },
   "license": "MIT",
-  "homepage": "https://www.apimatic.io",
+  "homepage": "https://context.apimatic.io/",
   "repository": "https://github.com/context-plugins/plugin-marketplace",
-  "keywords": [
-    "apimatic",
-    "sdk",
-    "api-integration",
-    "paypal",
-    "dotnet",
-    "python"
-  ],
   "skills": [
     "./skills/dotnet",
     "./skills/python"
-  ],
-  "agents": [
-    "./agents/dotnet-paypal-sdk.md"
   ]
 }

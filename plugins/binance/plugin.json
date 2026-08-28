@@ -1,27 +1,17 @@
 {
   "name": "binance",
-  "displayName": "Binance SDK",
+  "displayName": "Binance",
   "version": "0.2.0",
-  "description": "Trade crypto assets, monitor market data, and manage orders on Binance.",
+  "description": "Integrate and consume the APIMatic-generated Binance SDK — bundled skills for C#/.NET, Python.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
   },
   "license": "MIT",
-  "homepage": "https://www.apimatic.io",
+  "homepage": "https://context.apimatic.io/",
   "repository": "https://github.com/context-plugins/plugin-marketplace",
-  "keywords": [
-    "apimatic",
-    "sdk",
-    "api-integration",
-    "binance",
-    "dotnet",
-    "python"
-  ],
-  "logo": "assets/logo.svg",
   "skills": [
     "./skills/dotnet",
     "./skills/python"
-  ],
-  "agents": "agents-vscode/"
+  ]
 }

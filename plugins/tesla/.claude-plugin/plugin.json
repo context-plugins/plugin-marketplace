@@ -1,28 +1,17 @@
 {
   "name": "tesla",
-  "displayName": "tesla SDK",
+  "displayName": "Tesla",
   "version": "0.2.0",
-  "description": "Monitor, locate, and control Tesla vehicles remotely with real-time telemetry and commands.",
+  "description": "Integrate and consume the APIMatic-generated Tesla SDK — bundled skills for C#/.NET, Python.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
   },
   "license": "MIT",
-  "homepage": "https://www.apimatic.io",
+  "homepage": "https://context.apimatic.io/",
   "repository": "https://github.com/context-plugins/plugin-marketplace",
-  "keywords": [
-    "apimatic",
-    "sdk",
-    "api-integration",
-    "tesla",
-    "dotnet",
-    "python"
-  ],
   "skills": [
     "./skills/dotnet",
     "./skills/python"
-  ],
-  "agents": [
-    "./agents/dotnet-tesla-sdk.md"
   ]
 }

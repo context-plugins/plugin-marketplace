@@ -1,27 +1,17 @@
 {
   "name": "finnhub",
-  "displayName": "Finnhub SDK",
+  "displayName": "Finnhub",
   "version": "0.2.0",
-  "description": "Stream real-time stock prices, global company fundamentals, and financial news.",
+  "description": "Integrate and consume the APIMatic-generated Finnhub SDK — bundled skills for C#/.NET, Python.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
   },
   "license": "MIT",
-  "homepage": "https://www.apimatic.io",
+  "homepage": "https://context.apimatic.io/",
   "repository": "https://github.com/context-plugins/plugin-marketplace",
-  "keywords": [
-    "apimatic",
-    "sdk",
-    "api-integration",
-    "finnhub",
-    "dotnet",
-    "python"
-  ],
-  "logo": "assets/logo.svg",
   "skills": [
     "./skills/dotnet",
     "./skills/python"
-  ],
-  "agents": "agents-vscode/"
+  ]
 }

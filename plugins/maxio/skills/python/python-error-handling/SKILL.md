@@ -69,6 +69,10 @@ at all and always yields `RawError`.
 
 ### Narrowing the union
 
+> **Applies only when the operation declares a typed arm (Case A).** An SDK whose map reports zero
+> per-operation error unions, or an operation whose alias is `RawError` alone (Case B), has nothing to
+> narrow — `e.error` is always `RawError` there. Skip to *Result-style alternative* for those.
+
 **The typed arm is not one type across the API, and assuming it is is the mistake that costs the
 afternoon.** A description that declares a different error schema per tag gets a different model per
 tag, so a check written against one operation's arm silently fails on another's — those failures fall

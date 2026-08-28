@@ -20,7 +20,6 @@ following, so each is yours to build or deliberately do without:
 | Capability | Status | What to do instead |
 |---|---|---|
 | **Retries / backoff** | none — ruled out by design | Wrap your own call; see below |
-| **Pagination helpers** | none — no iterator, no auto-paging, no cursor | Drive the loop yourself (`python-calling-endpoints`) |
 | **Streaming / SSE** | none — responses are fully buffered `bytes` | Not available through this SDK |
 | **Request/response logging** | none — no hook, no event | Wrap the transport; see below |
 | **Circuit breaking, rate limiting** | none | Your own, around the call |
@@ -273,5 +272,4 @@ intermittent, unexplainable connection errors. See `python-client-initialization
 
 - Where the client should live → **python-client-initialization**
 - Which exceptions reach your boundary → **python-error-handling**
-- Driving pagination yourself → **python-calling-endpoints**
 - Faking the transport in tests → **python-testing**

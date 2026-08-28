@@ -1,8 +1,8 @@
 {
   "name": "maxio",
-  "displayName": "maxio SDK",
+  "displayName": "Maxio",
   "version": "0.2.0",
-  "description": "Integrate and consume the APIMatic-generated Maxio Advanced Billing SDK \u2014 bundled skills for C#/.NET, Python.",
+  "description": "Integrate and consume the APIMatic-generated Maxio SDK — bundled skills for C#/.NET, Python.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
@@ -10,18 +10,8 @@
   "license": "MIT",
   "homepage": "https://context.apimatic.io/",
   "repository": "https://github.com/context-plugins/plugin-marketplace",
-  "keywords": [
-    "apimatic",
-    "sdk",
-    "api-integration",
-    "maxio",
-    "dotnet",
-    "python"
-  ],
-  "logo": "assets/logo.svg",
   "skills": [
     "./skills/dotnet",
     "./skills/python"
-  ],
-  "agents": "agents-vscode/"
+  ]
 }

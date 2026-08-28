@@ -84,6 +84,11 @@ A query-placed key is percent-encoded exactly as an endpoint's own query paramet
 is sent verbatim, because RFC 6265's `cookie-value` alphabet already admits every character a base64
 key uses and encoding it would corrupt the credential.
 
+> **Applies only when the SDK declares an OAuth2 scheme.** The next five sections — the three grants,
+> the managed token lifecycle, and the token-fetch failure mode — describe machinery that exists only
+> if the map's *Servers & auth* section lists an OAuth2 scheme. Where it lists none, skip ahead to
+> *Combined / multiple schemes*; nothing below can occur in that SDK.
+
 ## OAuth 2.0 — client credentials (machine-to-machine)
 
 ```python
@@ -284,9 +289,11 @@ Two things that help, both already built in:
 - A given SDK only exposes the credentials keywords for the schemes its API uses; those names are
   generated per-API (hence the `{...}` placeholders above).
 - **Omitting a credentials keyword is legal and silent.** The client is then built with a no-auth
-  scheme: requests go out unauthenticated and the API answers `401`. Nothing warns you at
-  construction. If your integration is getting blanket `401`s, verify the keyword is actually set
-  before suspecting the credentials themselves.
+  scheme and requests go out unauthenticated. Nothing warns you at construction. Most APIs then
+  answer `401`; an API that serves anonymous traffic at all (public endpoints, or a reduced rate
+  limit for keyless callers) answers `200` and hides the omission entirely — so verify the keyword is
+  actually set rather than waiting for a `401` to tell you, and if you *are* getting blanket `401`s,
+  check that before suspecting the credentials themselves.
 - Set credentials **at construction**. The scheme is built there; assigning to a private attribute
   afterwards is not supported. To rotate a credential, build a new client and close the old one.
 - Rotation with a long-lived client: the token cache is per client instance, so swapping in a new

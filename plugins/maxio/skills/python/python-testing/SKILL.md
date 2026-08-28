@@ -229,6 +229,13 @@ directly rather than re-parsing bytes. Note it uses **wire aliases**, because th
 serialization produces: if a model's Python name differs from its JSON name, the request body has the
 JSON name. Do not "fix" that in the test.
 
+**A list-valued query or form parameter has a per-parameter wire format.** The `Param` the generator
+emitted for it in `apis/{controller}.py` carries a `SerializationFormat` — `indexed`
+(`name[0]=a&name[1]=b`, URL-encoded as `name%5B0%5D=a`), `unindexed` (`name[]=a&name[]=b`), `plain`
+(`name=a&name=b`), or `csv` / `tsv` / `psv` (`name=a,b`). Read it before asserting on `req.url`;
+`"name=a" in req.url` is the assertion that fails against an indexed parameter. Path and header
+arrays are not configurable — both fold to one comma-separated value.
+
 Worth asserting once, somewhere, because they are silent when wrong:
 
 - **The value actually reached the wire.** Models *preserve* unknown fields rather than rejecting them

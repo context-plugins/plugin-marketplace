@@ -1,6 +1,6 @@
 ---
 name: python-calling-endpoints
-description: Calling operations on an APIMatic-generated Python SDK — finding the group that owns an operation, the positional/keyword-only split and the parameters that never appear in the signature at all, passing a body as a model or a dict, the two response modes, per-call request options, async usage, and paging. Load before writing the first call to an SDK operation, or when an operation's shape or return type is unclear.
+description: Calling operations on an APIMatic-generated Python SDK — finding the group that owns an operation, the positional/keyword-only split and the parameters that never appear in the signature at all, passing a body as a model or a dict, the two response modes, per-call request options, and async usage. Load before writing the first call to an SDK operation, or when an operation's shape or return type is unclear.
 ---
 
 # Calling endpoints on an APIMatic Python SDK
@@ -62,8 +62,7 @@ not the full resource. Typical shapes:
 
 - a representation/verbosity switch defaulting to the minimal form, so a create returns little more
   than an id, a status and some links;
-- a field-selector defaulting to one section, so whole branches of the response are simply absent;
-- a `page_size` defaulting to something small, so a "missing" record is really on page 2.
+- a field-selector defaulting to one section, so whole branches of the response are simply absent.
 
 Read the sheet's default column **before** concluding the API dropped data. It was never requested.
 
@@ -216,34 +215,6 @@ There is no cancellation-token parameter. Python's own mechanisms apply:
   including your own surrounding work. Cancellation raises `CancelledError`/`TimeoutError` through the
   await, which an `except ApiError` clause will **not** catch.
 - **Sync code has no external cancellation.** The timeout *is* the mechanism, so set one.
-
-## Paging
-
-**The generator emits no pagination support of any kind** — no iterator, no auto-paging, no cursor
-object. Where an API paginates, the list operation simply exposes its own paging parameters (typically
-a page/offset and a size, often already defaulted) and **you drive the loop**:
-
-```python
-PAGE_SIZE = 100                                  # set it deliberately; the default is usually small
-
-page = 1
-while True:
-    result = client.{group}.{operation}(page=page, page_size=PAGE_SIZE)
-    items = result.{items} or []                 # UNSET is falsy, so `or []` is safe
-    if not items:
-        break
-    yield from items
-    if len(items) < PAGE_SIZE:                   # a short page is the last page
-        break
-    page += 1
-```
-
-Do not assume a `for page in client...` iterator exists — check the return type.
-
-**Do not build a `range(total_pages)` loop without checking that a total exists.** Whether a collection
-carries `total_items`/`total_pages` varies per operation, and where it does it is often gated behind an
-opt-in parameter that defaults to off — so the field reads back `UNSET` unless you asked for it. The
-loop-until-short-page shape above needs no total and works either way.
 
 ## Next
 

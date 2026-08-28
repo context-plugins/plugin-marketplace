@@ -65,14 +65,22 @@ optional *and* nullable. There, `None` *is* meaningful — it sends `null`, whic
 is how you erase a value rather than leave it unchanged. Read the annotation before deciding what
 `None` means.
 
-`UNSET` is falsy and identity-stable, so both of these work on a response:
+`UNSET` is falsy and identity-stable, so all three of these work on a response at runtime — but only
+one of them narrows for the type checker:
 
 ```python
-if response.{optional_field}:                      # falsy when UNSET (and when empty!)
-if response.{optional_field} is not UNSET:         # precise: was it set at all?
+from {root_package}.core import UNSET, UnsetType
+
+if response.{optional_field}:                                        # falsy when UNSET (and when empty!)
+if response.{optional_field} is not UNSET:                           # precise: was it set at all? — does NOT narrow
+if not isinstance(value := response.{optional_field}, UnsetType):    # precise AND narrows: value is T here
+    use(value)
 ```
 
-Prefer the `is not UNSET` form when "set but empty" and "not set" are different facts.
+`UNSET` is an *instance*, not a `Literal`, so after `is not UNSET` mypy/pyright still see
+`T | UnsetType`, and every attribute access that follows is a `union-attr` error under `--strict`. Use
+the `isinstance` form whenever you go on to *use* the value; reserve `is UNSET` for a yes/no test.
+Prefer either precise form over truthiness when "set but empty" and "not set" are different facts.
 
 ## Dict companions
 
@@ -236,7 +244,8 @@ worth knowing:
   place the wrapper differs from the underlying dump.
 - **`exclude_unset=True` is a trap on a locally built model.** It drops defaulted discriminator
   fields, after which the result no longer validates back against a discriminated union. Use
-  `exclude_none=True` if your goal is just to suppress nulls.
+  `exclude_none=True` if your goal is just to suppress nulls. (On a *decoded response* it is the
+  right tool — see the read-path note under the `Optional[Any]` trap below.)
 
 ## The `Optional[Any]` trap — a real serialization failure
 
@@ -278,6 +287,26 @@ that touches such an operation:
 The dict spelling is no escape — it validates into the same model, sentinel included. If a future SDK
 version widens these annotations, drop the explicit `None`.
 
+**The trap fires on the read path too.** A *response* model whose `Any`-typed member the server
+omitted decodes fine — and then fails `to_dict()` / `to_json()` with the same error, because that
+member is sitting at `UNSET`. For a decoded response, `to_dict(exclude_unset=True)` is the escape: it
+drops the sentinel before serialization, and the discriminator concern above does not apply to a
+model the SDK decoded from the wire.
+
+## Handing SDK values out
+
+`UNSET` is not `None`, and nothing outside the SDK knows what it is. `json.dumps`, a web framework's
+response encoder, an ORM column, a cache or message-queue serializer will each raise on it —
+typically `Unable to serialize unknown type: UnsetType` or a `TypeError` — and in a request handler
+that surfaces as a 500 the first time an optional member happens to be absent. Before an SDK value
+crosses your boundary, do one of two things:
+
+- map it into your **own** type, resolving `UNSET` to `None` or to an absent key as you go (the
+  `isinstance` / `is not UNSET` checks above are the tool);
+- or serialize the **whole model** with `to_dict()` / `to_json()`, which know the sentinel.
+
+Never pass a raw member straight through to something that will encode it.
+
 ## Unknown fields are preserved
 
 Unlike SDKs that drop unmodelled JSON, `extra="allow"` keeps them — at every nesting level, readable
@@ -301,8 +330,8 @@ contract sheet rather than assuming:
 
 | Spec type | Python type |
 |---|---|
-| `string` (plain, password, regex, ip, hostname, json-pointer, time) | `str` |
-| `string` / `email`, `string` / `uri` | pydantic `EmailStr`, `AnyUrl` |
+| `string` (plain, password, regex, ip, hostname, json-pointer, time, uri) | `str` |
+| `string` / `email` | pydantic `EmailStr` |
 | `string` / `uuid` | `uuid.UUID` |
 | integer widths (`integer`, `long`) | `int` |
 | fractional numbers (`number`, `decimal`) | **`float`** |
@@ -314,7 +343,11 @@ contract sheet rather than assuming:
 Two consequences:
 
 - **Date/time fields use the SDK's converter types**, so the wire format is handled for you. Assign a
-  `datetime`/`date` and read one back; do not format strings by hand.
+  `datetime`/`date` and read one back; do not format strings by hand. Every one of those names is an
+  `Annotated` alias over the stdlib type, declared in `{root_package}/core/converters/date_time.py`:
+  `Date` → `datetime.date`; `RFC3339DateTime`, `RFC1123DateTime` and `UnixSecondsDateTime` →
+  `datetime.datetime`. The alias only governs the wire format. They are runtime types, so the map's
+  **Type sources** tables do not list them — this is where they live; do not go searching.
 - **There is no `Decimal` arm.** A fractional number becomes `float`, so a spec that models money as a
   number gives you binary floating point. Most payment APIs instead model money as a **`str`** scaled
   to the currency (`"10.00"`) — where yours does, build it with `Decimal` and format explicitly, never

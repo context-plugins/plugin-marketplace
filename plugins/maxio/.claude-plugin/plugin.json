@@ -1,7 +1,7 @@
 {
   "name": "maxio",
   "displayName": "Maxio",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Integrate and consume the APIMatic-generated Maxio SDK — bundled skills for C#/.NET, Python.",
   "author": {
     "name": "APIMatic",

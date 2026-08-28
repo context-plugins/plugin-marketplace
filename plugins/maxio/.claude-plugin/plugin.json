@@ -1,36 +1,17 @@
 {
   "name": "maxio",
   "displayName": "maxio SDK",
-  "version": "0.1.1",
-  "description": "Manage recurring billing, subscription lifecycles, and financial operations with Maxio.",
+  "version": "0.2.0",
+  "description": "Integrate and consume the APIMatic-generated Maxio Advanced Billing SDK — bundled skills for C#/.NET, Python.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
   },
   "license": "MIT",
-  "homepage": "https://www.apimatic.io",
+  "homepage": "https://context.apimatic.io/",
   "repository": "https://github.com/context-plugins/plugin-marketplace",
-  "keywords": [
-    "apimatic",
-    "sdk",
-    "api-integration",
-    "maxio",
-    "dotnet",
-    "typescript",
-    "java",
-    "php",
-    "python",
-    "ruby"
-  ],
   "skills": [
     "./skills/dotnet",
-    "./skills/typescript",
-    "./skills/java",
-    "./skills/php",
-    "./skills/python",
-    "./skills/ruby"
-  ],
-  "agents": [
-    "./agents/dotnet-maxio-sdk.md"
+    "./skills/python"
   ]
 }

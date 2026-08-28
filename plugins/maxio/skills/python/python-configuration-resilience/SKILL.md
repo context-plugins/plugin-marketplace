@@ -1,186 +1,277 @@
 ---
 name: python-configuration-resilience
-description: Tune an APIMatic-generated Python SDK client — retry defaults (max_retries=0 off by default; only GET/PUT retried when enabled; configurable retry_statuses and retry_methods), timeout in seconds, custom requests.Session via http_client_instance, Environment enum and get_base_uri for base URL, paginated operations via PagedIterable or manual page params, and request/response logging via HttpCallBack. Use whenever adjusting retries, timeout, the HTTP session, base URL, paging, or logging on any APIMatic Python SDK — load it even after reading the Configuration kwargs in the source, since the kwarg names alone don't tell you that retries are off by default, which methods are retried, how to redirect requests to a mock host, or that HttpCallBack is the logging seam.
+description: Client configuration and resilience for an APIMatic-generated Python SDK — server and base-URL selection, the fact that the SDK performs NO retries and what that leaves you to build, what a timeout actually bounds, proxies and TLS, and request/response logging through the transport seam. Load before you configure or tune the client — the keyword names alone do not reveal what is handled for you and what is not.
 ---
 
 # Configuration & resilience for an APIMatic Python SDK
 
-> `AdvancedBillingClient` is the SDK's client class — **read the real name** from `maxio/maxio_client.py`
-> (it is derived from the package name, not the API title, so do not guess it from the API name).
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{Api}Client`,
+> `{group}`, `{root_package}`) — replace it with the concrete identifier from the source.
 
-All settings are passed as keyword arguments to `Configuration.__init__` (or to `AdvancedBillingClient`
-directly, which wraps them in a `Configuration` internally). Confirm defaults from
-`maxio/configuration.py` in the cloned source.
+Configuration is not an options object here. Everything is either a **constructor keyword** on the
+client (`python-client-initialization`), a field on a **server config model**, or a **per-call
+`request_options`**. There is no third place to look.
 
-> Throughout, `{...}` tokens are placeholders — replace with concrete names from your SDK.
+## What this SDK does not do for you
 
-## Retry configuration — off by default
+Read this before designing around a capability you assume exists. The generator emits **none** of the
+following, so each is yours to build or deliberately do without:
 
-Retries are **disabled out of the box** (`max_retries` defaults to `0`). Raise it to enable
-retries; leave it at `0` in tests so a stubbed 5xx fails immediately.
+| Capability | Status | What to do instead |
+|---|---|---|
+| **Retries / backoff** | none — ruled out by design | Wrap your own call; see below |
+| **Pagination helpers** | none — no iterator, no auto-paging, no cursor | Drive the loop yourself (`python-calling-endpoints`) |
+| **Streaming / SSE** | none — responses are fully buffered `bytes` | Not available through this SDK |
+| **Request/response logging** | none — no hook, no event | Wrap the transport; see below |
+| **Circuit breaking, rate limiting** | none | Your own, around the call |
+| **A mock/offline mode** | none | Point `base_url` at a mock server, or supply a fake transport (`python-testing`) |
 
-| Kwarg | Default | Notes |
-| --- | --- | --- |
-| `max_retries` | `0` | **0 disables retries** — set > 0 to enable |
-| `backoff_factor` | `2` | exponential backoff multiplier between attempts |
-| `retry_statuses` | `[408, 413, 429, 500, 502, 503, 504, 521, 522, 524]` | statuses that trigger a retry |
-| `retry_methods` | `["GET", "PUT"]` | **only idempotent methods**; POST/DELETE are not retried unless added |
+What the SDK *does* own: the request pipeline, auth application and token caching, response decoding,
+error mapping, connection pooling, and one timeout.
+
+## Server and base-URL configuration
+
+Server selection is **not** an environment enum. What the constructor accepts depends on what the
+description declares, in one of four shapes — take yours from the contract sheet, grounded in the SDK
+map's *Servers & auth* section, which names the environments and servers this SDK declares and so
+settles which arm it is:
+
+| The API declares | Constructor keywords |
+|---|---|
+| one server, one environment | `base_url: str \| None = None` |
+| one server, several environments | `environment` (a string literal alias with a default), then `base_url` |
+| several servers, one environment | `server_config: {Server}ConfigOrDict \| None = None` |
+| several servers, several environments | `environment`, then `timeout`, then `server_config` |
 
 ```python
-from maxio.configuration import Configuration, Environment
+client = {Api}Client(base_url="https://api.example.com", {scheme}=...)   # base-url arms
+client = {Api}Client(server_config={"{server}": {"base_url": "..."}}, {scheme}=...)   # config arms
+```
 
-config = Configuration(
-    environment=Environment.PRODUCTION,
-    max_retries=3,
-    backoff_factor=2,
-    retry_statuses=[429, 500, 502, 503, 504],
-    retry_methods=['GET', 'PUT'],
+Where a `server_config` is taken it is a pydantic model with a dict companion, coerced through
+`.coerce()`, holding **one field per server the API declares**; each of those carries that server's
+`base_url` and any template variables.
+
+**Omitting the server keyword takes the description's own default, and that default is whatever the
+spec listed first — for many providers a sandbox.** Nothing announces it. A deployment that believes it
+configured production and did not gets sandbox behaviour with production credentials, which fails auth
+in a way that looks like a credentials problem, not an environment one. Pass the server explicitly in
+every environment, production included.
+
+**Server template variables are only reachable in the `server_config` arms.** They are fields on the
+config class, so where the constructor takes a `server_config` you set them there. Where it takes a
+`base_url`, the client builds the config itself — there is no path to a variable, and your only lever
+is replacing the whole URL with `base_url`. Variables always carry a declared default (a constant or an
+enum member), so a call still works untouched; it just goes wherever the default points.
+
+Resolve the environment from configuration with an explicit map and **fail on an unknown value** rather
+than falling through to a default:
+
+```python
+BASE_URLS = {"sandbox": "https://sandbox.example.com", "live": "https://api.example.com"}
+base_url = BASE_URLS[settings.environment]     # KeyError beats a silently wrong environment
+```
+
+Where the SDK manages OAuth, **the token endpoint is derived from the same server**, so environment and
+auth can never drift apart. Pointing `base_url` at a mock server or recording proxy therefore redirects
+the token fetch too.
+
+## Retries — there are none
+
+**This is the headline fact, and it is the opposite of what most SDK generators do.** There is no retry
+policy, no backoff, no pipeline to configure. An architectural decision record rules retries out of the
+request path deliberately. Concretely:
+
+- A `429` or `503` raises on the first attempt. Nothing is resent.
+- A connection reset raises. Nothing is resent.
+- Even the one place that looks automatic — a `401` — is not a retry. The cached credential is
+  invalidated so the *next* call re-authenticates; the failing request is not resent. You see one
+  `401`, then recovery.
+
+Two implications, and the second is easy to give away by accident:
+
+1. **Whatever retrying your integration needs, you write**, outside the SDK call. There is no knob.
+2. **You inherit no accidental duplicate writes.** A failed write was attempted exactly once at the SDK
+   layer. That is a genuinely valuable property — do not discard it carelessly when you add retries.
+
+### Adding retries yourself
+
+Use `tenacity`, `backoff`, or a plain loop; wrap **your** call, and decide per operation:
+
+```python
+import httpx
+from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential_jitter
+from {root_package}.core import ApiError
+
+def _is_transient(e: BaseException) -> bool:
+    if isinstance(e, httpx.TimeoutException | httpx.ConnectError):
+        return True
+    return isinstance(e, ApiError) and e.status_code in {429, 500, 502, 503, 504}
+
+@retry(
+    retry=retry_if_exception(_is_transient),
+    stop=stop_after_attempt(3),
+    wait=wait_exponential_jitter(initial=1, max=10),
+    reraise=True,
+)
+def fetch(resource_id: str):
+    return client.{group}.{operation}(resource_id)      # a read: safe to retry
+```
+
+Rules to hold to:
+
+- **Retry idempotent reads freely; treat every write as a separate decision.** A write that timed out
+  may have succeeded — a reset after the bytes reached the server is indistinguishable from one before.
+- **Never retry a `ValidationError`, or a 4xx other than `429`.** They cannot succeed on a second try.
+  A decode failure in particular is not transient (`python-error-handling`).
+- **Respect `Retry-After`** when present: `e.response.headers.get("retry-after")` — header keys are
+  lowercased, so look it up that way.
+- **Cap the worst case.** `attempts × timeout + backoff` must sit below whatever deadline your own
+  caller works to, or you are burning provider capacity for a response nobody is waiting for.
+
+### Making a write safe when you retry
+
+Some write operations declare an **idempotency-key parameter** — a header the provider uses to collapse
+a duplicate submission. Whether a given operation has one is per-operation and visible only in its
+signature, so **check before you assume**; in practice a description declares them on some writes and
+not others.
+
+Where one exists, generate the key **once per logical action** and reuse it across every attempt:
+
+```python
+request_id = str(uuid.uuid4())                       # once per logical action, not per attempt
+client.{group}.{operation}(body, {idempotency_key}=request_id)
+```
+
+Two things the signature will not tell you, both of which need the provider's own documentation:
+
+- **Whether the provider actually enforces it.** The parameter existing is not a guarantee that a
+  resend is deduplicated.
+- **The retention window.** Keys expire, and windows differ per API — so a resend after a long backoff
+  may no longer be collapsed.
+
+**Where an operation has no idempotency parameter, retrying it is a real duplication risk.** The safe
+recovery is to re-read state and decide, not to resend. Some such operations are naturally idempotent
+(cancelling an already-cancelled resource is usually harmless), but that is a per-operation judgement —
+make it deliberately rather than retrying the whole class.
+
+## Bounding a call — what the timeout actually bounds
+
+One knob, in two places:
+
+```python
+client = {Api}Client(timeout=10.0, {scheme}=...)                    # every request
+client.{group}.{operation}(arg, request_options={"timeout": 3.0})   # this one request
+```
+
+- The value is **seconds, as a float**; the per-call option overrides the client's.
+- It must be **> 0**. The constructor raises `ValueError` otherwise — and rejects NaN too, since the
+  guard is written `not timeout > 0`.
+- The default is **30 seconds**, which is far too long for anything on a user-facing request path. Set
+  it deliberately.
+- Under the default transport, one float sets connect, read, write and pool timeouts alike. To separate
+  them (a short connect, a longer read), build your own transport with an
+  `httpx.Timeout(connect=..., read=...)` and pass it as `custom_http_client`.
+
+**Because there are no retries, the timeout genuinely bounds the call.** Worst case is one timeout, not
+attempts × timeout. That simplification is what the no-retry design buys you — and the moment you add
+retries, the arithmetic above becomes yours.
+
+**If you supply `custom_http_client`, the client's `timeout=` no longer reaches the wire.** That value
+only builds the SDK's *own* default transport. Set the timeout on the transport you pass, and honour
+`request.timeout` inside it (`python-client-initialization`).
+
+For async callers, a deadline over a whole operation — the SDK call plus your own surrounding work — is
+`asyncio.timeout(...)`. It raises `TimeoutError` through the await, which no `except ApiError` clause
+will catch.
+
+## Proxies and TLS
+
+The default transport takes these directly, and you pass it in yourself to set them:
+
+```python
+from {root_package}.core import HttpxClient
+
+transport = HttpxClient(timeout=10.0, proxy_url="http://proxy:3128", verify=True)
+client = {Api}Client(custom_http_client=transport, {scheme}=...)
+```
+
+- `verify` accepts a bool **or an `ssl.SSLContext`**. A private CA bundle or a client certificate is
+  configured by building a context (`ssl.create_default_context(cafile=...)`) — that is the supported
+  spelling for either.
+- **Standard environment variables are honoured by default**: `HTTP_PROXY` / `HTTPS_PROXY` /
+  `ALL_PROXY` / `NO_PROXY` (consulted only when `proxy_url` is unset), and `SSL_CERT_FILE` /
+  `SSL_CERT_DIR` for the trust store. This is request behaviour your deployment can change without
+  touching code — worth knowing when a container behaves differently from a laptop. A caller who needs
+  it off supplies their own transport.
+- **`verify=False` disables certificate verification.** It is not a debugging convenience for anything
+  carrying credentials; fix the trust store instead.
+
+## Logging — wrap the transport
+
+There is no logging hook and no event to subscribe to. The transport protocol is the seam: implement
+it, delegate to the real one, and log around the call.
+
+```python
+import logging, time
+from {root_package}.core import HttpxClient
+
+log = logging.getLogger(__name__)
+
+class LoggingTransport:
+    def __init__(self, inner): self._inner = inner
+
+    def send(self, request):
+        started = time.monotonic()
+        response = self._inner.send(request)
+        log.info(
+            "%s %s -> %s (%.0f ms)",
+            request.method, request.url, response.status_code,
+            (time.monotonic() - started) * 1000,
+        )
+        return response
+
+    def close(self): self._inner.close()
+
+client = {Api}Client(
+    custom_http_client=LoggingTransport(HttpxClient(timeout=10.0)), {scheme}=...
 )
 ```
 
-Add `POST` or `DELETE` to `retry_methods` only when the operation is genuinely idempotent.
+The async version is the same shape with `async def send` and `async def aclose`.
 
-The retry mechanism is implemented inside `apimatic-requests-client-adapter` (using `urllib3.Retry`
-under the hood). The `backoff_factor` maps to urllib3's backoff: wait time between attempt `n`
-and `n+1` is `backoff_factor * (2 ** (n - 1))` seconds.
+**Log the method, URL and status — not headers or bodies.** The auth header carries a live credential
+and bodies carry whatever the API moves; neither belongs in your logs or your traces. If you must
+capture a body to debug, gate it behind a flag that is off by default and redact before writing.
 
-## Timeout
+This same wrapper is where OpenTelemetry spans, metrics and request-id propagation belong.
 
-`timeout` is a per-attempt timeout in **seconds** (not milliseconds, not a total across retries):
+### Verify on the wire (first run of any new call)
 
-```python
-config = Configuration(timeout=30)   # 30 s per attempt
-```
+On success the SDK returns the decoded body and nothing else — never the URL or status. So a wrong path
+parameter, a header you thought you set, or a query parameter that silently did not serialize produces
+**no in-band signal**; the only symptom is a `404`/`422` that looks like a provider problem.
 
-With `max_retries=3` and `timeout=30`, the worst-case wall time is `3 × 30 s = 90 s` plus backoff
-delay. To cap the entire operation, wrap the call in a thread with `threading.Timer`.
+Run the logging transport the first time you execute any new call, and check:
 
-## Custom HTTP session
+1. the **method** matches the operation;
+2. the **path** has no unsubstituted `{placeholder}`;
+3. path segments carry **wire values** — an enum's string, not a Python member name;
+4. the **query parameters** you set actually appear.
 
-Pass a `requests.Session` to `http_client_instance` when you need custom TLS settings, a shared
-connection pool, proxy routing, or transport-level hooks. Set
-`override_http_client_configuration=True` to allow the SDK to apply its own `timeout`,
-`max_retries`, and `backoff_factor` settings to your session:
+Then gate the wrapper behind a debug flag.
 
-```python
-import requests
-from maxio.configuration import Configuration
+## Connection pooling
 
-session = requests.Session()
-session.verify = '/path/to/ca-bundle.pem'   # custom TLS CA
+The client holds one pooled transport. Reuse the client and close it on shutdown; a client per call
+pays a fresh TCP and TLS handshake every time, and under managed auth a fresh token fetch as well.
+Under forking servers (Gunicorn, uWSGI, Celery prefork), construct it **after** the fork — a pool
+inherited across `fork()` is shared by processes that each believe they own it, which surfaces as
+intermittent, unexplainable connection errors. See `python-client-initialization`.
 
-config = Configuration(
-    http_client_instance=session,
-    override_http_client_configuration=True,
-    timeout=30,
-    max_retries=3,
-)
-```
+## Next
 
-When `override_http_client_configuration=False` (the default), the SDK uses your session as-is
-without applying its retry/timeout settings.
-
-## Base URL and environment selection
-
-The base URL is derived from the `environment` kwarg (an `Environment` enum member in
-`maxio/configuration.py`) and any API-specific server parameters (e.g. `port`, `suites`):
-
-```python
-from maxio.configuration import Configuration, Environment
-
-config = Configuration(
-    environment=Environment.PRODUCTION,
-    port='443',     # server parameter — per-API, check the source
-)
-```
-
-To see the URL each environment resolves to, read the `environments` dict in
-`maxio/configuration.py` and call `config.get_base_uri()` (or
-`config.get_base_uri(Server.AUTH)` for alternate server groups). There is no free-form base-URL
-string override — to redirect requests to a mock host, inject a custom `requests.Session` whose
-transport intercepts and rewrites the host (see **python-testing**).
-
-`Configuration.from_environment()` reads `ENVIRONMENT`, `PORT`, `TIMEOUT`, `MAX_RETRIES`, etc.
-from environment variables or a `.env` file — grep `from_environment` in `maxio/configuration.py`
-for the exact variable names.
-
-## Pagination
-
-When the API marks an operation as paginated the generated controller returns a `PagedIterable`.
-Iterate over items directly, or iterate over pages:
-
-```python
-# Iterate items (SDK handles page fetching internally):
-for item in client.{resource}.{paged_operation}(offset=0, limit=10):
-    print(item.id)
-
-# Iterate pages (e.g. OffsetPagedResponse):
-for page in client.{resource}.{paged_operation}(offset=0, limit=10).pages():
-    print(page.offset)
-    for item in page.items():
-        print(item.id)
-```
-
-Page types (`OffsetPagedResponse`, `CursorPagedResponse`, `LinkPagedResponse`,
-`NumberPagedResponse`) live in `maxio/pagination/` — inspect that directory for the exact type
-your operation returns and its cursor/offset/link attributes.
-
-For operations that are **not** paginated by the SDK (i.e., return a plain list), drive pagination
-manually by advancing the page or cursor parameter until the response signals the end:
-
-```python
-page = 1
-while True:
-    items = client.{resource}.list_{items}(page=page, limit=100)
-    if not items:
-        break
-    for item in items:
-        process(item)
-    page += 1
-```
-
-## Logging — HttpCallBack
-
-There is no built-in logging hook separate from `HttpCallBack`. To log or inspect every request
-and response, subclass `HttpCallBack` (from `maxio/http/http_call_back.py`) and pass an instance
-as `http_call_back=`:
-
-```python
-import logging
-from maxio.http.http_call_back import HttpCallBack
-from maxio.configuration import Configuration
-from maxio.maxio_client import AdvancedBillingClient
-
-logger = logging.getLogger(__name__)
-
-class LoggingCallBack(HttpCallBack):
-    def on_before_request(self, request):
-        logger.debug('--> %s %s', request.http_method, request.query_url)
-
-    def on_after_response(self, response):
-        logger.debug('<-- %d', response.status_code)
-
-config = Configuration(
-    http_call_back=LoggingCallBack(),
-    # other kwargs ...
-)
-client = AdvancedBillingClient(config=config)
-```
-
-`HttpCallBack` inherits from `apimatic_core`'s `CoreHttpCallback` and provides two hook methods:
-`on_before_request(request: HttpRequest)` and `on_after_response(response: HttpResponse)`. The
-generated `HttpResponseCatcher` in `tests/http_response_catcher.py` is the canonical example.
-
-`HttpRequest` attributes include `http_method`, `query_url`, `headers`, and `parameters`.
-`HttpResponse` attributes include `status_code`, `reason_phrase`, `headers`, and `text`.
-
-### Verify on the wire (first run of any new integration)
-
-Run `LoggingCallBack` on the first execution of any new call and inspect the output:
-
-1. The **verb** matches the operation's HTTP method.
-2. The **URL** has no literal `{placeholder}` left unsubstituted.
-3. Each **path segment** holds the value the API expects (e.g. correct enum wire value).
-4. The **query params** you set appear in the query string.
-
-Remove or gate the callback behind a log-level check once verified.
+- Where the client should live → **python-client-initialization**
+- Which exceptions reach your boundary → **python-error-handling**
+- Driving pagination yourself → **python-calling-endpoints**
+- Faking the transport in tests → **python-testing**

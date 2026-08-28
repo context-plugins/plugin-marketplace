@@ -1,191 +1,253 @@
 ---
 name: python-calling-endpoints
-description: Call API operations on an APIMatic-generated Python SDK — access the controller via a @LazyProperty on the client (not a constructor), all parameters are keyword args, optional params default to APIHelper.SKIP (not None), request models are plain classes built with positional or keyword args, the return is a typed model or primitive (not a wrapper), paginated operations return PagedIterable, and status/headers are captured via HttpCallBack. Use whenever invoking an endpoint, building a request, working out which params are required vs optional, or consuming a response from any APIMatic Python SDK — load it even after reading the signature in the source, since it doesn't warn you about the SKIP sentinel, the property-not-constructor controller access, or the PagedIterable return.
+description: Calling operations on an APIMatic-generated Python SDK — finding the group that owns an operation, the positional/keyword-only split and the parameters that never appear in the signature at all, passing a body as a model or a dict, the two response modes, per-call request options, async usage, and paging. Load before writing the first call to an SDK operation, or when an operation's shape or return type is unclear.
 ---
 
 # Calling endpoints on an APIMatic Python SDK
 
-> `AdvancedBillingClient` is the SDK's client class — **read the real name** from `maxio/maxio_client.py`
-> (it is derived from the package name, not the API title, so do not guess it from the API name).
+Operations are methods on **group accessors** of the client, named in `snake_case`:
+`client.{group}.{operation}(...)`. An operation that belongs to no group sits **directly on the
+client**, called `client.{operation}(...)`. The accessor, the exact operation name and its signature
+come from the contract sheet, grounded in the SDK map's per-controller page
+(`map/operations/{group}.md`), whose block for each operation is headed by its full accessor path and
+carries the signature verbatim — operation names follow no fixed verb/resource pattern, so take the
+real name from the sheet, never from memory.
 
-Operations are **synchronous methods** on a **controller** you get from the client as a
-`@LazyProperty`. Access the controller as a property, then call the operation:
-
-```python
-result = client.{resource}.{operation}(...)
-```
-
-Open `maxio/maxio_client.py` for the controller property names, then the relevant
-`maxio/controllers/{resource}_controller.py` for the operation's exact signature.
-
-> Throughout, `{...}` tokens are placeholders for names you take from your SDK — replace them with
-> the concrete identifiers from the source. The generated `doc/controllers/*.md` files list every
-> operation with its signature and a usage snippet.
-
-## Controller access — property, not constructor
-
-Controllers are `@LazyProperty` properties on `AdvancedBillingClient`. Access them as attributes:
-
-```python
-# Correct — the controller is a property:
-result = client.authentication.custom_authentication()
-result = client.transaction.fetch_with_offset(offset=0, limit=10)
-
-# Wrong — don't instantiate controllers yourself:
-# ctrl = AuthenticationController(...)
-```
-
-Each controller is initialized lazily on first access and cached for the client's lifetime.
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{group}`,
+> `{operation}`, `{Model}`) — replace it with the concrete identifier from the source.
 
 ## Method signature convention
+
+Every endpoint lays its parameters out in the same fixed shape:
 
 ```python
 def {operation}(
     self,
-    required_param,                    # required — no default
-    optional_param=APIHelper.SKIP,     # optional — use SKIP sentinel, not None
-) -> {ReturnType}:
+    {required params},                  # path, then query, then header, then body — in that order
+    *,
+    {optional params} = {default},      # same source order
+    request_options = None,             # always the last slot
+) -> {ReturnType}: ...
 ```
 
-- **`APIHelper.SKIP`** is the sentinel for optional fields and parameters that are absent. When you
-  omit a kwarg that defaults to `SKIP`, it is excluded from the serialized request entirely. Passing
-  `None` explicitly may serialize as JSON `null` instead of omitting the field — use `SKIP` or
-  omit the kwarg.
-- **Return type is the typed model or primitive directly** — not a wrapper object. `{ReturnType}` is
-  whatever type the operation returns (a model class, `str`, `int`, `list`, etc.).
-- On a non-2xx response the method **raises `APIException`** (or a typed subclass) — see
-  **python-error-handling**.
+Everything after `*` is keyword-only and **every one of them has a real default**, so there is no
+parameter you must pass `None` to just to reach a later one. Omit what you do not need; spelling out
+`some_header=None, some_filter=None` is noise that hides the parameters you meant to set.
 
-## Passing parameters
+### Where a parameter lands — the rule
 
-All parameters are passed by keyword. Required parameters have no default; optional parameters
-default to `APIHelper.SKIP`:
+Each parameter the description declares produces **one of three** outcomes, and the third one catches
+people out:
+
+| What the description declares | What you get |
+|---|---|
+| **required**, no fixed value | a **positional** parameter, no default |
+| **optional** | a **keyword-only** parameter defaulting to `None` |
+| a **default value** | a **keyword-only** parameter defaulting to *that value* — even if the parameter is required |
+| a **constant** value | **no parameter at all** — the value is baked into the request and you cannot change it |
+
+Two consequences worth stating on the contract sheet:
+
+- **"Required" does not mean "path".** Positional parameters are ordered **path → query → header →
+  body**, so a required *query* or *header* parameter is positional too, sitting between the path
+  parameters and the body. Take the boundary from the sheet; never infer it from the URL.
+- **A parameter with a declared default is keyword-only whatever its optionality**, and the SDK sends
+  that default on every call you don't override.
+
+### Non-`None` defaults silently narrow what comes back
+
+This is the single most common wasted afternoon on a generated SDK. A parameter carrying a
+spec-declared default is *always sent*, so the response you get is the one that default asked for —
+not the full resource. Typical shapes:
+
+- a representation/verbosity switch defaulting to the minimal form, so a create returns little more
+  than an id, a status and some links;
+- a field-selector defaulting to one section, so whole branches of the response are simply absent;
+- a `page_size` defaulting to something small, so a "missing" record is really on page 2.
+
+Read the sheet's default column **before** concluding the API dropped data. It was never requested.
+
+## Passing a body
+
+How the body appears depends on the media type the operation declares. The operation's map block
+settles both: its **Params** bullet labels the body parameter with its media type (`body — JSON
+body`), and its **Type sources** table names the module declaring the request model and its `…Dict`
+companion.
+
+**JSON** — one parameter, typed as a union of the model and its `TypedDict` companion, so both
+spellings type-check:
 
 ```python
-# Required only:
-result = client.{resource}.get_{item}(
-    item_id='abc123'
-)
+from {root_package}.models import {Model}
 
-# Required + optional:
-result = client.{resource}.list_{items}(
-    status='active',           # required
-    page=1,                    # optional — can omit to use the API's default
-    limit=50                   # optional — can omit
-)
+client.{group}.{operation}({Model}(field=...))    # model
+client.{group}.{operation}({"field": ...})        # dict — companions nest too
 ```
 
-## Building request models
+Prefer models in application code: better inference, better errors, and required members are enforced
+at construction. The dict form suits payloads assembled from external data. See `python-models`.
 
-Request bodies are plain Python classes built with keyword arguments. Required constructor params
-have no default; optional params default to `APIHelper.SKIP`:
+**Form and multipart** — there is **no single body parameter**. Each field (and each file) becomes its
+own parameter, following the same three-way split rule above. Do not go looking for a `body=`; read the
+signature.
+
+**No payload** — no body parameter at all.
+
+**An optional-looking body is not permission to omit it.** A body typed `... | None = None` reflects
+what the *description* marked optional, not what the endpoint needs. A create whose body is optional in
+the spec will type-check with no arguments and then fail at the provider. Where a call obviously needs
+a payload, pass one.
+
+Serialization happens while the request is built, **before** anything is sent — so a body the SDK
+cannot dump raises out of the call with no request made. See `python-models`.
+
+## Making the call and reading the response
+
+Operations come in two forms, and choosing between them is a real design decision.
+
+**Parsed (the default).** Returns the decoded payload directly — no envelope to unwrap. On a non-2xx it
+raises `ApiError`:
 
 ```python
-from maxio.models.{request_model} import {RequestModel}
-
-body = {RequestModel}(
-    required_field='value',         # required — must be provided
-    optional_field='value',         # optional — omit or pass SKIP to exclude
-)
-result = client.{resource}.create_{item}(body=body)
+value = client.{group}.{operation}(...)
 ```
 
-Open `maxio/models/{model}.py` to confirm the `_names`, `_optionals`, and constructor args.
-The `_names` dict maps Python attribute names to JSON keys; the `_optionals` list names fields that
-use `APIHelper.SKIP` as their default.
-
-## Enums as parameters
-
-Enum fields take the generated class's integer or string attribute value. APIMatic Python enums are
-plain classes (not Python `Enum` subclasses) with `MEMBER = value` class attributes and a
-`from_value()` class method:
+**Non-raising — `with_raw_response`.** Returns a result you branch on. Use it when you need the
+**status code or response headers** (the parsed form exposes neither on success), or when a non-2xx is
+an expected outcome rather than an exception:
 
 ```python
-from maxio.models.suite_code_enum import SuiteCodeEnum
+from {root_package}.core import Success, Failure
 
-# Known constant:
-client.{resource}.{operation}(suites=SuiteCodeEnum.HEARTS)
-
-# Runtime value — convert with from_value:
-suites = SuiteCodeEnum.from_value(server_value, default=SuiteCodeEnum.HEARTS)
+match client.{group}.with_raw_response.{operation}(...):
+    case Success(payload=value, response=resp):
+        print(resp.status_code, value)
+    case Failure(error=err, response=resp):
+        print(resp.status_code, err)
 ```
 
-See **python-models** for full enum representation.
+Both are frozen dataclasses, so `match` needs no boilerplate and `isinstance` narrowing is equivalent.
+`.unwrap()` collapses either back to the payload — which is literally how the parsed form is built:
+every parsed method is its raw peer plus `.unwrap()`.
 
-## Reading the response
+**`with_raw_response` removes one exception path, not the need for a `try`.** Two failures still raise
+in both modes: a failed token fetch (it unwraps internally), and any decode failure. See
+`python-error-handling`.
 
-Operations return a typed model or primitive directly. The exact type varies per operation — open
-the controller method to see the return type annotation and the deserializer registered in
-`ResponseHandler`:
+### Return types
+
+Three shapes, and the sheet names which one each operation has — the map block states it directly as
+**Returns (parsed)** and **Returns (raw)**:
+
+- **A decoded model** — the JSON case, and the common one.
+- **Text** — a `str` or other scalar, for an operation declaring a text response.
+- **`None`** — the operation declares no response body.
+
+**`-> None` means the call succeeded.** Do not bind it and do not test it — success is "no exception
+raised", exactly as for the others. Two follow-ons: if you need the resulting state, re-read it with a
+separate call; and if you need the status code (`200` vs `204`), the raw peer is `ApiResult[None, ...]`
+and `Success(payload=None, response=resp)` is the only place it appears.
+
+Writing `value = client.{group}.{operation}(...)` on a `-> None` operation type-checks under a loose
+annotation and then fails later with an `AttributeError` on `None`.
+
+## Per-call overrides — `request_options`
+
+Every operation's last parameter is `request_options`, the SDK's single per-call override channel,
+accepted typed or dict-shaped:
 
 ```python
-# Model return:
-user = client.authentication.o_auth_authorization_grant()
-print(user.id, user.email)
-
-# Primitive return:
-text = client.authentication.custom_authentication()  # returns str
+client.{group}.{operation}(..., request_options={"timeout": 5.0})
 ```
 
-Response body fields that were optional and absent in the JSON will not have the attribute set on
-the model (check with `hasattr(model, 'field')`), because optional fields use `APIHelper.SKIP`.
+The keys are exactly `timeout` (seconds, must be > 0) and `extra_headers`. It is validated with
+`extra="forbid"`, so `{"timeuot": 5}` raises `ValidationError` rather than being ignored — and because
+the dict form is a closed `TypedDict`, a type checker catches it at the call site first.
 
-## Accessing HTTP metadata — HttpCallBack
+`extra_headers` wins over both the API's and the endpoint's own headers, which makes it the deliberate
+way to override a header the SDK sets — including blanking an auth header for a call meant to go out
+anonymous. That precedence is a footgun as much as a feature: setting `authorization` here overrides
+the managed token.
 
-The controller method itself returns only the deserialized body. To access the raw HTTP status
-code, headers, or response text, pass an `HttpCallBack` to the client and inspect it after the
-call. The generated `HttpResponseCatcher` (in `tests/http_response_catcher.py`) shows the pattern:
+Two mechanics:
+
+- **Header names are lowercased on the way out**, at every layer including yours, so the merge is
+  genuinely case-insensitive and the request reaching the transport is keyed in lowercase. Look
+  request headers up that way (`python-testing`).
+- **`Cookie` folds instead of replacing.** Every other field takes the later layer and discards the
+  earlier; a cookie you add joins the jar alongside whatever the endpoint or a credential put there
+  (RFC 6265 permits one `Cookie` field). So a cookie-carried credential cannot be blanked with
+  `extra_headers` the way a header-carried one can.
+
+## Async
+
+The async client's operations are identical in name and parameters — you await them. There is no
+`_async` suffix and no separate method list; the client class you hold decides the flavour:
 
 ```python
-from maxio.http.http_call_back import HttpCallBack
+value = await client.{group}.{operation}(...)
 
-class ResponseCapture(HttpCallBack):
-    def on_before_request(self, request):
-        pass
-    def on_after_response(self, response):
-        self.last_response = response
-
-capture = ResponseCapture()
-client = AdvancedBillingClient(http_call_back=capture, ...)
-result = client.authentication.custom_authentication()
-print(capture.last_response.status_code)
-print(capture.last_response.headers)
-print(capture.last_response.text)
+match await client.{group}.with_raw_response.{operation}(...):
+    case Success(payload=value): ...
 ```
 
-`HttpResponse` attributes: `status_code` (`int`), `reason_phrase` (`str`), `headers` (`dict`),
-`text` (`str`), `request` (`HttpRequest`).
+Do not mix the two clients in one call path (`python-client-initialization`).
 
-## Paginated operations
-
-When the API supports pagination, the generated controller returns a `PagedIterable`. Iterate over
-items directly or iterate over pages:
+To run independent calls concurrently — the main reason to choose the async client at all — gather
+them, but bound the concurrency: `gather` over a long list opens as many simultaneous requests as the
+list is long, against a provider that rate-limits.
 
 ```python
-# Iterate over individual items (across all pages):
-for transaction in client.transaction.fetch_with_offset(offset=0, limit=10):
-    print(transaction.id)
+sem = asyncio.Semaphore(10)
 
-# Iterate over pages (each page is a PagedResponse subclass):
-for page in client.transaction.fetch_with_offset(offset=0, limit=10).pages():
-    print(page.offset)       # for OffsetPagedResponse
-    for item in page.items():
-        print(item.id)
+async def one(arg):
+    async with sem:
+        return await client.{group}.{operation}(arg)
+
+results = await asyncio.gather(*(one(a) for a in args))
 ```
 
-Page types (`OffsetPagedResponse`, `CursorPagedResponse`, `LinkPagedResponse`,
-`NumberPagedResponse`) expose a pagination cursor or next-link and an `items()` method that returns
-an iterator over the items on that page. Inspect `maxio/pagination/` in the source.
+## Timeouts and cancellation
 
-## Finding the right method
+There is no cancellation-token parameter. Python's own mechanisms apply:
 
-- Controller property names are on `AdvancedBillingClient` in `maxio/maxio_client.py`.
-- Operation method signatures are in `maxio/controllers/{resource}_controller.py`.
-- `doc/controllers/*.md` lists every operation with parameters and usage snippets — grep it first.
-- Request/response model types are under `maxio/models/`; enum types have `from_value()`.
+- **Per call** — `request_options={"timeout": ...}`, the direct way to bound one request.
+- **Around a block** — `asyncio.timeout(...)` (3.11+) or `asyncio.wait_for`, to bound a whole operation
+  including your own surrounding work. Cancellation raises `CancelledError`/`TimeoutError` through the
+  await, which an `except ApiError` clause will **not** catch.
+- **Sync code has no external cancellation.** The timeout *is* the mechanism, so set one.
+
+## Paging
+
+**The generator emits no pagination support of any kind** — no iterator, no auto-paging, no cursor
+object. Where an API paginates, the list operation simply exposes its own paging parameters (typically
+a page/offset and a size, often already defaulted) and **you drive the loop**:
+
+```python
+PAGE_SIZE = 100                                  # set it deliberately; the default is usually small
+
+page = 1
+while True:
+    result = client.{group}.{operation}(page=page, page_size=PAGE_SIZE)
+    items = result.{items} or []                 # UNSET is falsy, so `or []` is safe
+    if not items:
+        break
+    yield from items
+    if len(items) < PAGE_SIZE:                   # a short page is the last page
+        break
+    page += 1
+```
+
+Do not assume a `for page in client...` iterator exists — check the return type.
+
+**Do not build a `range(total_pages)` loop without checking that a total exists.** Whether a collection
+carries `total_items`/`total_pages` varies per operation, and where it does it is often gated behind an
+opt-in parameter that defaults to off — so the field reads back `UNSET` unless you asked for it. The
+loop-until-short-page shape above needs no total and works either way.
 
 ## Next
 
-- Build complex models, enums, unions → **python-models**
-- Errors and status codes → **python-error-handling**
-- Pagination, retries, timeouts → **python-configuration-resilience**
+- Models, enums, `UNSET` → **python-models**
+- Exceptions and error unions → **python-error-handling**
+- Timeouts, base URLs, proxies, and **verifying a new call on the wire** →
+  **python-configuration-resilience**

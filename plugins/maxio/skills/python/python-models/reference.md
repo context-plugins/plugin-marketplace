@@ -1,214 +1,148 @@
-# Models reference (APIMatic Python)
+# Model mechanics — reference (APIMatic Python)
 
-Condensed reference for the model shapes in **python-models**. Confirm exact names in
-`maxio/models/` and `maxio/api_helper.py`.
+Supporting detail for `python-models`. Take type and member names from the contract sheet. `{...}` is a placeholder for a name from your SDK.
 
-## Constructor args + optional sentinel
-
-Required constructor args have no default; optional args default to `APIHelper.SKIP`. A field
-whose value is `SKIP` is **not set** on the instance at all — `hasattr` is the only safe check.
+## `UNSET` semantics
 
 ```python
-from maxio.models.o_auth_token import OAuthToken
-from maxio.api_helper import APIHelper
+from {root_package}.core import UNSET, UnsetType
+```
 
-# Construct:
-token = OAuthToken(
-    access_token='abc',     # required — no default
-    token_type='Bearer',    # required — no default
-    expires_in=3600,        # optional — omit or pass APIHelper.SKIP to exclude from JSON
-    # scope omitted → not set on instance
+- A singleton: `UnsetType()` returns the existing instance, and `copy`/`deepcopy`/unpickle all
+  preserve identity. So `field is UNSET` is reliable, including on a deep copy of a model.
+- Falsy: `bool(UNSET) is False`. Convenient, but it collapses "unset" with "empty list" and
+  "empty string" — use `is UNSET` when you need to tell them apart.
+- `repr(UNSET)` is `"UNSET"`.
+- It is only ever a **default**. Never construct `UnsetType()` yourself; pass `UNSET` if you need to
+  spell "omitted" explicitly while building kwargs.
+
+The two annotations that admit it, one per spelling a spec can declare:
+
+```python
+Optional         = T | UnsetType           # optional        — omitted or a value
+OptionalNullable = T | None | UnsetType    # optional+nullable — omitted, null, or a value
+```
+
+Building a payload conditionally, without a `None` ever reaching a non-nullable field:
+
+```python
+body = {RequestType}(
+    {required_field}="...",
+    {optional_field}=value if value is not None else UNSET,
 )
-
-# Read optional field safely:
-if hasattr(token, 'expires_in'):
-    print(token.expires_in)   # present
-
-# Required fields are always present:
-print(token.access_token)
 ```
 
-Fields listed in `_optionals` use `SKIP`; unlisted fields are required and always present after
-`from_dictionary()`.
+## Deriving a changed copy
 
-## from_dictionary / to_dictionary
-
-`from_dictionary(cls, dictionary)` constructs a model from a raw dict (deserialized JSON).
-There is no `to_dictionary()` instance method — use `APIHelper.to_dictionary(model)` to serialize
-a model back to a dict:
+Models are frozen, so mutate by copying:
 
 ```python
-from maxio.api_helper import APIHelper
-
-# Deserialize (used internally by the SDK; also callable directly):
-token = OAuthToken.from_dictionary({
-    'access_token': 'abc',
-    'token_type': 'Bearer',
-    'expires_in': 3600,
-})
-
-# Serialize to dict (for logging or inspection):
-d = APIHelper.to_dictionary(token)
-# {'access_token': 'abc', 'token_type': 'Bearer', 'expires_in': 3600}
+updated = body.model_copy(update={"{field}": "..."})
 ```
 
-`from_dictionary` respects `_names` (Python attr → JSON key) and `_optionals` (absent optional
-keys become `SKIP`, not set on instance). Required fields that are absent in the dict become
-`None`.
+`update=` bypasses validation for the updated keys — pydantic does not re-validate a `model_copy`.
+For values from an untrusted source, rebuild the model instead so validation actually runs.
 
-## Enums — plain classes with MEMBER = value
-
-APIMatic Python enums are **not** `enum.Enum` subclasses. They are plain classes with `MEMBER =
-value` class attributes (integer- or string-valued) and a `from_value()` class method.
+## Enum helpers
 
 ```python
-# Integer enum (e.g. SuiteCodeEnum):
-class SuiteCodeEnum(object):
-    HEARTS   = 1
-    SPADES   = 2
-    CLUBS    = 3
-    DIAMONDS = 4
+from {root_package}.models.enums import {Enum}
 
-# String enum (e.g. OAuthProviderErrorEnum):
-class OAuthProviderErrorEnum(object):
-    INVALID_REQUEST = "invalid_request"
-    INVALID_CLIENT  = "invalid_client"
+{Enum}("{wire_value}")             # wire value -> member; ValueError if unknown
+{Enum}.{MEMBER}.value              # -> "{wire_value}"
+str({Enum}.{MEMBER})               # -> "{wire_value}"  (str enums only — see below)
+list({Enum})                       # every member
 ```
 
-Usage:
+Coercing an unknown value with `{Enum}(...)` raises `ValueError` — that is the *closed* lookup.
+The **open** alias used on model fields (`{Enum}OrStr` / `{Enum}OrInt`) does not raise; it passes the
+unknown value through as the underlying scalar. Do not reimplement that coercion at your boundary;
+read the field and handle the scalar arm.
+
+`__str__ = str.__str__` is emitted on **every** enum, which is right for a `(str, Enum)` and wrong for
+an `(int, Enum)`: on an int enum, `str(member)` and f-string interpolation raise
+`TypeError: descriptor '__str__' requires a 'str' object`. Use `.value` for int enums.
+
+Tolerating an unknown value when you must map to your own enum:
 
 ```python
-from maxio.models.suite_code_enum import SuiteCodeEnum
-
-body.suites = SuiteCodeEnum.HEARTS                           # known constant (int 1)
-body.suites = SuiteCodeEnum.from_value('spades', default=SuiteCodeEnum.HEARTS)  # from string
-body.suites = SuiteCodeEnum.from_value(server_int_value)     # from integer
+def to_domain(value: {Enum} | str) -> MyEnum:
+    match value:
+        case {Enum}.{MEMBER}:       return MyEnum.A
+        case {Enum}.{OTHER_MEMBER}: return MyEnum.B
+        case _:                     return MyEnum.UNKNOWN     # covers new wire values
 ```
 
-`from_value(value, default=None)` matches by exact int value or case-insensitive name/value
-string; returns `default` if unrecognized. The raw integer or string **is** the wire value — the
-serializer sends the value directly (e.g. `1` or `"invalid_request"`).
+## Union aliases — finding the exact arms
 
-## oneOf / anyOf — UnionTypeLookUp + validate()
-
-Fields holding one of several model types are resolved by `UnionTypeLookUp` and each candidate's
-`validate()` classmethod. The SDK resolves the union **automatically** on deserialization; you
-receive the concrete instance directly.
-
-**Build a union value** — construct the concrete model class and pass it directly to the operation
-or field. Do not call `validate()` yourself on the outbound side.
+A union is a **type alias**, not a class, so there is nothing to construct and nothing to unwrap. The
+contract sheet lists the arms; each arm is used directly. The SDK map names the **module** declaring
+the alias, not its arms — read them off the alias there.
 
 ```python
-from maxio.models.animal import Cat
-
-cat = Cat(
-    name='Whiskers',
-    color='orange',
-    pet_type='Cat',
-)
-# Pass `cat` wherever a OneOf(Cat, Dog) is expected.
+from {root_package}.models import {Union}          # also {root_package}.models.unions.{module}
 ```
 
-**Read a union response** — `isinstance` distinguishes the resolved variant:
+- **Plain (`anyOf`)** — `{Union}: TypeAlias = {Variant1} | {Variant2}`, with a companion
+  `{Union}Dict: TypeAlias = {Variant1}Dict | {Variant2}Dict`. Named after its arms when the spec gave
+  it no name (`{Variant1}Or{Variant2}`).
+- **Discriminated (`oneOf` with a discriminator, or an `allOf` base with subtypes)** —
+  `{Union}: TypeAlias = Annotated[{Variant1} | {Variant2}, Field(discriminator="{tag}")]`. Each variant
+  declares the tag as a defaulted `Literal`, so constructing the variant sets it for you.
+- **One surviving arm** — no alias module is emitted at all; the field is typed with that arm directly
+  (`{Variant} | None` where a dropped arm was nullable). An alias the sheet does not list does not
+  exist.
+- Read a union back with `isinstance` / `match`; there are no `TryGet…`-style readers.
+
+Two runtime notes that the annotation does not show:
 
 ```python
-result = client.{resource}.{union_operation}(...)
-if isinstance(result, Cat):
-    print(result.name)
-elif isinstance(result, Dog):
-    print(result.fangs)
+{RequestType}({union_field}={"{tag}": "{value}", ...})   # ✓ dict form must carry the tag
+{RequestType}({union_field}={...})                       # ✗ ValidationError: union_tag_not_found
+model.to_dict(exclude_unset=True)                        # ✗ drops the defaulted tag; no longer validates back
 ```
 
-**With discriminator** — `UnionTypeLookUp` maps a discriminator field value to the correct variant
-automatically (e.g. `"pet_type": "Cat"` → `Cat.from_dictionary(...)`). The `validate()` method
-on each candidate checks required fields to confirm the match.
+## Reading nested optional structures
 
-**Without discriminator** — the SDK tries each `validate()` in declaration order and uses the
-first match.
+**Response models declare almost everything optional** — a schema that marks nothing required produces
+a model with no required member, so `{Model}.model_validate({})` succeeds and every field reads back
+`UNSET`. Check the contract sheet for which response members, if any, are actually required.
 
-**Nested unions** (`OneOf(Deer, OneOf(Lion, Squirrel))`) — the outer is resolved first, then the
-inner; you still get a single concrete model.
+Two consequences for reading a response:
 
-**anyOf** — a value may match more than one variant; the SDK resolves and returns the first
-successful deserialization. Check with `isinstance`.
-
-## Polymorphic base classes
-
-When the API uses inheritance (e.g. `Animal` with `Cat` and `Dog` subclasses), model files define
-both the base and concrete classes. `Animal.from_dictionary()` reads the discriminator field
-(`pet_type`) and delegates to `Cat.from_dictionary` or `Dog.from_dictionary` as appropriate.
+- **A truncated body is not an error**, it is a model full of `UNSET`. Nothing raises. Check the
+  members you actually depend on — see `python-error-handling`.
+- A chain of `?`-style access is the normal shape. Python has no `?.`, so guard or use a walrus:
 
 ```python
-from maxio.models.animal import Animal, Cat, Dog
-
-cat = Cat(name='Whiskers', color='orange', pet_type='Cat', id=APIHelper.SKIP)
-assert isinstance(cat, Animal)   # Cat IS-A Animal
-
-# from_dictionary dispatches on discriminator:
-animal = Animal.from_dictionary({'pet_type': 'Cat', 'name': 'Whiskers', 'color': 'orange'})
-assert isinstance(animal, Cat)
+value = None
+if (items := response.{list_field}) and items[0].{nested}:
+    value = items[0].{nested}.{leaf}
 ```
 
-## Collections
+A member that is **required on the request model and optional on the response model** is common and
+intentional — the same concept, two schemas. Never assume the response shape from the request shape.
 
-List fields are plain Python `list`; map fields are plain Python `dict`. Pass them directly.
-
-| Value | Serialized |
-| --- | --- |
-| `None` | field omitted from JSON |
-| `[]` | `[]` (empty array) |
-| `{}` | `{}` (empty object) |
+## Unknown fields
 
 ```python
-body.scopes = ['read', 'write']               # list[str]
-body.meta   = {'region': 'us-east-1'}         # dict[str, str]
+response.model_extra            # dict of preserved unknown keys, or None
+response.model_fields_set       # which declared fields were explicitly set
 ```
 
-## Dates and datetimes via APIHelper
+Unknown keys are also reachable by attribute access **unless** the name collides with the model API
+(`json`, `copy`, `dict`, `schema`, …). Prefer `model_extra["key"]` — it never collides.
 
-The SDK provides three datetime formats — check the model field's type annotation to know which
-applies. Pass `datetime.datetime` objects; the SDK handles serialization.
+## Type-checking notes
 
-| Wire format | Helper class |
-| --- | --- |
-| RFC 3339 / ISO 8601 (`"2024-06-17T15:30:00Z"`) | `APIHelper.RFC3339DateTime` |
-| HTTP-date (`"Mon, 17 Jun 2024 15:30:00 GMT"`) | `APIHelper.HttpDateTime` |
-| Unix timestamp (integer seconds since epoch) | `APIHelper.UnixDateTime` |
+The SDK ships `py.typed`, so `mypy`/`pyright` check your calls against it fully.
 
-```python
-import datetime
-from maxio.api_helper import APIHelper
-
-dt = datetime.datetime(2024, 6, 17, 15, 30, 0, tzinfo=datetime.timezone.utc)
-
-# If the field uses RFC 3339:
-body.created_at = APIHelper.RFC3339DateTime(dt)
-
-# Parsing a wire string into datetime:
-dt2 = APIHelper.RFC3339DateTime.from_value("2024-06-17T15:30:00Z")
-```
-
-Do not format date strings manually. Confirm which helper applies by reading the model field's
-`_names` mapping and the `doc/models/*.md` or `doc/rfc3339-date-time.md` /
-`doc/http-date-time.md` / `doc/unix-date-time.md` docs.
-
-## Additional properties — unknown JSON keys
-
-Models with an `additional_properties` attribute capture JSON keys not listed in `_names`. Unknown
-response keys land there rather than being silently dropped.
-
-```python
-from maxio.models.o_auth_token import OAuthToken
-
-token = OAuthToken.from_dictionary({
-    'access_token': 'abc',
-    'token_type': 'Bearer',
-    'custom_field': 'xyz',         # not in _names
-})
-print(token.additional_properties)   # {'custom_field': 'xyz'}
-```
-
-To send extra keys on a request model, populate `additional_properties` before the call. The
-serializer emits known fields from `_names` plus anything in `additional_properties`. Not every
-model has `additional_properties` — check the constructor signature; if the arg is absent, unknown
-keys are dropped on deserialization.
+- `Optional[T]` from the SDK and `typing.Optional[T]` are **different types**. If you import both into
+  one module you will confuse yourself and your reader; the SDK's generated modules never import
+  `typing.Optional` — unions are spelled with PEP 604 `|` — and yours should not shadow the name.
+- Passing `None` to an `Optional[T]` field is a type error the checker reports. Believe it — at
+  runtime it is also a `ValidationError`. (`OptionalNullable[T]` is the annotation that does admit
+  `None`.)
+- A `{Model}Dict` literal is checked structurally, so an unknown key is an error there too. That check
+  is what makes the dict spelling safe to use at all — it is the *only* thing that catches a
+  misspelling, since the model base is `extra="allow"` at runtime.

@@ -1,192 +1,222 @@
 ---
 name: python-client-initialization
-description: Construct and configure an APIMatic-generated Python SDK client — pass keyword args (credentials objects + environment= + timeout/retry/proxy kwargs) directly to the AdvancedBillingClient constructor or to a separate Configuration object, use from_environment() to read from a .env file and env vars, access controllers via @LazyProperty properties (not constructors), pass a custom requests.Session via http_client_instance, and reuse the long-lived client. Use the moment you write AdvancedBillingClient(...), build a Configuration, pick an environment, or wire the client into your application — load it even after reading the constructor in the source, since the signature shows the kwargs but not the credential-objects pattern, the @LazyProperty controller access, or the lifetime/reuse rules.
+description: Creating and holding an APIMatic-generated Python SDK client in Python — construction, the keyword-only constructor shape, choosing the sync or async class, transport ownership and the close/aclose obligation, and where the client lives in a script, an ASGI app, or a forking worker. Load before wiring the client into an application or writing the factory that builds it.
 ---
 
 # Initializing an APIMatic Python SDK client
 
-> `AdvancedBillingClient` is the SDK's client class — **read the real name** from `maxio/maxio_client.py`
-> (it is derived from the package name, not the API title, so do not guess it from the API name).
+This applies to **any** APIMatic-generated Python SDK. Replace placeholders with the real names from
+the SDK you are using:
 
-This applies to **any** APIMatic-generated Python SDK (APIMATIC v3.0). Replace placeholders with
-the real names from the SDK you are using:
+- `{root_package}` — the import root, used in `import` statements. This differs from the distribution
+  name you install: you install the hyphenated name but import the underscored one.
+- `{Api}Client` / `Async{Api}Client` — the two client classes.
+- `{scheme}` — an auth scheme's keyword, one per scheme the API declares (see `python-authentication`).
+- `{group}` — an API group accessor on the client.
 
-- `maxio` — the root package name (e.g. `multiauthsample`, `batester`).
-- `AdvancedBillingClient` — the generated client class (read it from the `class …Client` declaration in `maxio/maxio_client.py`).
-- `{resource}` — a controller property name on the client (e.g. `authentication`, `transaction`).
+## Shape of the client
 
-## The constructor shape
-
-The `AdvancedBillingClient` constructor accepts all configuration as **keyword arguments** — there is no
-separate builder. You can pass them flat (the client creates a `Configuration` internally) or pass a
-pre-built `Configuration` object:
+APIMatic Python SDKs expose **two client classes**, sync and async, built from a keyword-only
+constructor:
 
 ```python
-from maxio.maxio_client import AdvancedBillingClient
-from maxio.configuration import Environment
-from maxio.http.auth.basic_auth import BasicAuthCredentials  # per-scheme import
-
-# Flat kwargs — the client wraps them in a Configuration internally:
-client = AdvancedBillingClient(
-    basic_auth_credentials=BasicAuthCredentials(
-        username='Username',
-        password='Password'
-    ),
-    environment=Environment.PRODUCTION,
-    timeout=60,
-    max_retries=0,
+{Api}Client(
+    *,
+    # server selection — one of four shapes, see "Choosing the server / base URL"
+    timeout: float = 30.0,             # seconds; the generator's default
+    custom_http_client=None,           # your own transport
+    {scheme}=None,                     # one credentials keyword per declared scheme
+    {scheme}_token_source=None,        # managed-OAuth schemes only
 )
 ```
 
-Or pass a pre-built `Configuration` object directly (preferred when you need `clone_with` later):
+Every parameter sits after `*` — there are **no positional arguments**, so a positional call is an
+immediate `TypeError`. There is no options object, no builder, and no separate configuration type to
+populate: everything is a constructor keyword.
+
+Operations are exposed on the client. Most are grouped under **group accessors** (one per API resource
+group) and called `client.{group}.{operation}(...)` — for example, a `widgets` group's `list_widgets`
+operation is `client.widgets.list_widgets(...)`. An operation that belongs to no group sits **directly
+on the client**, called `client.{operation}(...)`. Accessors are `cached_property`, so they are
+attributes without parentheses and return the same object each time. The available accessors (and any
+direct operations) come from the contract sheet, grounded in the SDK map's controller table
+(`sdk-map.md`) — not from a runtime `dir()` or a REPL poke. See
+`python-calling-endpoints`.
+
+Both classes are also exported under the fixed aliases `Client` and `AsyncClient`. **Prefer the full
+names** — a bare `Client` collides in any application that talks to more than one API.
+
+The async class is a peer, not a variant: same accessors, same operation names, same parameters. Four
+names differ:
+
+| | Sync | Async |
+|---|---|---|
+| Transport keyword | `custom_http_client=` | `custom_async_http_client=` |
+| Transport protocol | `HttpClient` | `AsyncHttpClient` |
+| Shutdown | `client.close()` | `await client.aclose()` |
+| Scope form | `with` | `async with` |
+
+## Choosing sync or async
+
+**Pick one from the host application, not from preference, and pick it before the first call.** There
+is no bridge between the two, and they fail asymmetrically:
+
+- An **async client used from sync code** returns a coroutine nobody awaits — a `RuntimeWarning` and a
+  silently skipped call.
+- A **sync client called from `async def`** blocks the event loop. It returns the right answer, tests
+  pass, and every other coroutine starves for the duration. This one surfaces only under production
+  concurrency, as unexplained latency elsewhere.
+
+FastAPI / Starlette / Litestar / aiohttp → async. Flask, Django under WSGI, Celery, a CLI, a script →
+sync. If both layers issue calls, construct one of each rather than bridging with `asyncio.run` inside
+a request handler.
+
+## Direct instantiation
 
 ```python
-from maxio.configuration import Configuration, Environment
+from {root_package} import {Api}Client
 
-config = Configuration(
-    basic_auth_credentials=BasicAuthCredentials(username='...', password='...'),
-    environment=Environment.PRODUCTION,
-    timeout=60,
-)
-client = AdvancedBillingClient(config=config)
-```
-
-Both patterns are equivalent — the client uses `config or Configuration(...)` in its `__init__`.
-Confirm the exact kwarg names from `maxio/maxio_client.py` in the cloned source.
-
-## Common constructor kwargs
-
-These kwargs are present on every generated client (confirm defaults from the source):
-
-| Kwarg | Type | Default | Purpose |
-| --- | --- | --- | --- |
-| `environment` | `Environment` enum | `Environment.PRODUCTION` | selects the base URL |
-| `timeout` | `float` | `60` | per-request timeout in seconds |
-| `max_retries` | `int` | `0` | number of retries; **0 disables retries** |
-| `backoff_factor` | `float` | `2` | exponential backoff multiplier |
-| `retry_statuses` | `list[int]` | `[408, 413, 429, 500, 502, 503, 504, 521, 522, 524]` | statuses that trigger retry |
-| `retry_methods` | `list[str]` | `["GET", "PUT"]` | methods that are retried |
-| `http_client_instance` | `requests.Session` | `None` | inject a custom Session |
-| `override_http_client_configuration` | `bool` | `False` | whether to apply SDK retry/timeout settings to a custom Session |
-| `http_call_back` | `HttpCallBack` | `None` | callback hook (the test seam) |
-| `proxy_settings` | `ProxySettings` | `None` | optional proxy configuration |
-| `logging_configuration` | `LoggingConfiguration` | `None` | structured request/response logging |
-| `{scheme}_credentials` | `{Scheme}Credentials` | `None` | per auth scheme (see **python-authentication**) |
-
-API-specific server parameters (e.g. `port`, `suites`) are also kwargs — check the source.
-
-## Environment-based initialization
-
-`from_environment()` is a class method on both `AdvancedBillingClient` and `Configuration` that reads
-configuration from a `.env` file and environment variables automatically. Pass `dotenv_path` if your
-`.env` file is not in the working directory; pass keyword overrides to replace any env-var value:
-
-```python
-from maxio.maxio_client import AdvancedBillingClient
-
-# Read everything from environment variables / .env:
-client = AdvancedBillingClient.from_environment()
-
-# Override specific values:
-client = AdvancedBillingClient.from_environment(
-    dotenv_path='/path/to/.env',
-    timeout=30,
+client = {Api}Client(
+    timeout=10.0,
+    {scheme}=...,          # see python-authentication
 )
 ```
 
-Environment variable names follow a scheme-specific naming convention (e.g.
-`BASIC_AUTH_USERNAME`, `O_AUTH_CCG_O_AUTH_CLIENT_ID`, `ENVIRONMENT`, `TIMEOUT`) — grep
-`from_environment` in `maxio/configuration.py` for the exact names.
+`timeout` is validated at construction: non-positive (or NaN) raises `ValueError` immediately.
+Credentials passed in dict form are validated by pydantic with `extra="forbid"`, so a misspelled key
+raises `ValidationError` there and then.
 
-## Accessing controllers
+Two things are **not** validated, so a clean construction does not mean a working client:
 
-Controllers are `@LazyProperty` properties on `AdvancedBillingClient`. Access them as attributes —
-**do not instantiate them yourself**:
+- **`base_url` is taken unchecked.** A typo or the wrong environment surfaces as a connection error or
+  a `401` at the first call.
+- **Credentials are never exercised.** Managed-OAuth schemes fetch the token lazily on the first API
+  call, so wrong credentials construct happily and fail later, pointing at whichever operation ran
+  first. Every credentials keyword also defaults to `None`, and omitting it configures the client for
+  **no auth** — requests go out unauthenticated and the server answers `401`.
 
-```python
-# Correct — access the controller as a property:
-result = client.authentication.custom_authentication()
+### Transport ownership and the close obligation
 
-# Wrong — don't do this (controllers are not intended for direct construction by callers):
-# ctrl = AuthenticationController(...)
-```
+Unless you supply one, the client builds a **pooled** HTTP transport and owns it. Leaking that pool
+raises nothing — only `ResourceWarning`s in test output and sockets accumulating in a long-running
+process.
 
-Open `maxio/maxio_client.py` to see all available `@LazyProperty` controller names. Each one is
-initialized lazily on first access and cached for the lifetime of the client.
-
-OAuth auth managers (for CCG, ACG, ROPCG) are exposed as plain `@property` attributes on the client
-(e.g. `client.o_auth_ccg`, `client.o_auth_acg`) — use them to call `fetch_token()`,
-`is_token_expired()`, etc.
-
-## Choosing the environment / base URL
-
-`Environment` is an `Enum` subclass in `maxio/configuration.py`. **Read the enum in `configuration.py`
-for the real member names before choosing one** — a member's name does not necessarily tell you which
-host it resolves to, so match it against the base URL it actually resolves to rather than its name:
+Use the context manager when the client's life matches a scope:
 
 ```python
-from maxio.configuration import Environment
+with {Api}Client(...) as client:              # sync: __exit__ calls close()
+    ...
 
-client = AdvancedBillingClient(environment=Environment.PRODUCTION)
+async with Async{Api}Client(...) as client:   # async: __aexit__ calls aclose()
+    ...
 ```
 
-To inspect the URL each environment resolves to, read the `environments` dict in
-`maxio/configuration.py`. There is no free-form base-URL override; to target a custom host (mock
-server, proxy), inject a custom `requests.Session` via `http_client_instance` that redirects
-requests, or use `ProxySettings`.
+The client itself is meant to be **long-lived** — construct it once and reuse it for the app's
+lifetime. Don't build one per request: that is a connection pool per request, and under managed OAuth
+it also **re-fetches the access token** every time, because the token cache lives on the client. When
+the client outlives any scope, close it explicitly at shutdown. Note the asymmetry: the async method
+is `aclose`, and calling `close()` on an async client is an `AttributeError`.
 
-## Custom HTTP session
+## Choosing the server / base URL
 
-Pass a custom `requests.Session` to `http_client_instance` when you need proxy routing, custom TLS
-settings, shared connection pools, or logging hooks. Set `override_http_client_configuration=True` to
-allow the SDK to apply its own retry/timeout settings to your session:
+Server selection is **not** an environment enum. What the constructor accepts depends on what the spec
+declares, in one of four shapes:
+
+| The API declares | Constructor keywords |
+|---|---|
+| one server, one environment | `base_url: str \| None = None` |
+| one server, several environments | `environment` (a string literal alias, with a default), then `base_url` |
+| several servers, one environment | `server_config: {Server}ConfigOrDict \| None = None` |
+| several servers, several environments | `environment`, then `timeout`, then `server_config` |
+
+Omitting the server keyword falls through to the config's own default rather than writing `None` over
+it — and **that default is whatever the spec listed first, which for many providers is a sandbox.**
+Nothing announces it. Confirm the default from the contract sheet — the SDK map's *Servers & auth*
+section names the base URL each arm resolves to — and pass the server explicitly in
+every environment, production included. Server template variables live on the config class, so how you
+reach them follows the arm above. **python-configuration-resilience** owns server / base-URL
+configuration in full.
+
+## Where the client lives
+
+### ASGI (FastAPI / Starlette / Litestar)
+
+Build it in the lifespan handler and hand it out by dependency injection or `app.state`:
 
 ```python
-import requests
-from maxio.maxio_client import AdvancedBillingClient
+from contextlib import asynccontextmanager
 
-session = requests.Session()
-session.verify = '/path/to/cert.pem'   # custom TLS CA bundle
+@asynccontextmanager
+async def lifespan(app):
+    app.state.api_client = Async{Api}Client({scheme}=..., timeout=10.0)
+    try:
+        yield
+    finally:
+        await app.state.api_client.aclose()
 
-client = AdvancedBillingClient(
-    http_client_instance=session,
-    override_http_client_configuration=True,
-    timeout=30,
-    max_retries=3,
-)
+app = FastAPI(lifespan=lifespan)
+
+async def get_client(request: Request) -> Async{Api}Client:
+    return request.app.state.api_client          # inject with Depends(get_client)
 ```
 
-## Cloning the configuration
+Do not build it inside a route, and do not build it in a startup hook with no matching shutdown.
 
-`Configuration` exposes `clone_with(**overrides)` to produce a modified copy with minimal
-boilerplate — useful after fetching an OAuth token that must be re-attached:
+### WSGI (Django / Flask)
+
+A module-level client, or a lazily-initialised module global, is the pragmatic placement. Close it from
+an `atexit` hook if the deployment recycles workers rather than killing them.
+
+### Forking workers (Gunicorn, uWSGI, Celery prefork)
+
+**Construct the client after the fork.** A pool inherited across `fork()` is shared by processes that
+each think they own it, and the corruption looks like random protocol errors, not a lifetime bug.
+Building it lazily on first use inside the worker is the simplest guarantee; a post-fork hook is the
+explicit alternative.
+
+### Threads and event loops
+
+The sync client is safe to share across threads — the token cache is lock-guarded and the pool is
+thread-safe. The async client may be built outside a running loop, but from its first use it belongs to
+**one** event loop, and so does its pool. Build one per loop.
+
+## Supplying your own transport
+
+The transport is a `Protocol` — a structural interface, not a base class. The sync one requires
+`send(request) -> HttpResponse` and `close()`; the async one `send` and `aclose()`:
 
 ```python
-# After fetching a new OAuth token:
-new_creds = client.config.o_auth_ccg_credentials.clone_with(o_auth_token=token)
-new_config = client.config.clone_with(o_auth_ccg_credentials=new_creds)
-client = AdvancedBillingClient(config=new_config)
+client = {Api}Client(custom_http_client=MyTransport(), {scheme}=...)
 ```
 
-## Client lifetime and reuse
-
-The client wraps a `requests.Session` internally. Create it **once** at application startup and
-reuse it — do **not** build a new client per request (that wastes connection-pool resources and
-destroys any cached OAuth token).
+This is the seam for **logging, tracing, metrics and tests** — the SDK ships no logging or middleware of
+its own. Wrap the SDK's own transport rather than reimplementing HTTP:
 
 ```python
-# Module-level singleton (scripts and simple services):
-client = AdvancedBillingClient.from_environment()
+class LoggingTransport:
+    def __init__(self, inner): self._inner = inner
 
-def process():
-    result = client.{resource}.{operation}(...)
+    def send(self, request):
+        response = self._inner.send(request)
+        log.info("%s %s -> %s", request.method, request.url, response.status_code)
+        return response
+
+    def close(self): self._inner.close()
 ```
 
-For web frameworks, register the client in a DI container or application state that is initialized
-once and shared across handlers.
+Three obligations the protocol places on anything you supply, all silent when broken: **do not mutate
+the incoming request** (it is frozen); **honour `request.timeout`** when set, falling back to your own
+when it is `None`; and **lowercase the response header names**, because callers look them up that way.
+
+Two consequences. First, **the `timeout=` you passed to the client no longer reaches the wire** — that
+value only builds the client's *own default* transport, so set the timeout on the one you pass or you
+have silently reverted to the underlying library's default. The per-call
+`request_options={"timeout": ...}` is the exception: it travels on the request object and reaches any
+transport honouring the obligation above. Second, **the client still closes it** — don't close it
+yourself while the client is alive, and don't share one transport between two clients.
 
 ## Next
 
-- Configure credentials → **python-authentication**
+- Configure authentication → **python-authentication**
 - Make your first call → **python-calling-endpoints**
-- Tune retries/timeouts/logging → **python-configuration-resilience**
+- Tune timeouts, base URLs, proxies → **python-configuration-resilience**

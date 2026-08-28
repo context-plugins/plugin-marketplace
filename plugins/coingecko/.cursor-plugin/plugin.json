@@ -1,27 +1,17 @@
 {
   "name": "coingecko",
-  "displayName": "Coingecko SDK",
+  "displayName": "Coingecko",
   "version": "0.2.0",
-  "description": "Track cryptocurrency prices, market caps, trading volume, and historical exchange data via CoinGecko.",
+  "description": "Integrate and consume the APIMatic-generated CoinGecko SDK — bundled skills for C#/.NET, Python.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
   },
   "license": "MIT",
-  "homepage": "https://www.apimatic.io",
+  "homepage": "https://context.apimatic.io/",
   "repository": "https://github.com/context-plugins/plugin-marketplace",
-  "keywords": [
-    "apimatic",
-    "sdk",
-    "api-integration",
-    "coingecko",
-    "dotnet",
-    "python"
-  ],
-  "logo": "assets/logo.svg",
   "skills": [
     "./skills/dotnet",
     "./skills/python"
-  ],
-  "agents": "./agents/"
+  ]
 }

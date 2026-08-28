@@ -2,7 +2,7 @@
   "name": "maxio",
   "displayName": "maxio SDK",
   "version": "0.2.0",
-  "description": "Integrate and consume the APIMatic-generated Maxio Advanced Billing SDK \u2014 bundled skills for C#/.NET.",
+  "description": "Integrate and consume the APIMatic-generated Maxio Advanced Billing SDK \u2014 bundled skills for C#/.NET, Python.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
@@ -20,7 +20,8 @@
   ],
   "logo": "assets/logo.svg",
   "skills": [
-    "./skills/dotnet"
+    "./skills/dotnet",
+    "./skills/python"
   ],
   "agents": "agents-vscode/"
 }

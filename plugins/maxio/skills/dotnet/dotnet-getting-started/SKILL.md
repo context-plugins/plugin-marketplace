@@ -1,5 +1,5 @@
 ---
-name: "dotnet-maxio-advanced-billing-getting-started"
+name: "dotnet-getting-started"
 description: "Maxio Advanced Billing .NET SDK identity — NuGet package id, root namespace, client and options type names, authentication pattern, server environments, the namespace imports the SDK requires, and where its SDK map lives. Load before writing any code against this SDK, then load the dotnet-* companion skill for the step you are on."
 ---
 
@@ -14,6 +14,7 @@ This skill carries the facts that are specific to **this** SDK — its package i
 | API | Maxio Advanced Billing |
 | NuGet package | *not published to NuGet* |
 | Source repository | https://github.com/context-plugins/maxio-csharp-sdk |
+| Source branch | `main` |
 | Root namespace | `MaxioAdvancedBilling` |
 | Client class | `MaxioAdvancedBillingClient` |
 | Options class | `MaxioAdvancedBillingClientOptions` |
@@ -37,11 +38,17 @@ Models, enums, union types and the generated error types each sit in their own c
 
 ## Install — from source
 
-This SDK is **not published to a package feed**, so there is no `dotnet add package` for it. Build it from its repository — <https://github.com/context-plugins/maxio-csharp-sdk> — and reference the resulting assembly, then write the `using` directives from the table above.
+This SDK is **not published to a package feed**, so there is no `dotnet add package` for it. Build it from its repository — <https://github.com/context-plugins/maxio-csharp-sdk>, branch `main` — and reference the resulting assembly, then write the `using` directives from the table above.
 
 ## SDK map — where this SDK's contracts come from
 
-The generated table of contents ships **inside the SDK's own source**, at the root of its repository — <https://github.com/context-plugins/maxio-csharp-sdk>. One clone therefore brings the map and the code it describes together, in lockstep by construction: no map version can drift from the code, and every source path a map row names resolves inside the clone you already have. Clone it to a temporary directory, outside the project repo.
+The generated table of contents ships **inside the SDK's own source**, at the root of its repository — <https://github.com/context-plugins/maxio-csharp-sdk>. One clone therefore brings the map and the code it describes together, in lockstep by construction: no map version can drift from the code, and every source path a map row names resolves inside the clone you already have. Clone it to a temporary directory, outside the project repo:
+
+```bash
+git clone --depth 1 --branch main https://github.com/context-plugins/maxio-csharp-sdk
+```
+
+Keep the `--branch main`: it is the branch this SDK is released from, and the repository's default branch may carry a different version — a map read from the wrong branch describes code you do not have.
 
 - **`sdk-map.md`** — the index: how a client is constructed, the error-handling model that applies to every operation, where models live, servers and auth, and a link to each controller's page.
 - **`map/operations/`** — one page per controller: the exact C# signature, which nullable parameters must still be passed, the return type and response envelope, the error case with its accessors, and pagination. **A row states what is specific to its operation**, so a row that says nothing about one of the index's SDK-wide defaults is telling you that default holds.

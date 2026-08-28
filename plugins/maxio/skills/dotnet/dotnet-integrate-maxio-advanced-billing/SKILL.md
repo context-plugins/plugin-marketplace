@@ -7,7 +7,7 @@ description: "Entry point for Maxio Advanced Billing .NET SDK work in a C#/.NET 
 
 This skill routes Maxio Advanced Billing .NET SDK work. Two kinds of knowledge are involved and they come from different places: **what this SDK declares** — signatures, wire names, response envelopes, error types, enum values — comes from the SDK map that ships inside the SDK's own source, and **how to use an APIMatic-generated .NET SDK correctly** comes from the `dotnet-*` companion skills. Your training data on this SDK is stale; neither kind of fact comes from memory.
 
-`dotnet-maxio-advanced-billing-getting-started` is the entry point: it carries this SDK's identity and the map-first lookup discipline. Load it before the first step below.
+`dotnet-getting-started` is the entry point: it carries this SDK's identity and the map-first lookup discipline. Load it before the first step below.
 
 **Scope:** the Maxio Advanced Billing .NET SDK (built from <https://github.com/context-plugins/maxio-csharp-sdk>, root namespace `MaxioAdvancedBilling`) in C#/.NET projects. An unrelated API or language is not this skill's business.
 
@@ -15,13 +15,13 @@ This skill routes Maxio Advanced Billing .NET SDK work. Two kinds of knowledge a
 
 ### Step 1 — Ground every contract before writing any code
 
-Load `dotnet-maxio-advanced-billing-getting-started` and follow its *SDK map* section to reach the map. Then take, in **one pass**, every contract the work in scope touches: the exact method signature (parameter order, types, and which nullable parameters must still be passed), the request model's fields with their wire names, the response envelope and the fields you will read out of it, the operation's error case and accessors, and its pagination. Collect them all before the first edit — rediscovering a contract mid-implementation is what produces code written from memory.
+Load `dotnet-getting-started` and follow its *SDK map* section to reach the map. Then take, in **one pass**, every contract the work in scope touches: the exact method signature (parameter order, types, and which nullable parameters must still be passed), the request model's fields with their wire names, the response envelope and the fields you will read out of it, the operation's error case and accessors, and its pagination. Collect them all before the first edit — rediscovering a contract mid-implementation is what produces code written from memory.
 
 A contract you cannot settle from the map is settled from the one SDK source file the map row names — never from memory, and never by writing the call "to fix later".
 
 ### Step 2 — Load the companion skill for every step in scope
 
-`dotnet-maxio-advanced-billing-getting-started`'s *Which companion skill to load* table maps each integration step to the skill that governs it. Load them **before** you start implementing, not lazily at the step that needs one: knowing a type's name is not knowing how to use it, and the traps these carry — what a timeout actually bounds, which failures reach your catch block — are invisible in a signature. `dotnet-error-handling` applies to every integration, because every integration writes an error boundary.
+`dotnet-getting-started`'s *Which companion skill to load* table maps each integration step to the skill that governs it. Load them **before** you start implementing, not lazily at the step that needs one: knowing a type's name is not knowing how to use it, and the traps these carry — what a timeout actually bounds, which failures reach your catch block — are invisible in a signature. `dotnet-error-handling` applies to every integration, because every integration writes an error boundary.
 
 ### Step 3 — Implement
 
@@ -33,7 +33,7 @@ A contract you cannot settle from the map is settled from the one SDK source fil
 
 A compile error naming an SDK type or member (`CS1061`, `CS0117`, `CS0234`, `CS0104`, `CS1503`, `CS7036`, … on `MaxioAdvancedBilling.*`) means the code and the SDK disagree, so **go back to the map row for that symbol** — do not rewrite the failing line from the same knowledge that produced it. Response envelopes are the classic case: a response type wraps its payload in one field, so the read goes one level down. If the row matches what the code already says, open the single source file it names.
 
-Runtime failures are the same discipline pointed at a different page: read the provider's error through the accessors the operation's map row names, with `dotnet-error-handling` for the mechanics. For a 401, a wrong host or a timeout, check the credentials, server and retry configuration `dotnet-maxio-advanced-billing-getting-started` documents before touching call sites.
+Runtime failures are the same discipline pointed at a different page: read the provider's error through the accessors the operation's map row names, with `dotnet-error-handling` for the mechanics. For a 401, a wrong host or a timeout, check the credentials, server and retry configuration `dotnet-getting-started` documents before touching call sites.
 
 ### Step 5 — Verify
 

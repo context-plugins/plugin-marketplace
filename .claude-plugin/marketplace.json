@@ -7,6 +7,77 @@
   },
   "plugins": [
     {
+      "name": "paypal",
+      "source": "./plugins/paypal",
+      "description": "Process global payments, subscriptions, and payouts with PayPal."
+    },
+    {
+      "name": "alpaca",
+      "source": "./plugins/alpaca",
+      "description": "Trade stocks and crypto programmatically with zero-commission orders and real-time market data."
+    },
+    {
+      "name": "binance",
+      "source": "./plugins/binance",
+      "description": "Trade crypto assets, monitor market data, and manage orders on Binance."
+    },
+    {
+      "name": "coingecko",
+      "source": "./plugins/coingecko",
+      "description": "Track cryptocurrency prices, market caps, trading volume, and historical exchange data via CoinGecko."
+    },
+    {
+      "name": "shutterstock",
+      "source": "./plugins/shutterstock",
+      "description": "Search, license, and download millions of stock photos, vectors, and videos from Shutterstock."
+    },
+    {
+      "name": "slack",
+      "source": "./plugins/slack",
+      "description": "Send messages, manage channels, and automate workflows in Slack workspaces."
+    },
+    {
+      "name": "sportsdata",
+      "source": "./plugins/sportsdata",
+      "description": "Track live scores, player stats, and schedule data across major sports leagues."
+    },
+    {
+      "name": "square",
+      "source": "./plugins/square",
+      "description": "Process payments, manage inventory, and track sales with Square."
+    },
+    {
+      "name": "finnhub",
+      "source": "./plugins/finnhub",
+      "description": "Stream real-time stock prices, global company fundamentals, and financial news."
+    },
+    {
+      "name": "firecrawl",
+      "source": "./plugins/firecrawl",
+      "description": "Crawl websites and convert entire domains into clean LLM-ready markdown.",
+      "version": "0.1.4"
+    },
+    {
+      "name": "twilio",
+      "source": "./plugins/twilio",
+      "description": "Send and receive programmable SMS, voice calls, and multi-channel messages globally."
+    },
+    {
+      "name": "tesla",
+      "source": "./plugins/tesla",
+      "description": "Monitor, locate, and control Tesla vehicles remotely with real-time telemetry and commands."
+    },
+    {
+      "name": "vimeo",
+      "source": "./plugins/vimeo",
+      "description": "Upload, host, and stream high-definition video content through Vimeo."
+    },
+    {
+      "name": "frankfurter",
+      "source": "./plugins/frankfurter",
+      "description": "Track current and historical foreign exchange rates published by the European Central Bank."
+    },
+    {
       "name": "maxio",
       "source": "./plugins/maxio",
       "description": "Manage recurring billing, subscription lifecycles, and financial operations with Maxio."

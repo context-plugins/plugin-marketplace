@@ -81,6 +81,26 @@
       "name": "maxio",
       "source": "./plugins/maxio",
       "description": "Manage recurring billing, subscription lifecycles, and financial operations with Maxio."
+    },
+    {
+      "name": "adyen",
+      "source": "./plugins/adyen",
+      "description": "Accept payments, issue payouts, and run risk, platform, and balance operations with Adyen."
+    },
+    {
+      "name": "deepgram",
+      "source": "./plugins/deepgram",
+      "description": "Transcribe, understand, and synthesize speech with Deepgram's audio AI models."
+    },
+    {
+      "name": "discourse",
+      "source": "./plugins/discourse",
+      "description": "Manage topics, posts, users, categories, and moderation on a Discourse forum."
+    },
+    {
+      "name": "verizon",
+      "source": "./plugins/verizon",
+      "description": "Manage IoT device connectivity, eSIM provisioning, and ThingSpace network services on Verizon."
     }
   ]
 }

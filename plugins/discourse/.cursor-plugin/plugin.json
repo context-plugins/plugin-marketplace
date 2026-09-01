@@ -1,0 +1,17 @@
+{
+  "name": "discourse",
+  "displayName": "Discourse",
+  "version": "0.2.0",
+  "description": "Integrate and consume the APIMatic-generated Discourse API Documentation SDK — bundled skills for C#/.NET, Python.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python"
+  ]
+}

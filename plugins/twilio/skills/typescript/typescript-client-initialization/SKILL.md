@@ -148,8 +148,13 @@ configuration; its constructor resolves the rest and then owns it:
 
 - the **transport** — a `RawClient` built over the resolved `fetch` implementation. If no `fetch` is
   reachable, **the constructor throws `SdkError`**, not the first call;
-- the **server resolvers** — base URLs are resolved from `serverEnvironment` and `serverOptions` here,
-  so a later change to either has no effect on an existing client;
+- the **server resolvers** — `buildServers(serverEnvironment, serverOptions)` runs here, closing
+  over the environment and over each group's options object. The environment is fixed for the
+  client's life, so assigning `serverEnvironment` afterwards does nothing; the per-environment
+  fields are re-merged inside the resolver on **every request**, so mutating one on the object
+  you passed in does leak into later calls. Never rely on that: it races in-flight calls.
+  Configure the server before you construct, and construct a new client to change environment.
+  See **typescript-configuration-resilience**, *What is captured when*;
 - the **auth schemes** — validated at construction (a basic-auth username containing `:` throws
   `SdkError` from the constructor), and for an OAuth2 SDK the auth scheme *is* the access-token
   cache, closed over by the scheme object.

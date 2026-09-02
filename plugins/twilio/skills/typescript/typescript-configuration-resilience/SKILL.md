@@ -77,7 +77,7 @@ Three facts that decide how you write a wrapper:
   the constructor), so a logging wrapper logs the token POST — `client_secret` and all — and a retry
   wrapper is a candidate to resend it. Filter by URL where that matters.
 - **A plain `Error` thrown from a wrapper reaches the caller as `ConnectionError` with your error on
-  `.cause`.** A `CoreError` subclass (`SdkError`, `TimeoutError`, …) passes through unwrapped.
+  `.cause`.** An `{Api}Error` subclass (`SdkError`, `TimeoutError`, …) passes through unwrapped.
 - **Wrappers compose by nesting, innermost-first at the network:**
   `new {Api}Client({ fetch: loggingFetch(retryingFetch(3)) })`. Put logging **outside** retry to see one
   line per attempt, inside to see one line per logical call. Order is load-bearing for a write guard —
@@ -169,9 +169,10 @@ variable that caused it.
 
 `serverEnvironment` and `serverOptions` are not read at the same time, which makes one of them look
 inert. The constructor calls `buildServers(options.serverEnvironment, options.serverOptions)` **once**,
-capturing the environment; the resolvers it returns re-merge the options object on **every request**.
-So mutating a nested field of the `serverOptions` object you passed in does take effect on later calls,
-while assigning `serverEnvironment` afterwards does not.
+capturing the environment **and each group's options object**; the resolvers it returns re-merge that
+group object's per-environment fields on **every request**. So mutating a nested field of the
+`serverOptions` object you passed in does take effect on later calls, while replacing a whole group
+(`serverOptions.{group} = …`) or assigning `serverEnvironment` afterwards does not.
 
 Do not use that. Mutating server options on a live client is an unsynchronised race against in-flight
 calls, not a supported "switch hosts" operation. **Configure the server before you construct, and
@@ -220,7 +221,7 @@ headers are reachable without `.asApiResult()`, and it applies to every operatio
 caller-level when the decision depends on which operation it is or on the typed error payload:
 
 ```ts
-import { ResponseError, CoreError } from "{package-name}";
+import { ResponseError, {Api}Error } from "{package-name}";
 
 const RETRY_STATUSES = new Set([408, 429, 500, 502, 503, 504]);
 
@@ -238,10 +239,14 @@ async function withRetry<T>(work: () => Promise<T>, attempts = 3): Promise<T> {
 
 function isTransient(err: unknown): boolean {
   if (err instanceof ResponseError) return RETRY_STATUSES.has(err.status);
-  if (err instanceof CoreError) return err.kind === "connection" || err.kind === "timeout";
+  if (err instanceof {Api}Error) return err.kind === "connection" || err.kind === "timeout";
   return false;                       // SchemaError, AuthError, SdkError, anything else: no
 }
 ```
+
+`{Api}Error` is the base of every SDK error. The runtime declares it as `CoreError`, and the
+package exports it **only** under the SDK-branded alias — read the real name off the
+`CoreError as …Error` line in `src/index.ts`. See **typescript-error-handling**.
 
 **Never retry a `SchemaError` or a 4xx other than `429`.** On an outbound `SchemaError` nothing was
 sent at all — the request never reached the network, so a resend cannot change the outcome; the fix is

@@ -2,7 +2,7 @@
   "name": "twilio",
   "displayName": "Twilio",
   "version": "0.3.0",
-  "description": "Integrate and consume the APIMatic-generated Twilio SDK — bundled skills for C#/.NET, TypeScript, Python.",
+  "description": "Integrate and consume the APIMatic-generated Twilio SDK — bundled skills for C#/.NET, Python, TypeScript.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
@@ -12,7 +12,7 @@
   "repository": "https://github.com/context-plugins/plugin-marketplace",
   "skills": [
     "./skills/dotnet",
-    "./skills/typescript",
-    "./skills/python"
+    "./skills/python",
+    "./skills/typescript"
   ]
 }

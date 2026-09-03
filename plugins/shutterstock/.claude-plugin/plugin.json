@@ -1,8 +1,8 @@
 {
   "name": "shutterstock",
   "displayName": "Shutterstock",
-  "version": "0.3.1",
-  "description": "Integrate and consume the APIMatic-generated Shutterstock SDK — bundled skills for C#/.NET, Python, TypeScript.",
+  "version": "0.3.2",
+  "description": "Integrate and consume the APIMatic-generated Shutterstock SDK \u2014 bundled skills for C#/.NET, Python, TypeScript.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

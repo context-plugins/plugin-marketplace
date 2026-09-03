@@ -67,29 +67,29 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | Plugin | API | Languages |
 | --- | --- | --- |
 | [`adyen`](plugins/adyen/) | Adyen | .NET, TS, Python |
-| [`alpaca`](plugins/alpaca/) | Alpaca | .NET, Python |
-| [`binance`](plugins/binance/) | Binance | .NET, Python |
-| [`coingecko`](plugins/coingecko/) | Coin Gecko | .NET, Python |
+| [`alpaca`](plugins/alpaca/) | Alpaca | .NET, TS, Python |
+| [`binance`](plugins/binance/) | Binance | .NET, TS, Python |
+| [`coingecko`](plugins/coingecko/) | Coin Gecko | .NET, TS, Python |
 | [`deepgram`](plugins/deepgram/) | Deepgram | .NET, TS, Python |
 | [`discourse`](plugins/discourse/) | Discourse | .NET, TS, Python |
-| [`finnhub`](plugins/finnhub/) | Finnhub | .NET, Python |
-| [`firecrawl`](plugins/firecrawl/) | Firecrawl | .NET, Python |
-| [`frankfurter`](plugins/frankfurter/) | Frankfurter | .NET, Python |
+| [`finnhub`](plugins/finnhub/) | Finnhub | .NET, TS, Python |
+| [`firecrawl`](plugins/firecrawl/) | Firecrawl | .NET, TS, Python |
+| [`frankfurter`](plugins/frankfurter/) | Frankfurter | .NET, TS, Python |
 | [`google-maps`](plugins/google-maps/) | Google Maps | .NET, TS, Python |
-| [`maxio`](plugins/maxio/) | Maxio | .NET, Python |
+| [`maxio`](plugins/maxio/) | Maxio | .NET, TS, Python |
 | [`notion`](plugins/notion/) | Notion | .NET, TS, Python |
 | [`nytimes`](plugins/nytimes/) | New York Times | .NET, TS, Python |
 | [`paypal`](plugins/paypal/) | PayPal | .NET, TS, Python |
 | [`plaid`](plugins/plaid/) | Plaid | .NET, TS, Python |
 | [`shutterstock`](plugins/shutterstock/) | Shutterstock | .NET, TS, Python |
-| [`slack`](plugins/slack/) | Slack | .NET, Python |
-| [`sportsdata`](plugins/sportsdata/) | Sportsdata | .NET, Python |
+| [`slack`](plugins/slack/) | Slack | .NET, TS, Python |
+| [`sportsdata`](plugins/sportsdata/) | Sportsdata | .NET, TS, Python |
 | [`spotify`](plugins/spotify/) | Spotify | .NET, TS, Python |
 | [`square`](plugins/square/) | Square | .NET, TS, Python |
-| [`tesla`](plugins/tesla/) | Tesla | .NET, Python |
+| [`tesla`](plugins/tesla/) | Tesla | .NET, TS, Python |
 | [`twilio`](plugins/twilio/) | Twilio | .NET, TS, Python |
 | [`verizon`](plugins/verizon/) | Verizon | .NET, TS, Python |
-| [`vimeo`](plugins/vimeo/) | Vimeo | .NET, Python |
+| [`vimeo`](plugins/vimeo/) | Vimeo | .NET, TS, Python |
 <!-- END:PLUGIN_TABLE -->
 
 > Plugin ids change occasionally. `npx context-plugins list` is always the live source of truth.
@@ -113,7 +113,7 @@ Each supported language ships the same eight:
 The `getting-started` skill is the entry point: it directs the agent to clone and grep the real SDK
 source, so every fact is grounded in the actual contract rather than model knowledge.
 
-Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->61<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->549<!-- END:SKILL_COUNT --> skills**. See
+Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->72<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->648<!-- END:SKILL_COUNT --> skills**. See
 [`plugins/paypal/README.md`](plugins/paypal/README.md) for a worked example.
 
 ## Repository structure

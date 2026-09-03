@@ -65,7 +65,7 @@ from adyen import (
 )
 ```
 
-Everything else comes from its own subpackage, and the split matters because the four places a caller reaches for are four different modules:
+Everything else comes from its own subpackage, and the split matters because each kind of type a caller reaches for lives in a different module:
 
 | What you need | Where it lives |
 | --- | --- |

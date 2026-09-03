@@ -79,15 +79,15 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`maxio`](plugins/maxio/) | Maxio | .NET, Python |
 | [`notion`](plugins/notion/) | Notion | .NET, Python |
 | [`nytimes`](plugins/nytimes/) | New York Times | .NET, Python |
-| [`paypal`](plugins/paypal/) | PayPal | .NET, Python |
+| [`paypal`](plugins/paypal/) | PayPal | .NET, TS, Python |
 | [`plaid`](plugins/plaid/) | Plaid | .NET, Python |
-| [`shutterstock`](plugins/shutterstock/) | Shutterstock | .NET, Python |
+| [`shutterstock`](plugins/shutterstock/) | Shutterstock | .NET, TS, Python |
 | [`slack`](plugins/slack/) | Slack | .NET, Python |
 | [`sportsdata`](plugins/sportsdata/) | Sportsdata | .NET, Python |
 | [`spotify`](plugins/spotify/) | Spotify | .NET, Python |
 | [`square`](plugins/square/) | Square | .NET, Python |
 | [`tesla`](plugins/tesla/) | Tesla | .NET, Python |
-| [`twilio`](plugins/twilio/) | Twilio | .NET, Python |
+| [`twilio`](plugins/twilio/) | Twilio | .NET, TS, Python |
 | [`verizon`](plugins/verizon/) | Verizon | .NET, Python |
 | [`vimeo`](plugins/vimeo/) | Vimeo | .NET, Python |
 <!-- END:PLUGIN_TABLE -->
@@ -113,7 +113,7 @@ Each supported language ships the same eight:
 The `getting-started` skill is the entry point: it directs the agent to clone and grep the real SDK
 source, so every fact is grounded in the actual contract rather than model knowledge.
 
-Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->48<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->432<!-- END:SKILL_COUNT --> skills**. See
+Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->51<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->459<!-- END:SKILL_COUNT --> skills**. See
 [`plugins/paypal/README.md`](plugins/paypal/README.md) for a worked example.
 
 ## Repository structure

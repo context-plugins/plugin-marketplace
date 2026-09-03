@@ -1,7 +1,7 @@
 {
   "name": "twilio",
   "displayName": "Twilio",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Integrate and consume the APIMatic-generated Twilio SDK — bundled skills for C#/.NET, Python, TypeScript.",
   "author": {
     "name": "APIMatic",

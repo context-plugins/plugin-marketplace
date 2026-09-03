@@ -28,7 +28,7 @@ skills layer usage guidance on top.
 
 The TypeScript layer (inside `skills/typescript/`) targets the **v4** generated SDK, whose only
 runtime dependency is `zod`. Its map is not bundled with the skills: the installed package itself
-carries `sdk-map.md` + `map/operations/`, and `typescript-paypal-getting-started` is the lookup
+carries `sdk-map.md` + `map/operations/`, and `typescript-getting-started` is the lookup
 layer that names every fact's owning source file and points the agent at that map. The
 **`typescript-integrate-paypal`** router skill is the mandatory first step for TypeScript work —
 it gates code behind a written contract sheet and requires the `typescript-*` companion skills the

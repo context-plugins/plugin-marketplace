@@ -138,8 +138,10 @@ Four things about how this resolves:
 ### ⚠▶▶ Always pass `serverEnvironment` explicitly
 
 `serverEnvironment` has a default, so `new {Api}Client()` compiles and reaches a real host. **That
-default is whatever environment the spec listed first** — `DEFAULT_CLIENT_OPTIONS.serverEnvironment`
-is `EnvironmentOrder[0]` — and for many providers the spec lists sandbox first. Nothing announces it.
+default is whatever environment the spec listed first** — read it off
+`DEFAULT_CLIENT_OPTIONS.serverEnvironment` in `src/client-options.ts`, a literal
+`ServerEnvironment.{Environment}`, and always the first member `ServerEnvironment` declares in
+`src/servers.ts`. For many providers the spec lists sandbox first. Nothing announces it.
 
 A deployment that believes it configured production and did not gets sandbox behaviour with
 production credentials, which fails auth in a way that reads like a credentials problem rather than an

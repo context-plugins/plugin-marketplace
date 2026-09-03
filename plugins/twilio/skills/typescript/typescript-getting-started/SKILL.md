@@ -1,5 +1,5 @@
 ---
-name: "typescript-twilio-getting-started"
+name: "typescript-getting-started"
 description: "Twilio TypeScript SDK identity and lookup layer (TypeScript/JavaScript only) — install, the single import specifier `twilio`, the server environments and the base-URL knob, the auth pattern, the SDK map that ships inside the installed package (`sdk-map.md` + `map/operations/`) and how to traverse it, and the file table naming the one source file owning each fact the map leaves to the source. Load this before answering any Twilio TypeScript SDK contract question or writing any SDK code."
 ---
 
@@ -43,7 +43,7 @@ This SDK is not published to npm, so the install comes straight from the reposit
 npm install git+https://github.com/context-plugins/twilio-typescript-sdk#main
 ```
 
-That fetches everything the package's `files` list packs — `src/`, `sdk-map.md` and the pages under `map/operations/` — so **every lookup on this page works as soon as the install finishes**. What it does *not* do is build `dist/`: the generated manifest declares no `prepare` script, and the `exports` map points into `dist/`, so the first `import` fails until something builds it. Run the SDK's own build once inside the installed package (`npm install && npm run build` in `node_modules/twilio/`), or clone the repository, build there, and depend on that directory by path instead.
+That fetches everything the package's `files` list packs — `src/`, `sdk-map.md` and the pages under `map/operations/` — so **every lookup on this page works as soon as the install finishes**. **Make sure the installed package is built**, as the source on GitHub is not pre-built.
 
 Do not vendor its `src/` into your project, point `tsconfig` `paths` at a throwaway clone, or import from `dist/` directly. Installing the package properly is what makes the `exports` map, the shipped `.d.ts` chain and the dual-dialect resolution behave the way the SDK expects — **and it is what puts the SDK map inside `node_modules`, which is where every lookup below reads it from**. Requires Node `>=20` (`engines.node`).
 

@@ -101,6 +101,31 @@
       "name": "verizon",
       "source": "./plugins/verizon",
       "description": "Manage IoT device connectivity, eSIM provisioning, and ThingSpace network services on Verizon."
+    },
+    {
+      "name": "google-maps",
+      "source": "./plugins/google-maps",
+      "description": "Geocode addresses, plan routes, and search places with the Google Maps Platform APIs."
+    },
+    {
+      "name": "notion",
+      "source": "./plugins/notion",
+      "description": "Create and query Notion pages, databases, blocks, comments, and users."
+    },
+    {
+      "name": "nytimes",
+      "source": "./plugins/nytimes",
+      "description": "Search New York Times articles, archives, best-seller lists, and top stories."
+    },
+    {
+      "name": "plaid",
+      "source": "./plugins/plaid",
+      "description": "Connect bank accounts and retrieve transactions, balances, identity, and income data with Plaid."
+    },
+    {
+      "name": "spotify",
+      "source": "./plugins/spotify",
+      "description": "Browse catalog metadata and manage playlists, playback, and saved libraries on Spotify."
     }
   ]
 }

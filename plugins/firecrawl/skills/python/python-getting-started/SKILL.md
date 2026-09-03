@@ -1,11 +1,11 @@
 ---
 name: "python-getting-started"
-description: "Firecrawl Python SDK identity and lookup layer (Python only) — install, import root, base URL/environments, the auth pattern, the SDK map that ships at the SDK root (`sdk-map.md` + `map/operations/`) and how to traverse it, and the module table naming the one file owning each fact the map leaves to the source. Load this before answering any Firecrawl Python SDK contract question or writing any SDK code."
+description: "Firecrawl API Python SDK identity and lookup layer (Python only) — install, import root, base URL/environments, the auth pattern, the SDK map that ships at the SDK root (`sdk-map.md` + `map/operations/`) and how to traverse it, and the module table naming the one file owning each fact the map leaves to the source. Load this before answering any Firecrawl API Python SDK contract question or writing any SDK code."
 ---
 
-# Getting started with the Firecrawl Python SDK
+# Getting started with the Firecrawl API Python SDK
 
-> **Who this skill is for.** This is the **lookup layer** for anyone writing Firecrawl Python SDK code — it is yours to follow directly and fully. Ground every contract fact here (in the SDK map, and in the source modules it names) rather than in recall, and carry those facts onto a contract sheet before you implement. Load `python-integrate-firecrawl` for the workflow that wraps this skill.
+> **Who this skill is for.** This is the **lookup layer** for anyone writing Firecrawl API Python SDK code — it is yours to follow directly and fully. Ground every contract fact here (in the SDK map, and in the source modules it names) rather than in recall, and carry those facts onto a contract sheet before you implement. Load `python-integrate-firecrawl` for the workflow that wraps this skill.
 
 This is the **SDK-specific** entry point. For general patterns that apply to any APIMatic-generated Python SDK (client construction, auth, calling endpoints, models, error handling, resilience, testing), see the companion API-agnostic skills: `python-client-initialization`, `python-authentication`, `python-calling-endpoints`, `python-models`, `python-error-handling`, `python-configuration-resilience` and `python-testing`.
 
@@ -13,70 +13,60 @@ This is the **SDK-specific** entry point. For general patterns that apply to any
 
 ## SDK identity
 
-Verified against `firecrawl/` and `pyproject.toml` of the generated package at version `v2`. **Re-verify after a version bump** — this page is a snapshot, not a live read.
+Verified against `firecrawl_api/` and `pyproject.toml` of the generated package at version `v2`. **Re-verify after a version bump** — this page is a snapshot, not a live read.
 
 | Fact | Value |
 | --- | --- |
-| API | Firecrawl |
-| Distribution name (what you install) | `firecrawl` — **not on any package index**; installed from source (see *Install*) |
-| Import root (what you import) | `firecrawl` — note the underscores; the two names differ |
+| API | Firecrawl API |
+| Distribution name (what you install) | `firecrawl-api` — **not on any package index**; installed from source (see *Install*) |
+| Import root (what you import) | `firecrawl_api` — not the string you install |
 | Source repository | https://github.com/context-plugins/firecrawl-python-sdk |
 | Source branch | `main` |
 | Version | `v2` |
-| Sync client class | `FirecrawlClient` (alias `Client`) |
-| Async client class | `AsyncFirecrawlClient` (alias `AsyncClient`) |
+| Sync client class | `FirecrawlApiClient` (alias `Client`) |
+| Async client class | `AsyncFirecrawlApiClient` (alias `AsyncClient`) |
 | Client construction | **keyword-only**: `base_url` · `timeout` (default `30.0`) · `bearer_auth`, and the transport override — `custom_http_client` on the sync client, `custom_async_http_client` on the async one (the names differ; see step 1) |
 | Auth | **Bearer** token — set `bearer_auth` |
 | Environments | **no environment enum** — one `base_url` string, defaulting to `https://api.firecrawl.dev/v2` |
-| Base-URL config | `ServerConfig` (`firecrawl/server/server_config.py`), frozen, `extra="forbid"` |
+| Base-URL config | `ServerConfig` (`firecrawl_api/server/server_config.py`), frozen, `extra="forbid"` |
 | Python floor | **`>=3.10`** (classifiers list `3.10–3.14`) |
 | Runtime dependencies | `httpx (>=0.28.1,<1.0.0)` · `pydantic[email] (>=2.11.0,<3.0.0)` · `typing-extensions (>=4.13.0,<5.0.0)` |
 | Typing | ships `py.typed`; the package is checked under `mypy --strict` with `warn_unreachable`. Callers get full inference — **a type error against this SDK is a real contract violation, not noise** |
 | Line length / lint | `ruff`, 120 cols (only relevant when editing the SDK itself) |
-| Surface | 52 operations across 16 controllers · 319 models · 85 enums · 44 per-operation error unions |
+| Surface | 52 operations across 16 controllers · 303 models · 16 unions · 51 enums · 44 per-operation error unions |
 
 The table above is **orientation, not a copy-paste recipe** — it gives you the names and facts (install, import roots, the auth *pattern*, the base-URL knob), while the actual integration code comes from the companion skills. Load each one as you reach its step (see **Integration workflow** below) and confirm its types against the installed package.
 
-## Install — from source
-
-This SDK is not published to a package index, so there is no `pip install` from PyPI for it. Install it from its repository — <https://github.com/context-plugins/firecrawl-python-sdk> — into the same environment your project runs in:
-
-```bash
-pip install "firecrawl @ git+https://github.com/context-plugins/firecrawl-python-sdk.git@main"
-```
-
-The generated distribution carries its own `pyproject.toml`, so `pip` builds and installs it exactly like a released package. Do not vendor its source into your project, add its directory to `sys.path`, or install it editable (`-e`) from a throwaway clone — an editable install points at the clone's path, so deleting the clone breaks every import. Once installed, write the imports from the table above: the distribution name you install and the package name you import are not the same string. Requires Python 3.10 or newer.
-
 ## Imports — the package splits its surface across four modules
 
-Python does not re-export child modules transitively, so `from firecrawl import models` alone does **not** make enums, error unions, or runtime types reachable. Import each kind of type from the module that owns it.
+Python does not re-export child modules transitively, so `from firecrawl_api import models` alone does **not** make enums, error unions, or runtime types reachable. Import each kind of type from the module that owns it.
 
-`firecrawl/__init__.py` exports exactly 5 names:
+`firecrawl_api/__init__.py` exports exactly 5 names beside the `firecrawl_api.models` subpackage it re-exports:
 
 ```python
-from firecrawl import (
+from firecrawl_api import (
     AsyncClient,
-    AsyncFirecrawlClient,
+    AsyncFirecrawlApiClient,
     Client,
-    FirecrawlClient,
+    FirecrawlApiClient,
     ServerConfig,
 )
 ```
 
-Everything else comes from its own subpackage, and the split matters because the four places a caller reaches for are four different modules:
+Everything else comes from its own subpackage, and the split matters because each kind of type a caller reaches for lives in a different module:
 
 | What you need | Where it lives |
 | --- | --- |
-| Domain models, their `…Dict` companions | `firecrawl.models` |
-| Enums (and their open `…OrStr` aliases) | `firecrawl.models.enums` |
-| `ApiError` · `RawError` · `ApiResult` · `RequestOptions` · `HttpClient` · `SdkBaseModel` · `UNSET` · `Optional` | `firecrawl.core` |
-| Per-operation error *unions* | `firecrawl.errors` (`AskSupportAgentErrorBody`, …) |
+| Domain models, their `…Dict` companions | `firecrawl_api.models` |
+| Enums (and their open `…OrStr` aliases) | `firecrawl_api.models.enums` |
+| `ApiError` · `RawError` · `ApiResult` · `RequestOptions` · `HttpClient` · `SdkBaseModel` · `UNSET` · `Optional` | `firecrawl_api.core` |
+| Per-operation error *unions* | `firecrawl_api.errors` (`AskSupportAgentErrorBody`, …) |
 
-`firecrawl.core` re-exports its whole public surface (a curated `__all__`), so import from `…core` rather than from the private modules beneath it (`…core.results`, `…core.exceptions`, `…core.auth.schemes`).
+`firecrawl_api.core` re-exports its whole public surface (a curated `__all__`), so import from `…core` rather than from the private modules beneath it (`…core.results`, `…core.exceptions`, `…core.auth.schemes`).
 
 ## Environments — there is no environment enum
 
-This SDK has **no environment type and no environment constants**. There is one knob: `base_url`, on `ServerConfig` (`firecrawl/server/server_config.py`), and its default is **`https://api.firecrawl.dev/v2`**:
+This SDK has **no environment type and no environment constants**. There is one knob: `base_url`, on `ServerConfig` (`firecrawl_api/server/server_config.py`), and its default is **`https://api.firecrawl.dev/v2`**:
 
 ```python
 base_url: str = "https://api.firecrawl.dev/v2"
@@ -93,7 +83,7 @@ Consequences to state on every contract sheet that touches configuration:
 A bearer token, exposed as the client's `bearer_auth=` keyword taking a plain string.
 
 ```python
-from firecrawl import Client
+from firecrawl_api import Client
 
 client = Client(bearer_auth="<bearer_auth>")
 ```
@@ -131,12 +121,12 @@ The SDK map's controller table carries the same counts and links to a page per c
 
 ## SDK map — look up first, open the module second
 
-The SDK ships a generated map at its **root** — the directory holding `pyproject.toml`, the `firecrawl/` source directory, and these two entries:
+The SDK ships a generated map at its **root** — the directory holding `pyproject.toml`, the `firecrawl_api/` source directory, and these two entries:
 
 - **`sdk-map.md`** — the index: client construction with the full constructor-keyword table, the error-handling model (`ApiError` / `ApiResult` / `RawError`, Case A vs Case B), where models, enums and error aliases live, servers and auth, and the link table into the operations pages.
 - **`map/operations/<controller>.md`** — one page per controller, one `###` block per operation: the HTTP verb and route, the sync parsed signature, each parameter's role and wire name, both return types, the error alias with the status each arm maps from, and a **Type sources** table naming the module that declares every type the operation mentions.
 
-**Installing the distribution does not give you the map.** `pyproject.toml` ships the `firecrawl/` package only, so `sdk-map.md` and `map/operations/` are absent from the installed package — they live in the SDK's own source tree, at the root of its repository, <https://github.com/context-plugins/firecrawl-python-sdk>. One clone therefore brings the map and the code it describes together, in lockstep by construction. Clone it to a temporary directory, outside the project repo:
+**Installing the distribution does not give you the map.** `pyproject.toml` ships the `firecrawl_api/` package only, so `sdk-map.md` and `map/operations/` are absent from the installed package — they live in the SDK's own source tree, at the root of its repository, <https://github.com/context-plugins/firecrawl-python-sdk>. One clone therefore brings the map and the code it describes together, in lockstep by construction. Clone it to a temporary directory, outside the project repo:
 
 ```bash
 git clone --depth 1 --branch main https://github.com/context-plugins/firecrawl-python-sdk
@@ -144,11 +134,11 @@ git clone --depth 1 --branch main https://github.com/context-plugins/firecrawl-p
 
 Keep the `--branch main`: it is the branch this SDK is released from, and the repository's default branch may carry a different version — a map read from the wrong branch describes code you do not have.
 
-Every `Source` path on the map is relative to that SDK root, so `firecrawl/models/actions.py` opens as written from there — and the same path resolves inside the installed package, which is where you read a module's body once the map has named it.
+Every `Source` path on the map is relative to that SDK root, so `firecrawl_api/models/actions.py` opens as written from there — and the same path resolves inside the installed package, which is where you read a module's body once the map has named it.
 
 **The map is the locator; the source modules are the shapes.** Read the map first — signatures, routes, parameter roles, return types, error unions, and which module declares a type are all answered there without opening a single `.py` file. Then open the one module the map names for what it deliberately does not carry: a model's members, an enum's values, a field's wire alias. The map says so itself — *"Shapes live only in the source … Never grep for a type."*
 
-**The map carries shapes; what an operation *means* lives elsewhere.** When *what* to pass depends on meaning — which values a field accepts beyond its type, a rule that couples two fields, what a defaulted parameter actually selects — the map will not settle it. Open the operation's docstring in `firecrawl/apis/<controller>.py` (or `client.py` where operations sit on the client) and `api-reference.md` at the SDK root for that operation *before* writing the sheet row, and record what you found there. A value you already "know" for a field the map types as a plain `str` is a lookup, not a recall — the memory ban applies to it.
+**The map carries shapes; what an operation *means* lives elsewhere.** When *what* to pass depends on meaning — which values a field accepts beyond its type, a rule that couples two fields, what a defaulted parameter actually selects — the map will not settle it. Open the operation's docstring in `firecrawl_api/apis/<controller>.py` (or `client.py` where operations sit on the client) and `api-reference.md` at the SDK root for that operation *before* writing the sheet row, and record what you found there. A value you already "know" for a field the map types as a plain `str` is a lookup, not a recall — the memory ban applies to it.
 
 `sdk-map.md` carries the invariants every operation block assumes, so load it before any `map/operations/` page; the pages are written to be read beside it.
 
@@ -159,10 +149,10 @@ Every `Source` path on the map is relative to that SDK root, so `firecrawl/model
 Read the one module that owns the fact **inside the installed package**. Locate it first:
 
 ```bash
-python -c "import firecrawl, pathlib; print(pathlib.Path(firecrawl.__file__).parent)"
+python -c "import firecrawl_api, pathlib; print(pathlib.Path(firecrawl_api.__file__).parent)"
 ```
 
-Failing that, it is under the project's environment (`.venv/Lib/site-packages/firecrawl` on Windows, `.venv/lib/python3.*/site-packages/firecrawl` elsewhere). **If the package is not installed, there is no source to read** — mark the fact `UNVERIFIED` and say what would settle it rather than answering from memory. Paths below are relative to that package root:
+Failing that, it is under the project's environment (`.venv/Lib/site-packages/firecrawl_api` on Windows, `.venv/lib/python3.*/site-packages/firecrawl_api` elsewhere). **If the package is not installed, there is no source to read** — mark the fact `UNVERIFIED` and say what would settle it rather than answering from memory. Paths below are relative to that package root:
 
 | Question | Module |
 | --- | --- |
@@ -216,7 +206,7 @@ Beyond the usual signatures and model members, a Python sheet is incomplete with
 5. **The `ApiError.error` union** for each operation in scope — there are **57** typed error bodies in this SDK, so the union is never uniform. Every union is `<Typed> | RawError`:
    1. `BatchScrape500Error1` — 3 operations (`scraping.cancel_batch_scrape` · `scraping.get_batch_scrape_status` · `scraping.scrape_and_extract_from_urls`); distinguishing members *none required*
    2. `Crawl500Error1` — 3 operations (`crawling.cancel_crawl` · `crawling.crawl_urls` · `crawling.get_crawl_status`); distinguishing members *none required*
-   3. `FeedbackErrorResponse` — 3 operations (`feedback.submit_endpoint_feedback` · `feedback.submit_search_feedback` · `search.submit_search_feedback`); distinguishing members `feedback_error_code`
+   3. `FeedbackErrorResponse` — 3 operations (`feedback.submit_endpoint_feedback` · `feedback.submit_search_feedback` · `search.submit_search_feedback`); distinguishing members `success` · `error`
    4. `Interact402Error1` — 3 operations (`interact.create_browser_session` · `interact.delete_browser_session` · `interact.list_browser_sessions`); distinguishing members *none required*
    5. `BatchScrape402Error1` — 2 operations (`scraping.get_batch_scrape_status` · `scraping.scrape_and_extract_from_urls`); distinguishing members *none required*
    6. `BatchScrape429Error1` — 2 operations (`scraping.get_batch_scrape_status` · `scraping.scrape_and_extract_from_urls`); distinguishing members *none required*
@@ -273,7 +263,7 @@ Beyond the usual signatures and model members, a Python sheet is incomplete with
    57. `TeamTokenUsageHistorical500Error1` — 1 operation (`billing.get_historical_token_usage`); distinguishing members *none required*
    58. *(none)* — `account.get_activity` · `agent.cancel_agent` · `agent.get_agent_status` · `developer.developer_search` · `developer.developer_search_post` · `extraction.get_extract_status` · `miscellaneous.get_queue_status` · `monitoring.create_monitor` · `monitoring.delete_monitor` · `monitoring.get_monitor` · `monitoring.get_monitor_check` · `monitoring.list_monitor_checks` · `monitoring.list_monitors` · `monitoring.run_monitor` · `monitoring.update_monitor` · `research_api.research_get_paper` · `research_api.research_related_papers` · `research_api.research_search_papers` · `threat_protection.get_threat_protection` · `threat_protection.update_threat_protection`: no typed arm, so `.error` is always `RawError`
    59. So `isinstance(e.error, BatchScrape500Error1)` matches only 3 of 52 operations.
-6. **That a decode failure raises `ValidationError`/`ValueError`, not `ApiError`, in both response modes** — `core/raw_client.py` states this in `_build_result`'s own docstring. **And that the 2xx path declares at least one required member on 20 return types, so a truncated body fails to decode there and passes silently everywhere else.** Any sheet row for a call whose result is used must name the members the implementer has to assert on.
+6. **That a decode failure raises `ValidationError`/`ValueError`, not `ApiError`, in both response modes** — `core/raw_client.py` states this in `_build_result`'s own docstring. **And that the 2xx path declares at least one required member on 6 return types, so a truncated body fails to decode there and passes silently everywhere else.** Any sheet row for a call whose result is used must name the members the implementer has to assert on.
 7. **That the SDK performs no retries at all**, so retry/backoff is the caller's to build or deliberately omit.
 8. **Which host the `base_url` selects**, because omitting it is silently the default.
 9. A **REQUIRED READING** block naming the `python-*` companions that govern the steps, with `MUST load` pointers.

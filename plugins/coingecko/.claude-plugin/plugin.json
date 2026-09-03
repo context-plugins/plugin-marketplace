@@ -1,8 +1,8 @@
 {
   "name": "coingecko",
-  "displayName": "Coingecko",
-  "version": "0.2.0",
-  "description": "Integrate and consume the APIMatic-generated CoinGecko SDK — bundled skills for C#/.NET, Python.",
+  "displayName": "Coin Gecko",
+  "version": "0.2.1",
+  "description": "Integrate and consume the APIMatic-generated CoinGecko Demo API SDK — bundled skills for C#/.NET, python.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

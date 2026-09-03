@@ -1,8 +1,8 @@
 {
   "name": "sportsdata",
   "displayName": "Sportsdata",
-  "version": "0.2.0",
-  "description": "Integrate and consume the APIMatic-generated Sportsdata SDK — bundled skills for C#/.NET, Python.",
+  "version": "0.2.1",
+  "description": "Integrate and consume the APIMatic-generated SportsDataIO SDK — bundled skills for C#/.NET, python.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

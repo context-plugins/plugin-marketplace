@@ -69,7 +69,7 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`adyen`](plugins/adyen/) | Adyen | .NET, TS, Python |
 | [`alpaca`](plugins/alpaca/) | Alpaca | .NET, Python |
 | [`binance`](plugins/binance/) | Binance | .NET, Python |
-| [`coingecko`](plugins/coingecko/) | Coingecko | .NET, Python |
+| [`coingecko`](plugins/coingecko/) | Coin Gecko | .NET, Python |
 | [`deepgram`](plugins/deepgram/) | Deepgram | .NET, TS, Python |
 | [`discourse`](plugins/discourse/) | Discourse | .NET, TS, Python |
 | [`finnhub`](plugins/finnhub/) | Finnhub | .NET, Python |

@@ -1,11 +1,11 @@
 ---
 name: "dotnet-getting-started"
-description: "Sportsdata .NET SDK identity and lookup layer (.NET/C# only) you load directly — install, root namespace, environments, auth pattern, and the SDK map (shipped inside the SDK source repo): every operation signature and error case by lookup, plus the source file declaring each model, enum and error type. Load it for every contract fact, never memory; dotnet-integrate-sportsdata is the workflow that uses it."
+description: "SportsDataIO .NET SDK identity and lookup layer (.NET/C# only) you load directly — install, root namespace, environments, auth pattern, and the SDK map (shipped inside the SDK source repo): every operation signature and error case by lookup, plus the source file declaring each model, enum and error type. Load it for every contract fact, never memory; dotnet-integrate-sportsdata is the workflow that uses it."
 ---
 
-# Getting started with the Sportsdata .NET SDK
+# Getting started with the SportsDataIO .NET SDK
 
-> **Who this skill is for.** This is the **map layer**: load it to ground every Sportsdata SDK fact. `dotnet-integrate-sportsdata` is the workflow that drives it — you collect the contracts for the work in scope into `sportsdata-plan.md`, implement from that sheet, and come back to the one map page a row cites for any fact the sheet is missing. Every contract fact comes from here, never from memory.
+> **Who this skill is for.** This is the **map layer**: load it to ground every SportsDataIO SDK fact. `dotnet-integrate-sportsdata` is the workflow that drives it — you collect the contracts for the work in scope into `sports-data-io-plan.md`, implement from that sheet, and come back to the one map page a row cites for any fact the sheet is missing. Every contract fact comes from here, never from memory.
 
 This is the **SDK-specific** entry point. For general patterns that apply to any APIMatic-generated .NET SDK (auth, calling endpoints, models, error handling, retries, testing), see the companion API-agnostic skills: `dotnet-client-initialization`, `dotnet-authentication`, `dotnet-calling-endpoints`, `dotnet-models`, `dotnet-error-handling`, `dotnet-configuration-resilience`, `dotnet-testing`.
 
@@ -17,34 +17,30 @@ This is the **SDK-specific** entry point. For general patterns that apply to any
 
 |  |  |
 | --- | --- |
-| API | Sportsdata |
+| API | SportsDataIO |
 | NuGet package | *not published to NuGet — see *Install* below* |
 | Source repo | https://github.com/context-plugins/sportsdata-csharp-sdk (branch `main` — the ref this map documents) |
-| Root namespace | `Sportsdata` (the `using` namespace) |
-| Client class | `SportsdataClient` |
-| Options class | `SportsdataClientOptions` |
+| Root namespace | `SportsDataIo` (the `using` namespace) |
+| Client class | `SportsDataIoClient` |
+| Options class | `SportsDataIoClientOptions` |
 | Auth | **API key** in the `Ocp-Apim-Subscription-Key` header — set `ApiKeyHeader`<br>**API key** in the `key` query parameter — set `ApiKeyQuery` |
 | Environments | `ServerEnvironment.Production` *(default)* → `https://api.sportsdata.io` |
-| Log environment variable | `SPORTSDATACLIENT_LOG` |
+| Log environment variable | `SPORTSDATAIOCLIENT_LOG` |
 | Target framework | `netstandard2.0` |
 
 The table above is **orientation, not a copy-paste recipe** — it gives you the names and facts (install, namespaces, the auth *pattern*, the environments), while the actual integration code comes from the companion skills. Load every one the contract sheet's REQUIRED READING names before you start implementing (`dotnet-integrate-sportsdata` makes that binding); the **Integration workflow** below says which governs which step.
 
 ## Namespaces (using-directives)
 
-The SDK splits its public types across **separate child namespaces**. C# does **not** import child namespaces transitively, so `using Sportsdata.Models;` alone does **not** make enums, union types, or error types visible — you get `CS0103`/`CS0246` ("name/type does not exist") on build. Add a separate `using` for each kind of type you reference:
+The SDK splits its public types across **separate child namespaces**. C# does **not** import child namespaces transitively, so `using SportsDataIo.Models;` alone does **not** make enums, union types, or error types visible — you get `CS0103`/`CS0246` ("name/type does not exist") on build. Add a separate `using` for each kind of type you reference:
 
 | Type | Namespace |
 | --- | --- |
-| `SportsdataClient` | `Sportsdata` |
-| `SportsdataClientOptions` | `Sportsdata` |
-| `ServerEnvironment` | `Sportsdata.Servers` |
+| `SportsDataIoClient` | `SportsDataIo` |
+| `SportsDataIoClientOptions` | `SportsDataIo` |
+| `ServerEnvironment` | `SportsDataIo.Servers` |
 
 Models, enums, union types and the generated error types each sit in their own child namespace. The map's **Namespaces by content type** table maps each source directory to its namespace, so read the namespace off the path the map gives for the type; anything left ambiguous is settled by the `namespace` declaration at the top of the type's own file.
-
-## Install — from source
-
-This SDK is **not published to a package feed**, so there is no `dotnet add package` for it. Build it from its repository — <https://github.com/context-plugins/sportsdata-csharp-sdk>, branch `main` — and reference the resulting assembly, then write the `using` directives from the table above. That build reference is a separate thing from the read-only reference clone the *SDK source* section describes, which carries the map and is never part of the build.
 
 ## SDK map — look up first, open the named file second, never grep
 
@@ -63,33 +59,33 @@ The SDK ships a generated map **inside its source repo**, at the SDK root — th
 
 Keep lookups cheap — the rules that keep a session's context small:
 
-- Collect the contracts for **every** in-scope operation in **one** pass — signatures and error accessors from the map pages, then required fields with wire names and enum values from the declaring files those pages name — into the **contract sheet** in `sportsdata-plan.md`, then implement from the sheet. Do not re-open a map page or source file per field, and never re-look-up a fact the sheet already carries.
+- Collect the contracts for **every** in-scope operation in **one** pass — signatures and error accessors from the map pages, then required fields with wire names and enum values from the declaring files those pages name — into the **contract sheet** in `sports-data-io-plan.md`, then implement from the sheet. Do not re-open a map page or source file per field, and never re-look-up a fact the sheet already carries.
 - When you do open a source file, read it **scoped**: with an offset/limit, or a search for the one symbol — never dump a whole file into the conversation.
 - Never open the SDK's `api-reference.md` — the map supersedes it.
 
 ## SDK source — get it first; the map lives inside it
 
-The SDK source is where the map lives, so **getting it is the first step of SDK work this session, not a fallback**: one shallow clone at the recorded ref, into the **system temp directory** (`<temp>/sportsdata-sdk-src/`), reused for the whole session. The clone is a read-only reference, never in the project repo, and **not** a build dependency. Opening the **one declaring file** a map page names is the normal flow here — that is where model, enum and error shapes live. What stays off-limits is *locating* anything by scanning: every file you open is one the map named, opened scoped, never found by grep.
+The SDK source is where the map lives, so **getting it is the first step of SDK work this session, not a fallback**: one shallow clone at the recorded ref, into the **system temp directory** (`<temp>/sports-data-io-sdk-src/`), reused for the whole session. The clone is a read-only reference, never in the project repo, and **not** a build dependency. Opening the **one declaring file** a map page names is the normal flow here — that is where model, enum and error shapes live. What stays off-limits is *locating* anything by scanning: every file you open is one the map named, opened scoped, never found by grep.
 
-**Clone once, up front**, into a fresh timestamped folder under `<temp>/sportsdata-sdk-src/`, and reuse that folder for the rest of your session:
+**Clone once, up front**, into a fresh timestamped folder under `<temp>/sports-data-io-sdk-src/`, and reuse that folder for the rest of your session:
 
 ```bash
 # Linux/macOS:
-dir="${TMPDIR:-/tmp}/sportsdata-sdk-src/$(date +%Y%m%d-%H%M%S)"
+dir="${TMPDIR:-/tmp}/sports-data-io-sdk-src/$(date +%Y%m%d-%H%M%S)"
 git clone --filter=blob:none --branch main https://github.com/context-plugins/sportsdata-csharp-sdk "$dir"
 # Reuse "$dir" for the rest of your session (it is your clone path).
 ```
 
 ```powershell
 # Windows (PowerShell):
-$dir = "$env:TEMP\sportsdata-sdk-src\$(Get-Date -Format yyyyMMdd-HHmmss)"
+$dir = "$env:TEMP\sports-data-io-sdk-src\$(Get-Date -Format yyyyMMdd-HHmmss)"
 git clone --filter=blob:none --branch main https://github.com/context-plugins/sportsdata-csharp-sdk $dir
 # Reuse $dir for the rest of your session (it is your clone path).
 ```
 
 A branch is a moving target, not a pin: `main` can be regenerated after this plugin ships, and then the map you read describes code the package no longer matches. If a name from the map fails to compile, trust the compiler, re-read the source file the map's row names, and report the drift; never patch around it from memory.
 
-The clone lives in `<temp>/sportsdata-sdk-src/`, **never** in the project repo, and its path never goes into `sportsdata-plan.md` — the plan must stay portable, and the clone is a session-local reference, not part of the project.
+The clone lives in `<temp>/sports-data-io-sdk-src/`, **never** in the project repo, and its path never goes into `sports-data-io-plan.md` — the plan must stay portable, and the clone is a session-local reference, not part of the project.
 
 Then confirm the SDK shape **only** from that local clone — not by either of these:
 
@@ -102,19 +98,19 @@ Layout — where the SDK map's file references resolve (open these directly; do 
 - `Models/` (+ `Models/Enums/`) — request/response records, unions and enums; one public type per file, named after the file.
 - `Errors/` — per-operation `{Operation}Error` types (only Case-A operations have one; the map's rows say which case each operation is).
 - `Core/` — HTTP infrastructure (`SdkException<T>`, `RawError`, auth, retries, `SdkHook`).
-- `Servers/`, `SportsdataClient.cs`, `ServiceCollectionExtensions.cs` — environments, the client, DI.
+- `Servers/`, `SportsDataIoClient.cs`, `ServiceCollectionExtensions.cs` — environments, the client, DI.
 
 **Leave the clone in place — do not delete it.** It is a read-only reference with nothing of yours in it, and keeping it is what lets every later step in this session reuse it instead of cloning again. The OS reaps the temp directory on its own; a future session simply makes its own timestamped clone.
 
 ## Idempotency — the real keys are on the map; the injected header is not one
 
-The generator injects an `Idempotency-Key: Guid.NewGuid()` header on **every non-GET operation** — fresh on every call, invisible to you, and **not** an idempotency key in any meaningful sense: a value that changes per call deduplicates nothing, and Sportsdata may not document reading that header at all. `dotnet-configuration-resilience` explains why a visible header like this is worse than an absent one.
+The generator injects an `Idempotency-Key: Guid.NewGuid()` header on **every non-GET operation that does not already declare that header itself** — fresh on every call, invisible to you, and **not** an idempotency key in any meaningful sense: a value that changes per call deduplicates nothing, and SportsDataIO may not document reading that header at all. `dotnet-configuration-resilience` explains why a visible header like this is worse than an absent one.
 
 Whether an operation takes a **real**, caller-supplied key is an API fact, visible on that operation's map row: look for a key-shaped parameter (an idempotency key, a request id) in the signature. Its semantics — retention windows, when it is mandatory — are provider prose, in the method's XML `<param>`/`<remarks>` docs in the `Api/` file the page names. Some APIs expose **`If-Match` optimistic concurrency** instead — a different guarantee (reject my write if the resource changed) solving a different problem (lost updates, not duplicates); those parameters show in the signatures too. For every write with no key, the answer is reconciliation — `dotnet-configuration-resilience` — not hope.
 
 ## Sensitive data — check the request models before you log anything
 
-Whether this API's **request** models carry fields you must never log — card or bank numbers, personal data, message content — is a shape question: each request model's declaring file (the map's Type sources table names it) lists every field with its `[JsonPropertyName]` wire name. If the scope touches such a field, three generator facts decide your logging posture (all in `dotnet-configuration-resilience`): JSON request bodies are logged **verbatim** when `LogRequestBody` is on, with no redaction; form bodies are masked only by deny-list; and leaving `options.Logging.LoggerFactory` unset arms the `SPORTSDATACLIENT_LOG` environment variable, whose `trace` level forces body logging on with no code change and no deploy. So on any build that can carry such a field: `LogRequestBody` stays off, `LoggerFactory` is set explicitly in production, and your own diagnostics never echo a request body on those paths.
+Whether this API's **request** models carry fields you must never log — card or bank numbers, personal data, message content — is a shape question: each request model's declaring file (the map's Type sources table names it) lists every field with its `[JsonPropertyName]` wire name. If the scope touches such a field, three generator facts decide your logging posture (all in `dotnet-configuration-resilience`): JSON request bodies are logged **verbatim** when `LogRequestBody` is on, with no redaction; form bodies are masked only by deny-list; and leaving `options.Logging.LoggerFactory` unset arms the `SPORTSDATAIOCLIENT_LOG` environment variable, whose `trace` level forces body logging on with no code change and no deploy. So on any build that can carry such a field: `LogRequestBody` stays off, `LoggerFactory` is set explicitly in production, and your own diagnostics never echo a request body on those paths.
 
 Responses are often safer — many APIs return masked variants of what requests carry raw — but that too is a model-shape fact: check the response model's file before assuming.
 
@@ -132,10 +128,10 @@ Every APIMatic .NET plugin ships this same set of `dotnet-*` skill names. Copies
 
 You loaded every companion the sheet named before starting (per `dotnet-integrate-sportsdata`); before you write the code for each step, re-read the one that governs it — even if you have already read the relevant source. Each step calls out the trap the signature hides (in *parens*). A typical integration reaches them in this order:
 
-1. **Client & DI setup** — load **dotnet-client-initialization** before you write `new SportsdataClient(...)`, build its options, or DI-register it. (*The signature will not tell you:* the `HttpClient`/handler pipeline must be long-lived and reused via `IHttpClientFactory`, not rebuilt per request; the SDK client wrapper over it may be transient.)
-2. **Authentication** — load **dotnet-authentication** before you set credentials. The scheme(s) this SDK accepts are the credentials properties on `SportsdataClientOptions` — the identity table above names them. (*The signature will not tell you:* set credentials before constructing the client or in the DI callback, and load secrets from configuration rather than hardcoding.)
+1. **Client & DI setup** — load **dotnet-client-initialization** before you write `new SportsDataIoClient(...)`, build its options, or DI-register it. (*The signature will not tell you:* the `HttpClient`/handler pipeline must be long-lived and reused via `IHttpClientFactory`, not rebuilt per request; the SDK client wrapper over it may be transient.)
+2. **Authentication** — load **dotnet-authentication** before you set credentials. The scheme(s) this SDK accepts are the credentials properties on `SportsDataIoClientOptions` — the identity table above names them. (*The signature will not tell you:* set credentials before constructing the client or in the DI callback, and load secrets from configuration rather than hardcoding.)
 3. **Calling an endpoint / building a request body** — load **dotnet-calling-endpoints** before the first `client.{ApiGroup}.{Operation}(...)` call. (*The signature will not tell you:* call list/search ops with named arguments — many optional params have no C# default and mis-bind in a positional call; and whether a write takes a real idempotency key is on its map row — the injected `Idempotency-Key` header is not one, see *Idempotency* above.)
-4. **Models** — load **dotnet-models** the moment a request/response field is not a plain string or number. (*The signature will not tell you:* unions are built with factory methods and read via `TryGet…` (no `new`), enums are `StringEnum<T>` not C# enums, and unknown response fields are kept — every model carries an `AdditionalProperties` extension-data property, so they survive deserialization instead of vanishing.)
+4. **Models** — load **dotnet-models** the moment a request/response field is not a plain string or number. (*The signature will not tell you:* unions are built with factory methods and read via `TryGet…` (no `new`), enums are `StringEnum<T>` not C# enums, and unknown response fields are kept on any model that carries an extension-data bag — conventionally `AdditionalProperties`, but a schema that closes itself with `additionalProperties: false` has none, and one that already declares a member of that name pushes the bag to a deduplicated spelling. Check the model's own map row rather than assuming the property is there.)
 5. **Error handling** — load **dotnet-error-handling** before you write any `try/catch`. (*The signature will not tell you:* an operation is either Case B (`SdkException<RawError>`, no typed accessors) or Case A (a typed `{Operation}Error`) — how the API mixes them is its own fact, so confirm each operation's case in its map row; and `TryGetRawError` is not a catch-all on the typed errors. Whether no-throw `…Result` variants exist at all is stated once, in the map's defaults table; never assume one does.)
 6. **Configuration & resilience** — load **dotnet-configuration-resilience** when you tune retries, timeouts, the base URL, pagination, or logging. (*The signature will not tell you:* `HttpMethodsToRetry` gates **every** retry trigger, so a `POST` is never resent by default — but a `GET` that hangs costs far more than the `Timeout` value suggests, because the per-attempt timeout is itself retried. `Timeout` is per-attempt not total, `RetryOptions.Disabled()` turns retries off, and there **is** a built-in logger on `options.Logging` — whose `LogRequestBody` does not redact JSON.)
 7. **Testing** — load **dotnet-testing** before you stub the SDK. (*The signature will not tell you:* the `HttpClient` constructor argument is the test seam; match the project's existing framework and assertion style.)

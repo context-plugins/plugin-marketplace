@@ -37,6 +37,16 @@ Verified against `sports_data_io/` and `pyproject.toml` of the generated package
 
 The table above is **orientation, not a copy-paste recipe** — it gives you the names and facts (install, import roots, the auth *pattern*, the base-URL knob), while the actual integration code comes from the companion skills. Load each one as you reach its step (see **Integration workflow** below) and confirm its types against the installed package.
 
+## Install — from source
+
+This SDK is not published to a package index, so there is no `pip install` from PyPI for it. Install it from its repository — <https://github.com/context-plugins/sportsdata-python-sdk> — into the same environment your project runs in:
+
+```bash
+pip install "sports-data-io @ git+https://github.com/context-plugins/sportsdata-python-sdk.git@main"
+```
+
+The generated distribution carries its own `pyproject.toml`, so `pip` builds and installs it exactly like a released package. Do not vendor its source into your project, add its directory to `sys.path`, or install it editable (`-e`) from a throwaway clone — an editable install points at the clone's path, so deleting the clone breaks every import. Once installed, write the imports from the table above: the distribution name you install and the package name you import are not the same string. Requires Python 3.10 or newer.
+
 ## Imports — the package splits its surface across four modules
 
 Python does not re-export child modules transitively, so `from sports_data_io import models` alone does **not** make enums, error unions, or runtime types reachable. Import each kind of type from the module that owns it.

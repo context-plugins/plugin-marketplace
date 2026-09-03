@@ -42,6 +42,10 @@ The SDK splits its public types across **separate child namespaces**. C# does **
 
 Models, enums, union types and the generated error types each sit in their own child namespace. The map's **Namespaces by content type** table maps each source directory to its namespace, so read the namespace off the path the map gives for the type; anything left ambiguous is settled by the `namespace` declaration at the top of the type's own file.
 
+## Install — from source
+
+This SDK is **not published to a package feed**, so there is no `dotnet add package` for it. Build it from its repository — <https://github.com/context-plugins/sportsdata-csharp-sdk>, branch `main` — and reference the resulting assembly, then write the `using` directives from the table above. That build reference is a separate thing from the read-only reference clone the *SDK source* section describes, which carries the map and is never part of the build.
+
 ## SDK map — look up first, open the named file second, never grep
 
 The SDK ships a generated map **inside its source repo**, at the SDK root — the map and the SDK regenerate together in one repo, so they cannot drift apart. The map is **method-first**: operation contracts are on its pages; model, enum and error **shapes are deliberately not duplicated there** — the map names the file declaring each type, and you read the shape in that file. Obtain the source first (next section); every path below is relative to the SDK root in the clone:

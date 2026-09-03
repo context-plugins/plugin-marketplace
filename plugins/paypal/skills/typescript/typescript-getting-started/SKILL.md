@@ -1,11 +1,11 @@
 ---
 name: "typescript-getting-started"
-description: "Paypal TypeScript SDK identity and lookup layer (TypeScript/JavaScript only) — install, the single import specifier `paypal`, the server environments and the base-URL knob, the auth pattern, the SDK map that ships inside the installed package (`sdk-map.md` + `map/operations/`) and how to traverse it, and the file table naming the one source file owning each fact the map leaves to the source. Load this before answering any Paypal TypeScript SDK contract question or writing any SDK code."
+description: "PayPal Server SDK TypeScript SDK identity and lookup layer (TypeScript/JavaScript only) — install, the single import specifier `pay-pal-server-sdk`, the server environments and the base-URL knob, the auth pattern, the SDK map that ships inside the installed package (`sdk-map.md` + `map/operations/`) and how to traverse it, and the file table naming the one source file owning each fact the map leaves to the source. Load this before answering any PayPal Server SDK TypeScript SDK contract question or writing any SDK code."
 ---
 
-# Getting started with the Paypal TypeScript SDK
+# Getting started with the PayPal Server SDK TypeScript SDK
 
-> **Who this skill is for.** This is the **lookup layer** for anyone writing Paypal TypeScript SDK code — it is yours to follow directly and fully. Ground every contract fact here (in the SDK map, and in the source files it names) rather than in recall, and carry those facts onto a contract sheet before you implement. Load `typescript-integrate-paypal` for the workflow that wraps this skill.
+> **Who this skill is for.** This is the **lookup layer** for anyone writing PayPal Server SDK TypeScript SDK code — it is yours to follow directly and fully. Ground every contract fact here (in the SDK map, and in the source files it names) rather than in recall, and carry those facts onto a contract sheet before you implement. Load `typescript-integrate-paypal` for the workflow that wraps this skill.
 
 This is the **SDK-specific** entry point. For general patterns that apply to any APIMatic-generated TypeScript SDK (client construction, auth, calling endpoints, models, error handling, resilience, testing), see the companion API-agnostic skills: `typescript-client-initialization`, `typescript-authentication`, `typescript-calling-endpoints`, `typescript-models`, `typescript-error-handling`, `typescript-configuration-resilience` and `typescript-testing`.
 
@@ -17,13 +17,13 @@ Verified against `package.json` and `sdk-map.md` of the generated package at ver
 
 | Fact | Value |
 | --- | --- |
-| API | Paypal |
-| Package name (what you install, and what you import) | `paypal` — **not on npm**; built from source (see *Install*) |
-| Import specifier | `paypal` — the package root is the **only** entry; deep imports do not resolve |
+| API | PayPal Server SDK |
+| Package name (what you install, and what you import) | `pay-pal-server-sdk` — **not on npm**; built from source (see *Install*) |
+| Import specifier | `pay-pal-server-sdk` — the package root is the **only** entry; deep imports do not resolve |
 | Version | `2.29` (API spec version `2.29`) |
-| Client class | `PaypalClient` (`src/client.ts`) — one class, no sync/async split |
+| Client class | `PayPalServerSdkClient` (`src/client.ts`) — one class, no sync/async split |
 | Options type | `ClientOptions`, with `DEFAULT_CLIENT_OPTIONS` beside it (`src/client-options.ts`) |
-| Client construction | `new PaypalClient(clientOptions: Partial<ClientOptions> = {})` — **every** field is optional, so `new PaypalClient()` compiles. Fields: `serverEnvironment` · `serverOptions` · `timeout` · `fetch` · `oauth2` · `oauth2Strategy`. `timeout` defaults to `60_000` ms |
+| Client construction | `new PayPalServerSdkClient(clientOptions: Partial<ClientOptions> = {})` — **every** field is optional, so `new PayPalServerSdkClient()` compiles. Fields: `serverEnvironment` · `serverOptions` · `timeout` · `fetch` · `oauth2` · `oauth2Strategy`. `timeout` defaults to `60_000` ms |
 | Auth | **OAuth 2 client credentials** — set `ClientOptions.oauth2` |
 | Environments | 1 environment (`ServerEnvironment.Sandbox` *(default)*) × 1 server group |
 | Base-URL config | `serverOptions.<group>.<environment>.baseUrl` (`src/servers.ts`), defaulting to `https://api-m.sandbox.paypal.com` |
@@ -52,15 +52,15 @@ Do not vendor its `src/` into your project, point `tsconfig` `paths` at a throwa
 **Every** public name is re-exported from the package root — the client, `ClientOptions`, `ServerEnvironment`, 371 model types with the schema value beside each, the error classes, and the runtime types (`ApiPromise`, `ApiResult`, `RequestOptions`, `ErrorPayload`, `Declared`, `Schema`, `EnumSchema`, `Encoded`).
 
 ```ts
-import { PaypalClient, ServerEnvironment, ResponseError, PaypalError } from "paypal";
-import type { ClientOptions, AvsCode } from "paypal";
+import { PayPalServerSdkClient, ServerEnvironment, ResponseError, PayPalServerSdkError } from "pay-pal-server-sdk";
+import type { ClientOptions, AvsCode } from "pay-pal-server-sdk";
 ```
 
 Things the specifier alone will not tell you:
 
-- **Deep imports do not resolve.** The `exports` map exposes `.` and `./package.json` and nothing else, so `paypal/models/…` fails (`TS2307`) even though the file exists in the shipped `src/`. Every `Source` path on the SDK map is where to **read** a shape, never what to import.
-- **⚠ The SDK exports a model type literally named `Error`** (`src/models/error.ts`, schema `errorSchema`). Import it unaliased and it **shadows the global `Error`** for the rest of the file. Alias it: `import type { Error as SdkError } from "paypal"`.
-- **From CommonJS**, the typed spelling is `import sdk = require("paypal")`. A plain `require` destructure runs but yields `any`.
+- **Deep imports do not resolve.** The `exports` map exposes `.` and `./package.json` and nothing else, so `pay-pal-server-sdk/models/…` fails (`TS2307`) even though the file exists in the shipped `src/`. Every `Source` path on the SDK map is where to **read** a shape, never what to import.
+- **⚠ The SDK exports a model type literally named `Error`** (`src/models/error.ts`, schema `errorSchema`). Import it unaliased and it **shadows the global `Error`** for the rest of the file. Alias it: `import type { Error as SdkError } from "pay-pal-server-sdk"`.
+- **From CommonJS**, the typed spelling is `import sdk = require("pay-pal-server-sdk")`. A plain `require` destructure runs but yields `any`.
 - **`instanceof` is reliable within one dialect.** A process that loads both (`import` in one file, `require` in another) gets two independent copies of every error class, and `instanceof` across that boundary is `false` — narrow on `err.kind` / `err.payload.kind` / `err.name` there.
 
 Under `verbatimModuleSyntax`, names carrying no runtime value (`ClientOptions`, every model type) must be imported with `import type`. Under `exactOptionalPropertyTypes`, **omit or spread** an absent optional field rather than assigning `undefined` to it.
@@ -90,7 +90,7 @@ Authentication is **per operation**: every operation declares the requirement it
 | `oauth2` | OAuth 2 client credentials | `Authorization: Bearer <access token>` |
 
 ```ts
-const client = new PaypalClient({
+const client = new PayPalServerSdkClient({
   oauth2: { clientId: process.env.CLIENT_ID!, clientSecret: process.env.CLIENT_SECRET! },
 });
 ```
@@ -141,12 +141,12 @@ The SDK ships a generated map, and `package.json`'s `files` list includes it, so
 Locate the installed package before you rely on a lookup:
 
 ```bash
-node -e "console.log(require.resolve('paypal/package.json'))"
+node -e "console.log(require.resolve('pay-pal-server-sdk/package.json'))"
 ```
 
-Failing that it is at `node_modules/paypal/`. **If the package is not installed, there is no map and no source to read** — mark the fact `UNVERIFIED` and say what would settle it rather than answering from memory.
+Failing that it is at `node_modules/pay-pal-server-sdk/`. **If the package is not installed, there is no map and no source to read** — mark the fact `UNVERIFIED` and say what would settle it rather than answering from memory.
 
-Every `Source` path on the map is relative to that package root, so `src/models/<file>.ts` opens as written from there — the package ships its `src/` tree, so the path resolves inside `node_modules/paypal/` exactly as the map writes it. An import specifier ending `.js` inside that source is the NodeNext spelling of the sibling `.ts` file.
+Every `Source` path on the map is relative to that package root, so `src/models/<file>.ts` opens as written from there — the package ships its `src/` tree, so the path resolves inside `node_modules/pay-pal-server-sdk/` exactly as the map writes it. An import specifier ending `.js` inside that source is the NodeNext spelling of the sibling `.ts` file.
 
 **The map is the locator; the source files are the shapes.** Read the map first — signatures, routes, request fields with their channels and defaults, return types, error arms, enum values, and which file declares a type are all answered there without opening a single `.ts` file. Then open the one file the map names for what it deliberately does not carry: a model's members, whether each is required, optional or nullable. The map says so itself — *"Shapes live only in the source … Do not derive the path from the type name."*
 
@@ -158,7 +158,7 @@ Every `Source` path on the map is relative to that package root, so `src/models/
 
 **Seven of these are map lookups — don't open a source file for them:** an operation's signature; its request fields with channel, wire name, required flag and default; its return type; its error subclass and the arms with the status each covers; the `ClientOptions` fields and their defaults; the environments, base URLs and auth wiring; **and every enum's members with their wire values**, which `sdk-map.md` tabulates in full.
 
-The table below covers everything else, and the full body behind a map row. Paths are relative to `node_modules/paypal/`:
+The table below covers everything else, and the full body behind a map row. Paths are relative to `node_modules/pay-pal-server-sdk/`:
 
 | Question | File |
 | --- | --- |
@@ -190,17 +190,17 @@ Keep lookups cheap — the rules that keep a session's context small:
 
 Before you write the code for each step, load the named companion skill — even if you have already read the relevant file. Each step calls out the trap the signature hides (in *parens*). A typical integration reaches them in this order:
 
-1. **Client construction & lifetime** — load **typescript-client-initialization** before you write `new PaypalClient(…)`. (*The signature won't tell you:* every option is optional, so a client built with no arguments compiles and talks to the default environment with no credential; the client must be **long-lived and app-scoped**, never rebuilt per request, because the resource getters and the OAuth 2 token cache live on it; there is no `close()` or `dispose()` — it owns no pool, only a `fetch`; and when no `fetch` is reachable the **constructor** throws `SdkError`, not the first call.)
+1. **Client construction & lifetime** — load **typescript-client-initialization** before you write `new PayPalServerSdkClient(…)`. (*The signature won't tell you:* every option is optional, so a client built with no arguments compiles and talks to the default environment with no credential; the client must be **long-lived and app-scoped**, never rebuilt per request, because the resource getters and the OAuth 2 token cache live on it; there is no `close()` or `dispose()` — it owns no pool, only a `fetch`; and when no `fetch` is reachable the **constructor** throws `SdkError`, not the first call.)
 2. **Authentication** — load **typescript-authentication** before you set credentials. The scheme is `oauth2` on `ClientOptions`. (*The signature won't tell you:* the field is optional — omit it and every request goes out unauthenticated with no failure at construction; the token is fetched lazily and cached on the client; a **failed token fetch** raises `AuthError`, which is not a `ResponseError` and **bypasses `.asApiResult()` entirely**; and a 401 invalidates the cache without retrying the current call. Load secrets from the environment or a secret store, never hardcode.)
 3. **Calling an endpoint** — load **typescript-calling-endpoints** before the first `client.<resource>.<operation>(…)` call. (*The signature won't tell you:* the request object is **flat and channel-blind** — a field named `body` *is* the whole request body and every other field is fanned out to path, query or header by the SDK, so nothing is nested by channel; **an omitted field that has a default is still sent, with that default**; **11 operations resolve to `undefined`**; and `.asApiResult()` must be called on the value the operation returned, because `ApiPromise` overrides `Symbol.species` and `.then()`/`.catch()` hand back a plain `Promise` with the method gone.)
 4. **Models** — load **typescript-models** the moment a request/response member is not a plain string or number. (*The signature won't tell you:* models are plain `type`s built from object literals — no constructor, no builder; `f?: T` means omit the key, while `f: T | null` is **required and nullable** and `null` is a distinct value; enums are **open** (`const` companion plus a union admitting `(string & {})`), so the schema validates the base type only and an unknown server value round-trips instead of throwing — use `.values` to test membership yourself; and every type has a schema companion usable in both directions.)
-5. **Error handling** — load **typescript-error-handling** before you write any `try/catch`. (*The signature won't tell you:* there are **two disjoint families** — `ResponseError` and its per-operation subclasses for an API error status, and the `PaypalError` set (`ConnectionError`, `TimeoutError`, `AbortError`, `SdkError`, `SchemaError`, `AuthError`) for no usable response — and neither is `instanceof` the other, so a complete catch needs both arms; **arm tags are schema-derived, not statuses** (see the sheet checklist below); a malformed 2xx body rejects with `SchemaError`, not `ResponseError`, and `.asApiResult()` does not convert it; and a missing response field the schema permits is silently `undefined` rather than any error at all.)
+5. **Error handling** — load **typescript-error-handling** before you write any `try/catch`. (*The signature won't tell you:* there are **two disjoint families** — `ResponseError` and its per-operation subclasses for an API error status, and the `PayPalServerSdkError` set (`ConnectionError`, `TimeoutError`, `AbortError`, `SdkError`, `SchemaError`, `AuthError`) for no usable response — and neither is `instanceof` the other, so a complete catch needs both arms; **arm tags are schema-derived, not statuses** (see the sheet checklist below); a malformed 2xx body rejects with `SchemaError`, not `ResponseError`, and `.asApiResult()` does not convert it; and a missing response field the schema permits is silently `undefined` rather than any error at all.)
 6. **Configuration & resilience** — load **typescript-configuration-resilience** when you set the base URL, timeouts, proxies, TLS, or logging. (*The signature won't tell you:* **the SDK performs no retries at all** — a failed call rejects once, so retry/backoff is entirely yours to build or deliberately omit; **there is no logging and there are no hooks, middleware or interceptors** — `ClientOptions.fetch` is the single extension point for all of it; `timeout` is client-wide with **no per-request timeout**, and a non-finite or non-positive value is not "no timeout" but a fallback to the transport's own ceiling; and a `fetch` replacement that drops `init.signal` makes both the timeout and every `RequestOptions.signal` inert.)
 7. **Testing** — load **typescript-testing** before you stub the SDK. (*The signature won't tell you:* the seam is **`ClientOptions.fetch`**, not the client class and not the resource classes — whose constructors take unexported engine internals, so they cannot be instantiated in a test; stub bodies in **wire shape** and let the SDK decode them; assert on the request the SDK actually built, headers included; and cover the failure kinds a `ResponseError`-only test misses, `SchemaError` above all.)
 
 ## What a contract sheet must carry for this SDK
 
-Beyond the usual signatures and model members, a contract sheet for the Paypal TypeScript SDK is incomplete without these, because each one is a decision the implementer cannot make correctly from the signature alone.
+Beyond the usual signatures and model members, a contract sheet for the PayPal Server SDK TypeScript SDK is incomplete without these, because each one is a decision the implementer cannot make correctly from the signature alone.
 
 1. **Which host each deployment talks to**, and where that is set. This SDK declares one environment, `ServerEnvironment.Sandbox`, so any other host is a `serverOptions` base-URL override rather than an environment member — give the override path on the sheet.
 2. **11 operations resolve to `undefined`** — `await` gives you nothing to inspect, so **`.asApiResult()` is the only way to observe their status and headers** — decide the mode at write time, not by retrofit.
@@ -210,6 +210,6 @@ Beyond the usual signatures and model members, a contract sheet for the Paypal T
 6. **The error arms for each operation in scope, with the status each covers — and the warning that arm tags are schema-derived, not status codes.** Every operation rejects with its own `ResponseError` subclass narrowed on `err.payload.kind`, and a tag comes from the arm's **body schema**: an arm whose body is a direct model reference is named after that model in lower camel (`"apiError"`), and every other body — a primitive, an array, a map, or no content — is named `"error{Status}"` (`"error400"`, `"error4XX"`, `"errorDefault"`), with a numeric suffix on the second of two arms that would otherwise land on the same name. The same tag means different statuses on different operations, and the same status carries different tags — so a tag is only meaningful beside the arm table it came from, and a shared helper that switches on `kind` across operations is a bug. 40 of 40 operations declare typed error bodies; the rest reject with the base `ResponseError`. Every operation also carries an always-present `"undeclared"` arm holding `rawBody: ArrayBuffer`, for which **matcher precedence** matters: an exact numeric status is looked up across the whole table first, and only then does the first covering wildcard or range win.
 7. **That a malformed or drifted 2xx body rejects with `SchemaError`, not `ResponseError`, in both response modes** — `.asApiResult()` converts an HTTP error status, never a Family B failure. Any sheet row for a call whose result is used must name the members the implementer has to assert on, because a thin or truncated body decodes without complaint and the hole surfaces later.
 8. **That the SDK performs no retries, no logging, no pagination and no streaming at all**, and that `ClientOptions.fetch` is the one seam where any of it can be added — so whatever the task needs there is yours to build or deliberately omit. Say which.
-9. **That `Error` imported from this package is a model type, not the global of that name** — every sheet that references one should carry the alias it will be imported under. The error base is re-exported as `PaypalError` for the same reason.
+9. **That `Error` imported from this package is a model type, not the global of that name** — every sheet that references one should carry the alias it will be imported under. The error base is re-exported as `PayPalServerSdkError` for the same reason.
 10. A **REQUIRED READING** block naming the `typescript-*` companions that govern the steps, with inline `MUST load` pointers.
 

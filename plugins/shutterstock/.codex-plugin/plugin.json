@@ -1,0 +1,10 @@
+{
+  "name": "shutterstock",
+  "version": "0.3.3",
+  "description": "Integrate and consume the APIMatic-generated Shutterstock API Explorer SDK — bundled skills for C#/.NET, Python, TypeScript.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Shutterstock",
+    "developerName": "Muhammad Rafay Nadeem"
+  }
+}

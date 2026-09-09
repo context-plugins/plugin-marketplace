@@ -1,0 +1,10 @@
+{
+  "name": "paypal",
+  "version": "0.3.3",
+  "description": "Integrate and consume the APIMatic-generated PayPal Server SDK SDK — bundled skills for C#/.NET, Python, TypeScript.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Paypal",
+    "developerName": "Muhammad Rafay Nadeem"
+  }
+}

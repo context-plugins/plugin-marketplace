@@ -19,13 +19,13 @@ Verified against `square/` and `pyproject.toml` of the generated package at vers
 | --- | --- |
 | API | Square |
 | Distribution name (what you install) | `square` — **not on any package index**; installed from source (see *Install*) |
-| Import root (what you import) | `square` — note the underscores; the two names differ |
+| Import root (what you import) | `square` — the same string you install |
 | Source repository | https://github.com/context-plugins/square-python-sdk |
 | Source branch | `main` |
 | Version | `2.0` |
 | Sync client class | `SquareClient` (alias `Client`) |
 | Async client class | `AsyncSquareClient` (alias `AsyncClient`) |
-| Client construction | **keyword-only**: `environment` · `base_url` · `timeout` (default `30.0`) · `oauth2` · `oauth2_client_secret`, and the transport override — `custom_http_client` on the sync client, `custom_async_http_client` on the async one (the names differ; see step 1) |
+| Client construction | **keyword-only**: `environment` · `base_url` · `timeout` (default `30.0`) · `oauth2` · `oauth2_token_source` · `oauth2_client_secret`, and the transport override — `custom_http_client` on the sync client, `custom_async_http_client` on the async one (the names differ; see step 1) |
 | Auth | **OAuth 2.0** authorization code — set `oauth2` · **API key** in the `Authorization` header — set `oauth2_client_secret` |
 | Environments | 3 environments selected by `environment` (default `"production"`), overridable with `base_url` |
 | Base-URL config | `ServerConfig` (`square/server/server_config.py`), frozen, `extra="forbid"` |
@@ -33,7 +33,7 @@ Verified against `square/` and `pyproject.toml` of the generated package at vers
 | Runtime dependencies | `httpx (>=0.28.1,<1.0.0)` · `pydantic[email] (>=2.11.0,<3.0.0)` · `typing-extensions (>=4.13.0,<5.0.0)` |
 | Typing | ships `py.typed`; the package is checked under `mypy --strict` with `warn_unreachable`. Callers get full inference — **a type error against this SDK is a real contract violation, not noise** |
 | Line length / lint | `ruff`, 120 cols (only relevant when editing the SDK itself) |
-| Surface | 334 operations across 43 controllers · 1271 models · 203 enums · 0 per-operation error unions |
+| Surface | 334 operations across 43 controllers · 1271 models · 0 unions · 203 enums · 0 per-operation error unions |
 
 The table above is **orientation, not a copy-paste recipe** — it gives you the names and facts (install, import roots, the auth *pattern*, the base-URL knob), while the actual integration code comes from the companion skills. Load each one as you reach its step (see **Integration workflow** below) and confirm its types against the installed package.
 
@@ -51,7 +51,7 @@ The generated distribution carries its own `pyproject.toml`, so `pip` builds and
 
 Python does not re-export child modules transitively, so `from square import models` alone does **not** make enums, error unions, or runtime types reachable. Import each kind of type from the module that owns it.
 
-`square/__init__.py` exports exactly 6 names:
+`square/__init__.py` exports exactly 6 names beside the `square.models` subpackage it re-exports:
 
 ```python
 from square import (
@@ -64,7 +64,7 @@ from square import (
 )
 ```
 
-Everything else comes from its own subpackage, and the split matters because the four places a caller reaches for are four different modules:
+Everything else comes from its own subpackage, and the split matters because each kind of type a caller reaches for lives in a different module:
 
 | What you need | Where it lives |
 | --- | --- |
@@ -101,8 +101,11 @@ OAuth 2.0 authorization code, exposed as the client's `oauth2=` keyword taking `
 from square import Client
 from square.core import AuthorizationCodeCredentials
 
-client = Client(oauth2=AuthorizationCodeCredentials(client_id="…", client_secret="…", redirect_uri="…"))
-client = Client(oauth2={"client_id": "…", "client_secret": "…", "redirect_uri": "…"})   # equivalent
+def prompt(url: str) -> str:
+    return input(f"Open {url}, then paste the code: ")
+
+client = Client(oauth2=AuthorizationCodeCredentials(client_id="…", client_secret="…", redirect_uri="…", prompt_for_authorization_code=prompt))
+client = Client(oauth2={"client_id": "…", "client_secret": "…", "redirect_uri": "…", "prompt_for_authorization_code": prompt})   # equivalent
 ```
 
 An API key sent as the `Authorization` header, exposed as the client's `oauth2_client_secret=` keyword taking a plain string.
@@ -225,7 +228,6 @@ Failing that, it is under the project's environment (`.venv/Lib/site-packages/sq
 | httpx adapter, proxy/TLS knobs | `core/httpx_transport.py` |
 | Token fetch, credential placement | `core/auth/`, `core/auth/models.py` |
 | Base-URL resolution | `server/server_config.py`, `server/server.py` |
-| An operation's error mapper (status → schema) | `errors/<operation>_error.py` |
 
 **Read scoped.** These modules carry long design docstrings; `grep -n` for the symbol and read the surrounding lines rather than whole files. Never quote a docstring's design rationale onto a contract sheet — the sheet carries facts an implementer must obey, not the reasoning behind them.
 
@@ -256,7 +258,7 @@ Beyond the usual signatures and model members, a Python sheet is incomplete with
 3. **Every operation returns a payload** — no operation in this SDK returns `None`, so the `with_raw_response` peer is needed only where the status code itself matters.
 4. **Required vs `UNSET`** for every model member the task sets, and the fact that `Optional[T]` here is `T | UnsetType` — **not** `typing.Optional`, so `None` is not a legal value for it.
 5. **The `ApiError.error` union** for each operation in scope — no operation in this SDK documents a typed error body, so `.error` is always `RawError`.
-6. **That a decode failure raises `ValidationError`/`ValueError`, not `ApiError`, in both response modes** — `core/raw_client.py` states this in `_build_result`'s own docstring. **And that the 2xx path declares at least one required member on 1 return type, so a truncated body fails to decode there and passes silently everywhere else.** Any sheet row for a call whose result is used must name the members the implementer has to assert on.
+6. **That a decode failure raises `ValidationError`/`ValueError`, not `ApiError`, in both response modes** — `core/raw_client.py` states this in `_build_result`'s own docstring. **And that the 2xx path declares at least one required member on 5 return types, so a truncated body fails to decode there and passes silently everywhere else.** Any sheet row for a call whose result is used must name the members the implementer has to assert on.
 7. **That the SDK performs no retries at all**, so retry/backoff is the caller's to build or deliberately omit.
 8. **Which environment the `environment` keyword selects**, because omitting it is silently `"production"` of the 3 declared.
 9. A **REQUIRED READING** block naming the `python-*` companions that govern the steps, with `MUST load` pointers.

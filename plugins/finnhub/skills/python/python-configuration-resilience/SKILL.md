@@ -44,12 +44,20 @@ settles which arm it is:
 
 ```python
 client = {Api}Client(base_url="https://api.example.com", {scheme}=...)   # base-url arms
-client = {Api}Client(server_config={"{server}": {"base_url": "..."}}, {scheme}=...)   # config arms
+client = {Api}Client(server_config={"{server}": {"base_url": "..."}}, {scheme}=...)   # several servers, ONE environment
+client = {Api}Client(environment="production", server_config={"{server}": {"production": {"base_url": "..."}}}, {scheme}=...)   # several servers, SEVERAL environments
 ```
 
-Where a `server_config` is taken it is a pydantic model with a dict companion, coerced through
-`.coerce()`, holding **one field per server the API declares**; each of those carries that server's
-`base_url` and any template variables.
+**The two `server_config` arms nest differently, and every config model is `extra="forbid"`, so the
+wrong nesting raises `ValidationError` rather than being ignored.** With one environment each server's
+field holds `base_url` directly. With several, each server's field holds **one field per environment**
+and the `base_url` sits inside the environment's variant — passing `{"{server}": {"base_url": ...}}`
+there fails with `Extra inputs are not permitted`. Take the nesting from the SDK map's *Servers & auth*
+section rather than from this shape.
+
+Either way `server_config` is a pydantic model with a dict companion, coerced through `.coerce()`,
+holding **one field per server the API declares**. Template variables sit beside `base_url` at
+whichever level carries it.
 
 **Omitting the server keyword takes the description's own default, and that default is whatever the
 spec listed first — for many providers a sandbox.** Nothing announces it. A deployment that believes it

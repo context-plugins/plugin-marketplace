@@ -1,11 +1,11 @@
 ---
 name: "python-getting-started"
-description: "Maxio Python SDK identity and lookup layer (Python only) — install, import root, base URL/environments, the auth pattern, the SDK map that ships at the SDK root (`sdk-map.md` + `map/operations/`) and how to traverse it, and the module table naming the one file owning each fact the map leaves to the source. Load this before answering any Maxio Python SDK contract question or writing any SDK code."
+description: "Maxio Advanced Billing Python SDK identity and lookup layer (Python only) — install, import root, base URL/environments, the auth pattern, the SDK map that ships at the SDK root (`sdk-map.md` + `map/operations/`) and how to traverse it, and the module table naming the one file owning each fact the map leaves to the source. Load this before answering any Maxio Advanced Billing Python SDK contract question or writing any SDK code."
 ---
 
-# Getting started with the Maxio Python SDK
+# Getting started with the Maxio Advanced Billing Python SDK
 
-> **Who this skill is for.** This is the **lookup layer** for anyone writing Maxio Python SDK code — it is yours to follow directly and fully. Ground every contract fact here (in the SDK map, and in the source modules it names) rather than in recall, and carry those facts onto a contract sheet before you implement. Load `python-integrate-maxio` for the workflow that wraps this skill.
+> **Who this skill is for.** This is the **lookup layer** for anyone writing Maxio Advanced Billing Python SDK code — it is yours to follow directly and fully. Ground every contract fact here (in the SDK map, and in the source modules it names) rather than in recall, and carry those facts onto a contract sheet before you implement. Load `python-integrate-maxio` for the workflow that wraps this skill.
 
 This is the **SDK-specific** entry point. For general patterns that apply to any APIMatic-generated Python SDK (client construction, auth, calling endpoints, models, error handling, resilience, testing), see the companion API-agnostic skills: `python-client-initialization`, `python-authentication`, `python-calling-endpoints`, `python-models`, `python-error-handling`, `python-configuration-resilience` and `python-testing`.
 
@@ -13,27 +13,27 @@ This is the **SDK-specific** entry point. For general patterns that apply to any
 
 ## SDK identity
 
-Verified against `maxio/` and `pyproject.toml` of the generated package at version `1.0`. **Re-verify after a version bump** — this page is a snapshot, not a live read.
+Verified against `maxio_advanced_billing/` and `pyproject.toml` of the generated package at version `1.0`. **Re-verify after a version bump** — this page is a snapshot, not a live read.
 
 | Fact | Value |
 | --- | --- |
-| API | Maxio |
-| Distribution name (what you install) | `maxio` — **not on any package index**; installed from source (see *Install*) |
-| Import root (what you import) | `maxio` — note the underscores; the two names differ |
+| API | Maxio Advanced Billing |
+| Distribution name (what you install) | `maxio-advanced-billing` — **not on any package index**; installed from source (see *Install*) |
+| Import root (what you import) | `maxio_advanced_billing` — not the string you install |
 | Source repository | https://github.com/context-plugins/maxio-python-sdk |
 | Source branch | `main` |
 | Version | `1.0` |
-| Sync client class | `MaxioClient` (alias `Client`) |
-| Async client class | `AsyncMaxioClient` (alias `AsyncClient`) |
-| Client construction | **keyword-only**: `environment` · `server_config` · `timeout` (default `30.0`) · `basic_auth` · `bearer_auth`, and the transport override — `custom_http_client` on the sync client, `custom_async_http_client` on the async one (the names differ; see step 1) |
+| Sync client class | `MaxioAdvancedBillingClient` (alias `Client`) |
+| Async client class | `AsyncMaxioAdvancedBillingClient` (alias `AsyncClient`) |
+| Client construction | **keyword-only**: `environment` · `timeout` (default `30.0`) · `server_config` · `basic_auth` · `bearer_auth`, and the transport override — `custom_http_client` on the sync client, `custom_async_http_client` on the async one (the names differ; see step 1) |
 | Auth | HTTP **Basic** — set `basic_auth` · **Bearer** token — set `bearer_auth` |
 | Environments | 3 environments (default `"us"`) × 3 named servers, through `server_config` |
-| Base-URL config | `ServerConfig` (`maxio/server/server_config.py`), frozen, `extra="forbid"` |
+| Base-URL config | `ServerConfig` (`maxio_advanced_billing/server/server_config.py`), frozen, `extra="forbid"` |
 | Python floor | **`>=3.10`** (classifiers list `3.10–3.14`) |
 | Runtime dependencies | `httpx (>=0.28.1,<1.0.0)` · `pydantic[email] (>=2.11.0,<3.0.0)` · `typing-extensions (>=4.13.0,<5.0.0)` |
 | Typing | ships `py.typed`; the package is checked under `mypy --strict` with `warn_unreachable`. Callers get full inference — **a type error against this SDK is a real contract violation, not noise** |
 | Line length / lint | `ruff`, 120 cols (only relevant when editing the SDK itself) |
-| Surface | 250 operations across 34 controllers · 653 models · 101 enums · 166 per-operation error unions |
+| Surface | 250 operations across 34 controllers · 563 models · 90 unions · 98 enums · 166 per-operation error unions |
 
 The table above is **orientation, not a copy-paste recipe** — it gives you the names and facts (install, import roots, the auth *pattern*, the base-URL knob), while the actual integration code comes from the companion skills. Load each one as you reach its step (see **Integration workflow** below) and confirm its types against the installed package.
 
@@ -42,50 +42,58 @@ The table above is **orientation, not a copy-paste recipe** — it gives you the
 This SDK is not published to a package index, so there is no `pip install` from PyPI for it. Install it from its repository — <https://github.com/context-plugins/maxio-python-sdk> — into the same environment your project runs in:
 
 ```bash
-pip install "maxio @ git+https://github.com/context-plugins/maxio-python-sdk.git@main"
+pip install "maxio-advanced-billing @ git+https://github.com/context-plugins/maxio-python-sdk.git@main"
 ```
 
 The generated distribution carries its own `pyproject.toml`, so `pip` builds and installs it exactly like a released package. Do not vendor its source into your project, add its directory to `sys.path`, or install it editable (`-e`) from a throwaway clone — an editable install points at the clone's path, so deleting the clone breaks every import. Once installed, write the imports from the table above: the distribution name you install and the package name you import are not the same string. Requires Python 3.10 or newer.
 
 ## Imports — the package splits its surface across four modules
 
-Python does not re-export child modules transitively, so `from maxio import models` alone does **not** make enums, error unions, or runtime types reachable. Import each kind of type from the module that owns it.
+Python does not re-export child modules transitively, so `from maxio_advanced_billing import models` alone does **not** make enums, error unions, or runtime types reachable. Import each kind of type from the module that owns it.
 
-`maxio/__init__.py` exports exactly 8 names:
+`maxio_advanced_billing/__init__.py` exports exactly 8 names beside the `maxio_advanced_billing.models` subpackage it re-exports:
 
 ```python
-from maxio import (
+from maxio_advanced_billing import (
     AsyncClient,
-    AsyncMaxioClient,
+    AsyncMaxioAdvancedBillingClient,
     Client,
     Environment,
-    MaxioClient,
+    MaxioAdvancedBillingClient,
     ServerConfig,
     ServerConfigDict,
     ServerConfigOrDict,
 )
 ```
 
-Everything else comes from its own subpackage, and the split matters because the four places a caller reaches for are four different modules:
+Everything else comes from its own subpackage, and the split matters because each kind of type a caller reaches for lives in a different module:
 
 | What you need | Where it lives |
 | --- | --- |
-| Domain models, their `…Dict` companions | `maxio.models` |
-| Enums (and their open `…OrStr` aliases) | `maxio.models.enums` |
-| `ApiError` · `RawError` · `ApiResult` · `RequestOptions` · `BasicAuthCredentials` · `HttpClient` · `SdkBaseModel` · `UNSET` · `Optional` | `maxio.core` |
-| Per-operation error *unions* | `maxio.errors` (`ActivateSubscriptionErrorBody`, …) |
+| Domain models, their `…Dict` companions | `maxio_advanced_billing.models` |
+| Enums (and their open `…OrStr`/`…OrInt` aliases) | `maxio_advanced_billing.models.enums` |
+| `ApiError` · `RawError` · `ApiResult` · `RequestOptions` · `BasicAuthCredentials` · `HttpClient` · `SdkBaseModel` · `UNSET` · `Optional` | `maxio_advanced_billing.core` |
+| Per-operation error *unions* | `maxio_advanced_billing.errors` (`ActivateSubscriptionErrorBody`, …) |
 
-`maxio.core` re-exports its whole public surface (a curated `__all__`), so import from `…core` rather than from the private modules beneath it (`…core.results`, `…core.exceptions`, `…core.auth.schemes`).
+`maxio_advanced_billing.core` re-exports its whole public surface (a curated `__all__`), so import from `…core` rather than from the private modules beneath it (`…core.results`, `…core.exceptions`, `…core.auth.schemes`).
 
 ## Environments and servers
 
 The API declares 3 named servers across 3 environments, so the constructor takes `environment` first, then `timeout`, then `server_config: ServerConfigOrDict | None = None`. The environment selects which set of base URLs the config resolves against:
 
-| `environment=` | Base URL | Hosting |
-| --- | --- | --- |
-| `"us"` *(default)* | `https://{site}.chargify.com` | Default Advanced Billing environment hosted in US. Valid for the majority of our customers |
-| `"eu"` | `https://{site}.ebilling.maxio.com` | Advanced Billing environment hosted in EU. Use only when you requested EU hosting for your AB account |
-| `"maxio_api_gateway"` | `https://{connector}.api.maxio.com/api/v1/billing` | Access Advanced Billing through a Maxio API Gateway connector. Authenticate with your connector Bearer token instead of Basic auth. Events-Based Billing ingestion does not go through the gateway and keeps its direct URL |
+| `environment=` | Hosting |
+| --- | --- |
+| `"us"` *(default)* | Default Advanced Billing environment hosted in US. Valid for the majority of our customers |
+| `"eu"` | Advanced Billing environment hosted in EU. Use only when you requested EU hosting for your AB account |
+| `"maxio_api_gateway"` | Access Advanced Billing through a Maxio API Gateway connector. Authenticate with your connector Bearer token instead of Basic auth. Events-Based Billing ingestion does not go through the gateway and keeps its direct URL |
+
+Each of the 3 servers resolves independently, so a call's host is the pair (server, environment):
+
+| Server field | `"us"` base URL | `"eu"` base URL | `"maxio_api_gateway"` base URL |
+| --- | --- | --- | --- |
+| `production` | `https://{site}.chargify.com` | `https://{site}.ebilling.maxio.com` | `https://{connector}.api.maxio.com/api/v1/billing` |
+| `ebb` | `https://events.chargify.com/{site}` | `https://events.chargify.com/{site}` | `https://events.chargify.com/{site}` |
+| `oauth` | `https://{connector}.api.maxio.com` | `https://{connector}.api.maxio.com` | `https://{connector}.api.maxio.com` |
 
 Consequences to state on every contract sheet that touches configuration:
 
@@ -99,8 +107,8 @@ Consequences to state on every contract sheet that touches configuration:
 HTTP Basic authentication, exposed as the client's `basic_auth=` keyword taking `BasicAuthCredentials` **or a plain dict**.
 
 ```python
-from maxio import Client
-from maxio.core import BasicAuthCredentials
+from maxio_advanced_billing import Client
+from maxio_advanced_billing.core import BasicAuthCredentials
 
 client = Client(basic_auth=BasicAuthCredentials(username="…", password="…"))
 client = Client(basic_auth={"username": "…", "password": "…"})   # equivalent
@@ -109,7 +117,7 @@ client = Client(basic_auth={"username": "…", "password": "…"})   # equivalen
 A bearer token, exposed as the client's `bearer_auth=` keyword taking a plain string.
 
 ```python
-from maxio import Client
+from maxio_advanced_billing import Client
 
 client = Client(bearer_auth="<bearer_auth>")
 ```
@@ -165,12 +173,12 @@ The SDK map's controller table carries the same counts and links to a page per c
 
 ## SDK map — look up first, open the module second
 
-The SDK ships a generated map at its **root** — the directory holding `pyproject.toml`, the `maxio/` source directory, and these two entries:
+The SDK ships a generated map at its **root** — the directory holding `pyproject.toml`, the `maxio_advanced_billing/` source directory, and these two entries:
 
 - **`sdk-map.md`** — the index: client construction with the full constructor-keyword table, the error-handling model (`ApiError` / `ApiResult` / `RawError`, Case A vs Case B), where models, enums and error aliases live, servers and auth, and the link table into the operations pages.
 - **`map/operations/<controller>.md`** — one page per controller, one `###` block per operation: the HTTP verb and route, the sync parsed signature, each parameter's role and wire name, both return types, the error alias with the status each arm maps from, and a **Type sources** table naming the module that declares every type the operation mentions.
 
-**Installing the distribution does not give you the map.** `pyproject.toml` ships the `maxio/` package only, so `sdk-map.md` and `map/operations/` are absent from the installed package — they live in the SDK's own source tree, at the root of its repository, <https://github.com/context-plugins/maxio-python-sdk>. One clone therefore brings the map and the code it describes together, in lockstep by construction. Clone it to a temporary directory, outside the project repo:
+**Installing the distribution does not give you the map.** `pyproject.toml` ships the `maxio_advanced_billing/` package only, so `sdk-map.md` and `map/operations/` are absent from the installed package — they live in the SDK's own source tree, at the root of its repository, <https://github.com/context-plugins/maxio-python-sdk>. One clone therefore brings the map and the code it describes together, in lockstep by construction. Clone it to a temporary directory, outside the project repo:
 
 ```bash
 git clone --depth 1 --branch main https://github.com/context-plugins/maxio-python-sdk
@@ -178,11 +186,11 @@ git clone --depth 1 --branch main https://github.com/context-plugins/maxio-pytho
 
 Keep the `--branch main`: it is the branch this SDK is released from, and the repository's default branch may carry a different version — a map read from the wrong branch describes code you do not have.
 
-Every `Source` path on the map is relative to that SDK root, so `maxio/models/ach_agreement.py` opens as written from there — and the same path resolves inside the installed package, which is where you read a module's body once the map has named it.
+Every `Source` path on the map is relative to that SDK root, so `maxio_advanced_billing/models/ach_agreement.py` opens as written from there — and the same path resolves inside the installed package, which is where you read a module's body once the map has named it.
 
 **The map is the locator; the source modules are the shapes.** Read the map first — signatures, routes, parameter roles, return types, error unions, and which module declares a type are all answered there without opening a single `.py` file. Then open the one module the map names for what it deliberately does not carry: a model's members, an enum's values, a field's wire alias. The map says so itself — *"Shapes live only in the source … Never grep for a type."*
 
-**The map carries shapes; what an operation *means* lives elsewhere.** When *what* to pass depends on meaning — which values a field accepts beyond its type, a rule that couples two fields, what a defaulted parameter actually selects — the map will not settle it. Open the operation's docstring in `maxio/apis/<controller>.py` (or `client.py` where operations sit on the client) and `api-reference.md` at the SDK root for that operation *before* writing the sheet row, and record what you found there. A value you already "know" for a field the map types as a plain `str` is a lookup, not a recall — the memory ban applies to it.
+**The map carries shapes; what an operation *means* lives elsewhere.** When *what* to pass depends on meaning — which values a field accepts beyond its type, a rule that couples two fields, what a defaulted parameter actually selects — the map will not settle it. Open the operation's docstring in `maxio_advanced_billing/apis/<controller>.py` (or `client.py` where operations sit on the client) and `api-reference.md` at the SDK root for that operation *before* writing the sheet row, and record what you found there. A value you already "know" for a field the map types as a plain `str` is a lookup, not a recall — the memory ban applies to it.
 
 `sdk-map.md` carries the invariants every operation block assumes, so load it before any `map/operations/` page; the pages are written to be read beside it.
 
@@ -193,10 +201,10 @@ Every `Source` path on the map is relative to that SDK root, so `maxio/models/ac
 Read the one module that owns the fact **inside the installed package**. Locate it first:
 
 ```bash
-python -c "import maxio, pathlib; print(pathlib.Path(maxio.__file__).parent)"
+python -c "import maxio_advanced_billing, pathlib; print(pathlib.Path(maxio_advanced_billing.__file__).parent)"
 ```
 
-Failing that, it is under the project's environment (`.venv/Lib/site-packages/maxio` on Windows, `.venv/lib/python3.*/site-packages/maxio` elsewhere). **If the package is not installed, there is no source to read** — mark the fact `UNVERIFIED` and say what would settle it rather than answering from memory. Paths below are relative to that package root:
+Failing that, it is under the project's environment (`.venv/Lib/site-packages/maxio_advanced_billing` on Windows, `.venv/lib/python3.*/site-packages/maxio_advanced_billing` elsewhere). **If the package is not installed, there is no source to read** — mark the fact `UNVERIFIED` and say what would settle it rather than answering from memory. Paths below are relative to that package root:
 
 | Question | Module |
 | --- | --- |
@@ -234,7 +242,7 @@ Before you write the code for each step, load the named companion skill — even
 1. **Client construction & lifetime** — load **python-client-initialization** before you write `Client(...)` or `AsyncClient(...)`. (*The signature won't tell you:* the constructor is keyword-only, so nothing can be passed positionally; the client owns an `httpx` connection pool and you **must** `close()` (sync) or `await aclose()` (async) or use it as a context manager; it must be long-lived and module- or app-scoped, never rebuilt per request; the sync and async clients do not mix; and the transport-override keyword differs by client — `custom_http_client` vs `custom_async_http_client`.)
 2. **Authentication** — load **python-authentication** before you set credentials. The two schemes are `basic_auth=` and `bearer_auth=`. (*The signature won't tell you:* every credentials keyword is *optional* — omit it and every request goes out unauthenticated, with no failure at construction and not necessarily a `401` to tell you; Load secrets from the environment or a secret store, never hardcode.)
 3. **Calling an endpoint** — load **python-calling-endpoints** before the first `client.<controller>.<operation>(...)` call. (*The signature won't tell you:* every operation splits positional path params (and sometimes the body) from a keyword-only tail after `*`; every keyword-only parameter has a **real** default, so there is no "must pass `None` explicitly" hazard; **29 operations return `None`**, so `with_raw_response` is the only way to observe their status code; and the two response modes — raising vs `ApiResult` — behave differently on failure.)
-4. **Models** — load **python-models** the moment a request/response member is not a plain string or number. (*The signature won't tell you:* `Optional[T]` here is `T | UnsetType`, **not** `typing.Optional` — `None` is not a legal value for it; models are frozen pydantic instances with `…Dict` TypedDict companions; enums are **open** (`…OrStr`), so an unknown wire value passes through as a plain `str` rather than raising; wire aliases differ from Python member names; unknown response fields are **preserved**, not dropped; and serialize via `to_dict`/`to_json`.)
+4. **Models** — load **python-models** the moment a request/response member is not a plain string or number. (*The signature won't tell you:* `Optional[T]` here is `T | UnsetType`, **not** `typing.Optional` — `None` is not a legal value for it; models are frozen pydantic instances with `…Dict` TypedDict companions; enums are **open** (`…OrStr`/`…OrInt`), so an unknown wire value passes through as a plain `str`/`int` rather than raising; wire aliases differ from Python member names; unknown response fields are **preserved**, not dropped; and serialize via `to_dict`/`to_json`.)
 5. **Error handling** — load **python-error-handling** before you write any `try/except`. (*The signature won't tell you:* there is a single `ApiError` type whose `.error` is a **per-operation union**, and a decode failure raises `ValidationError`/`ValueError`, not `ApiError`, and bypasses both response modes; `httpx` transport exceptions reach your boundary unwrapped.)
 6. **Configuration & resilience** — load **python-configuration-resilience** when you set the base URL, timeouts, proxies, TLS, or logging. (*The signature won't tell you:* **the SDK performs no retries at all** — retry/backoff is entirely yours to build or deliberately omit; `timeout` defaults to `30.0` and is a single float that maps onto `httpx`'s timeout semantics rather than bounding the whole call; and there is no logging hook — you wrap the transport seam.)
 7. **Testing** — load **python-testing** before you stub the SDK. (*The signature won't tell you:* the seam is the **transport protocol** (`HttpClient`/`AsyncHttpClient` in `core/transport.py`) passed as `custom_http_client`, or `respx` at the `httpx` layer — not the client class; assert on the request the SDK actually built, and cover all four failure kinds, decode failures included.)
@@ -248,13 +256,13 @@ Beyond the usual signatures and model members, a Python sheet is incomplete with
 3. **The 29 operations that return `None`** — `coupons.delete_coupon_subcode` · `custom_fields.delete_metadata` · `custom_fields.delete_metafield` · `customers.delete_customer` · `events_based_billing_segments.delete_segment` · `invoices.delete_invoice` · `invoices.send_invoice` · `offers.archive_offer` · `offers.unarchive_offer` · `payment_profiles.delete_subscription_group_payment_profile` · `payment_profiles.delete_subscriptions_payment_profile` · `payment_profiles.delete_unused_payment_profile` · `payment_profiles.send_request_update_payment_email` · `proforma_invoices.create_consolidated_proforma_invoice` · `sites.clear_site` · `subscription_components.activate_event_based_component` · `subscription_components.bulk_record_events` · `subscription_components.deactivate_event_based_component` · `subscription_components.delete_prepaid_usage_allocation` · `subscription_components.record_event` · `subscription_components.update_prepaid_usage_allocation_expiration_date` · `subscription_group_status.cancel_delayed_cancellation_for_group` · `subscription_group_status.cancel_subscriptions_in_group` · `subscription_group_status.initiate_delayed_cancellation_for_group` · `subscription_groups.remove_subscription_from_group` · `subscription_invoice_account.deduct_service_credit` · `subscription_notes.delete_subscription_note` · `subscription_renewals.delete_scheduled_renewal_configuration_item` · `subscriptions.override_subscription`. Their raw peers are `ApiResult[None, …]`, so `with_raw_response` is the only way to observe the status code.
 4. **Required vs `UNSET`** for every model member the task sets, and the fact that `Optional[T]` here is `T | UnsetType` — **not** `typing.Optional`, so `None` is not a legal value for it.
 5. **The `ApiError.error` union** for each operation in scope — there are **33** typed error bodies in this SDK, so the union is never uniform. Every union is `<Typed> | RawError`:
-   1. `ErrorListResponse1` — 91 operations (`advance_invoice.issue_advance_invoice` · `billing_portal.enable_billing_portal_for_customer` · `billing_portal.read_billing_portal_link` · `billing_portal.resend_billing_portal_invitation` · `component_price_points.archive_component_price_point` · `component_price_points.bulk_create_component_price_points` · `component_price_points.clone_component_price_point` · `component_price_points.list_all_component_price_points` · `components.archive_component` · `components.create_event_based_component` · `components.create_metered_component` · `components.create_on_off_component` · `components.create_prepaid_usage_component` · `components.create_quantity_based_component` · `components.update_component` · `components.update_product_family_component` · `coupons.create_coupon` · `coupons.update_coupon` · `invoices.delete_invoice` · `invoices.issue_invoice` · `invoices.preview_customer_information_changes` · `invoices.record_payment_for_invoice` · `invoices.record_payment_for_multiple_invoices` · `invoices.record_payment_for_subscription` · `invoices.refund_invoice` · `invoices.reopen_invoice` · `invoices.send_invoice` · `invoices.update_customer_information` · `invoices.update_invoice` · `invoices.void_invoice` · `offers.list_offers` · `payment_profiles.change_subscription_default_payment_profile` · `payment_profiles.change_subscription_group_default_payment_profile` · `payment_profiles.create_payment_profile` · `payment_profiles.delete_unused_payment_profile` · `payment_profiles.read_one_time_token` · `payment_profiles.send_request_update_payment_email` · `payment_profiles.verify_bank_account` · `product_families.create_product_family` · `product_price_points.archive_product_price_point` · `product_price_points.list_all_product_price_points` · `products.archive_product` · `products.create_product` · `products.update_product` · `proforma_invoices.create_consolidated_proforma_invoice` · `proforma_invoices.create_proforma_invoice` · `proforma_invoices.deliver_proforma_invoice` · `proforma_invoices.preview_proforma_invoice` · `proforma_invoices.void_proforma_invoice` · `reason_codes.create_reason_code` · `reason_codes.list_reason_codes` · `reason_codes.update_reason_code` · `subscription_components.allocate_component` · `subscription_components.allocate_components` · `subscription_components.create_usage` · `subscription_components.list_allocations` · `subscription_group_invoice_account.create_subscription_group_prepayment` · `subscription_group_invoice_account.deduct_subscription_group_service_credit` · `subscription_group_invoice_account.issue_subscription_group_service_credit` · `subscription_group_status.cancel_delayed_cancellation_for_group` · `subscription_group_status.cancel_subscriptions_in_group` · `subscription_group_status.initiate_delayed_cancellation_for_group` · `subscription_group_status.reactivate_subscription_group` · `subscription_groups.remove_subscription_from_group` · `subscription_invoice_account.list_service_credits` · `subscription_notes.create_subscription_note` · `subscription_notes.list_subscription_notes` · `subscription_notes.update_subscription_note` · `subscription_products.migrate_subscription_product` · `subscription_products.preview_subscription_product_migration` · `subscription_renewals.cancel_scheduled_renewal_configuration` · `subscription_renewals.create_scheduled_renewal_configuration` · `subscription_renewals.create_scheduled_renewal_configuration_item` · `subscription_renewals.delete_scheduled_renewal_configuration_item` · `subscription_renewals.lock_in_scheduled_renewal_immediately` · `subscription_renewals.schedule_scheduled_renewal_lock_in` · `subscription_renewals.unpublish_scheduled_renewal_configuration` · `subscription_renewals.update_scheduled_renewal_configuration` · `subscription_renewals.update_scheduled_renewal_configuration_item` · `subscription_status.cancel_dunning` · `subscription_status.initiate_delayed_cancellation` · `subscription_status.pause_subscription` · `subscription_status.preview_renewal` · `subscription_status.reactivate_subscription` · `subscription_status.resume_subscription` · `subscription_status.retry_subscription` · `subscription_status.update_automatic_subscription_resumption` · `subscriptions.create_subscription` · `subscriptions.update_subscription` · `webhooks.create_endpoint` · `webhooks.update_endpoint`); distinguishing members *none required*
+   1. `ErrorListResponse1` — 91 operations (`advance_invoice.issue_advance_invoice` · `billing_portal.enable_billing_portal_for_customer` · `billing_portal.read_billing_portal_link` · `billing_portal.resend_billing_portal_invitation` · `component_price_points.archive_component_price_point` · `component_price_points.bulk_create_component_price_points` · `component_price_points.clone_component_price_point` · `component_price_points.list_all_component_price_points` · `components.archive_component` · `components.create_event_based_component` · `components.create_metered_component` · `components.create_on_off_component` · `components.create_prepaid_usage_component` · `components.create_quantity_based_component` · `components.update_component` · `components.update_product_family_component` · `coupons.create_coupon` · `coupons.update_coupon` · `invoices.delete_invoice` · `invoices.issue_invoice` · `invoices.preview_customer_information_changes` · `invoices.record_payment_for_invoice` · `invoices.record_payment_for_multiple_invoices` · `invoices.record_payment_for_subscription` · `invoices.refund_invoice` · `invoices.reopen_invoice` · `invoices.send_invoice` · `invoices.update_customer_information` · `invoices.update_invoice` · `invoices.void_invoice` · `offers.list_offers` · `payment_profiles.change_subscription_default_payment_profile` · `payment_profiles.change_subscription_group_default_payment_profile` · `payment_profiles.create_payment_profile` · `payment_profiles.delete_unused_payment_profile` · `payment_profiles.read_one_time_token` · `payment_profiles.send_request_update_payment_email` · `payment_profiles.verify_bank_account` · `product_families.create_product_family` · `product_price_points.archive_product_price_point` · `product_price_points.list_all_product_price_points` · `products.archive_product` · `products.create_product` · `products.update_product` · `proforma_invoices.create_consolidated_proforma_invoice` · `proforma_invoices.create_proforma_invoice` · `proforma_invoices.deliver_proforma_invoice` · `proforma_invoices.preview_proforma_invoice` · `proforma_invoices.void_proforma_invoice` · `reason_codes.create_reason_code` · `reason_codes.list_reason_codes` · `reason_codes.update_reason_code` · `subscription_components.allocate_component` · `subscription_components.allocate_components` · `subscription_components.create_usage` · `subscription_components.list_allocations` · `subscription_group_invoice_account.create_subscription_group_prepayment` · `subscription_group_invoice_account.deduct_subscription_group_service_credit` · `subscription_group_invoice_account.issue_subscription_group_service_credit` · `subscription_group_status.cancel_delayed_cancellation_for_group` · `subscription_group_status.cancel_subscriptions_in_group` · `subscription_group_status.initiate_delayed_cancellation_for_group` · `subscription_group_status.reactivate_subscription_group` · `subscription_groups.remove_subscription_from_group` · `subscription_invoice_account.list_service_credits` · `subscription_notes.create_subscription_note` · `subscription_notes.list_subscription_notes` · `subscription_notes.update_subscription_note` · `subscription_products.migrate_subscription_product` · `subscription_products.preview_subscription_product_migration` · `subscription_renewals.cancel_scheduled_renewal_configuration` · `subscription_renewals.create_scheduled_renewal_configuration` · `subscription_renewals.create_scheduled_renewal_configuration_item` · `subscription_renewals.delete_scheduled_renewal_configuration_item` · `subscription_renewals.lock_in_scheduled_renewal_immediately` · `subscription_renewals.schedule_scheduled_renewal_lock_in` · `subscription_renewals.unpublish_scheduled_renewal_configuration` · `subscription_renewals.update_scheduled_renewal_configuration` · `subscription_renewals.update_scheduled_renewal_configuration_item` · `subscription_status.cancel_dunning` · `subscription_status.initiate_delayed_cancellation` · `subscription_status.pause_subscription` · `subscription_status.preview_renewal` · `subscription_status.reactivate_subscription` · `subscription_status.resume_subscription` · `subscription_status.retry_subscription` · `subscription_status.update_automatic_subscription_resumption` · `subscriptions.create_subscription` · `subscriptions.update_subscription` · `webhooks.create_endpoint` · `webhooks.update_endpoint`); distinguishing members `errors`
    2. `ErrorArrayMapResponse1` — 12 operations (`component_price_points.create_component_price_point` · `component_price_points.create_currency_prices` · `component_price_points.update_component_price_point` · `component_price_points.update_currency_prices` · `invoices.create_invoice` · `invoices.update_invoice` · `offers.create_offer` · `product_price_points.create_product_currency_prices` · `product_price_points.update_product_currency_prices` · `proforma_invoices.create_signup_proforma_invoice` · `proforma_invoices.preview_signup_proforma_invoice` · `subscriptions.activate_subscription`); distinguishing members *none required*
-   3. `SingleErrorResponse1` — 8 operations (`api_exports.export_invoices` · `api_exports.export_proforma_invoices` · `api_exports.export_subscriptions` · `custom_fields.create_metadata` · `custom_fields.create_metafields` · `custom_fields.update_metadata` · `custom_fields.update_metafield` · `subscriptions.override_subscription`); distinguishing members *none required*
+   3. `SingleErrorResponse1` — 8 operations (`api_exports.export_invoices` · `api_exports.export_proforma_invoices` · `api_exports.export_subscriptions` · `custom_fields.create_metadata` · `custom_fields.create_metafields` · `custom_fields.update_metadata` · `custom_fields.update_metafield` · `subscriptions.override_subscription`); distinguishing members `error`
    4. `Any | None` — 2 operations (`invoices.reopen_invoice` · `invoices.void_invoice`); distinguishing members *none required*
    5. `CustomerErrorResponse1` — 2 operations (`customers.create_customer` · `customers.update_customer`); distinguishing members *none required*
    6. `ErrorStringMapResponse1` — 2 operations (`coupons.create_or_update_coupon_currency_prices` · `payment_profiles.update_payment_profile`); distinguishing members *none required*
-   7. `EventBasedBillingSegment1` — 2 operations (`events_based_billing_segments.bulk_create_segments` · `events_based_billing_segments.bulk_update_segments`); distinguishing members *none required*
+   7. `EventBasedBillingSegment1` — 2 operations (`events_based_billing_segments.bulk_create_segments` · `events_based_billing_segments.bulk_update_segments`); distinguishing members `errors`
    8. `EventBasedBillingSegmentErrors1` — 2 operations (`events_based_billing_segments.create_segment` · `events_based_billing_segments.update_segment`); distinguishing members *none required*
    9. `ProformaBadRequestErrorResponse1` — 2 operations (`proforma_invoices.create_signup_proforma_invoice` · `proforma_invoices.preview_signup_proforma_invoice`); distinguishing members *none required*
    10. `SingleStringErrorResponse1` — 2 operations (`coupons.validate_coupon` · `referral_codes.validate_referral_code`); distinguishing members *none required*
@@ -267,23 +275,23 @@ Beyond the usual signatures and model members, a Python sheet is incomplete with
    17. `DeductServiceCreditErrorResponse` — 1 operation (`subscription_invoice_account.deduct_service_credit`); distinguishing members *none required*
    18. `EventBasedBillingListSegmentsErrors1` — 1 operation (`events_based_billing_segments.list_segments_for_price_point`); distinguishing members *none required*
    19. `IssueServiceCreditErrorResponse` — 1 operation (`subscription_invoice_account.issue_service_credit`); distinguishing members *none required*
-   20. `MaxioGatewayOauthError` — 1 operation (`maxio_gateway.request_access_token`); distinguishing members *none required*
+   20. `MaxioGatewayOauthError` — 1 operation (`maxio_gateway.request_access_token`); distinguishing members `error`
    21. `PrepaidConfigurationErrorResponse` — 1 operation (`subscriptions.update_prepaid_subscription_configuration`); distinguishing members *none required*
-   22. `ProductPricePointErrorResponse1` — 1 operation (`product_price_points.create_product_price_point`); distinguishing members *none required*
+   22. `ProductPricePointErrorResponse1` — 1 operation (`product_price_points.create_product_price_point`); distinguishing members `errors`
    23. `RefundPrepaymentBaseErrorsResponse1` — 1 operation (`subscription_invoice_account.refund_prepayment`); distinguishing members *none required*
    24. `RefundPrepaymentErrorResponse` — 1 operation (`subscription_invoice_account.refund_prepayment`); distinguishing members *none required*
    25. `SubscriptionAddCouponError1` — 1 operation (`subscriptions.apply_coupons_to_subscription`); distinguishing members *none required*
-   26. `SubscriptionGroupCreateErrorResponse1` — 1 operation (`subscription_groups.create_subscription_group`); distinguishing members *none required*
-   27. `SubscriptionGroupSignupErrorResponse1` — 1 operation (`subscription_groups.signup_with_subscription_group`); distinguishing members *none required*
+   26. `SubscriptionGroupCreateErrorResponse1` — 1 operation (`subscription_groups.create_subscription_group`); distinguishing members `errors`
+   27. `SubscriptionGroupSignupErrorResponse1` — 1 operation (`subscription_groups.signup_with_subscription_group`); distinguishing members `errors`
    28. `SubscriptionGroupUpdateErrorResponse1` — 1 operation (`subscription_groups.update_subscription_group_members`); distinguishing members *none required*
-   29. `SubscriptionRemoveCouponErrors1` — 1 operation (`subscriptions.remove_coupon_from_subscription`); distinguishing members *none required*
+   29. `SubscriptionRemoveCouponErrors1` — 1 operation (`subscriptions.remove_coupon_from_subscription`); distinguishing members `subscription`
    30. `SubscriptionResponse` — 1 operation (`subscriptions.purge_subscription`); distinguishing members *none required*
-   31. `SubscriptionsMrrErrorResponse1` — 1 operation (`insights.list_mrr_per_subscription`); distinguishing members *none required*
-   32. `TooManyManagementLinkRequestsError1` — 1 operation (`billing_portal.read_billing_portal_link`); distinguishing members *none required*
+   31. `SubscriptionsMrrErrorResponse1` — 1 operation (`insights.list_mrr_per_subscription`); distinguishing members `errors`
+   32. `TooManyManagementLinkRequestsError1` — 1 operation (`billing_portal.read_billing_portal_link`); distinguishing members `errors`
    33. `dict[str, Any]` — 1 operation (`product_price_points.bulk_create_product_price_points`); distinguishing members *none required*
    34. *(none)* — `api_exports.list_exported_invoices` · `api_exports.list_exported_proforma_invoices` · `api_exports.list_exported_subscriptions` · `api_exports.read_invoices_export` · `api_exports.read_proforma_invoices_export` · `api_exports.read_subscriptions_export` · `advance_invoice.read_advance_invoice` · `advance_invoice.void_advance_invoice` · `billing_portal.revoke_billing_portal_access` · `component_price_points.list_component_price_points` · `component_price_points.promote_component_price_point_to_default` · `component_price_points.read_component_price_point` · `component_price_points.unarchive_component_price_point` · `components.find_component` · `components.list_components` · `components.list_components_for_product_family` · `components.read_component` · `coupons.archive_coupon` · `coupons.create_coupon_subcodes` · `coupons.delete_coupon_subcode` · `coupons.find_coupon` · `coupons.list_coupon_subcodes` · `coupons.list_coupons` · `coupons.list_coupons_for_product_family` · `coupons.read_coupon` · `coupons.read_coupon_usage` · `coupons.update_coupon_subcodes` · `custom_fields.delete_metadata` · `custom_fields.delete_metafield` · `custom_fields.list_metadata` · `custom_fields.list_metadata_for_resource_type` · `custom_fields.list_metafields` · `customers.delete_customer` · `customers.list_customer_subscriptions` · `customers.list_customers` · `customers.read_customer` · `customers.read_customer_by_reference` · `events.list_events` · `events.list_subscription_events` · `events.read_events_count` · `events_based_billing_segments.delete_segment` · `insights.list_mrr_movements` · `insights.read_mrr` · `insights.read_site_stats` · `invoices.list_consolidated_invoice_segments` · `invoices.list_credit_notes` · `invoices.list_invoice_events` · `invoices.list_invoices` · `invoices.read_credit_note` · `invoices.read_invoice` · `offers.archive_offer` · `offers.read_offer` · `offers.unarchive_offer` · `payment_profiles.delete_subscription_group_payment_profile` · `payment_profiles.delete_subscriptions_payment_profile` · `payment_profiles.list_payment_profiles` · `payment_profiles.read_payment_profile` · `product_families.list_product_families` · `product_families.read_product_family` · `product_price_points.list_product_price_points` · `product_price_points.promote_product_price_point_to_default` · `product_price_points.read_product_price_point` · `product_price_points.unarchive_product_price_point` · `product_price_points.update_product_price_point` · `products.list_products` · `products.read_product` · `products.read_product_by_handle` · `proforma_invoices.list_proforma_invoices` · `proforma_invoices.list_subscription_group_proforma_invoices` · `proforma_invoices.read_proforma_invoice` · `reason_codes.delete_reason_code` · `reason_codes.read_reason_code` · `sales_commissions.list_sales_commission_settings` · `sales_commissions.list_sales_reps` · `sales_commissions.read_sales_rep` · `sites.clear_site` · `sites.list_chargify_js_public_keys` · `sites.read_site` · `subscription_components.activate_event_based_component` · `subscription_components.bulk_record_events` · `subscription_components.bulk_reset_subscription_components_price_points` · `subscription_components.deactivate_event_based_component` · `subscription_components.list_subscription_components` · `subscription_components.list_subscription_components_for_site` · `subscription_components.list_usages` · `subscription_components.read_subscription_component` · `subscription_components.record_event` · `subscription_group_invoice_account.list_prepayments_for_subscription_group` · `subscription_groups.add_subscription_to_group` · `subscription_groups.delete_subscription_group` · `subscription_groups.find_subscription_group` · `subscription_groups.list_subscription_groups` · `subscription_groups.read_subscription_group` · `subscription_invoice_account.list_prepayments` · `subscription_invoice_account.read_account_balances` · `subscription_notes.delete_subscription_note` · `subscription_notes.read_subscription_note` · `subscription_renewals.list_scheduled_renewal_configurations` · `subscription_renewals.read_scheduled_renewal_configuration` · `subscription_status.cancel_delayed_cancellation` · `subscriptions.find_subscription` · `subscriptions.list_subscriptions` · `subscriptions.preview_subscription` · `subscriptions.read_subscription` · `webhooks.enable_webhooks` · `webhooks.list_endpoints` · `webhooks.list_webhooks` · `webhooks.replay_webhooks`: no typed arm, so `.error` is always `RawError`
    35. So `isinstance(e.error, ErrorListResponse1)` matches only 91 of 250 operations.
-6. **That a decode failure raises `ValidationError`/`ValueError`, not `ApiError`, in both response modes** — `core/raw_client.py` states this in `_build_result`'s own docstring. **And that the 2xx path declares no required member on any return type, so a truncated body decodes without complaint and the hole surfaces later.** Any sheet row for a call whose result is used must name the members the implementer has to assert on.
+6. **That a decode failure raises `ValidationError`/`ValueError`, not `ApiError`, in both response modes** — `core/raw_client.py` states this in `_build_result`'s own docstring. **And that the 2xx path declares at least one required member on 95 return types, so a truncated body fails to decode there and passes silently everywhere else.** Any sheet row for a call whose result is used must name the members the implementer has to assert on.
 7. **That the SDK performs no retries at all**, so retry/backoff is the caller's to build or deliberately omit.
 8. **Which environment the `environment` keyword selects**, because omitting it is silently `"us"`.
 9. A **REQUIRED READING** block naming the `python-*` companions that govern the steps, with `MUST load` pointers.

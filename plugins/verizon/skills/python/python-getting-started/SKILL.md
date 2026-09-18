@@ -25,7 +25,7 @@ Verified against `verizon/` and `pyproject.toml` of the generated package at ver
 | Version | `v1.0` |
 | Sync client class | `VerizonClient` (alias `Client`) |
 | Async client class | `AsyncVerizonClient` (alias `AsyncClient`) |
-| Client construction | **keyword-only**: `environment` · `server_config` · `timeout` (default `30.0`) · `thingspace_oauth` · `vz_m2_m_token` · `session_token` · `thingspace_oauth1`, and the transport override — `custom_http_client` on the sync client, `custom_async_http_client` on the async one (the names differ; see step 1) |
+| Client construction | **keyword-only**: `environment` · `timeout` (default `30.0`) · `server_config` · `thingspace_oauth` · `thingspace_oauth_token_source` · `vz_m2_m_token` · `session_token` · `thingspace_oauth1` · `thingspace_oauth1_token_source`, and the transport override — `custom_http_client` on the sync client, `custom_async_http_client` on the async one (the names differ; see step 1) |
 | Auth | **OAuth 2.0** client credentials — set `thingspace_oauth` · **API key** in the `VZ-M2M-Token` header — set `vz_m2_m_token` · **API key** in the `SessionToken` header — set `session_token` · **OAuth 2.0** client credentials — set `thingspace_oauth1` |
 | Environments | 5 environments (default `"production"`) × 15 named servers, through `server_config` |
 | Base-URL config | `ServerConfig` (`verizon/server/server_config.py`), frozen, `extra="forbid"` |
@@ -66,12 +66,12 @@ from verizon import (
 )
 ```
 
-Everything else comes from its own subpackage, and the split matters because the four places a caller reaches for are four different modules:
+Everything else comes from its own subpackage, and the split matters because each kind of type a caller reaches for lives in a different module:
 
 | What you need | Where it lives |
 | --- | --- |
 | Domain models, their `…Dict` companions | `verizon.models` |
-| Enums (and their open `…OrStr` aliases) | `verizon.models.enums` |
+| Enums (and their open `…OrStr`/`…OrInt` aliases) | `verizon.models.enums` |
 | `ApiError` · `RawError` · `ApiResult` · `RequestOptions` · `ClientCredentials` · `HttpClient` · `SdkBaseModel` · `UNSET` · `Optional` | `verizon.core` |
 | Per-operation error *unions* | `verizon.errors` (`ActivateDeviceThroughProfileErrorBody`, …) |
 
@@ -81,26 +81,46 @@ Everything else comes from its own subpackage, and the split matters because the
 
 The API declares 15 named servers across 5 environments, so the constructor takes `environment` first, then `timeout`, then `server_config: ServerConfigOrDict | None = None`. The environment selects which set of base URLs the config resolves against:
 
-| `environment=` | Base URL | Hosting |
-| --- | --- | --- |
-| `"production"` *(default)* | `https://thingspace.verizon.com/api/auth/v1` | — |
-| `"staging"` | `https://staging.thingspace.verizon.com/api/auth/v1` | — |
-| `"dev"` | `https://staging.thingspace.verizon.com/api/auth/v1` | — |
-| `"qa"` | `https://thingspace.verizon.com/api/auth/v1` | — |
-| `"mock_server_for_limited_availability_see_quick_start"` | `https://staging.thingspace.verizon.com/api/auth/v1` | — |
+| `environment=` | Hosting |
+| --- | --- |
+| `"production"` *(default)* | — |
+| `"staging"` | — |
+| `"dev"` | — |
+| `"qa"` | — |
+| `"mock_server_for_limited_availability_see_quick_start"` | — |
+
+Each of the 15 servers resolves independently, so a call's host is the pair (server, environment):
+
+| Server field | `"production"` base URL | `"staging"` base URL | `"dev"` base URL | `"qa"` base URL | `"mock_server_for_limited_availability_see_quick_start"` base URL |
+| --- | --- | --- | --- | --- | --- |
+| `hyper_precise_credentials` | `https://thingspace.verizon.com/api/auth/v1` | `https://staging.thingspace.verizon.com/api/auth/v1` | `https://staging.thingspace.verizon.com/api/auth/v1` | `https://thingspace.verizon.com/api/auth/v1` | `https://staging.thingspace.verizon.com/api/auth/v1` |
+| `imp_server` | `https://imp.thingspace.verizon.com` | `https://imp-staging.thingspace.verizon.com` | `https://devmanagement-staging.imp.thingspace.verizon.com` | `https://tsd-nginx-qa-us-east-1.imp.thingspace.verizon.com` | `https://mock-staging.thingspace.verizon.com` |
+| `thingspace` | `https://thingspace.verizon.com/api` | `https://staging.thingspace.verizon.com/api` | `https://devmanagement-staging.thingspace.verizon.com/api` | `https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api` | `https://mock-staging.thingspace.verizon.com/api` |
+| `o_auth_server` | `https://thingspace.verizon.com/api/ts/v1` | `https://staging.thingspace.verizon.com/api/ts/v1` | `https://devmanagement-staging.thingspace.verizon.com:80/ts/v1` | `https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/ts/v1` | `https://mock-staging.thingspace.verizon.com/api/ts/v1` |
+| `m2_m` | `https://thingspace.verizon.com/api/m2m` | `https://staging.thingspace.verizon.com/api/m2m` | `https://devmanagement-staging.thingspace.verizon.com:80/m2m` | `https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/m2m` | `https://mock-staging.thingspace.verizon.com/api/m2m` |
+| `device_location` | `https://thingspace.verizon.com/api/loc/v1` | `https://staging.thingspace.verizon.com/api/loc/v1` | `https://devmanagement-staging.thingspace.verizon.com:80/loc/v1` | `https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/loc/v1` | `https://mock-staging.thingspace.verizon.com/api/loc/v1` |
+| `subscription_server` | `https://thingspace.verizon.com/api/subsc/v1` | `https://staging.thingspace.verizon.com/api/subsc/v1` | `https://devmanagement-staging.thingspace.verizon.com:80/subsc/v1` | `https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/subsc/v1` | `https://mock-staging.thingspace.verizon.com/api/subsc/v1` |
+| `software_management_v1` | `https://thingspace.verizon.com/api/fota/v1` | `https://staging.thingspace.verizon.com/api/fota/v1` | `https://devmanagement-staging.thingspace.verizon.com:80/fota/v1` | `https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/fota/v1` | `https://mock-staging.thingspace.verizon.com/api/fota/v1` |
+| `software_management_v2` | `https://thingspace.verizon.com/api/fota/v2` | `https://staging.thingspace.verizon.com/api/fota/v2` | `https://devmanagement-staging.thingspace.verizon.com:80/fota/v2` | `https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/fota/v2` | `https://mock-staging.thingspace.verizon.com/api/fota/v2` |
+| `software_management_v3` | `https://thingspace.verizon.com/api/fota/v3` | `https://staging.thingspace.verizon.com/api/fota/v3` | `https://devmanagement-staging.thingspace.verizon.com:80/fota/v3` | `https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/fota/v3` | `https://mock-staging.thingspace.verizon.com/api/fota/v3` |
+| `device_diagnostics` | `https://thingspace.verizon.com/api/diagnostics/v1` | `https://staging.thingspace.verizon.com/api/diagnostics/v1` | `https://devmanagement-staging.thingspace.verizon.com:80/diagnostics/v1` | `https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/diagnostics/v1` | `https://mock-staging.thingspace.verizon.com/api/diagnostics/v1` |
+| `cloud_connector` | `https://thingspace.verizon.com/api/cc/v1` | `https://staging.thingspace.verizon.com/api/cc/v1` | `https://devmanagement-staging.thingspace.verizon.com:80/cc/v1` | `https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/cc/v1` | `https://mock-staging.thingspace.verizon.com/api/cc/v1` |
+| `hyper_precise_location` | `https://thingspace.verizon.com/api/hyper-precise/v1` | `https://staging.thingspace.verizon.com/api/hyper-precise/v1` | `https://devmanagement-staging.thingspace.verizon.com:80/hyper-precise/v1` | `https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/hyper-precise/v1` | `https://mock-staging.thingspace.verizon.com/api/hyper-precise/v1` |
+| `services` | `https://5gedge.verizon.com/api/mec/services` | `https://staging.5gedge.verizon.com/api/mec/services` | `https://devmanagement-staging.5gedge.verizon.com:80/mec/services` | `https://tsd-nginx-qa-us-east-1.5gedge.verizon.com/api/mec/services` | `https://mock-staging.thingspace.verizon.com/api/mec/services` |
+| `quality_of_service` | `https://thingspace.verizon.com/api/m2m/v1/devices` | `https://staging.thingspace.verizon.com/api/m2m/v1/devices` | `https://devmanagement-staging.thingspace.verizon.com/api/m2m/v1/devices` | `https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/m2m/v1/devices` | `https://mock-staging.thingspace.verizon.com/api/m2m/v1/devices` |
 
 Consequences to state on every contract sheet that touches configuration:
 
 - Omitting `environment` gives you **`"production"`**, silently.
 - `server_config` overrides individual server URLs within the selected environment.
-- The token endpoint is derived from the same base URL (`/oauth2/token`), so it always follows the environment — you never configure it separately.
-- The token endpoint is derived from the same base URL (`/`), so it always follows the environment — you never configure it separately.
+- The token endpoint (`/oauth2/token`) resolves against the `o_auth_server` server rather than a client-wide base URL, so `server_config` is what moves token traffic, and it follows `environment` with that server.
+- The token endpoint (`/`) resolves against the `o_auth_server` server rather than a client-wide base URL, so `server_config` is what moves token traffic, and it follows `environment` with that server.
 - `ServerConfig` is a frozen pydantic model with `extra="forbid"`: a misspelled keyword raises `ValidationError` at construction rather than being ignored.
 - `timeout` is validated too — the base client raises `ValueError` for any non-positive value.
 
 ## Auth pattern (four schemes)
 
-OAuth 2.0 client credentials, exposed as the client's `thingspace_oauth=` keyword taking `ClientCredentials` **or a plain dict**. The client fetches and caches the bearer token itself, lazily, from `<base_url>/oauth2/token`.
+OAuth 2.0 client credentials, exposed as the client's `thingspace_oauth=` keyword taking `ClientCredentials` **or a plain dict**. The client fetches and caches the bearer token itself, lazily, from `/oauth2/token` on the `o_auth_server` server.
 
 ```python
 from verizon import Client
@@ -126,7 +146,7 @@ from verizon import Client
 client = Client(session_token="<session_token>")
 ```
 
-OAuth 2.0 client credentials, exposed as the client's `thingspace_oauth1=` keyword taking `ClientCredentials` **or a plain dict**. The client fetches and caches the bearer token itself, lazily, from `<base_url>/`.
+OAuth 2.0 client credentials, exposed as the client's `thingspace_oauth1=` keyword taking `ClientCredentials` **or a plain dict**. The client fetches and caches the bearer token itself, lazily, from `/` on the `o_auth_server` server.
 
 ```python
 from verizon import Client
@@ -310,7 +330,7 @@ Before you write the code for each step, load the named companion skill — even
 1. **Client construction & lifetime** — load **python-client-initialization** before you write `Client(...)` or `AsyncClient(...)`. (*The signature won't tell you:* the constructor is keyword-only, so nothing can be passed positionally; the client owns an `httpx` connection pool and you **must** `close()` (sync) or `await aclose()` (async) or use it as a context manager; it must be long-lived and module- or app-scoped, never rebuilt per request; the sync and async clients do not mix; and the transport-override keyword differs by client — `custom_http_client` vs `custom_async_http_client`.)
 2. **Authentication** — load **python-authentication** before you set credentials. The four schemes are `thingspace_oauth=`, `vz_m2_m_token=`, `session_token=` and `thingspace_oauth1=`. (*The signature won't tell you:* every credentials keyword is *optional* — omit it and every request goes out unauthenticated, with no failure at construction and not necessarily a `401` to tell you; the token is fetched lazily and cached by the client; and a **failed token fetch** raises something other than what a caller expects and **bypasses the non-raising response mode** entirely. Load secrets from the environment or a secret store, never hardcode.)
 3. **Calling an endpoint** — load **python-calling-endpoints** before the first `client.<controller>.<operation>(...)` call. (*The signature won't tell you:* every operation splits positional path params (and sometimes the body) from a keyword-only tail after `*`; every keyword-only parameter has a **real** default, so there is no "must pass `None` explicitly" hazard; **18 operations return `None`**, so `with_raw_response` is the only way to observe their status code; and the two response modes — raising vs `ApiResult` — behave differently on failure.)
-4. **Models** — load **python-models** the moment a request/response member is not a plain string or number. (*The signature won't tell you:* `Optional[T]` here is `T | UnsetType`, **not** `typing.Optional` — `None` is not a legal value for it; models are frozen pydantic instances with `…Dict` TypedDict companions; enums are **open** (`…OrStr`), so an unknown wire value passes through as a plain `str` rather than raising; wire aliases differ from Python member names; unknown response fields are **preserved**, not dropped; and serialize via `to_dict`/`to_json`.)
+4. **Models** — load **python-models** the moment a request/response member is not a plain string or number. (*The signature won't tell you:* `Optional[T]` here is `T | UnsetType`, **not** `typing.Optional` — `None` is not a legal value for it; models are frozen pydantic instances with `…Dict` TypedDict companions; enums are **open** (`…OrStr`/`…OrInt`), so an unknown wire value passes through as a plain `str`/`int` rather than raising; wire aliases differ from Python member names; unknown response fields are **preserved**, not dropped; and serialize via `to_dict`/`to_json`.)
 5. **Error handling** — load **python-error-handling** before you write any `try/except`. (*The signature won't tell you:* there is a single `ApiError` type whose `.error` is a **per-operation union**, and a decode failure raises `ValidationError`/`ValueError`, not `ApiError`, and bypasses both response modes; `httpx` transport exceptions reach your boundary unwrapped.)
 6. **Configuration & resilience** — load **python-configuration-resilience** when you set the base URL, timeouts, proxies, TLS, or logging. (*The signature won't tell you:* **the SDK performs no retries at all** — retry/backoff is entirely yours to build or deliberately omit; `timeout` defaults to `30.0` and is a single float that maps onto `httpx`'s timeout semantics rather than bounding the whole call; and there is no logging hook — you wrap the transport seam.)
 7. **Testing** — load **python-testing** before you stub the SDK. (*The signature won't tell you:* the seam is the **transport protocol** (`HttpClient`/`AsyncHttpClient` in `core/transport.py`) passed as `custom_http_client`, or `respx` at the `httpx` layer — not the client class; assert on the request the SDK actually built, and cover all four failure kinds, decode failures included.)

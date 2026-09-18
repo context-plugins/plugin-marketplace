@@ -1,8 +1,8 @@
 {
   "name": "google-maps",
   "displayName": "Google Maps",
-  "version": "0.1.0",
-  "description": "Integrate and consume the APIMatic-generated Google Maps Platform SDK — bundled skills for C#/.NET, Python.",
+  "version": "0.1.1",
+  "description": "Integrate and consume the APIMatic-generated Google Maps Platform SDK — bundled skills for C#/.NET, python, TypeScript.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
@@ -12,6 +12,7 @@
   "repository": "https://github.com/context-plugins/plugin-marketplace",
   "skills": [
     "./skills/dotnet",
-    "./skills/python"
+    "./skills/python",
+    "./skills/typescript"
   ]
 }

@@ -63,7 +63,7 @@ from discourse import (
 )
 ```
 
-Everything else comes from its own subpackage, and the split matters because the four places a caller reaches for are four different modules:
+Everything else comes from its own subpackage, and the split matters because each kind of type a caller reaches for lives in a different module:
 
 | What you need | Where it lives |
 | --- | --- |
@@ -172,7 +172,6 @@ Failing that, it is under the project's environment (`.venv/Lib/site-packages/di
 | Transport protocols (the test seam) | `core/transport.py` |
 | httpx adapter, proxy/TLS knobs | `core/httpx_transport.py` |
 | Base-URL resolution | `server/server_config.py`, `server/server.py` |
-| An operation's error mapper (status → schema) | `errors/<operation>_error.py` |
 
 **Read scoped.** These modules carry long design docstrings; `grep -n` for the symbol and read the surrounding lines rather than whole files. Never quote a docstring's design rationale onto a contract sheet — the sheet carries facts an implementer must obey, not the reasoning behind them.
 

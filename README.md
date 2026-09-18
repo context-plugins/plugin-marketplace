@@ -41,6 +41,22 @@ Node.js 18+ is all you need — the CLI is not installed globally, `npx` runs it
 See the [installer README](https://github.com/apimatic/context-plugins-installer#readme) for
 options, uninstalling, and troubleshooting.
 
+### From skills.sh
+
+The skills here are also installable with the [`skills`](https://github.com/vercel-labs/skills)
+CLI, which covers Claude Code, Cursor, Copilot, Codex, Windsurf, Zed and
+[70+ other agents](https://skills.sh). Install one API for one language:
+
+```bash
+npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/paypal/skills/python
+```
+
+That installs the whole language pack — the `python-integrate-paypal` entry skill, the SDK map it
+reads, and the shared SDK-pattern skills. Swap `python` for `dotnet` or `typescript`, and `paypal`
+for any plugin id in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
+
+To see what a pack contains without installing it, add `--list`.
+
 <details>
 <summary><strong>Adding the marketplace to Claude Code directly</strong></summary>
 
@@ -121,6 +137,7 @@ Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->72<!-- END:LAN
 ```
 .claude-plugin/marketplace.json    the registry Claude Code reads
 .cursor-plugin/marketplace.json    the same registry, Cursor format
+skills.sh.json                     groups the skills by API on the skills.sh repo page
 plugins/<plugin-id>/
   plugin.json                      manifest (VS Code / Copilot format)
   .claude-plugin/plugin.json       Claude Code manifest

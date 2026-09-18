@@ -4,7 +4,7 @@
   "groupings": [
     {
       "title": "Adyen",
-      "description": "Entry skill for Adyen (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/adyen/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/adyen/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-adyen",
         "python-integrate-adyen",
@@ -13,7 +13,7 @@
     },
     {
       "title": "Alpaca",
-      "description": "Entry skill for Alpaca (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/alpaca/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/alpaca/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-alpaca",
         "python-integrate-alpaca",
@@ -22,7 +22,7 @@
     },
     {
       "title": "Binance",
-      "description": "Entry skill for Binance (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/binance/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/binance/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-binance",
         "python-integrate-binance",
@@ -31,7 +31,7 @@
     },
     {
       "title": "CoinGecko",
-      "description": "Entry skill for CoinGecko (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/coingecko/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/coingecko/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-coin-gecko",
         "python-integrate-coin-gecko",
@@ -40,7 +40,7 @@
     },
     {
       "title": "Deepgram",
-      "description": "Entry skill for Deepgram (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/deepgram/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/deepgram/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-deepgram",
         "python-integrate-deepgram",
@@ -49,7 +49,7 @@
     },
     {
       "title": "Discourse",
-      "description": "Entry skill for Discourse (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/discourse/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/discourse/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-discourse",
         "python-integrate-discourse",
@@ -58,7 +58,7 @@
     },
     {
       "title": "Finnhub",
-      "description": "Entry skill for Finnhub (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/finnhub/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/finnhub/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-finnhub",
         "python-integrate-finnhub",
@@ -67,7 +67,7 @@
     },
     {
       "title": "Firecrawl",
-      "description": "Entry skill for Firecrawl (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/firecrawl/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/firecrawl/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-firecrawl",
         "python-integrate-firecrawl",
@@ -76,7 +76,7 @@
     },
     {
       "title": "Frankfurter",
-      "description": "Entry skill for Frankfurter (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/frankfurter/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/frankfurter/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-frankfurter",
         "python-integrate-frankfurter",
@@ -85,7 +85,7 @@
     },
     {
       "title": "Google Maps",
-      "description": "Entry skill for Google Maps (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/google-maps/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/google-maps/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-google-maps-platform",
         "python-integrate-google-maps-platform",
@@ -94,7 +94,7 @@
     },
     {
       "title": "Maxio",
-      "description": "Entry skill for Maxio (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/maxio/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/maxio/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-maxio",
         "python-integrate-maxio",
@@ -103,7 +103,7 @@
     },
     {
       "title": "Notion",
-      "description": "Entry skill for Notion (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/notion/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/notion/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-notion-api",
         "python-integrate-notion-api",
@@ -112,7 +112,7 @@
     },
     {
       "title": "New York Times",
-      "description": "Entry skill for New York Times (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/nytimes/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/nytimes/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-the-new-york-times-apis",
         "python-integrate-the-new-york-times-apis",
@@ -121,7 +121,7 @@
     },
     {
       "title": "PayPal",
-      "description": "Entry skill for PayPal (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/paypal/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/paypal/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-paypal",
         "python-integrate-paypal",
@@ -130,7 +130,7 @@
     },
     {
       "title": "Plaid",
-      "description": "Entry skill for Plaid (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/plaid/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/plaid/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-the-plaid-api",
         "python-integrate-the-plaid-api",
@@ -139,7 +139,7 @@
     },
     {
       "title": "Shutterstock",
-      "description": "Entry skill for Shutterstock (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/shutterstock/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/shutterstock/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-shutterstock",
         "python-integrate-shutterstock",
@@ -148,7 +148,7 @@
     },
     {
       "title": "Slack",
-      "description": "Entry skill for Slack (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/slack/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/slack/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-slack",
         "python-integrate-slack",
@@ -157,7 +157,7 @@
     },
     {
       "title": "SportsData",
-      "description": "Entry skill for SportsData (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/sportsdata/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/sportsdata/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-sportsdata",
         "python-integrate-sportsdata",
@@ -166,7 +166,7 @@
     },
     {
       "title": "Spotify",
-      "description": "Entry skill for Spotify (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/spotify/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/spotify/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-spotify-web-api",
         "python-integrate-spotify-web-api",
@@ -175,7 +175,7 @@
     },
     {
       "title": "Square",
-      "description": "Entry skill for Square (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/square/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/square/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-square",
         "python-integrate-square",
@@ -184,7 +184,7 @@
     },
     {
       "title": "Tesla",
-      "description": "Entry skill for Tesla (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/tesla/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/tesla/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-tesla",
         "python-integrate-tesla",
@@ -193,7 +193,7 @@
     },
     {
       "title": "Twilio",
-      "description": "Entry skill for Twilio (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/twilio/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/twilio/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-twilio",
         "python-integrate-twilio",
@@ -202,7 +202,7 @@
     },
     {
       "title": "Verizon",
-      "description": "Entry skill for Verizon (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/verizon/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/verizon/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-verizon",
         "python-integrate-verizon",
@@ -211,7 +211,7 @@
     },
     {
       "title": "Vimeo",
-      "description": "Entry skill for Vimeo (.NET, Python, TypeScript). Installing one language pulls all 9 of its skills: npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/vimeo/skills/<dotnet|python|typescript>",
+      "description": "npx skills add https://github.com/context-plugins/plugin-marketplace/tree/main/plugins/vimeo/skills/<dotnet|python|typescript>",
       "skills": [
         "dotnet-integrate-vimeo",
         "python-integrate-vimeo",

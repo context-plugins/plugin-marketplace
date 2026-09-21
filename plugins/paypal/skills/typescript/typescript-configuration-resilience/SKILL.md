@@ -442,6 +442,89 @@ because your guard wanted an extra field is a defect you introduced, not a dupli
 And **a guard needs a release**: a claim or marker with no expiry turns one transient failure into a
 permanent refusal. Clear it once the outcome is settled, and expire it when it never is.
 
+### ⚠ What this section does NOT cover: the same operation arriving twice
+
+Everything above is about **one call being sent more than once**. It does nothing about **one
+operation being requested more than once** — a shopper double-clicking, or a client retry
+overlapping the original. That is a different defect with a different fix, and the guards above
+cannot reach it:
+
+- an `AsyncLocalStorage` store is **per request** — a second request opens its own and sees nothing;
+- a module-level `Map` or in-memory lock is **per process** — a second Node instance shares nothing.
+
+A read-then-create sequence guarded only by either of those is a **check-then-act race**: both
+callers pass the existence check before either write lands, and both writes reach the provider.
+
+**The uniqueness claim has to outlive the request and the process**, and it has to be written
+*before* the provider call, not after. A provider effect created before anything local points at it
+is stranded — you cannot find it, reuse it, or clean it up, and the next attempt creates a second
+one. One durable record, keyed by a deterministic reference you generate and send, settles all three
+problems:
+
+```ts
+const ref = deterministicRef(customerId, planHandle);   // derived from what the caller already sent
+
+// 1. CLAIM FIRST — the unique constraint decides the winner; there is no check-then-act gap
+try {
+  await db.subscription.create({ data: { ref, customerId, planHandle, status: "pending" } });
+} catch (e) {
+  if (isUniqueViolation(e)) return loadExisting(ref);   // someone else won; return their outcome
+  throw e;
+}
+
+// 2. only then call the provider, sending the same reference
+let created;
+try {
+  created = await client.subscriptions.create({ ...body, idempotencyKey: ref });
+} catch (e) {
+  if (!isTransport(e)) { await db.subscription.update({ where: { ref }, data: { status: "failed" } }); throw e; }
+  // 3. THE RECONCILING READ LIVES HERE, in the same block as the guard — not as a cross-reference
+  created = await client.subscriptions.findByReference(ref);
+}
+
+await db.subscription.update({ where: { ref }, data: { providerId: created.id, status: "active" } });
+```
+
+Let the constraint violation be the signal: catch it and return the existing outcome rather than
+checking first and hoping. This is application persistence, not SDK configuration, so it is outside
+what this skill can specify — but it is inside what the integration must do, and no amount of retry
+configuration substitutes for it.
+
+### A no-op operation must not fire its side effects
+
+A state transition that finds the record already in the target state is correctly a no-op — the code
+around it usually is not. Cancel an already-cancelled order and the transition does nothing while the
+notification, the webhook and the outbound message all fire again.
+
+**Have the transition report whether it changed anything, and gate every side effect on that answer:**
+
+```ts
+if (!order.tryCancel()) return order;   // false when it was already cancelled — no message, no webhook
+await notifier.orderCancelled(order);
+```
+
+Returning the existing outcome is the idempotent answer. Re-sending is not.
+
+### Reconciliation: a provider's event time and your created-at are different clocks
+
+When you compare provider-side records against your own over a date window, filter **both sides on
+the same semantic clock**. The provider's event timestamp says when the provider acted; your row's
+creation timestamp says when you inserted it. For anything scheduled, deferred or retried the two
+disagree, and the same window then selects different records on each side — **inventing
+discrepancies in one direction and hiding real ones in the other.**
+
+Record the provider's own timestamp on your row and filter on that:
+
+```ts
+// ✗ two clocks: theirs filtered on the provider event, yours on insertion time
+// ✓ one clock: store providerEventAt from the response, and window both sides on it
+where: { providerEventAt: { gte: from, lt: to } }
+```
+
+Where you cannot, widen the local window by the maximum deferral your domain allows and classify
+rows outside the provider window as **out of window**, which is not the same finding as a
+discrepancy.
+
 ## Bounding a call — the two layers, and which one is a total
 
 | Layer | Scope | Default | Bounds a whole call? |
@@ -596,8 +679,19 @@ throw new Error(`stopped after ${MAX_PAGES} pages`);  // truncating silently is 
 
 Prefer to **narrow the query before you page it** — a provider-side date range, status filter, or a
 `perPage` matching what the caller needs turns "walk everything" into a handful of pages. And **a bound
-that silently truncates is a different defect from one that hangs**: when you hit the cap, surface it
-or log it; never return a partial set that reads like a complete one.
+that silently truncates is a different defect from one that hangs**: when you hit the cap the result
+is partial, and that fact belongs **in the result** — a `truncated` flag, a continuation cursor, or a
+distinct return shape the caller has to handle. A log line is not enough: the caller rendering the
+page, writing the reconciliation report, or comparing two totals never reads your logs, and a partial
+set that reads like a complete one is a wrong answer rather than a missing one. **Log it as well,
+never instead.**
+
+```ts
+type Page<T> = { items: T[]; truncated: boolean; nextCursor?: string };
+
+// the caller cannot ignore `truncated` — it is part of the type they destructure
+return { items: all, truncated: pages >= MAX_PAGES, nextCursor: cursor };
+```
 
 Wrapping a bounded loop in an async generator gives you the `for await` the SDK does not:
 

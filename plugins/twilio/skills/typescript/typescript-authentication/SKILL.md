@@ -420,6 +420,20 @@ Three rules for the message it fails with:
 - **Do not fall back to a default, a placeholder, or an unauthenticated client.** Booting degraded
   hides the fault and pushes it to the first caller.
 
+**This applies to the app, not to its test suite.** A repository with an existing integration-test,
+in-memory or supertest host boots it without credentials on purpose, and adding the check above will
+stop that host starting — which reads as your change breaking the suite. Because the check runs at
+module load, it throws during **import**, before any `beforeAll` can set an environment variable, so
+a test-setup hook is not a fix. Adding a startup check therefore obliges you to do one of these in
+the same change, and to say which you did:
+
+- register non-secret placeholder configuration for the credentials in the test environment — a
+  `.env.test`, a setup file loaded before import, or the runner's own env config; or
+- replace the client construction in tests with a stub or an injected fake (see the testing
+  companion skill).
+
+Keep the production check enabled either way. **Never weaken it to make a test pass.**
+
 Check every credential the scheme requires. Basic auth needs both halves — a username with an empty
 password is misconfigured, not partially configured. An empty-string `TokenProvider` is treated as
 absent, so a blank env var is the same fault as an unset one.

@@ -147,6 +147,31 @@ const result = await client.{resource}.{operation}({
 });
 ```
 
+⚠ **Omitting an optional field is a decision, not a default.** Leaving an `f?: T` key out does not
+mean "no behaviour" — it means the provider applies whatever the account, product or plan is
+configured to do. Setting it **overrides that configuration for every call**, silently and for every
+caller. Unless the task explicitly requires a specific value, omit and let the provider's
+configuration govern; a value hard-coded into a request object is an integration deciding something
+the operator already decided elsewhere.
+
+This is a different question from the SDK's own wire defaults: those are about what goes on the wire
+when you say nothing, this is about what the *provider* does when it receives nothing.
+
+⚠ **A returned id means the call was accepted, not that the operation succeeded.** Branch on the
+status field before you record anything as final. An id plus a `PENDING` status is not a payment; an
+id plus a `DENIED` status is a failure that arrived with a `200`. A resolved promise carrying an id
+looks, to the type system, exactly like success — the distinction is not inferable from the SDK
+surface, so it has to be read off the status:
+
+```ts
+const order = await client.orders.create({ body });
+switch (order.status) {
+  case "COMPLETED": return markPaid(order);       // settled
+  case "PENDING":   return awaitSettlement(order); // do NOT fulfil, do NOT mark paid
+  default:          return surfaceFailure(order);  // DENIED and friends
+}
+```
+
 A body's **shape varies**: some are flat scalars, others nest an inner model. The **Fields** table and
 the model file named beside it carry the real members.
 

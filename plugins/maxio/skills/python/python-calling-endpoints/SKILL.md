@@ -100,6 +100,13 @@ a payload, pass one.
 Serialization happens while the request is built, **before** anything is sent — so a body the SDK
 cannot dump raises out of the call with no request made. See `python-models`.
 
+⚠ **Omitting an optional field is a decision, not a default.** Leaving a member at `UNSET` does not
+mean "no behaviour" — it means the provider applies whatever the account, product or plan is
+configured to do. Setting it **overrides that configuration for every call**, silently and for every
+caller. This is the mirror of the rule above: a body the endpoint needs must be sent even when the
+description marks it optional, and a field the provider already has a default for must be left alone
+unless the task requires a specific value.
+
 ## Making the call and reading the response
 
 Operations come in two forms, and choosing between them is a real design decision.
@@ -109,6 +116,22 @@ raises `ApiError`:
 
 ```python
 value = client.{group}.{operation}(...)
+```
+
+⚠ **A returned id means the call was accepted, not that the operation succeeded.** Branch on the
+status field before you record anything as final. An id plus a `PENDING` status is not a payment; an
+id plus a `DENIED` status is a failure that arrived with a `200`. A decoded model carrying an id
+looks identical whether the money moved or not, so the distinction is not inferable from the SDK
+surface — it has to be read off the status:
+
+```python
+order = client.orders.create(body)
+if order.status == "COMPLETED":
+    mark_paid(order)                 # settled
+elif order.status == "PENDING":
+    await_settlement(order)          # do NOT fulfil, do NOT mark paid
+else:
+    surface_failure(order)           # DENIED and friends
 ```
 
 **Non-raising — `with_raw_response`.** Returns a result you branch on. Use it when you need the

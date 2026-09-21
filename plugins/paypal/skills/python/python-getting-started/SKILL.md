@@ -204,7 +204,7 @@ Beyond the usual signatures and model members, a Python sheet is incomplete with
 1. **Sync or async** — which client class, and the reminder that the two do not mix. Plus the `close()`/`aclose()` obligation and where the client is held.
 2. **The keyword-only boundary** for each operation: what is positional (path params, sometimes the body) and what sits after `*`. Every keyword-only parameter has a real default, so there is no "must pass `None` explicitly" hazard — say so, so nobody writes defensive `None`s.
 3. **The 11 operations that return `None`** — `orders.patch_order` · `orders.update_order_tracking` · `subscriptions.activate_billing_plan` · `subscriptions.activate_subscription` · `subscriptions.cancel_subscription` · `subscriptions.deactivate_billing_plan` · `subscriptions.patch_billing_plan` · `subscriptions.patch_subscription` · `subscriptions.suspend_subscription` · `subscriptions.update_billing_plan_pricing_schemes` · `vault.delete_payment_token`. Their raw peers are `ApiResult[None, …]`, so `with_raw_response` is the only way to observe the status code.
-4. **Required vs `UNSET`** for every model member the task sets, and the fact that `Optional[T]` here is `T | UnsetType` — **not** `typing.Optional`, so `None` is not a legal value for it.
+4. **Required vs `UNSET`** for every model member the task sets, and the fact that `Optional[T]` here is `T | UnsetType` — **not** `typing.Optional`, so `None` is not a legal value for it. Every optional field on a create/update body also carries a **purpose** note, or it does not go on the sheet: the type says what the field *is* and nothing about when to set it. Two notes are mandatory where they apply, because neither is inferable from the type — **`omit → provider default`** (setting it overrides configuration the account, product or plan already holds; say what the default governs) and **`import/migration only`** (the field carries state from an existing system; it does not schedule or alter a newly created record). If the source does not say which a field is, label the row `UNVERIFIED` and omit the field in code.
 5. **The `ApiError.error` union** for each operation in scope — there are **three** typed error bodies in this SDK, so the union is never uniform. Every union is `<Typed> | RawError`:
    1. `Error` — 21 operations (`orders.authorize_order` · `orders.capture_order` · `orders.confirm_order` · `orders.create_order` · `orders.create_order_tracking` · `orders.get_order` · `orders.patch_order` · `orders.update_order_tracking` · `payments.capture_authorized_payment` · `payments.get_authorized_payment` · `payments.get_captured_payment` · `payments.get_refund` · `payments.reauthorize_payment` · `payments.refund_captured_payment` · `payments.void_payment` · `vault.create_payment_token` · `vault.create_setup_token` · `vault.delete_payment_token` · `vault.get_payment_token` · `vault.get_setup_token` · `vault.list_customer_payment_tokens`); distinguishing members `name` · `message` · `debug_id`
    2. `SubscriptionError` — 17 operations (`subscriptions.activate_billing_plan` · `subscriptions.activate_subscription` · `subscriptions.cancel_subscription` · `subscriptions.capture_subscription` · `subscriptions.create_billing_plan` · `subscriptions.create_subscription` · `subscriptions.deactivate_billing_plan` · `subscriptions.get_billing_plan` · `subscriptions.get_subscription` · `subscriptions.list_billing_plans` · `subscriptions.list_subscription_transactions` · `subscriptions.list_subscriptions` · `subscriptions.patch_billing_plan` · `subscriptions.patch_subscription` · `subscriptions.revise_subscription` · `subscriptions.suspend_subscription` · `subscriptions.update_billing_plan_pricing_schemes`); distinguishing members `name` · `message` · `debug_id`
@@ -215,4 +215,17 @@ Beyond the usual signatures and model members, a Python sheet is incomplete with
 7. **That the SDK performs no retries at all**, so retry/backoff is the caller's to build or deliberately omit.
 8. **Which host the `base_url` selects**, because omitting it is silently the default.
 9. A **REQUIRED READING** block naming the `python-*` companions that govern the steps, with `MUST load` pointers.
+
+Then, **below the per-operation rows**, a **CROSS-OPERATION INVARIANTS** table — the rules that no
+single row can state because they relate two operations to each other:
+
+| invariant | operations | enforced where |
+|---|---|---|
+| a value accepted by X must be one Y returned | `subscriptions.create` ← `products.list` | implementation |
+
+Write one row for every value the task lets a caller supply that another operation is what defines
+the legal set for — identifiers, handles, codes, references. A signature, a docstring or a map
+**cannot** state a cross-operation rule, so its silence about one is expected and is **not** a reason
+to leave the rule unwritten. If the task implies no such pairing, write "none" explicitly rather
+than leaving the table empty.
 

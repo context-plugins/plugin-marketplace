@@ -162,6 +162,82 @@ recovery is to re-read state and decide, not to resend. Some such operations are
 (cancelling an already-cancelled resource is usually harmless), but that is a per-operation judgement —
 make it deliberately rather than retrying the whole class.
 
+### ⚠ What this section does NOT cover: the same operation arriving twice
+
+Everything above is about **one call being sent more than once**. It does nothing about **one
+operation being requested more than once** — a shopper double-clicking, or a client retry overlapping
+the original. That is a different defect with a different fix, and no retry or idempotency-key
+setting reaches it.
+
+A read-then-create sequence is a **check-then-act race**: both callers pass the existence check
+before either write lands, and both writes reach the provider. An in-process guard cannot close it —
+a `threading.Lock` or a module-level dict is **per process**, so a second worker or a second
+container shares nothing.
+
+**The uniqueness claim has to outlive the request and the process**, and it has to be written
+*before* the provider call, not after. A provider effect created before anything local points at it
+is stranded — you cannot find it, reuse it, or clean it up, and the next attempt creates a second
+one. One durable record, keyed by a deterministic reference you generate and send, settles all three
+problems:
+
+```python
+ref = deterministic_ref(customer_id, plan_handle)   # derived from what the caller already sent
+
+# 1. CLAIM FIRST — the unique constraint decides the winner; there is no check-then-act gap
+try:
+    session.add(Subscription(ref=ref, customer_id=customer_id,
+                             plan_handle=plan_handle, status="pending"))
+    session.commit()                                 # UNIQUE (customer_id, plan_handle)
+except IntegrityError:
+    session.rollback()
+    return load_existing(ref)                        # someone else won; return their outcome
+
+# 2. only then call the provider, sending the same reference
+try:
+    created = client.subscriptions.create(body, idempotency_key=ref)
+except TransportError:
+    # 3. THE RECONCILING READ LIVES HERE, in the same block as the guard — not as prose elsewhere
+    created = client.subscriptions.find_by_reference(ref)
+
+row.provider_id, row.status = created.id, "active"
+session.commit()
+```
+
+Let the constraint violation be the signal: catch it and return the existing outcome rather than
+checking first and hoping. This is application persistence, not SDK configuration, so it is outside
+what this skill can specify — but it is inside what the integration must do, and no amount of retry
+configuration substitutes for it.
+
+### A no-op operation must not fire its side effects
+
+A state transition that finds the record already in the target state is correctly a no-op — the code
+around it usually is not. Cancel an already-cancelled order and the transition does nothing while the
+notification, the webhook and the outbound message all fire again.
+
+**Have the transition report whether it changed anything, and gate every side effect on that answer:**
+
+```python
+if not order.try_cancel():        # False when it was already cancelled
+    return order                  # no notification, no webhook, no message
+
+notifier.order_cancelled(order)
+```
+
+Returning the existing outcome is the idempotent answer. Re-sending is not.
+
+### Reconciliation: a provider's event time and your created-at are different clocks
+
+When you compare provider-side records against your own over a date window, filter **both sides on
+the same semantic clock**. The provider's event timestamp says when the provider acted; your row's
+creation timestamp says when you inserted it. For anything scheduled, deferred or retried the two
+disagree, and the same window then selects different records on each side — **inventing
+discrepancies in one direction and hiding real ones in the other.**
+
+Record the provider's own timestamp on your row and filter on that, rather than on `created_at`.
+Where you cannot, widen the local window by the maximum deferral your domain allows and classify
+rows outside the provider window as **out of window**, which is not the same finding as a
+discrepancy.
+
 ## Bounding a call — what the timeout actually bounds
 
 One knob, in two places:
@@ -191,6 +267,74 @@ only builds the SDK's *own* default transport. Set the timeout on the transport 
 For async callers, a deadline over a whole operation — the SDK call plus your own surrounding work — is
 `asyncio.timeout(...)`. It raises `TimeoutError` through the await, which no `except ApiError` clause
 will catch.
+
+## Pagination — drive it yourself
+
+**Nothing is paginated and nothing is iterable.** When an operation returns a page, the SDK hands you
+that page and stops. Advancing is yours, and so is knowing that advancing is needed — read the page
+and cursor field names off the operation's signature and its response model, since they are
+spec-specific.
+
+```python
+# offset/page style
+PER_PAGE = 100
+page = 1
+while True:
+    result = client.{group}.{operation}(page=page, per_page=PER_PAGE)
+    for item in result.{items}:
+        process(item)
+    if len(result.{items}) < PER_PAGE:      # short page — usually the last
+        break
+    page += 1
+
+# cursor style
+cursor = None
+while True:
+    result = client.{group}.{operation}(**({"cursor": cursor} if cursor else {}))
+    for item in result.{items}:
+        process(item)
+    cursor = result.{next_cursor}
+    if not cursor:
+        break
+```
+
+Prefer the API's explicit end signal — a null next-cursor, a `has_more` flag — over inferring from a
+short page where one exists. And **narrow the query before you page it**: a provider-side date range,
+status filter or page size that matches what the caller needs turns "walk everything" into a handful
+of pages.
+
+### ⚠⚠ Never leave a page loop unbounded
+
+"The API stops when there are no more pages" is a description of the happy path, not a guarantee. A
+provider that keeps returning a next-page link, a cursor that fails to advance, or a filter the
+provider quietly ignores will each spin until something else kills the request — tens of thousands
+of billed calls and a caller left holding a dead request. **Every page loop needs at least one bound
+that does not depend on the provider's cooperation.**
+
+| bound | use when | shape |
+|---|---|---|
+| **page cap** | always — the backstop | `if pages >= MAX_PAGES: break` |
+| **item cap** | the caller wants "the first N" | `if len(results) >= max_items: break` |
+| **deadline** | the call sits behind a request timeout | `asyncio.timeout(...)`, or a monotonic check |
+| **no-progress guard** | cursor/offset paging | stop if the cursor or offset did not change between pages |
+
+### A bound that truncates must say so in the result
+
+Hitting the cap is a different defect from hanging, and it is not fixed by logging. **The partiality
+of a result is a property of the result**, so it belongs in the return value where the caller cannot
+fail to encounter it — a `truncated` flag, a continuation cursor, or a distinct return type:
+
+```python
+@dataclass
+class Page:
+    items: list
+    truncated: bool
+    next_cursor: str | None = None
+```
+
+A log line is not enough: the caller rendering the page, writing the reconciliation report, or
+comparing two totals never reads your logs, and a partial set that reads like a complete one is a
+wrong answer rather than a missing one. **Log it as well, never instead.**
 
 ## Proxies and TLS
 

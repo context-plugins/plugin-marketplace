@@ -135,14 +135,28 @@ looks identical whether the money moved or not, so the distinction is not infera
 surface — it has to be read off the status:
 
 ```python
+# Enumerate from the operation's OWN status enum - python-models names the members.
+SETTLED  = {"COMPLETED"}                                  # the work is done
+PENDING  = {"CREATED", "SAVED", "APPROVED", "PAYER_ACTION_REQUIRED"}   # accepted, not done
+FAILED   = {"VOIDED", "DENIED"}                           # will not settle
+
 order = client.orders.create(body)
-if order.status == "COMPLETED":
-    mark_paid(order)                 # settled
-elif order.status == "PENDING":
+if order.status in SETTLED:
+    mark_paid(order)
+elif order.status in PENDING:
     await_settlement(order)          # do NOT fulfil, do NOT mark paid
+elif order.status in FAILED:
+    surface_failure(order)
 else:
-    surface_failure(order)           # DENIED and friends
+    surface_unknown(order)           # a status you did not enumerate is NOT a success
 ```
+
+⚠ **The last arm is the one that goes wrong.** Writing `else: surface_failure(...)` looks safe and is
+not: the statuses you did not think of are mostly the *normal intermediate* ones - an order approved but
+not captured, one waiting on the payer - and calling those failures breaks working payments. An `else`
+is a claim about every status you did not enumerate, and the provider can add one without telling you.
+**Enumerate the members by name** (they are in the operation's status enum, listed in `python-models`)
+and leave the default meaning *unknown*, which is neither paid nor failed.
 
 **Non-raising — `with_raw_response`.** Returns a result you branch on. Use it when you need the
 **status code or response headers** (the parsed form exposes neither on success), or when a non-2xx is

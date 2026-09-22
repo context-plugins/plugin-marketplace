@@ -304,27 +304,36 @@ and cursor field names off the operation's signature and its response model, sin
 spec-specific.
 
 ```python
-# offset/page style
-PER_PAGE = 100
-page = 1
-while True:
+# offset/page style — bounded, and the bound is visible in the result
+PER_PAGE, MAX_PAGES = 100, 100
+items, page, truncated = [], 1, False
+for _ in range(MAX_PAGES):
     result = client.{group}.{operation}(page=page, per_page=PER_PAGE)
-    for item in result.{items}:
-        process(item)
+    items.extend(result.{items})
     if len(result.{items}) < PER_PAGE:      # short page — usually the last
         break
     page += 1
+else:
+    truncated = True                        # the cap stopped us, NOT the provider
 
-# cursor style
-cursor = None
-while True:
+# cursor style — same shape
+cursor, items, truncated = None, [], False
+for _ in range(MAX_PAGES):
     result = client.{group}.{operation}(**({"cursor": cursor} if cursor else {}))
-    for item in result.{items}:
-        process(item)
+    items.extend(result.{items})
     cursor = result.{next_cursor}
     if not cursor:
         break
+else:
+    truncated = True
+
+return Page(items=items, truncated=truncated, next_cursor=cursor)
 ```
+
+The bound and the `truncated` flag are in this block deliberately: an unbounded `while True` that
+`process()`es as it goes is the shape that produces both defects below - it cannot stop, and when
+something else stops it the caller is never told. `for ... else` sets the flag on exactly the path
+where the cap, rather than the provider, ended the walk.
 
 Prefer the API's explicit end signal — a null next-cursor, a `has_more` flag — over inferring from a
 short page where one exists. And **narrow the query before you page it**: a provider-side date range,

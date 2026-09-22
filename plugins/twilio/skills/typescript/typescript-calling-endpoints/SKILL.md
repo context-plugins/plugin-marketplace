@@ -201,6 +201,16 @@ Each field is schema-encoded on the way out. A wrong type or a malformed format 
 say) throws `SchemaError` and **nothing is sent** — no request reaches the network. That is an error in
 your code, not an API failure; see **typescript-error-handling**.
 
+### An amount's scale belongs to its currency, not to the number two
+
+`amount.toFixed(2)` and a validator demanding exactly two decimal places are right for USD and EUR
+and **wrong** for the currencies that do not have two: JPY and KRW have **zero** decimal places, and
+KWD, BHD and TND have **three**. A hardcoded two-decimal format moves a JPY amount by a factor of 100
+at the boundary, and a two-decimal validator rejects legitimate KWD values outright. Take the scale
+from the currency — a per-currency exponent — and never from the literal `2`. Where the field is typed
+as a string, send the digits that currency actually has; `Number.prototype.toFixed` is not a money
+formatter.
+
 ## Enums
 
 Enum fields take a member of the generated `const` object. The type alias is **open** — it carries a

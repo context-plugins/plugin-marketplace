@@ -107,6 +107,16 @@ caller. This is the mirror of the rule above: a body the endpoint needs must be 
 description marks it optional, and a field the provider already has a default for must be left alone
 unless the task requires a specific value.
 
+### An amount's scale belongs to its currency, not to the number two
+
+`f"{amount:.2f}"`, `Decimal("10.00")` and a validator demanding exactly two decimal places are right
+for USD and EUR and **wrong** for the currencies that do not have two: JPY and KRW have **zero**
+decimal places, and KWD, BHD and TND have **three**. A hardcoded two-decimal format moves a JPY
+amount by a factor of 100 at the boundary, and a two-decimal validator rejects legitimate KWD values
+outright. Take the scale from the currency — a per-currency exponent applied with
+`Decimal.quantize` — and never from the literal `2`. Where the API documents the amount as a string,
+send the digits that currency actually has.
+
 ## Making the call and reading the response
 
 Operations come in two forms, and choosing between them is a real design decision.

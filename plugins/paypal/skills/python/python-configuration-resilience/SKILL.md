@@ -199,9 +199,21 @@ except TransportError:
     # 3. THE RECONCILING READ LIVES HERE, in the same block as the guard — not as prose elsewhere
     created = client.subscriptions.find_by_reference(ref)
 
+# 4. VERIFY BEFORE YOU KEEP IT - the provider is authoritative for what happened,
+#    not for what you asked. Check the echo against your own intent first.
+if (created.amount, created.currency) != (body.amount, body.currency):
+    row.status = "needs_review"                  # durable, inspectable, and not "active"
+    session.commit()
+    raise AmountMismatch(ref, created.amount, created.currency)
+
 row.provider_id, row.status = created.id, "active"
 session.commit()
 ```
+
+**The verification belongs before the write, not after it.** A mismatch caught after the commit is a
+bad row someone now has to find; caught before, it is a rejected response. And do not "fix" it by
+rolling back to nothing — the provider effect is real and already exists, so the durable outcome of a
+mismatch is a row in a state you can act on, never the absence of a row.
 
 Let the constraint violation be the signal: catch it and return the existing outcome rather than
 checking first and hoping. This is application persistence, not SDK configuration, so it is outside
@@ -237,6 +249,22 @@ Record the provider's own timestamp on your row and filter on that, rather than 
 Where you cannot, widen the local window by the maximum deferral your domain allows and classify
 rows outside the provider window as **out of window**, which is not the same finding as a
 discrepancy.
+
+### A window widened for the filter's granularity must be narrowed back in code
+
+Where the provider's filter accepts only whole calendar days, the query you send is necessarily wider
+than the window you were asked about. Widening it is correct, and it is **half the job**: the rows
+that come back include ones outside the caller's actual instants. Filter them out yourself before you
+report, or the report contains records from outside the window it claims to cover — and it will look
+right, because every record in it is genuine. Widening is a property of the request; the caller's
+window is a property of the answer.
+
+### One local order legitimately maps to several provider transactions
+
+An authorization, its capture and each refund are separate provider records against the same order. A
+matcher that takes the first hit and then drops the order from the pool reports every remaining
+transaction as provider-only. **Match against the set, not the first element**: keep the order in the
+pool until its transactions are exhausted, and call what is left over a discrepancy only then.
 
 ## Bounding a call — what the timeout actually bounds
 

@@ -1,0 +1,10 @@
+{
+  "name": "paypal",
+  "version": "0.3.4",
+  "description": "Integrate and consume the APIMatic-generated Paypal SDK — bundled skills for C#/.NET, Python, TypeScript.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Paypal",
+    "developerName": "APIMatic"
+  }
+}

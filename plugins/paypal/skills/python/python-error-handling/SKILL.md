@@ -30,8 +30,8 @@ not at the `except`.
 | Attribute | Type | Notes |
 |---|---|---|
 | `e.error` | the operation's error union | The decoded body. **This is the information.** |
-| `e.response` | `HttpResponse` | `status_code`, `headers`, `content`, `text()`, `json()` |
-| `e.status_code` | `int` | Shortcut for `e.response.status_code` |
+| `e.status_code` | `int` | The status that failed. |
+| `e.headers` | `Mapping[str, str]` | The response head, keys lowercased. |
 
 **`str(e)` and `repr(e)` deliberately omit the body.** They render as `HTTP 422: {TypedError}` — the
 status and the payload's *type name* only, so response bodies stay out of logs and tracebacks by
@@ -59,8 +59,8 @@ Four places give you that alias, in order of preference:
    This is where the sheet's row should have come from.
 3. **The operation's docstring**, whose `Raises:` section ends with the union verbatim:
    `` `error` is `{TypedError} | RawError`. ``
-4. **The error module itself**, whose `map` is a `match` on `response.status_code` naming the schema
-   each status decodes to.
+4. **The error module itself**, whose `map` is a `match` on `status_code` naming the schema each
+   status decodes to.
 
 **`RawError` is always the last arm.** The generator emits it unconditionally as the catch-all, so
 every operation can hand you a `RawError` for any status it does not document — there is no operation
@@ -131,15 +131,19 @@ match client.{Group}.with_raw_response.{Operation}(...):
 ```
 
 `Success` and `Failure` are frozen dataclasses, so pattern matching needs nothing added; both carry
-`.response`, which is **the only way to read response headers**. `.unwrap()` collapses either back to
-the raising behaviour — in fact every parsed method is literally its raw peer plus `.unwrap()`.
+`.status_code` and `.headers` as fields of their own. On the **success** path this mode is the only
+way to read either — except for a file response, which carries its own `headers` on the parsed path.
+On the failure path `ApiError` already carries both, so the choice there is about whether you want an
+exception, not about what you can see. `.unwrap()` collapses either back to the raising behaviour —
+in fact every parsed method is literally its raw peer plus `.unwrap()`.
 
 The split is mechanical: **2xx is `Success`, everything else is `Failure`.** No nuance, no per-status
 judgement. Use this variant when you need the status code or headers on the *success* path, or when a
 non-2xx is an expected outcome rather than an exception.
 
 **This mode is not exception-free.** See the next section: a decode failure raises in both modes, and
-so does a failed token fetch.
+so does a failed token fetch. Mapping a `Failure` to your own error uses the same function as the
+raising path — see *Guarding every call site*.
 
 ## The failures that are not `ApiError`
 
@@ -178,7 +182,7 @@ guard belongs somewhere else than you would place it by habit:
 ```python
 value = client.{Group}.{Operation}(...)
 if value.{member} is UNSET:
-    raise ProviderUnreadable("{Operation} returned no {member}; outcome unknown")
+    raise ProviderError(502, "{Operation} returned no {member}", outcome_unknown=True)
 ```
 
 **Assert on the members you depend on, immediately after every call that matters.** For a write, an
@@ -187,26 +191,89 @@ taken effect and you cannot name what it created. Nothing in the SDK does this f
 
 ### Transport failures — the HTTP library's exceptions, unwrapped
 
-The SDK does **not** wrap its transport's exceptions. The protocol says implementations *may raise
-their underlying library's exceptions*, and the default transport does not catch: connection refused,
-DNS failure, TLS error, dropped socket and timeout all propagate through the SDK untouched. With the
-shipped transport those are `httpx` exceptions:
+The SDK does **not** wrap its transport's exceptions where you catch them. The protocol says
+implementations *may raise their underlying library's exceptions*; the shipped transport reports a
+failed send to the retry loop, and when the last attempt fails the pipeline raises the library's own
+exception. So connection refused, DNS failure, TLS error, dropped socket and timeout all reach you as
+`httpx2` exceptions.
+
+⚠ **`httpx2.HTTPError` is the base class of every one of them, timeouts included.** A lone
+`except httpx2.HTTPError` arm therefore catches connection-refused and read-timeout together and gives
+them one outcome — and those are opposite facts.
+
+**Which transport failures reached the server, and which did not.** This is a property of the
+exception class, not a judgement call:
+
+| exception | did the request reach the server? | outcome |
+| --- | --- | --- |
+| `httpx2.ConnectError` | **no** — refused, DNS failure, TLS rejected | **known**: nothing happened |
+| `httpx2.ConnectTimeout` | **no** — the connection was never established | **known**: nothing happened |
+| `httpx2.PoolTimeout` | **no** — no connection was ever acquired from the pool | **known**: nothing happened |
+| `httpx2.ProxyError` | **no** — the proxy refused before forwarding | **known**: nothing happened |
+| `httpx2.ReadTimeout` | **maybe** — the request went out, the reply never came | **unknown** |
+| `httpx2.WriteTimeout` | **maybe** — sending was interrupted mid-body | **unknown** |
+| `httpx2.RemoteProtocolError` | **maybe** — the peer closed after the request went out | **unknown** |
+
+`ConnectTimeout`, `PoolTimeout` and `ReadTimeout` are all `httpx2.TimeoutException` and they fall on
+**opposite sides of this table**, so splitting on `TimeoutException` does not split on the thing that
+matters. Split on whether the request was ever sent:
 
 ```python
-import httpx
+import httpx2
 
-except httpx.TimeoutException as e:   # ConnectTimeout / ReadTimeout / …
+except (httpx2.ConnectError, httpx2.ConnectTimeout, httpx2.PoolTimeout, httpx2.ProxyError) as e:
+    # Nothing reached the provider. Fail the operation outright; there is nothing to reconcile.
     ...
-except httpx.HTTPError as e:          # base class for the rest
+except httpx2.RequestError as e:
+    # It may have landed. Record the outcome as UNKNOWN and reconcile before any retry.
     ...
 ```
 
-**A write that fails this way has an unknown outcome** — a reset after the bytes reached the server is
-indistinguishable from one before.
+Catch `httpx2.RequestError`, not `httpx2.HTTPError`, in that second arm. `HTTPError` is also the base of
+`HTTPStatusError` — what `raise_for_status()` raises — and that one means a **complete response
+arrived**, so sweeping it into the unknown-outcome arm mislabels the one case that is fully known.
+
+⚠ **`PoolTimeout` is the one to get right.** It is the characteristic failure of a saturated sync
+client, which is the setup this skill recommends — so it arrives *in bulk*, exactly when the system is
+already under strain. Marking it unknown floods reconciliation with work at the worst moment, for
+requests that were never sent.
+
+**Only the second arm has an unknown outcome.** Marking a refused connection "unknown" is not the
+cautious default: it schedules reconciliation for an event that provably did not happen, and it
+trains the caller to distrust a failure that is in fact definitive.
 
 Note the coupling: your error boundary imports the transport's exception types because the SDK's
 transport does. If you supply a custom transport (`python-client-initialization`), it is *your*
 transport's exceptions that arrive and this clause needs revisiting.
+
+### A streamed download moves the failure out of the call
+
+An operation that returns a file is the one place where the call returning successfully does not mean
+the transfer succeeded. The pipeline yields as soon as the response *head* arrives; the body is still
+on the socket. So a connection dropped mid-transfer raises out of `read()`, `iter_bytes()` or
+`save_to(...)` — not out of the call — and a `try` wrapped around the call alone catches nothing:
+
+```python
+f = client.{group}.{operation}(...)      # returns on the head; nothing is downloaded yet
+try:
+    f.save_to("out.bin")                 # the transport failure surfaces here
+except httpx2.RequestError:
+    ...
+```
+
+Three consequences. The status code and headers are trustworthy before the body is — a `Failure` on a
+streamed call is a real outcome, not a guess. A partial write is possible, which is why `save_to`
+stages through `<name>.part` and renames only on success, so a failed download never appears under the
+final name. And `request_options={"timeout": ...}` bounds **each read**, not the call as a whole, so a
+stalled transfer raises rather than hanging. The same holds on the async client, with the failure
+raising out of the awaited consumer. `python-calling-endpoints` has the lifecycle itself.
+
+### An event stream raises from the loop
+
+An operation that returns an event stream succeeds as soon as the head arrives, like a download. What
+follows raises from the **loop**: a frame the event type rejects raises pydantic's `ValidationError`
+after the stream has closed, and an oversized event or bad UTF-8 raises `ValueError` — there is no SSE
+exception class. `python-event-streams` has the full table.
 
 ### Authentication failures wear the same exception
 
@@ -226,7 +293,7 @@ from {root_package}.core import OAuthProviderError
 
 except ApiError as e:
     if isinstance(e.error, OAuthProviderError):
-        raise ConfigurationError(f"credentials rejected: {e.error.error}") from e
+        raise ProviderError(502, "provider refused our credentials") from e
     ...
 ```
 
@@ -250,31 +317,114 @@ job, a health check). A connection failure during a read fails just as hard as o
 call left unguarded next to one that is guarded is the one that breaks.
 
 **Convert failures to your own type in one place**, so the rest of the code has a single failure type
-rather than four unrelated ones. Order matters — most specific first, and auth before the operation's
-own union:
+rather than four unrelated ones. The type is yours — the SDK's only exception class is `ApiError`;
+transport and decode failures arrive as library exceptions, below. If your codebase already has an
+error type, give it these two fields instead of adding another:
 
 ```python
-import httpx
+class ProviderError(Exception):
+    def __init__(self, status_code, message, *, outcome_unknown=False):
+        super().__init__(message)
+        self.status_code = status_code          # the status your boundary returns
+        self.outcome_unknown = outcome_unknown  # whether anything may have happened upstream
+```
+
+One map turns the provider's answer into it, keyed on the status and the decoded body — the same
+arms whichever way you called (below):
+
+```python
+import httpx2
 from pydantic import ValidationError
 from {root_package}.core import ApiError, OAuthProviderError
 from {root_package}.models import {TypedError}
+
+def provider_error(status, error) -> ProviderError:
+    match (status, error):
+        # OUR credentials or OUR quota: the caller did nothing wrong and cannot fix it.
+        case (401 | 403, _) | (_, OAuthProviderError()):
+            return ProviderError(502, "provider refused our credentials")
+        case (429, _):
+            return ProviderError(503, "rate-limited")
+
+        # The provider rejected THE CALLER'S request: hand back the same status so they can act on it.
+        case (s, {TypedError}() as body) if 400 <= s < 500:
+            return ProviderError(s, body.{message_field})
+        case (s, _) if 400 <= s < 500:
+            return ProviderError(s, "The provider rejected the request.")
+
+        # A provider 5xx: no meaningful caller status, and a write may have landed.
+        case _:
+            return ProviderError(502, "Provider unavailable.", outcome_unknown=status >= 500)
 
 try:
     result = client.{Group}.{Operation}(...)
 
 except ApiError as e:
-    if isinstance(e.error, OAuthProviderError):
-        raise ProviderConfigError("credentials rejected") from e            # 5xx: our misconfig
-    if isinstance(e.error, {TypedError}):
-        raise ProviderRejected(e.status_code, e.error.{message_field}) from e   # map 4xx -> 4xx
-    raise ProviderFailure(e.status_code, e.error.text()) from e             # RawError arm
+    raise provider_error(e.status_code, e.error) from e
 
 except ValidationError as e:
-    raise ProviderUnreadable("unreadable response; outcome unknown") from e  # do NOT assume failure
+    raise ProviderError(502, "unreadable response", outcome_unknown=True) from e   # do NOT assume failure
 
-except httpx.HTTPError as e:
-    raise ProviderUnavailable("provider unreachable; outcome unknown") from e
+except (httpx2.ConnectError, httpx2.ConnectTimeout, httpx2.PoolTimeout, httpx2.ProxyError) as e:
+    raise ProviderError(502, "Never sent.", outcome_unknown=False) from e   # KNOWN: nothing happened
+
+except httpx2.RequestError as e:
+    raise ProviderError(504, "No response.", outcome_unknown=True) from e   # UNKNOWN: may have landed
 ```
+
+**Your own time limit needs its own arm.** In async code, an `asyncio.wait_for` around the call raises
+`asyncio.TimeoutError`, which none of these arms catches — map it like a read timeout:
+`ProviderError(504, "No response.", outcome_unknown=True)`.
+
+**The raw variant maps through the same function.** A `Failure` is a value, not an exception, so there
+is nothing to chain `from`; and a refused token fetch still raises `ApiError` here (it happens before
+the request is sent), so the `except ApiError` above stays around the raw call too:
+
+```python
+match client.{Group}.with_raw_response.{Operation}(...):
+    case Success(payload=value):
+        ...
+    case Failure(error=err, status_code=status):
+        raise provider_error(status, err)
+```
+
+Note the last two arms, and their order: the narrow tuple must come **first**, because
+`httpx2.RequestError` is its base class and would otherwise swallow it. The two are different facts,
+and a single `except httpx2.HTTPError` merges them.
+
+⚠ **Two arms raising the same class with the same values is not a split.** The distinction has to
+reach something that acts on it, or it is a comment. Note that both arms above raise the **same
+class** on purpose — what differs is the **values they pass**, so there is no way to write either
+line without deciding which case you are in. Two different class names carrying the same status and
+no flag gives you two `except` arms, two messages, and **one behaviour**.
+
+The carrier is the two fields on `ProviderError` above, and both arms must set them; and somewhere
+downstream, something that branches on **both** of them:
+
+```python
+except ProviderError as e:
+    if e.outcome_unknown:
+        schedule_reconciliation(operation, reference)   # settle what actually happened
+    return error_response(e.status_code, safe_message)  # 502 never sent · 504 outcome unknown
+```
+
+**Then write the test that tells the two apart.** This is what decides whether the split is real. The
+check is not "are there two arms" but **"does one assertion pass for both inputs?"** — if it does, the
+distinction is not real, however well the production branch reads:
+
+```python
+def test_unsent_is_not_the_same_failure_as_unknown():
+    unsent  = failure_from(httpx2.ConnectError("refused"))    # never left the process
+    unknown = failure_from(httpx2.ReadTimeout("no reply"))    # may have landed
+
+    assert (unsent.status_code,  unsent.outcome_unknown)  == (502, False)
+    assert (unknown.status_code, unknown.outcome_unknown) == (504, True)
+    assert unsent.status_code != unknown.status_code         # the caller can tell them apart
+    assert reconciled() == [unknown.reference]               # and only one reconciles
+```
+
+Two tests asserting the *same* exception for a refused connection and a read timeout is this defect
+wearing a passing suite.
 
 Always `raise ... from e`. Losing `__cause__` costs you the traceback that names which of the four
 paths you were on.
@@ -285,11 +435,16 @@ paths you were on.
 apply the identical ladder at every call site. When the same kind of failure becomes a different
 result on a different operation, callers cannot reason about it.
 
-**Keep distinct failures distinct — carry the provider's status.** A provider **4xx** (validation,
-conflict, not-found) is actionable by your caller and should surface as a client 4xx. A transport
-failure or an unknown error has no meaningful client status and belongs at 5xx. Collapsing everything
-into one blanket status discards the only signal separating "you sent something invalid" from "the
-provider is down".
+**Keep distinct failures distinct — carry the provider's status.** A provider **4xx** the caller can
+act on (validation, conflict, not-found) surfaces as that same client 4xx; a transport failure or an
+unknown error has no meaningful client status and belongs at 5xx. Collapsing everything into one
+blanket status discards the only signal separating "you sent something invalid" from "the provider is
+down".
+
+**Not every provider failure is the caller's fault.** A `401`/`403` means *your* credentials are wrong,
+and a `429` means *your* quota is spent — passing either straight through tells the caller they are
+unauthenticated or throttled when they are neither. Those belong at 5xx (the `match` above), and so
+does the default arm.
 
 **An unreadable body is two cases, not one — decide which before you map it.** An unreadable
 *success* body is genuinely unknown: 5xx. An unreadable *error* body is not — the provider rejected
@@ -307,12 +462,13 @@ and field-path detail. Log the detail, return a message you wrote.
 
 ## Notes
 
-- **There are no retries in this SDK.** No status is retried and nothing is resent on a transport
-  failure — whatever you want retried, you build. See `python-configuration-resilience`.
-- **A `401` invalidates the cached credential but does not retry the request.** The caller sees one
-  `401`, and the *next* call obtains a fresh token. Do not read a single 401 as a permanent
-  credential failure.
+- **Retries are on by default.** A retryable status or transport failure surfaces only after the last
+  attempt, and the exception you catch is the same one a single attempt would raise. With `max_retries`
+  set to `0` nothing is resent. See `python-configuration-resilience`.
+- **A `401` invalidates the cached credential but does not retry the request.** Your code sees one
+  `401` (your boundary answers it as `502`), and the *next* call obtains
+  a fresh token. Do not read a single 401 as a permanent credential failure.
 - `ApiError` implements `__reduce__`, so it pickles — it survives crossing a process boundary (a
   Celery result, a multiprocessing queue) with its payload intact.
-- `e.response.headers` has **lowercased keys**, guaranteed by the transport contract — look up
+- `e.headers` has **lowercased keys**, guaranteed by the transport contract — look up
   `"x-request-id"`, never `"X-Request-Id"`.

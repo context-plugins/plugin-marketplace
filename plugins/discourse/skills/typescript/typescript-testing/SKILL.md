@@ -1,6 +1,6 @@
 ---
 name: typescript-testing
-description: Testing code that calls an APIMatic-generated TypeScript SDK — which seam to fake (`ClientOptions.fetch`, or an interceptor at the global-fetch layer), stubbing bodies in wire shape, asserting the request the SDK actually built, covering the error and decode-failure paths, and keeping tests independent of SDK internals. Load before writing tests for the integration layer.
+description: Testing code that calls an APIMatic-generated TypeScript SDK — which seam to fake (`ClientOptions.fetch`, or an interceptor at the global-fetch layer), stubbing bodies in wire shape, asserting the request the SDK actually built, covering the error and decode-failure paths, turning the on-by-default retry policy off (or testing it deliberately), and keeping tests independent of SDK internals. Load before writing tests for the integration layer.
 ---
 
 # Testing code that uses an APIMatic TypeScript SDK
@@ -71,10 +71,18 @@ Wire it in and you have a real client with no network:
 ```ts
 function clientReturning(...responses: Response[]) {
   const stub = stubFetch(queue(...responses));
-  const client = new {Api}Client({ fetch: stub.fetch, {scheme}: { /* ... */ } });
+  const client = new {Api}Client({
+    fetch: stub.fetch,
+    retry: { maxRetries: 0 },          // one request per call — see *Notes*
+    {scheme}: { /* ... */ },
+  });
   return { client, stub };
 }
 ```
+
+**`retry: { maxRetries: 0 }` is load-bearing.** Retries are on by default, so without it a stubbed
+`503` on a `GET` is fetched four times across about 7 s of backoff, and a queue holding one response
+runs out on the second attempt. Leave it on every test client that is not *about* retrying.
 
 `Response` is global on Node 18+. Credentials can be dummy values, or omitted entirely — nothing
 validates them when the transport is stubbed, unless the test is *about* the credential.
@@ -101,9 +109,9 @@ actually put on the wire:
   field's schema combinator;
 - **every required field present.**
 
-Get a required one wrong and the call rejects with `SchemaError` before your assertion runs — which
-reads as a mysterious failure until you read the message, which names the failing path and the
-expected type exactly. Get an **optional** one wrong and nothing fails at all: model schemas are
+Get a required one wrong and the call rejects with `DecodeError` before your assertion runs — which
+reads as a mysterious failure until you read its `cause`, a `SchemaError` whose message names the
+failing path and the expected type exactly. Get an **optional** one wrong and nothing fails at all: model schemas are
 **loose**, so an unrecognized key is preserved rather than rejected, the member reads back `undefined`,
 and the test passes for the wrong reason. Two shortcuts close that gap:
 
@@ -130,7 +138,7 @@ it("returns the decoded model", async () => {
 ```
 
 An operation whose success type is `undefined` needs a genuinely **empty** body — `emptyResponse()`.
-A non-empty one raises `SchemaError` even on a `204`.
+A non-empty one rejects with `DecodeError` even on a `204`.
 
 ## Test an error path
 
@@ -163,16 +171,17 @@ it("surfaces the declared 400 arm", async () => {
 The error body is decoded through **its** schema, so it is wire-shaped on the same terms as a success
 body.
 
-**Case B — the operation declares no error bodies.** It rejects with the base `ResponseError`, whose
-payload is always the `"undeclared"` arm — **raw bytes**, not a decoded body:
+**Case B — the operation declares no error bodies.** It rejects with the base `ApiError`, whose
+payload is always the `"undeclared"` arm — **raw bytes**, not a decoded body. Its `kind` is typed
+`string`, so test for `rawBody` to reach the bytes:
 
 ```ts
-import { ResponseError } from "{package-name}";
+import { ApiError } from "{package-name}";
 
-const e = err as ResponseError;
+const e = err as ApiError;
 expect(e.status).toBe(422);
 expect(e.payload.kind).toBe("undeclared");
-expect(new TextDecoder().decode(e.payload.rawBody)).toContain("bad input");
+if ("rawBody" in e.payload) expect(new TextDecoder().decode(e.payload.rawBody)).toContain("bad input");
 ```
 
 **Take the arm union from the contract sheet per operation.** `"undeclared"` is reachable in Case A
@@ -182,6 +191,10 @@ nothing about the typed body you meant to check.
 
 Use `try`/`catch` rather than a rejection matcher: matcher support for narrowing a rejected value
 differs between runners, and the `catch` form reads the same everywhere.
+
+These prove the reason is on the SDK error, not that the caller sees it. Also test through your own boundary:
+fake the API's `4xx` with a reason and assert the reason is in **your** response — a test that checks
+only the status passes on code that logs the reason and drops it.
 
 ## Test the result-style (`asApiResult`) variant
 
@@ -198,7 +211,7 @@ it("reports the failure without throwing", async () => {
   expect(outcome.ok).toBe(false);
   if (!outcome.ok) {
     expect(outcome.status).toBe(400);
-    expect(outcome.error.kind).toBe("{arm}");   // outcome.error is the PAYLOAD, not the error object
+    expect(outcome.payload.kind).toBe("{arm}");   // the error's own members, not the error object
   }
 });
 ```
@@ -263,34 +276,39 @@ Worth asserting once, somewhere, because they are silent when wrong:
   optional member is carried into the body rather than rejected. Only an assertion on `init.body`
   catches it.
 - **A body that cannot encode never reaches your fake.** Encoding happens *before* the request is
-  dispatched, so the call rejects with `SchemaError` and `stub.calls` stays **empty**. Same for an
-  optional path parameter left `undefined` whose placeholder cannot be filled — that rejects with
-  `SdkError`, also before anything is sent. Assert `stub.calls` is empty in those tests.
-- **`timeout` never rides the request.** It is a client-level option in **milliseconds** with no
-  per-request override, and it reaches the wire only as `init.signal`. A test asserting the client's
-  timeout on a captured request is asserting something that was never there.
+  dispatched, so the call rejects with `EncodeError` and `stub.calls` stays **empty**. Same for a path
+  parameter left `undefined` — its schema rejects it, also as an `EncodeError`, before anything is
+  sent. Assert `stub.calls` is empty in those tests.
+- **`retry.timeout` never rides the request.** It is a per-attempt budget in **milliseconds**, set on
+  the client or on one call through `RequestOptions.retry`, and it reaches the wire only as
+  `init.signal`. A test asserting a timeout on a captured request is asserting something that was never
+  there.
 
-## Cover the failures that are not a `ResponseError`
+## Cover the failures that are not an `ApiError`
 
-Failures where no usable response was produced reject with a member of the `{Api}Error` set — the
-SDK-branded alias of the abstract base — and **never** match a `ResponseError` check
-(**typescript-error-handling**). Each `kind` is reachable from the fake, which makes these paths
-genuinely testable rather than hypothetical:
+Every other failure rejects with another member of the `{Api}Error` family — narrowed on its closed
+`kind` — and **never** matches an `ApiError` check (**typescript-error-handling**). Each `kind` is
+reachable from the fake, which makes these paths genuinely testable rather than hypothetical:
 
 | To produce | Make the fake `fetch` / the client |
 | --- | --- |
 | `kind: "connection"` | throw any error |
-| `kind: "timeout"` | hang until aborted, with a tiny `timeout` on the client |
-| `kind: "abort"` | hang until aborted, and abort the signal you passed in `RequestOptions` |
-| `kind: "schema"` | return a body that violates the schema (wrong type, bad date, non-empty `204`) |
+| `kind: "timeout"` | hang until aborted, with a tiny `retry.timeout` on the client |
+| `kind: "decode"` | return a body that violates the schema (wrong type, bad date, non-empty `204`) |
+| `kind: "encode"` | pass a request value its schema refuses — nothing reaches the fake |
 | `kind: "auth"` | answer the **token** request with an error status (see below) |
-| `kind: "sdk"` | omit an optional path parameter, leaving its placeholder unfilled |
+
+A caller abort is **not** a `kind`: aborting the signal you passed in `RequestOptions` rejects with that
+signal's own `reason`, outside the family.
 
 ```ts
 import { {Api}Error } from "{package-name}";
 
 it("maps a transport failure", async () => {
-  const client = new {Api}Client({ fetch: async () => { throw new Error("ECONNREFUSED"); } });
+  const client = new {Api}Client({
+    fetch: async () => { throw new Error("ECONNREFUSED"); },
+    retry: { maxRetries: 0 },          // a connection failure is retried otherwise
+  });
 
   try {
     await client.{resource}.{operation}({ /* ... */ });
@@ -304,7 +322,9 @@ it("maps a transport failure", async () => {
 
 ⚠ **A timeout or abort test needs a fake that honours `init.signal`.** The SDK aborts its own
 controller and relies on `fetch` to reject with the abort reason; a fake that returns a
-never-resolving promise and ignores the signal simply hangs the test until the runner kills it.
+never-resolving promise and ignores the signal simply hangs the test until the runner kills it, and
+one that rejects with its own error instead of `init.signal.reason` gets a `TimeoutError` the retry
+loop does not retry.
 
 ```ts
 const hangingFetch: typeof globalThis.fetch = (_input, init) =>
@@ -313,18 +333,20 @@ const hangingFetch: typeof globalThis.fetch = (_input, init) =>
   });
 
 it("times out", async () => {
-  const client = new {Api}Client({ timeout: 10, fetch: hangingFetch });
+  const client = new {Api}Client({ retry: { timeout: 10, maxRetries: 0 }, fetch: hangingFetch });
 
   await expect(client.{resource}.{operation}({ /* ... */ }))
     .rejects.toMatchObject({ kind: "timeout" });
 });
 ```
 
-That is faster and more deterministic than fake timers, and it exercises the real abort path. For
-`"abort"`, keep the default timeout and abort your own `AbortController` passed in `RequestOptions`.
+That is faster and more deterministic than fake timers, and it exercises the real abort path. For a
+caller abort, keep the default timeout, abort your own `AbortController` passed in `RequestOptions`, and
+assert the call rejects with exactly the `reason` you passed — it is not an `{Api}Error`, and it is
+never retried.
 
 **A decode failure bypasses *both* response modes.** A 2xx body that does not satisfy the schema
-raises `SchemaError`; `.asApiResult()` does **not** turn it into an `ok: false` result. Test that your
+rejects with `DecodeError`; `.asApiResult()` does **not** turn it into an `ok: false` result. Test that your
 boundary maps it:
 
 ```ts
@@ -346,7 +368,7 @@ it("does not report a truncated success body as a success", async () => {
 ```
 
 And the one people forget: **bad credentials**. A failed token fetch raises `AuthError` — `kind:
-"auth"`, *not* a `ResponseError` — carrying the token endpoint's `ResponseError` on `.cause`. Return an
+"auth"`, *not* an `ApiError` — carrying the token endpoint's `ApiError` on `.cause`. Return an
 RFC 6749 error body from the **token** request and assert your configuration error, not a rejection
 error:
 
@@ -357,7 +379,7 @@ it("treats bad credentials as a config error", async () => {
 });
 ```
 
-Being *refused* by the API is the disjoint case: that is a `ResponseError` with status 401/403 from the
+Being *refused* by the API is the other case: that is an `ApiError` with status 401/403 from the
 operation itself.
 
 ## Fake an OAuth token endpoint
@@ -403,8 +425,9 @@ const client = new {Api}Client({
 Facts that make these tests behave:
 
 - **Forgetting the token request is the most common way a first test fails confusingly.** A
-  single-response fake hands your operation's body to the *token* decoder, and you get a `SchemaError`
-  about a missing `access_token` rather than anything mentioning auth.
+  single-response fake hands your operation's body to the *token* decoder, and you get an `AuthError`
+  whose `cause` is a `DecodeError` about a missing `access_token` — which reads like wrong credentials
+  when the fake simply answered the wrong request.
 - The token **response** is wire-shaped (`access_token`, `token_type`, `expires_in`); the token
   **request** is a `POST` with a form-urlencoded string body, and by default the client id and secret
   ride in a Basic `Authorization` header rather than in that body.
@@ -413,8 +436,9 @@ Facts that make these tests behave:
 - The token is **cached on the scheme**, so only the first call fetches one: a test making two calls
   against one client sees three requests, not four. Build a fresh client per test to reset it. A
   missing or non-positive `expires_in` means the cached token never expires.
-- The client `timeout` bounds the token request **and** the operation together, so a tiny timeout in an
-  OAuth test can fire on the token leg.
+- The token request and the operation each run on their own `retry.timeout`, so a tiny timeout in an
+  OAuth test can fire on the token request — which ends the call with a `TimeoutError` for the token
+  endpoint, not retried unless `httpMethodsToRetry` names `POST`.
 
 ## The alternative: intercepting global `fetch`
 
@@ -443,9 +467,9 @@ after the client is built has no effect.
   so `{package-name}/models/…` does not resolve at all. Everything you need — the client, the options,
   every model type and its `{model}Schema`, the error classes, `ServerEnvironment` — is re-exported
   from the package root. Reading a file under `src/` is for *learning* the shape, never for importing.
-- **Never assert on an error's `message`.** A `ResponseError`'s is only the status and status text
-  (with `"HTTP error"` standing in for the empty `statusText` a hand-built `Response` gives you). It is
-  not a contract. Assert `err.status` and the narrowed `err.payload`.
+- **Never assert on an error's `message`.** An `ApiError`'s is the call and its status —
+  `POST https://… failed with 400` — which moves whenever the base URL or the route does. It is not a
+  contract. Assert `err.status` and the narrowed `err.payload`.
 - **Never derive test data from the schema's own definition** — reading `_keysMap` to generate a
   payload means the fixture cannot detect a wrong payload. Construct models explicitly and
   `{model}Schema.encode` them.
@@ -481,7 +505,7 @@ describe.skipIf(!hasCredentials)("integration", () => {
     const client = new {Api}Client({
       serverEnvironment: ServerEnvironment.{SandboxEnvironment},   // state it, never rely on the default
       {scheme}: { /* from env */ },
-      timeout: 15_000,
+      retry: { timeout: 15_000 },                                   // per attempt; retries stay on
     });
     const result = await client.{resource}.{operation}({ /* ... */ });
     expect(result.{member}).toBeDefined();
@@ -499,24 +523,29 @@ unless you mean to.
   that the body parses and satisfies the schema.
 - **Matcher precedence:** an exact-status arm wins over a range or `"5XX"` wildcard arm. A test that
   stubs a status covered by both is asserting the exact one.
-- **A `401` invalidates the cached OAuth token but does not retry the request.** A test that stubs a
+- **A `401` invalidates the cached OAuth token and is not retried by default.** A test that stubs a
   `401` sees one failed operation — and the *next* call in the same test re-fetches a token, so queue
   another `tokenResponse()` for it.
-- **The SDK performs no retries and logs nothing**, so a stubbed `429`/`503` is seen exactly once and
-  your queue needs exactly one response for it. If your code adds its own retrying `fetch` (see
-  **typescript-configuration-resilience**), that is *your* code under test — test the wrapper
-  **directly**, since it is a plain function taking a `fetch` and returning one:
+- **Retries are on by default, and the SDK logs nothing.** On a client built without
+  `retry: { maxRetries: 0 }`, a stubbed `408`, `429`, `500`, `502`, `503` or `504` — or a thrown
+  error — on a `GET`, `HEAD`,
+  `PUT` or `OPTIONS` call is fetched up to four times, across about 7 s of backoff. A queue that runs out
+  throws, and that throw is itself a connection failure the loop retries. When the test *is* about
+  your retry policy, queue one response per attempt, pass `delay: 0` so it runs at once, and count
+  requests:
   ```ts
-  const statuses = [503, 200];
-  const inner: typeof globalThis.fetch = async () => jsonResponse(statuses.shift()!, { id: "1" });
-  const client = new {Api}Client({ fetch: retryingFetch(3, inner) });
+  const stub = stubFetch(queue(jsonResponse(503, {}), jsonResponse(503, {}), jsonResponse(200, { id: "1" })));
+  const client = new {Api}Client({ fetch: stub.fetch, retry: { delay: 0 } });
 
-  await client.{resource}.{operation}({ /* ... */ });
-  expect(statuses).toHaveLength(0);      // both responses consumed
+  await client.{resource}.{operation}({ /* ... */ });   // an operation whose method is in the gate
+  expect(stub.calls).toHaveLength(3);
   ```
-  Cover the case that is easiest to get wrong: an aborted request must not keep retrying.
+  A stubbed `Retry-After` header overrides `delay`, so leave it off unless the test is about it; a test
+  about the backoff itself wants `maxJitter: 0` and fake timers. Cover the cases that are easiest to get
+  wrong: a write outside the gate is sent **once**, a widened write re-sends the **same**
+  `Idempotency-Key` on every attempt, and an aborted request stops retrying.
 - **A test environment with no global `fetch` fails in the constructor**, not on the first call — the
-  client throws `SdkError` when it can resolve no implementation. Passing a fake avoids this entirely.
+  client throws `ConfigurationError` when it can resolve no implementation. Passing a fake avoids this entirely.
 - **`instanceof` is dialect-scoped.** If the test setup loads the SDK through `require` and the code
   under test through `import` (or vice versa), `instanceof` is `false` across that boundary. Narrow on
   `err.kind` / `err.payload.kind` there, or fix the config to use one dialect.

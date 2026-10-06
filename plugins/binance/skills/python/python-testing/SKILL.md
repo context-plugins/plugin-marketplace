@@ -1,6 +1,6 @@
 ---
 name: python-testing
-description: Testing code that calls an APIMatic-generated Python SDK — which seam to fake (the transport protocol, or respx at the httpx layer), asserting on the request the SDK actually built, covering the error and decode-failure paths, and keeping tests independent of SDK internals. Load before writing tests for the integration layer.
+description: Testing code that calls an APIMatic-generated Python SDK — which seam to fake (the transport protocol), asserting on the request the SDK actually built, covering the error and decode-failure paths, and keeping tests independent of SDK internals. Load before writing tests for the integration layer.
 ---
 
 # Testing code that uses an APIMatic Python SDK
@@ -23,16 +23,42 @@ Substitute your own `{Api}Client` and operation names as well.
 ## A reusable stub transport
 
 The transport is a `Protocol`, so a fake needs no base class, no registration and no `Mock` — just
-the two methods:
+its two methods, `send` and `close`. `send` answers with the response **head**; the body stays on
+the stub until something reads it, which is what lets one stub serve a JSON call and a download
+alike:
 
 ```python
 import json
+from collections.abc import Iterator, Mapping
+from dataclasses import dataclass, field
 from {root_package}.core import HttpRequest, HttpResponse
+
+@dataclass
+class StubResponse:
+    """A canned head, with the body held as chunks until the SDK reads it."""
+
+    status_code: int = 200
+    headers: Mapping[str, str] = field(default_factory=dict)
+    chunks: list[bytes] = field(default_factory=list)
+    url: str = "https://api.test/resource"
+    closed: bool = False
+
+    def iter_bytes(self, chunk_size: int | None) -> Iterator[bytes]:
+        yield from self.chunks
+        self.close()          # a drained iteration releases the connection; a partial one does not
+
+    def read(self) -> bytes:
+        self.close()          # reading both buffers the body and releases the connection
+        return b"".join(self.chunks)
+
+    def close(self) -> None:
+        self.closed = True
+
 
 class StubTransport:
     """Satisfies the SDK's sync transport protocol: send() + close()."""
 
-    def __init__(self, *responses: HttpResponse) -> None:
+    def __init__(self, *responses: StubResponse) -> None:
         self._responses = list(responses)
         # Every request, in order — the token fetch appends too, so this is what you count.
         self.requests: list[HttpRequest] = []
@@ -48,24 +74,29 @@ class StubTransport:
         return self.requests[-1] if self.requests else None
 
 
-def json_response(status: int, body: object) -> HttpResponse:
-    return HttpResponse(
+def json_response(status: int, body: object) -> StubResponse:
+    return StubResponse(
         status_code=status,
         headers={"content-type": "application/json"},   # lowercase keys, per the transport contract
-        content=json.dumps(body).encode(),
+        chunks=[json.dumps(body).encode()],
     )
 ```
 
-`HttpResponse` defaults `content` to `b""` and `request` to `None`, so an empty `204` is just
-`HttpResponse(status_code=204, headers={})` — which is what an operation declaring no response body
-expects (`python-calling-endpoints`).
+A download is queued exactly like anything else: one seam means one kind of stubbed response, and
+nothing about the stub says which operation it answers. Assert on `StubResponse.closed` to prove the
+caller consumed the body and released the connection.
+
+`chunks` defaults to empty, so an empty `204` is just `StubResponse(status_code=204)` — which is what
+an operation declaring no response body expects (`python-calling-endpoints`).
 
 Wire it in and you have a real client with no network:
 
 ```python
-def client_returning(*responses: HttpResponse) -> tuple[{Api}Client, StubTransport]:
+def client_returning(*responses: StubResponse) -> tuple[{Api}Client, StubTransport]:
     transport = StubTransport(*responses)
-    client = {Api}Client(custom_http_client=transport, {scheme}={"...": "..."})
+    # retry_options=0: retries are on by default, so without it a stubbed 429 or 503 on a GET would be
+    # sent four times, with real waits between them.
+    client = {Api}Client(custom_http_client=transport, retry_options=0, {scheme}={"...": "..."})
     return client, transport
 ```
 
@@ -88,7 +119,7 @@ endpoint, not your operation. Two ways to handle it.
 Queue a token response ahead of the operation's, and index from the end:
 
 ```python
-def token_response() -> HttpResponse:
+def token_response() -> StubResponse:
     return json_response(200, {"access_token": "t", "token_type": "Bearer", "expires_in": 3600})
 
 client, transport = client_returning(token_response(), json_response(201, {...}))
@@ -182,7 +213,7 @@ contract.
 
 If your code uses the non-raising peer (`python-calling-endpoints`), there is nothing to catch — stub
 the response and assert on the returned `ApiResult` directly. The split is mechanical: **2xx is
-`Success`, everything else is `Failure`**, and both carry `.response`.
+`Success`, everything else is `Failure`**, and both carry `.status_code` and `.headers`.
 
 ```python
 from {root_package}.core import Failure, Success
@@ -194,11 +225,12 @@ def test_raw_response_reports_failure_without_raising():
 
     assert isinstance(result, Failure)
     assert isinstance(result.error, {TypedError})       # the same union as the raising path
-    assert result.response.status_code == 422
+    assert result.status_code == 422
 ```
 
-`.response` is the only way to read **response headers**, so this is also the mode to test in when
-your code depends on a header on the *success* path (`Success(payload=..., response=...)`).
+This is also the mode to test in when your code depends on a header on the *success* path
+(`Success(payload=..., status_code=..., headers=...)`), because the parsed form exposes neither —
+except for a file response, which carries its own `headers` on the parsed path.
 
 ## Assert the outgoing request
 
@@ -223,8 +255,11 @@ request assertion fails confusingly. (The defensive `"authorization" in {k.lower
 req.headers}` also works, but there is no case to defend against — assert the lowercase key.)
 
 **The body is already serialized by the time a transport sees it.** `req.body` is one of `JsonBody`
-(`.value`, the dumped JSON-safe object), `FormBody` (`.fields`) or `MultipartBody`
-(`.fields` / `.files`) — no transport ever serializes anything — so assert on the dumped value
+(`.value`, the dumped JSON-safe object), `FormBody` (`.fields`), `MultipartBody` (`.parts`, an
+ordered sequence of `MultipartText` and `MultipartFile` — **not** a `.fields`/`.files` pair, and a
+file part's `content` is the unread descriptor you passed, never bytes), `BinaryBody`
+(`.content`, `.media_type`) or `TextBody` (`.text`, `.media_type`, `.charset`) — no transport ever
+serializes anything — so assert on the dumped value
 directly rather than re-parsing bytes. Note it uses **wire aliases**, because that is what
 serialization produces: if a model's Python name differs from its JSON name, the request body has the
 JSON name. Do not "fix" that in the test.
@@ -265,8 +300,9 @@ path is the norm (`python-error-handling`). Each is cheap to simulate.
 def test_unreadable_success_body_is_not_reported_as_failure():
     # A real decode failure needs a TYPE mismatch, not an absent member.
     client, _ = client_returning(token_response(), json_response(200, {"{wire_field}": "not-a-list"}))
-    with pytest.raises(MyProviderUnreadable):
+    with pytest.raises(ProviderError) as e:
         service.{operation}()
+    assert e.value.outcome_unknown                 # unreadable: may have happened, never "failed"
 ```
 
 **A truncated 2xx that decodes cleanly.** Members are required only where the description marks them
@@ -276,19 +312,54 @@ your own guard catches it, so test the guard:
 ```python
 def test_truncated_success_body_is_not_reported_as_success():
     client, _ = client_returning(token_response(), json_response(200, {}))   # no {wire_field}
-    with pytest.raises(MyProviderUnreadable):
+    with pytest.raises(ProviderError) as e:
         service.{operation}()
+    assert e.value.outcome_unknown                 # unreadable: may have happened, never "failed"
 ```
 
 **A transport failure**, which arrives as the HTTP library's own exception, unwrapped — have the stub
-raise instead of answering:
+answer the token request and then raise on the operation's:
 
 ```python
-def test_transport_failure_is_unknown_outcome():
-    class Boom:
-        def send(self, request): raise httpx.ConnectError("refused")
-        def close(self) -> None: ...
+class RaisingTransport(StubTransport):
+    """Answers the queued responses, then raises `error` on the next send."""
+
+    def __init__(self, error: Exception, *responses: HttpResponse) -> None:
+        super().__init__(*responses)
+        self._error = error
+
+    def send(self, request: HttpRequest) -> HttpResponse:
+        if self._responses:                        # the token request
+            return super().send(request)
+        self.requests.append(request)
+        raise self._error
+
+
+def client_raising(error: Exception) -> {Api}Client:
+    transport = RaisingTransport(error, token_response())
+    return {Api}Client(custom_http_client=transport, {scheme}={"...": "..."})
+
+
+def test_refused_connection_is_a_known_outcome():
+    client = client_raising(httpx2.ConnectError("refused"))        # never sent
+    with pytest.raises(ProviderError) as e:
+        service.{operation}()
+    assert (e.value.status_code, e.value.outcome_unknown) == (502, False)
+
+
+def test_read_timeout_is_an_unknown_outcome():
+    client = client_raising(httpx2.ReadTimeout("no reply"))        # may have landed
+    with pytest.raises(ProviderError) as e:
+        service.{operation}()
+    assert (e.value.status_code, e.value.outcome_unknown) == (504, True)
 ```
+
+**Two transport failures, both inputs — never one.** A refused connection was never sent, so its
+outcome is known: nothing happened. A read timeout may have landed, so its outcome is not. Test both
+and expect **different** values — as the two tests above, or as the single two-input test
+`python-error-handling` shows. A test that builds only one of them, or two that one assertion
+satisfies, cannot tell the cases apart — and then neither can your code. Let the token request through
+first: a failure *there* means your operation was never sent at all, whatever the exception is called.
 
 And the one people forget: **bad credentials**. A failed token fetch raises `ApiError` too, but its
 payload is `OAuthProviderError | RawError` — *not* the operation's union — and it surfaces out of the
@@ -298,8 +369,9 @@ configuration error, not a rejection error:
 ```python
 def test_bad_credentials_is_a_config_error():
     client, _ = client_returning(json_response(401, {"error": "invalid_client"}))   # no token_response()
-    with pytest.raises(MyProviderConfigError):
+    with pytest.raises(ProviderError) as e:
         service.{operation}()
+    assert e.value.status_code == 502              # our credentials: never the caller's 401
 ```
 
 ## Async tests
@@ -323,35 +395,6 @@ Use `pytest-asyncio` or `anyio`, whichever the project already uses. The type ch
 stub passed to the async client and vice versa, which is a genuine safety net — do not silence it with
 a `# type: ignore`.
 
-## The alternative: `respx`
-
-Because the SDK's default transport is httpx, `respx` mocks at the HTTP layer and needs no injection —
-your production code constructs its client unmodified:
-
-```python
-import respx, httpx
-
-@respx.mock
-def test_operation():
-    respx.post("{base_url}{token_path}").mock(
-        return_value=httpx.Response(200, json={"access_token": "t", "token_type": "Bearer"})
-    )
-    route = respx.post("{base_url}{operation_path}").mock(
-        return_value=httpx.Response(201, json={"{wire_field}": "..."})
-    )
-
-    service.{operation}()                       # production code, unmodified
-
-    assert route.called
-    assert json.loads(route.calls.last.request.content)["{wire_field}"] == "..."
-```
-
-Pick one and be consistent. `respx` asserts on real URLs and is closer to the wire; the stub transport
-is dependency-free, faster, and keeps working if the SDK ever changes HTTP library. Use `respx` when
-you want URL-level matching, the stub when you are unit-testing your own logic. Note `respx` only
-works while the default transport is in play — it cannot see a call made through a
-`custom_http_client` you supplied.
-
 ## Keeping tests independent of SDK internals
 
 - **Never import from a private module.** Everything you need is re-exported from
@@ -365,9 +408,11 @@ works while the default transport is in play — it cannot see a call made throu
   derives its payload from the model's own definition cannot detect a wrong payload.
 - **Build fixtures with models, then serialize** — `{request_fixture}().to_dict()` — rather than
   hand-writing wire JSON, so a member rename fails the fixture instead of passing a stale test.
-- **Test your own boundary's output, not the SDK's.** The valuable assertions are that a provider 4xx
-  becomes your 4xx and a transport failure becomes your 5xx. That the SDK raises `ApiError` on a 422
-  is the SDK's own tested behaviour, not yours.
+- **Test your own boundary's output, not the SDK's.** The valuable assertions are that a 4xx the
+  caller caused becomes your 4xx, a 4xx that is **yours** — `401`, `403`, `429` — becomes your `502`
+  or `503`, and a transport failure becomes `502` if it was never sent and `504` if it may have landed
+  (`python-error-handling`). That the SDK raises `ApiError` on a 422 is the SDK's own tested
+  behaviour, not yours.
 
 ## Integration tests against a live environment
 
@@ -389,16 +434,25 @@ never gate CI on a third party's uptime unless you mean to.
 
 ## Notes
 
-- **The SDK performs no retries**, so a stubbed `429`/`503` is seen exactly once and your stub's queue
-  needs exactly one response for it. If your code adds its own retry layer
-  (`python-configuration-resilience`), that is *your* code under test: queue the responses each
-  attempt should get and count `transport.requests`.
+- **Retries are on by default**, so a stubbed `429`/`503` on a `GET`, `HEAD`, `PUT` or `OPTIONS` call is
+  sent up to four times, with real backoff waits between them. Build test clients with
+  `retry_options=0` so one stubbed response is seen exactly once. In a test *about* retrying, set a
+  policy with `initial_delay` and `max_jitter` small, queue one response per attempt and count
+  `transport.requests`. For the loop to retry a
+  *transport* failure the fake must raise `TransportError` from `{root_package}.core` — a
+  bare `httpx2.ConnectError` bypasses the loop and reaches the test on the first attempt
+  (`python-configuration-resilience`).
 - **A `401` invalidates the cached token but does not retry the request.** A test that stubs a `401`
   therefore sees one failed operation — and the *next* call in the same test re-fetches a token, so
   queue another `token_response()` for it.
 - Mocking libraries (`unittest.mock`, `pytest-mock`) work too — the protocol is structural, so a
-  `Mock()` with `send`/`close` configured satisfies it. The hand-written stub above gives you typed
-  captured requests and ordered responses for free.
+  `Mock()` with `send` and `close` configured satisfies it. The hand-written stub above gives you
+  typed captured requests and ordered responses for free.
+- **Stubbing a download** needs nothing extra: the SDK wraps the same `StubResponse` in the
+  `FileResponse` your assertions see, so the stub decides what the caller reads and when the
+  connection is released. Give it `chunks` if the test drives `iter_bytes`. What the caller may then
+  do with it — and the `ResourceWarning` an abandoned one emits, which a category default filters
+  unless you enable it here — is `python-file-handling`.
 - **Use the client as a context manager or close it** in tests as in production; a stub's `close()` is
   a no-op, but the habit keeps the test and the real wiring the same shape
   (`python-client-initialization`).

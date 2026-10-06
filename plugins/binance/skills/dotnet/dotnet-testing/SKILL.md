@@ -69,7 +69,7 @@ public async Task ReturnsDeserializedBody()
 {
     var client = ClientReturning(HttpStatusCode.OK, """{ "{resource}": { "id": 123 } }""");
 
-    var response = await client.{ApiGroup}.{Operation}(/* args */, ct: default);
+    var response = await client.{ApiGroup}.{Operation}(request, cancellationToken: default);
 
     Assert.Equal(123, response.{Resource}?.Id);
 }
@@ -77,14 +77,17 @@ public async Task ReturnsDeserializedBody()
 
 ## Test an error path
 
-Endpoint methods throw `SdkException<TError>` on non-2xx (see `dotnet-error-handling`). `TError` is the
+Endpoint methods throw `ApiException<TError>` on non-2xx (see `dotnet-error-handling`). `TError` is the
 operation's `{Operation}Error` model (**Case A**) for operations that have a generated `{Operation}Error`
 type, or `RawError` **directly** (**Case B**) otherwise — so assert the type that matches your operation.
+Whichever the case, the exception itself carries `StatusCode`, `Headers` and `ContentType` (from
+`ApiException`) plus the failed call's `Method` and `RequestUri` (from the `SdkException` root), and its
+`Message` is the call and the status — `"POST https://host/path returned 422 (UnprocessableEntity)."`.
 
 **Case A — typed `{Operation}Error`:**
 
 ```csharp
-using {RootNamespace}.Core.Exceptions;     // SdkException<TError>
+using {RootNamespace}.Core.Exceptions;     // ApiException<TError>
 using {RootNamespace}.Errors;              // {Operation}Error types
 
 [Fact]
@@ -92,9 +95,10 @@ public async Task ThrowsOnApiError()
 {
     var client = ClientReturning(HttpStatusCode.UnprocessableEntity, """{ "errors": ["bad input"] }""");
 
-    var ex = await Assert.ThrowsAsync<SdkException<{Operation}Error>>(
-        () => client.{ApiGroup}.{Operation}(/* args */, ct: default));
+    var ex = await Assert.ThrowsAsync<ApiException<{Operation}Error>>(
+        () => client.{ApiGroup}.{Operation}(request, cancellationToken: default));
 
+    Assert.Equal(HttpStatusCode.UnprocessableEntity, ex.StatusCode);   // the status is on the exception
     // ex.Error is the typed ApiError. For a status the operation maps to a typed body (e.g. 422), assert the
     // typed accessor — its name embeds the body type; the contract sheet lists the exact accessor name.
     // TryGetRawError is FALSE for those statuses, so don't assert through it here:
@@ -105,18 +109,34 @@ public async Task ThrowsOnApiError()
 }
 ```
 
-**Case B — `SdkException<RawError>`** (e.g. read/list/find/archive/delete operations). Here `ex.Error` *is*
+**Case B — `ApiException<RawError>`** (e.g. read/list/find/archive/delete operations). Here `ex.Error` *is*
 the `RawError` — there is no `TryGet*` / `TryGetRawError`; read it directly:
 
 ```csharp
 using {RootNamespace}.Core.Exceptions;
 using {RootNamespace}.Core.ErrorResponse;
 
-var ex = await Assert.ThrowsAsync<SdkException<RawError>>(
-    () => client.{ApiGroup}.{Operation}(/* args */, ct: default));
+var ex = await Assert.ThrowsAsync<ApiException<RawError>>(
+    () => client.{ApiGroup}.{Operation}(request, cancellationToken: default));
 
-Assert.Equal(HttpStatusCode.UnprocessableEntity, ex.Error.StatusCode);
+Assert.Equal(HttpStatusCode.UnprocessableEntity, ex.StatusCode);   // same value as ex.Error.StatusCode
 // You can also assert the deserialized error body: ex.Error.ReadAsString() / ex.Error.ReadAsJson<MyDto>().
+```
+
+**A body that does not match the model is a third outcome.** Stub a 2xx whose JSON does not fit the
+response type — or an error status whose body does not fit the `{Operation}Error` template — and the call
+throws `ResponseDeserializationException`: an `ApiException` (so `StatusCode` tells you which of the two it
+was) but **not** an `ApiException<TError>`, carrying the `TargetType` it tried to build and the
+`JsonException` as `InnerException`. Lock this down for any operation whose provider is known to drift:
+
+```csharp
+var client = ClientReturning(HttpStatusCode.OK, """{ "{resource}": "not-an-object" }""");
+
+var ex = await Assert.ThrowsAsync<ResponseDeserializationException>(
+    () => client.{ApiGroup}.{Operation}(request, cancellationToken: default));
+
+Assert.Equal(HttpStatusCode.OK, ex.StatusCode);
+Assert.Equal(typeof({ReturnType}), ex.TargetType);
 ```
 
 ## Test the result-style (`ApiResult`) variant
@@ -135,7 +155,7 @@ public async Task ResultVariantReportsFailureWithoutThrowing()
 {
     var client = ClientReturning(HttpStatusCode.UnprocessableEntity, """{ "errors": ["bad input"] }""");
 
-    var result = await client.{ApiGroup}.{Operation}Result(/* args */, ct: default);
+    var result = await client.{ApiGroup}.{Operation}Result(request, cancellationToken: default);
 
     Assert.False(result.TryGetResponse(out _));
     Assert.True(result.TryGetError(out var error));   // 'error' is the same TError as the throwing path
@@ -143,6 +163,73 @@ public async Task ResultVariantReportsFailureWithoutThrowing()
     // 'error' is a typed {Operation}Error (Case A) or a RawError (Case B) — assert accordingly.
 }
 ```
+
+## Fake the clock
+
+The SDK reads time through exactly one seam — `{Api}ClientOptions.TimeProvider` (default
+`TimeProvider.System`). Retry backoff, `Retry-After`, the per-attempt timeout, the SSE idle timeout, OAuth2
+token expiry and the logged request durations all follow it, so one fake provider drives them together and
+a retry test no longer sleeps through `1s + 2s + 4s` of real backoff. Use a provider that **implements
+timers** — `FakeTimeProvider` from `Microsoft.Extensions.TimeProvider.Testing` — because the retry delay
+and the idle window are timers on the provider: a `GetUtcNow`-only fake throws when the SDK asks it for a
+timer, which is deliberate and better than a silent real sleep.
+
+```csharp
+using Microsoft.Extensions.Time.Testing;   // FakeTimeProvider (Microsoft.Extensions.TimeProvider.Testing)
+
+var clock = new FakeTimeProvider();
+var responses = new Queue<HttpStatusCode>([HttpStatusCode.ServiceUnavailable, HttpStatusCode.OK]);
+var handler = new StubHandler(_ => new HttpResponseMessage(responses.Dequeue()) { Content = new StringContent("{}") });
+var client = new {Api}Client(new HttpClient(handler), new {Api}ClientOptions { TimeProvider = clock });
+
+var call = client.{ApiGroup}.{Operation}(request, cancellationToken: default);   // a GET: retryable
+clock.Advance(TimeSpan.FromSeconds(2));                              // past the 1s backoff (+ up to 500ms jitter)
+await call;
+
+Assert.Equal(2, handler.Requests.Count);
+```
+
+The awaited call does not complete until the fake clock moves past the backoff — start the call, `Advance`,
+then `await`. Under DI, register the fake as the container's `TimeProvider` (before *or* after
+`Add{Api}Client` — order does not matter) and the SDK seeds the option from it; an explicit
+`o.TimeProvider = clock` in the configure callback wins over the container. The SDK never registers a
+`TimeProvider` itself, so nothing of yours is overwritten.
+
+## Construct an SDK exception directly
+
+When the code under test takes the SDK's exception as *input* — an error-mapping boundary, a retry policy of
+your own — build the leaf directly instead of driving a stub through the whole client. Every leaf has a
+public primary constructor taking the message and its cause (`(string message, Exception? innerException =
+null)` on most; `ResponseDeserializationException` requires the cause, `AuthSchemeException` takes the list
+of scheme failures) and sets its `required` members through the object initializer; there is no
+`[SetsRequiredMembers]` shortcut, so a fake states the full call identity exactly as the SDK does (the
+`For(...)` factories are `internal` because they take engine types):
+
+```csharp
+using {RootNamespace}.Core.Exceptions;
+
+var timeout = new SdkTimeoutException("GET https://api.example.com/widgets received no response within 10 s.")
+{
+    Method = HttpMethod.Get,
+    RequestUri = new Uri("https://api.example.com/widgets"),
+    Timeout = TimeSpan.FromSeconds(10),
+};
+
+var unreadable = new ResponseDeserializationException(
+    "GET https://api.example.com/widgets returned a body that could not be deserialized into Widget.",
+    new System.Text.Json.JsonException("..."))
+{
+    Method = HttpMethod.Get,
+    RequestUri = new Uri("https://api.example.com/widgets"),
+    StatusCode = HttpStatusCode.OK,
+    Headers = new HttpResponseMessage().Headers,
+    ContentType = null,
+    TargetType = typeof(Widget),
+};
+```
+
+`ApiException<TError>` is the one leaf you cannot fabricate: neither `RawError` nor a `{Operation}Error` has
+a public constructor. Produce it through the stub handler as in *Test an error path* above.
 
 ## Assert the outgoing request
 
@@ -153,7 +240,7 @@ var handler = new StubHandler(_ => new HttpResponseMessage(HttpStatusCode.OK)
                                    { Content = new StringContent("{}") });
 var client = new {Api}Client(new HttpClient(handler), new {Api}ClientOptions());
 
-await client.{ApiGroup}.{Operation}(/* args */, ct: default);
+await client.{ApiGroup}.{Operation}(request, cancellationToken: default);
 
 Assert.Equal(HttpMethod.Post, handler.LastRequest!.Method);
 Assert.Contains("/expected/path", handler.LastRequest!.RequestUri!.AbsolutePath);
@@ -184,16 +271,25 @@ Assert.Contains("\"expected_field\"", sentJson);
   `503` therefore proves nothing about what happens when the *connection* fails. The verb filter holds all
   three at one send for a `POST` — which is exactly the property worth locking down with a test, because it
   is a *configuration* guarantee and someone widening `HttpMethodsToRetry` for the read path silently
-  removes it:
+  removes it. What reaches the test is the SDK's wrapper, never the raw `HttpRequestException`: a failed
+  send surfaces as `SdkConnectionException` (message `"POST https://host/path could not be sent: connection
+  reset"`, the raw exception as `InnerException`), and an exhausted per-attempt timeout as
+  `SdkTimeoutException` with `Timeout` set to the window that elapsed.
   ```csharp
   // Transport fault: the stub throws instead of answering, then we count what the server actually received.
   var handler = new StubHandler(_ => throw new HttpRequestException("connection reset"));
   var client = new {Api}Client(new HttpClient(handler), new {Api}ClientOptions());
 
-  await Assert.ThrowsAnyAsync<Exception>(() => client.{ApiGroup}.{Operation}(body, ct: default));
+  var ex = await Assert.ThrowsAsync<SdkConnectionException>(
+      () => client.{ApiGroup}.{Operation}(request, cancellationToken: default));
 
+  Assert.IsType<HttpRequestException>(ex.InnerException);
   Assert.Equal(1, handler.Requests.Count(r => r.Method == HttpMethod.Post));   // no resend
   ```
+- **Your own cancellation is the one thing the SDK never wraps.** A token you cancel surfaces as the usual
+  `OperationCanceledException` / `TaskCanceledException`, not as an `SdkException` — so a test that cancels
+  mid-call asserts on the framework type, and a `catch (SdkException)` in the code under test must be
+  expected *not* to fire.
 - For DI-based code, the SDK's `Add{Api}Client` resolves the **default (unnamed)** `IHttpClientFactory`
   client, so register your stub on that one, then resolve `{Api}Client` from the provider:
   ```csharp
@@ -201,6 +297,8 @@ Assert.Contains("\"expected_field\"", sentJson);
   services.AddHttpClient(Options.DefaultName).ConfigurePrimaryHttpMessageHandler(() => stubHandler);
   var client = services.BuildServiceProvider().GetRequiredService<{Api}Client>();
   ```
+  A `TimeProvider` registered in the same container is picked up by the SDK automatically — see *Fake the
+  clock* below.
 - To look up an operation's signature, its request type, or a `{Operation}Error`'s accessor names, take them
   from the contract sheet (grounded from the SDK map/source) — not a decompiled or
   reflected view of the installed package, and not memory.

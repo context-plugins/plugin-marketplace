@@ -49,14 +49,15 @@ Two facts about where those files live:
 ## Shape of the client
 
 APIMatic TypeScript SDKs expose **one public client class** with **one constructor**, taking a single
-partial options object:
+options object:
 
 ```ts
-constructor(clientOptions: Partial<ClientOptions> = {})
+constructor(options: ClientOptions = {})
 ```
 
-Every option has a default, so `new {Api}Client()` compiles. The options object is the whole
-configuration surface, and reading the environment into it is yours to do at the call site.
+Nothing on it is required and neither is the argument, so `new {Api}Client()` compiles. The options
+object is the whole configuration surface, and reading the environment into it is yours to do at the
+call site.
 
 Operations are exposed on the client. Most are grouped under **resource getters** (one per API
 resource group) and called `client.{resource}.{operation}(...)` — for example, a `widgets` resource's
@@ -72,9 +73,10 @@ The options type always carries these four knobs (credential members vary per AP
 
 ```ts
 export type ClientOptions = {
-  readonly serverEnvironment: ServerEnvironment;   // selects the base URL
-  readonly serverOptions: ServerOptions;           // per-server, per-environment baseUrl override
-  readonly timeout: number;                        // MILLISECONDS, per request. Default 60_000
+  readonly serverEnvironment?: ServerEnvironment;  // selects the base URL
+  readonly serverOptions?: ServerOptions;          // per-server, per-environment baseUrl override
+  readonly retry?: RetryOptions | undefined;       // retry policy + per-attempt timeout (MILLISECONDS).
+                                                   //   Retries ON by default
   readonly fetch?: FetchLike | undefined;          // the ONE extension point —
                                                    //   see typescript-configuration-resilience
   // + one OPTIONAL credential member per auth scheme the API declares, and — for an OAuth2 scheme —
@@ -83,26 +85,39 @@ export type ClientOptions = {
 ```
 
 Those four names are minted by the generator and cannot move; a credential spelled like one of them is
-the member that takes a suffix instead. **Every member is `readonly`**, and the constructor merges
-your partial over `DEFAULT_CLIENT_OPTIONS` exactly once — there is no mutable accessor and no way to
-reconfigure a built client. `DEFAULT_CLIENT_OPTIONS` is exported from the package root and holds the
-concrete defaults for your SDK — read it rather than trusting the numbers above. Note in particular
-that the default `serverEnvironment` is the **first** environment the spec declares, which is not
-necessarily the production one.
+the member that takes a suffix instead. **Every member is `readonly`**, and the client captures your
+options once, at construction — a different configuration means a new client. Each default is
+applied where the value is read: a server variable takes the `@default` on its member in
+`src/client-options.ts`, `fetch` takes its in `src/core/client-options.ts`, and every `retry` field
+takes its in `src/core/retry.ts`. Read them there rather than trusting the numbers on this page.
+Note in particular that the default `serverEnvironment` is the **first** environment the spec
+declares, which is not necessarily the production one.
 
-**`fetch` is not a niche escape hatch — it is the only one there is.** The SDK performs **no retries**
-and **no logging**, and carries **no hooks, middleware or interceptors**, **no pagination** and **no
+**Retries are on by default.** With `retry` left out, a `GET`, `HEAD`, `PUT` or `OPTIONS` call that
+gets a `408`, `429`, `500`, `502`, `503` or `504`, or loses its connection, or times out, is re-sent
+up to **3** more times with exponential backoff and jitter, honouring `Retry-After`. A `POST`,
+`PATCH` or `DELETE` is sent once unless you name its method in `httpMethodsToRetry`. Every one of
+those numbers is a `RetryOptions` field you can change, and `retry: { maxRetries: 0 }` turns retrying
+off. So **a failed idempotent call surfaces only after its retries are spent** — seconds later than the
+first failure, not at it. **typescript-configuration-resilience** owns the policy: the field table,
+what is and is not retried, and per-call overrides.
+
+**`fetch` is not a niche escape hatch — it is the only one there is.** The SDK performs **no
+logging**, and carries **no hooks, middleware or interceptors**, **no pagination** and **no
 streaming**. Each of those is something you build by wrapping `fetch` — including a header you want on
-every request. **typescript-configuration-resilience** owns that work and carries the wrappers. Two
-consequences to take into any first call: **a failed call rejects once**, and **nothing is logged
+every request. **typescript-configuration-resilience** carries the wrappers. **Nothing is logged
 anywhere** (`src/core/` contains no `console` call), so an integration is silent until you make it
-otherwise. A replacement `fetch` **must forward `init.signal`** to whatever performs the request;
-drop it and both cancellation and `timeout` go inert.
+otherwise — `retry.onRetry` is the one built-in callback, and it sees only retries. A replacement
+`fetch` **must forward `init.signal`** to whatever performs the request; drop it and both cancellation
+and every attempt's timeout go inert.
 
-`timeout` has its own trap: it is in **milliseconds**, it bounds **one request**, and a non-finite or
-non-positive value is **not** "no timeout" — the transport (`src/core/raw-client.ts`) falls back to
-its own ceiling, which is *longer* than the default, and clamps anything above what a timer can hold.
-There is no per-request override: the entire per-request surface is `RequestOptions` = `{ signal }`.
+`retry.timeout` has its own trap: it is in **milliseconds**, it bounds **one attempt** — up to
+its response headers — not the whole call, and a value the platform cannot honour is **not** "no timeout" — it is
+resolved once when the client is built, and a negative, fractional, `NaN`, `Infinity` or out-of-range
+value silently falls back to the default (`60_000`) rather than failing. A usable value reaches the
+timer verbatim, so `timeout: 0` aborts every attempt instead of lifting the deadline. A single call
+may override `maxRetries`, `timeout` and `statusCodesToRetry` through
+`RequestOptions` = `{ signal, retry }`; nothing else is per call.
 
 ## Direct instantiation
 
@@ -111,7 +126,7 @@ import { {Api}Client, ServerEnvironment } from "{package-name}";
 
 const client = new {Api}Client({
   serverEnvironment: ServerEnvironment.{Environment},   // pick the environment your API exposes
-  timeout: 10_000,
+  retry: { timeout: 10_000 },                            // per attempt; the retry defaults stand
   // ...set the credential member your API uses (see typescript-authentication)
 });
 ```
@@ -121,15 +136,16 @@ where the client is built rather than inherited silently.
 
 ### What construction checks, and what it does not
 
-A clean construction does not mean a working client. **Exactly two things throw from the
-constructor**, both `SdkError`: no reachable `fetch` implementation, and a basic-auth username
-containing `:`. Everything else is accepted and fails later, one layer from its cause:
+A clean construction does not mean a working client. **What throws from the constructor** is
+`ConfigurationError` — no reachable `fetch` implementation, a basic-auth username containing `:`, or a
+`serverEnvironment` the SDK does not know — and `SchemaError`, for a `serverOptions` override whose
+value its schema refuses: every server group is resolved as the client is built. Everything else is
+accepted and fails later, one layer from its cause:
 
 | Passed at construction | When it actually fails |
 | --- | --- |
-| a non-finite or non-positive `timeout` | never — it silently becomes the transport's ceiling, which is *longer* than the default. There is no `ValueError` equivalent here |
+| a `retry` field out of range — a negative or fractional `timeout`, a `maxJitter` above `1`, a lower-cased `"get"` in `httpMethodsToRetry` | never — that field silently falls back to its default. `timeout: 0` is the exception: it is kept, and aborts every attempt. There is no `ValueError` equivalent here |
 | a `baseUrl` override | first call — as a connection error, or as a `401` against the wrong host |
-| a `serverEnvironment` widened out of the union (a `string` cast) | first call **that touches that server group** — the resolvers are lazy arrows, so it is `SdkError: Unknown server environment`, not a construction failure |
 | wrong credentials | first call — and under OAuth2, first *token* request, so the error names the token endpoint rather than the operation you wrote |
 | a misspelled or extra credential field | never at run time. Credentials are plain objects checked only by TypeScript; nothing re-validates them at construction |
 | **an omitted** credential | first call, as a `401`. An unset credential configures the client for **no auth** — the operation sends no credential rather than erroring. See **typescript-authentication** |
@@ -147,16 +163,15 @@ constructor resolved and cached.
 configuration; its constructor resolves the rest and then owns it:
 
 - the **transport** — a `RawClient` built over the resolved `fetch` implementation. If no `fetch` is
-  reachable, **the constructor throws `SdkError`**, not the first call;
-- the **server resolvers** — `buildServers(serverEnvironment, serverOptions)` runs here, closing
-  over the environment and over each group's options object. The environment is fixed for the
-  client's life, so assigning `serverEnvironment` afterwards does nothing; the per-environment
-  fields are re-merged inside the resolver on **every request**, so mutating one on the object
-  you passed in does leak into later calls. Never rely on that: it races in-flight calls.
-  Configure the server before you construct, and construct a new client to change environment.
+  reachable, **the constructor throws `ConfigurationError`**, not the first call;
+- the **server groups** — `buildServers(options)` runs here and resolves every group **once**: the
+  environment and each override are read and decoded as the client is built, and every call afterwards
+  only attaches its own sub-path. So assigning `serverEnvironment` or mutating an override on the
+  object you passed in does nothing, and a bad value throws from the constructor rather than from a
+  call. Configure the server before you construct, and construct a new client to change environment.
   See **typescript-configuration-resilience**, *What is captured when*;
 - the **auth schemes** — validated at construction (a basic-auth username containing `:` throws
-  `SdkError` from the constructor), and for an OAuth2 SDK the auth scheme *is* the access-token
+  `ConfigurationError` from the constructor), and for an OAuth2 SDK the auth scheme *is* the access-token
   cache, closed over by the scheme object.
 
 That last one is the reason a per-request client is a real cost rather than a stylistic one: a fresh
@@ -271,9 +286,9 @@ export function build{Api}Client(): {Api}Client {
   return new {Api}Client({
     serverEnvironment: ServerEnvironment.{Environment},
 
-    // SET THIS. Default 60_000 ms. Bounds ONE request, and there are no retries.
-    // See typescript-configuration-resilience > Timeout.
-    timeout: 10_000,
+    // SET THIS. Default 60_000 ms. Bounds ONE attempt, and an idempotent call gets up to
+    // 4 of them. See typescript-configuration-resilience > Retries.
+    retry: { timeout: 10_000 },
 
     {scheme}: token,
   });
@@ -281,9 +296,9 @@ export function build{Api}Client(): {Api}Client {
 ```
 
 Both flagged lines are load-bearing and they answer different failures: the credential check turns a
-silent `401` into a startup failure, and `timeout` stops a hung provider from holding the caller open
-for the full default minute with nothing retrying behind it. Setting only the timeout is the common
-mistake — it looks like the configuration box is ticked.
+silent `401` into a startup failure, and `retry.timeout` stops a hung provider from holding the caller
+open for the full default minute on every attempt — up to four of them on an idempotent call. Setting
+only the timeout is the common mistake — it looks like the configuration box is ticked.
 
 Then register the result once, however your framework shares singletons, and inject it:
 

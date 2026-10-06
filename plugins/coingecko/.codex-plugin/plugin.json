@@ -1,0 +1,10 @@
+{
+  "name": "coingecko",
+  "version": "0.2.3",
+  "description": "Integrate and consume the APIMatic-generated Coin Gecko SDK — bundled skills for C#/.NET, Python, TypeScript.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Coin Gecko",
+    "developerName": "APIMatic"
+  }
+}

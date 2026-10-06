@@ -1,0 +1,10 @@
+{
+  "name": "discourse",
+  "version": "0.2.2",
+  "description": "Integrate and consume the APIMatic-generated Discourse SDK — bundled skills for C#/.NET, Python, TypeScript.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Discourse",
+    "developerName": "APIMatic"
+  }
+}

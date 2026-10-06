@@ -129,7 +129,7 @@ Each supported language ships the same eight:
 The `getting-started` skill is the entry point: it directs the agent to clone and grep the real SDK
 source, so every fact is grounded in the actual contract rather than model knowledge.
 
-Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->72<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->656<!-- END:SKILL_COUNT --> skills**. See
+Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->72<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->664<!-- END:SKILL_COUNT --> skills**. See
 [`plugins/paypal/README.md`](plugins/paypal/README.md) for a worked example.
 
 ## Repository structure

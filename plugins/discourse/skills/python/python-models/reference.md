@@ -87,8 +87,11 @@ from {root_package}.models import {Union}          # also {root_package}.models.
   `{Union}Dict: TypeAlias = {Variant1}Dict | {Variant2}Dict`. Named after its arms when the spec gave
   it no name (`{Variant1}Or{Variant2}`).
 - **Discriminated (`oneOf` with a discriminator, or an `allOf` base with subtypes)** —
-  `{Union}: TypeAlias = Annotated[{Variant1} | {Variant2}, Field(discriminator="{tag}")]`. Each variant
-  declares the tag as a defaulted `Literal`, so constructing the variant sets it for you.
+  `{Union}: TypeAlias = Annotated[Annotated[{Variant1}, Tag("{value1}")] | …, WireDiscriminator("{tag}")]`.
+  The tag is the union's: build the variant and the union writes it. Some variants also declare the
+  tag as a field of their own, in which case it is yours to set. Where the companion alias names a
+  wrapper (`{Union}{Variant1}Dict`), that is the dict spelling to use — the variant's own dict shape
+  plus the tag key.
 - **One surviving arm** — no alias module is emitted at all; the field is typed with that arm directly
   (`{Variant} | None` where a dropped arm was nullable). An alias the sheet does not list does not
   exist.

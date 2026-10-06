@@ -24,7 +24,7 @@ public {Api}Client(HttpClient httpClient, {Api}ClientOptions options)
 
 Operations are exposed on the client. Most are grouped under **controller properties** (one per API resource
 group) and called `client.{ApiGroup}.{Operation}(...)` — for example, a `Widgets` controller's
-`ListWidgets` operation is `client.Widgets.ListWidgets(...)`. An operation that belongs to no group sits
+`ListWidgets` operation is `client.Widgets.ListWidgets(new ListWidgetsRequest { ... })`. An operation that belongs to no group sits
 **directly on the client**, called `client.{Operation}(...)`. The available controller properties (and any
 direct operations) come from the contract sheet (grounded from the SDK map/source),
 not a decompiled or reflected view of the installed package. See `dotnet-calling-endpoints`.

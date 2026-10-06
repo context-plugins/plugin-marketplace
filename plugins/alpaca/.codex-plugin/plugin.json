@@ -1,0 +1,10 @@
+{
+  "name": "alpaca",
+  "version": "0.2.3",
+  "description": "Integrate and consume the APIMatic-generated Alpaca SDK — bundled skills for C#/.NET, Python, TypeScript.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Alpaca",
+    "developerName": "APIMatic"
+  }
+}

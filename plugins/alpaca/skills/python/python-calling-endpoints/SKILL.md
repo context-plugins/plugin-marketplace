@@ -1,6 +1,6 @@
 ---
 name: python-calling-endpoints
-description: Calling operations on an APIMatic-generated Python SDK — finding the group that owns an operation, the positional/keyword-only split and the parameters that never appear in the signature at all, passing a body as a model or a dict, the two response modes, per-call request options, and async usage. Load before writing the first call to an SDK operation, or when an operation's shape or return type is unclear.
+description: Calling operations on an APIMatic-generated Python SDK — finding the group that owns an operation, the positional/keyword-only split and the parameters that never appear in the signature at all, passing a body as a model or a dict, uploading a file or a raw binary body, the two response modes, consuming a streamed file response, consuming an event stream, per-call request options, and async usage. Load before writing the first call to an SDK operation, or when an operation's shape or return type is unclear.
 ---
 
 # Calling endpoints on an APIMatic Python SDK
@@ -88,7 +88,17 @@ at construction. The dict form suits payloads assembled from external data. See 
 
 **Form and multipart** — there is **no single body parameter**. Each field (and each file) becomes its
 own parameter, following the same three-way split rule above. Do not go looking for a `body=`; read the
-signature.
+signature. An optional part is omitted by leaving its parameter at its default: a part passed `None`
+is dropped from the body rather than sent empty.
+
+**Raw binary** — one parameter typed `FileInput` (`AsyncFileInput` on the async client), sent as the
+whole body with no wrapper around it.
+
+**A text body** — the parameter takes the schema's own type: a `str` for a text schema, and the upload
+alias above for a binary one. It is sent as the body as it stands and handed back the same way, and
+nothing is encoded or decoded for you — where an endpoint asks for base64, pass content that already is
+base64 and decode a base64 response yourself. Arbitrary binary belongs in a raw-binary or multipart
+position.
 
 **No payload** — no body parameter at all.
 
@@ -99,6 +109,31 @@ a payload, pass one.
 
 Serialization happens while the request is built, **before** anything is sent — so a body the SDK
 cannot dump raises out of the call with no request made. See `python-models`.
+
+### File and binary parameters
+
+**One name per client, whichever position it is.** A multipart file part and a raw binary body take
+the same alias, and only the client you called decides which: `FileInput` on the sync client,
+`AsyncFileInput` on the async one, and `list[…]` of either for an array part. Both are imported from
+`{root_package}.core`.
+
+Nothing validates a file, so what the alias accepts is wider than the annotation shows — `bytes`, a
+`Path`, any object with a binary `read`, a chunk iterator, and an `anyio`-style handle on the async
+client. Which one you pass has consequences the signature cannot show: what stays resident, what can
+be re-sent, who closes your handle, whether the body goes out sized or chunked, and what the file is
+called on the wire. There is **no `str` arm** at either position — wrap a path in `Path`.
+
+```python
+from pathlib import Path
+
+client.{group}.{operation}(Path("invoice.pdf"))    # the default: streams, sized, names itself
+```
+
+**Load `python-file-handling`** before passing anything other than a `Path`, and before consuming a
+file an operation returns. It carries the arm-by-arm decision with its costs, the three behaviours
+that differ between a part and a raw body, overriding the filename or media type, and how to read a
+`FileResponse` without leaking its connection.
+
 
 ## Making the call and reading the response
 
@@ -112,17 +147,18 @@ value = client.{group}.{operation}(...)
 ```
 
 **Non-raising — `with_raw_response`.** Returns a result you branch on. Use it when you need the
-**status code or response headers** (the parsed form exposes neither on success), or when a non-2xx is
+**status code or response headers** (the parsed form exposes neither on success, except for a file
+response, which carries its own `headers`), or when a non-2xx is
 an expected outcome rather than an exception:
 
 ```python
 from {root_package}.core import Success, Failure
 
 match client.{group}.with_raw_response.{operation}(...):
-    case Success(payload=value, response=resp):
-        print(resp.status_code, value)
-    case Failure(error=err, response=resp):
-        print(resp.status_code, err)
+    case Success(payload=value, status_code=status):
+        print(status, value)
+    case Failure(error=err, status_code=status):
+        print(status, err)
 ```
 
 Both are frozen dataclasses, so `match` needs no boilerplate and `isinstance` narrowing is equivalent.
@@ -135,20 +171,44 @@ in both modes: a failed token fetch (it unwraps internally), and any decode fail
 
 ### Return types
 
-Three shapes, and the sheet names which one each operation has — the map block states it directly as
+Five shapes, and the sheet names which one each operation has — the map block states it directly as
 **Returns (parsed)** and **Returns (raw)**:
 
 - **A decoded model** — the JSON case, and the common one.
 - **Text** — a `str` or other scalar, for an operation declaring a text response.
+- **A file** — `FileResponse` (`AsyncFileResponse` on the async client), for an operation declaring a
+  binary response. Unlike the others it arrives **unread** and holds a connection; see below.
+- **An event stream** — `EventStream[T]` (`AsyncEventStream[T]` on the async client), for an operation
+  declaring a `text/event-stream` response. It arrives **unread**, holds a connection, and iterating
+  it yields `T`; see below.
 - **`None`** — the operation declares no response body.
 
 **`-> None` means the call succeeded.** Do not bind it and do not test it — success is "no exception
 raised", exactly as for the others. Two follow-ons: if you need the resulting state, re-read it with a
 separate call; and if you need the status code (`200` vs `204`), the raw peer is `ApiResult[None, ...]`
-and `Success(payload=None, response=resp)` is the only place it appears.
+and `Success(payload=None, status_code=...)` is the only place it appears.
 
 Writing `value = client.{group}.{operation}(...)` on a `-> None` operation type-checks under a loose
 annotation and then fails later with an `AttributeError` on `None`.
+
+### Consuming a file response
+
+A `FileResponse` is a body that has **not been read yet** and holds its connection until it is,
+which makes it the one return value with a lifecycle. Three calls consume it and all three close it —
+`save_to(...)`, `read()`, or a drained `iter_bytes()` under `with` — and the async twin mostly
+`a`-prefixes them.
+
+Getting this wrong leaks a connection rather than raising, so **load `python-file-handling`** before
+writing the consuming code. It carries the lifecycle in full: which warning fires when one is
+abandoned and how to make it fail a test, the single-use rule, what `save_to` does with a directory,
+and why a `try` around the call alone catches nothing.
+
+### Consuming an event stream
+
+An `EventStream[T]` is iterated, not read: a drained `for` releases its connection, and any early exit
+needs `with`. **Load `python-event-streams`** before writing the loop — it carries the lifecycle, the
+union narrowing, and the one failure that is silent.
+
 
 ## Per-call overrides — `request_options`
 
@@ -159,7 +219,8 @@ accepted typed or dict-shaped:
 client.{group}.{operation}(..., request_options={"timeout": 5.0})
 ```
 
-The keys are exactly `timeout` (seconds, must be > 0) and `extra_headers`. It is validated with
+The keys are exactly `timeout` (seconds, must be > 0), `extra_headers`, and the two retry overrides
+`max_retries` and `status_codes_to_retry` (`python-configuration-resilience`). It is validated with
 `extra="forbid"`, so `{"timeuot": 5}` raises `ValidationError` rather than being ignored — and because
 the dict form is a closed `TypedDict`, a type checker catches it at the call site first.
 
@@ -210,11 +271,10 @@ results = await asyncio.gather(*(one(a) for a in args))
 
 There is no cancellation-token parameter. Python's own mechanisms apply:
 
-- **Per call** — `request_options={"timeout": ...}`, the direct way to bound one request.
-- **Around a block** — `asyncio.timeout(...)` (3.11+) or `asyncio.wait_for`, to bound a whole operation
-  including your own surrounding work. Cancellation raises `CancelledError`/`TimeoutError` through the
-  await, which an `except ApiError` clause will **not** catch.
-- **Sync code has no external cancellation.** The timeout *is* the mechanism, so set one.
+- **Per call** — `request_options={"timeout": ...}`, which sets the limit on each wait for this one request.
+- **The whole call** — `asyncio.wait_for(...)` around it, in async code; see
+  `python-configuration-resilience`.
+- **Sync code has no whole-call limit.** The timeout only limits each wait — set one anyway.
 
 ## Next
 

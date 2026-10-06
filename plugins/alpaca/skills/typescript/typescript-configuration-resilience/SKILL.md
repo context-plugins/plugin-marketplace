@@ -1,6 +1,6 @@
 ---
 name: typescript-configuration-resilience
-description: Client configuration and resilience for an APIMatic-generated TypeScript SDK — the four ClientOptions fields, server/base-URL selection and template variables, timeouts and cancellation, proxies, TLS and connection pooling, and everything the SDK does not do for you (retries, backoff, logging, pagination, streaming) built on the one `fetch` seam. Load before you construct or tune the client — the field list alone does not reveal that nothing retries, that nothing is logged, that the default environment is whichever the spec listed first, that a `fetch` replacement dropping `init.signal` disables the timeout, that Node's fetch ignores HTTP_PROXY, or that a hand-written page loop is unbounded by default.
+description: Client configuration and resilience for an APIMatic-generated TypeScript SDK — the four ClientOptions fields, server/base-URL selection and template variables, the retry policy (on by default — what it retries, what it never does, per-call overrides) and the per-attempt timeout, cancellation, proxies, TLS and connection pooling, and everything the SDK does not do for you (logging, pagination, streaming) built on the one `fetch` seam. Load before you construct or tune the client — the field list alone does not reveal that idempotent calls are retried by default and writes are not, that the timeout bounds one attempt rather than the call, that nothing is logged, that the default environment is whichever the spec listed first, that a `fetch` replacement dropping `init.signal` disables the timeout, that Node's fetch ignores HTTP_PROXY, or that a hand-written page loop is unbounded by default.
 ---
 
 # Configuration & resilience for an APIMatic TypeScript SDK
@@ -19,7 +19,7 @@ description: Client configuration and resilience for an APIMatic-generated TypeS
 
 Everything configurable is a field on `ClientOptions` (`src/client-options.ts`), passed to the one
 constructor. There is no `Configuration` class, no builder, and no per-request override beyond
-`{ signal }`. Server groups, environments and their URL templates live in `src/servers.ts`.
+`{ signal, retry }`. Server groups, environments and their URL templates live in `src/servers.ts`.
 Everything under `src/core/` is vendored static code that is **byte-identical in every generated
 TypeScript SDK**, so the engine behaviours below hold without checking your SDK.
 
@@ -29,12 +29,12 @@ TypeScript SDK**, so the engine behaviours below hold without checking your SDK.
 | --- | --- | --- | --- |
 | `serverEnvironment` | `ServerEnvironment` | first declared | selects which environment's server options are read |
 | `serverOptions` | `ServerOptions` | `{}` | per-group, per-environment `baseUrl` and template-variable overrides |
-| `timeout` | `number` (**ms**) | `60_000` | per-request timeout |
+| `retry` | `RetryOptions` | retries **on** — see *Retries* | the retry policy, and `retry.timeout` (**ms**, `60_000`) bounding each attempt |
 | `fetch` | `FetchLike` (`typeof fetch`) | global `fetch` | **the one extension point** |
 | `{scheme}` / `{scheme}Strategy` | per scheme | unset | credentials — see **typescript-authentication** |
 
-Read `DEFAULT_CLIENT_OPTIONS` (exported from the package root) rather than trusting the defaults
-column: the credential members and the default environment are per-SDK.
+Read the defaults off your own SDK rather than trusting the column: the credential members and the
+default environment are per-SDK.
 
 ## Not on this SDK
 
@@ -42,14 +42,13 @@ Absent **by design**, not undocumented. This list ships with `src/core/` and is 
 
 | You might reach for | Reality |
 | --- | --- |
-| `maxRetries`, backoff, `Retry-After` handling | no retries. A failed call rejects once |
 | a logger, `logLevel`, request/response logging | none. `src/core/` contains no `console` call |
-| hooks, middleware, interceptors, `onRequest`/`onResponse` | none. `fetch` is the one extension point |
+| hooks, middleware, interceptors, `onRequest`/`onResponse` | none. `fetch` is the one extension point; `retry.onRetry` is the one callback, and it sees only retries |
 | pagination, `for await`, auto-paging helpers | no operation is paginated and nothing is async-iterable |
-| SSE, `text/event-stream`, `ReadableStream` | no streaming. Every decoder reads the body to completion |
-| `FormData`, `Blob`, `File`, multipart, binary bodies | none. Body kinds are empty, JSON, form-urlencoded, text |
-| per-request `headers`, `timeout`, `baseUrl`, idempotency key | none. `RequestOptions` is `{ signal }` |
-| an injected `Idempotency-Key` header | nothing is injected. A key on the wire is one **you** put there |
+| SSE, `text/event-stream` | no event streams. Every decoder reads the body to completion, bar a binary success, which hands its stream over unread |
+| multipart <em>responses</em>, XML bodies | none. Body kinds are empty, JSON, form-urlencoded, text, multipart and binary |
+| per-request `headers`, `baseUrl`, idempotency key | none. `RequestOptions` is `{ signal, retry }`, and `retry` takes only `maxRetries`, `timeout` and `statusCodesToRetry` |
+| a circuit breaker, a rate limiter | none. The retry loop honours `Retry-After`, but nothing limits how many calls you start |
 | the raw `fetch` `Response` | deliberately unreachable. `status`/`headers` are on `asApiResult()` and on `ResponseError` |
 
 Everything in the left column that you actually need, you build on `fetch`. The rest of this skill is
@@ -57,8 +56,8 @@ those patterns and the traps in them.
 
 **What the SDK does own**, so that you do not rebuild it: URL and server resolution, request
 encoding and schema validation on the way out, auth application and OAuth token caching, response
-decoding, the two-family error mapping, and one timeout. Connection pooling belongs to `fetch`, not
-to the client.
+decoding, the two-family error mapping, the `Idempotency-Key` on every non-GET call, and the retry
+loop with its per-attempt timeout. Connection pooling belongs to `fetch`, not to the client.
 
 ## The `fetch` seam
 
@@ -67,21 +66,30 @@ type FetchLike = typeof fetch;
 ```
 
 One rule, and it is the one that breaks things when missed: **forward `init.signal`**. Spreading
-`...init` does it. Drop it and both the client `timeout` and per-call cancellation go inert — the call
-neither aborts nor times out, because the transport enforces both through the signal it puts on `init`.
+`...init` does it. Drop it and both each attempt's `retry.timeout` and per-call cancellation go inert
+— the call neither aborts nor times out, because the transport enforces both through the signal it
+puts on `init`. On an abort, **reject with `init.signal.reason`**, as the real `fetch` does: a
+replacement that rejects with an error of its own instead still ends the attempt as a
+`TimeoutError`, but one the retry loop does not retry.
 
-Three facts that decide how you write a wrapper:
+Four facts that decide how you write a wrapper:
 
 - **It sees every request the client makes, including the OAuth token request.** The auth schemes are
   built over the same transport as the operations (`buildAuthSchemes(options, servers, rawClient)` in
-  the constructor), so a logging wrapper logs the token POST — `client_secret` and all — and a retry
-  wrapper is a candidate to resend it. Filter by URL where that matters.
+  the constructor), so a logging wrapper logs the token POST — `client_secret` and all. Filter by URL
+  where that matters.
+- **It sits under the retry loop, so it sees every attempt.** A call retried three times is four
+  requests through your wrapper, each with a fresh `init.signal`, and a logging wrapper writes four
+  lines. To see one line per logical call, log around the SDK call instead; to see why an attempt
+  was abandoned, use `retry.onRetry`.
 - **A plain `Error` thrown from a wrapper reaches the caller as `ConnectionError` with your error on
-  `.cause`.** An `{Api}Error` subclass (`SdkError`, `TimeoutError`, …) passes through unwrapped.
-- **Wrappers compose by nesting, innermost-first at the network:**
-  `new {Api}Client({ fetch: loggingFetch(retryingFetch(3)) })`. Put logging **outside** retry to see one
-  line per attempt, inside to see one line per logical call. Order is load-bearing for a write guard —
-  see *Making a write safe under retries*.
+  `.cause` — and is retried like a dropped connection** for a method in the retry gate, so a
+  deliberate refusal is thrown again on every attempt and surfaces only after the backoff. A member of
+  the `{Api}Error` family (`TimeoutError`, `ConnectionError`, …) passes through unwrapped, and is
+  retried only if its `kind` is `connection` or `timeout`.
+- **Wrappers compose by nesting, innermost-first at the network:** in
+  `new {Api}Client({ fetch: loggingFetch(proxiedFetch) })` the logger sees the request before the
+  proxy dispatches it. Do not add a retrying wrapper to the stack — see *Retries*.
 
 ## `serverOptions` configuration for each environment
 
@@ -128,20 +136,18 @@ Four things about how this resolves:
   your value is silently ignored in favour of the selected one's default.
 - **`baseUrl` is a template, not a URL.** Variables are percent-encoded into their `{placeholder}` at
   request time. A placeholder in a `baseUrl` you supply is only substituted if a declared variable of
-  that exact name exists — otherwise it survives into the URL verbatim, and there is no `SdkError` for
-  it the way there is for an unfilled path parameter.
-- **An environment value the SDK does not know throws `SdkError` when a server is resolved** — at the
-  first call, not at construction. It is the one failure on this surface that throws **synchronously**
-  out of the operation method, so `try`/`await` catches it but `.asApiResult()` and `.catch()` never
-  see it.
+  that exact name exists — otherwise it survives into the URL verbatim, and nothing rejects it the way
+  an unfilled path parameter is rejected.
+- **An environment value the SDK does not know throws `ConfigurationError` from the constructor** —
+  every server group is resolved once, as the client is built, so no operation method throws
+  synchronously.
 
 ### ⚠▶▶ Always pass `serverEnvironment` explicitly
 
 `serverEnvironment` has a default, so `new {Api}Client()` compiles and reaches a real host. **That
-default is whatever environment the spec listed first** — read it off
-`DEFAULT_CLIENT_OPTIONS.serverEnvironment` in `src/client-options.ts`, a literal
-`ServerEnvironment.{Environment}`, and always the first member `ServerEnvironment` declares in
-`src/servers.ts`. For many providers the spec lists sandbox first. Nothing announces it.
+default is whatever environment the spec listed first** — the first member `ServerEnvironment`
+declares in `src/servers.ts`, and the one whose arm every resolver in that file labels `case
+undefined:` alongside its own. For many providers the spec lists sandbox first. Nothing announces it.
 
 A deployment that believes it configured production and did not gets sandbox behaviour with
 production credentials, which fails auth in a way that reads like a credentials problem rather than an
@@ -162,23 +168,21 @@ const serverEnvironment = ENVIRONMENTS[process.env.API_ENV ?? ""];
 if (!serverEnvironment) throw new Error(`unknown API_ENV: ${process.env.API_ENV}`);
 ```
 
-Without the guard, a typo in a deployment variable becomes `undefined`, `{ ...DEFAULT_CLIENT_OPTIONS,
-serverEnvironment: undefined }` overwrites the default with `undefined`, and the failure surfaces at
-the first call as a synchronous `SdkError` about an unknown environment (above) — a long way from the
-variable that caused it.
+Without the guard, a typo in a deployment variable becomes `undefined`, and an `undefined`
+environment is read as *none selected*: every resolver's default arm answers to `case undefined:`
+alongside its own label, so the client runs quietly against the default environment instead of the
+one you asked for. Nothing throws, and nothing is logged. An unknown *string* is the loud case — the
+constructor rejects it with `ConfigurationError` (above) — so it is the value your own
+configuration turns into `undefined` that fails silently, which is what the guard is for.
 
 ### What is captured when
 
-`serverEnvironment` and `serverOptions` are not read at the same time, which makes one of them look
-inert. The constructor calls `buildServers(options.serverEnvironment, options.serverOptions)` **once**,
-capturing the environment **and each group's options object**; the resolvers it returns re-merge that
-group object's per-environment fields on **every request**. So mutating a nested field of the
-`serverOptions` object you passed in does take effect on later calls, while replacing a whole group
-(`serverOptions.{group} = …`) or assigning `serverEnvironment` afterwards does not.
-
-Do not use that. Mutating server options on a live client is an unsynchronised race against in-flight
-calls, not a supported "switch hosts" operation. **Configure the server before you construct, and
-construct a new client to change environment.**
+`serverEnvironment` and `serverOptions` are both read **once**, as the client is built. The constructor
+calls `buildServers(options)`, which resolves every server group — the environment, its `baseUrl` and
+each variable, decoded through its schema — into a value that every call afterwards only attaches its
+own sub-path to. So mutating the `serverOptions` object you passed in, replacing a whole group
+(`serverOptions.{group} = …`), or assigning `serverEnvironment` afterwards has no effect on the client.
+**Configure the server before you construct, and construct a new client to change environment.**
 
 ### Redirecting at a mock
 
@@ -189,45 +193,151 @@ production. Override every group the run touches. See **typescript-authenticatio
 This is a real base-URL override, not a proxy — the SDK builds requests against the URL you give it.
 For a proxy, see *Proxy or custom agent* below.
 
-## Retries — the SDK has none, so this is yours
+## Retries — on by default
 
-A failed call rejects once. There is no `maxRetries`, no backoff, no `Retry-After` handling, and
-nothing observes a `429`. Concretely:
+**A client built without `retry` retries.** With the defaults:
 
-- A `429` or `503` rejects on the first attempt. Nothing is resent.
-- A connection reset rejects. Nothing is resent.
-- **Even the one thing that looks automatic — a `401` — is not a retry.** The transport invalidates
-  whatever that operation's auth scheme had cached, so the *next* call re-acquires; the failing request
-  is not resent. You see one `401`, then recovery.
+- A `GET`, `HEAD`, `PUT` or `OPTIONS` call that gets a `408`, `429`, `500`, `502`, `503` or `504`, or
+  whose attempt fails with a `ConnectionError` or a `TimeoutError`, is re-sent up to **3** more times,
+  backing off roughly 1 s, 2 s and 4 s, and honouring `Retry-After`.
+- A `POST`, `PATCH` or `DELETE` is sent **once**, whatever went wrong. The method gate covers every
+  failure, faults included.
+- **A `401` is not in the default status set.** The transport invalidates whatever that operation's
+  auth scheme had cached, so the *next* call re-acquires; the failing call rejects. You see one `401`,
+  then recovery.
 
-Two implications, and the second is easy to give away by accident:
-
-1. **Whatever retrying your integration needs, you write.** There is no knob.
-2. **You inherit no accidental duplicate writes.** A failed write was attempted exactly once at the SDK
-   layer. That is a genuinely valuable property — do not discard it carelessly when you add retries.
-
-### The two seams, and they are not equivalent
-
-A retry can sit in two places, and which you pick changes what it can see and what it re-runs:
-
-| | **Transport-level** — wrap `fetch` | **Caller-level** — wrap the SDK call |
-| --- | --- | --- |
-| Sees | the raw `Response`, so `status` and `Retry-After` directly | typed rejections only — `ResponseError`, `TimeoutError`, `ConnectionError` |
-| Re-runs | one HTTP round-trip | the whole operation: encoding, auth resolution, decoding |
-| Sees the token request | **yes** — it goes through the same transport | no |
-| Client `timeout` applies | per attempt | per attempt (the wrapper adds no bound of its own) |
-| Good for | `Retry-After`, per-status policy, anything shared by every operation | per-operation policy, a decision that depends on the decoded error payload |
-
-**Prefer transport-level** for a blanket policy — it is the only place `Retry-After` and the response
-headers are reachable without `.asApiResult()`, and it applies to every operation by construction. Use
-caller-level when the decision depends on which operation it is or on the typed error payload:
+The loop lives in `src/core/retry.ts`, and `src/core/raw-client.ts` runs every call through it.
+Configure it with any subset of `RetryOptions` — a field you leave out keeps its default:
 
 ```ts
-import { ResponseError, {Api}Error } from "{package-name}";
+new {Api}Client({ retry: { maxRetries: 0 } });            // off: every call is sent exactly once
+new {Api}Client({ retry: { timeout: 10_000 } });          // the defaults, with a tighter per-attempt budget
+new {Api}Client({
+  retry: {
+    maxRetries: 5,
+    httpMethodsToRetry: ["GET", "HEAD", "PUT", "OPTIONS", "POST"],   // see *Making a write safe*
+  },
+});
+```
 
-const RETRY_STATUSES = new Set([408, 429, 500, 502, 503, 504]);
+| Field | Default | Meaning |
+| --- | --- | --- |
+| `timeout` | `60_000` | Milliseconds **one attempt** may take, up to its response headers. Not a budget for the call |
+| `statusCodesToRetry` | `[408, 429, 500, 502, 503, 504]` | Exactly these and no others — there is no family rule, so `[429, 503]` stops retrying `500`. `[]` retries no status, while faults still retry |
+| `httpMethodsToRetry` | `["GET", "HEAD", "PUT", "OPTIONS"]` | The gate: a call outside it is never re-sent. `[]` turns retrying off. Upper case only |
+| `maxRetries` | `3` | Retries *after* the first attempt, so `3` is up to four sends. `0` turns retrying off |
+| `delay` | `1000` | Milliseconds before the first retry, and the base the curve grows from |
+| `backoffFactor` | `2` | What each successive delay is multiplied by, between `1` and `100` |
+| `useExponentialBackoff` | `true` | `false` repeats `delay` unchanged |
+| `maxJitter` | `0.25` | A **fraction**, `0` to `1`, and additive: a wait lands between its delay and `delay × (1 + maxJitter)`. `0` makes every wait exact |
+| `onRetry` | none | `(attempt: RetryAttempt) => void`, called before each retry's wait |
 
-// Caller-level: narrow on the typed error, and never retry what cannot succeed twice.
+`0`, `false` and `[]` are values, never misses. Anything else a field cannot honour — a negative or
+fractional `timeout`, a `maxJitter` of `50`, a list carrying a lower-cased `"get"` — **silently falls
+back to that field's default**, and the client still constructs. `timeout: 0` is kept: it is a
+zero-length deadline that fails every attempt, not "no timeout".
+
+The wait before retry *n* (counting from 0) is
+`min(Retry-After ?? delay × backoffFactor ** n, 60_000) × (1 + random × maxJitter)`, rounded up. The
+60-second ceiling is the engine's, not an option, and jitter sits on top of it, so the longest single
+wait is 75 s at the defaults.
+
+What the loop does and does not do — read these before you rely on it:
+
+- **The method gate covers every failure.** A status in the set, a dropped connection, a timeout: each
+  is retried only for a method in `httpMethodsToRetry`. `PUT` is in the default gate — see *Making a
+  write safe*.
+- **`Retry-After` is honoured** in both its delta-seconds and HTTP-date forms, capped at 60 s, with
+  jitter added on top — never subtracted, so the SDK never wakes before the time the server named. A
+  malformed value falls back to the curve.
+- **A caller abort is never retried.** Aborting your `signal` cuts a backoff wait short and rejects
+  with the signal's own `reason`.
+- **A streaming request body is never retried**, whatever the method, because a stream cannot be
+  replayed.
+- **A failure while obtaining a credential is not retried.** It ends the call — once the token
+  request's own retries are spent, since it is a `POST` under this same policy and retries only when
+  `httpMethodsToRetry` names `POST`.
+- **A rejection from your `fetch` that is not an SDK error counts as a dropped connection.** It
+  becomes a `ConnectionError` and is retried — including a refusal your own wrapper throws on purpose
+  (see *The `fetch` seam*). The exception is one that arrives after the attempt's timeout or your
+  signal fired: the deadline's reason is thrown instead — a caller abort as itself, a timeout as a
+  `TimeoutError` that is not retried — which is why a replacement must reject with
+  `init.signal.reason`.
+- **A retried-away response is released** — its body's cancel started, not awaited, before the wait,
+  so a cancel that stalls never holds up the retry — and only its headers reach `onRetry`. When the last attempt fails, the call rejects with **that** attempt's failure: an
+  `ApiError` (or the operation's subclass) for a status, a `ConnectionError` or `TimeoutError` for a
+  fault — the same shapes as with retrying off (**typescript-error-handling**). `.asApiResult()` sees
+  the last response.
+
+**Do the arithmetic before you accept the defaults.** `retry.timeout` bounds each attempt, not the call,
+so an idempotent call's worst case is `(maxRetries + 1) × timeout` plus the waits — four minutes at the
+defaults. Nothing in the SDK imposes a wall-clock ceiling on the call; *Bounding a call* below is how
+you impose one.
+
+### Per-call overrides
+
+Three fields can be overridden on one call through `RequestOptions.retry`, typed `RequestRetryOptions`.
+Each is merged field by field over the client's policy, so a field you omit keeps the client's value:
+
+```ts
+await client.{resource}.{operation}(request, { retry: { maxRetries: 0 } });              // this call: one attempt
+await client.{resource}.{operation}(request, { retry: { timeout: 5_000 } });             // this call: 5 s per attempt
+await client.{resource}.{operation}(request, { retry: { statusCodesToRetry: [503] } });  // this call: a narrower set
+```
+
+The type admits only these three. How many attempts *this* call gets, how long each may take, and which
+statuses are worth a second try vary by call site; the backoff curve, the method gate and `onRetry` are
+how the client paces itself against one server, so they are set on the client alone. A per-call
+`httpMethodsToRetry` would be a second route to retrying a write. The restriction is the type's
+alone: an object carrying another `RetryOptions` field — from JavaScript, or through a constant typed
+as the wider record — still has it honoured, so do not rely on the type to keep a write out of the
+gate for one call.
+
+### Observing retries
+
+`onRetry` is the one built-in callback. It runs before each retry's wait — not for the first attempt,
+and not on success — with the retry about to be made:
+
+```ts
+const client = new {Api}Client({
+  retry: {
+    onRetry: ({ attemptNumber, delay, reason }) => {
+      if (reason.kind === "status") log.warn({ attemptNumber, delay, status: reason.status }, "retrying");
+      else log.warn({ attemptNumber, delay, kind: reason.error.kind }, "retrying after a fault");
+    },
+  },
+});
+```
+
+Narrow `RetryReason` on `kind` before reading the rest: a `"status"` carries the `status` and the
+discarded response's `headers`, a `"fault"` carries the `connection` or `timeout` error and no response
+at all. A fault from an OAuth token request carries the token endpoint's `uri`, not the operation's.
+**Keep the callback to logging and metrics** — a throw from it ends the call with the error it threw.
+
+### When the SDK's policy is not enough
+
+Rules to hold to:
+
+- **Retry idempotent reads freely; treat every write as a separate decision.** A write that timed out
+  may have succeeded — a reset after the bytes reached the server is indistinguishable from one before.
+  The default gate encodes exactly this.
+- **Do not stack a second retry layer** — a retrying `fetch` wrapper, a `withRetry` around the call, a
+  job that re-runs on failure — on top of the SDK's without turning the SDK's off for that path.
+  Attempts multiply (four inside four is sixteen round-trips, and up to sixteen times the timeout), and
+  every attempt of a caller-level layer is a new SDK call that mints a **new** `Idempotency-Key`.
+- **Never retry an `EncodeError`, a `DecodeError`, an `AuthError` or a 4xx other than `408`/`429`.** On
+  an `EncodeError` nothing was sent at all — the fix is in your code. A `DecodeError` means the
+  response was malformed, which a resend rarely cures. An `AuthError` means a credential could not be
+  *obtained*, which is configuration, not weather. The loop retries none of them, and neither should
+  you. See **typescript-error-handling**.
+
+When a decision genuinely needs something the policy cannot express — a retry that depends on the
+decoded error payload, or on which operation it is — turn the SDK's loop off for that call and own
+retrying entirely at the caller:
+
+```ts
+import { {Api}Error } from "{package-name}";
+
 async function withRetry<T>(work: () => Promise<T>, attempts = 3): Promise<T> {
   for (let attempt = 1; ; attempt++) {
     try {
@@ -240,119 +350,27 @@ async function withRetry<T>(work: () => Promise<T>, attempts = 3): Promise<T> {
 }
 
 function isTransient(err: unknown): boolean {
-  if (err instanceof ResponseError) return RETRY_STATUSES.has(err.status);
-  if (err instanceof {Api}Error) return err.kind === "connection" || err.kind === "timeout";
-  return false;                       // SchemaError, AuthError, SdkError, anything else: no
+  if (!(err instanceof {Api}Error)) return false;   // an abort's reason, a configuration fault, a bug: no
+  return err.kind === "api" && isRetryableConflict(err);   // your decision, on the decoded payload
 }
+
+await withRetry(() => client.{resource}.{operation}(request, { retry: { maxRetries: 0 } }));
 ```
 
-`{Api}Error` is the base of every SDK error. The runtime declares it as `CoreError`, and the
+`{Api}Error` is the whole error family, narrowed on its closed `kind`. The runtime declares it as `CoreError`, and the
 package exports it **only** under the SDK-branded alias — read the real name off the
 `CoreError as …Error` line in `src/index.ts`. See **typescript-error-handling**.
 
-**Never retry a `SchemaError` or a 4xx other than `429`.** On an outbound `SchemaError` nothing was
-sent at all — the request never reached the network, so a resend cannot change the outcome; the fix is
-in your code. On an inbound one the response was malformed, which a resend rarely cures. And an
-`AuthError` means a credential could not be *obtained*, which is configuration, not weather. See
-**typescript-error-handling**.
-
-Do not stack both seams without meaning to: three transport attempts inside three caller attempts is
-nine round-trips and up to nine times the `timeout`.
-
-### Building the transport-level wrapper
-
-Everything a retry policy needs, you decide and write:
-
-| What a policy needs | What the SDK gives you | Sane starting point |
-| --- | --- | --- |
-| which statuses to retry | nothing | `408, 429, 500, 502, 503, 504` |
-| which methods to retry | nothing | `GET, HEAD, PUT, DELETE, OPTIONS` — idempotent only |
-| attempt count | nothing | 3 total |
-| backoff curve | nothing | exponential from ~500 ms, **with jitter** |
-| `Retry-After` | nothing | honour it, in both its forms |
-| not retrying a cancel | nothing | check `init.signal.aborted` first |
-
-The reference implementation:
-
-```ts
-const RETRY_STATUSES = new Set([408, 429, 500, 502, 503, 504]);   // as above
-const IDEMPOTENT = new Set(["GET", "HEAD", "PUT", "DELETE", "OPTIONS"]);
-
-function retryingFetch(maxAttempts = 3, inner: typeof fetch = fetch): typeof fetch {
-  return async (input, init) => {
-    const method = (init?.method ?? "GET").toUpperCase();
-    let lastError: unknown;
-
-    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-      try {
-        const response = await inner(input, { ...init });   // forwards init.signal
-
-        if (!RETRY_STATUSES.has(response.status) || !IDEMPOTENT.has(method) || attempt === maxAttempts) {
-          return response;
-        }
-        await delay(backoffFor(attempt, response), init?.signal);
-      } catch (err) {
-        // A caller abort or the client timeout must NOT be retried.
-        if (init?.signal?.aborted) throw err;
-        if (!IDEMPOTENT.has(method) || attempt === maxAttempts) throw err;
-        lastError = err;
-        await delay(backoffFor(attempt), init?.signal);
-      }
-    }
-    throw lastError;
-  };
-}
-
-function backoffFor(attempt: number, response?: Response): number {
-  const retryAfter = response?.headers.get("retry-after");
-  if (retryAfter) {
-    const seconds = Number(retryAfter);
-    if (Number.isFinite(seconds)) return Math.min(seconds * 1000, 60_000);
-    const at = Date.parse(retryAfter);                       // Retry-After may be an HTTP-date
-    if (!Number.isNaN(at)) return Math.min(Math.max(0, at - Date.now()), 60_000);
-  }
-  const base = 2 ** (attempt - 1) * 500;
-  return base + Math.random() * base;                        // full jitter
-}
-
-function delay(ms: number, signal?: AbortSignal | null): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const t = setTimeout(resolve, ms);
-    signal?.addEventListener("abort", () => { clearTimeout(t); reject(signal.reason); }, { once: true });
-  });
-}
-
-const client = new {Api}Client({ fetch: retryingFetch(3) });
-```
-
-Five things that make or break it:
-
-- **Never retry a caller abort or a timeout.** Checking `init.signal.aborted` before retrying is what
-  separates "the server is struggling" from "we were told to stop." Without it, an aborted request
-  keeps retrying after the caller has given up, and the client `timeout` — which aborts through that
-  same signal — silently becomes a per-attempt budget you multiply.
-- **Only retry idempotent methods** unless the API documents a safe replay. A retried `POST` can
-  double-charge. See *Making a write safe under retries*.
-- **Respect `Retry-After`** in both its numeric-seconds and HTTP-date forms, and **cap it**. A provider
-  asking for a ten-minute pause will otherwise hold the request open for ten minutes.
-- **Jitter the backoff.** Without it, every client in a fleet retries in lockstep.
-- **Decide what the token request should do.** The wrapper sees it too. It is a `POST`, so the method
-  gate above already excludes it — which is usually right, but means a transient `503` from the token
-  endpoint fails the operation outright.
-
-**Do the arithmetic before you accept the shape.** The client `timeout` bounds **each attempt**, not
-the total, so three attempts at the default `60_000` plus backoff is a worst case near **three
-minutes** — on a wrapper whose configuration mentions no such number anywhere. Nothing in the SDK
-imposes a wall-clock ceiling; the next section is how you impose one.
-
 ### Making a write safe under retries
 
-**Start from what you have.** The SDK resends nothing on its own, so an unwrapped client already holds
-every write at one send. The exposure arrives with your wrapper, and with two things it cannot fix:
+**Start from what you have.** With the default gate a `POST`, `PATCH` or `DELETE` is sent once. The
+exposure arrives when you widen `httpMethodsToRetry` or add a retry layer of your own, and with two
+things no setting fixes:
 
-- **`PUT` is idempotent by HTTP's definition, not necessarily by your provider's.** A `PUT` can still
-  carry a per-call side effect — an audit row, an outbound webhook, a metered charge — that a resend
-  duplicates.
+- **`PUT` is in the default gate — idempotent by HTTP's definition, not necessarily by your
+  provider's.** A `PUT` can still carry a per-call side effect — an audit row, an outbound webhook, a
+  metered charge — that a resend duplicates. Where yours does, drop `"PUT"` from
+  `httpMethodsToRetry`.
 - **"It was not resent" is not "the write did not happen."** A transport failure on a `POST` leaves the
   outcome *unknown*: the bytes may have reached the provider before the socket died. That is a
   reconciliation problem, and no retry setting solves it.
@@ -363,49 +381,51 @@ every write at one send. The exposure arrives with your wrapper, and with two th
 regardless of how the client is later configured. The four, **weakest guarantee first** — so do not
 read the numbering as a recommendation order:
 
-1. **Make the write idempotent at the provider** — a client-supplied unique reference or idempotency
-   key, where the API offers one. Makes a resend *harmless* rather than rarer; the send count stays
-   above one.
+1. **Make the write idempotent at the provider.** Makes a resend *harmless* rather than rarer; the send
+   count stays above one.
 
-   Look at the operation's **whole Fields table**, not just its `body`. The request object is flat and
-   channel-blind, so a key can arrive as a header, a query parameter, a form field or a body member and
-   they all look alike in the signature — the `Channel` column is what tells them apart. See
-   **typescript-calling-endpoints**.
+   **The SDK sends an `Idempotency-Key` header on every operation other than a `GET`** — a UUID minted
+   once per call, unless the operation declares a header of that name itself, in which case that one is
+   a field you set. **Every attempt of the SDK's retry loop re-sends the same key**, because the loop
+   re-sends the request the SDK already built. That is what makes naming a write in
+   `httpMethodsToRetry` safe — **where the provider deduplicates on it**. A retry of your own is a new
+   call and mints a new key: the provider sees two submissions.
 
-   **Generate the key once per logical action and reuse it across every attempt** — that is the whole
-   mechanism, and it is the easy thing to get backwards:
+   Where the operation declares its own key — a header, a query parameter, a form field or a body
+   member, all alike in the flat, channel-blind request object; the `Channel` column of its **Fields**
+   table tells them apart (**typescript-calling-endpoints**) — **generate it once per logical action and
+   reuse it across every attempt you make**:
 
    ```ts
    const requestId = crypto.randomUUID();          // once per logical action, NOT per attempt
-   await withRetry(() => client.{resource}.{operation}({ ...body, {idempotencyKey}: requestId }));
+   await withRetry(() =>
+     client.{resource}.{operation}({ ...body, {idempotencyKey}: requestId }, { retry: { maxRetries: 0 } }),
+   );
    ```
 
    A key generated inside the retried function is a fresh key on every attempt, which deduplicates
-   nothing while looking exactly like a solution. Note this only works at the **caller-level** seam: a
-   transport-level wrapper resends bytes the SDK already encoded, so the key is stable there for free.
+   nothing while looking exactly like a solution.
 
-   Three cautions, none of them visible in the type:
+   Two cautions, neither of them visible in the type:
 
-   - **Nothing is injected.** Unlike some generators, this one adds no `Idempotency-Key` header of its
-     own, so a key on the wire is one a spec parameter declared and one you set.
-   - **Whether the provider actually enforces it is not visible in the model.** Such a field is
-     typically just an optional string, equally consistent with an enforced key and with a free-text
-     label. Verify against live traffic before relying on it.
+   - **Whether the provider actually enforces it is not visible in the SDK.** The header being sent,
+     or a declared key field existing, is not a guarantee that a resend is deduplicated. Verify
+     against the provider's documentation or live traffic before widening the gate.
    - **Keys expire, and the retention window differs per API.** A resend after a long backoff may fall
      outside it and be treated as a new request. Only the provider's documentation carries that number.
 2. **Reconcile after a failure** — on a transport failure on a write, re-read provider state to
    establish what actually happened instead of assuming nothing did. Detects a duplicate; does not
    prevent one. Same reflex as an unreadable write response — see **typescript-error-handling**.
-3. **A separate client for writes**, constructed without the retry wrapper. The wrapper is a
-   constructor argument, so this is one extra client and no other change:
+3. **Send the write once, explicitly** — `{ retry: { maxRetries: 0 } }` on that call, or a separate
+   client for writes built with `retry: { maxRetries: 0 }`:
 
    ```ts
-   const reads  = new {Api}Client({ ...shared, fetch: retryingFetch(3) });
-   const writes = new {Api}Client({ ...shared });                          // no resends, ever
+   const reads  = new {Api}Client({ ...shared });
+   const writes = new {Api}Client({ ...shared, retry: { maxRetries: 0 } });   // no resends
    ```
 
-   Holds at one send today; stops holding the moment someone adds a wrapper to `writes`, and that
-   failure does not announce itself.
+   Holds at one send today; stops holding the moment someone removes the override or widens the gate
+   on `writes`, and that failure does not announce itself.
 4. **A guard wrapper that refuses a re-send it did not authorise** — the only option that holds the
    count at one no matter how the client is configured, because a blocked attempt never reaches the
    network. Reach for it whenever a duplicate would be externally visible or costly to undo, and
@@ -413,27 +433,27 @@ read the numbering as a recommendation order:
 
    Three details decide whether it works:
 
-   - **The guard must be the *innermost* wrapper.** `retryingFetch(guardFetch(fetch))` puts every
-     attempt through the guard; `guardFetch(retryingFetch(fetch))` puts only the first one through it,
-     and the retry loop resends freely underneath. Composition order *is* the mechanism here.
+   - **A `fetch` wrapper sees every attempt of the SDK's loop by construction**, because the loop sits
+     above `fetch`. But its refusal reaches the loop as a `ConnectionError`, which **is retried** for a
+     method in the gate — each retry is refused again, and the call rejects only after the backoff,
+     with your error on `.cause`. Pair the guard with option 3 on the guarded write, so the refusal is
+     immediate, and recognise it with `err.cause instanceof YourRefusal`.
    - **Keep the "already sent" marker in state that outlives one attempt** — an `AsyncLocalStorage`
      scope the caller opens around the write, or a closure created per unit of work. A marker hung off
      `init` is per-attempt bookkeeping only, and a caller-level retry (a job re-running after a
      timeout) creates a fresh one either way.
-   - **Do not let the refusal look retryable.** Throw a private sentinel class and check for it in the
-     retry wrapper's `catch` before deciding to retry, exactly as you check `init.signal.aborted`.
-     Remember the guard also sees the OAuth token request; key it on method and URL so a token
-     acquisition is not counted as the write.
+   - **Key it on method and URL.** The guard also sees the OAuth token request, and a token
+     acquisition must not be counted as the write.
 
    Count the send **before** it goes out. A request that failed on the way out may still have been
    received, so "this may already have taken effect" is the only safe reading — surface it as an
    **unknown outcome** to be settled by re-reading provider state (option 2), not as a definite failure.
 
-**Where an operation offers no idempotency parameter at all, retrying it is a real duplication risk**
-and the safe recovery is option 2 — re-read state and decide — not a resend. Some operations are
-naturally idempotent anyway (cancelling an already-cancelled resource is usually harmless), but that is
-a **per-operation judgement** made against the provider's documentation, not a property you can assume
-for the whole class of writes.
+**Where the provider ignores the key, retrying a write is a real duplication risk.** Keep the write
+out of the gate; the safe recovery is option 2 — re-read state and decide — not a resend. Some
+operations are naturally idempotent anyway (cancelling an already-cancelled resource is usually
+harmless), but that is a **per-operation judgement** made against the provider's documentation, not a
+property you can assume for the whole class of writes.
 
 **All four bound the call YOU make to the provider. None of them is a reason to change the contract
 your own callers see.** Key the guard on something you already hold — a reference derived
@@ -446,28 +466,31 @@ permanent refusal. Clear it once the outcome is settled, and expire it when it n
 
 | Layer | Scope | Default | Bounds a whole call? |
 | --- | --- | --- | --- |
-| `ClientOptions.timeout` | one attempt through `fetch` | `60_000` ms | **No** — a retry wrapper multiplies it |
-| the `signal` you pass to the call | everything from dispatch to resolution | none | **Yes** — the only one |
+| `retry.timeout` | one attempt, up to its response headers | `60_000` ms | **No** — an idempotent call gets up to `maxRetries + 1` attempts, plus the waits between them |
+| the `signal` you pass to the call | everything from dispatch to resolution, retries and waits included | none | **Yes** — the only one |
 
-### `timeout`
+### `retry.timeout`
 
-In **milliseconds**, bounding **one request attempt** — enforced with an `AbortController` inside the
-transport, surfacing as a Family B rejection with `err.kind === "timeout"`. What the field list does
-not tell you:
+In **milliseconds**, bounding **one attempt** — enforced with an `AbortController` inside the
+transport, surfacing as a `TimeoutError` (`err.kind === "timeout"`) once no retry is left. Each attempt
+gets its own deadline. What the field list does not tell you:
 
-- **It covers credential acquisition too.** The timer starts before the auth scheme resolves, and an
-  OAuth token fetch happens inside it. So on the first call of a cold client, `timeout` is the budget
-  for the token round-trip **plus** the operation, not for the operation alone.
-- **A non-finite or non-positive value is not "no timeout".** The transport falls back to its own
-  ceiling of `100_000` ms, and clamps anything above `2_147_483_647` ms — the largest value a timer can
-  hold. `timeout: 0` and `timeout: Infinity` both mean 100 seconds.
-- **There is no per-request timeout.** One value covers every call on that client. If different
-  operations need different budgets, build **two clients**, or impose the tighter budget with a signal.
+- **It stops at the response headers.** The timer starts once the credential is in hand, so obtaining
+  a credential and reading the body are bounded only by your `signal`. A built-in OAuth token request
+  runs on its own timer.
+- **A value the platform cannot honour is not "no timeout".** Negative, fractional, `NaN`, `Infinity`
+  and anything above `2_147_483_647` ms — the largest value a timer can hold — all fall back to the
+  SDK's default (on a call, to the client's value), silently, and the client still constructs. A usable
+  value is installed **verbatim**, `0` included, so `timeout: 0` is a zero-length deadline that fails
+  every attempt rather than lifting it. An unbounded attempt is not expressible.
+- **One call can take its own.** `{ retry: { timeout: 5_000 } }` on the call replaces the client's
+  value for that call — still per attempt. For a budget on the whole call, use a signal.
 - **A `fetch` replacement that drops `init.signal` makes it inert.** Always spread `...init`.
 
 ### Cancellation and real deadlines
 
-`RequestOptions` is `{ signal?: AbortSignal }` and that is the whole per-call surface.
+`RequestOptions` is `{ signal?: AbortSignal; retry?: RequestRetryOptions }`, and `signal` is the whole
+per-call cancellation surface.
 
 ```ts
 const controller = new AbortController();
@@ -479,10 +502,12 @@ try {
 }
 ```
 
-A caller abort surfaces as `err.kind === "abort"`, and `err.cause` is whatever you passed to `abort()` —
-so pass something diagnostic. An already-aborted signal rejects immediately.
+A caller abort rejects with whatever you passed to `abort()` — the signal's own `reason`, unwrapped and
+outside the `{Api}Error` family — so pass something diagnostic, and rethrow it from a family `catch`.
+An already-aborted signal rejects immediately, and an abort during a backoff wait ends the wait and the
+call; an abort is never retried.
 
-For a **deadline across a whole unit of work** — several calls, or a call plus a retry loop —
+For a **deadline across a whole call or unit of work** — one call and its retries, or several calls —
 `AbortSignal.timeout` and `AbortSignal.any` compose (both on Node 20+):
 
 ```ts
@@ -492,14 +517,16 @@ async function withDeadline<T>(work: (signal: AbortSignal) => Promise<T>, ms: nu
 }
 ```
 
-That is also how you give one operation a tighter budget than the client-wide `timeout`: the earlier of
-the two wins.
+That is how you give one operation a ceiling that `retry.timeout` cannot: the deadline covers every
+attempt and every wait, and the earlier of the two wins.
 
 ⚠▶▶ **A per-attempt timeout does not bound a request.** If one handler makes more than one SDK call —
 a loop over records, a fan-out, a create-then-confirm pair — the per-call timeouts **add up**, and they
 add up *faster* when each failure is caught so the work can continue: every swallowed timeout costs its
-full bound and the next call still runs. **The check is arithmetic, not judgement:** `calls in this
-handler × timeout` must sit under the budget you are willing to make a caller wait. Count the calls in
+full bound and the next call still runs — and an idempotent call spends up to `maxRetries + 1` of
+them before it fails. **The check is arithmetic, not judgement:** `calls in this handler ×
+(maxRetries + 1) × timeout`, plus the waits, must sit under the budget you are willing to make a caller
+wait. Count the calls in
 the loop, not the calls in the snippet — a handler that processes every record on file makes as many
 calls as there are records.
 
@@ -616,20 +643,20 @@ async function* all{Items}(signal?: AbortSignal): AsyncGenerator<{Item}> {
 
 A failed page rejects mid-enumeration like any other call — see **typescript-error-handling**.
 
-## Streaming and binary responses — not carried
+## Event streams — not carried
 
-There is no SSE support, no `ReadableStream` handling, and no binary response type. This is not simply
-an omission you can work around at the call site: when the spec declares a `text/event-stream` or
-binary success response, the generator **still emits the operation** but gives it the **empty-body
-decoder**, because the vendored runtime has no carrier for either.
+There is no SSE support. When the spec declares a `text/event-stream` success response, the generator
+**still emits the operation** but gives it the **empty-body decoder**, because the vendored runtime
+has no carrier for it. A **binary** success is different and is carried: it resolves to a
+`BinaryContent` whose `stream` you read once or release — see **typescript-calling-endpoints**.
 
-The consequence is specific and worth knowing before you debug it: the empty decoder asserts the body
-is empty, so such an operation **fails at the call** with `SchemaError` ("Expected an empty response
-body") the moment the server sends anything — rather than quietly resolving something the spec never
-described. The operation's **Returns** bullet reads `undefined` for these.
+The consequence of the empty decoder is specific and worth knowing before you debug it: it asserts
+the body is empty, so such an operation **fails at the call** with `DecodeError` ("Expected an empty
+response body") the moment the server sends anything — rather than quietly resolving something the
+spec never described. The operation's **Returns** bullet reads `undefined` for these.
 
-Same story outbound: multipart, binary and XML request bodies have no carrier, so those operations are
-emitted with no body field at all. See **typescript-calling-endpoints**.
+Outbound, only an XML request body has no carrier, so such an operation is emitted with no body field
+at all. Multipart and binary bodies are both sent. See **typescript-calling-endpoints**.
 
 **If you need one of these endpoints, call it with `fetch` directly** — build the URL from the same
 base URL, and copy the credential header the SDK would have sent. The SDK cannot carry it, and no
@@ -687,8 +714,9 @@ verb or the status. So a wrong verb, a mis-serialized path segment or a dropped 
 2. The **base URL** is fully expanded — no leftover `{region}`-style server variable, which means a
    `baseUrl` you supplied carries a placeholder no declared variable fills.
 3. The **path** is fully formed. Two different failures live here: a path field set to `null` collapses
-   to **nothing**, leaving a doubled slash (`/orders//confirm`); a path field left `undefined` leaves
-   the marker unfilled and raises `SdkError` naming it. The first is silent, so it is the one to look
+   to **nothing**, leaving a doubled slash (`/orders//confirm`); a path field left `undefined` is
+   rejected by its schema before anything is sent, as an `EncodeError` whose `uri` still shows the
+   unfilled marker. The first is silent, so it is the one to look
    for.
 4. Each **path segment** holds the value you meant — for an enum that is the **wire value**, not the
    member name.
@@ -721,15 +749,19 @@ frozen.
 
 ### Rate limiting
 
-There is no built-in limiter. Either handle `429` in the retry wrapper (above, via `Retry-After`), or
-put a concurrency/rate limiter around your calls. Client-side limiting is the more predictable of the
-two under load — retrying into a rate limit converts a fast failure into a slow one.
+There is no built-in limiter. The default policy retries a `429` on an idempotent call and honours
+its `Retry-After` (capped at 60 s), which absorbs an occasional limit; it does nothing to stop you
+starting more calls than the provider allows. Put a concurrency/rate limiter around your calls for
+that. Client-side limiting is the more predictable of the two under load — retrying into a rate limit
+converts a fast failure into a slow one, and a fan-out of retrying calls keeps the pressure on.
 
 ### Circuit breaking
 
-Also a `fetch` wrapper: count consecutive transport failures and 5xx responses, open the circuit for a
-cool-off window, and fail fast while it is open. Throw a plain `Error` from the wrapper and it reaches
-the caller as `ConnectionError` with your error on `.cause`.
+Count consecutive `ConnectionError`s, `TimeoutError`s and 5xx `ApiError`s, open the circuit for a
+cool-off window, and fail fast while it is open. **Put the breaker around the SDK call, not in `fetch`.**
+A plain `Error` thrown from a `fetch` wrapper reaches the loop as a `ConnectionError`, which is retried
+with backoff — the opposite of failing fast. Around the call, the breaker sees one outcome per call,
+after the retries, and its refusal never enters the loop.
 
 ## Proxies and TLS (Node)
 
@@ -806,20 +838,22 @@ client costs under OAuth — is **typescript-client-initialization**.
 | Symptom | Where to look |
 | --- | --- |
 | calls never time out | a `fetch` replacement dropping `init.signal` |
-| a retry loop keeps going after a cancel | the retry wrapper not checking `init.signal.aborted` |
-| one handler takes far longer than `timeout` | `timeout` is per attempt — count the calls, then bound the handler with a signal |
+| a failing call takes seconds longer to reject than the first failure | expected on an idempotent call: the default policy retried it — watch it with `retry.onRetry` |
+| a `POST` fails on a `503` that a `GET` survives | expected: `POST` is outside the default `httpMethodsToRetry` |
+| one handler takes far longer than `retry.timeout` | it is per attempt, and an idempotent call gets up to four — count the calls, then bound the handler with a signal |
 | a page loop never returns | no provider-independent bound — see *Never leave a page loop unbounded* |
 | requests still hit the real host under test | the wrong server **group** or **environment** overridden — check `src/servers.ts` |
 | auth fails everywhere with credentials you know are right | `serverEnvironment` left to its default, which is the spec's **first** environment — often sandbox |
 | the call works locally, fails behind a corporate proxy | Node's `fetch` ignores `HTTP_PROXY` — register `EnvHttpProxyAgent` or pass a `dispatcher` |
-| a duplicate write despite an idempotency key | the key is generated inside the retried function — hoist it out |
-| ~9× the expected round-trips | a transport-level and a caller-level retry stacked |
+| a duplicate write despite an idempotency key | the key is generated inside the retried function — hoist it out; or your own retry layer re-calls the SDK, which mints a new injected key per call |
+| ~16× the expected round-trips | a retry layer of your own stacked on the SDK's — set `retry: { maxRetries: 0 }` where you own retrying |
+| a test with one stubbed `503` hangs, or runs out of queued responses | the default policy fetched it four times across ~7 s of backoff — see **typescript-testing** |
 | a `{placeholder}` survives into the URL | a `baseUrl` you supplied names a variable the group does not declare |
-| `SdkError` naming an unfilled path parameter | a path field was `undefined` — a required field was omitted |
-| `SdkError` about an unknown environment, thrown synchronously | `serverEnvironment` is not a declared member; `.asApiResult()` cannot see it |
-| `SchemaError` "expected an empty response body" | a streaming or binary response with no carrier — call it with `fetch` directly |
+| `EncodeError` whose `uri` still shows a `{placeholder}` | a path field was `undefined` — a required field was omitted |
+| `ConfigurationError` about an unknown environment, thrown by the constructor | `serverEnvironment` is not a declared member |
+| `DecodeError` "Expected an empty response body" | an event-stream response with no carrier — call it with `fetch` directly |
 | a token is fetched on every call | a client built per request — see **typescript-client-initialization** |
-| 401 on the first call, fine afterwards | expected: a 401 invalidates the token cache and does **not** retry |
+| 401 on the first call, fine afterwards | expected: a 401 invalidates the token cache and is not in the default retry set |
 
 ## Next
 

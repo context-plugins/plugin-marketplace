@@ -1,0 +1,10 @@
+{
+  "name": "maxio",
+  "version": "0.2.3",
+  "description": "Integrate and consume the APIMatic-generated Maxio SDK — bundled skills for C#/.NET, Python, TypeScript.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Maxio",
+    "developerName": "APIMatic"
+  }
+}

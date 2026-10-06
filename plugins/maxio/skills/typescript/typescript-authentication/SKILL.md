@@ -55,7 +55,7 @@ const client = new {Api}Client({
 
 Sends `Authorization: Basic base64(username:password)`.
 
-A username containing `:` throws `SdkError` **from the constructor** (RFC 7617 §2), so a bad value
+A username containing `:` throws `ConfigurationError` **from the constructor** (RFC 7617 §2), so a bad value
 fails fast rather than on the first call. The password is not validated — an empty one is sent as an
 empty one.
 
@@ -88,7 +88,7 @@ than replacing it — only a cookie of the same name is overwritten.
 ### A `TokenProvider` may be a function
 
 ```ts
-type TokenProvider = string | (() => string | Promise<string>);
+type TokenProvider = string | ((signal: AbortSignal) => string | Promise<string>);
 ```
 
 Pass a **function** when the secret rotates, comes from a vault, or is not known at construction time.
@@ -163,19 +163,22 @@ never see or manage it.
 - **PKCE is on by default.** Omitting `pkce` means `PkceMethod.S256`; `pkce: null` disables it. The
   verifier and challenge are generated with `crypto.getRandomValues` / `crypto.subtle`, so the runtime
   needs Web Crypto (Node 20+ and browsers have it).
-- The `signal` handed to your callback is the request's own signal — honour it, or a cancelled or
-  timed-out request leaves you waiting on a redirect forever.
+- The `signal` handed to your callback is the call's own signal, or one that never aborts when the
+  call was given none — honour it, or a cancelled call leaves you waiting on a redirect forever.
+- **Rejecting the callback is how you decline.** A user who closes the window, or a callback that
+  throws for any other reason, surfaces as `AuthError` with your error on `.cause`, and no token
+  request is sent. It is deliberately *not* a `ConnectionError`: a connection failure invites a
+  retry, a declined consent needs the user asked again. Two rejections pass through untouched
+  instead of being wrapped — one of the SDK's own error classes, and, when the call has been
+  cancelled underneath you, the signal's own `reason`.
 
-⚠ **The prompt runs on the triggering request's timeout budget** — the clock starts before auth is
-resolved, so a human has `timeout` milliseconds (default `60_000`) to complete the whole login, and
-whatever they take is subtracted from the operation's own budget. A browser round-trip does not fit
-inside a default timeout. Acquire the token out of band (*Supplying your own token source*) rather
-than raising `timeout` to human scale, which would also un-bound every ordinary call.
+⚠ **No timeout covers the prompt, and it is not retried.** Only the call's `signal` ends it early,
+and only if the prompt honours it.
 
 ⚠ **The prompt must not make an SDK call that uses this same scheme.** Concurrent acquisitions share
 one in-flight promise, so a call made from inside the prompt waits on the acquisition that is waiting
-on the prompt — a deadlock that breaks only when the request timeout fires. The same applies to a
-custom token source's `getToken`.
+on the prompt — a deadlock that breaks only when a signal aborts. The same applies to a custom token source's
+`getToken`.
 
 ⚠ **`state` is passed through verbatim and the SDK does not validate it on the way back.** It is sent
 on the authorization request and never generated or checked here — the SDK never sees the redirect, so
@@ -218,8 +221,13 @@ const client = new {Api}Client({
   operation. One in-flight acquisition is **shared**: concurrent requests that arrive during a fetch
   wait on that fetch rather than each starting their own.
 - The fetch is a form-encoded `POST` to the token endpoint, sent with **no auth scheme of its own**,
-  and it runs on the triggering request's timeout and abort signal — so token-fetch time comes out of
-  that operation's budget.
+  and it runs on its own `retry.timeout` and the call's abort signal — so token-fetch time does not
+  come out of the operation's attempt.
+- **A failure while obtaining the token is not retried by the call.** It ends the call.
+- **The token request is itself a `POST` under the same policy.** With the default
+  `httpMethodsToRetry`, an error status from the token endpoint — a `503` included — is not retried:
+  it is an `AuthError` and ends the call. Name `POST` in the gate and the token request retries a
+  retryable status like any other `POST`; the `AuthError` ends the call once those retries are spent.
 - **The cache lives in the client object.** Build the client once (see
   `typescript-client-initialization`) or every call re-runs the grant.
 - **Only the authorization-code grant refreshes.** It is the one grant wired to
@@ -230,8 +238,8 @@ const client = new {Api}Client({
 - When the authorization-code grant does refresh, a refresh response that omits `refresh_token`
   carries the previous one forward. A refresh that fails does not throw — it returns `null` internally
   and falls back to a full re-grant.
-- On `401`, the cached token is invalidated and re-acquired on the **next** call — the failing request
-  is **not** retried. Handle the 401 as an ordinary `ResponseError` (see `typescript-error-handling`);
+- On `401`, the cached token is invalidated and re-acquired on the **next** call — `401` is not in the
+  default `statusCodesToRetry`, so the failing request is **not** re-sent. Handle the 401 as an ordinary `ApiError` (see `typescript-error-handling`);
   the recovery is automatic on the following attempt, not on this one.
 
 ⚠ **A `401` on the authorization-code grant is an interactive re-authorization, not a silent
@@ -311,8 +319,9 @@ one fact — the token fetch happens *during* your operation:
 
 1. **The traceback points at the operation you called**, not at anything named "auth". A token
    endpoint that answers `400 invalid_client` becomes an `AuthError` thrown from
-   `client.{resource}.{operation}(...)`, with the underlying `ResponseError` on `.cause`. Reading only
-   the top frame sends you looking in the wrong place entirely.
+   `client.{resource}.{operation}(...)`, with the underlying `ApiError` on `.cause` — and its own
+   `method` and `uri` name that operation, not the token endpoint. Reading only the top frame sends you
+   looking in the wrong place entirely.
 2. **The non-throwing form still rejects.** `.asApiResult()` converts the *operation's* error response
    into an `{ ok: false }` result instead of throwing — but auth is resolved before any response
    exists, so an `AuthError` propagates straight out of the `await`. Code written specifically to
@@ -329,13 +338,13 @@ try {
 } catch (err) {
   if (err instanceof AuthError) {
     // Credentials/token problem — the operation request was never sent.
-    throw new ConfigurationError("API credentials rejected", { cause: err });
+    throw new Error("API credentials rejected", { cause: err });
   }
   throw err;
 }
 ```
 
-Treat it as a **configuration** failure, distinct from an operation rejection: nothing was attempted,
+Treat it as an **auth** failure, distinct from an operation rejection: nothing was attempted,
 so retrying it or reporting it as a failed operation are both wrong. `typescript-error-handling` has
 the full catch ladder.
 
@@ -375,8 +384,8 @@ Every section above covers supplying a credential. This one covers its **absence
 configuration-driven app hits in the real world, and the one most integrations get wrong.
 
 **Every credential member is optional and an unset one does not throw.** The operation that wanted it
-simply sends no credential, and you get whatever the API answers — typically a `401`, surfacing as a
-`ResponseError`, not as an auth failure. The SDK will never tell you that you forgot to supply a
+simply sends no credential, and you get whatever the API answers — typically a `401`, surfacing as an
+`ApiError`, not as an auth failure. The SDK will never tell you that you forgot to supply a
 credential; only the provider will, one round-trip later and one layer away from the cause. A
 "mysterious 401" is very often an unfilled option member — check that before suspecting the
 credentials themselves.
@@ -447,10 +456,12 @@ absent, so a blank env var is the same fault as an unset one.
   percent-encoding either half** first. A client id or secret containing a character RFC 6749 §2.3.1
   would have you encode is sent raw, so a provider that follows the RFC strictly may reject it — use
   body placement or a custom strategy if your secret is not in the unreserved set.
-- **`AuthError` means a credential could not be obtained** — the token request failed, or PKCE was
-  disabled without a secret. Being *refused* a credential by the API is a `ResponseError` with status
-  401/403 instead. The two are disjoint, and one `catch` arm cannot absorb the other. A token endpoint
-  that answers with an error status surfaces as `AuthError` with that `ResponseError` on `.cause`.
+- **`AuthError` means a credential could not be obtained** — the token request failed, every
+  configured branch of an alternatives requirement failed, PKCE was disabled without a secret, or your
+  `promptForAuthorizationCode` rejected. Being *refused* a credential by the API is an `ApiError` with
+  status 401/403 instead, so one `catch` arm cannot absorb the other. A token endpoint that answers with
+  an error status surfaces as `AuthError` with that `ApiError` on `.cause`; an alternatives requirement
+  whose every branch failed carries an `AggregateError` there, holding each branch's failure.
 - Credentials never appear in a thrown error's message.
 - **A token endpoint may live on a different server group than the operations.** Overriding
   `serverOptions.default.{environment}.baseUrl` therefore does not move the token request — override

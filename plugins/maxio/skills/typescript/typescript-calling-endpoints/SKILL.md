@@ -47,7 +47,8 @@ Every operation has the same shape, with no positional overload and no sync vari
 - **There is exactly one request parameter**, and it is **not optional** — even when every field on it
   is. An all-optional request still needs `{}` passed explicitly.
 - **`options` is on every generated operation**, always last, always optional. It is
-  `RequestOptions` = `{ signal?: AbortSignal }` and nothing else — see [Cancellation](#cancellation).
+  `RequestOptions` = `{ signal?: AbortSignal; retry?: RequestRetryOptions }` and nothing else — see
+  [Cancellation and per-call retry](#cancellation-and-per-call-retry).
 - **An operation may declare no request parameter at all.** When every value the request carries is
   fixed by the spec, the generator emits no parameter and exports no request type, and `options` moves
   into first position. Check the **Signature** bullet before passing `{}` — it will not type-check
@@ -122,17 +123,38 @@ const request: {Resource}.{Operation}Request = { /* ... */ };
 
 ## Building request models
 
-**Only a JSON- or text-bodied operation has a `body` field.** Where the API declares an
-`application/x-www-form-urlencoded` request, the generator emits the parts as **individual flat request
-fields** alongside the path and query ones and assembles the form itself — there is no nested body
-object to construct and no `body` field to pass. The operation's **Request body** bullet says which
-you are looking at; the signature settles it.
+**A JSON, text or binary operation has a `body` field.** Where the API declares an
+`application/x-www-form-urlencoded` or `multipart/form-data` request, the generator emits the parts as
+**individual flat request fields** alongside the path and query ones and assembles the form itself —
+there is no nested body object to construct and no `body` field to pass. The operation's **Request
+body** bullet says which you are looking at; the signature settles it.
 
-The runtime carries exactly four request-body shapes: **empty, JSON, form-urlencoded and text**. A
-**multipart, binary or XML** body has no carrier, so the operation is still emitted but **degrades to
-no body field at all** — there is nothing to supply the payload through, and the request goes out with
-no body. Its **Request body** bullet reads `none` in that case. If you need such an endpoint, call it
+The runtime carries six request-body shapes: **empty, JSON, form-urlencoded, text, multipart and
+binary**. An **XML** body has no carrier, so the operation is still emitted but **degrades to no body
+field at all** — there is nothing to supply the payload through, and the request goes out with no
+body. Its **Request body** bullet reads `none` in that case. If you need such an endpoint, call it
 with `fetch` directly; the SDK cannot send it.
+
+**A file field takes bytes, not a path.** Every binary `body` field and every multipart file field is
+typed `FileInput`, which is a `Blob`, a `Uint8Array`, an `ArrayBuffer`, a `ReadableStream` of bytes,
+any async iterable of them — which is what a Node `Readable` is — or a `{ data, fileName?,
+contentType? }` wrapper around one. A filesystem path is **not** a file body: open it with
+`createReadStream(path)` to stream it, or `await openAsBlob(path)` to send it with a
+`Content-Length`. A field declared as an array of files takes `FileInput[]`, and the SDK sends one
+part per element under the shared field name; an empty array sends no part at all.
+
+Nothing about a file is schema-checked, so a wrong value throws at the call rather than rejecting on
+the wire. The media type the SDK declares is a fallback: a `contentType` on the wrapper, or a
+non-empty `Blob.type`, overrides it. A file name is yours or absent — the SDK never invents one, and a
+part with no file name is read as an ordinary text field by many servers, so name a file you upload.
+
+**A binary response is a handle, not a value.** Such an operation resolves to a `BinaryContent`:
+`stream`, `contentType`, and a `fileName` parsed from `Content-Disposition` where the server sent one.
+Read the stream exactly once — `new Response(file.stream)` to buffer it, a reader or `for await` to
+stream it — or release it with `await file.stream.cancel()` if you decide not to. No timeout covers
+the read, so an unread stream holds the connection until you read it, cancel it or abort the call's
+`signal`. A server-chosen file
+name is untrusted input: sanitise it before writing to disk.
 
 For the JSON case, the `body` field's type is a generated model — a plain object literal, no builders.
 Required members must be set; optional ones are omitted from the JSON when left `undefined`. Take the
@@ -173,7 +195,8 @@ Read the `Default` column **before** concluding the API dropped data — it was 
 ### Every value is validated before anything is sent
 
 Each field is schema-encoded on the way out. A wrong type or a malformed format (a bad date string,
-say) throws `SchemaError` and **nothing is sent** — no request reaches the network. That is an error in
+say) rejects with an `EncodeError` — its `cause` the `SchemaError` naming the field — and **nothing is
+sent**: no request reaches the network. That is an error in
 your code, not an API failure; see **typescript-error-handling**.
 
 ## Enums
@@ -221,29 +244,33 @@ const outcome = await client.{resource}.{operation}({ /* ... */ }).asApiResult()
 if (outcome.ok) {
   console.log(outcome.status, outcome.headers.get("x-request-id"), outcome.value);
 } else {
-  console.log(outcome.status, outcome.errorMessage, outcome.error);   // error is the PAYLOAD
+  console.log(outcome.status, outcome.message, outcome.payload);   // the error's members, not the error
 }
 ```
 
 ```ts
 type ApiResult<T, E> =
   | { ok: true;  status: number; headers: Headers; value: T }
-  | { ok: false; status: number; headers: Headers; errorMessage: string; error: PayloadOf<E> };
+  | { ok: false; status: number; headers: Headers; message: string; method: HttpMethod; uri: string;
+      payload: PayloadOf<E> };
 ```
 
-Four things to know:
+Five things to know:
 
 - **`.asApiResult()` must be called on the value the operation returned.** `ApiPromise` overrides
   `Symbol.species`, so `.then()`, `.catch()` and `.finally()` hand back a plain `Promise` and the
   method is gone. `op(...).then(x => x).asApiResult()` does not compile.
-- **`.asApiResult()` still rejects for transport-level failures** — a connection error, timeout, abort
-  or schema failure. It converts only the *HTTP error status* branch into a value, so it still needs a
+- **`.asApiResult()` still rejects for every other failure** — a body that would not decode, a value that
+  would not encode, a connection error, a timeout, a credential that could not be obtained, or a caller
+  abort. It converts only the *HTTP error status* branch into a value, so it still needs a
   `try`/`catch` around it.
-- **On failure, `outcome.error` is the payload, not the error object.** The `ResponseError` instance is
-  not reachable through this path.
-- **An `ApiPromise` attaches a no-op `catch` to itself at construction**, so a call you never await
-  raises no unhandled-rejection warning. Fire-and-forget is therefore silent — never start a call you
-  do not consume.
+- **On failure, `outcome` carries the error's own members, not the error object** — `status`,
+  `headers`, `message`, `method`, `uri` and `payload` — so `outcome.payload.kind` narrows exactly as
+  `err.payload.kind` would. The `ApiError` instance is not reachable through this path.
+- **Nothing suppresses an unhandled rejection.** A call you never await that fails is reported by the
+  runtime — `unhandledRejection` on Node, which by default ends the process. `.asApiResult()` marks the
+  promise handled as its first act, so call it on the returned value in the same turn, and never start
+  a call you do not consume.
 - **Both paths read one underlying outcome**, so awaiting an `ApiPromise` *and* calling
   `.asApiResult()` on it issues no second request. The request goes out when the operation is called,
   not when you await it — which also means a call you build and hold has already been sent.
@@ -263,7 +290,7 @@ you will meet are:
   the file under `src/models/` where you read its shape; the map does not duplicate it.
 - **A primitive** — a `text/plain` body decoded by the plain-text scalar decoder, not by a model.
 - **`undefined`** — the operation's success response has no body. That is a real value, not a mistake:
-  the decoder asserts the body is empty, and a non-empty one raises `SchemaError`.
+  the decoder asserts the body is empty, and a non-empty one rejects with `DecodeError`.
 
 **On an `undefined` operation, resolving *is* the success signal.** Do not bind the value and do not
 test it — success is "did not reject", exactly as for the others. Two follow-ons: if you need the
@@ -273,16 +300,29 @@ resulting state, re-read it with a separate call; and if you need to tell a `200
 Endpoints in the same family can differ, so let each operation's own **Returns** bullet decide how you
 read it.
 
-## Cancellation
+## Cancellation and per-call retry
 
 `RequestOptions` is the entire per-call surface:
 
 ```ts
-type RequestOptions = { signal?: AbortSignal };
+type RequestOptions = {
+  signal?: AbortSignal;
+  retry?: RequestRetryOptions;   // Pick<RetryOptions, "maxRetries" | "timeout" | "statusCodesToRetry">
+};
 ```
 
-There is **no** per-call timeout, header, base URL, retry or auth override — those belong on
-`ClientOptions` at construction (**typescript-client-initialization**).
+`retry` overrides three fields of the client's retry policy for this call alone, field by field — a
+field you leave out keeps the client's value:
+
+```ts
+await client.{resource}.{operation}({ /* ... */ }, { retry: { maxRetries: 0 } });    // one attempt
+await client.{resource}.{operation}({ /* ... */ }, { retry: { timeout: 5_000 } });   // 5 s per attempt
+```
+
+There is **no** per-call header, base URL or auth override, and the type admits no other retry field
+(though the runtime honours one it is handed) — those belong on
+`ClientOptions` at construction (**typescript-client-initialization**), and the retry policy's other
+fields on `ClientOptions.retry` (**typescript-configuration-resilience**).
 
 ```ts
 const controller = new AbortController();
@@ -292,19 +332,24 @@ await client.{resource}.{operation}({ /* ... */ }, { signal: controller.signal }
 ```
 
 An already-aborted signal rejects immediately. See **typescript-configuration-resilience** for
-per-call timeouts and for combining signals.
+deadlines across a whole call and for combining signals.
 
 Three mechanics that decide how you catch the result:
 
-- **Your signal and the client-wide `timeout` race the same internal controller**, so a call ends on
-  whichever fires first. `timeout` is the client's, in milliseconds, and there is no per-call form of it
-  — a signal plus your own timer is how you bound one call.
-- **An abort rejects with the SDK's `AbortError`, and a timeout with `TimeoutError`** — not with the
-  reason you passed. Your `controller.abort(reason)` argument survives as the `AbortError`'s `cause`,
-  so read it there rather than expecting it at the top level.
-- **Neither is a `ResponseError`.** A `catch` that narrows on the response-error type — or on an
-  operation's declared error class — will **not** match an abort, a timeout or a connection failure.
-  See **typescript-error-handling** for narrowing that covers both families.
+- **Your signal and each attempt's `retry.timeout` race the same internal controller**, so an
+  attempt ends on whichever fires first. `retry.timeout` bounds **one attempt**, in milliseconds, even
+  when set per call — an idempotent call that keeps failing gets up to four of them, plus backoff — so
+  a signal plus your own timer is how you bound the whole call. An abort also cuts a backoff wait short,
+  and is never retried.
+- **An abort rejects with the signal's own `reason`, unwrapped, and a timeout with `TimeoutError`**
+  once no retry is left.
+  Whatever you passed to `controller.abort(reason)` — or the `DOMException` a bare `abort()` supplies —
+  is what the call rejects with, so it is **not** an `{Api}Error`; the timeout is the SDK's own and
+  stays in the family.
+- **Neither is an `ApiError`.** A `catch` that narrows on `ApiError` — or on an operation's declared
+  error class — will **not** match an abort, a timeout or a connection failure. See
+  **typescript-error-handling** for a ladder over the whole family, and for rethrowing what is outside
+  it.
 
 ## Concurrency
 
@@ -320,8 +365,10 @@ const [a, b] = await Promise.all([
 ```
 
 **Bound it once the list is data rather than two literals.** `Promise.all` over an array opens as many
-simultaneous requests as the array is long, against a provider that rate-limits — and since the SDK
-performs **no retries**, the 429s that come back are lost calls, not delayed ones. Cap the width:
+simultaneous requests as the array is long, against a provider that rate-limits. The SDK retries a
+`429` on an idempotent call, honouring `Retry-After`, but every one of those calls then retries after
+a similar wait — jitter spreads them by a quarter at most — keeping the pressure on, and a write
+outside the retry gate simply fails. Cap the width:
 
 ```ts
 async function mapLimit<T, R>(items: T[], limit: number, fn: (item: T) => Promise<R>): Promise<R[]> {
@@ -347,7 +394,7 @@ returns a page, advance its page or cursor field yourself in a loop — see
 ```ts
 // Signature (illustrative — take the real one from map/operations/{resource}.md):
 //   {operation}(request: {Resource}.{Operation}Request, options?: RequestOptions):
-//     ApiPromise<{Model}, ResponseError>
+//     ApiPromise<{Model}, ApiError>
 //
 // Fields:  collectionId  path   string   yes
 //          status        query  {Enum}   no
@@ -367,7 +414,7 @@ const outcome = await client.{resource}.{operation}(
 ).asApiResult();
 
 if (!outcome.ok) {
-  console.error(outcome.status, outcome.errorMessage, outcome.error);
+  console.error(outcome.status, outcome.message, outcome.payload);
 } else {
   for (const item of outcome.value.{items}) {
     console.log(item.id);
@@ -383,4 +430,4 @@ if (!outcome.ok) {
 
 - Build bodies, unions, collections, dates, enums → **typescript-models**
 - Errors and status codes → **typescript-error-handling**
-- Timeouts, retries, logging, base URL, paging → **typescript-configuration-resilience**
+- Timeouts, the retry policy, logging, base URL, paging → **typescript-configuration-resilience**

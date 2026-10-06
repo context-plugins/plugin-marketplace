@@ -1,11 +1,11 @@
 ---
 name: "typescript-getting-started"
-description: "Maxio Advanced Billing TypeScript SDK identity and lookup layer (TypeScript/JavaScript only) — install, the single import specifier `maxio-advanced-billing`, the server environments and the base-URL knob, the auth pattern, the SDK map that ships inside the installed package (`sdk-map.md` + `map/operations/`) and how to traverse it, and the file table naming the one source file owning each fact the map leaves to the source. Load this before answering any Maxio Advanced Billing TypeScript SDK contract question or writing any SDK code."
+description: "Maxio TypeScript SDK identity and lookup layer (TypeScript/JavaScript only) — install, the single import specifier `maxio`, the server environments and the base-URL knob, the auth pattern, the SDK map that ships inside the installed package (`sdk-map.md` + `map/operations/`) and how to traverse it, and the file table naming the one source file owning each fact the map leaves to the source. Load this before answering any Maxio TypeScript SDK contract question or writing any SDK code."
 ---
 
-# Getting started with the Maxio Advanced Billing TypeScript SDK
+# Getting started with the Maxio TypeScript SDK
 
-> **Who this skill is for.** This is the **lookup layer** for anyone writing Maxio Advanced Billing TypeScript SDK code — it is yours to follow directly and fully. Ground every contract fact here (in the SDK map, and in the source files it names) rather than in recall, and carry those facts onto a contract sheet before you implement. Load `typescript-integrate-maxio` for the workflow that wraps this skill.
+> **Who this skill is for.** This is the **lookup layer** for anyone writing Maxio TypeScript SDK code — it is yours to follow directly and fully. Ground every contract fact here (in the SDK map, and in the source files it names) rather than in recall, and carry those facts onto a contract sheet before you implement. Load `typescript-integrate-maxio` for the workflow that wraps this skill.
 
 This is the **SDK-specific** entry point. For general patterns that apply to any APIMatic-generated TypeScript SDK (client construction, auth, calling endpoints, models, error handling, resilience, testing), see the companion API-agnostic skills: `typescript-client-initialization`, `typescript-authentication`, `typescript-calling-endpoints`, `typescript-models`, `typescript-error-handling`, `typescript-configuration-resilience` and `typescript-testing`.
 
@@ -13,54 +13,55 @@ This is the **SDK-specific** entry point. For general patterns that apply to any
 
 ## SDK identity
 
-Verified against `package.json` and `sdk-map.md` of the generated package at version `1.0`. **Re-verify after a version bump** — this page is a snapshot, not a live read.
+Verified against `package.json` and `sdk-map.md` of the generated package at version `1.0.0`. **Re-verify after a version bump** — this page is a snapshot, not a live read.
 
 | Fact | Value |
 | --- | --- |
-| API | Maxio Advanced Billing |
-| Package name (what you install, and what you import) | `maxio-advanced-billing` — **not on npm**; built from source (see *Install*) |
-| Import specifier | `maxio-advanced-billing` — the package root is the **only** entry; deep imports do not resolve |
-| Version | `1.0` (API spec version `1.0`) |
-| Client class | `MaxioAdvancedBillingClient` (`src/client.ts`) — one class, no sync/async split |
-| Options type | `ClientOptions`, with `DEFAULT_CLIENT_OPTIONS` beside it (`src/client-options.ts`) |
-| Client construction | `new MaxioAdvancedBillingClient(clientOptions: Partial<ClientOptions> = {})` — **every** field is optional, so `new MaxioAdvancedBillingClient()` compiles. Fields: `serverEnvironment` · `serverOptions` · `timeout` · `fetch` · `basicAuth` · `bearerAuth`. `timeout` defaults to `60_000` ms |
-| Auth | **HTTP Basic** — set `ClientOptions.basicAuth`<br>**Bearer token** — set `ClientOptions.bearerAuth` |
-| Environments | 3 environments (`ServerEnvironment.Us` *(default)*, `ServerEnvironment.Eu`, `ServerEnvironment.MaxioApiGateway`) × 3 server groups |
-| Base-URL config | `serverOptions.<group>.<environment>.baseUrl` (`src/servers.ts`) |
-| Node floor | `>=20` (`engines.node`) |
+| API | Maxio |
+| Package name (what you install, and what you import) | `maxio` — **not on npm**; built from source (see *Install*) |
+| Import specifier | `maxio` — the package root is the **only** entry; deep imports do not resolve |
+| Source repository | https://github.com/context-plugins/maxio-typescript-sdk (branch `main` — the ref this map documents) |
+| Version | `1.0.0` (API spec version `1.0`) |
+| Client class | `MaxioClient` (`src/client.ts`) — one class, no sync/async split |
+| Options type | `ClientOptions` (`src/client-options.ts`) — types only, no resolver beside it |
+| Client construction | `new MaxioClient(options: ClientOptions = {})` — the argument is optional, as is **every** field on it, so `new MaxioClient()` compiles. Fields: `serverEnvironment` · `serverOptions` · `retry` · `fetch` · `basicAuth`. `retry` is the `RetryOptions` policy; its defaults retry a GET, HEAD, PUT or OPTIONS call up to `3` times and bound each attempt by `retry.timeout` = `60_000` ms, and every one of them can be changed |
+| Auth | **HTTP Basic** — set `ClientOptions.basicAuth` |
+| Environments | 2 environments (`ServerEnvironment.Us` *(default)*, `ServerEnvironment.Eu`) × 2 server groups |
+| Base-URL config | `serverOptions.<group>.baseUrl` (`src/servers.ts`) |
+| Node floor | `>=20.3` (`engines.node`) |
 | Runtime dependency | `zod` (`^3.25.0 \|\| ^4.0.0`), imported as `zod/v4-mini` — the only one |
 | Module format | dual ESM + CommonJS folder dialects (`dist/esm`, `dist/commonjs`) behind one export |
 | Typing | the package ships its own `.d.ts` and is generated under strict TypeScript. Callers get full inference — **a type error against this SDK is a real contract violation, not noise** |
-| Surface | 250 operations · 34 resources · 563 models · 98 open enums · 90 unions · 166 per-operation error subclasses |
+| Surface | 268 operations · 37 resources · 576 models · 113 open enums · 97 unions · 184 per-operation error subclasses |
 
 The table above is **orientation, not a copy-paste recipe** — it gives you the names and facts (install, import specifier, the auth *pattern*, the base-URL knob), while the actual integration code comes from the companion skills. Load each one as you reach its step (see **Integration workflow** below) and confirm its types against the installed package.
 
 ## Install
 
-This SDK is not published to npm, so the install comes straight from the repository the plugin records for it:
+Install the package straight from the repository the plugin records for it, as it is not published to npm:
 
 ```bash
 npm install git+https://github.com/context-plugins/maxio-typescript-sdk#main
 ```
 
-That fetches everything the package's `files` list packs — `src/`, `sdk-map.md` and the pages under `map/operations/` — so **every lookup on this page works as soon as the install finishes**. **Make sure the installed package is built**, as the source on GitHub is not pre-built.
+The installed package carries everything its `files` list packs — `src/`, `sdk-map.md` and the pages under `map/operations/` — so **every lookup on this page works as soon as the install finishes**. **Make sure the installed package is built**, as the source on GitHub is not pre-built.
 
-Do not vendor its `src/` into your project, point `tsconfig` `paths` at a throwaway clone, or import from `dist/` directly. Installing the package properly is what makes the `exports` map, the shipped `.d.ts` chain and the dual-dialect resolution behave the way the SDK expects — **and it is what puts the SDK map inside `node_modules`, which is where every lookup below reads it from**. Requires Node `>=20` (`engines.node`).
+Do not vendor its `src/` into your project, point `tsconfig` `paths` at a throwaway clone, or import from `dist/` directly. Installing the package properly is what makes the `exports` map, the shipped `.d.ts` chain and the dual-dialect resolution behave the way the SDK expects — **and it is what puts the SDK map inside `node_modules`, which is where every lookup below reads it from**. Requires Node `>=20.3` (`engines.node`).
 
 ## Imports — one entry, and only one
 
-**Every** public name is re-exported from the package root — the client, `ClientOptions`, `ServerEnvironment`, 751 model types with the schema value beside each, the error classes, and the runtime types (`ApiPromise`, `ApiResult`, `RequestOptions`, `ErrorPayload`, `Declared`, `Schema`, `EnumSchema`, `Encoded`).
+**Every** public name is re-exported from the package root — the client, `ClientOptions`, `ServerEnvironment`, 786 model types with the schema value beside each, the error classes, and the runtime types (`ApiPromise`, `ApiResult`, `RequestOptions`, `RetryOptions`, `RequestRetryOptions`, `ErrorPayload`, `Declared`, `Schema`, `EnumSchema`, `Encoded`).
 
 ```ts
-import { MaxioAdvancedBillingClient, ServerEnvironment, ResponseError, MaxioAdvancedBillingError } from "maxio-advanced-billing";
-import type { ClientOptions, AchAgreement } from "maxio-advanced-billing";
+import { MaxioClient, ServerEnvironment, ApiError, MaxioError } from "maxio";
+import type { ClientOptions, AchAgreement } from "maxio";
 ```
 
 Things the specifier alone will not tell you:
 
-- **Deep imports do not resolve.** The `exports` map exposes `.` and `./package.json` and nothing else, so `maxio-advanced-billing/models/…` fails (`TS2307`) even though the file exists in the shipped `src/`. Every `Source` path on the SDK map is where to **read** a shape, never what to import.
-- **⚠ The SDK exports a model type literally named `Event`** (`src/models/event.ts`, schema `eventSchema`). Import it unaliased and it **shadows the global `Event`** for the rest of the file. Alias it: `import type { Event as SdkEvent } from "maxio-advanced-billing"`.
-- **From CommonJS**, the typed spelling is `import sdk = require("maxio-advanced-billing")`. A plain `require` destructure runs but yields `any`.
+- **Deep imports do not resolve.** The `exports` map exposes `.` and `./package.json` and nothing else, so `maxio/models/…` fails (`TS2307`) even though the file exists in the shipped `src/`. Every `Source` path on the SDK map is where to **read** a shape, never what to import.
+- **⚠ The SDK exports a model type literally named `Event`** (`src/models/event.ts`, schema `eventSchema`). Import it unaliased and it **shadows the global `Event`** for the rest of the file. Alias it: `import type { Event as SdkEvent } from "maxio"`.
+- **From CommonJS**, the typed spelling is `import sdk = require("maxio")`. A plain `require` destructure runs but yields `any`.
 - **`instanceof` is reliable within one dialect.** A process that loads both (`import` in one file, `require` in another) gets two independent copies of every error class, and `instanceof` across that boundary is `false` — narrow on `err.kind` / `err.payload.kind` / `err.name` there.
 
 Under `verbatimModuleSyntax`, names carrying no runtime value (`ClientOptions`, every model type) must be imported with `import type`. Under `exactOptionalPropertyTypes`, **omit or spread** an absent optional field rather than assigning `undefined` to it.
@@ -71,36 +72,29 @@ Under `verbatimModuleSyntax`, names carrying no runtime value (`ClientOptions`, 
 
 | Group | Environment | Base URL | Override at |
 | --- | --- | --- | --- |
-| `production` | `us` *(default)* | `https://{site}.chargify.com` | `serverOptions.production.us.baseUrl` |
-| `production` | `eu` | `https://{site}.ebilling.maxio.com` | `serverOptions.production.eu.baseUrl` |
-| `production` | `maxioApiGateway` | `https://{connector}.api.maxio.com/api/v1/billing` | `serverOptions.production.maxioApiGateway.baseUrl` |
-| `ebb` | `us` *(default)* | `https://events.chargify.com/{site}` | `serverOptions.ebb.us.baseUrl` |
-| `ebb` | `eu` | `https://events.chargify.com/{site}` | `serverOptions.ebb.eu.baseUrl` |
-| `ebb` | `maxioApiGateway` | `https://events.chargify.com/{site}` | `serverOptions.ebb.maxioApiGateway.baseUrl` |
-| `oauth` | `us` *(default)* | `https://{connector}.api.maxio.com` | `serverOptions.oauth.us.baseUrl` |
-| `oauth` | `eu` | `https://{connector}.api.maxio.com` | `serverOptions.oauth.eu.baseUrl` |
-| `oauth` | `maxioApiGateway` | `https://{connector}.api.maxio.com` | `serverOptions.oauth.maxioApiGateway.baseUrl` |
+| `production` | `us` *(default)* | `https://{site}.chargify.com` | `serverOptions.production.baseUrl` |
+| `production` | `eu` | `https://{site}.ebilling.maxio.com` | `serverOptions.production.baseUrl` |
+| `ebb` | `us` *(default)* | `https://events.chargify.com/{site}` | `serverOptions.ebb.baseUrl` |
+| `ebb` | `eu` | `https://events.chargify.com/{site}` | `serverOptions.ebb.baseUrl` |
 
 Consequences to state on every contract sheet that touches configuration:
 
 - Constructing the client with no options selects **`ServerEnvironment.Us`**, silently.
-- An override merges with the built-in default **per group-and-environment pair, key by key**; a `baseUrl` override replaces the template verbatim, template variable values are percent-encoded into it, and templates expand per request rather than once at construction.
+- An override merges with the built-in default **per group-and-environment pair, key by key**; a `baseUrl` override replaces the template verbatim, template variable values are percent-encoded into it; server variables are filled in once, as the client is built, and only the path parameters expand per request.
 - Each operation is bound to one server group at generation time. A map block carries a **Server** bullet only when its group is not `production`.
-- An environment value the SDK does not know throws `SdkError` **synchronously out of the operation method** at the first call — not at construction — so `try`/`await` catches it but `.asApiResult()` and `.catch()` never see it.
+- An environment value the SDK does not know throws `ConfigurationError` **from the constructor** — every server group is resolved once, as the client is built — so no operation method throws synchronously.
 
-## Auth pattern (2 schemes)
+## Auth pattern (1 scheme)
 
-Authentication is **per operation**: every operation declares the requirement it enforces and the SDK sends exactly that. Each block on a map page carries an **Auth** bullet, `none` included. There is no client-global switch and no per-call override. 249 of the 250 operations require a credential and 1 is public.
+Authentication is **per operation**: every operation declares the requirement it enforces and the SDK sends exactly that. Each block on a map page carries an **Auth** bullet, `none` included. There is no client-global switch and no per-call override. 268 of the 268 operations require a credential and 0 are public.
 
 | `ClientOptions` field | Scheme kind | What the SDK sends |
 | --- | --- | --- |
 | `basicAuth` | HTTP Basic | `Authorization: Basic <base64 of username:password>` |
-| `bearerAuth` | Bearer token | `Authorization: Bearer <token>` |
 
 ```ts
-const client = new MaxioAdvancedBillingClient({
+const client = new MaxioClient({
   basicAuth: { username: process.env.API_USERNAME!, password: process.env.API_PASSWORD! },
-  bearerAuth: process.env.API_TOKEN!,
 });
 ```
 
@@ -110,7 +104,7 @@ Three more behaviours the type does not show:
 
 - **A credential may be a function.** Every field typed `TokenProvider` is re-read on **every** request with no caching, so a key can rotate without rebuilding the client. An empty string counts as absent; a function counts as present without being invoked.
 - **Composition is emitted, not configured.** Where the spec puts two schemes in one requirement the SDK sends **both**; where it lists alternatives it sends the **first configured** one, in the order the **Auth** bullet prints them.
-- **A 401 invalidates, it does not retry.** On a 401 (401 only, not 403) the SDK clears whatever that operation's scheme had cached, so the *next* call re-acquires; the current request still rejects.
+- **A 401 invalidates the cached credential.** On a 401 (401 only, not 403) the SDK clears whatever that operation's scheme had cached, so the *next* call re-acquires; the current request still rejects.
 
 See `typescript-authentication` for the full picture.
 
@@ -120,22 +114,25 @@ Resources are **memoized lazy getters** on the client (`client.<attr>`). Their c
 
 | Attribute | Class | Ops | Operations |
 | --- | --- | --- | --- |
-| `client.maxioGateway` | `MaxioGateway` | 1 | `requestAccessToken` |
 | `client.apiExports` | `ApiExports` | 9 | `exportInvoices` · `exportProformaInvoices` · `exportSubscriptions` · `listExportedInvoices` · `listExportedProformaInvoices` · `listExportedSubscriptions` · `readInvoicesExport` · `readProformaInvoicesExport` · `readSubscriptionsExport` |
 | `client.advanceInvoice` | `AdvanceInvoice` | 3 | `issueAdvanceInvoice` · `readAdvanceInvoice` · `voidAdvanceInvoice` |
 | `client.billingPortal` | `BillingPortal` | 4 | `enableBillingPortalForCustomer` · `readBillingPortalLink` · `resendBillingPortalInvitation` · `revokeBillingPortalAccess` |
 | `client.coupons` | `Coupons` | 14 | `archiveCoupon` · `createCoupon` · `createCouponSubcodes` · `createOrUpdateCouponCurrencyPrices` · `deleteCouponSubcode` · `findCoupon` · `listCouponSubcodes` · `listCoupons` · `listCouponsForProductFamily` · `readCoupon` · `readCouponUsage` · `updateCoupon` · `updateCouponSubcodes` · `validateCoupon` |
+| `client.componentFeatures` | `ComponentFeatures` | 6 | `createComponentFeature` · `listComponentFeatures` · `readComponentFeature` · `removeComponentFeature` · `restoreComponentFeature` · `updateComponentFeature` |
 | `client.components` | `Components` | 12 | `archiveComponent` · `createEventBasedComponent` · `createMeteredComponent` · `createOnOffComponent` · `createPrepaidUsageComponent` · `createQuantityBasedComponent` · `findComponent` · `listComponents` · `listComponentsForProductFamily` · `readComponent` · `updateComponent` · `updateProductFamilyComponent` |
 | `client.componentPricePoints` | `ComponentPricePoints` | 12 | `archiveComponentPricePoint` · `bulkCreateComponentPricePoints` · `cloneComponentPricePoint` · `createComponentPricePoint` · `createCurrencyPrices` · `listAllComponentPricePoints` · `listComponentPricePoints` · `promoteComponentPricePointToDefault` · `readComponentPricePoint` · `unarchiveComponentPricePoint` · `updateComponentPricePoint` · `updateCurrencyPrices` |
 | `client.customers` | `Customers` | 7 | `createCustomer` · `deleteCustomer` · `listCustomerSubscriptions` · `listCustomers` · `readCustomer` · `readCustomerByReference` · `updateCustomer` |
 | `client.customFields` | `CustomFields` | 9 | `createMetadata` · `createMetafields` · `deleteMetadata` · `deleteMetafield` · `listMetadata` · `listMetadataForResourceType` · `listMetafields` · `updateMetadata` · `updateMetafield` |
+| `client.entitlements` | `Entitlements` | 1 | `readSubscriptionEntitlements` |
 | `client.events` | `Events` | 3 | `listEvents` · `listSubscriptionEvents` · `readEventsCount` |
 | `client.eventsBasedBillingSegments` | `EventsBasedBillingSegments` | 6 | `bulkCreateSegments` · `bulkUpdateSegments` · `createSegment` · `deleteSegment` · `listSegmentsForPricePoint` · `updateSegment` |
+| `client.featureTemplates` | `FeatureTemplates` | 6 | `archiveFeatureTemplate` · `createFeatureTemplate` · `listFeatureTemplates` · `readFeatureTemplate` · `restoreFeatureTemplate` · `updateFeatureTemplate` |
 | `client.insights` | `Insights` | 4 | `listMrrMovements` · `listMrrPerSubscription` · `readMrr` · `readSiteStats` |
 | `client.invoices` | `Invoices` | 19 | `createInvoice` · `deleteInvoice` · `issueInvoice` · `listConsolidatedInvoiceSegments` · `listCreditNotes` · `listInvoiceEvents` · `listInvoices` · `previewCustomerInformationChanges` · `readCreditNote` · `readInvoice` · `recordPaymentForInvoice` · `recordPaymentForMultipleInvoices` · `recordPaymentForSubscription` · `refundInvoice` · `reopenInvoice` · `sendInvoice` · `updateCustomerInformation` · `updateInvoice` · `voidInvoice` |
 | `client.offers` | `Offers` | 5 | `archiveOffer` · `createOffer` · `listOffers` · `readOffer` · `unarchiveOffer` |
 | `client.paymentProfiles` | `PaymentProfiles` | 12 | `changeSubscriptionDefaultPaymentProfile` · `changeSubscriptionGroupDefaultPaymentProfile` · `createPaymentProfile` · `deleteSubscriptionGroupPaymentProfile` · `deleteSubscriptionsPaymentProfile` · `deleteUnusedPaymentProfile` · `listPaymentProfiles` · `readOneTimeToken` · `readPaymentProfile` · `sendRequestUpdatePaymentEmail` · `updatePaymentProfile` · `verifyBankAccount` |
 | `client.productFamilies` | `ProductFamilies` | 4 | `createProductFamily` · `listProductFamilies` · `listProductsForProductFamily` · `readProductFamily` |
+| `client.productFeatures` | `ProductFeatures` | 6 | `createProductFeature` · `listProductFeatures` · `readProductFeature` · `removeProductFeature` · `restoreProductFeature` · `updateProductFeature` |
 | `client.products` | `Products` | 6 | `archiveProduct` · `createProduct` · `listProducts` · `readProduct` · `readProductByHandle` · `updateProduct` |
 | `client.productPricePoints` | `ProductPricePoints` | 11 | `archiveProductPricePoint` · `bulkCreateProductPricePoints` · `createProductCurrencyPrices` · `createProductPricePoint` · `listAllProductPricePoints` · `listProductPricePoints` · `promoteProductPricePointToDefault` · `readProductPricePoint` · `unarchiveProductPricePoint` · `updateProductCurrencyPrices` · `updateProductPricePoint` |
 | `client.proformaInvoices` | `ProformaInvoices` | 10 | `createConsolidatedProformaInvoice` · `createProformaInvoice` · `createSignupProformaInvoice` · `deliverProformaInvoice` · `listProformaInvoices` · `listSubscriptionGroupProformaInvoices` · `previewProformaInvoice` · `previewSignupProformaInvoice` · `readProformaInvoice` · `voidProformaInvoice` |
@@ -155,26 +152,26 @@ Resources are **memoized lazy getters** on the client (`client.<attr>`). Their c
 | `client.subscriptionStatus` | `SubscriptionStatus` | 10 | `cancelDelayedCancellation` · `cancelDunning` · `cancelSubscription` · `initiateDelayedCancellation` · `pauseSubscription` · `previewRenewal` · `reactivateSubscription` · `resumeSubscription` · `retrySubscription` · `updateAutomaticSubscriptionResumption` |
 | `client.webhooks` | `Webhooks` | 6 | `createEndpoint` · `enableWebhooks` · `listEndpoints` · `listWebhooks` · `replayWebhooks` · `updateEndpoint` |
 
-Every operation has the same call shape — `op(request, options?)`, one **flat, channel-blind** request object first and `RequestOptions` (`{ signal }`) second — and returns `ApiPromise<T, E>`.
+Every operation has the same call shape — `op(request, options?)`, one **flat, channel-blind** request object first and `RequestOptions` (`{ signal, retry }`) second — and returns `ApiPromise<T, E>`.
 
-⚠ **The request type name is not uniformly `<Operation>Request`.** 47 operations take `<Operation>RequestParams` instead: `issueAdvanceInvoice`, `updateComponent`, `cloneComponentPricePoint`, `createComponentPricePoint`, `createCurrencyPrices`, `updateComponentPricePoint`, `updateCurrencyPrices`, `createCustomer`, `updateCustomer`, `createMetadata`, `createMetafields`, `updateMetadata`, `createSegment`, `updateSegment`, `createInvoice`, `issueInvoice`, `refundInvoice`, `sendInvoice`, `updateInvoice`, `voidInvoice`, `createOffer`, `createPaymentProfile`, `updatePaymentProfile`, `createProductFamily`, `bulkCreateProductPricePoints`, `createProductCurrencyPrices`, `createProductPricePoint`, `updateProductPricePoint`, `deliverProformaInvoice`, `createReasonCode`, `updateReasonCode`, `activateSubscription`, `createSubscription`, `overrideSubscription`, `updateSubscription`, `createUsage`, `previewAllocations`, `createSubscriptionGroup`, `reactivateSubscriptionGroup`, `createPrepayment`, `deductServiceCredit`, `issueServiceCredit`, `refundPrepayment`, `updateSubscriptionNote`, `reactivateSubscription`, `enableWebhooks`, `replayWebhooks`. Take the name from the operation's **Signature** bullet on its map page; never construct it from the method name.
+⚠ **The request type name is not uniformly `<Operation>Request`.** 49 operations take `<Operation>RequestParams` instead: `issueAdvanceInvoice`, `updateComponent`, `cloneComponentPricePoint`, `createComponentPricePoint`, `createCurrencyPrices`, `updateComponentPricePoint`, `updateCurrencyPrices`, `createCustomer`, `updateCustomer`, `createMetadata`, `createMetafields`, `updateMetadata`, `createSegment`, `updateSegment`, `createFeatureTemplate`, `updateFeatureTemplate`, `createInvoice`, `issueInvoice`, `refundInvoice`, `sendInvoice`, `updateInvoice`, `voidInvoice`, `createOffer`, `createPaymentProfile`, `updatePaymentProfile`, `createProductFamily`, `bulkCreateProductPricePoints`, `createProductCurrencyPrices`, `createProductPricePoint`, `updateProductPricePoint`, `deliverProformaInvoice`, `createReasonCode`, `updateReasonCode`, `activateSubscription`, `createSubscription`, `overrideSubscription`, `updateSubscription`, `createUsage`, `previewAllocations`, `createSubscriptionGroup`, `reactivateSubscriptionGroup`, `createPrepayment`, `deductServiceCredit`, `issueServiceCredit`, `refundPrepayment`, `updateSubscriptionNote`, `reactivateSubscription`, `enableWebhooks`, `replayWebhooks`. Take the name from the operation's **Signature** bullet on its map page; never construct it from the method name.
 
 ## SDK map — look up first, open the file second
 
 The SDK ships a generated map, and `package.json`'s `files` list includes it, so **installing the package gives you the map** — no clone is needed. It sits at the package root, the directory holding `package.json` and the `src/` tree:
 
-- **`sdk-map.md`** — the index: client construction with the full `ClientOptions` table, the *Not on this SDK* table, the two error families with `ApiResult` and `.asApiResult()`, wire serialization for every channel, **the full enum table with every member and its wire value**, servers and auth, runtime and packaging, and the link table into the operations pages.
+- **`sdk-map.md`** — the index: client construction with the full `ClientOptions` table, the *Not on this SDK* table, the one error family with `ApiResult` and `.asApiResult()`, wire serialization for every channel, **the full enum table with every member and its wire value**, servers and auth, runtime and packaging, and the link table into the operations pages.
 - **`map/operations/<resource>.md`** — one page per resource, one `###` block per operation, with bullets in the fixed order **Server**, **Signature**, **Wire** (verb and route), **Auth**, **Request body**, **SDK-sent**, **Returns**, **Error**, **Error arms** — then a **Fields** table giving every request field its channel, wire name, type, required flag and default, and a **Type sources** table naming the declaring file and schema value of every type the operation mentions.
 
 Locate the installed package before you rely on a lookup:
 
 ```bash
-node -e "console.log(require.resolve('maxio-advanced-billing/package.json'))"
+node -e "console.log(require.resolve('maxio/package.json'))"
 ```
 
-Failing that it is at `node_modules/maxio-advanced-billing/`. **If the package is not installed, there is no map and no source to read** — mark the fact `UNVERIFIED` and say what would settle it rather than answering from memory.
+Failing that it is at `node_modules/maxio/`. **If the resolve fails, or the directory it prints carries no `sdk-map.md`, the map is still in the SDK's own repository** — <https://github.com/context-plugins/maxio-typescript-sdk>, branch `main`. A registry id is a claim on a shared index rather than proof of identity, so it can resolve to an unrelated package or to a release predating the map; the repository is the copy that is this SDK by construction. Read it there, and if neither route yields a map, mark the fact `UNVERIFIED` and say what would settle it rather than answering from memory.
 
-Every `Source` path on the map is relative to that package root, so `src/models/<file>.ts` opens as written from there — the package ships its `src/` tree, so the path resolves inside `node_modules/maxio-advanced-billing/` exactly as the map writes it. An import specifier ending `.js` inside that source is the NodeNext spelling of the sibling `.ts` file.
+Every `Source` path on the map is relative to that package root, so `src/models/<file>.ts` opens as written from there — the package ships its `src/` tree, so the path resolves inside `node_modules/maxio/` exactly as the map writes it. An import specifier ending `.js` inside that source is the NodeNext spelling of the sibling `.ts` file.
 
 **The map is the locator; the source files are the shapes.** Read the map first — signatures, routes, request fields with their channels and defaults, return types, error arms, enum values, and which file declares a type are all answered there without opening a single `.ts` file. Then open the one file the map names for what it deliberately does not carry: a model's members, whether each is required, optional or nullable. The map says so itself — *"Shapes live only in the source … Do not derive the path from the type name."*
 
@@ -186,7 +183,7 @@ Every `Source` path on the map is relative to that package root, so `src/models/
 
 **Seven of these are map lookups — don't open a source file for them:** an operation's signature; its request fields with channel, wire name, required flag and default; its return type; its error subclass and the arms with the status each covers; the `ClientOptions` fields and their defaults; the environments, base URLs and auth wiring; **and every enum's members with their wire values**, which `sdk-map.md` tabulates in full.
 
-The table below covers everything else, and the full body behind a map row. Paths are relative to `node_modules/maxio-advanced-billing/`:
+The table below covers everything else, and the full body behind a map row. Paths are relative to `node_modules/maxio/`:
 
 | Question | File |
 | --- | --- |
@@ -194,13 +191,14 @@ The table below covers everything else, and the full body behind a map row. Path
 | The operation method body and the request it builds | `src/resources/<resource>.ts` |
 | The per-operation request and error types (merged namespace) | the `export namespace <Resource>` block at the foot of the same file |
 | Client construction, resource getters | `src/client.ts` |
-| `ClientOptions` fields and `DEFAULT_CLIENT_OPTIONS` | `src/client-options.ts` |
+| `ClientOptions` fields | `src/client-options.ts` |
 | Environments, base URLs, override merging | `src/servers.ts` |
 | Auth scheme wiring, token endpoint, credential placement | `src/auth-schemes.ts`, `src/core/auth/credentials.ts`, `src/core/auth/oauth2-strategies.ts` |
-| The transport: timeout clamp, `fetch` resolution, 401 invalidation, 2xx-vs-error split | `src/core/raw-client.ts` |
-| Error classes and `ErrorKind` | `src/core/errors.ts`, `src/core/response-error.ts` |
+| The transport: the attempt loop, `fetch` resolution, 401 invalidation, 2xx-vs-error split | `src/core/raw-client.ts` |
+| Error classes and `ErrorKind` | `src/core/errors.ts`, `src/core/api-error.ts` |
 | `ApiPromise`, `ApiResult`, `.asApiResult()`, the `Symbol.species` behaviour | `src/core/api-promise.ts` |
-| `RequestOptions` (it is `{ signal }` and nothing else) | `src/core/api-request.ts` |
+| `RequestOptions` (it is `{ signal, retry }` and nothing else) | `src/core/api-request.ts` |
+| `RetryOptions` and its defaults, `RequestRetryOptions`, backoff, `Retry-After`, `RetryAttempt` | `src/core/retry.ts` |
 | Schema decode/encode, `SchemaError`, `Encoded<T>` | `src/core/validation/schema-error.ts` and its directory |
 | Wire serialization per channel | `src/core/param-value.ts`, `src/core/url.ts`, `src/core/headers.ts`, `src/core/params.ts` |
 | What an operation *means* — field semantics, coupling rules | `api-reference.md` at the package root |
@@ -218,26 +216,27 @@ Keep lookups cheap — the rules that keep a session's context small:
 
 Before you write the code for each step, load the named companion skill — even if you have already read the relevant file. Each step calls out the trap the signature hides (in *parens*). A typical integration reaches them in this order:
 
-1. **Client construction & lifetime** — load **typescript-client-initialization** before you write `new MaxioAdvancedBillingClient(…)`. (*The signature won't tell you:* every option is optional, so a client built with no arguments compiles and talks to the default environment with no credential; the client must be **long-lived and app-scoped**, never rebuilt per request, because the resource getters live on it; there is no `close()` or `dispose()` — it owns no pool, only a `fetch`; and when no `fetch` is reachable the **constructor** throws `SdkError`, not the first call.)
-2. **Authentication** — load **typescript-authentication** before you set credentials. The 2 schemes are `basicAuth`, `bearerAuth` on `ClientOptions`. (*The signature won't tell you:* the field is optional — omit it and every request goes out unauthenticated with no failure at construction; and a 401 invalidates the cache without retrying the current call. Load secrets from the environment or a secret store, never hardcode.)
-3. **Calling an endpoint** — load **typescript-calling-endpoints** before the first `client.<resource>.<operation>(…)` call. (*The signature won't tell you:* the request object is **flat and channel-blind** — a field named `body` *is* the whole request body and every other field is fanned out to path, query or header by the SDK, so nothing is nested by channel; **an omitted field that has a default is still sent, with that default**; **29 operations resolve to `undefined`**; and `.asApiResult()` must be called on the value the operation returned, because `ApiPromise` overrides `Symbol.species` and `.then()`/`.catch()` hand back a plain `Promise` with the method gone.)
+1. **Client construction & lifetime** — load **typescript-client-initialization** before you write `new MaxioClient(…)`. (*The signature won't tell you:* every option is optional, so a client built with no arguments compiles and talks to the default environment with no credential; the client must be **long-lived and app-scoped**, never rebuilt per request, because the resource getters live on it; there is no `close()` or `dispose()` — it owns no pool, only a `fetch`; and when no `fetch` is reachable the **constructor** throws `ConfigurationError`, not the first call.)
+2. **Authentication** — load **typescript-authentication** before you set credentials. The scheme is `basicAuth` on `ClientOptions`. (*The signature won't tell you:* the field is optional — omit it and every request goes out unauthenticated with no failure at construction; and a 401 invalidates the cache without retrying the current call. Load secrets from the environment or a secret store, never hardcode.)
+3. **Calling an endpoint** — load **typescript-calling-endpoints** before the first `client.<resource>.<operation>(…)` call. (*The signature won't tell you:* the request object is **flat and channel-blind** — a field named `body` *is* the whole request body and every other field is fanned out to path, query or header by the SDK, so nothing is nested by channel; **an omitted field that has a default is still sent, with that default**; **32 operations resolve to `undefined`**; and `.asApiResult()` must be called on the value the operation returned, because `ApiPromise` overrides `Symbol.species` and `.then()`/`.catch()` hand back a plain `Promise` with the method gone.)
 4. **Models** — load **typescript-models** the moment a request/response member is not a plain string or number. (*The signature won't tell you:* models are plain `type`s built from object literals — no constructor, no builder; `f?: T` means omit the key, while `f: T | null` is **required and nullable** and `null` is a distinct value; enums are **open** (`const` companion plus a union admitting `(string & {})`), so the schema validates the base type only and an unknown server value round-trips instead of throwing — use `.values` to test membership yourself; and every type has a schema companion usable in both directions.)
-5. **Error handling** — load **typescript-error-handling** before you write any `try/catch`. (*The signature won't tell you:* there are **two disjoint families** — `ResponseError` and its per-operation subclasses for an API error status, and the `MaxioAdvancedBillingError` set (`ConnectionError`, `TimeoutError`, `AbortError`, `SdkError`, `SchemaError`, `AuthError`) for no usable response — and neither is `instanceof` the other, so a complete catch needs both arms; **arm tags are schema-derived, not statuses** (see the sheet checklist below); a malformed 2xx body rejects with `SchemaError`, not `ResponseError`, and `.asApiResult()` does not convert it; and a missing response field the schema permits is silently `undefined` rather than any error at all.)
-6. **Configuration & resilience** — load **typescript-configuration-resilience** when you set the base URL, timeouts, proxies, TLS, or logging. (*The signature won't tell you:* **the SDK performs no retries at all** — a failed call rejects once, so retry/backoff is entirely yours to build or deliberately omit; **there is no logging and there are no hooks, middleware or interceptors** — `ClientOptions.fetch` is the single extension point for all of it; `timeout` is client-wide with **no per-request timeout**, and a non-finite or non-positive value is not "no timeout" but a fallback to the transport's own ceiling; and a `fetch` replacement that drops `init.signal` makes both the timeout and every `RequestOptions.signal` inert.)
-7. **Testing** — load **typescript-testing** before you stub the SDK. (*The signature won't tell you:* the seam is **`ClientOptions.fetch`**, not the client class and not the resource classes — whose constructors take unexported engine internals, so they cannot be instantiated in a test; stub bodies in **wire shape** and let the SDK decode them; assert on the request the SDK actually built, headers included; and cover the failure kinds a `ResponseError`-only test misses, `SchemaError` above all.)
+5. **Error handling** — load **typescript-error-handling** before you write any `try/catch`. (*The signature won't tell you:* every operational failure is **one family**, `MaxioError`, narrowed on `err.kind` — `"api"` is an API error status, carried by `ApiError` and its per-operation subclasses — while four throwables sit outside it (`ConfigurationError` from the constructor, `SchemaError` from a codec called directly, a `TypeError` for a bug, and a caller abort's own `reason`), so a `catch` that tests the family has to rethrow the rest; **arm tags are schema-derived, not statuses** (see the sheet checklist below); a malformed 2xx body rejects with `DecodeError`, not `ApiError`, and `.asApiResult()` does not convert it; and a missing response field the schema permits is silently `undefined` rather than any error at all.)
+6. **Configuration & resilience** — load **typescript-configuration-resilience** when you set the base URL, timeouts, retries, proxies, TLS, or logging. (*The signature won't tell you:* **retrying is on by default** — the default policy retries a GET, HEAD, PUT or OPTIONS call on `408`, `429`, `500`, `502`, `503` and `504` and on a dropped connection or timeout, and every one of those is a `RetryOptions` field you can change; a write is repeated only when `httpMethodsToRetry` names its method; `retry: { maxRetries: 0 }` turns it off, one call overrides it through `RequestOptions.retry`, and a `401` is not retried by default; `retry.timeout` bounds **one attempt**, up to its response headers, not the whole call, and `0` is a zero-length deadline while a value `setTimeout` cannot honour falls back to the default; **there is no logging and there are no hooks, middleware or interceptors** — `ClientOptions.fetch` is the extension point for all of it, `onRetry` being the only built-in callback; and a `fetch` replacement that drops `init.signal` makes both each attempt's timeout and every `RequestOptions.signal` inert.)
+7. **Testing** — load **typescript-testing** before you stub the SDK. (*The signature won't tell you:* the seam is **`ClientOptions.fetch`**, not the client class and not the resource classes — whose constructors take unexported engine internals, so they cannot be instantiated in a test; stub bodies in **wire shape** and let the SDK decode them; assert on the request the SDK actually built, headers included; and cover the failure kinds an `ApiError`-only test misses, `DecodeError` above all.)
 
 ## What a contract sheet must carry for this SDK
 
-Beyond the usual signatures and model members, a contract sheet for the Maxio Advanced Billing TypeScript SDK is incomplete without these, because each one is a decision the implementer cannot make correctly from the signature alone.
+Beyond the usual signatures and model members, a contract sheet for the Maxio TypeScript SDK is incomplete without these, because each one is a decision the implementer cannot make correctly from the signature alone.
 
-1. **Which host each deployment talks to**, and where that is set. The members are `ServerEnvironment.Us`, `ServerEnvironment.Eu`, `ServerEnvironment.MaxioApiGateway`, defaulting to `ServerEnvironment.Us` when the field is unset.
-2. **29 operations resolve to `undefined`** — `await` gives you nothing to inspect, so **`.asApiResult()` is the only way to observe their status and headers** — decide the mode at write time, not by retrofit.
-3. **The exact request type name per operation**, taken from the **Signature** bullet — 47 operations take `<Operation>RequestParams`, not `<Operation>Request`.
-4. **Every request field with its channel, wire name and default**, because the request object is flat and channel-blind and the SDK fans fields out. An omitted field that has a default is still sent with that default, so a defaulted header shapes the response whether or not the sheet mentions it. Any caller-supplied idempotency or request-id field is the ONLY idempotency this SDK has: it injects none and `RequestOptions` is `{ signal }` only.
+1. **Which host each deployment talks to**, and where that is set. The members are `ServerEnvironment.Us`, `ServerEnvironment.Eu`, defaulting to `ServerEnvironment.Us` when the field is unset.
+2. **32 operations resolve to `undefined`** — `await` gives you nothing to inspect, so **`.asApiResult()` is the only way to observe their status and headers** — decide the mode at write time, not by retrofit.
+3. **The exact request type name per operation**, taken from the **Signature** bullet — 49 operations take `<Operation>RequestParams`, not `<Operation>Request`.
+4. **Every request field with its channel, wire name and default**, because the request object is flat and channel-blind and the SDK fans fields out. An omitted field that has a default is still sent with that default, so a defaulted header shapes the response whether or not the sheet mentions it. The generator injects an `Idempotency-Key` on every non-GET operation that does not declare that header itself — minted once per call and invisible to you. Every retry of that call re-sends the **same** key, which is what makes naming a write in `httpMethodsToRetry` safe where the provider deduplicates on it; but the next call mints a new one, so a call your own code repeats is two submissions. Any caller-supplied idempotency or request-id field is the only idempotency that spans calls, and `RequestOptions` is `{ signal, retry }` only.
 5. **Required vs optional vs required-nullable** for every model member the task sets — `f: T` required, `f?: T` omit the key, `f: T | null` required and nullable. And that under `exactOptionalPropertyTypes` an absent optional is **omitted or spread**, never assigned `undefined`.
-6. **The error arms for each operation in scope, with the status each covers — and the warning that arm tags are schema-derived, not status codes.** Every operation rejects with its own `ResponseError` subclass narrowed on `err.payload.kind`, and a tag comes from the arm's **body schema**: an arm whose body is a direct model reference is named after that model in lower camel (`"apiError"`), and every other body — a primitive, an array, a map, or no content — is named `"error{Status}"` (`"error400"`, `"error4XX"`, `"errorDefault"`), with a numeric suffix on the second of two arms that would otherwise land on the same name. The same tag means different statuses on different operations, and the same status carries different tags — so a tag is only meaningful beside the arm table it came from, and a shared helper that switches on `kind` across operations is a bug. 166 of 250 operations declare typed error bodies; the rest reject with the base `ResponseError`. Every operation also carries an always-present `"undeclared"` arm holding `rawBody: ArrayBuffer`, for which **matcher precedence** matters: an exact numeric status is looked up across the whole table first, and only then does the first covering wildcard or range win.
-7. **That a malformed or drifted 2xx body rejects with `SchemaError`, not `ResponseError`, in both response modes** — `.asApiResult()` converts an HTTP error status, never a Family B failure. Any sheet row for a call whose result is used must name the members the implementer has to assert on, because a thin or truncated body decodes without complaint and the hole surfaces later.
-8. **That the SDK performs no retries, no logging, no pagination and no streaming at all**, and that `ClientOptions.fetch` is the one seam where any of it can be added — so whatever the task needs there is yours to build or deliberately omit. Say which.
-9. **That `Event` imported from this package is a model type, not the global of that name** — every sheet that references one should carry the alias it will be imported under. The error base is re-exported as `MaxioAdvancedBillingError` for the same reason.
-10. A **REQUIRED READING** block naming the `typescript-*` companions that govern the steps, with inline `MUST load` pointers.
+6. **The error arms for each operation in scope, with the status each covers — and the warning that arm tags are schema-derived, not status codes.** Every operation rejects with its own `ApiError` subclass narrowed on `err.payload.kind`, and a tag comes from the arm's **body schema**: an arm whose body is a direct model reference is named after that model in lower camel (`"validationError"`), and every other body — a primitive, an array, a map, or no content — is named `"error{Status}"` (`"error400"`, `"error4XX"`, `"errorDefault"`), with a numeric suffix on the second of two arms that would otherwise land on the same name. The same tag means different statuses on different operations, and the same status carries different tags — so a tag is only meaningful beside the arm table it came from, and a shared helper that switches on `kind` across operations is a bug. 184 of 268 operations declare typed error bodies; the rest reject with the base `ApiError`. Every operation also carries an always-present `"undeclared"` arm holding `rawBody: ArrayBuffer`, for which **matcher precedence** matters: an exact numeric status is looked up across the whole table first, then the first covering range, and last a `"default"` arm where the spec declared one — whose body, if it does not fit, falls to `"undeclared"` rather than throwing.
+7. **That a malformed or drifted 2xx body rejects with `DecodeError`, not `ApiError`, in both response modes** — `.asApiResult()` converts an HTTP error status, never any other failure. Any sheet row for a call whose result is used must name the members the implementer has to assert on, because a thin or truncated body decodes without complaint and the hole surfaces later.
+8. **The retry policy this integration needs.** Retrying is on by default — `ClientOptions.retry` sets it for the client and `RequestOptions.retry` overrides it per call — so the sheet says whether the defaults fit, which writes (if any) join `httpMethodsToRetry`, since a write is repeated only when the policy names its method, and the per-attempt timeout.
+9. **That the SDK performs no logging, no pagination and no streaming at all**, and that `ClientOptions.fetch` is the one seam where any of it can be added — so whatever the task needs there is yours to build or deliberately omit. Say which.
+10. **That `Event` imported from this package is a model type, not the global of that name** — every sheet that references one should carry the alias it will be imported under. The error base is re-exported as `MaxioError` for the same reason.
+11. A **REQUIRED READING** block naming the `typescript-*` companions that govern the steps, with inline `MUST load` pointers.
 

@@ -16,58 +16,69 @@ directly and let the SDK serialize it; for formatting in your own code use the B
 
 ## String-enums
 
-Schema enums under `Models/Enums/` are emitted `sealed`; the server-environment enum under `Servers/` is
-not, so do not treat `sealed` as part of the contract.
+Every enum — schema enums under `Models/Enums/` and the server-environment enum under `Servers/` — is a
+`sealed record` with a `private` constructor and a get-only `Value`. There is no public factory.
 
 ```csharp
 [JsonConverter(typeof(StringEnumConverter<{EnumType}>))]
-public sealed record {EnumType} : StringEnum<{EnumType}>
+public sealed record {EnumType} : OpenStringEnum<{EnumType}>
 {
-    public static readonly {EnumType} FirstValue  = new("first_value");
+    private {EnumType}(string value) : base(value)
+    {
+    }
+
+    public static readonly {EnumType} FirstValue = new("first_value");
+
     public static readonly {EnumType} SecondValue = new("second_value");
 
-    private {EnumType}(string value) : base(value) { }   // required — the base has no parameterless ctor
+    public TResult Match<TResult>(Func<TResult> onFirstValue, Func<TResult> onSecondValue, Func<string, TResult> otherwise) => …
 
-    // Emitted for most, but NOT all, generated enums — see the note below.
-    public static {EnumType} FromValue(string value) => FromValueCore(value);
+    public void Match(Action onFirstValue, Action onSecondValue, Action<string> otherwise) { … }
 }
 ```
-
-> **Check that `FromValue` is actually there before you rely on it.** The base helper it forwards to
-> (`FromValueCore`) is `protected`, and some generated enums — notably server / environment selectors —
-> ship only their static constants without the public wrapper. On those, `{EnumType}.FromValue(s)` is a
-> compile error and you map the string to a constant yourself.
 
 Usage:
 
 ```csharp
-var v = {EnumType}.FirstValue;                  // known constant
-var u = {EnumType}.FromValue("new_value");      // unknown-tolerant
-var c = {EnumType}.FromValue("FIRST_VALUE");    // case-insensitive: returns the FirstValue constant
-string raw = v;                                 // implicit conversion to string
-if ({EnumType}.TryGetKnownValue("first_value", out var known)) { /* known == FirstValue */ }
-var all = {EnumType}.GetKnownValues();          // IReadOnlyCollection<{EnumType}>
+var v = {EnumType}.FirstValue;                                         // known constant
+string raw = v;                                                        // implicit conversion to string
+if ({EnumType}.TryGetKnownValue("first_value", out var known)) { }     // exact match — "FIRST_VALUE" is not found
+var all = {EnumType}.GetKnownValues();                                 // IReadOnlyCollection<{EnumType}>
+var label = received.Match(onFirstValue: () => "1", onSecondValue: () => "2", otherwise: raw => raw);
+bool same = received.Is("first_value");                                // compare a raw value without constructing one
 ```
+
+A server value the SDK does not declare deserializes into an instance whose `IsKnownValue()` is false,
+keeps the server's own casing, and serializes back unchanged. The server-environment enum is *closed*: an
+undeclared value fails the read with `JsonException`, and its `Match` is `internal` with no `otherwise`.
 
 ## Int-enums
 
-Same pattern over `int`:
+Same pattern over `long`:
 
 ```csharp
 [JsonConverter(typeof(IntEnumConverter<{EnumType}>))]
-public sealed record {EnumType} : IntEnum<{EnumType}>
+public sealed record {EnumType} : OpenIntEnum<{EnumType}>
 {
-    public static readonly {EnumType} Off = new(0);
-    public static readonly {EnumType} On  = new(1);
+    private {EnumType}(long value) : base(value)
+    {
+    }
 
-    private {EnumType}(int value) : base(value) { }      // required — the base has no parameterless ctor
+    public static readonly {EnumType} Off = new(0L);
 
-    public static {EnumType} FromValue(int value) => FromValueCore(value);
+    public static readonly {EnumType} On = new(1L);
+
+    public TResult Match<TResult>(Func<TResult> onOff, Func<TResult> onOn, Func<long, TResult> otherwise) => …
+
+    public void Match(Action onOff, Action onOn, Action<long> otherwise) { … }
 }
 
 {request}.{EnumProp} = {EnumType}.On;
-int n = {EnumType}.On;   // implicit conversion to int
+long n = {EnumType}.On;   // implicit conversion to long
 ```
+
+Member names come from the spec's `x-enum-varnames` when it declares them, otherwise `Value{n}` /
+`Negative{n}` from the value itself.
 
 ## Union types — finding the exact members
 
@@ -85,11 +96,12 @@ one after construction.
 
 ## Notes
 
-- **Only optional properties with no default** carry `[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]`; leaving one
-  unset omits it from the request JSON entirely (distinct from sending an explicit `null`). An optional
-  property that has a **default value** (`public bool? Flag { get; init; } = false;`) gets no `JsonIgnore`,
-  so it is **always serialized** — a body you never touched still sends every defaulted field. Check the
-  property before assuming "unset" means "absent from the payload"; the difference matters on a PATCH.
+- **Every optional property** carries `[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]`, whether or
+  not it declares a default (`public bool? Flag { get; init; } = false;`): a null value is omitted from the request
+  JSON entirely, never sent as an explicit `null`. Two shapes have no guard and always reach the wire: a
+  `required` property, which writes `null` when its type is nullable (`public required string? Reason`), and a
+  non-optional property with a default (`public long Priority { get; init; } = 1L;`), whose type cannot hold
+  null. There is no way to send an explicit `null` for an optional property; the difference matters on a PATCH.
 - Every generated model ends with `[JsonExtensionData] public AdditionalProperties AdditionalProperties
   { get; init; } = [];` — unknown response fields are captured there (keyed by **wire name**) and
   round-trip on serialize. See the SKILL's *Unknown / future fields* for the read/write API and the

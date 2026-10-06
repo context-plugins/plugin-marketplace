@@ -83,8 +83,8 @@ depending on which the definition declared — two members, one CLR type, and th
 them apart. Where two variants would collide outright the generator suffixes them (`String`, `String2`).
 The primitive rows apply to `AnyOf` only, since a `OneOf` has no primitive variants. **Take the exact member
 name from the contract sheet** (grounded from the SDK map/source) rather than deriving it from
-the C# type you see. (Unions use the per-variant factories and `TryGet…` readers shown above; `FromValue`
-belongs to enums.) The `Optional<T>` backing a union is internal — interact only through the factories and
+the C# type you see. (Unions use the per-variant factories and `TryGet…` readers shown above;
+`TryGetKnownValue` belongs to enums.) The `Optional<T>` backing a union is internal — interact only through the factories and
 `TryGet…`.
 
 ## Collections
@@ -155,12 +155,31 @@ an error path; it is usually not worth it on values your own code produced.
 
 ## Enums
 
-Enums are type-safe string-enums (`StringEnum<T>`) or int-enums (`IntEnum<T>`): use the static constants,
-or `FromValue(...)` for a value not known at compile time; they convert implicitly to their underlying
-value. Reading back: `.Value` (or the implicit conversion) yields the raw wire
-value — but **not** `ToString()`, see the warning below — and the enum types are `record`s, so `==`
-compares by value — `{EnumType}.FromValue("x")` equals the
-`x` constant. Guard unknown values with `TryGetKnownValue(...)` or `instance.IsKnownValue()`.
+Enums are type-safe records — `OpenStringEnum<T>` over `string` or `OpenIntEnum<T>` over `long` — never C#
+enums. Use the static constants; they convert implicitly to their underlying value. Reading back: `.Value`
+(or the implicit conversion) yields the raw wire value — but **not** `ToString()`, see the warning below —
+and `==` compares by value, so two instances read from the same wire value are equal.
+
+There is **no public factory**: `{EnumType}.FromValue(...)` does not exist, and a value the spec does not
+declare cannot be constructed in code. Resolve a raw value with `{EnumType}.TryGetKnownValue(value, out var
+known)` — exact, case-sensitive — and guard a received value with `instance.IsKnownValue()`. A server value
+the SDK does not declare still deserializes (enums are open on reads), round-trips unchanged with the
+server's own casing, and compares without constructing one: `instance.Is("raw")` or `instance == "raw"`.
+
+Branch with the generated `Match`, not a `switch`: one `on{Member}` arm per declared value in spec order,
+then `otherwise`, which receives the raw wire value of anything undeclared. Pass the arms by name — the
+parameters are positional, and a regenerated SDK that adds or reorders a value changes the signature (a
+source break, and `MissingMethodException` for an assembly compiled against the old shape).
+
+```csharp
+{request}.{EnumProp} = {EnumType}.SomeConstant;
+string wire = {response}.{EnumProp}.Value;                          // raw wire value back out
+if ({EnumType}.TryGetKnownValue(value, out var known)) { /* known constant */ }
+var text = {response}.{EnumProp}.Match(
+    onSomeConstant: () => "some",
+    onOtherConstant: () => "other",
+    otherwise: raw => $"undeclared: {raw}");
+```
 
 ⚠ **`ToString()` does not give you the wire value — it gives the record's debug form.** The base class
 overrides `ToString()` to return the value, but each generated enum is itself a `record`, so the compiler
@@ -179,26 +198,9 @@ on a **string** enum (the implicit conversion to `string` wins overload resoluti
 enum: there is no `string + int` operator, so it binds `string + object` and you get the debug form again.
 Use `.Value` explicitly whenever the string leaves your process, and the distinction stops mattering.
 
-**The known-value lookup is case-insensitive**, which is easy to rely on by accident. String enums build
-their constant table with `StringComparer.OrdinalIgnoreCase`, so `FromValue("captured")` returns the
-`CAPTURED` constant itself — same instance, `IsKnownValue()` true, and the **declared** casing is what goes
-on the wire. A casing slip in a configuration value is therefore silently corrected. What is *not*
-corrected is a value matching no constant at all: that is passed through verbatim, serialized verbatim, and
-`IsKnownValue()` returns false — so `IsKnownValue()` is the check that catches a typo, not a case mismatch.
-Int enums match exactly; only string enums are case-insensitive.
-
-⚠ **`FromValue` is emitted per enum, not guaranteed on all of them.** Some generated enums — server /
-environment selectors are the ones to watch — expose only their static constants and keep the conversion
-helper `protected`, so `{EnumType}.FromValue(someString)` does not compile. Check the type before you plan
-to map a configuration string through it; where it is absent, write the string→constant mapping yourself
-and default deliberately rather than reaching for a helper that isn't there.
-
-```csharp
-{request}.{EnumProp} = {EnumType}.SomeConstant;
-{request}.{EnumProp} = {EnumType}.FromValue(serverProvidedValue);   // tolerates unknown values
-string wire = {response}.{EnumProp}.Value;                          // raw wire value back out
-if ({EnumType}.TryGetKnownValue(value, out var known)) { /* known constant */ }
-```
+A member whose name would collide with the enum's own name, with the inherited or generated surface
+(such as `Value`, `Match` or `IsKnownValue`), or with a member of `object` carries a `Member` suffix — a
+value `value` becomes `ValueMember`; its siblings keep their plain names.
 
 See [reference.md](reference.md) for full string- and int-enum declarations and union-member discovery.
 

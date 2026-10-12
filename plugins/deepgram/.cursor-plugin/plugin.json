@@ -1,7 +1,7 @@
 {
   "name": "deepgram",
   "displayName": "Deepgram",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Integrate and consume the APIMatic-generated Deepgram SDK — bundled skills for C#/.NET, python, TypeScript.",
   "author": {
     "name": "APIMatic",

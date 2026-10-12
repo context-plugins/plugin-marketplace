@@ -211,8 +211,8 @@ Two consequences, and both are the sort of thing that costs an afternoon:
    underneath name the token source. Reading only the top frame sends you looking in the wrong place
    entirely.
 2. **The non-raising response mode does not protect you.** The `with_raw_response` variant returns a
-   result object instead of raising *for the operation* — but the token fetch calls `.unwrap()`
-   internally, so an auth failure raises even there. Any code path that touches the SDK needs to handle
+   result object instead of raising *for the operation* — but the token fetch passes its own result
+   through `unwrap()` internally, so an auth failure raises even there. Any code path that touches the SDK needs to handle
    this, including one written specifically to avoid exceptions.
 
 So a boundary that catches only the operation's error union is incomplete. Narrow on the payload type:

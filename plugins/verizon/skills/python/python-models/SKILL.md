@@ -85,8 +85,9 @@ Prefer either precise form over truthiness when "set but empty" and "not set" ar
 ## Dict companions
 
 Every model has a `{Model}Dict` `TypedDict` companion mirroring it field for field, with optional
-members marked `NotRequired`. Anywhere a model is accepted, the companion is too — including nested,
-because the companion types each nested member as `{Model} | {Model}Dict`:
+members marked `NotRequired`. Anywhere a model is accepted, the companion is too — the choice between
+the two spellings is offered at the signature. Inside a companion, a nested model member is typed as
+that model's companion alone (`{Model}Dict`), so a dict literal nests all the way down:
 
 ```python
 {RequestType}({required_field}="...", {required_list}=[{"{member}": {"{nested}": "..."}}])
@@ -155,8 +156,11 @@ variant directly.
 {Variant1}Or{Variant2}: TypeAlias = {Variant1} | {Variant2}
 {Variant1}Or{Variant2}Dict: TypeAlias = {Variant1}Dict | {Variant2}Dict
 
-# oneOf with a discriminator — the same union, tagged
-{Union}: TypeAlias = Annotated[{Variant1} | {Variant2}, Field(discriminator="{tag}")]
+# oneOf with a discriminator — the same union, tagged by the wire key
+{Union}: TypeAlias = Annotated[
+    Annotated[{Variant1}, Tag("{value1}")] | Annotated[{Variant2}, Tag("{value2}")],
+    WireDiscriminator("{tag}"),
+]
 {Union}Dict: TypeAlias = {Variant1}Dict | {Variant2}Dict
 ```
 
@@ -171,13 +175,19 @@ elif isinstance(response.{union_field}, {Variant2}):
     ...
 ```
 
-Three things the alias does not show:
+Four things the alias does not show:
 
-- **A discriminated variant carries its tag as a defaulted `Literal`** (`{tag}: Literal["{value}"] =
-  "{value}"`). Building the model gives you the tag for free — you never set it.
-- **The dict spelling must carry the tag anyway.** The companion marks it `NotRequired`, but pydantic
-  routes a tagged union on that key, so omitting it raises `ValidationError` (`union_tag_not_found`)
-  at runtime while type-checking cleanly. Pass the model, or include `"{tag}": "{value}"` in the dict.
+- **The tag belongs to the union, not to the variant.** Build the variant you mean and pass it; the
+  union writes the tag on the way out. One model can be an arm of several unions that tag it
+  differently, so do not expect to find a tag field on it.
+- **Some variants do carry the tag as a field, because the API declares it on them.** Where the
+  field is there it is yours to set, and it is sent exactly as you wrote it — nothing overwrites it.
+  Where it is not, `to_dict()` on that model carries no tag, so hand the model to the SDK rather
+  than dumping it and posting the dict yourself.
+- **The dict spelling must carry the tag.** Read the union's companion alias: where it names a
+  wrapper (`{Union}{Variant1}Dict`), use that one — it is the variant's dict shape plus the tag key.
+  Omitting the key raises `ValidationError` (`union_tag_not_found`) at runtime while type-checking
+  cleanly.
 - **A union whose arms collapse to one is inlined at the use site** — the field is simply typed
   `{Variant} | None` and no alias module exists. Do not go looking for an alias the sheet does not
   list.
@@ -185,7 +195,8 @@ Three things the alias does not show:
 ## Collections
 
 List properties are `list[T]`; maps are `dict[str, V]` — **the key type is always `str`**, whatever
-the spec said. A nested model element accepts its companion too (`list[{Model} | {Model}Dict]`).
+the spec said. Inside a companion, a model element is typed as that model's companion
+(`list[{Model}Dict]`).
 
 ```python
 body = {RequestType}(
@@ -242,10 +253,11 @@ worth knowing:
 - A never-touched `OptionalNullable` field is **omitted** by `to_dict`, even though a plain
   `model_dump` renders it as `null`. That is the tri-state being honoured; it is the one documented
   place the wrapper differs from the underlying dump.
-- **`exclude_unset=True` is a trap on a locally built model.** It drops defaulted discriminator
-  fields, after which the result no longer validates back against a discriminated union. Use
-  `exclude_none=True` if your goal is just to suppress nulls. (On a *decoded response* it is the
-  right tool — see the read-path note under the `Optional[Any]` trap below.)
+- **`exclude_unset=True` is a trap on a locally built model.** It drops any field still sitting on
+  its default — including a tag field that has one — after which the result
+  no longer validates back against the union. Use `exclude_none=True` if your goal is just to
+  suppress nulls. (On a *decoded response* it is the right tool — see the read-path note under the
+  `Optional[Any]` trap below.)
 
 ## The `Optional[Any]` trap — a real serialization failure
 
@@ -336,11 +348,11 @@ contract sheet rather than assuming:
 | integer widths (`integer`, `long`) | `int` |
 | fractional numbers (`number`, `decimal`) | **`float`** |
 | `boolean` | `bool` |
-| `binary`, `file` | `bytes` |
+| `binary`, `file` | `bytes` — **in a model member or a text position only**; see the third consequence below |
 | `date` | the SDK's `Date` converter |
 | `date-time` | `RFC3339DateTime`, `RFC1123DateTime` or `UnixSecondsDateTime` |
 
-Two consequences:
+Three consequences:
 
 - **Date/time fields use the SDK's converter types**, so the wire format is handled for you. Assign a
   `datetime`/`date` and read one back; do not format strings by hand. Every one of those names is an
@@ -351,12 +363,35 @@ Two consequences:
 - **There is no `Decimal` arm.** A fractional number becomes `float`, so a spec that models money as a
   number gives you binary floating point. Most payment APIs instead model money as a **`str`** scaled
   to the currency (`"10.00"`) — where yours does, build it with `Decimal` and format explicitly, never
-  with `%f`/`round()` and never through a locale-dependent conversion that can produce `"10,00"`:
+  with `%f`/`round()` and never through a locale-dependent conversion that can produce `"10,00"`.
+  **The decimal format is specific to the currency**, never the literal `2`:
 
   ```python
   from decimal import Decimal
-  value = f"{Decimal('10.00'):.2f}"
+
+  # ISO 4217 minor units (List One, published 2026-09-17) for every currency that does not have two.
+  # A provider can differ from ISO; where it documents its own rule, that rule wins.
+  EXPONENT = {
+      "BIF": 0, "CLP": 0, "DJF": 0, "GNF": 0, "ISK": 0, "JPY": 0, "KMF": 0, "KRW": 0, "PYG": 0,
+      "RWF": 0, "UGX": 0, "UYI": 0, "VND": 0, "VUV": 0, "XAF": 0, "XOF": 0, "XPF": 0,
+      "BHD": 3, "IQD": 3, "JOD": 3, "KWD": 3, "LYD": 3, "OMR": 3, "TND": 3,
+      "CLF": 4, "UYW": 4,
+  }
+
+  def amount(value: Decimal, currency: str) -> str:
+      places = EXPONENT.get(currency, 2)
+      return str(value.quantize(Decimal(1).scaleb(-places)))
+
+  amount(Decimal("10"), "USD")      # "10.00"
+  amount(Decimal("1000"), "JPY")    # "1000"   -- not "1000.00"
+  amount(Decimal("1.2344"), "KWD")  # "1.234"  -- not "1.23"
   ```
+
+- **`binary`/`file` is never `bytes`.** A file position takes `FileInput` (`AsyncFileInput` on the
+  async client) and an operation that returns one hands back `FileResponse` (`AsyncFileResponse`).
+  Both pairs live in `{root_package}.core` rather than `{root_package}.models`, so nothing on this
+  page applies to them — see **python-file-handling**. Nothing base64-encodes or decodes for you
+  either: where an endpoint asks for base64, hand it content that already is.
 
 Currency codes are typically plain `str` with no enum — pass `"USD"`.
 

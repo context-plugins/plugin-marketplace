@@ -25,12 +25,12 @@ Verified against `discourse/` and `pyproject.toml` of the generated package at v
 | Version | `0.1.0` |
 | Sync client class | `DiscourseClient` (alias `Client`) |
 | Async client class | `AsyncDiscourseClient` (alias `AsyncClient`) |
-| Client construction | **keyword-only**: `base_url` · `timeout` (default `30.0`), and the transport override — `custom_http_client` on the sync client, `custom_async_http_client` on the async one (the names differ; see step 1) |
+| Client construction | **keyword-only**: `base_url` · `timeout` (default `30.0`) · `retry_options`, and the transport override — `custom_http_client` on the sync client, `custom_async_http_client` on the async one (the names differ; see step 1) |
 | Auth | None — the spec declares no security scheme |
 | Environments | **no environment enum** — one `base_url` string, defaulting to `https://{defaultHost}` |
 | Base-URL config | `ServerConfig` (`discourse/server/server_config.py`), frozen, `extra="forbid"` |
 | Python floor | **`>=3.10`** (classifiers list `3.10–3.14`) |
-| Runtime dependencies | `httpx (>=0.28.1,<1.0.0)` · `pydantic[email] (>=2.11.0,<3.0.0)` · `typing-extensions (>=4.13.0,<5.0.0)` |
+| Runtime dependencies | `httpx2 (>=2.13.1,<3.0.0)` · `certifi (>=2024.7.4)` · `pydantic[email] (>=2.11.0,<3.0.0)` · `typing-extensions (>=4.13.0,<5.0.0)` |
 | Typing | ships `py.typed`; the package is checked under `mypy --strict` with `warn_unreachable`. Callers get full inference — **a type error against this SDK is a real contract violation, not noise** |
 | Line length / lint | `ruff`, 120 cols (only relevant when editing the SDK itself) |
 | Surface | 110 operations across 16 controllers · 250 models · 0 unions · 18 enums · 0 per-operation error unions |
@@ -39,13 +39,18 @@ The table above is **orientation, not a copy-paste recipe** — it gives you the
 
 ## Install — from source
 
-This SDK is not published to a package index, so there is no `pip install` from PyPI for it. Install it from its repository — <https://github.com/context-plugins/discourse-python-sdk> — into the same environment your project runs in:
+Into the same environment your project runs in, install the distribution from its repository, <https://github.com/context-plugins/discourse-python-sdk> — it is not published to a package index:
 
 ```bash
 pip install "discourse @ git+https://github.com/context-plugins/discourse-python-sdk.git@main"
+python -c "import discourse, pathlib; print(pathlib.Path(discourse.__file__).parent)"
 ```
 
-The generated distribution carries its own `pyproject.toml`, so `pip` builds and installs it exactly like a released package. Do not vendor its source into your project, add its directory to `sys.path`, or install it editable (`-e`) from a throwaway clone — an editable install points at the clone's path, so deleting the clone breaks every import. Once installed, write the imports from the table above: the distribution name you install and the package name you import are not the same string. Requires Python 3.10 or newer.
+**Run the second line too.** A `pip install` that reports success is not proof the SDK is importable where your project runs. If the probe raises `ModuleNotFoundError`, the install went into a different interpreter: re-run it through the one your project uses (`python -m pip install …`) and probe again. If it prints a path whose contents are not this SDK, what you installed is not this distribution.
+
+The distribution carries its own `pyproject.toml`, so `pip` builds and installs it like any released package, copied into site-packages. Do not vendor its source into your project, add its directory to `sys.path`, or install it editable (`-e`) from a throwaway clone — an editable install points at that directory, so deleting the clone breaks every import.
+
+Once the second line prints this SDK's directory, write the imports from the table above: the distribution name you install and the package name you import are the same string. Requires Python 3.10 or newer.
 
 ## Imports — the package splits its surface across four modules
 
@@ -69,7 +74,7 @@ Everything else comes from its own subpackage, and the split matters because eac
 | --- | --- |
 | Domain models, their `…Dict` companions | `discourse.models` |
 | Enums (and their open `…OrStr` aliases) | `discourse.models.enums` |
-| `ApiError` · `RawError` · `ApiResult` · `RequestOptions` · `HttpClient` · `SdkBaseModel` · `UNSET` · `Optional` | `discourse.core` |
+| `ApiError` · `RawError` · `ApiResult` · `RequestOptions` · `HttpClient` · `SdkBaseModel` · `UNSET` · `Optional` · `FileInput` · `AsyncFileInput` · `NamedFile` · `BinaryContent` · `AsyncBinaryContent` · `BinaryReader` · `AsyncBinaryReader` | `discourse.core` |
 | Per-operation error *unions* | `discourse.errors` — *this SDK declares none* |
 
 `discourse.core` re-exports its whole public surface (a curated `__all__`), so import from `…core` rather than from the private modules beneath it (`…core.results`, `…core.exceptions`, `…core.auth.schemes`).
@@ -124,15 +129,15 @@ The SDK map's controller table carries the same counts and links to a page per c
 The SDK ships a generated map at its **root** — the directory holding `pyproject.toml`, the `discourse/` source directory, and these two entries:
 
 - **`sdk-map.md`** — the index: client construction with the full constructor-keyword table, the error-handling model (`ApiError` / `ApiResult` / `RawError`, Case A vs Case B), where models, enums and error aliases live, servers and auth, and the link table into the operations pages.
-- **`map/operations/<controller>.md`** — one page per controller, one `###` block per operation: the HTTP verb and route, the sync parsed signature, each parameter's role and wire name, both return types, the error alias with the status each arm maps from, and a **Type sources** table naming the module that declares every type the operation mentions.
+- **`map/operations/<controller>.md`** — one page per controller, one `###` block per operation: the HTTP verb and route, the sync parsed signature, each parameter's role and wire name, both return types, the error alias with the status each arm maps from, and a **Type sources** table naming the module that declares every *generated* type the operation mentions.
 
-**Installing the distribution does not give you the map.** `pyproject.toml` ships the `discourse/` package only, so `sdk-map.md` and `map/operations/` are absent from the installed package — they live in the SDK's own source tree, at the root of its repository, <https://github.com/context-plugins/discourse-python-sdk>. One clone therefore brings the map and the code it describes together, in lockstep by construction. Clone it to a temporary directory, outside the project repo:
+**Installing the distribution does not give you the map.** `pyproject.toml` ships the `discourse/` package only, so `sdk-map.md` and `map/operations/` are absent from the installed package — they live in the SDK's own source tree, at the root of its repository, <https://github.com/context-plugins/discourse-python-sdk>, in lockstep with the code the map describes — clone it to a temporary directory, outside the project repo:
 
 ```bash
 git clone --depth 1 --branch main https://github.com/context-plugins/discourse-python-sdk
 ```
 
-Keep the `--branch main`: it is the branch this SDK is released from, and the repository's default branch may carry a different version — a map read from the wrong branch describes code you do not have.
+Confirm the map comes from the release you installed before you read anything out of it: the clone above is pinned to `main`, the branch this SDK is released from — the repository's default branch may carry a different version. A map read from any other release describes code you do not have.
 
 Every `Source` path on the map is relative to that SDK root, so `discourse/models/access_control.py` opens as written from there — and the same path resolves inside the installed package, which is where you read a module's body once the map has named it.
 
@@ -152,7 +157,7 @@ Read the one module that owns the fact **inside the installed package**. Locate 
 python -c "import discourse, pathlib; print(pathlib.Path(discourse.__file__).parent)"
 ```
 
-Failing that, it is under the project's environment (`.venv/Lib/site-packages/discourse` on Windows, `.venv/lib/python3.*/site-packages/discourse` elsewhere). **If the package is not installed, there is no source to read** — mark the fact `UNVERIFIED` and say what would settle it rather than answering from memory. Paths below are relative to that package root:
+Failing that, it is under the project's environment (`.venv/Lib/site-packages/discourse` on Windows, `.venv/lib/python3.*/site-packages/discourse` elsewhere). **If the package is not installed, install it first** — see *Install* above; until then mark the fact `UNVERIFIED` and say what would settle it rather than answering from memory. Paths below are relative to that package root:
 
 | Question | Module |
 | --- | --- |
@@ -160,7 +165,7 @@ Failing that, it is under the project's environment (`.venv/Lib/site-packages/di
 | Client construction, keywords, controller wiring | `client.py`, `async_client.py`, `base_client.py` |
 | Timeout default and validation | `base_client.py` (`DEFAULT_TIMEOUT = 30.0`) |
 | The request/response pipeline, 401 handling, 2xx-vs-error split | `core/raw_client.py` |
-| Exception shape (`ApiError.error`, `.response`, `.status_code`) | `core/exceptions.py` |
+| Exception shape (`ApiError.error`, `.status_code`, `.headers`) | `core/exceptions.py` |
 | `Success`/`Failure`/`RawError` | `core/results.py` |
 | Per-call overrides | `core/request_options.py` |
 | `UNSET`, `Optional`, `OptionalNullable` | `core/optionality.py` |
@@ -169,8 +174,9 @@ Failing that, it is under the project's environment (`.venv/Lib/site-packages/di
 | An enum's members and wire values | `models/enums/` |
 | Open-enum coercion | `core/converters/open_enum.py` |
 | Date/time wire formats — `Date`, `RFC3339DateTime`, `RFC1123DateTime`, `UnixSecondsDateTime` (`Annotated` aliases over `datetime.date` / `datetime.datetime`; not in the map's Type sources) | `core/converters/date_time.py` |
+| What a file or binary parameter accepts, and the reader protocols behind it (the aliases are in the import table above; not in the map's Type sources) | `core/files.py` |
 | Transport protocols (the test seam) | `core/transport.py` |
-| httpx adapter, proxy/TLS knobs | `core/httpx_transport.py` |
+| httpx2 adapter, proxy/TLS knobs | `core/httpx2_transport.py` |
 | Base-URL resolution | `server/server_config.py`, `server/server.py` |
 
 **Read scoped.** These modules carry long design docstrings; `grep -n` for the symbol and read the surrounding lines rather than whole files. Never quote a docstring's design rationale onto a contract sheet — the sheet carries facts an implementer must obey, not the reasoning behind them.
@@ -185,13 +191,13 @@ Keep lookups cheap — the rules that keep a session's context small:
 
 Before you write the code for each step, load the named companion skill — even if you have already read the relevant module. Each step calls out the trap the signature hides (in *parens*). A typical integration reaches them in this order:
 
-1. **Client construction & lifetime** — load **python-client-initialization** before you write `Client(...)` or `AsyncClient(...)`. (*The signature won't tell you:* the constructor is keyword-only, so nothing can be passed positionally; the client owns an `httpx` connection pool and you **must** `close()` (sync) or `await aclose()` (async) or use it as a context manager; it must be long-lived and module- or app-scoped, never rebuilt per request; the sync and async clients do not mix; and the transport-override keyword differs by client — `custom_http_client` vs `custom_async_http_client`.)
+1. **Client construction & lifetime** — load **python-client-initialization** before you write `Client(...)` or `AsyncClient(...)`. (*The signature won't tell you:* the constructor is keyword-only, so nothing can be passed positionally; the client owns an `httpx2` connection pool and you **must** `close()` (sync) or `await aclose()` (async) or use it as a context manager; it must be long-lived and module- or app-scoped, never rebuilt per request; the sync and async clients do not mix; and the transport-override keyword differs by client — `custom_http_client` vs `custom_async_http_client`.)
 2. **Authentication** — load **python-authentication** before you set credentials. This SDK declares no scheme, so there is no credentials keyword to set. (*The signature won't tell you:* every credentials keyword is *optional* — omit it and every request goes out unauthenticated, with no failure at construction and not necessarily a `401` to tell you; Load secrets from the environment or a secret store, never hardcode.)
-3. **Calling an endpoint** — load **python-calling-endpoints** before the first `client.<controller>.<operation>(...)` call. (*The signature won't tell you:* every operation splits positional path params (and sometimes the body) from a keyword-only tail after `*`; every keyword-only parameter has a **real** default, so there is no "must pass `None` explicitly" hazard; **11 operations return `None`**, so `with_raw_response` is the only way to observe their status code; and the two response modes — raising vs `ApiResult` — behave differently on failure.)
+3. **Calling an endpoint** — load **python-calling-endpoints** before the first `client.<controller>.<operation>(...)` call. (*The signature won't tell you:* every operation splits positional path params (and sometimes the body) from a keyword-only tail after `*`; every keyword-only parameter has a **real** default, so there is no "must pass `None` explicitly" hazard; **11 operations return `None`**, so `with_raw_response` is the only way to observe their status code; a multipart body is **one flat parameter list** — every field, JSON part and file is its own parameter, and an optional part is omitted with `None` rather than by a second call shape; and the two response modes — raising vs `ApiResult` — behave differently on failure.) (*For the file positions:* load **python-file-handling** before you pass anything but a `Path` — a file position accepts far more than `bytes`, **never a `str`**, and nothing validates what you hand it.)
 4. **Models** — load **python-models** the moment a request/response member is not a plain string or number. (*The signature won't tell you:* `Optional[T]` here is `T | UnsetType`, **not** `typing.Optional` — `None` is not a legal value for it; models are frozen pydantic instances with `…Dict` TypedDict companions; enums are **open** (`…OrStr`), so an unknown wire value passes through as a plain `str` rather than raising; wire aliases differ from Python member names; unknown response fields are **preserved**, not dropped; and serialize via `to_dict`/`to_json`.)
-5. **Error handling** — load **python-error-handling** before you write any `try/except`. (*The signature won't tell you:* there is a single `ApiError` type whose `.error` is a **per-operation union**, and a decode failure raises `ValidationError`/`ValueError`, not `ApiError`, and bypasses both response modes; `httpx` transport exceptions reach your boundary unwrapped.)
-6. **Configuration & resilience** — load **python-configuration-resilience** when you set the base URL, timeouts, proxies, TLS, or logging. (*The signature won't tell you:* **the SDK performs no retries at all** — retry/backoff is entirely yours to build or deliberately omit; `timeout` defaults to `30.0` and is a single float that maps onto `httpx`'s timeout semantics rather than bounding the whole call; and there is no logging hook — you wrap the transport seam.)
-7. **Testing** — load **python-testing** before you stub the SDK. (*The signature won't tell you:* the seam is the **transport protocol** (`HttpClient`/`AsyncHttpClient` in `core/transport.py`) passed as `custom_http_client`, or `respx` at the `httpx` layer — not the client class; assert on the request the SDK actually built, and cover all four failure kinds, decode failures included.)
+5. **Error handling** — load **python-error-handling** before you write any `try/except`. (*The signature won't tell you:* there is a single `ApiError` type whose `.error` is a **per-operation union**, and a decode failure raises `ValidationError`/`ValueError`, not `ApiError`, and bypasses both response modes; `httpx2` transport exceptions reach your boundary unwrapped.)
+6. **Configuration & resilience** — load **python-configuration-resilience** when you set the base URL, timeouts, retries, proxies, TLS, or logging. (*The signature won't tell you:* **retrying is on by default** — `retry_options` takes a count, a `RetryOptions` or its dict, `max_retries` set to `0` turns it off, and one call overrides it through `request_options`; a `401` is never retried; `timeout` defaults to `30.0` and is a single float that maps onto `httpx2`'s timeout semantics, limiting each wait rather than the whole call; and there is no logging hook — you wrap the transport seam.)
+7. **Testing** — load **python-testing** before you stub the SDK. (*The signature won't tell you:* the seam is the **transport protocol** (`HttpClient`/`AsyncHttpClient` in `core/transport.py`) passed as `custom_http_client` — not the client class; a fake transport implements `send` and `close`, the two the protocol declares, and `send` answers with the head alone; assert on the request the SDK actually built, and cover all four failure kinds, decode failures included.)
 
 ## What a contract sheet must carry for this SDK
 
@@ -199,11 +205,13 @@ Beyond the usual signatures and model members, a Python sheet is incomplete with
 
 1. **Sync or async** — which client class, and the reminder that the two do not mix. Plus the `close()`/`aclose()` obligation and where the client is held.
 2. **The keyword-only boundary** for each operation: what is positional (path params, sometimes the body) and what sits after `*`. Every keyword-only parameter has a real default, so there is no "must pass `None` explicitly" hazard — say so, so nobody writes defensive `None`s.
-3. **The 11 operations that return `None`** — `backups.download_backup` · `backups.send_download_backup_email` · `badges.delete_badge` · `discourse_calendar_events.export_events_ics` · `posts.delete_post` · `topics.bookmark_topic` · `topics.get_topic_by_external_id` · `topics.remove_topic` · `users.change_password` · `users.update_email` · `users.update_username`. Their raw peers are `ApiResult[None, …]`, so `with_raw_response` is the only way to observe the status code.
-4. **Required vs `UNSET`** for every model member the task sets, and the fact that `Optional[T]` here is `T | UnsetType` — **not** `typing.Optional`, so `None` is not a legal value for it.
-5. **The `ApiError.error` union** for each operation in scope — no operation in this SDK documents a typed error body, so `.error` is always `RawError`.
-6. **That a decode failure raises `ValidationError`/`ValueError`, not `ApiError`, in both response modes** — `core/raw_client.py` states this in `_build_result`'s own docstring. **And that the 2xx path declares at least one required member on 77 return types, so a truncated body fails to decode there and passes silently everywhere else.** Any sheet row for a call whose result is used must name the members the implementer has to assert on.
-7. **That the SDK performs no retries at all**, so retry/backoff is the caller's to build or deliberately omit.
-8. **Which host the `base_url` selects**, because omitting it is silently the default.
-9. A **REQUIRED READING** block naming the `python-*` companions that govern the steps, with `MUST load` pointers.
+3. **The file positions** — `uploads.create_upload`, each annotated `FileInput` on the sync client and `AsyncFileInput` on the async one, with `list[…]` for an array part. What those admit is wider than the annotation shows and **never a `str`**, and the arm you pick decides what stays resident, who closes your handle and what the file is called on the wire — so the sheet cites **python-file-handling** for the row rather than restating it.
+4. **The 11 operations that return `None`** — `backups.download_backup` · `backups.send_download_backup_email` · `badges.delete_badge` · `discourse_calendar_events.export_events_ics` · `posts.delete_post` · `topics.bookmark_topic` · `topics.get_topic_by_external_id` · `topics.remove_topic` · `users.change_password` · `users.update_email` · `users.update_username`. Their raw peers are `ApiResult[None, …]`, so `with_raw_response` is the only way to observe the status code.
+5. **Required vs `UNSET`** for every model member the task sets, and the fact that `Optional[T]` here is `T | UnsetType` — **not** `typing.Optional`, so `None` is not a legal value for it.
+6. **The `ApiError.error` union** for each operation in scope — no operation in this SDK documents a typed error body, so `.error` is always `RawError`.
+7. **That a decode failure raises `ValidationError`/`ValueError`, not `ApiError`, in both response modes** — `core/raw_client.py` states this in `execute`'s own docstring. **And that the 2xx path declares at least one required member on 77 return types, so a truncated body fails to decode there and passes silently everywhere else.** Any sheet row for a call whose result is used must name the members the implementer has to assert on.
+8. **That retrying is on by default** — `retry_options` on the client tunes it, `max_retries` set to `0` turns it off, and `request_options` overrides it per call — so the sheet says whether this integration keeps, tunes or disables it, and for which methods, since a write is repeated only when the policy names its method.
+9. **What limits a whole call.** `timeout` limits each wait, not the call, so a reply whose pieces each arrive within it is never cut off. In async code, state the budget and the one place `asyncio.wait_for` enforces it for every call, and what the boundary returns for its `asyncio.TimeoutError`; in sync code, say there is none.
+10. **Which host the `base_url` selects**, because omitting it is silently the default.
+11. A **REQUIRED READING** block naming the `python-*` companions that govern the steps, with `MUST load` pointers.
 

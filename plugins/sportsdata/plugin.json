@@ -1,7 +1,7 @@
 {
   "name": "sportsdata",
   "displayName": "SportsDataIO",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Integrate and consume the APIMatic-generated SportsDataIO SDK — bundled skills for C#/.NET, python, TypeScript.",
   "author": {
     "name": "APIMatic",

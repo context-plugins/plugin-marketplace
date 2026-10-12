@@ -1,13 +1,15 @@
 {
   "name": "square",
-  "displayName": "square",
-  "version": "0.3.1",
-  "description": "Integrate and consume the APIMatic-generated Square SDK — bundled skills for C#/.NET, python, TypeScript.",
+  "displayName": "Square",
+  "version": "0.4.0",
+  "description": "Integrate and consume the APIMatic-generated Square SDK — bundled skills for C#/.NET, Python, TypeScript.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
   },
   "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
   "skills": [
     "./skills/dotnet",
     "./skills/python",

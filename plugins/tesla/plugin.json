@@ -1,7 +1,7 @@
 {
   "name": "tesla",
-  "displayName": "Tesla",
-  "version": "0.2.2",
+  "displayName": "Tesla Fleet Management API",
+  "version": "0.2.3",
   "description": "Integrate and consume the APIMatic-generated Tesla Fleet Management API SDK — bundled skills for C#/.NET, python, TypeScript.",
   "author": {
     "name": "APIMatic",

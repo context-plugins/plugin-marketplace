@@ -24,6 +24,7 @@ constructor:
     *,
     # server selection — one of four shapes, see "Choosing the server / base URL"
     timeout: float = 30.0,             # seconds; the generator's default
+    retry_options=None,                # None: the default policy; 0 disables; a count, RetryOptions or dict tunes it
     custom_http_client=None,           # your own transport
     {scheme}=None,                     # one credentials keyword per declared scheme
     {scheme}_token_source=None,        # managed-OAuth schemes only
@@ -183,7 +184,9 @@ thread-safe. The async client may be built outside a running loop, but from its 
 ## Supplying your own transport
 
 The transport is a `Protocol` — a structural interface, not a base class. The sync one requires
-`send(request) -> HttpResponse` and `close()`; the async one `send` and `aclose()`:
+`send(request) -> HttpResponse` and `close()`; the async one `send` and `aclose()`. There is one
+request seam whatever the operation returns, a file included, so a transport that implements those
+two satisfies the Protocol under `mypy --strict`:
 
 ```python
 client = {Api}Client(custom_http_client=MyTransport(), {scheme}=...)
@@ -197,6 +200,7 @@ class LoggingTransport:
     def __init__(self, inner): self._inner = inner
 
     def send(self, request):
+        # The head only: the body is still on the socket, and the caller closes it.
         response = self._inner.send(request)
         log.info("%s %s -> %s", request.method, request.url, response.status_code)
         return response
@@ -204,9 +208,17 @@ class LoggingTransport:
     def close(self): self._inner.close()
 ```
 
-Three obligations the protocol places on anything you supply, all silent when broken: **do not mutate
+`send` returns an `HttpResponse` — `url`, `status_code`, lowercased `headers`,
+`iter_bytes(chunk_size)`, `read()` and `close()` — whose body has **not** been read. That is true of
+every response, not just a download, so a wrapper must hand each one back unread; logging its size
+means consuming it, which leaves the caller nothing to read. `iter_bytes(None)` must yield each chunk
+as the network delivered it, holding nothing back — an event stream reads it that way, and a wrapper
+that re-chunks to a fixed size delays every small event.
+
+Four obligations the protocol places on anything you supply, all silent when broken: **do not mutate
 the incoming request** (it is frozen); **honour `request.timeout`** when set, falling back to your own
-when it is `None`; and **lowercase the response header names**, because callers look them up that way.
+when it is `None`; **lowercase the response header names**, because callers look them up that way; and
+**return once the head has arrived**, leaving the body for whoever reads it.
 
 Two consequences. First, **the `timeout=` you passed to the client no longer reaches the wire** — that
 value only builds the client's *own default* transport, so set the timeout on the one you pass or you
@@ -219,4 +231,4 @@ yourself while the client is alive, and don't share one transport between two cl
 
 - Configure authentication → **python-authentication**
 - Make your first call → **python-calling-endpoints**
-- Tune timeouts, base URLs, proxies → **python-configuration-resilience**
+- Tune timeouts, retries, base URLs, proxies → **python-configuration-resilience**

@@ -1,7 +1,7 @@
 {
   "name": "spotify",
-  "displayName": "Spotify",
-  "version": "0.1.1",
+  "displayName": "Spotify Web API",
+  "version": "0.1.2",
   "description": "Integrate and consume the APIMatic-generated Spotify Web API SDK — bundled skills for C#/.NET, python, TypeScript.",
   "author": {
     "name": "APIMatic",

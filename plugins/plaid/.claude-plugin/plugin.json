@@ -1,7 +1,7 @@
 {
   "name": "plaid",
-  "displayName": "Plaid",
-  "version": "0.1.1",
+  "displayName": "The Plaid API",
+  "version": "0.1.2",
   "description": "Integrate and consume the APIMatic-generated The Plaid API SDK — bundled skills for C#/.NET, python, TypeScript.",
   "author": {
     "name": "APIMatic",

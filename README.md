@@ -88,24 +88,24 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`coingecko`](plugins/coingecko/) | Coin Gecko | .NET, TS, Python |
 | [`deepgram`](plugins/deepgram/) | Deepgram | .NET, TS, Python |
 | [`discourse`](plugins/discourse/) | Discourse | .NET, TS, Python |
-| [`finnhub`](plugins/finnhub/) | Finnhub | .NET, TS, Python |
-| [`firecrawl`](plugins/firecrawl/) | Firecrawl | .NET, TS, Python |
-| [`frankfurter`](plugins/frankfurter/) | Frankfurter | .NET, TS, Python |
-| [`google-maps`](plugins/google-maps/) | Google Maps | .NET, TS, Python |
+| [`finnhub`](plugins/finnhub/) | Finnhub API | .NET, TS, Python |
+| [`firecrawl`](plugins/firecrawl/) | Firecrawl API | .NET, TS, Python |
+| [`frankfurter`](plugins/frankfurter/) | Frankfurter API | .NET, TS, Python |
+| [`google-maps`](plugins/google-maps/) | Google Maps Platform | .NET, TS, Python |
 | [`maxio`](plugins/maxio/) | Maxio | .NET, TS, Python |
-| [`notion`](plugins/notion/) | Notion | .NET, TS, Python |
-| [`nytimes`](plugins/nytimes/) | New York Times | .NET, TS, Python |
+| [`notion`](plugins/notion/) | Notion API | .NET, TS, Python |
+| [`nytimes`](plugins/nytimes/) | The New York Times APIs | .NET, TS, Python |
 | [`paypal`](plugins/paypal/) | PayPal | .NET, TS, Python |
-| [`plaid`](plugins/plaid/) | Plaid | .NET, TS, Python |
-| [`shutterstock`](plugins/shutterstock/) | Shutterstock | .NET, TS, Python |
-| [`slack`](plugins/slack/) | Slack | .NET, TS, Python |
-| [`sportsdata`](plugins/sportsdata/) | Sportsdata | .NET, TS, Python |
-| [`spotify`](plugins/spotify/) | Spotify | .NET, TS, Python |
+| [`plaid`](plugins/plaid/) | The Plaid API | .NET, TS, Python |
+| [`shutterstock`](plugins/shutterstock/) | Shutterstock API Explorer | .NET, TS, Python |
+| [`slack`](plugins/slack/) | Slack Web API | .NET, TS, Python |
+| [`sportsdata`](plugins/sportsdata/) | SportsDataIO | .NET, TS, Python |
+| [`spotify`](plugins/spotify/) | Spotify Web API | .NET, TS, Python |
 | [`square`](plugins/square/) | Square | .NET, TS, Python |
-| [`tesla`](plugins/tesla/) | Tesla | .NET, TS, Python |
+| [`tesla`](plugins/tesla/) | Tesla Fleet Management API | .NET, TS, Python |
 | [`twilio`](plugins/twilio/) | Twilio | .NET, TS, Python |
 | [`verizon`](plugins/verizon/) | Verizon | .NET, TS, Python |
-| [`vimeo`](plugins/vimeo/) | Vimeo | .NET, TS, Python |
+| [`vimeo`](plugins/vimeo/) | Vimeo API | .NET, TS, Python |
 <!-- END:PLUGIN_TABLE -->
 
 > Plugin ids change occasionally. `npx context-plugins list` is always the live source of truth.

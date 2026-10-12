@@ -1,7 +1,7 @@
 {
   "name": "nytimes",
   "displayName": "The New York Times APIs",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Integrate and consume the APIMatic-generated The New York Times APIs SDK — bundled skills for C#/.NET, python, TypeScript.",
   "author": {
     "name": "APIMatic",

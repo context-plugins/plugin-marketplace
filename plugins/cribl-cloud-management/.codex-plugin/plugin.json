@@ -1,0 +1,10 @@
+{
+  "name": "cribl-cloud-management",
+  "version": "0.1.0",
+  "description": "Provision and manage Cribl.Cloud organizations and workspaces programmatically.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Cribl Cloud Management",
+    "developerName": "APIMatic"
+  }
+}

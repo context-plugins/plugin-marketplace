@@ -1,0 +1,10 @@
+{
+  "name": "cribl-control-plane",
+  "version": "0.1.0",
+  "description": "Configure Cribl Stream and Edge sources, destinations, pipelines, and routes on a Cribl Leader.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Cribl Control Plane",
+    "developerName": "APIMatic"
+  }
+}

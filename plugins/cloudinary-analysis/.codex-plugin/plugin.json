@@ -1,0 +1,10 @@
+{
+  "name": "cloudinary-analysis",
+  "version": "0.1.0",
+  "description": "Analyze images with Cloudinary AI: tagging, captioning, moderation, and quality checks.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Cloudinary Analysis",
+    "developerName": "APIMatic"
+  }
+}

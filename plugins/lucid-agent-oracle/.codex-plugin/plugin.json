@@ -1,0 +1,10 @@
+{
+  "name": "lucid-agent-oracle",
+  "version": "0.1.0",
+  "description": "Query economic intelligence and agent-economy data from the Lucid Agent Oracle.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Lucid Agent Oracle",
+    "developerName": "APIMatic"
+  }
+}

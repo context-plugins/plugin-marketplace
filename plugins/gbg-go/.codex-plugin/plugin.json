@@ -1,0 +1,10 @@
+{
+  "name": "gbg-go",
+  "version": "0.1.0",
+  "description": "Run GBG GO identity verification journeys, interactions, and customer checks.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "GBG GO",
+    "developerName": "APIMatic"
+  }
+}

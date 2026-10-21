@@ -126,6 +126,101 @@
       "name": "spotify",
       "source": "./plugins/spotify",
       "description": "Browse catalog metadata and manage playlists, playback, and saved libraries on Spotify."
+    },
+    {
+      "name": "authlete",
+      "source": "./plugins/authlete",
+      "description": "Implement OAuth 2.0 and OpenID Connect authorization servers backed by Authlete."
+    },
+    {
+      "name": "cloudinary-analysis",
+      "source": "./plugins/cloudinary-analysis",
+      "description": "Analyze images with Cloudinary AI: tagging, captioning, moderation, and quality checks."
+    },
+    {
+      "name": "cloudinary-asset-management",
+      "source": "./plugins/cloudinary-asset-management",
+      "description": "Upload, organize, transform, and manage media assets in Cloudinary."
+    },
+    {
+      "name": "cribl-cloud-management",
+      "source": "./plugins/cribl-cloud-management",
+      "description": "Provision and manage Cribl.Cloud organizations and workspaces programmatically."
+    },
+    {
+      "name": "cribl-control-plane",
+      "source": "./plugins/cribl-control-plane",
+      "description": "Configure Cribl Stream and Edge sources, destinations, pipelines, and routes on a Cribl Leader."
+    },
+    {
+      "name": "dwolla",
+      "source": "./plugins/dwolla",
+      "description": "Move money with ACH, RTP, and FedNow transfers, customers, and funding sources on Dwolla."
+    },
+    {
+      "name": "friendliai",
+      "source": "./plugins/friendliai",
+      "description": "Run serverless and dedicated LLM inference, chat completions, and endpoints on FriendliAI."
+    },
+    {
+      "name": "gbg-go",
+      "source": "./plugins/gbg-go",
+      "description": "Run GBG GO identity verification journeys, interactions, and customer checks."
+    },
+    {
+      "name": "glean-client",
+      "source": "./plugins/glean-client",
+      "description": "Search, chat, and act on your company knowledge with the Glean Client API."
+    },
+    {
+      "name": "glean-indexing",
+      "source": "./plugins/glean-indexing",
+      "description": "Index custom datasources, documents, people, and permissions into Glean."
+    },
+    {
+      "name": "glean-platform",
+      "source": "./plugins/glean-platform",
+      "description": "Build on the Glean platform with agents, chat, and enterprise search APIs."
+    },
+    {
+      "name": "gr4vy",
+      "source": "./plugins/gr4vy",
+      "description": "Orchestrate payments, payment methods, buyers, and transactions across PSPs with Gr4vy."
+    },
+    {
+      "name": "launchdarkly",
+      "source": "./plugins/launchdarkly",
+      "description": "Manage LaunchDarkly feature flags, environments, segments, and experiments."
+    },
+    {
+      "name": "lucid-agent-oracle",
+      "source": "./plugins/lucid-agent-oracle",
+      "description": "Query economic intelligence and agent-economy data from the Lucid Agent Oracle."
+    },
+    {
+      "name": "mollie",
+      "source": "./plugins/mollie",
+      "description": "Accept payments, manage refunds, subscriptions, and settlements with Mollie."
+    },
+    {
+      "name": "pipeshub",
+      "source": "./plugins/pipeshub",
+      "description": "Search and chat over workplace knowledge, connectors, and agents with PipesHub."
+    },
+    {
+      "name": "skylight",
+      "source": "./plugins/skylight",
+      "description": "Automate Skylight workflows and data through the Skylight API."
+    },
+    {
+      "name": "syllable",
+      "source": "./plugins/syllable",
+      "description": "Build and operate Syllable voice and chat AI agents, prompts, tools, and channels."
+    },
+    {
+      "name": "trilogy-oneroster",
+      "source": "./plugins/trilogy-oneroster",
+      "description": "Manage OneRoster rosters, classes, enrollments, users, and gradebook results."
     }
   ]
 }

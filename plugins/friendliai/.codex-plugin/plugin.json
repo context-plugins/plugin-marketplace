@@ -1,0 +1,10 @@
+{
+  "name": "friendliai",
+  "version": "0.1.0",
+  "description": "Run serverless and dedicated LLM inference, chat completions, and endpoints on FriendliAI.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "FriendliAI",
+    "developerName": "APIMatic"
+  }
+}

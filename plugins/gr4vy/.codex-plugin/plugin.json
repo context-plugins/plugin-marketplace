@@ -1,0 +1,10 @@
+{
+  "name": "gr4vy",
+  "version": "0.1.0",
+  "description": "Orchestrate payments, payment methods, buyers, and transactions across PSPs with Gr4vy.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Gr4vy",
+    "developerName": "APIMatic"
+  }
+}

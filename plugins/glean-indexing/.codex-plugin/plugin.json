@@ -1,0 +1,10 @@
+{
+  "name": "glean-indexing",
+  "version": "0.1.0",
+  "description": "Index custom datasources, documents, people, and permissions into Glean.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Glean Indexing",
+    "developerName": "APIMatic"
+  }
+}

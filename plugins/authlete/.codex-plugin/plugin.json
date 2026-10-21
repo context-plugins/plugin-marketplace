@@ -1,0 +1,10 @@
+{
+  "name": "authlete",
+  "version": "0.1.0",
+  "description": "Implement OAuth 2.0 and OpenID Connect authorization servers backed by Authlete.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Authlete",
+    "developerName": "APIMatic"
+  }
+}

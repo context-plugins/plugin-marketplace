@@ -1,0 +1,10 @@
+{
+  "name": "trilogy-oneroster",
+  "version": "0.1.0",
+  "description": "Manage OneRoster rosters, classes, enrollments, users, and gradebook results.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Trilogy OneRoster",
+    "developerName": "APIMatic"
+  }
+}

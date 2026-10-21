@@ -1,0 +1,10 @@
+{
+  "name": "launchdarkly",
+  "version": "0.1.0",
+  "description": "Manage LaunchDarkly feature flags, environments, segments, and experiments.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "LaunchDarkly",
+    "developerName": "APIMatic"
+  }
+}

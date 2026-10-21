@@ -1,0 +1,10 @@
+{
+  "name": "glean-platform",
+  "version": "0.1.0",
+  "description": "Build on the Glean platform with agents, chat, and enterprise search APIs.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Glean Platform",
+    "developerName": "APIMatic"
+  }
+}

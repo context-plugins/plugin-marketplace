@@ -119,7 +119,7 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`sportsdata`](plugins/sportsdata/) | SportsDataIO | .NET, TS, Python |
 | [`spotify`](plugins/spotify/) | Spotify Web API | .NET, TS, Python |
 | [`square`](plugins/square/) | Square | .NET, TS, Python |
-| [`syllable`](plugins/syllable/) | Syllable | TS |
+| [`syllable-plugin`](plugins/syllable-plugin/) | Syllable | TS |
 | [`tesla`](plugins/tesla/) | Tesla Fleet Management API | .NET, TS, Python |
 | [`trilogy-oneroster`](plugins/trilogy-oneroster/) | Trilogy OneRoster | TS |
 | [`twilio`](plugins/twilio/) | Twilio | .NET, TS, Python |

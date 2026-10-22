@@ -1,5 +1,5 @@
 {
-  "name": "syllable",
+  "name": "syllable-plugin",
   "version": "0.1.0",
   "description": "Build and operate Syllable voice and chat AI agents, prompts, tools, and channels.",
   "skills": "./skills",

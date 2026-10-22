@@ -213,8 +213,8 @@
       "description": "Automate Skylight workflows and data through the Skylight API."
     },
     {
-      "name": "syllable",
-      "source": "./plugins/syllable",
+      "name": "syllable-plugin",
+      "source": "./plugins/syllable-plugin",
       "description": "Build and operate Syllable voice and chat AI agents, prompts, tools, and channels."
     },
     {

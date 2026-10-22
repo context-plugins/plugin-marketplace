@@ -15,7 +15,7 @@ Coding agents hallucinate APIs. They are trained on public code and documentatio
 outdated — and have no awareness of the API version you are actually on, the current SDK, or the
 integration workflow the SDK author recommends.
 
-This repository is the **`context-plugins` marketplace**: a collection of **<!-- BEGIN:PLUGIN_COUNT -->24<!-- END:PLUGIN_COUNT --> plugins**, one per
+This repository is the **`context-plugins` marketplace**: a collection of **<!-- BEGIN:PLUGIN_COUNT -->43<!-- END:PLUGIN_COUNT --> plugins**, one per
 API, that give your agent authoritative, version-aware, SDK-native context at the moment it's
 needed. Every plugin is generated from the API's definition and its APIMatic-generated SDKs, so the
 agent is grounded in the real SDK contract instead of guessing from memory.
@@ -73,7 +73,7 @@ Then run `/reload-plugins`, or start a new `claude` session.
 
 ## Available plugins
 
-<!-- BEGIN:PLUGIN_COUNT -->24<!-- END:PLUGIN_COUNT --> plugins, listed in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
+<!-- BEGIN:PLUGIN_COUNT -->43<!-- END:PLUGIN_COUNT --> plugins, listed in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
 The **Languages** column is the set of SDK languages that plugin ships skills for.
 
 <!-- This table is generated from plugins/ by .github/scripts/sync_marketplace.py. Do not edit by
@@ -84,25 +84,44 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | --- | --- | --- |
 | [`adyen`](plugins/adyen/) | Adyen | .NET, TS, Python |
 | [`alpaca`](plugins/alpaca/) | Alpaca | .NET, TS, Python |
+| [`authlete`](plugins/authlete/) | Authlete | TS |
 | [`binance`](plugins/binance/) | Binance | .NET, TS, Python |
+| [`cloudinary-analysis`](plugins/cloudinary-analysis/) | Cloudinary Analysis | TS |
+| [`cloudinary-asset-management`](plugins/cloudinary-asset-management/) | Cloudinary Asset Management | TS |
 | [`coingecko`](plugins/coingecko/) | Coin Gecko | .NET, TS, Python |
+| [`cribl-cloud-management`](plugins/cribl-cloud-management/) | Cribl Cloud Management | TS |
+| [`cribl-control-plane`](plugins/cribl-control-plane/) | Cribl Control Plane | TS |
 | [`deepgram`](plugins/deepgram/) | Deepgram | .NET, TS, Python |
 | [`discourse`](plugins/discourse/) | Discourse | .NET, TS, Python |
+| [`dwolla`](plugins/dwolla/) | Dwolla | TS |
 | [`finnhub`](plugins/finnhub/) | Finnhub API | .NET, TS, Python |
 | [`firecrawl`](plugins/firecrawl/) | Firecrawl API | .NET, TS, Python |
 | [`frankfurter`](plugins/frankfurter/) | Frankfurter API | .NET, TS, Python |
+| [`friendliai`](plugins/friendliai/) | FriendliAI | TS |
+| [`gbg-go`](plugins/gbg-go/) | GBG GO | TS |
+| [`glean-client`](plugins/glean-client/) | Glean Client | TS |
+| [`glean-indexing`](plugins/glean-indexing/) | Glean Indexing | TS |
+| [`glean-platform`](plugins/glean-platform/) | Glean Platform | TS |
 | [`google-maps`](plugins/google-maps/) | Google Maps Platform | .NET, TS, Python |
+| [`gr4vy`](plugins/gr4vy/) | Gr4vy | TS |
+| [`launchdarkly`](plugins/launchdarkly/) | LaunchDarkly | TS |
+| [`lucid-agent-oracle`](plugins/lucid-agent-oracle/) | Lucid Agent Oracle | TS |
 | [`maxio`](plugins/maxio/) | Maxio | .NET, TS, Python |
+| [`mollie`](plugins/mollie/) | Mollie | TS |
 | [`notion`](plugins/notion/) | Notion API | .NET, TS, Python |
 | [`nytimes`](plugins/nytimes/) | The New York Times APIs | .NET, TS, Python |
 | [`paypal`](plugins/paypal/) | PayPal | .NET, TS, Python |
+| [`pipeshub`](plugins/pipeshub/) | PipesHub | TS |
 | [`plaid`](plugins/plaid/) | The Plaid API | .NET, TS, Python |
 | [`shutterstock`](plugins/shutterstock/) | Shutterstock API Explorer | .NET, TS, Python |
+| [`skylight`](plugins/skylight/) | Skylight | TS |
 | [`slack`](plugins/slack/) | Slack Web API | .NET, TS, Python |
 | [`sportsdata`](plugins/sportsdata/) | SportsDataIO | .NET, TS, Python |
 | [`spotify`](plugins/spotify/) | Spotify Web API | .NET, TS, Python |
 | [`square`](plugins/square/) | Square | .NET, TS, Python |
+| [`syllable`](plugins/syllable/) | Syllable | TS |
 | [`tesla`](plugins/tesla/) | Tesla Fleet Management API | .NET, TS, Python |
+| [`trilogy-oneroster`](plugins/trilogy-oneroster/) | Trilogy OneRoster | TS |
 | [`twilio`](plugins/twilio/) | Twilio | .NET, TS, Python |
 | [`verizon`](plugins/verizon/) | Verizon | .NET, TS, Python |
 | [`vimeo`](plugins/vimeo/) | Vimeo API | .NET, TS, Python |
@@ -129,7 +148,7 @@ Each supported language ships the same eight:
 The `getting-started` skill is the entry point: it directs the agent to clone and grep the real SDK
 source, so every fact is grounded in the actual contract rather than model knowledge.
 
-Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->72<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->696<!-- END:SKILL_COUNT --> skills**. See
+Across the marketplace that's **<!-- BEGIN:LANGUAGE_PACK_COUNT -->91<!-- END:LANGUAGE_PACK_COUNT --> language packs and <!-- BEGIN:SKILL_COUNT -->886<!-- END:SKILL_COUNT --> skills**. See
 [`plugins/paypal/README.md`](plugins/paypal/README.md) for a worked example.
 
 ## Repository structure

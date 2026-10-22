@@ -1,0 +1,16 @@
+{
+  "name": "mollie",
+  "displayName": "Mollie",
+  "version": "0.1.0",
+  "description": "Accept payments, manage refunds, subscriptions, and settlements with Mollie.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/typescript"
+  ]
+}

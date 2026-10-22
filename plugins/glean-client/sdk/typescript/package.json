@@ -1,0 +1,70 @@
+{
+  "name": "glean-client-api",
+  "version": "0.9.0",
+  "description": "# Introduction\nThese are the public APIs to enable implementing a custom client interface to the Glean system.\n\n# Usage guidelines\nThis API is evolving fast. Glean will provide advance notice of any planned backwards incompatible changes along\nwith a 6-month sunset period for anything that requires developers to adopt the new versions.\n\n# SDK\nClient bindings for the API can be generated for most popular languages (Python, Java, NodeJS, etc). To do so:\n\nDownload the OpenAPI specification for the API, by clicking on one of the following options:\n1. [Download JSON specification](https://api.redocly.com/registry/bundle/glean/Glean%20Client%20API%20SDK%20source/v1/openapi.json?branch=main&download=true)\n2. [Download YAML specification](https://api.redocly.com/registry/bundle/glean/Glean%20Client%20API%20SDK%20source/v1/openapi.yaml?branch=main&download=true)\n\nUse [openapi-generator-cli](https://github.com/OpenAPITools/openapi-generator-cli) to generate bindings for your language of choice, for example:\n```bash shell\n$ npx @openapitools/openapi-generator-cli@latest generate -i client_api.yaml -g go\n```\n\nTo see available languages:\n```bash shell\n$ npx @openapitools/openapi-generator-cli@latest list\n```\n\nDetermine the host you need to connect to. This will be the URL of the backend for your Glean deployment, for example, customer-be.glean.com\n",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "tshy": {
+    "exports": {
+      ".": "./src/index.ts",
+      "./package.json": "./package.json"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "project": "./tsconfig.tshy.json",
+    "selfLink": false
+  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "tsconfig.json",
+    "tsconfig.tshy.json",
+    "README.md",
+    "api-reference.md",
+    "sdk-map.md",
+    "map"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.3"
+  },
+  "scripts": {
+    "prepare": "tshy",
+    "build": "tshy",
+    "smoke": "node -e \"require('glean-client-api')\" && node --input-type=module -e \"import('glean-client-api')\"",
+    "typecheck": "tsc --noEmit",
+    "typecheck:dom": "tsc --noEmit -p tsconfig.dom.json",
+    "lint": "oxlint --type-aware --max-warnings=0 src",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "oxfmt": "^0.61.0",
+    "oxlint": "^1.76.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "tshy": "^4.1.3",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  }
+}

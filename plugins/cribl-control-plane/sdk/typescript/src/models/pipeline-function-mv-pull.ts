@@ -1,0 +1,39 @@
+import * as s from "../core/validation/index.js";
+import type { Schema } from "../core/validation/schema.js";
+import {
+  functionConfSchemaMvPullSchema,
+  type FunctionConfSchemaMvPull,
+} from "./function-conf-schema-mv-pull.js";
+
+export type PipelineFunctionMvPull = {
+  /** JavaScript expression that selects data to pass through the Function. */
+  filter?: string;
+  /** Identifier of the Function. Always <code>mv_pull</code> @default "mv_pull" */
+  id?: "mv_pull";
+  /** Brief description of the Pipeline function. */
+  description?: string;
+  /**
+   * If <code>true</code>, disable the Pipeline function so that events are not passed through it.
+   * Otherwise, <code>false</code>.
+   */
+  disabled?: boolean;
+  /**
+   * If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function
+   * executes. Otherwise, <code>false</code>.
+   */
+  final?: boolean;
+  /** Configuration specific to the Pipeline Function. */
+  conf: FunctionConfSchemaMvPull;
+  /** Unique identifier of the group that contains the Pipeline Function. */
+  groupId?: string;
+};
+
+export const pipelineFunctionMvPullSchema: Schema<PipelineFunctionMvPull> = s.object<PipelineFunctionMvPull>({
+  filter: s.optional(s.string()),
+  id: s.defaulted(s.literal("mv_pull"), "mv_pull"),
+  description: s.optional(s.string()),
+  disabled: s.optional(s.boolean()),
+  final: s.optional(s.boolean()),
+  conf: functionConfSchemaMvPullSchema,
+  groupId: s.optional(s.string()),
+});

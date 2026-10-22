@@ -1,0 +1,16 @@
+{
+  "name": "authlete",
+  "displayName": "Authlete",
+  "version": "0.1.0",
+  "description": "Implement OAuth 2.0 and OpenID Connect authorization servers backed by Authlete.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/typescript"
+  ]
+}

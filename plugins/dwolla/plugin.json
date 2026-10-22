@@ -1,0 +1,16 @@
+{
+  "name": "dwolla",
+  "displayName": "Dwolla",
+  "version": "0.1.0",
+  "description": "Move money with ACH, RTP, and FedNow transfers, customers, and funding sources on Dwolla.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/typescript"
+  ]
+}

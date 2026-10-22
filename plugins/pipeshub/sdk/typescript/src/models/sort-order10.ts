@@ -1,0 +1,19 @@
+import * as s from "../core/validation/index.js";
+import type { Schema } from "../core/validation/schema.js";
+import { current2Schema, type Current2 } from "./current2.js";
+import { defaultSchema, type Default } from "./default.js";
+import { values2Schema, type Values2 } from "./values2.js";
+
+export type SortOrder10 = {
+  values?: Values2[];
+  default?: Default;
+  description?: string;
+  current?: Current2;
+};
+
+export const sortOrder10Schema: Schema<SortOrder10> = s.object<SortOrder10>({
+  values: s.optional(s.array(s.lazy(() => values2Schema))),
+  default: s.optional(s.lazy(() => defaultSchema)),
+  description: s.optional(s.string()),
+  current: s.optional(s.lazy(() => current2Schema)),
+});

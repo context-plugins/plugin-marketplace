@@ -1,0 +1,16 @@
+{
+  "name": "trilogy-oneroster",
+  "displayName": "Trilogy OneRoster",
+  "version": "0.1.0",
+  "description": "Manage OneRoster rosters, classes, enrollments, users, and gradebook results.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/typescript"
+  ]
+}

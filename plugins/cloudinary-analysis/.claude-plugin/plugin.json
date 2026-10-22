@@ -1,0 +1,16 @@
+{
+  "name": "cloudinary-analysis",
+  "displayName": "Cloudinary Analysis",
+  "version": "0.1.0",
+  "description": "Analyze images with Cloudinary AI: tagging, captioning, moderation, and quality checks.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/typescript"
+  ]
+}

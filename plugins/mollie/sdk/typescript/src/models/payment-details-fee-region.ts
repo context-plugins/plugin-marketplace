@@ -1,0 +1,41 @@
+import * as s from "../core/validation/index.js";
+import type { EnumSchema } from "../core/validation/schema.js";
+
+/** The applicable card fee region. */
+export const PaymentDetailsFeeRegion = {
+  AmericanExpress: "american-express",
+  AmexIntraEea: "amex-intra-eea",
+  CarteBancaire: "carte-bancaire",
+  CartesBancairesBusiness: "cartes-bancaires-business",
+  CartesBancairesConsumer: "cartes-bancaires-consumer",
+  Domestic: "domestic",
+  Inter: "inter",
+  IntraEu: "intra-eu",
+  IntraEuCorporate: "intra-eu-corporate",
+  IntraEea: "intra_eea",
+  Maestro: "maestro",
+  MastercardCreditBusinessDomestic: "mastercard-credit-business-domestic",
+  MastercardCreditConsumerDomestic: "mastercard-credit-consumer-domestic",
+  MastercardCreditConsumerIntraEea: "mastercard-credit-consumer-intra-eea",
+  MastercardDebitBusinessDomestic: "mastercard-debit-business-domestic",
+  MastercardDebitBusinessIntraEea: "mastercard-debit-business-intra-eea",
+  MastercardDebitConsumerDomestic: "mastercard-debit-consumer-domestic",
+  MastercardDebitConsumerInter: "mastercard-debit-consumer-inter",
+  MastercardDebitConsumerIntraEea: "mastercard-debit-consumer-intra-eea",
+  Other: "other",
+  VisaCreditBusinessDomestic: "visa-credit-business-domestic",
+  VisaCreditConsumerDomestic: "visa-credit-consumer-domestic",
+  VisaCreditConsumerInter: "visa-credit-consumer-inter",
+  VisaCreditConsumerIntraEea: "visa-credit-consumer-intra-eea",
+  VisaDebitBusinessDomestic: "visa-debit-business-domestic",
+  VisaDebitBusinessIntraEea: "visa-debit-business-intra-eea",
+  VisaDebitConsumerDomestic: "visa-debit-consumer-domestic",
+  VisaDebitConsumerInter: "visa-debit-consumer-inter",
+  VisaDebitConsumerIntraEea: "visa-debit-consumer-intra-eea",
+} as const;
+export type PaymentDetailsFeeRegion =
+  | (typeof PaymentDetailsFeeRegion)[keyof typeof PaymentDetailsFeeRegion]
+  | (string & {});
+
+export const paymentDetailsFeeRegionSchema: EnumSchema<PaymentDetailsFeeRegion> =
+  s.enumOf<PaymentDetailsFeeRegion>(PaymentDetailsFeeRegion);

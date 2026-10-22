@@ -1,0 +1,31 @@
+import * as s from "../core/validation/index.js";
+import type { EnumSchema } from "../core/validation/schema.js";
+
+/**
+ * **Only relevant for recurring payments.**
+ *
+ * Indicate which part of a recurring sequence this payment is for.
+ *
+ * Recurring payments can only take place if a mandate is available. A common way to establish such
+ * a mandate is through a `first` payment. With a `first` payment, the customer agrees to automatic
+ * recurring charges taking place on their account in the future.
+ *
+ * If set to `recurring`, the customer's card is charged automatically.
+ *
+ * Defaults to `oneoff`, which is a regular non-recurring payment.
+ *
+ * For PayPal payments, recurring is only possible if your connected PayPal account allows it. You
+ * can call our [Methods API](list-methods) with parameter `sequenceType: first` to discover which
+ * payment methods on your account are set up correctly for recurring payments.
+ */
+export const SequenceTypeResponse1 = {
+  Oneoff: "oneoff",
+  First: "first",
+  Recurring: "recurring",
+} as const;
+export type SequenceTypeResponse1 =
+  | (typeof SequenceTypeResponse1)[keyof typeof SequenceTypeResponse1]
+  | (string & {});
+
+export const sequenceTypeResponse1Schema: EnumSchema<SequenceTypeResponse1> =
+  s.enumOf<SequenceTypeResponse1>(SequenceTypeResponse1);

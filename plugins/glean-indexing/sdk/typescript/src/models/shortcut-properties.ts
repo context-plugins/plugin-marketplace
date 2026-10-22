@@ -1,0 +1,32 @@
+import * as s from "../core/validation/index.js";
+import type { Schema } from "../core/validation/schema.js";
+
+export type ShortcutProperties = {
+  /**
+   * link text following the viewPrefix as entered by the user. For example, if the view prefix is
+   * `go/` and the shortened URL is `go/abc`, then `abc` is the inputAlias.
+   */
+  inputAlias?: string;
+  /** A short, plain text blurb to help people understand the intent of the shortcut. */
+  description?: string;
+  /** destination URL for the shortcut. */
+  destinationUrl?: string;
+  /** Email of the user who created this shortcut. */
+  createdBy?: string;
+  /** The time the shortcut was created in epoch seconds. */
+  createTime?: number;
+  /** Email of the user who last updated this shortcut. */
+  updatedBy?: string;
+  /** The time the shortcut was updated in epoch seconds. */
+  updateTime?: number;
+};
+
+export const shortcutPropertiesSchema: Schema<ShortcutProperties> = s.object<ShortcutProperties>({
+  inputAlias: s.optional(s.string()),
+  description: s.optional(s.string()),
+  destinationUrl: s.optional(s.string()),
+  createdBy: s.optional(s.string()),
+  createTime: s.optional(s.int()),
+  updatedBy: s.optional(s.string()),
+  updateTime: s.optional(s.int()),
+});

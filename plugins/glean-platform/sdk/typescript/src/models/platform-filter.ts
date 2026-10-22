@@ -1,0 +1,37 @@
+import * as s from "../core/validation/index.js";
+import type { Schema } from "../core/validation/schema.js";
+import { platformFilterOperatorSchema, type PlatformFilterOperator } from "./platform-filter-operator.js";
+
+/**
+ * A single filter criterion. For `EQUALS`, multiple values within a filter are OR'd; for
+ * `NOT_EQUALS`, listed values are excluded. Separate filters are AND'd with each other and with
+ * inline operators in `query`. Repeated same-field `EQUALS` filters are rejected.
+ */
+export type PlatformFilter = {
+  /**
+   * Filter field name. Built-in names (case-sensitive, lowercase only): `type`, `owner`, `from`,
+   * `author`, `channel`, `status`, `assignee`, `reporter`, `component`, `mentions`, and
+   * `collection`. Built-ins accept only `EQUALS` and `NOT_EQUALS`. Any other nonblank name is
+   * accepted as a custom filter without spelling, existence, or type checks; behavior depends on
+   * your connected sources.
+   */
+  field: string;
+  /**
+   * One or more values to match. Prefer values returned by filter discovery unchanged. For people
+   * (`USER`) fields, values may be email addresses or display names.
+   */
+  values: string[];
+  /**
+   * Comparison operator. Defaults to `EQUALS`. Built-in fields support only `EQUALS` and
+   * `NOT_EQUALS`. Range operators (`GT`, `GTE`, `LT`, `LTE`) require exactly one value; express
+   * ranges with multiple filters on the same field. Custom fields may support different operators
+   * depending on the data source.
+   */
+  operator?: PlatformFilterOperator;
+};
+
+export const platformFilterSchema: Schema<PlatformFilter> = s.object<PlatformFilter>({
+  field: s.string(),
+  values: s.array(s.string()),
+  operator: s.optional(s.lazy(() => platformFilterOperatorSchema)),
+});

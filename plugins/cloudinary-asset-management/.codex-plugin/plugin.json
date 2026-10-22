@@ -1,0 +1,10 @@
+{
+  "name": "cloudinary-asset-management",
+  "version": "0.1.0",
+  "description": "Upload, organize, transform, and manage media assets in Cloudinary.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Cloudinary Asset Management",
+    "developerName": "APIMatic"
+  }
+}

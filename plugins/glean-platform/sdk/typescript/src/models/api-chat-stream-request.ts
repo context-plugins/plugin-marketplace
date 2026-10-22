@@ -1,0 +1,49 @@
+import * as s from "../core/validation/index.js";
+import type { Schema } from "../core/validation/schema.js";
+import { textSchema, type Text } from "./text.js";
+import { inputSchema, type Input } from "./unions/input.js";
+
+export type ApiChatStreamRequest = {
+  /**
+   * Either a plain string (single user turn) or a chronological array of `USER`/`ASSISTANT`
+   * messages. The final array message must be `USER`.
+   */
+  input: Input;
+  /**
+   * When true, the HTTP response is `text/event-stream`. When false or omitted, the HTTP response
+   * is `application/json`.
+   *
+   * @default "True"
+   */
+  stream?: "True";
+  /**
+   * When true (default), persist the interaction and return a `conversation_id`. When false, run
+   * ephemerally with no persistence.
+   *
+   * @default true
+   */
+  store?: boolean;
+  /**
+   * Continue an existing stored conversation. Incompatible with message-array `input` and with
+   * `store: false`.
+   */
+  conversationId?: string;
+  /**
+   * Optional configuration for the assistant's text response. When `format.type` is `JSON_SCHEMA`,
+   * the response is constrained to the supplied JSON schema and returned in
+   * `output[*].content[*].structured_output`. Structured output is not supported when `stream` is
+   * true.
+   */
+  text?: Text;
+};
+
+export const apiChatStreamRequestSchema: Schema<ApiChatStreamRequest> = s.object<ApiChatStreamRequest>({
+  input: inputSchema,
+  stream: s.defaulted(s.literal("True"), "True"),
+  store: s.defaulted(s.boolean(), true),
+  conversationId: s.optional(s.string()),
+  text: s.optional(s.lazy(() => textSchema)),
+  _keysMap: {
+    conversationId: "conversation_id",
+  },
+});

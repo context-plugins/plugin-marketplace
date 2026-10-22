@@ -1,0 +1,70 @@
+{
+  "name": "syllable-sdk",
+  "version": "0.0.3",
+  "description": "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \uD83D\uDE80\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n\n## Seed deprecation\n\nSeed is deprecated by Syllable. Leave it unset for new Prompt and Insight Tool configurations.\nConfigured values, including zero, remain stored and produce a nonblocking `llm-seed-deprecated`\nwarning in `validation_issues` on successful saves and configuration reads, including Prompt\nhistory. Unset/null values do not produce this warning. Match the issue identifier and field\npath, rather than the human-readable message. Existing support restrictions still apply;\n`llm-seed-unsupported` reports known Anthropic sampling restrictions separately.\n\nOpenAI and Azure OpenAI Chat Completions offer best-effort seed support where the model supports\nit; Responses does not support seed. Anthropic does not support seed as a sampling parameter.\nGoogle support depends on the model and API. Saved configuration and current warnings do not\nestablish the endpoint or seed handling of a past request. Sending seed does not prove it was\nhonored, and no sampling setting guarantees identical responses.\n\nFor more consistent outputs, pin a model snapshot where available and keep inputs, tools and\nsupported settings constant. Use temperature zero only where supported. Model and backend\nchanges can still affect output; reuse a saved response when identical text is required.\n",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "tshy": {
+    "exports": {
+      ".": "./src/index.ts",
+      "./package.json": "./package.json"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "project": "./tsconfig.tshy.json",
+    "selfLink": false
+  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "tsconfig.json",
+    "tsconfig.tshy.json",
+    "README.md",
+    "api-reference.md",
+    "sdk-map.md",
+    "map"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.3"
+  },
+  "scripts": {
+    "prepare": "tshy",
+    "build": "tshy",
+    "smoke": "node -e \"require('syllable-sdk')\" && node --input-type=module -e \"import('syllable-sdk')\"",
+    "typecheck": "tsc --noEmit",
+    "typecheck:dom": "tsc --noEmit -p tsconfig.dom.json",
+    "lint": "oxlint --type-aware --max-warnings=0 src",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "oxfmt": "^0.61.0",
+    "oxlint": "^1.76.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "tshy": "^4.1.3",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  }
+}

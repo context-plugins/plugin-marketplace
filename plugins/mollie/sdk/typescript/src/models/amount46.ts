@@ -1,0 +1,15 @@
+import * as s from "../core/validation/index.js";
+import type { Schema } from "../core/validation/schema.js";
+
+/** The fixed price charged per payment. */
+export type Amount46 = {
+  /** A three-character ISO 4217 currency code. */
+  currency: string;
+  /** A string containing an exact monetary amount in the given currency. */
+  value: string;
+};
+
+export const amount46Schema: Schema<Amount46> = s.object<Amount46>({
+  currency: s.string(),
+  value: s.string(),
+});

@@ -1,0 +1,27 @@
+import * as s from "../core/validation/index.js";
+import type { Schema } from "../core/validation/schema.js";
+import { Icon, iconSchema } from "./icon.js";
+import { type10Schema, type Type10 } from "./type10.js";
+import { actionidSchema, type Actionid } from "./unions/actionid.js";
+import { linkSchema, type Link } from "./unions/link.js";
+import { messageSchema, type Message } from "./unions/message.js";
+import { textSchema, type Text } from "./unions/text.js";
+
+export type DisplayActionMapping = {
+  type: Type10;
+  text?: Text;
+  /** @default Icon.Arrow */
+  icon?: Icon;
+  link?: Link;
+  actionId?: Actionid;
+  message?: Message;
+};
+
+export const displayActionMappingSchema: Schema<DisplayActionMapping> = s.object<DisplayActionMapping>({
+  type: type10Schema,
+  text: s.optional(s.lazy(() => textSchema)),
+  icon: s.defaulted(iconSchema, Icon.Arrow),
+  link: s.optional(s.lazy(() => linkSchema)),
+  actionId: s.optional(s.lazy(() => actionidSchema)),
+  message: s.optional(s.lazy(() => messageSchema)),
+});

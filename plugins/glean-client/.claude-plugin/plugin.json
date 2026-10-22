@@ -1,0 +1,16 @@
+{
+  "name": "glean-client",
+  "displayName": "Glean Client",
+  "version": "0.1.0",
+  "description": "Search, chat, and act on your company knowledge with the Glean Client API.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/typescript"
+  ]
+}

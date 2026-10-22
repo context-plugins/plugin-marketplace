@@ -1,0 +1,120 @@
+import * as s from "../core/validation/index.js";
+import type { Schema } from "../core/validation/schema.js";
+import { filtersSchema, type Filters } from "./filters.js";
+import { timelineSchema, type Timeline } from "./timeline.js";
+
+/**
+ * Request body for performing semantic search across the enterprise knowledge base.
+ *
+ * **How Semantic Search Works:**
+ *
+ * 1. Query is converted to vector embeddings
+ * 2. Similar content is found using vector similarity
+ * 3. Results are ranked by relevance score
+ * 4. Matching chunks with metadata are returned
+ *
+ * **Filtering:**
+ *
+ * Use filters to narrow search scope to specific apps or knowledge bases.
+ *
+ * **Date bounds** (`createdAfter`, `createdBefore`, `modifiedAfter`, `modifiedBefore`) match when a
+ * record was written or last changed, not when an event it describes happened. With any of them
+ * set, and while the server's `DATE_FILTER_SAFETY_NET` setting is on (the default), the same search
+ * also runs once without dates, and its best matches that the bounds left out come back apart from
+ * the results, in `searchResponse.outsideDates`. With the setting off, no such search runs and
+ * `outsideDates` is omitted.
+ */
+export type SemanticSearchRequest = {
+  /** Natural language search query. The system understands semantic meaning, not just keywords. */
+  query: string;
+  /**
+   * What retrieval is narrowed to for a turn: whole apps, and selections below app level (record
+   * groups, folders, records). The keys are a union. For **org assistant** chat streams, send
+   * explicit lists. For **agent** chat streams, send explicit id lists, or **omit** `filters` (and
+   * `tools`) to let the service use the agent’s stored knowledge and tool configuration. Sending `{
+   * "apps": [], "kb": [] }` on an agent stream means **no** knowledge sources for that turn (it is
+   * not “full org default”).
+   *
+   * A selection below app level is the whole scope of the turn: with `recordGroups`, `records` or
+   * `recordsExact` present, an absent or empty `apps` / `kb` means none of them. A selected node
+   * that does not exist or that the caller cannot read contributes nothing; when nothing valid
+   * remains the turn searches nothing. `/search` answers 404 for that; a chat turn is not failed,
+   * its search simply finds nothing. At most 200 ids may be sent in one request, counted across all
+   * keys, and every id must be a valid UUID. A key this schema does not list is ignored by the
+   * gateway rather than refused.
+   *
+   * A selection that covers more than the configured number of nodes (50,000 by default), or that
+   * touches a source still being prepared for folder-level search, is refused: `/search` and the
+   * non-streaming chat routes answer 422 with the message, and a chat stream ends with an error
+   * frame (`RUN_ERROR`, or `error` on the legacy protocol) whose `code` is `selection_too_large` or
+   * `selection_not_ready` and whose `message` says what to change. No model call is made for such a
+   * turn.
+   */
+  filters?: Filters;
+  /** Maximum number of results to return @default 10 */
+  limit?: number;
+  /**
+   * Only records the source created on or after this date. `YYYY-MM-DD` (the whole day, UTC) or an
+   * ISO 8601 datetime with a timezone offset. A date that is not one of these, or in the future, is
+   * a `400` that says why.
+   */
+  createdAfter?: string;
+  /**
+   * Only records the source created on or before this date. A `YYYY-MM-DD` value includes that
+   * whole day.
+   */
+  createdBefore?: string;
+  /**
+   * Only records last changed in the source on or after this date. Same format as `createdAfter`.
+   */
+  modifiedAfter?: string;
+  /**
+   * Only records last changed in the source on or before this date. Same format as `createdBefore`.
+   * Records with no source date are left out whenever a bound on that date is set.
+   */
+  modifiedBefore?: string;
+  /**
+   * Whether the AI model rewrites the query and adds expanded variants before searching. Set it to
+   * `false` to search the query exactly as sent, with no model call: faster, and suited to callers
+   * that write their own queries, such as an agent. The results can differ from a search with the
+   * rewrite.
+   *
+   * @default true
+   */
+  rewriteQuery?: boolean;
+  /**
+   * Search a span of time period by period instead of ranking matches over the whole span, for
+   * questions such as "how did this evolve" or "what changed between March and May". A plain search
+   * returns the best matches overall, which bunch around one moment; a timeline splits the span
+   * into up to 6 periods (calendar months, or weeks within one month), searches each period on its
+   * own and beside one search of the whole span, and returns the matches in date order, each
+   * labelled with its period.
+   *
+   * The value is the date records are placed by: `created` (when the record was created at its
+   * source) or `modified` (its last change). The span is that date's bounds (`createdAfter` /
+   * `createdBefore`, or `modifiedAfter` / `modifiedBefore`); with no start it covers the year
+   * before the end, or further back to the earliest of the best matches. Bounds on the other date
+   * apply to every period. `limit` is the number of matches each period's own search asks for (10
+   * when left out); matches from the search of the whole span (up to 50) are added to the periods
+   * their records are dated in, so a period can hold more than `limit`. Each search applies the
+   * same permissions and filters as a plain search.
+   *
+   * Left out, a search whose bounds on one date have a start and cover more than 31 days (a missing
+   * end is today) runs as a timeline on that date, and `timeline.automatic` is `true`; any other
+   * search is a plain ranked search. `off` is always a plain ranked search. A server whose
+   * `TIMELINE_SUMMARIES` setting is `false` ignores the field and never runs a timeline.
+   */
+  timeline?: Timeline;
+};
+
+export const semanticSearchRequestSchema: Schema<SemanticSearchRequest> = s.object<SemanticSearchRequest>({
+  query: s.string(),
+  filters: s.optional(s.lazy(() => filtersSchema)),
+  limit: s.defaulted(s.int(), 10),
+  createdAfter: s.optional(s.string()),
+  createdBefore: s.optional(s.string()),
+  modifiedAfter: s.optional(s.string()),
+  modifiedBefore: s.optional(s.string()),
+  rewriteQuery: s.defaulted(s.boolean(), true),
+  timeline: s.optional(s.lazy(() => timelineSchema)),
+});

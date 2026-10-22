@@ -1,0 +1,10 @@
+{
+  "name": "glean-client",
+  "version": "0.1.0",
+  "description": "Search, chat, and act on your company knowledge with the Glean Client API.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Glean Client",
+    "developerName": "APIMatic"
+  }
+}

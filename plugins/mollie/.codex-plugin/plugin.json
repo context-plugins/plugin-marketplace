@@ -1,0 +1,10 @@
+{
+  "name": "mollie",
+  "version": "0.1.0",
+  "description": "Accept payments, manage refunds, subscriptions, and settlements with Mollie.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Mollie",
+    "developerName": "APIMatic"
+  }
+}

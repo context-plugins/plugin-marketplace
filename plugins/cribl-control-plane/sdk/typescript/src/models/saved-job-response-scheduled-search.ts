@@ -1,0 +1,68 @@
+import * as s from "../core/validation/index.js";
+import type { Schema } from "../core/validation/schema.js";
+import { jobTypeSchema, type JobType } from "./job-type.js";
+import { scheduleSchema, type Schedule } from "./schedule.js";
+
+/** Configuration for a saved scheduled search job, including the search query to run. */
+export type SavedJobResponseScheduledSearch = {
+  /** Unique ID for this Job */
+  id?: string;
+  /** Description */
+  description?: string;
+  /** Job type */
+  type: JobType;
+  /**
+   * Time to keep the job's artifacts on disk after job completion. This also affects how long a job
+   * is listed in the Job Inspector.
+   */
+  ttl?: string;
+  /**
+   * When enabled, this job's artifacts are not counted toward the Worker Group's finished job
+   * artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+   */
+  ignoreGroupJobsLimit?: boolean;
+  /**
+   * List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This
+   * is useful when discovery returns sensitive fields that should not be exposed in the Jobs user
+   * interface.
+   */
+  removeFields?: string[];
+  /** Resume the ad hoc job if a failure condition causes Stream to restart during job execution */
+  resumeOnBoot?: boolean;
+  /**
+   * Optionally, enable this config only on a specified Git branch. If empty, will be enabled
+   * everywhere.
+   */
+  environment?: string;
+  /** Configuration for a scheduled job */
+  schedule?: Schedule;
+  /** Metadata tags used for categorization and filtering. */
+  streamtags?: string[];
+  /** Identifies which search query to run */
+  savedQueryId: string;
+  /**
+   * Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped)
+   * or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at
+   * runtime.
+   */
+  templateStreamtags?: string;
+};
+
+export const savedJobResponseScheduledSearchSchema: Schema<SavedJobResponseScheduledSearch> =
+  s.object<SavedJobResponseScheduledSearch>({
+    id: s.optional(s.string()),
+    description: s.optional(s.string()),
+    type: jobTypeSchema,
+    ttl: s.optional(s.string()),
+    ignoreGroupJobsLimit: s.optional(s.boolean()),
+    removeFields: s.optional(s.array(s.string())),
+    resumeOnBoot: s.optional(s.boolean()),
+    environment: s.optional(s.string()),
+    schedule: s.optional(s.lazy(() => scheduleSchema)),
+    streamtags: s.optional(s.array(s.string())),
+    savedQueryId: s.string(),
+    templateStreamtags: s.optional(s.string()),
+    _keysMap: {
+      templateStreamtags: "__template_streamtags",
+    },
+  });

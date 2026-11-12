@@ -1,6 +1,6 @@
 ---
 name: dotnet-models
-description: Working with models in an APIMatic-generated .NET SDK in C# — building request models, required members and nullability, enums, union/AnyOf accessors, and JSON wire names versus C# property names. Load before constructing request payloads or mapping SDK models onto your own domain types.
+description: Load before building request payloads for an APIMatic .NET SDK in C# or mapping its models onto your own types — required members and nullability, OneOf/AnyOf unions, open enums, dates, collections, validation attributes, JSON wire names versus C# property names, and unknown fields.
 ---
 
 # Working with models in an APIMatic .NET SDK
@@ -17,19 +17,24 @@ installed package.
 
 When a field can be one of several types, APIMatic generates a union `record` (under
 `{RootNamespace}.Models.OneOf` or `.Models.AnyOf`). Build these with the generated **static factory
-methods** (one per variant) and read them back with **`TryGet…` methods** — a union has no
-object-initializer. JSON (de)serialization is automatic.
+methods** (one per variant) and read them back with **`TryGet…` methods** or branch over every variant
+with **`Match`** — a union has no object-initializer, and the `Optional<T>` backing each variant is
+internal, so the factories, `TryGet…` and `Match` are the whole surface. JSON (de)serialization is
+automatic.
 
 - `OneOf` — the value is exactly one variant, selected on the wire by a **discriminator property** (e.g.
   `type`). The generated converter reads that property and switches on it.
 - `AnyOf` — no discriminator; the converter **tries each variant's schema in declaration order** and takes
   the first that deserializes.
 
-⚠ **A payload matching no variant throws.** Both converters end in
-`throw new JsonException("JSON does not match … schemas: …")`, raised mid-deserialization of the response —
-you do not get a null union or an unset variant. A provider that adds a variant your SDK predates turns
-into a `JsonException` on a call that was previously fine, so a union field is a place to expect
-regeneration pressure. See `dotnet-error-handling` for where that surfaces in a catch ladder.
+⚠ **A payload matching no variant does not throw** — it lands in the union's **Unknown** slot as the raw
+`JsonElement`: `TryGetUnknown(out var raw)` returns `true`, every `TryGet{Variant}` returns `false`, and
+the value serializes back verbatim. A variant the provider adds after your SDK was generated therefore does
+not break the call; your code decides what to do with it. A `OneOf` whose discriminator property is missing
+or not a string still throws, and so does a known discriminator value whose body does not fit that variant
+(a missing required member or a wrong-typed value); both reach your catch as
+`ResponseDeserializationException` (see `dotnet-error-handling`). You cannot build an Unknown value
+yourself: its factory is not public.
 
 ### Construct
 
@@ -43,49 +48,62 @@ var u2 = {Union}.{Variant}(new {Variant} { /* ... */ });
 {Union} u4 = new {Variant} { /* ... */ };    // same as {Union}.{Variant}(...)
 ```
 
-**A `OneOf`'s variants are always model or enum references** — the generator builds them from the schema's
-discriminator mappings, so a `OneOf` has no primitive, list or map variant at all, and every variant it does
-have gets an implicit conversion. An `AnyOf` is the open one: primitives and models get a conversion, while
-list, map and untyped-object variants do not, and neither do two variants that share one CLR type (the
-operators would collide). The factory is the form that always exists — reach for the implicit conversion
-only where you can see one.
+**A `OneOf`'s variants are always model or enum references** — it has no primitive, list or map variant, and
+every variant gets an implicit conversion. On an `AnyOf`, primitive and model variants get one; list, map and
+untyped-object variants do not, and neither do two variants that share one CLR type. The factory always
+exists — reach for the implicit conversion only where you can see one.
 
 ### Read / unwrap
 
 ```csharp
-// Each variant has a bool TryGet{Variant}(out var value). The member name comes from the
-// variant's SCHEMA type, not its CLR type — a `decimal` variant reads TryGetBigDecimal:
+// Each variant has a bool TryGet{Variant}([NotNullWhen(true)] out T? value), a bare out T for a
+// value type. The member name comes from the variant's SCHEMA type, not its CLR type — a `decimal`
+// variant reads TryGetBigDecimal:
 if (u1.TryGetString(out var s))            { /* use s (string)  */ }
 else if (u1.TryGetBigDecimal(out var d))   { /* use d (decimal) */ }
 
 // OneOf: branch over the variants you expect
 if (resp.{Field}.TryGet{Variant}(out var v))           { /* ... */ }
 else if (resp.{Field}.TryGet{OtherVariant}(out var w)) { /* ... */ }
+
+// Match: one on{Variant} handler per variant, in the order the union declares them, then otherwise,
+// which receives the raw JsonElement of a value the SDK could not place.
+// The Func overload returns a value; the Action overload (same handler names) runs a side effect.
+var result = resp.{Field}.Match(
+    on{Variant}: v => Handle(v),
+    on{OtherVariant}: w => HandleOther(w),
+    otherwise: raw => HandleUnrecognised(raw));
 ```
+
+Every `Match` handler is required, `otherwise` included, so a variant you leave out is a compile error —
+unlike a `TryGet` chain, whose last `else` the compiler never checks and which silently drops an Unknown
+value. Pass the handlers **by name**: a regenerated SDK whose spec adds or reorders a variant changes the
+`Match` signature, and two variants of one CLR type (`onString` / `onEmailString`) would swap silently at
+a positional call site. When you read with `TryGet…` instead, end the chain with
+`TryGetUnknown(out var raw)` or an `else`, so an unrecognised value is handled on purpose.
 
 The factory and `TryGet` names are built from the **variant's schema type name, which is often not its
 CLR type name** — this is the single easiest thing to get wrong when writing a union branch from memory:
 
 | Variant | Factory method | Reader |
 | --- | --- | --- |
-| a model `{Variant}` | `.{Variant}({Variant})` | `TryGet{Variant}(out {Variant})` |
-| a big-decimal (CLR `decimal`) | `.BigDecimal(decimal)` | `TryGetBigDecimal(out decimal)` |
-| a UUID (CLR `Guid`) | `.Guid(Guid)` | `TryGetGuid(out Guid)` |
-| a date-time (CLR `DateTimeOffset`) | `.DateTime(DateTimeOffset)` | `TryGetDateTime(out DateTimeOffset)` |
-| a date (**also** CLR `DateTimeOffset`) | `.Date(DateTimeOffset)` | `TryGetDate(out DateTimeOffset)` |
-| an email / uri / ip (all CLR `string`) | `.EmailString(...)` / `.UriString(...)` / `.IpString(...)` | `TryGetEmailString(...)`, … |
-| a list of `{Variant}` | `.ListOf{Variant}(IReadOnlyList<{Variant}>)` | `TryGetListOf{Variant}(out IReadOnlyList<{Variant}>)` |
-| a map of `{Variant}` | `.MapOf{Variant}(...)` | `TryGetMapOf{Variant}(out …)` |
+| a model `{Variant}` | `.{Variant}({Variant})` | `TryGet{Variant}([NotNullWhen(true)] out {Variant}? value)` |
+| a big-decimal (CLR `decimal`) | `.BigDecimal(decimal)` | `TryGetBigDecimal(out decimal value)` |
+| a UUID (CLR `Guid`) | `.Guid(Guid)` | `TryGetGuid(out Guid value)` |
+| a date-time (CLR `DateTimeOffset`) | `.DateTime(DateTimeOffset)` | `TryGetDateTime(out DateTimeOffset value)` |
+| a date (**also** CLR `DateTimeOffset`) | `.Date(DateTimeOffset)` | `TryGetDate(out DateTimeOffset value)` |
+| an email / uri / ip (all CLR `string`) | `.EmailString(...)` / `.UriString(...)` / `.IpString(...)` | `TryGetEmailString([NotNullWhen(true)] out string? value)`, … |
+| a list of `{Variant}` | `.ListOf{Variant}(IReadOnlyList<{Variant}>)` | `TryGetListOf{Variant}([NotNullWhen(true)] out IReadOnlyList<{Variant}>? value)` |
+| a map of `{Variant}` | `.MapOf{Variant}(...)` | `TryGetMapOf{Variant}([NotNullWhen(true)] out IReadOnlyDictionary<string, {Variant}>? value)` |
 
-So a `decimal` variant is `TryGetBigDecimal`, never `TryGetDecimal`; three variants that are all CLR
-`string` get three different names; and a `DateTimeOffset` variant is `TryGetDateTime` **or** `TryGetDate`
-depending on which the definition declared — two members, one CLR type, and the C# signature cannot tell
-them apart. Where two variants would collide outright the generator suffixes them (`String`, `String2`).
-The primitive rows apply to `AnyOf` only, since a `OneOf` has no primitive variants. **Take the exact member
-name from the contract sheet** (grounded from the SDK map/source) rather than deriving it from
-the C# type you see. (Unions use the per-variant factories and `TryGet…` readers shown above;
-`TryGetKnownValue` belongs to enums.) The `Optional<T>` backing a union is internal — interact only through the factories and
-`TryGet…`.
+A reference-type reader is `[NotNullWhen(true)] out T?`: `out var` infers `T?`, and the compiler narrows it to
+`T` inside the `if`; outside the check the value may be null. A value-type reader stays a bare `out T`.
+
+The primitive rows apply to `AnyOf` only. Two variants that would collide outright are suffixed (`String`,
+`String2`); a variant named `Unknown`, or named like its own union, takes a `Variant` suffix
+(`UnknownVariant`). Each row's `Match` handler is `on` + its factory name (`onBigDecimal`, `onEmailString`,
+`onListOf{Variant}`). **Take the exact member name from the contract sheet** (grounded from the SDK
+map/source) rather than deriving it from the C# type you see.
 
 ## Collections
 
@@ -109,21 +127,16 @@ never a cast to `Dictionary`.
 
 ## Dates & numbers
 
-- **A date/time field is not necessarily a `DateTimeOffset?` — check the property type.** The generator
-  emits `DateTimeOffset?` only where the API definition marks the field as a date/time. Where it does not,
-  the field is a plain `string?`, frequently carrying a `[RegularExpression]` attribute that *documents* an
-  RFC-3339 shape without enforcing it (see below). Both are common in the same SDK, and one of the sampled
-  SDKs has **no** `DateTimeOffset` in its models at all. Take the type from the contract sheet; a
-  `DateTimeOffset.Parse` written against a field that is already a `DateTimeOffset` will not compile, and a
-  hand-built string written into a `DateTimeOffset?` field will not either.
-- **A `DateTimeOffset` model property carries no converter** — it round-trips as `System.Text.Json`'s
-  default, ISO-8601 with an offset (`"2024-06-17T15:30:45+00:00"`), *even where the API documents a
-  date-only shape*. The generator does ship four date converters (ISO-8601, RFC-1123, Unix epoch seconds,
-  date-only), but it attaches them to **whole-response payloads** — an operation whose response body is a
-  date scalar, or a list or map of them — not to properties inside a model. So if a field's documented wire shape is `YYYY-MM-DD` and
-  the property is a `DateTimeOffset?`, what the SDK sends is the full ISO-8601 form, and reconciling that
-  with the provider is your problem, not the SDK's. Do not hand-format anyway; for your own formatting use
-  the BCL (`DateTimeOffset.Parse`, `.ToString("O")`), never the SDK's internal converters.
+- **A date/time field is not necessarily a `DateTimeOffset?` — check the property type.** It can be a
+  plain `string?`, often with a `[RegularExpression]` that *documents* an RFC-3339 shape without enforcing it
+  (see below); both occur in one SDK, and some SDKs have no `DateTimeOffset` at all. Take the type from the
+  contract sheet: `DateTimeOffset.Parse` against a field that is already a `DateTimeOffset` will not compile,
+  nor will a hand-built string written into a `DateTimeOffset?` field.
+- **A `DateTimeOffset` model property round-trips as `System.Text.Json`'s default**, ISO-8601 with an offset
+  (`"2024-06-17T15:30:45+00:00"`), *even where the API documents a date-only shape* — a field documented as
+  `YYYY-MM-DD` is sent in the full form, and reconciling that with the provider is yours. Do not
+  hand-format it; for your own formatting use the BCL (`DateTimeOffset.Parse`, `.ToString("O")`), never the
+  SDK's internal converters.
 - Money/quantities may be `string`, `decimal`, or a string-or-number `AnyOf` union; the model's property
   type is the source of truth. Numeric types vary per SDK (`int`, `long`, `double`, …) — take the exact
   type from the contract sheet; don't assume `double`.
@@ -164,13 +177,13 @@ enums. Use the static constants; they convert implicitly to their underlying val
 (or the implicit conversion) yields the raw wire value — but **not** `ToString()`, see the warning below —
 and `==` compares by value, so two instances read from the same wire value are equal.
 
-There is **no public factory**: `{EnumType}.FromValue(...)` does not exist, and a value the spec does not
-declare cannot be constructed in code. Resolve a raw value with `{EnumType}.TryGetKnownValue(value, out var
+There is **no public factory**: `{EnumType}.FromValue(...)` does not exist, and an undeclared value cannot
+be constructed in code. Resolve a raw value with `{EnumType}.TryGetKnownValue(value, out var
 known)` — exact, case-sensitive — and guard a received value with `instance.IsKnownValue()`. A server value
 the SDK does not declare still deserializes (enums are open on reads), round-trips unchanged with the
 server's own casing, and compares without constructing one: `instance.Is("raw")` or `instance == "raw"`.
 
-Branch with the generated `Match`, not a `switch`: one `on{Member}` arm per declared value in spec order,
+Branch with the generated `Match`, not a `switch`: one `on{Member}` arm per declared value in declaration order,
 then `otherwise`, which receives the raw wire value of anything undeclared. Pass the arms by name — the
 parameters are positional, and a regenerated SDK that adds or reorders a value changes the signature (a
 source break, and `MissingMethodException` for an assembly compiled against the old shape).
@@ -212,18 +225,17 @@ See [reference.md](reference.md) for full string- and int-enum declarations and 
 
 Models declare their wire properties explicitly. An object or allOf model also carries a
 `[JsonExtensionData]` bag — `public AdditionalProperties AdditionalProperties { get; init; } = [];`
-(`{RootNamespace}.Core.Models`) — so unknown JSON fields are **kept**, not dropped: a field the provider
-added after this SDK was generated survives deserialization and round-trips back out on serialize. A
-schema with `additionalProperties: false` has no bag, a `OneOf`/`AnyOf` union has none of its own, and the
-bag is named `AdditionalProperties2` when a spec property's C# name is already `AdditionalProperties`.
-Take the bag's name and type from the contract sheet.
+(`{RootNamespace}.Core.Models`) — so unknown JSON fields are **kept**: a field this SDK does not model
+survives deserialization and round-trips back out on serialize. A model that admits no extra fields has no
+bag and drops them, a `OneOf`/`AnyOf` union has none of its own, and the bag is named `AdditionalProperties2`
+when the model already has an `AdditionalProperties` property. Take the bag's name and type from the contract
+sheet.
 
 Read one with `response.AdditionalProperties.TryGetValue<T>("field_name", out var value)` (deserializes
 the captured `JsonElement` to `T`), or `TryGetElement` for the raw `JsonElement`; `Set(key, value)` adds
-one to a request. When the schema types its extra fields, the bag is `AdditionalProperties<T>`, whose
-`TryGetValue("field_name", out var value)` takes no type argument.
-Two cautions: the keys are **wire names** (there is no C# property, so nothing maps the
-casing for you), and a field appearing here rather than as a typed property is a regeneration signal —
-prefer regenerating the SDK over building program logic on stringly-typed lookups. The
-bag itself has no `[JsonPropertyName]` and no wire name — its contents merge
-into the model's own JSON object.
+one to a request. When every extra field has one type, the bag is `AdditionalProperties<T>`, whose
+`TryGetValue("field_name", out var value)` takes no type argument. Two cautions: the keys are **wire names**
+(there is no C# property, so nothing maps the casing for you), and a field appearing here rather than as a
+typed property is one this SDK version does not type — prefer an SDK version that does over building
+program logic on stringly-typed lookups. The bag itself has no `[JsonPropertyName]` and no wire name — its
+contents merge into the model's own JSON object.

@@ -1,22 +1,17 @@
 ---
 name: typescript-error-handling
-description: Error handling for an APIMatic-generated TypeScript SDK — load before writing any try/catch around an SDK call, an error-translation layer, or middleware. Covers the one error family and its closed err.kind, the four throwables that sit outside it, which types actually reach your catch blocks, reading the status and the declared error body safely, the default arm that degrades instead of throwing, the failures the non-throwing form does not convert, the missing field that is silently undefined rather than an error, and the traps that make an otherwise reasonable catch ladder silently wrong.
+description: Load before writing a try/catch around an APIMatic-generated TypeScript SDK call, translating its errors into your own, or reading a status code or error body — the SDK's one error family and its closed `err.kind`, the throwables outside it, per-operation typed error arms and the `"undeclared"` arm, and what `.asApiResult()` still rejects.
 ---
 
 # Error handling for an APIMatic TypeScript SDK
 
-> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{Api}Client`,
-> `{Api}Error`, `{package-name}`, `{Resource}`, `{Operation}`, `{arm}`) — replace it with the concrete
-> identifier from the source.
->
-> **One skill, every error shape.** This file covers every shape the generator can emit. Which shapes
-> YOUR SDK uses — whether an operation declares typed arms or rejects with the base error, what each
-> arm is called, which status it covers — are facts of the API definition, not of this skill: take
-> them from the operation's page in `map/operations/{resource}.md` and **apply only the guidance that
-> matches**. An API can declare typed errors on every operation, on none, or on a mix.
+> `{...}` marks a name to take from your SDK (`{Api}Client`, `{Api}Error`, `{package-name}`,
+> `{Resource}`, `{Operation}`, `{arm}`). Whether an operation has typed error arms, what they are
+> called and which statuses they cover is per operation: read its page in
+> `map/operations/{resource}.md` and **apply only the guidance that matches**.
 
 Operations are **throw-based** (for a non-throwing alternative, see **The non-throwing form** below),
-and every **operational** failure belongs to **one family**: `{Api}Error`, a union over six leaves.
+and every **operational** failure belongs to **one family**: `{Api}Error`, a union over seven leaves.
 One `instanceof {Api}Error` sees all of them, and `err.kind` says which one it is. Four throwables sit
 **outside** the family — a configuration fault, a codec called directly, a bug, and a caller abort —
 so a `catch` that tests the family has to rethrow whatever is left.
@@ -33,7 +28,7 @@ try {
         // The API answered with an error status — read err.status and err.payload.
         break;
       case "decode":
-        // The answer did not fit the spec — read err.status and err.cause.
+        // The answer did not fit its declared type — read err.status and err.cause.
         break;
       case "encode":
         // Nothing was sent — err.cause is the SchemaError that rejected the value.
@@ -42,6 +37,9 @@ try {
       case "timeout":
       case "auth":
         // No response was produced — err.kind says which.
+        break;
+      case "pagination":
+        // A paged walk could not follow the next link the API sent — the pages before it were delivered.
         break;
     }
   } else {
@@ -55,28 +53,18 @@ opens with that pair — `"POST https://api.example.com/v1/{resource} failed wit
 
 ## What to import, and from where
 
-Everything below comes from **one specifier — the package root**. Deep imports
-(`{package-name}/core/…`) do not resolve: the `exports` map exposes `.` and `./package.json` and
-nothing else.
+Everything below comes from **the package root** — deep imports do not resolve
+(**typescript-client-initialization**).
 
 | import | what it is |
 | --- | --- |
-| `{Api}Error` | the whole family — a type **and** a value. The type is the union of the six leaves; the value is the abstract class they all extend, so `instanceof` and `err.kind` select the same set. It cannot be constructed or extended. The SDK-branded alias of `CoreError`, which is not exported under its own name |
+| `{Api}Error` | the whole family — a type **and** a value. The type is the union of the seven leaves; the value is the abstract class they all extend, so `instanceof` and `err.kind` select the same set. It cannot be constructed or extended. Its real name — usually the API name plus `Error` — is on the `CoreError as …Error` line in `src/index.ts`; `CoreError` itself is not exported |
 | `ResponseError` | the part of the family the server answered on — `ApiError \| DecodeError`, the two that carry `status` and `headers`. A type and a value, like `{Api}Error` |
 | `ApiError` | `kind: "api"` — the API answered with an error status. The base every operation without declared error bodies rejects with, and the class every per-operation error extends |
 | `{Resource}.{Operation}Error` | the generated `ApiError` subclass for an operation that declares error bodies, on the **resource class's merged namespace** — not a free-standing export |
-| `DecodeError` `EncodeError` `ConnectionError` `TimeoutError` `AuthError` | the other five leaves |
+| `DecodeError` `EncodeError` `ConnectionError` `TimeoutError` `AuthError` `PaginationError` | the other six leaves |
 | `ConfigurationError` `SchemaError` | outside the family: a constructor fault, and a codec called directly |
-| `type ErrorKind` `ErrorPayload` `Declared` `Undeclared` `HttpMethod` | type-only helpers, if you name them in your own signatures |
-
-`{Api}Error` is the SDK-branded name — **read the real one** from the `CoreError as …Error` line in
-`src/index.ts`. It is the API name plus `Error` (`Acme` gives `AcmeError`), escalating to
-`{Api}ApiError` and then a numeric suffix when that would collide with something the same clause
-already re-exports (an API named `Api` cannot take `ApiError`).
-
-Everything under `src/core/` is vendored static code, **byte-identical in every generated TypeScript
-SDK**, so the behaviours below hold without checking yours. What varies per SDK is which operations
-declare arms, and what those arms are called.
+| `type ErrorKind` `Declared` `Undeclared` `HttpMethod` | type-only helpers, if you name them in your own signatures |
 
 ## The family — every `err.kind`
 
@@ -90,6 +78,7 @@ declare arms, and what those arms are called.
 | `"connection"` | `ConnectionError` | `fetch` rejected before a response line arrived | — |
 | `"timeout"` | `TimeoutError` | an attempt ran out its `retry.timeout`, and no retry was left | `timeout` — the budget that ran out |
 | `"auth"` | `AuthError` | a credential could not be **obtained** | — |
+| `"pagination"` | `PaginationError` | a paged walk could not follow the next link the API sent — it was not a URL, or it named another origin | — |
 
 Every one carries `kind`, `method`, `uri`, `message` and, where there was an underlying failure,
 `cause`. `uri` is the absolute URL the call dialled, with the server variables expanded and the path
@@ -102,8 +91,7 @@ by its schema arrives as an `EncodeError` whose `uri` still shows the unfilled `
 a header or a value that failed its schema. That keeps response bodies and secrets out of logs and
 stack traces by default, which is a sound default and a trap: a handler that logs `err.message` and
 nothing else records that something failed and discards every diagnostic. Read `err.payload` (or
-`err.cause`) explicitly and log the fields you choose — and on a `4xx` the caller caused, also put the
-API's reason in your response.
+`err.cause`) explicitly and log the fields you choose.
 
 `err.headers` is the `fetch` `Headers` object, not a plain object — look a header up with
 `err.headers.get("x-request-id")` (case-insensitive). Indexing it (`err.headers["x-request-id"]`) is
@@ -111,8 +99,7 @@ always `undefined`, and spreading it gives you nothing.
 
 ## Four throwables outside the family
 
-`instanceof {Api}Error` is `false` on each of these, so a `catch` that tests the family and then
-stops has swallowed nothing — it just has to **rethrow the rest**, as the ladder at the top does.
+`instanceof {Api}Error` is `false` on each of these:
 
 - **`ConfigurationError`** comes out of the **client constructor**, synchronously and before any
   call exists: no reachable `fetch`, a basic-auth username containing a colon (RFC 7617 §2), or an
@@ -152,54 +139,35 @@ so a `3xx` lands here too.
 
 ### Which error does an operation reject with?
 
-Four places give you the answer, in order of preference:
+Take the case from the operation's **Error** bullet in `map/operations/{resource}.md`: for a typed
+operation its **Error arms** bullet lists every arm with the status it covers and whether it has a
+body, and the **Signature** bullet shows the same as `E` in `ApiPromise<T, E>`. `api-reference.md`
+says what an arm *means*; the source is `src/resources/{resource}.ts`. All of these ship inside
+`node_modules/{package-name}/` — read them there, not in the compiled `dist/`.
 
-1. **`map/operations/{resource}.md`** — the operation's **Error** bullet names the case, and for a
-   typed operation the **Error arms** bullet lists every arm with the status each covers and whether it
-   has a body. Start here.
-2. **The **Signature** bullet on the same page** — the same fact as the second type argument of the
-   returned `ApiPromise<T, E>`.
-3. **`api-reference.md`** — per-operation prose, when you need what an arm *means* rather than its
-   shape.
-4. **`src/resources/{resource}.ts`** — the source. The subclass's `static readonly errors` table is
-   the matcher list itself: one row per arm, each spelling `on` (the status, a `[from, to]` range, or
-   `"default"`), `kind`, and the decoder.
-
-All of these ship inside `node_modules/{package-name}/`, so read them there rather than the compiled
-`dist/`.
-
-- **Case A — typed arms.** The spec declared failure bodies, so the generator emitted a subclass named
-  `{Operation}Error`, exported from the **enclosing class's merged namespace** — you catch
-  `{Resource}.{Operation}Error`, or `{Api}Client.{Operation}Error` for an operation the spec left
-  untagged. It redeclares `payload` with the operation's own arms. Narrow on `err.payload.kind`.
+- **Case A — typed arms.** The operation has an `{Operation}Error` subclass of `ApiError` on the
+  **enclosing class's merged namespace** — catch `{Resource}.{Operation}Error`, or
+  `{Api}Client.{Operation}Error` for an operation that sits directly on the client. It redeclares
+  `payload` with the operation's own arms; narrow on `err.payload.kind`.
 - **Case B — no typed arms.** `E` is the **base `ApiError`**, its payload is always the
   `"undeclared"` arm, and there is no subclass to catch.
 
-Guessing wrong is *sometimes* a compile error and sometimes not, and the direction that looks safe is
-the dangerous one. A subclass that does not exist fails to compile — that guess TypeScript catches. But
-naming a **neighbouring** operation's error class compiles cleanly, because it is a real type, and then
-never matches at runtime: the rejection sails past your `catch` and surfaces somewhere else, or not at
-all. Take the case from the map every time; the compiler is not a check on this.
+Take the case and the arms from that operation's own page every time, never a neighbour's: a
+neighbouring operation's error class compiles cleanly and never matches at runtime.
 
 ### Case A — reading the typed payload
 
-> **This section applies only where the operation declares typed arms.** An operation whose **Error**
-> bullet names the base `ApiError` has nothing to narrow — its payload is always `"undeclared"`.
-> Skip to **Case B**.
+`err.payload` is a discriminated union: one arm per declared failure response, plus `"undeclared"`.
+Arm names come from the body's schema, not the status — a model reference gives the model's name in
+lower camel (`validationError`, then `validationError2` for a second status returning the same model),
+anything else gives `error{Status}` (`error400`, `error4XX`) — so read them off the map. One arm can
+cover many statuses: `4XX` covers `[400, 499]`, so check `err.status` for the exact one.
 
-`err.payload` is a discriminated union with **one arm per failure response the spec declared**, plus
-`"undeclared"`. Two things about arm names catch people out:
-
-- **The name comes from the body's schema, not from the status.** An arm whose body is a direct model
-  reference is named after that model in lower camel (`validationError`); anything else — a
-  primitive, an array, a map, or no content — is named `error{Status}` (`error400`, `error4XX`,
-  `errorDefault`). So two statuses that return the *same* model give you two arms whose names differ
-  only by a numeric suffix (`validationError`, `validationError2`). Read the arm names off the map;
-  do not derive them from the status.
-- **One arm can still cover many statuses** — not because two statuses were merged, but because the
-  spec declared a *range* or a `default:`. A `4XX` arm covers `[400, 499]`; a `default:` arm covers
-  **every error status no other arm covers**, `3xx` included. Check `err.status` when you need the
-  specific one.
+**A spec's `default:` response is not an arm.** Every status the other arms miss is `"undeclared"`
+with its bytes intact — the `520` a CDN, the `502` a gateway or the `403` a WAF answers on the API's
+behalf included, whose HTML page the `default` schema never described. The model the spec named under
+`default` is still under `src/models/`; decode `rawBody` through its schema by hand when the status is
+one the API itself sent.
 
 ```ts
 import { {Resource} } from "{package-name}";
@@ -225,22 +193,12 @@ try {
 ```
 
 **`"undeclared"` is always an arm, and it is not a catch-all.** It carries
-`{ kind: "undeclared"; rawBody: ArrayBuffer }` and fires **only** for a status no declared arm covers
-— or, where the operation declares a `default:` arm, for a body that arm could not decode. A status
-that has an arm lands in that arm and leaves `"undeclared"` unreached — so a `catch` that handles only
-`"undeclared"` silently drops every typed body. Handle every arm the map lists, and put `"undeclared"`
-last. There is no operation whose failure is guaranteed typed: the generator emits the `"undeclared"`
-arm unconditionally, so any operation can hand you raw bytes for a status it does not document.
-
-An arm can declare **no body** (`body: undefined`) — the spec named the status but gave it no schema.
-It accepts only an **empty** body: any body on a status it covers (a JSON error message is typical)
-rejects with `DecodeError`, even through `.asApiResult()`, and `err.status` still names it (see
-**`"decode"`**). On a `"default"` arm that body degrades to `"undeclared"` instead.
-
-**The arms are per operation, and are not one set across the API.** A description that declares a
-different error schema per tag gets a different model — and therefore a differently-named arm — per
-tag, so a branch written against one operation's arm does not apply to a sibling's. Take the arms from
-that operation's **Error arms** bullet every time; never reuse a set from a neighbouring call.
+`{ kind: "undeclared"; rawBody: ArrayBuffer }` and fires **only** for a status no declared arm covers,
+so any operation can hand you raw bytes, and a `catch` handling only `"undeclared"` drops every typed
+body. Handle every arm the map lists, and put `"undeclared"` last. An arm can declare **no body**
+(`body: undefined`); it accepts only an **empty** body — any body on a status it covers (a JSON error
+message is typical) rejects with `DecodeError`, even through `.asApiResult()`, and `err.status` still
+names it (see **`"decode"`**).
 
 Where your boundary treats several arms alike, group them with fall-through cases rather than
 repeating the body — but only over fields they **all** declare:
@@ -286,14 +244,12 @@ with HTML or plain text. Decode it to a string before you try to parse it, and e
 
 ### Matcher precedence
 
-For a subclass with several arms, the runtime matches in **three passes**: an exact numeric status
-across the whole table first, then the first covering range, and last a `"default"` arm where the
-spec declared one. So a specific `404` arm beats a `4XX` arm regardless of declaration order, and a
-`default:` arm can never shadow a narrower one.
+An exact numeric status wins over a covering range, so a specific `404` arm beats a `4XX` arm
+regardless of declaration order.
 
-A body that does not fit the arm it matched is a **`DecodeError`** — except on `"default"`, which
-describes no status in particular and so **degrades to the `"undeclared"` arm**, raw bytes and all,
-rather than throwing.
+A body that does not fit the arm it matched is a **`DecodeError`**. A status no arm covers is the
+`"undeclared"` arm, which every subclass ends in; a spec's `default:` response is never a row, so
+nothing a middleware answers on the API's behalf can fail a schema the API wrote.
 
 ### Catch order
 
@@ -332,7 +288,7 @@ Which status it came on matters a lot, and `err.status` tells you:
 
 Mapping both onto one 5xx is wrong half the time — it tells a retrying caller to keep retrying
 something that can never succeed. Only a **declared** arm can decode-fail: the `"undeclared"` arm reads
-raw bytes and never decodes, and a `default:` arm degrades instead of throwing.
+raw bytes and never decodes.
 
 ```ts
 if (err instanceof DecodeError) {
@@ -353,12 +309,9 @@ let a production ladder quietly absorb it — it should fail loudly in developme
 **`AuthError` is about obtaining a credential, not about being refused one.** A 401 *from the API* is
 an `ApiError` like any other status, so one `catch` arm cannot absorb the other.
 
-A 401 does have one auth consequence: it **invalidates whatever that operation's scheme had cached**,
-so the **next** call re-acquires. `401` is not in the default `statusCodesToRetry`, so the current
-request fails and recovery happens on the following call. To have the current call re-sent with a
-fresh token instead, add `401` to `statusCodesToRetry`: every attempt resolves its credential again, so
-the retry carries the re-acquired token. A static key is re-sent unchanged, so that only helps a scheme
-that fetches its credential.
+A 401 from the API also invalidates the scheme's cached credential, so the **next** call re-acquires
+(**typescript-authentication**). A single `401` is therefore not a permanent credential failure: do not
+tear down the client or alert on one.
 
 `AuthError` means the token grant failed, every configured branch of an alternatives requirement
 failed, PKCE was disabled without a client secret, or your own authorization-code prompt rejected. Its
@@ -374,20 +327,26 @@ is still an `AuthError` with the endpoint's `ApiError` on `.cause`, never the ba
 Otherwise it is an `AuthError` whose `cause` is an `AggregateError` holding what each branch threw, in
 the order tried. An abort or a timeout escapes immediately rather than being collected.
 
-Auth resolves *before* the request is sent, so an `AuthError` means **nothing was sent** — it is an
-auth fault, not a rejection. Check it early in your ladder.
+⚠ **An `AuthError` means nothing was sent, and it surfaces from an operation call, not from client
+construction.** The token is acquired lazily, before the request exists, so an auth misconfiguration
+rejects whichever operation ran first — reading like a problem with that operation — and rejects in
+`.asApiResult()` mode too. Check it early in your ladder.
 
-⚠ **The token is acquired lazily, on first use — so an auth misconfiguration surfaces from an
-operation call, not from client construction.** The rejection points at whichever operation happened to
-run first, which reads like a problem with that operation rather than with the credentials you wired
-up. It also rejects in `.asApiResult()` mode, for the same reason: the grant happens before a request
-exists to return a result for.
+## `"pagination"` — a next link could not be followed
+
+Raised from inside a paged walk, **between two pages**: the page that carried the link has already been
+delivered, and a loop that stops after it never sees this. A `Link` strategy follows a link only when it
+resolves, against the URL of the page that carried it, to the same scheme, host and port as the API, so
+no credential ever leaves the API. A link to another origin is refused, and so is one that is not a
+URL. For a link to another origin, `err.uri` names the call that was refused; for a link that is not a
+URL there is no such call, so `err.uri` names the page that carried it and `err.cause` holds the
+platform's parse failure. It is a `{Api}Error`, so the ladder at the top already catches it; the
+offset, page-number and cursor strategies never raise it.
 
 ## A missing field is not an error — it is `undefined`
 
-This is the gap the error types leave, and the one most likely to reach production. A model member the
-description did not mark **required** is emitted as `member?: T` over an optional schema entry, so a
-response that simply **omits** it validates cleanly. No `DecodeError` is thrown, and nothing warns you:
+A model member not marked **required** is `member?: T`, so a response that simply **omits** it
+validates cleanly. No `DecodeError` is thrown, and nothing warns you:
 
 ```ts
 const value = await client.{resource}.{operation}({ /* ... */ });  // 200, truncated body
@@ -436,20 +395,21 @@ no per-status judgement. Reach for it when an error status is an expected outcom
 found yet", a `409` meaning "already exists") and you would otherwise be using exceptions for control
 flow, or when you need `status` and `headers` on the *success* path.
 
-Two mechanics to know: the failure branch is a plain object carrying **the error's own members under
-their own names** — `status`, `headers`, `message`, `method`, `uri` and `payload` — never the error
-instance, so you narrow on `outcome.payload.kind` exactly as you would on `err.payload.kind`, and a
-handler moves between the two forms by swapping the prefix; and `.asApiResult()` must be called on the
-value the operation returned, **before any `.then()`**, because `ApiPromise` overrides
-`Symbol.species` and the method is gone from what `.then()` hands back (see
-**typescript-calling-endpoints**).
+The failure branch is a plain object carrying **the error's own members under their own names** —
+`status`, `headers`, `message`, `method`, `uri` and `payload` — never the error instance, so you narrow
+on `outcome.payload.kind` exactly as you would on `err.payload.kind`, and a handler moves between the
+two forms by swapping the prefix. Call `.asApiResult()` on the value the operation returned, **before
+any `.then()`** (**typescript-calling-endpoints**).
 
-⚠ **This mode is not rejection-free, and the cases it does not convert are the ones people assume it
-does.** A decode failure is not an API error status, so it propagates in both modes rather than
-becoming an `ok: false` value — a `DecodeError` on a `2xx` body, and a `DecodeError` on a **declared
-error arm**, both still reject. So does a failed token acquisition, because the credential is resolved
-before anything is sent, and so does a caller abort. `try`/`catch` is still required around
-`.asApiResult()`; it narrows what you catch, it does not remove the need to catch.
+⚠ **Every failure other than an error status still rejects** — a `DecodeError` (on a `2xx` body or on
+a **declared error arm**), a failed token acquisition and a caller abort included — so keep the
+`try`/`catch` around `.asApiResult()`.
+
+**On a paged operation**, `.asApiResult()` is called on the walk and returns `PageableApiResult`: its
+`.pages()` yields one `ApiResult` per page, and a failed page is the **last** element it yields; its
+item loop ends silently at an error status and contributes no items for it, so an item loop that ends
+cannot tell the last page from a failed one. Everything the single-call form still throws, the walk
+still throws too, with `PaginationError` beside them.
 
 ## Transport failures, and guarding every call site
 
@@ -458,23 +418,15 @@ DNS that failed, a connection that dropped, or an attempt's timeout elapsing —
 `"connection"` and `"timeout"`, and a `catch` whose only arm is `err instanceof ApiError` lets them
 escape and take down whatever was running the call.
 
-**Every one of them reaches you after the retries are spent.** On a `GET`, `HEAD`, `PUT` or `OPTIONS`
-call the default policy re-sends a `408`, `429`, `500`, `502`, `503` or `504`, a connection failure
-and a timeout up to
-three times before the call rejects, so what you catch is the **last** attempt's failure — an
-`ApiError` for the final status, or a `ConnectionError` or `TimeoutError` — in exactly the shape it
-would have had with retrying off. A write outside `httpMethodsToRetry` rejects on its first failure.
-Do not retry a family error the SDK already retried; see **typescript-configuration-resilience**.
+**Each reaches you after the SDK's retries are spent** — as the **last** attempt's failure, in the
+shape it would have had with retrying off; do not retry it again (**typescript-configuration-resilience**
+owns the policy).
 
-**Unlike SDKs that let their HTTP library's exceptions through, this one wraps them.** Whatever your
-`fetch` rejects with becomes a `ConnectionError`, with the original on `.cause` — so your boundary
-never imports the transport's exception types, and it does not need revisiting when you swap `fetch`
-for a wrapper. Two things pass through unwrapped: anything that is already in the family (a
-`{Api}Error` your own wrapper threw), and a cancellation — the caller's own abort `reason`, or the
-SDK's `TimeoutError` when an attempt's timeout fired, whatever your `fetch` rejected with. If you wrap
-`fetch` to add a guard (**typescript-configuration-resilience**), throw a family error from it or
-accept that yours will arrive as `err.cause` — and know that a plain error thrown there is a
-`ConnectionError` the retry loop retries.
+Whatever your `fetch` rejects with becomes a `ConnectionError` with the original on `.cause`, so your
+boundary never imports transport exception types. A family error and a cancellation (your abort
+`reason`, or the SDK's `TimeoutError` once an attempt's timeout fired, whatever your `fetch` rejected
+with) pass through unwrapped — and a plain error your own `fetch` wrapper throws is a `ConnectionError`
+the retry loop retries.
 
 **Convert the family to your own error type in one place.** If you wrap the SDK behind your own
 abstraction (a client interface, a service, a repository), do the conversion at that boundary so the
@@ -523,11 +475,6 @@ or modify something and overlook the calls that only read — especially reads o
 a screen, a scheduled job, a startup or health check). A connection failure during a read fails just as
 hard as one during a write. A call left unguarded next to one that is guarded is the one that breaks.
 
-⚠ **A rejection you never await is an unhandled rejection**, exactly like any other promise's:
-`unhandledRejection` on Node — which by default ends the process — and `unhandledrejection` in a
-browser. Await every call, or attach your own handler. `.asApiResult()` marks the promise handled as
-its first act, so call it on the value the operation returned, in the same turn.
-
 ## Presenting failures at your boundary — coherent, distinct, leak-free
 
 The catches above decide what you catch; this decides what the caller (an HTTP response, a UI layer,
@@ -573,10 +520,9 @@ unauthenticated or throttled when they are neither. Those belong in the 5xx buck
 conflict and not-found are the caller's to fix. And keep the default arm at 5xx: a status you have not
 mapped is an unknown, not a caller error — the provider can add one without warning you.
 
-**An unreadable body is not one case but two — decide which before you map it.** A `DecodeError` on a
-**success** status is genuinely unknown: 5xx. One on an **error** status is not — the provider rejected
-the request and only the *detail* was lost, so answering 5xx tells a retrying caller to keep retrying
-something that can never succeed. `err.status` is what separates them; the type alone does not.
+**An unreadable body is not one case but two** (*`"decode"` — the answer did not fit*): a `DecodeError` on a **success**
+status is genuinely unknown, so 5xx; one on an **error** status is the provider's rejection with the
+detail lost, so map it by `err.status`.
 
 **Never map a decode failure onto a domain absence.** "I could not read the answer" is not "the
 provider said no." It is tempting on a lookup — an unreadable body and a genuine miss both leave you
@@ -607,26 +553,10 @@ if (typeof err === "object" && err !== null && "kind" in err && "uri" in err) { 
 
 ## Notes
 
-- **Retries are on by default.** An idempotent call is retried on `408`, `429`, `500`, `502`, `503`,
-  `504`, a dropped
-  connection and a timeout, honouring `Retry-After`, before it rejects; a write is not, unless its
-  method is in `httpMethodsToRetry`. The error you catch is the last attempt's. See
-  **typescript-configuration-resilience**.
-- **A single `401` is not a permanent credential failure.** It invalidates the cached token and, by
-  default, is not re-sent; the caller sees that one `401`, and the *next* call acquires afresh. Do not tear down a
-  client or alert on one.
-- **Failures are logged only when you turn logging on.** Logging is off by default; with
-  `ClientOptions.logging` on, the SDK writes a `warn` line for a non-`2xx` response and an `error` line
-  for a call that ends on a fault or on a credential it could not obtain (see
-  **typescript-configuration-resilience**). Neither is a substitute for handling the error: log what
-  your own code decided in your `catch`.
-- **No raw `Response`.** `status` and `headers` are on `ApiResult` and on a `ResponseError`; the
-  `fetch` `Response` is deliberately unreachable.
-- **A missing credential is not an error.** An unset credential member sends no credential, so the
-  failure surfaces as an `ApiError` `401` from the API rather than anything at construction — which
-  reads like an expired token instead of a config bug. This holds for composite schemes too: a
-  partially configured `all`/`any` scheme sends what it has rather than refusing, so there is no local
-  "auth could not be satisfied" rejection to catch. See **typescript-client-initialization**.
+- **The SDK logs a failure only when its logging is on**, which it is not by default
+  (**typescript-configuration-resilience**) — log what your own code decided in your `catch`.
+- **A missing credential is not an error**: the call goes out without it and the API answers `401`
+  (**typescript-authentication**).
 - **SDK errors do not survive a worker or process boundary intact.** `structuredClone` and
   `postMessage` reduce an `Error` subclass to a plain `Error` — `name`, `message` and `cause` survive;
   `kind`, `method`, `uri`, `status` and `payload` do not. Convert to your own serializable shape

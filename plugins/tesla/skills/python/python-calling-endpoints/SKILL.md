@@ -1,6 +1,6 @@
 ---
 name: python-calling-endpoints
-description: Calling operations on an APIMatic-generated Python SDK — finding the group that owns an operation, the positional/keyword-only split and the parameters that never appear in the signature at all, passing a body as a model or a dict, uploading a file or a raw binary body, the two response modes, consuming a streamed file response, consuming an event stream, per-call request options, and async usage. Load before writing the first call to an SDK operation, or when an operation's shape or return type is unclear.
+description: Load before writing the first call to an operation on an APIMatic-generated Python SDK, or when an operation's parameters or return type are unclear. Covers finding the group that owns an operation, the positional/keyword-only split, parameters absent from the signature, bodies as models or dicts, the parsed and with_raw_response modes, return types, iterating a paginator, per-call request_options and async calls.
 ---
 
 # Calling endpoints on an APIMatic Python SDK
@@ -36,29 +36,21 @@ parameter you must pass `None` to just to reach a later one. Omit what you do no
 
 ### Where a parameter lands — the rule
 
-Each parameter the description declares produces **one of three** outcomes, and the third one catches
-people out:
-
-| What the description declares | What you get |
+| Declared as | What you get |
 |---|---|
 | **required**, no fixed value | a **positional** parameter, no default |
 | **optional** | a **keyword-only** parameter defaulting to `None` |
 | a **default value** | a **keyword-only** parameter defaulting to *that value* — even if the parameter is required |
 | a **constant** value | **no parameter at all** — the value is baked into the request and you cannot change it |
 
-Two consequences worth stating on the contract sheet:
-
-- **"Required" does not mean "path".** Positional parameters are ordered **path → query → header →
-  body**, so a required *query* or *header* parameter is positional too, sitting between the path
-  parameters and the body. Take the boundary from the sheet; never infer it from the URL.
-- **A parameter with a declared default is keyword-only whatever its optionality**, and the SDK sends
-  that default on every call you don't override.
+**"Required" does not mean "path".** Positional parameters are ordered **path → query → header →
+body**, so a required *query* or *header* parameter is positional too, sitting between the path
+parameters and the body. Take the boundary from the sheet; never infer it from the URL.
 
 ### Non-`None` defaults silently narrow what comes back
 
-This is the single most common wasted afternoon on a generated SDK. A parameter carrying a
-spec-declared default is *always sent*, so the response you get is the one that default asked for —
-not the full resource. Typical shapes:
+A parameter's non-`None` default is **sent on every call** you don't override, so the response you
+get is the one that default asked for — not the full resource. Typical shapes:
 
 - a representation/verbosity switch defaulting to the minimal form, so a create returns little more
   than an id, a status and some links;
@@ -87,7 +79,7 @@ Prefer models in application code: better inference, better errors, and required
 at construction. The dict form suits payloads assembled from external data. See `python-models`.
 
 **Form and multipart** — there is **no single body parameter**. Each field (and each file) becomes its
-own parameter, following the same three-way split rule above. Do not go looking for a `body=`; read the
+own parameter, following the same rule above. Do not go looking for a `body=`; read the
 signature. An optional part is omitted by leaving its parameter at its default: a part passed `None`
 is dropped from the body rather than sent empty.
 
@@ -102,26 +94,18 @@ position.
 
 **No payload** — no body parameter at all.
 
-**An optional-looking body is not permission to omit it.** A body typed `... | None = None` reflects
-what the *description* marked optional, not what the endpoint needs. A create whose body is optional in
-the spec will type-check with no arguments and then fail at the provider. Where a call obviously needs
-a payload, pass one.
+**An optional-looking body is not permission to omit it.** A body typed `... | None = None` does not
+mean the endpoint works without one: a create with an optional body type-checks with no arguments and
+then fails at the provider. Where a call obviously needs a payload, pass one.
 
 Serialization happens while the request is built, **before** anything is sent — so a body the SDK
 cannot dump raises out of the call with no request made. See `python-models`.
 
 ### File and binary parameters
 
-**One name per client, whichever position it is.** A multipart file part and a raw binary body take
-the same alias, and only the client you called decides which: `FileInput` on the sync client,
-`AsyncFileInput` on the async one, and `list[…]` of either for an array part. Both are imported from
-`{root_package}.core`.
-
-Nothing validates a file, so what the alias accepts is wider than the annotation shows — `bytes`, a
-`Path`, any object with a binary `read`, a chunk iterator, and an `anyio`-style handle on the async
-client. Which one you pass has consequences the signature cannot show: what stays resident, what can
-be re-sent, who closes your handle, whether the body goes out sized or chunked, and what the file is
-called on the wire. There is **no `str` arm** at either position — wrap a path in `Path`.
+A multipart file part and a raw binary body take the same alias — `FileInput` on the sync client,
+`AsyncFileInput` on the async one, `list[…]` of either for an array part — imported from
+`{root_package}.core`. There is **no `str` arm** at either position — wrap a path in `Path`:
 
 ```python
 from pathlib import Path
@@ -129,10 +113,8 @@ from pathlib import Path
 client.{group}.{operation}(Path("invoice.pdf"))    # the default: streams, sized, names itself
 ```
 
-**Load `python-file-handling`** before passing anything other than a `Path`, and before consuming a
-file an operation returns. It carries the arm-by-arm decision with its costs, the three behaviours
-that differ between a part and a raw body, overriding the filename or media type, and how to read a
-`FileResponse` without leaking its connection.
+**Load `python-file-handling`** before passing anything other than a `Path` — what each arm costs,
+the part-vs-raw-body differences, and overriding the filename or media type are there.
 
 
 ## Making the call and reading the response
@@ -146,10 +128,11 @@ raises `ApiError`:
 value = client.{group}.{operation}(...)
 ```
 
-**Non-raising — `with_raw_response`.** Returns a result you branch on. Use it when you need the
+**Non-raising — `with_raw_response`.** Returns a result you branch on — **2xx is `Success`,
+everything else is `Failure`**, both carrying `.status_code` and `.headers`. Use it when you need the
 **status code or response headers** (the parsed form exposes neither on success, except for a file
-response, which carries its own `headers`), or when a non-2xx is
-an expected outcome rather than an exception:
+response, which carries its own `headers`), or when a non-2xx is an expected outcome rather than an
+exception:
 
 ```python
 from {root_package}.core import Success, Failure
@@ -162,16 +145,15 @@ match client.{group}.with_raw_response.{operation}(...):
 ```
 
 Both are frozen dataclasses, so `match` needs no boilerplate and `isinstance` narrowing is equivalent.
-`unwrap(result)` (from `{root_package}.core`) collapses either back to the payload — which is literally
-how the parsed form is built: every parsed method is `unwrap(...)` around its raw peer.
+`unwrap(result)` (from `{root_package}.core`) collapses either back to the payload, raising on a
+`Failure` exactly as the parsed form does.
 
 **`with_raw_response` removes one exception path, not the need for a `try`.** Two failures still raise
-in both modes: a failed token fetch (it unwraps internally), and any decode failure. See
-`python-error-handling`.
+in both modes: a failed token fetch and any decode failure. See `python-error-handling`.
 
 ### Return types
 
-Five shapes, and the sheet names which one each operation has — the map block states it directly as
+Six shapes, and the sheet names which one each operation has — the map block states it directly as
 **Returns (parsed)** and **Returns (raw)**:
 
 - **A decoded model** — the JSON case, and the common one.
@@ -181,6 +163,9 @@ Five shapes, and the sheet names which one each operation has — the map block 
 - **An event stream** — `EventStream[T]` (`AsyncEventStream[T]` on the async client), for an operation
   declaring a `text/event-stream` response. It arrives **unread**, holds a connection, and iterating
   it yields `T`; see below.
+- **A paginator** — `Paginator[Page, Item]` (`AsyncPaginator[Page, Item]` on the async client), for
+  a paginated operation, whose map block also carries a **Paging** bullet. It sends nothing until you
+  iterate it, and iterating it yields `Item`s from every page; see below.
 - **`None`** — the operation declares no response body.
 
 **`-> None` means the call succeeded.** Do not bind it and do not test it — success is "no exception
@@ -188,26 +173,45 @@ raised", exactly as for the others. Two follow-ons: if you need the resulting st
 separate call; and if you need the status code (`200` vs `204`), the raw peer is `ApiResult[None, ...]`
 and `Success(payload=None, status_code=...)` is the only place it appears.
 
-Writing `value = client.{group}.{operation}(...)` on a `-> None` operation type-checks under a loose
-annotation and then fails later with an `AttributeError` on `None`.
-
 ### Consuming a file response
 
-A `FileResponse` is a body that has **not been read yet** and holds its connection until it is,
-which makes it the one return value with a lifecycle. Three calls consume it and all three close it —
-`save_to(...)`, `read()`, or a drained `iter_bytes()` under `with` — and the async twin mostly
-`a`-prefixes them.
-
-Getting this wrong leaks a connection rather than raising, so **load `python-file-handling`** before
-writing the consuming code. It carries the lifecycle in full: which warning fires when one is
-abandoned and how to make it fail a test, the single-use rule, what `save_to` does with a directory,
-and why a `try` around the call alone catches nothing.
+A `FileResponse` arrives **unread** and holds its connection until `save_to(...)`, `read()` or a
+drained `iter_bytes()` under `with` closes it; the async twin mostly `a`-prefixes them. A mistake
+leaks a connection rather than raising, so **load `python-file-handling`** before writing the
+consuming code.
 
 ### Consuming an event stream
 
 An `EventStream[T]` is iterated, not read: a drained `for` releases its connection, and any early exit
 needs `with`. **Load `python-event-streams`** before writing the loop — it carries the lifecycle, the
 union narrowing, and the failures that are silent.
+
+### Iterating a paginator
+
+A `Paginator` is a lazy walk over the whole collection, not a page. Calling the method sends nothing;
+the first request goes out when you start iterating, and each new iteration starts again from the
+first page. Iterate it for items, or call `iter_pages()` for the pages:
+
+```python
+for item in client.{group}.{operation}(...):
+    ...
+
+for page in client.{group}.{operation}(...).iter_pages():
+    ...
+```
+
+- **The arguments set the first request only.** The SDK moves the offset, page, cursor or link forward
+  from each response and stops on the API's own signals — the map block's **Paging** bullet says
+  which. There is no next-page method; to resume from a known point, pass it as the first-page
+  argument.
+- **Cap a walk with `break` or `itertools.islice`.** There is no page-cap argument, and either stops
+  the walk with no further request. A `list(...)` over an uncapped paginator fetches every page.
+- **Errors raise from the loop, not the call** — so a `try` around the call alone catches nothing.
+  `python-error-handling` has the detail.
+- **The raw peer's pages are results.** `client.{group}.with_raw_response.{operation}(...)` returns
+  `Paginator[ApiResult[Page, E], Item]` and never raises for an API error: iterating it for items
+  yields the items of every successful page and ends at a failed one, and `iter_pages()` yields one
+  `Success` or `Failure` per page, the `Failure` last.
 
 
 ## Per-call overrides — `request_options`
@@ -224,25 +228,26 @@ The keys are exactly `timeout` (seconds, must be > 0), `extra_headers`, and the 
 `extra="forbid"`, so `{"timeuot": 5}` raises `ValidationError` rather than being ignored — and because
 the dict form is a closed `TypedDict`, a type checker catches it at the call site first.
 
-`extra_headers` wins over both the API's and the endpoint's own headers, which makes it the deliberate
-way to override a header the SDK sets — including blanking an auth header for a call meant to go out
-anonymous. That precedence is a footgun as much as a feature: setting `authorization` here overrides
-the managed token.
+`extra_headers` wins over the API's, the endpoint's and the auth scheme's headers (precedence
+API-wide → endpoint → auth → `extra_headers`), which makes it the deliberate way to override a header
+the SDK sets — including blanking an auth header for a call meant to go out anonymous — and the way to
+break auth by accident: setting `authorization` here overrides the managed token.
 
 Two mechanics:
 
 - **Header names are lowercased on the way out**, at every layer including yours, so the merge is
-  genuinely case-insensitive and the request reaching the transport is keyed in lowercase. Look
-  request headers up that way (`python-testing`).
-- **`Cookie` folds instead of replacing.** Every other field takes the later layer and discards the
-  earlier; a cookie you add joins the jar alongside whatever the endpoint or a credential put there
-  (RFC 6265 permits one `Cookie` field). So a cookie-carried credential cannot be blanked with
-  `extra_headers` the way a header-carried one can.
+  case-insensitive and the request reaching the transport is keyed in lowercase. Look request headers
+  up that way (`python-testing`).
+- **`Cookie` folds instead of replacing.** Every other field takes the later layer; a cookie you add
+  joins whatever the endpoint or a credential put there, so a cookie-carried credential cannot be
+  blanked with `extra_headers` the way a header-carried one can.
 
 ## Async
 
 The async client's operations are identical in name and parameters — you await them. There is no
-`_async` suffix and no separate method list; the client class you hold decides the flavour:
+`_async` suffix and no separate method list; the client class you hold decides the flavour. The one
+exception is a paginated operation: it is a **plain call** returning `AsyncPaginator`, so you
+`async for` over it with no `await` on the call.
 
 ```python
 value = await client.{group}.{operation}(...)
@@ -269,12 +274,9 @@ results = await asyncio.gather(*(one(a) for a in args))
 
 ## Timeouts and cancellation
 
-There is no cancellation-token parameter. Python's own mechanisms apply:
-
-- **Per call** — `request_options={"timeout": ...}`, which sets the limit on each wait for this one request.
-- **The whole call** — `asyncio.wait_for(...)` around it, in async code; see
-  `python-configuration-resilience`.
-- **Sync code has no whole-call limit.** The timeout only limits each wait — set one anyway.
+There is no cancellation-token parameter. `request_options={"timeout": ...}` limits each wait of one
+request; `asyncio.wait_for(...)` around the call limits the whole call in async code
+(`python-configuration-resilience`). Sync code has no whole-call limit — set the timeout anyway.
 
 ## Next
 

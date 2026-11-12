@@ -1,6 +1,6 @@
 ---
 name: python-event-streams
-description: Consuming a server-sent-events (text/event-stream) operation on an APIMatic-generated Python SDK — what EventStream[T] / AsyncEventStream[T] yields, how the loop must end so the connection is released, narrowing a union of event types, what raises and when (there is no SSE exception class), the silent failures, and bounding the wait. Load before writing the loop over an operation that returns an event stream, in addition to `python-calling-endpoints`.
+description: Load before writing the loop over an APIMatic-generated Python SDK operation that returns a server-sent-events (text/event-stream) stream, together with `python-calling-endpoints`. Covers what EventStream[T] / AsyncEventStream[T] yields, ending the loop so the connection is released, narrowing event unions, what raises from the loop, and bounding the wait.
 ---
 
 # Event streams on an APIMatic Python SDK
@@ -74,17 +74,16 @@ does **not** — it leaves `T | UnsetType`.
 | What failed | Parsed call | `with_raw_response` |
 |---|---|---|
 | a non-2xx status (the head) | raises `ApiError` at the call | returns `Failure` — no raise |
-| a frame the event type rejects | raises pydantic's `ValidationError` from the loop, **after** the stream closed | same |
-| an event over 1 MiB, or bad UTF-8 | raises `ValueError` / `UnicodeDecodeError` from the loop | same |
-| the wire stalls | raises `httpx2.ReadTimeout` from the loop | same |
-| the connection drops mid-stream | raises an `httpx2.RequestError` subclass from the loop, such as `RemoteProtocolError` or `ReadError` | same |
+| a frame the event type rejects | raises `ResponseDecodeError` from the loop, **after** the stream closed; pydantic's `ValidationError` on `__cause__` | same |
+| an event over 1 MiB, or bad UTF-8 | raises `ResponseDecodeError` from the loop; the `ValueError` / `UnicodeDecodeError` on `__cause__` | same |
+| the wire stalls | raises `SdkTimeoutError` from the loop; `httpx2.ReadTimeout` on `__cause__` | same |
+| the connection drops mid-stream | raises `SdkConnectionError` from the loop; an `httpx2` error such as `RemoteProtocolError` or `ReadError` on `__cause__` | same |
 | **the connection closes a body with no `Content-Length` that is not chunked** | **nothing — the loop ends early** | same |
 | **the body is not an event stream** | **nothing — the loop ends with zero events** | same |
 
-**There is no SSE exception class.** Everything the loop raises for a bad body is already a
-`ValueError`, so one `except ValueError` covers the family. A stalled or dropped connection is not a
-bad body: it raises `httpx2.RequestError` (`ReadTimeout` included), so catch that too. Put both
-boundaries around the **loop**, not only the call — the call returns as soon as the head arrives.
+**There is no SSE-specific exception class.** A bad body is `ResponseDecodeError` and a stalled or
+dropped connection `SdkConnectionError`, both `SdkError`, so one `except SdkError` covers the loop. Put
+the boundary around the **loop**, not only the call — the call returns as soon as the head arrives.
 
 The last row is a known gap: the SDK does not check `Content-Type`, so a 200 carrying a proxy's HTML
 page or a buffered JSON body parses as a stream of zero events and ends quietly. If a stream yields

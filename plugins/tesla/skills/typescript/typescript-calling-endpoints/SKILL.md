@@ -1,16 +1,16 @@
 ---
 name: typescript-calling-endpoints
-description: Calling operations on an APIMatic-generated TypeScript SDK — finding the resource that owns an operation, building the one flat channel-blind request object, required vs optional vs defaulted fields and the values that never appear on the request at all, passing a body, the ApiPromise return and the two ways to read it, bounded concurrency, and cancellation. Load before writing the first call to an SDK operation, or when an operation's shape or return type is unclear.
+description: Load before writing the first call to an APIMatic-generated TypeScript SDK operation, or when an operation's request shape or return type is unclear — the one flat request object, required, optional, defaulted and SDK-fixed fields, request bodies and file uploads, binary responses, reading an `ApiPromise` or `.asApiResult()`, the `Pageable` walk a paged operation returns, and per-call retry and cancellation.
 ---
 
 # Calling endpoints on an APIMatic TypeScript SDK
 
-Operations are **methods returning `ApiPromise`** on the client. Most are **grouped under a resource
-getter** and called `client.{resource}.{operation}(...)`; an operation the spec left untagged sits
-**directly on the client**, called `client.{operation}(...)`. The resource getter, the exact operation
-name and its signature come from the generated SDK map (grounded in `src/client.ts` and
-`src/resources/`) — operation names follow no fixed verb/resource pattern, so take the real name from
-the map, never from memory.
+Operations are **methods returning `ApiPromise`** on the client — or `Pageable`, for an operation the
+API pages (see [A paged operation](#a-paged-operation)). Most are **grouped under a resource
+getter** and called `client.{resource}.{operation}(...)`; an operation with no resource group sits
+**directly on the client**, called `client.{operation}(...)`, and an SDK may have no resource level at
+all. Take the getter, the exact operation name and its signature from the SDK map, never from memory —
+operation names follow no fixed verb/resource pattern.
 
 > Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g. `{Api}Client`,
 > `{package-name}`, `{resource}`, `{Resource}`, `{Operation}`, `{Enum}`) — replace it with the concrete
@@ -30,8 +30,7 @@ the map, never from memory.
    the docs do not carry.
 
 Both the docs and `src/` ship inside `node_modules/{package-name}/`, so read them there rather than the
-compiled `dist/`. **Do not assume a `client.{resource}` level exists** — when the spec declares no tags,
-or exactly one tag covering every operation, no resource classes are emitted at all.
+compiled `dist/`.
 
 Resource classes are exported from the package root, but only for their merged namespaces and for
 `instanceof`. Never construct one: its constructor takes engine internals that are not exported.
@@ -44,26 +43,23 @@ Every operation has the same shape, with no positional overload and no sync vari
 {operation}(request: {Resource}.{Operation}Request, options?: RequestOptions): ApiPromise<T, E>
 ```
 
-- **There is exactly one request parameter**, and it is **not optional** — even when every field on it
-  is. An all-optional request still needs `{}` passed explicitly.
-- **`options` is on every generated operation**, always last, always optional. It is
-  `RequestOptions` = `{ signal?: AbortSignal; retry?: RequestRetryOptions }` and nothing else — see
+- **There is exactly one request parameter.** It is required when any field on it is. When every field
+  is optional it defaults to `{}`, so the call may leave it out — `{operation}()` sends what
+  `{operation}({})` sends.
+- **`options?: RequestOptions` is on every operation**, always last — see
   [Cancellation and per-call retry](#cancellation-and-per-call-retry).
-- **An operation may declare no request parameter at all.** When every value the request carries is
-  fixed by the spec, the generator emits no parameter and exports no request type, and `options` moves
-  into first position. Check the **Signature** bullet before passing `{}` — it will not type-check
-  against an operation whose only parameter is `RequestOptions`.
+- **An operation whose every value is fixed takes no request parameter** and has no request type;
+  `options` is then its only parameter. Check the **Signature** bullet before passing `{}` — it will
+  not type-check against such an operation.
 
   ```ts
   await client.{resource}.{operation}();              // no request
   await client.{resource}.{operation}({ signal });    // options only
   ```
-- **The map is the source of truth for the signature.** Whether a field is required, optional or
-  defaulted — and whether the operation takes a body at all — varies per operation.
-- **Return type** varies by operation — see
-  [Making the call and reading the response](#making-the-call-and-reading-the-response).
-- A non-2xx response **rejects** the promise unless you opt out with `.asApiResult()` — see
-  **typescript-error-handling**.
+- Requiredness, defaults, whether there is a body, and the return type all vary per operation — read
+  each from its map entry.
+- A paged operation returns `Pageable<TPage, TItem, E>` in place of `ApiPromise`, and its **Returns**
+  bullet names the paging strategy and what ends the walk.
 
 ## The request object is flat and channel-blind
 
@@ -90,27 +86,18 @@ the field list either, so the table is the only place to learn what went on the 
 
 ### Where a field lands — the rule
 
-Each value the spec declares produces **one of four** outcomes, and the last one catches people out:
-
-| What the spec declares | What you get |
+| In the map | What you get |
 |---|---|
-| **required**, no fixed value | `f: T` — a required member of the request object |
-| **optional** | `f?: T` — omit it and nothing is sent for it |
-| a **default value** | `f?: T` — omit it and the SDK **still sends the default** |
-| a **constant** value | **no field at all** — the value is baked into the request and you cannot change it |
+| `Req` yes | `f: T` — a required member of the request object |
+| `Req` no, no `Default` | `f?: T` — omit it and nothing is sent for it |
+| a `Default` | `f?: T` — omit it and the SDK **still sends the default** |
+| listed only under **SDK-sent** | **no field at all** — a fixed value (a `Content-Type`, an API version, a `grant_type`) spelled as it goes on the wire; no override short of wrapping `fetch` |
 
-Three consequences worth taking off the map before you write the call:
-
-- **A constant appears in no signature and in no Fields table.** Its only listing is the operation's
-  **SDK-sent** bullet, which spells each fixed pair as it goes on the wire. If you are hunting for a
-  field to set a `Content-Type`, an API version or a fixed `grant_type` with, that is why you cannot
-  find one — and there is no override for it short of wrapping `fetch`.
-- **"Required" says nothing about the channel.** A required field may travel in the query, a header or
-  the form body just as easily as the path; requiredness and channel are independent columns. Never
-  infer one from the route.
-- **Field names are the generated `camelCase` identifiers, not the wire names.** A header field
-  `traceId` is transmitted as `X-Trace-Id`, and the `Wire` column is where that mapping lives — it is
-  written only where the two differ, so a `—` means they match.
+- **Requiredness and channel are independent.** A required field may travel in the query, a header or
+  the form body just as easily as the path; never infer one from the route.
+- **Field names are `camelCase` identifiers, not the wire names.** A header field `traceId` is
+  transmitted as `X-Trace-Id`; the `Wire` column gives the wire name where the two differ, and `—`
+  means they match.
 
 The request type is declared in the resource's merged namespace, so it is
 `{Resource}.{Operation}Request` — importable from the package root if you want to name it:
@@ -123,17 +110,11 @@ const request: {Resource}.{Operation}Request = { /* ... */ };
 
 ## Building request models
 
-**A JSON, text or binary operation has a `body` field.** Where the API declares an
-`application/x-www-form-urlencoded` or `multipart/form-data` request, the generator emits the parts as
-**individual flat request fields** alongside the path and query ones and assembles the form itself —
-there is no nested body object to construct and no `body` field to pass. The operation's **Request
-body** bullet says which you are looking at; the signature settles it.
-
-The runtime carries six request-body shapes: **empty, JSON, form-urlencoded, text, multipart and
-binary**. An **XML** body has no carrier, so the operation is still emitted but **degrades to no body
-field at all** — there is nothing to supply the payload through, and the request goes out with no
-body. Its **Request body** bullet reads `none` in that case. If you need such an endpoint, call it
-with `fetch` directly; the SDK cannot send it.
+**A JSON, text or binary operation has a `body` field; a form-urlencoded or multipart operation has
+none** — its parts are **individual flat request fields** beside the path and query ones, and the SDK
+assembles the form. The operation's **Request body** bullet says which. An **XML**-body operation has
+no body field and sends no body (its **Request body** reads `none`); call that endpoint with `fetch`
+directly.
 
 **A file field takes bytes, not a path.** Every binary `body` field and every multipart file field is
 typed `FileInput`, which is a `Blob`, a `Uint8Array`, an `ArrayBuffer`, a `ReadableStream` of bytes,
@@ -156,64 +137,38 @@ the read, so an unread stream holds the connection until you read it, cancel it 
 `signal`. A server-chosen file
 name is untrusted input: sanitise it before writing to disk.
 
-For the JSON case, the `body` field's type is a generated model — a plain object literal, no builders.
-Required members must be set; optional ones are omitted from the JSON when left `undefined`, except one
-with a spec default (`s.defaulted(...)` in the model's schema), which the SDK fills in and sends. Take the
-type's name and the file that declares it from the **Type sources** table:
+For the JSON case, the `body` field's type is a generated model written as a plain object literal
+(**typescript-models**); take its name and the file that declares it from the **Type sources** table.
 
-```ts
-const result = await client.{resource}.{operation}({
-  body: {
-    requiredProp: value,   // required members must be provided
-    optionalProp: value,   // optional; unset means omitted, unless it has a spec default
-  },
-});
-```
-
-A body's **shape varies**: some are flat scalars, others nest an inner model. The **Fields** table and
-the model file named beside it carry the real members.
-
-**An optional-looking body is not permission to omit it.** A `body?: T` reflects what the *spec* marked
-optional, not what the endpoint needs. A create whose body is optional in the spec type-checks with
-`{}` passed and then fails at the provider. Where a call obviously needs a payload, pass one.
+**An optional-looking body is not permission to omit it.** A `body?: T` is optional only in the type:
+a create passed `{}` type-checks and then fails at the provider. Where a call obviously needs a
+payload, pass one.
 
 ### Defaults are sent, not omitted
 
-A field the spec gave a default is filled **by the SDK** when you omit it, and it goes on the wire.
-Omitting such a field is therefore not "let the server decide" — the server sees the value. Which
-fields have defaults is the `Default` column of the **Fields** table.
+An omitted field with a `Default` is filled **by the SDK** and sent, so the server sees the default,
+and the response is the one that default asked for — a verbosity switch defaulting to the minimal form
+(a create resolving to little more than an id and a status), or a field selector defaulting to one
+section. Read the `Default` column **before** concluding the API dropped data — it was never
+requested.
 
-**And a default can silently narrow what comes back.** A defaulted field is *always sent*, so the
-response you get is the one that default asked for, not the full resource. The two shapes that cost
-people an afternoon:
+### Every value is shape-checked before anything is sent
 
-- a representation or verbosity switch defaulting to the minimal form, so a create resolves to little
-  more than an id, a status and some links;
-- a field selector defaulting to one section, so whole branches of the response are simply absent.
-
-Read the `Default` column **before** concluding the API dropped data — it was never requested.
-
-### Every value is validated before anything is sent
-
-Each field is schema-encoded on the way out. A wrong type or a malformed format (a bad date string,
+Each field is schema-encoded on the way out: a wrong type or a malformed format (a bad date string,
 say) rejects with an `EncodeError` — its `cause` the `SchemaError` naming the field — and **nothing is
-sent**: no request reaches the network. That is an error in
-your code, not an API failure; see **typescript-error-handling**.
+sent** (**typescript-error-handling**).
+
+A value constraint the spec declares — `minLength`, `pattern`, `minimum`, `uniqueItems`, a checked
+`format` such as `email` — is **not** applied by the operation, so a value that breaks one is sent as
+built and refused, if at all, by the service. Whether `{model}Schema.validate(body)` checks it first,
+and whether an operation exports a `{Group}.{operation}RequestSchema` to `validate` the request object
+against, is stated in **typescript-models** (*Checking a value before you send it*). Either `validate`
+returns `{ success: true }` or `{ success: false, message }` with every failing field named.
 
 ## Enums
 
-Enum fields take a member of the generated `const` object. The type alias is **open** — it carries a
-`| (string & {})` (or `| (number & {})`) tail — so a raw string also type-checks:
-
-```ts
-import { {Enum} } from "{package-name}";
-
-await client.{resource}.{operation}({ status: {Enum}.Active });   // preferred — a rename is caught
-await client.{resource}.{operation}({ status: "active" });        // also compiles
-```
-
-Prefer the member: the string form silently survives a spec change that renames the value. See
-**typescript-models** for read-back semantics and for guarding an unknown value off the wire.
+Enum fields take a member of the generated `const` object — `{ status: {Enum}.Active }`. A raw string
+also compiles (the type is open), but only the member catches a rename. See **typescript-models**.
 
 ## Union types, collections, and dates
 
@@ -228,10 +183,9 @@ Some fields are not plain scalars: `oneOf`/`anyOf`/polymorphic unions declared u
 const value = await client.{resource}.{operation}({ /* ... */ });
 ```
 
-> **Wrap the call in error handling — a non-2xx response *rejects*, it is not signalled by the return
-> value.** The bare `await` above shows only the happy path. Before writing a real call, **load
-> `typescript-error-handling`** for the `try`/`catch` shape and which error type to narrow on per
-> operation — or use the non-throwing `.asApiResult()` form below.
+> **A non-2xx response *rejects*.** Before writing a real call, **load `typescript-error-handling`** for
+> the `try`/`catch` shape and which error type to narrow on per operation — or use the non-throwing
+> `.asApiResult()` form below.
 
 Operations return `ApiPromise<T, E>`, a `Promise<T>` subclass. Two ways to consume it:
 
@@ -256,25 +210,18 @@ type ApiResult<T, E> =
       payload: PayloadOf<E> };
 ```
 
-Five things to know:
-
-- **`.asApiResult()` must be called on the value the operation returned.** `ApiPromise` overrides
+- **Call `.asApiResult()` on the value the operation returned.** `ApiPromise` overrides
   `Symbol.species`, so `.then()`, `.catch()` and `.finally()` hand back a plain `Promise` and the
-  method is gone. `op(...).then(x => x).asApiResult()` does not compile.
-- **`.asApiResult()` still rejects for every other failure** — a body that would not decode, a value that
-  would not encode, a connection error, a timeout, a credential that could not be obtained, or a caller
-  abort. It converts only the *HTTP error status* branch into a value, so it still needs a
-  `try`/`catch` around it.
-- **On failure, `outcome` carries the error's own members, not the error object** — `status`,
-  `headers`, `message`, `method`, `uri` and `payload` — so `outcome.payload.kind` narrows exactly as
-  `err.payload.kind` would. The `ApiError` instance is not reachable through this path.
-- **Nothing suppresses an unhandled rejection.** A call you never await that fails is reported by the
-  runtime — `unhandledRejection` on Node, which by default ends the process. `.asApiResult()` marks the
-  promise handled as its first act, so call it on the returned value in the same turn, and never start
-  a call you do not consume.
-- **Both paths read one underlying outcome**, so awaiting an `ApiPromise` *and* calling
-  `.asApiResult()` on it issues no second request. The request goes out when the operation is called,
-  not when you await it — which also means a call you build and hold has already been sent.
+  method is gone — `op(...).then(x => x).asApiResult()` does not compile.
+- **It converts only the HTTP error status.** Every other failure still rejects, so keep the
+  `try`/`catch`; on failure `outcome` carries the error's members, not the error object
+  (**typescript-error-handling**).
+- **The request goes out when the operation is called**, not when you await it; awaiting and
+  `.asApiResult()` read the same outcome and never send twice, so a call you build and hold has already
+  been sent.
+- **Nothing suppresses an unhandled rejection.** A call you never consume that fails is an
+  `unhandledRejection` — on Node, by default, the process ends. `.asApiResult()` marks the promise
+  handled as its first act, so call it on the returned value in the same turn.
 
 ### Status and headers
 
@@ -284,73 +231,77 @@ deliberately unreachable.
 
 ### The success type
 
-`T` is whatever the operation's success body decodes to. The **Returns** bullet names it, and the cases
-you will meet are:
+The operation's own **Returns** bullet names `T`, which can differ between sibling operations:
 
-- **A model type** — a JSON body decoded through the generated schema. The **Type sources** table names
-  the file under `src/models/` where you read its shape; the map does not duplicate it.
-- **A primitive** — a `text/plain` body decoded by the plain-text scalar decoder, not by a model.
-- **`undefined`** — the operation's success response has no body. That is a real value, not a mistake:
-  the decoder asserts the body is empty, and a non-empty one rejects with `DecodeError`.
+- **A model type** — a JSON body decoded through its schema. The **Type sources** table names the file
+  under `src/models/` where you read its shape.
+- **A primitive** — a `text/plain` body.
+- **`undefined`** — no body; a non-empty one rejects with `DecodeError`. Resolving *is* the success
+  signal: do not test the value, re-read the resulting state with a separate call if you need it, and
+  use `.asApiResult()` to tell a `200` from a `204`.
+- **`EventStream<T>`** — a `text/event-stream` body. The call resolves at the response headers with
+  nothing read, and `for await` over the stream yields each event's decoded `data` as a `T`; the
+  stream holds its connection until the loop ends or you `close()` it. Load
+  **typescript-event-streams** before you write the loop.
 
-**On an `undefined` operation, resolving *is* the success signal.** Do not bind the value and do not
-test it — success is "did not reject", exactly as for the others. Two follow-ons: if you need the
-resulting state, re-read it with a separate call; and if you need to tell a `200` from a `204`,
-`.asApiResult()` is the only place the status appears.
+### A paged operation
 
-Endpoints in the same family can differ, so let each operation's own **Returns** bullet decide how you
-read it.
+An operation the API pages returns **`Pageable<TPage, TItem, E>`** instead of `ApiPromise`. The
+**Signature** bullet shows it, and the **Returns** bullet names the strategy and what ends the walk.
+Nothing is sent when you call it: the walk is lazy, the first page goes out when a loop starts, and
+each new loop starts again from the first page.
+
+```ts
+// Items, across every page — the SDK fetches the next page as the previous one runs out:
+for await (const item of client.{resource}.{operation}({ /* ... */ })) {
+  process(item);
+}
+
+// Pages, when you need the page's own members (a total, a cursor, a link):
+for await (const page of client.{resource}.{operation}({ /* ... */ }).pages()) {
+  process(page.{items});
+}
+
+// The result form — an error status as a value instead of a throw:
+for await (const result of client.{resource}.{operation}({ /* ... */ }).asApiResult().pages()) {
+  if (!result.ok) break;              // the failed page is the last one the walk yields
+}
+```
+
+The request's paging fields (`page`, `offset` or `cursor`, and `limit`) **seed the first page** with
+their declared defaults applied; the SDK advances the page, offset or cursor from there. `options`
+applies to every page the walk sends. Either loop throws `E` at the first error status, and every
+other failure exactly as an awaited call would reject — a `{Api}Error` member, or a caller abort's
+own `reason`. An item loop over `.asApiResult()` **ends silently** at an error status, so use
+`.pages()` on the result form when the distinction matters. **Every walk needs a bound of your
+own** — a page cap, an item cap or a deadline; **typescript-configuration-resilience** carries the
+strategies, their stop rules and the bounded shape.
 
 ## Cancellation and per-call retry
 
-`RequestOptions` is the entire per-call surface:
-
-```ts
-type RequestOptions = {
-  signal?: AbortSignal;
-  retry?: RequestRetryOptions;   // Pick<RetryOptions, "maxRetries" | "timeout" | "statusCodesToRetry">
-};
-```
-
-`retry` overrides three fields of the client's retry policy for this call alone, field by field — a
-field you leave out keeps the client's value:
+`RequestOptions` = `{ signal?: AbortSignal; retry?: RequestRetryOptions; logging?: RequestLoggingOptions }`
+is the entire per-call surface. `retry` overrides `maxRetries`, `timeout` and `statusCodesToRetry` for
+this call, field by field — a field you leave out keeps the client's value — and `logging` takes only a
+`level`. Headers, base URL, auth and the other retry and logging fields are client-level only
+(**typescript-client-initialization**, **typescript-configuration-resilience**).
 
 ```ts
 await client.{resource}.{operation}({ /* ... */ }, { retry: { maxRetries: 0 } });    // one attempt
 await client.{resource}.{operation}({ /* ... */ }, { retry: { timeout: 5_000 } });   // 5 s per attempt
-```
 
-There is **no** per-call header, base URL or auth override, and the type admits no other retry field
-(though the runtime honours one it is handed) — those belong on
-`ClientOptions` at construction (**typescript-client-initialization**), and the retry policy's other
-fields on `ClientOptions.retry` (**typescript-configuration-resilience**).
-
-```ts
 const controller = new AbortController();
 setTimeout(() => controller.abort(new Error("too slow")), 5_000);
-
 await client.{resource}.{operation}({ /* ... */ }, { signal: controller.signal });
 ```
 
-An already-aborted signal rejects immediately. See **typescript-configuration-resilience** for
-deadlines across a whole call and for combining signals.
-
-Three mechanics that decide how you catch the result:
-
-- **Your signal and each attempt's `retry.timeout` race the same internal controller**, so an
-  attempt ends on whichever fires first. `retry.timeout` bounds **one attempt**, in milliseconds, even
-  when set per call — an idempotent call that keeps failing gets up to four of them, plus backoff — so
-  a signal plus your own timer is how you bound the whole call. An abort also cuts a backoff wait short,
-  and is never retried.
-- **An abort rejects with the signal's own `reason`, unwrapped, and a timeout with `TimeoutError`**
-  once no retry is left.
-  Whatever you passed to `controller.abort(reason)` — or the `DOMException` a bare `abort()` supplies —
-  is what the call rejects with, so it is **not** an `{Api}Error`; the timeout is the SDK's own and
-  stays in the family.
-- **Neither is an `ApiError`.** A `catch` that narrows on `ApiError` — or on an operation's declared
-  error class — will **not** match an abort, a timeout or a connection failure. See
-  **typescript-error-handling** for a ladder over the whole family, and for rethrowing what is outside
-  it.
+- `retry.timeout` bounds **one attempt**, in milliseconds, even when set per call — an idempotent call
+  gets up to four attempts plus backoff — so only your `signal` bounds the whole call
+  (**typescript-configuration-resilience** for deadlines and combining signals). An abort — an
+  already-aborted signal included — ends the call at once, cuts a backoff wait short and is never
+  retried.
+- An abort rejects with the signal's own `reason`, unwrapped, and an exhausted timeout with
+  `TimeoutError`. Neither is an `ApiError`, and the abort is not an `{Api}Error` at all — see
+  **typescript-error-handling** for a ladder over the whole family.
 
 ## Concurrency
 
@@ -386,8 +337,11 @@ const all = await mapLimit(ids, 10, (id) => client.{resource}.{operation}({ id }
 Note that `Promise.all` rejects on the first failure and leaves the rest of the batch running
 unobserved; `Promise.allSettled` is usually what you want when partial success is acceptable.
 
-Nothing is paginated and nothing is async-iterable, so there is no `for await` form. If an operation
-returns a page, advance its page or cursor field yourself in a loop — see
+A paged operation returns a `Pageable`: `for await` it and the SDK fetches the pages one at a time —
+see [A paged operation](#a-paged-operation). The only other `for await` form is over an
+`EventStream`, which only an operation whose **Returns** bullet reads `EventStream<T>` hands back
+(**typescript-event-streams**). A list operation whose **Signature** returns `ApiPromise` is a single
+call; to page one of those, advance its page or cursor field yourself in a loop — see
 **typescript-configuration-resilience**.
 
 ## Worked example — a list/GET call
@@ -425,7 +379,8 @@ if (!outcome.ok) {
 
 > This operation's success body is a model that nests its list under a member, so you read that member
 > and then iterate. Another operation may return the array directly, or a primitive, or `undefined`.
-> Check its **Returns** bullet.
+> Check its **Returns** bullet — and when its **Signature** returns `Pageable`, it is walked with
+> `for await` rather than awaited (see [A paged operation](#a-paged-operation)).
 
 ## Next
 

@@ -1,6 +1,6 @@
 ---
 name: python-authentication
-description: Authentication for an APIMatic-generated Python SDK — supplying credentials in typed or dict form, the scheme shapes, the managed OAuth2 token lifecycle and its caching, what a failed token fetch actually raises (and why it bypasses the non-raising response mode), and loading secrets safely. Load before wiring credentials into the client, or when a call fails with 401/403.
+description: Load before setting credentials on an APIMatic-generated Python SDK client, or when a call fails with 401/403 or a token fetch fails. Covers each scheme's constructor keyword in typed or dict form — Basic, bearer, API key and the three OAuth2 grants — the managed token lifecycle and caching, composite schemes, what a failed token fetch raises, and loading secrets.
 ---
 
 # Authenticating an APIMatic Python SDK client
@@ -16,22 +16,19 @@ dict of the same keys; set the one(s) your API uses, then construct the client (
 To see which schemes a specific SDK accepts, read the **credentials keywords on its client
 constructor** — those are the source of truth (take them from the contract sheet, grounded in the SDK
 map's constructor-keyword table and its *Servers & auth* section, not from recall).
-`{root_package}/auth.py` is the cheap cross-check:
-its `AuthSchemes` holder carries exactly one field per declared scheme, and the field names *are* the
-constructor keywords. The `{root_package}/core/auth/schemes/` directory ships *every* scheme the
-generator supports as shared runtime code regardless of what the API accepts, so never infer a scheme
-from that directory. (An SDK whose API uses only OAuth2 client credentials, for instance, exposes a
-single `{oauth2}=` keyword and its `{oauth2}_token_source=` override.)
+`{root_package}/auth.py` is the cheap cross-check: its `AuthSchemes` holder carries exactly one field
+per declared scheme, named as the constructor keyword. Never infer a scheme from
+`{root_package}/core/auth/schemes/`: it ships every scheme kind, whatever the API accepts. (An SDK
+whose API uses only OAuth2 client credentials, for instance, exposes a single `{oauth2}=` keyword and
+its `{oauth2}_token_source=` override.)
 
 The credential classes below live under `{root_package}.core` and are the **same across all APIMatic
-Python SDKs**; only the **keyword names** are generated per-API — each is the security scheme's id from
-the spec, snake_cased (hence the `{...}` placeholders).
+Python SDKs**; only the **keyword names** differ per SDK — each is the scheme's id, snake_cased (hence
+the `{...}` placeholders).
 
 ## The two spellings
 
-Every credential keyword accepts a typed model or a mapping, and they are exactly equivalent — a
-`coerce` classmethod is the single place the dict form is resolved, so the two cannot produce different
-requests:
+Every credential keyword accepts a typed model or a mapping, and the two produce identical requests:
 
 ```python
 from {root_package}.core import ClientCredentials
@@ -74,15 +71,14 @@ its discovery document says how a token is obtained, not how it is sent.
 ## API key (header, query, or cookie)
 
 The key is sent as a header, query parameter, or cookie — its placement and name are fixed by the
-generated scheme. Set the configured key keyword to your key string:
+SDK's scheme. Set the configured key keyword to your key string:
 
 ```python
 client = {Client}({api_key}="API_KEY")
 ```
 
 A query-placed key is percent-encoded exactly as an endpoint's own query parameter; a cookie-placed key
-is sent verbatim, because RFC 6265's `cookie-value` alphabet already admits every character a base64
-key uses and encoding it would corrupt the credential.
+is sent verbatim.
 
 > **Applies only when the SDK declares an OAuth2 scheme.** The next five sections — the three grants,
 > the managed token lifecycle, and the token-fetch failure mode — describe machinery that exists only
@@ -105,10 +101,9 @@ client = {Client}({oauth2}=ClientCredentials(
 pre-join it yourself, or you send one scope literally named `"a b"`. Omit it to get whatever the
 client's default scopes are.
 
-When the flow declares a scope vocabulary, the generator emits a `Literal` alias for it in
-`{root_package}/auth.py` (`{Flow}Scope`) and types `scopes` by that alias — so a scope the flow does not
-document fails the type check at the call site instead of the request at the provider. A flow that
-declares no scopes has no alias, and `scopes` is a plain `list[str] | None`.
+Where `{root_package}/auth.py` declares a `{Flow}Scope` `Literal` alias, `scopes` is typed by it — so
+a scope the flow does not document fails the type check at the call site instead of the request at the
+provider. A flow with no alias takes a plain `list[str] | None`.
 
 ## OAuth 2.0 — authorization code (3-legged, with PKCE)
 
@@ -168,20 +163,18 @@ is the part that matters:
 
 - **The token is fetched lazily, on the first authenticated call** — not at construction. A client built
   with bad credentials constructs perfectly happily; the failure surfaces at the first operation.
-- The fetch is a `POST` to the token endpoint derived from the client's `base_url`, form-encoded, with
-  the client id and secret sent per the placement the spec declares — commonly HTTP Basic
-  (`client_secret_basic`, both halves percent-encoded before base64), otherwise in the form body
-  (`client_secret_post`).
+- The fetch is a form-encoded `POST` to the token endpoint derived from the client's `base_url`, with
+  the client id and secret sent as HTTP Basic (`client_secret_basic`) or in the form body
+  (`client_secret_post`), per the scheme.
 - The resulting token is **cached in memory on the client's auth scheme** and reused across calls, which
-  is the whole reason a client must be long-lived (`python-client-initialization`). The cache is
-  double-checked under a lock, so a burst of concurrent first calls pays for **one** fetch.
+  is the whole reason a client must be long-lived (`python-client-initialization`); a burst of
+  concurrent first calls pays for **one** fetch.
 - A token with an `expires_in` is renewed ~30s before expiry (or at half its lifetime, whichever leaves
   more time, for tokens shorter than a minute). Without an `expires_in` there is no client-side deadline
   and the token is used until the server rejects it.
-- **Refreshing applies only to the authorization-code grant**, whose scheme prefers a refresh over a
-  re-acquisition — a re-acquisition would run your prompt again. Client-credentials and password
-  re-acquire instead (RFC 6749 §4.4.3 says the client-credentials grant SHOULD NOT be issued a refresh
-  token), so the password grant re-sends the resource owner's password at every expiry.
+- **Refreshing applies only to the authorization-code grant**, where a re-acquisition would run your
+  prompt again. Client-credentials and password re-acquire instead, so the password grant re-sends the
+  resource owner's password at every expiry.
 - **On a `401`, the cached token is invalidated** so the next call re-authenticates — but **the failing
   request is not retried**. This is deliberate: the caller sees one `401` and then recovery. Do not
   write a retry loop *just* for this; do expect that a revoked credential surfaces as exactly one
@@ -197,59 +190,41 @@ anything satisfying the token-source protocol: `TokenSource` (`fetch(credentials
 scheme's cache, which is private. Your source **must not issue a request that itself uses this scheme**
 — it runs inside that scheme's lock and would deadlock.
 
-## The failure mode that surprises everyone
+## A failed token fetch raises `AuthSchemeError`
 
-**A failed token fetch raises the SDK's ordinary API exception — but its payload is a different type
-than any operation's.** For a managed-OAuth SDK, the token endpoint's error body is fixed by
-RFC 6749 §5.2, so the SDK decodes it into an `OAuthProviderError` (`error`, `error_description`,
-`error_uri`) — or a `RawError` if the provider's body does not conform.
-
-Two consequences, and both are the sort of thing that costs an afternoon:
-
-1. **The exception surfaces out of your *operation* call**, because that is where the lazy fetch
-   happens. A traceback for bad credentials points at the operation you called, and the frames
-   underneath name the token source. Reading only the top frame sends you looking in the wrong place
-   entirely.
-2. **The non-raising response mode does not protect you.** The `with_raw_response` variant returns a
-   result object instead of raising *for the operation* — but the token fetch passes its own result
-   through `unwrap()` internally, so an auth failure raises even there. Any code path that touches the SDK needs to handle
-   this, including one written specifically to avoid exceptions.
-
-So a boundary that catches only the operation's error union is incomplete. Narrow on the payload type:
-
-```python
-from {root_package}.core import ApiError, OAuthProviderError, RawError
-
-try:
-    result = client.{controller}.{operation}(body)
-except ApiError as e:
-    if isinstance(e.error, OAuthProviderError):
-        # Credentials/token problem — no operation request was ever sent.
-        log.error("auth failed: %s (%s)", e.error.error, e.error.error_description)
-        raise ConfigurationError("API credentials rejected") from e
-    ...  # the operation's own error union
-```
-
-Treat this as a **configuration** failure, distinct from an operation rejection: nothing was attempted,
-so retrying it or reporting it as a failed operation are both wrong. `python-error-handling` has the
-full catch ladder.
+It names **your operation's** call, not the token endpoint, so an `except ApiError` around that call
+never catches the token endpoint's `401`. What went wrong is on `__cause__`: an `ApiError` whose
+`error` is a `RawError` when the endpoint refused (the RFC 6749 `error` code is in
+`e.__cause__.error.json()`), or an `SdkConnectionError` when it could not be reached. It
+surfaces out of your **operation call**, where the lazy fetch happens — the top frame names the
+operation, the frames beneath it the token source — and it raises under `with_raw_response` too.
+Treat it as a **configuration** failure: no operation request was sent, so neither retry it nor report
+it as a failed operation; `python-error-handling` has the ladder.
 
 ## Combined / multiple schemes
 
-When an operation (or the whole API) requires more than one scheme, APIMatic composes them per
-operation — OpenAPI's OR-of-ANDs, arm by arm — and the generated client wires the composition for you.
-You configure it by setting the relevant credentials keywords:
+When an operation (or the whole API) requires more than one scheme, the client composes them per
+operation for you. You configure it by setting the relevant credentials keywords:
 
 - **AND** (`AllSchemes`) — every *configured* member applies to the request.
-- **OR** (`AnySchemes`) — the first *configured* member applies. Selection is on **credential presence**,
-  never on "applying it did not fail", so an unconfigured member listed first cannot win and send the
-  request unauthenticated.
+- **OR** (`AnySchemes`) — the first *configured* member that applies wins. An unconfigured member is
+  never tried, so one listed first cannot win and send the request unauthenticated, and a configured
+  member that raises yields to the next. Only when every configured member raised does the call raise
+  `AuthSchemeError`, each failure in `scheme_failures`. A failure a later member recovers from is
+  absorbed: the call goes ahead on that member's credential. A failed token request logs its own
+  lines (a WARNING where it was refused, an ERROR where it got no response), and those are the signal
+  that a fallback credential is in use. The group adds no line of its own; wrap that scheme if you
+  want one naming it.
 
-**This layer never withholds a request over a missing credential, and never raises for one.** An
-unconfigured member simply drops out and the request goes out with whatever *was* configured; with
-nothing configured at all it goes out unauthenticated. The server decides. Because composition is
-per-operation, one client may authenticate different operations with different schemes — set every
-keyword the operations your integration calls actually need.
+**A missing credential never withholds a request and never raises.** Omitting a credentials keyword is
+legal and silent — the client is built with a no-auth scheme — and an unconfigured composite member
+simply drops out, so the request goes out with whatever *was* configured; with nothing configured at
+all it goes out unauthenticated, and the server decides. Most APIs then answer `401`; an API that
+serves anonymous traffic at all (public endpoints, or a reduced rate limit for keyless callers)
+answers `200` and hides the omission entirely. Because composition is per-operation, one client may
+authenticate different operations with different schemes — so verify every keyword the operations
+your integration calls actually need is set, and on blanket `401`s check that before suspecting the
+credentials themselves.
 
 ## No auth
 
@@ -286,19 +261,8 @@ Two things that help, both already built in:
 
 ## Notes
 
-- A given SDK only exposes the credentials keywords for the schemes its API uses; those names are
-  generated per-API (hence the `{...}` placeholders above).
-- **Omitting a credentials keyword is legal and silent.** The client is then built with a no-auth
-  scheme and requests go out unauthenticated. Nothing warns you at construction. Most APIs then
-  answer `401`; an API that serves anonymous traffic at all (public endpoints, or a reduced rate
-  limit for keyless callers) answers `200` and hides the omission entirely — so verify the keyword is
-  actually set rather than waiting for a `401` to tell you, and if you *are* getting blanket `401`s,
-  check that before suspecting the credentials themselves.
-- Set credentials **at construction**. The scheme is built there; assigning to a private attribute
-  afterwards is not supported. To rotate a credential, build a new client and close the old one.
-- Rotation with a long-lived client: the token cache is per client instance, so swapping in a new
-  client atomically (build, then replace the reference, then close the old one) rotates without a
-  window where calls have no credential.
-- A per-call `extra_headers` outranks the credential: header precedence is API-wide → the endpoint's
-  own → auth → `extra_headers`. That is the deliberate way to override an `Authorization` header — or
-  blank it for a call meant to go out anonymous — and also the way to break auth by accident.
+- Set credentials **at construction**; assigning to a private attribute afterwards is not supported.
+  To rotate a credential, build a new client, replace the reference, then close the old one — the
+  token cache is per client instance, so there is no window where calls have no credential.
+- A per-call `extra_headers` outranks the credential, so it can override or blank `Authorization` for
+  one call (`python-calling-endpoints`).

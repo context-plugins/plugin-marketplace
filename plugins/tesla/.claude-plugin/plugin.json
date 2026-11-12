@@ -1,8 +1,8 @@
 {
   "name": "tesla",
   "displayName": "Tesla Fleet Management API",
-  "version": "0.3.1",
-  "description": "Integrate and consume the APIMatic-generated Tesla Fleet Management API SDK — bundled skills for C#/.NET, python, TypeScript.",
+  "version": "0.4.0",
+  "description": "Integrate and consume the APIMatic-generated Tesla Fleet Management API SDK — bundled skills for C#/.NET, Python, TypeScript.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"
@@ -14,5 +14,8 @@
     "./skills/dotnet",
     "./skills/python",
     "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/tesla-fleet-management-api-planner.md"
   ]
 }

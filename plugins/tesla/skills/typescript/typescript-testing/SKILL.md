@@ -1,6 +1,6 @@
 ---
 name: typescript-testing
-description: Testing code that calls an APIMatic-generated TypeScript SDK — which seam to fake (`ClientOptions.fetch`, or an interceptor at the global-fetch layer), stubbing bodies in wire shape, asserting the request the SDK actually built, covering the error and decode-failure paths, turning the on-by-default retry policy off (or testing it deliberately), and keeping tests independent of SDK internals. Load before writing tests for the integration layer.
+description: Load before writing tests for code that calls an APIMatic-generated TypeScript SDK — faking `ClientOptions.fetch` or intercepting global `fetch`, wire-shaped stub bodies, asserting the request the SDK built, error, decode and auth failure paths, OAuth token stubs, paged walks, and the on-by-default retries.
 ---
 
 # Testing code that uses an APIMatic TypeScript SDK
@@ -95,16 +95,15 @@ matters, or pass a `logger` that records its calls when the test is *about* what
 `Response` is global on Node 18+. Credentials can be dummy values, or omitted entirely — nothing
 validates them when the transport is stubbed, unless the test is *about* the credential.
 
-**Do not mock the client, its resource classes, or reach for its internals.** `#rawClient` and the
-other private fields are genuinely unreachable, and a hand-rolled double of `{Api}Client` cannot catch
-the mistakes that actually happen — a wrong path parameter, a body that does not encode, a header you
-forgot. Faking `fetch` exercises the real request-building pipeline; that is the whole point. Never
-construct a resource class either: it is exported only for its merged namespace and for `instanceof`,
-and its constructor takes engine internals that are not exported.
+**Fake `fetch`, not the client.** A hand-rolled double of `{Api}Client` or a resource class (which you
+cannot construct — **typescript-calling-endpoints**) cannot catch the mistakes that actually happen — a
+wrong path parameter, a body that does not encode, a header you forgot; a fake `fetch` runs the real
+request pipeline.
 
-> **If your client has an OAuth 2 scheme, the first request your stub sees is the token request**, not
-> your operation. See **Fake an OAuth token endpoint** below before writing the first test — a
-> single-response fake fails there in a confusing way.
+> **With an OAuth 2 scheme, the first request your stub sees is the token request**, not your
+> operation. A single-response fake hands your operation's body to the token decoder, and the call
+> fails with an `AuthError` (cause: a `DecodeError` about `access_token`) that reads like bad
+> credentials. See **Fake an OAuth token endpoint** below.
 
 ## Stub bodies are in WIRE shape, not model shape
 
@@ -130,7 +129,7 @@ expect(() => {model}Schema.decode(fixture)).not.toThrow();   // validate a hand-
 
 Prefer the first: build the fixture as a typed model and encode it, so a member rename breaks the
 fixture instead of passing a stale test. Validate any fixture you hand-write and reuse — it catches
-fixture rot when the SDK is regenerated. Both schema consts are exported from the package root.
+fixture rot when the SDK is updated. Both schema consts are exported from the package root.
 
 ## Test a success path
 
@@ -194,9 +193,9 @@ if ("rawBody" in e.payload) expect(new TextDecoder().decode(e.payload.rawBody)).
 ```
 
 **Take the arm union from the contract sheet per operation.** `"undeclared"` is reachable in Case A
-too — any status the operation's matchers do not cover falls to it — so an error test copied from a
-sibling operation can pass for the wrong reason, landing in the `"undeclared"` branch and asserting
-nothing about the typed body you meant to check.
+too — any status the operation's matchers do not cover falls to it, a spec's `default` response
+being no matcher — so an error test copied from a sibling operation can pass for the wrong reason,
+landing in the `"undeclared"` branch and asserting nothing about the typed body you meant to check.
 
 Use `try`/`catch` rather than a rejection matcher: matcher support for narrowing a rejected value
 differs between runners, and the `catch` form reads the same everywhere.
@@ -225,11 +224,9 @@ it("reports the failure without throwing", async () => {
 });
 ```
 
-On success the value is `outcome.value` (not `.data`), and `outcome.headers` is the only way to read
-**response headers** — so this is also the mode to test in when your code depends on a header on the
-*success* path. `.asApiResult()` does **not** make the call non-throwing: everything in the next
-section still rejects, and it must be called on the value the operation returned, before any
-`.then()`.
+`outcome.headers` is the only way to read **response headers** on the *success* path, so test in this
+mode when your code depends on one. Everything in *Cover the failures that are not an `ApiError`*
+still rejects in this mode.
 
 ## Assert the outgoing request
 
@@ -254,21 +251,20 @@ it("sends the right request", async () => {
 - **The SDK hands the fake one `Request` and no `init`.** Its `url` is absolute, so
   `new URL(request.url)` gives you `pathname` and `searchParams` for free rather than substring-matching
   a URL string. A fake that reads `init` reads nothing.
-- **Header names are lowercased.** The SDK normalizes every layer — the endpoint's, the auth scheme's
-  and the client's defaults — before merging, which is what makes the merge case-insensitive, and
-  `request.headers` is a `Headers`. Read it through `request.headers.get(...)`; a plain
-  `request.headers["Authorization"]` is both the wrong type and the wrong case.
+- **Read headers through `request.headers.get(...)`** — `request.headers` is a `Headers` with
+  lowercased names, so a plain `request.headers["Authorization"]` is both the wrong type and the wrong
+  case.
 - **The body is already serialized by the time the fake sees it.** The captured `body` is the request
-  body's **text** (or `undefined`), which is all a JSON, form-urlencoded or text body needs, and it
-  uses **wire aliases**, because that is what encoding produces. Assert on the parsed string; do not
+  body's **text** (or `undefined`), which is all a JSON, form-urlencoded or text body needs, with **wire
+  aliases** and wire dates, because that is what encoding produces — assert on the parsed string; do not
   "fix" the aliases in the test. Read a multipart or binary body back off the captured `request`
   instead: a multipart one with `await request.formData()`, and a binary one with
   `new Uint8Array(await request.arrayBuffer())` — its text is lossy. A multipart `content-type`
   carries a generated boundary, so match it as a prefix, never with `toBe`. Compare a file part by its
   contents, `await new Response(form.get("{field}")).text()`: one sent without a file name may come
   back as a string or a `File`.
-- **A list-valued query or form parameter has a per-parameter wire style.** The `StyledParam` the
-  generator emitted for it in `src/resources/{resource}.ts` carries a `style`: `plain` (the default —
+- **A list-valued query or form parameter has a per-parameter wire style.** Its `StyledParam` in
+  `src/resources/{resource}.ts` carries a `style`: `plain` (the default —
   `name=a&name=b`), `indexed` (`name[0]=a`, percent-encoded in the raw URL as `name%5B0%5D=a`),
   `unindexed` (`name[]=a`), or `csv` / `tsv` / `psv` (one joined value). Read it before asserting:
 
@@ -290,14 +286,48 @@ Worth asserting once, somewhere, because they are silent when wrong:
 - **The value actually reached the wire.** Request models encode loosely too, so an extra or misspelled
   optional member is carried into the body rather than rejected. Only an assertion on the captured
   `body` catches it.
-- **A body that cannot encode never reaches your fake.** Encoding happens *before* the request is
-  dispatched, so the call rejects with `EncodeError` and `stub.calls` stays **empty**. Same for a path
-  parameter left `undefined` — its schema rejects it, also as an `EncodeError`, before anything is
-  sent. Assert `stub.calls` is empty in those tests.
-- **`retry.timeout` never rides the request.** It is a per-attempt budget in **milliseconds**, set on
-  the client or on one call through `RequestOptions.retry`, and it reaches the wire only as the
-  `Request`'s `signal`. A test asserting a timeout on a captured request is asserting something that
-  was never there.
+- **An encode failure never reaches your fake** — a bad body and an `undefined` path parameter alike
+  reject with `EncodeError` and leave `stub.calls` **empty**; assert that in those tests.
+- **`retry.timeout` never rides the request**; the fake sees it only as the `Request`'s `signal`.
+
+## Test a paged operation
+
+A paged operation sends one request per page, so queue one response per page and let the walk run.
+`retry: { maxRetries: 0 }` keeps it to one request per page, and a queue that runs out is the signal
+that a walk did not stop where you expected:
+
+```ts
+it("walks every page", async () => {
+  const { client, stub } = clientReturning(
+    jsonResponse(200, { items: [{ id: "1" }, { id: "2" }], nextCursor: "c2" }),
+    jsonResponse(200, { items: [{ id: "3" }], nextCursor: null }),
+  );
+
+  const ids: string[] = [];
+  for await (const item of client.{resource}.{operation}({ limit: 2 })) ids.push(item.id);
+
+  expect(ids).toEqual(["1", "2", "3"]);
+  expect(stub.calls).toHaveLength(2);
+  expect(stub.calls[1]!.url.searchParams.get("cursor")).toBe("c2");   // the SDK advanced the state
+});
+```
+
+Stub the stop signal the operation's strategy reads — a `null` or absent next cursor, a `hasMore` of
+`false`, a page shorter than its `limit`, or an empty page — in **wire shape**, like any other body;
+the operation's **Returns** bullet names the strategy and the condition that ends its walk. A `Link`-header
+strategy reads the `Link` response header, and the SDK follows a link only on the client's own origin:
+
+```ts
+new Response(JSON.stringify(body), {
+  status: 200,
+  headers: { Link: '<{baseUrl}/{path}?cursor=c2>; rel="next"' },   // the base URL the client was built with
+})
+```
+
+A failed page is tested like any failed call: queue an error status in the position of the page that
+fails, and the walk throws `ApiError` (or the operation's own subclass) after yielding the pages before
+it. Nothing is sent until a loop starts, so a test that calls the operation and never iterates asserts
+that `stub.calls` is empty.
 
 ## Cover the failures that are not an `ApiError`
 
@@ -312,9 +342,7 @@ reachable from the fake, which makes these paths genuinely testable rather than 
 | `kind: "decode"` | return a body that violates the schema (wrong type, bad date, a non-empty `200` where `undefined` is expected) |
 | `kind: "encode"` | pass a request value its schema refuses — nothing reaches the fake |
 | `kind: "auth"` | answer the **token** request with an error status (see below) |
-
-A caller abort is **not** a `kind`: aborting the signal you passed in `RequestOptions` rejects with that
-signal's own `reason`, outside the family.
+| `kind: "pagination"` | answer a page of a `Link`-strategy walk with a next link on another origin — a `Link` header naming a host that is not the client's base URL |
 
 ```ts
 import { {Api}Error } from "{package-name}";
@@ -335,11 +363,9 @@ it("maps a transport failure", async () => {
 });
 ```
 
-⚠ **A timeout or abort test needs a fake that honours the `Request`'s `signal`.** The SDK aborts the
-signal it put on the `Request` and relies on `fetch` to settle; a fake that returns a never-resolving
-promise and ignores the signal simply hangs the test until the runner kills it. What the fake rejects
-with does not matter — the SDK reads the reason off its own signal — so a timeout is a `TimeoutError`
-the retry loop retries, which is why the test below sets `maxRetries: 0`.
+⚠ **A timeout or abort test needs a fake that honours the `Request`'s `signal`**: one that ignores it
+hangs the test until the runner kills it. What the fake rejects with does not matter — a timeout is a
+`TimeoutError` the retry loop retries, which is why the test below sets `maxRetries: 0`.
 
 ```ts
 const hangingFetch: typeof globalThis.fetch = (input, init) =>
@@ -356,10 +382,8 @@ it("times out", async () => {
 });
 ```
 
-That is faster and more deterministic than fake timers, and it exercises the real abort path. For a
-caller abort, keep the default timeout, abort your own `AbortController` passed in `RequestOptions`, and
-assert the call rejects with exactly the `reason` you passed — it is not an `{Api}Error`, and it is
-never retried.
+A caller abort is **not** a `kind`: abort your own `AbortController` passed in `RequestOptions` and
+assert the call rejects with exactly the `reason` you passed — not an `{Api}Error`, and never retried.
 
 **A decode failure bypasses *both* response modes.** A 2xx body that does not satisfy the schema
 rejects with `DecodeError`; `.asApiResult()` does **not** turn it into an `ok: false` result. Test that your
@@ -427,7 +451,7 @@ const stub = stubFetch((url) =>
 );
 ```
 
-Or bypass acquisition entirely with a stub token strategy — the generator's supported injection point
+Or bypass acquisition entirely with a stub token strategy — a supported extension point
 (**typescript-authentication**) — so the fake only ever sees your operation:
 
 ```ts
@@ -449,18 +473,12 @@ needs `redirectUri` and `promptForAuthorizationCode` (e.g. `async () => "code"`)
 
 Facts that make these tests behave:
 
-- **Forgetting the token request is the most common way a first test fails confusingly.** A
-  single-response fake hands your operation's body to the *token* decoder, and you get an `AuthError`
-  whose `cause` is a `DecodeError` about a missing `access_token` — which reads like wrong credentials
-  when the fake simply answered the wrong request.
 - The token **response** is wire-shaped (`access_token`, `token_type`, `expires_in`); the token
-  **request** is a `POST` with a form-urlencoded string body, and by default the client id and secret
-  ride in a Basic `Authorization` header rather than in that body.
+  request's shape is in **typescript-authentication**.
 - The token endpoint may live on a **different server group**, so match on the path, not the host —
   read the group's URL from `DEFAULT_SERVER_OPTIONS` in `src/servers.ts`.
 - The token is **cached on the scheme**, so only the first call fetches one: a test making two calls
-  against one client sees three requests, not four. Build a fresh client per test to reset it. A
-  missing or non-positive `expires_in` means the cached token never expires.
+  against one client sees three requests, not four. Build a fresh client per test to reset it.
 - The token request and the operation each run on their own `retry.timeout`, so a tiny timeout in an
   OAuth test can fire on the token request — which ends the call with a `TimeoutError` for the token
   endpoint, not retried unless `httpMethodsToRetry` names `POST`.
@@ -480,18 +498,13 @@ agent.get("{base-origin}").intercept({ path: "{operation-path}", method: "POST" 
   .reply(201, { id: "1" }, { headers: { "content-type": "application/json" } });
 ```
 
-Pick one and be consistent. An interceptor asserts on real URLs and is closer to the wire; the fake
-`fetch` is dependency-free, faster, and does not care what HTTP stack is underneath. Two constraints:
-an interceptor works **only while no `fetch` option is supplied** — a custom `fetch` bypasses it
-entirely — and the client resolves `globalThis.fetch` **in its constructor**, so patching the global
-after the client is built has no effect.
+Pick one approach. An interceptor sees nothing once a `fetch` option is supplied, and one that patches
+`globalThis.fetch` must be installed before the client is built (**typescript-client-initialization**).
 
 ## Keeping tests independent of SDK internals
 
-- **Never deep-import.** The package's `exports` map exposes `.` and `./package.json` and nothing else,
-  so `{package-name}/models/…` does not resolve at all. Everything you need — the client, the options,
-  every model type and its `{model}Schema`, the error classes, `ServerEnvironment` — is re-exported
-  from the package root. Reading a file under `src/` is for *learning* the shape, never for importing.
+- **Import only from the package root** (**typescript-client-initialization**); read `src/` to learn a
+  shape, never to import from it.
 - **Never assert on an error's `message`.** An `ApiError`'s is the call and its status —
   `POST https://… failed with 400` — which moves whenever the base URL or the route does. It is not a
   contract. Assert `err.status` and the narrowed `err.payload`.
@@ -515,9 +528,9 @@ const client = new {Api}Client({
 });
 ```
 
-**Override every group the test touches.** Redirecting `default` does not move a token endpoint that
-lives on its own group — it will reach for the real host and the test will either fail slowly or,
-worse, succeed against production. `src/servers.ts` lists the groups and their environments.
+**Override every group the test touches** — a token endpoint on its own group otherwise reaches the
+real host (**typescript-configuration-resilience**). `src/servers.ts` lists the groups and their
+environments.
 
 Against a **live sandbox**, keep those tests separate from unit tests, skip them when credentials are
 absent, and never assert on ids or timestamps the provider generates:
@@ -547,17 +560,10 @@ unless you mean to.
   `Response` needs no `content-type` header; setting one is harmless documentation. What matters is
   that the body parses and satisfies the schema. A binary response is the exception: its result
   reports `content-type` and the `content-disposition` file name, so stub them when your code reads them.
-- **Matcher precedence:** an exact-status arm wins over a range or `"5XX"` wildcard arm. A test that
-  stubs a status covered by both is asserting the exact one.
-- **A `401` invalidates the cached OAuth token and is not retried by default.** A test that stubs a
-  `401` sees one failed operation — and the *next* call in the same test re-fetches a token, so queue
-  another `tokenResponse()` for it.
-- **Retries are on by default, and silent unless logging is on.** On a client built without
-  `retry: { maxRetries: 0 }`, a stubbed `408`, `429`, `500`, `502`, `503` or `504` — or a thrown
-  error — on a `GET`, `HEAD`,
-  `PUT` or `OPTIONS` call is fetched up to four times, across about 7 s of backoff. A queue that runs out
-  throws, and that throw is itself a connection failure the loop retries. When the test *is* about
-  your retry policy, queue one response per attempt, pass `delay: 0` so it runs at once, and count
+- A stubbed `401` invalidates the cached OAuth token, so the *next* call in the same test fetches a new
+  one — queue another `tokenResponse()` for it.
+- **Testing the retry policy itself**: drop `maxRetries: 0`, queue one response per attempt (a queue
+  that runs out throws, and the loop retries that as a connection failure), pass `delay: 0`, and count
   requests:
   ```ts
   const stub = stubFetch(queue(jsonResponse(503, {}), jsonResponse(503, {}), jsonResponse(200, { id: "1" })));
@@ -566,24 +572,12 @@ unless you mean to.
   await client.{resource}.{operation}({ /* ... */ });   // an operation whose method is in the gate
   expect(stub.calls).toHaveLength(3);
   ```
-  A stubbed `Retry-After` header overrides `delay`, so leave it off unless the test is about it; a test
-  about the backoff itself wants `maxJitter: 0` and fake timers. Cover the cases that are easiest to get
-  wrong: a write outside the gate is sent **once**, a widened write re-sends the **same**
-  `Idempotency-Key` on every attempt, and an aborted request stops retrying.
-- **A test environment with no global `fetch` fails in the constructor**, not on the first call — the
-  client throws `ConfigurationError` when it can resolve no implementation. Passing a fake avoids this entirely.
-- **`instanceof` is dialect-scoped.** If the test setup loads the SDK through `require` and the code
-  under test through `import` (or vice versa), `instanceof` is `false` across that boundary. Narrow on
-  `err.kind` / `err.payload.kind` there, or fix the config to use one dialect.
+  A stubbed `Retry-After` overrides `delay`; a backoff test wants `maxJitter: 0` and fake timers. Worth
+  covering: a write outside the gate is sent **once**, a widened write re-sends the **same**
+  `Idempotency-Key`, and an abort stops retrying.
 - **Never guess a base URL.** With a fake `fetch` nothing is dialled and the host is irrelevant; if you
   match on URLs, take the prefix from `DEFAULT_SERVER_OPTIONS` rather than from memory — environments
-  differ per API, and some SDKs ship a sandbox environment that already points at localhost.
+  differ per API.
 - Mocking libraries work too — the seam is a plain function, so a `vi.fn()` / `jest.fn()` returning a
   `Response` satisfies it. The hand-written stub above gives you typed captured requests and ordered
   responses for free.
-- **Keep one client across the calls of a test** as in production, so the token cache and the memoized
-  resource getters behave the same shape they will at runtime
-  (**typescript-client-initialization**).
-- To look up an operation's signature, its field channels, route or error arms, take them from the
-  contract sheet — `map/operations/{resource}.md` inside `node_modules/{package-name}/`, which carries
-  all four — not the compiled `dist/`, and not memory.

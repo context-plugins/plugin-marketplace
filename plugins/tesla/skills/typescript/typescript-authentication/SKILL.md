@@ -1,12 +1,12 @@
 ---
 name: typescript-authentication
-description: Authentication for an APIMatic-generated TypeScript SDK — supplying credentials on the client options object, the credential shape each scheme kind takes, OAuth 2 token caching and refresh, and replacing the token source. Load before wiring credentials into the client, or when a call comes back 401/403.
+description: Load before setting credentials on an APIMatic-generated TypeScript SDK client, or when a call returns 401/403 — API keys, bearer and basic auth, the OAuth 2 client-credentials, password and authorization-code grants, token caching and refresh, and supplying your own token source.
 ---
 
 # Authenticating an APIMatic TypeScript SDK client
 
-How you authenticate depends on the security scheme(s) the API declares. APIMatic surfaces each scheme
-as an **optional credential member on `ClientOptions`**; set the one(s) your API uses, then construct
+How you authenticate depends on the security scheme(s) the API declares. Each scheme is an
+**optional credential member on `ClientOptions`**; set the one(s) your API uses, then construct
 the client (see `typescript-client-initialization`). There is no separate credentials builder, no
 per-request auth override, and no way to change a credential after construction.
 
@@ -24,19 +24,17 @@ scheme factory as shared runtime code regardless of what the API accepts, so rel
 rather than that folder. Where a member's name does not tell you its kind, `src/auth-schemes.ts` shows
 which core factory each member is wired to.
 
-The credential types below live under `src/core/auth/` and are exported from the package root; they
-are the **same across all APIMatic TypeScript SDKs**. Only the **option member names** are generated
-per-API (hence the `{scheme}` placeholders). The generator distinguishes **eight** scheme kinds — that
-list is closed, so if the spec declared something outside it, read `src/auth-schemes.ts` to see what
-was actually emitted rather than assuming a ninth shape. The eight collapse to **three** credential
+The credential types below live under `src/core/auth/`, are exported from the package root and are
+the **same across all APIMatic TypeScript SDKs**; only the **option member names** are per API (hence
+the `{scheme}` placeholders). There are exactly **eight** scheme kinds, taking **three** credential
 shapes:
 
 | Scheme kind | `ClientOptions.{scheme}` type | Sent as |
 | --- | --- | --- |
 | HTTP bearer | `TokenProvider` | `Authorization: Bearer {token}` |
-| API key in header | `TokenProvider` | the spec's header name |
-| API key in query | `TokenProvider` | the spec's query parameter |
-| API key in cookie | `TokenProvider` | a `Cookie` pair under the spec's name |
+| API key in header | `TokenProvider` | the API's header name |
+| API key in query | `TokenProvider` | the API's query parameter |
+| API key in cookie | `TokenProvider` | a `Cookie` pair under the API's name |
 | HTTP basic | `BasicAuthCredentials` | `Authorization: Basic base64(user:pass)` |
 | OAuth 2 client credentials | `OAuth2ClientCredentials` | `Authorization: Bearer {fetched token}` |
 | OAuth 2 password | `OAuth2PasswordCredentials` | `Authorization: Bearer {fetched token}` |
@@ -72,7 +70,7 @@ Sends `Authorization: Bearer ACCESS_TOKEN`.
 ## API key (header, query, or cookie)
 
 The key is sent as a header, query parameter, or cookie — its placement and name are fixed by the
-generated scheme, not by anything you pass. Set the configured key member to your key string:
+SDK, not by anything you pass. Set the configured key member to your key string:
 
 ```ts
 const client = new {Api}Client({ {scheme}: process.env.API_KEY! });
@@ -124,9 +122,9 @@ The SDK fetches and caches the token itself, acquiring a fresh one when it expir
 invalidates the cached token and re-acquires on the next call.
 
 `scope` is a **single space-delimited string**, not a list — you join it yourself, per RFC 6749 §3.3.
-An empty string is treated as absent and no `scope` field is sent. The generator emits **no scope
-enum or literal union** even where the spec declares a scope vocabulary, so a scope the flow does not
-document type-checks fine and fails at the provider instead.
+An empty string is treated as absent and no `scope` field is sent. It is typed plain `string` — **no
+scope enum or literal union** — so a scope the provider does not offer type-checks and fails at the
+provider.
 
 ## OAuth 2.0 — authorization code (3-legged, with PKCE)
 
@@ -158,8 +156,8 @@ The URL handed to your callback carries `response_type=code`, `client_id`, `redi
 never see or manage it.
 
 - **`promptForAuthorizationCode` is called lazily**, on the first request needing the scheme — the
-  same point at which the other grants fetch their token. In a server app that is almost never what
-  you want mid-request; see *Supplying your own token source* below.
+  same point at which the other grants fetch their token. For a server app, see *Supplying your own
+  token source* below.
 - **PKCE is on by default.** Omitting `pkce` means `PkceMethod.S256`; `pkce: null` disables it. The
   verifier and challenge are generated with `crypto.getRandomValues` / `crypto.subtle`, so the runtime
   needs Web Crypto (Node 20+ and browsers have it).
@@ -185,19 +183,18 @@ on the authorization request and never generated or checked here — the SDK nev
 producing and verifying it are yours alone. Your redirect handler must compare it against what you
 generated before returning the code, or the CSRF token is decorative.
 
-⚠ **`clientSecret` is optional in the type, and only one of the two ways it can be missing throws.**
+⚠ **`clientSecret` is optional in the type, and leaving it out throws only when PKCE is off.**
 
 | PKCE | `clientSecret` missing ⇒ |
 | --- | --- |
 | disabled (`pkce: null`) | `AuthError("A client secret is required when PKCE is disabled…")` — **before** the prompt runs |
-| enabled, token request is header-placed | no error: the SDK sends `Authorization: Basic base64(clientId:)` and the provider rejects it — **after** the user has completed the full browser round-trip |
-| enabled, token request is body-placed | fine — this is the public-client case |
+| enabled | fine — this is the public-client case: the code exchange and every refresh send `client_id` as a form field and no `Authorization` header |
 
-The placement is fixed by the spec, not by you, and is visible as the `placement` argument in
-`src/auth-schemes.ts` (`"header"` sends `Authorization: Basic base64(clientId:clientSecret)` on the
-token request; `"body"` sends `client_id` / `client_secret` as form fields). Check which one your
-generated `src/auth-schemes.ts` passes before treating the secret as optional — the header case's
-failure is the expensive one, because it costs an interactive login before the exchange fails.
+An empty string counts as missing. The placement is not yours to choose: it is the `placement`
+argument in `src/auth-schemes.ts` — `"header"` sends `Authorization: Basic
+base64(clientId:clientSecret)` on the token request, `"body"` sends `client_id` / `client_secret`
+as form fields. Without a secret, both placements send `client_id` alone, so a public client works
+whichever one your spec chose.
 
 ## OAuth 2.0 — resource owner password
 
@@ -215,7 +212,8 @@ const client = new {Api}Client({
 
 ## Token caching & refresh (all OAuth 2 grants)
 
-- Tokens are cached **in memory, per client instance**, and reused until **30 s** before expiry.
+- Tokens are cached **in memory, per client instance**, and reused until **30 s** before expiry, or
+  for **half their lifetime** when that is longer.
 - Acquisition is **lazy** — on the first request that requires the scheme, not at construction. A
   client built with bad credentials constructs perfectly happily; the failure surfaces at the first
   operation. One in-flight acquisition is **shared**: concurrent requests that arrive during a fetch
@@ -223,48 +221,39 @@ const client = new {Api}Client({
 - The fetch is a form-encoded `POST` to the token endpoint, sent with **no auth scheme of its own**,
   and it runs on its own `retry.timeout` and the call's abort signal — so token-fetch time does not
   come out of the operation's attempt.
-- **A failure while obtaining the token is not retried by the call.** It ends the call.
-- **The token request is itself a `POST` under the same policy.** With the default
-  `httpMethodsToRetry`, an error status from the token endpoint — a `503` included — is not retried:
-  it is an `AuthError` and ends the call. Name `POST` in the gate and the token request retries a
-  retryable status like any other `POST`; the `AuthError` ends the call once those retries are spent.
+- **A failure while obtaining the token ends the call.** The token request is itself a `POST` under the
+  client's retry policy, so with the default `httpMethodsToRetry` even a `503` from the token endpoint
+  is an immediate `AuthError`; name `POST` in the gate and the token request retries a retryable status
+  first.
 - **The cache lives in the client object.** Build the client once (see
   `typescript-client-initialization`) or every call re-runs the grant.
-- **Only the authorization-code grant refreshes.** It is the one grant wired to
-  `oauth2RefreshableScheme` / `OAuth2RefreshableTokenStrategy`. Client-credentials and
-  resource-owner-password re-run the whole grant when the token expires — and a `refresh_token` in a
-  password-grant response is **discarded**, because the non-refreshable `OAuthToken` has no field for
-  it. Do not infer refresh behaviour from what the provider returns.
-- When the authorization-code grant does refresh, a refresh response that omits `refresh_token`
-  carries the previous one forward. A refresh that fails does not throw — it returns `null` internally
-  and falls back to a full re-grant.
+- **Only the authorization-code grant refreshes.** Client-credentials and resource-owner-password
+  re-run the whole grant when the token expires, and a `refresh_token` in a password-grant response is
+  **discarded** — do not infer refresh behaviour from what the provider returns. A refresh response
+  that omits `refresh_token` keeps the previous one, and a failed refresh does not throw: it falls back
+  to a full re-grant.
 - On `401`, the cached token is invalidated and re-acquired on the **next** call — `401` is not in the
-  default `statusCodesToRetry`, so the failing request is **not** re-sent. Handle the 401 as an ordinary `ApiError` (see `typescript-error-handling`);
-  the recovery is automatic on the following attempt, not on this one.
+  default `statusCodesToRetry`, so the failing request is **not** re-sent; handle it as an ordinary
+  `ApiError` (see `typescript-error-handling`). Add `401` to `statusCodesToRetry` to have the failing
+  call re-sent with a fresh token — every attempt resolves its credential again. A static key is
+  re-sent unchanged, so that only helps a scheme that fetches its credential.
+- **Invalidation is a hint, not a barrier.** It clears the cache without cancelling a token fetch
+  already in flight, so that fetch can complete and re-populate it; "invalidate, then read" does not
+  guarantee a fresh token.
 
 ⚠ **A `401` on the authorization-code grant is an interactive re-authorization, not a silent
 refresh.** Invalidation clears the whole cached token, refresh token included, so "re-acquired" means
 the *full* grant runs again and `promptForAuthorizationCode` fires. Expiry takes the refresh path; a
 `401` does not. Plan for that in a non-interactive host.
 
-⚠ **The 30-second buffer is flat, with no floor.** A token whose `expires_in` is **30 or less** is
-already past its adjusted deadline the moment it is cached, so every request re-runs the grant and the
-cache never serves anyone. There is no half-of-lifetime fallback for short tokens. If your provider
-issues sub-minute tokens, supply your own token strategy rather than paying a token round-trip per
-call.
+**A short-lived token is renewed halfway through its lifetime.** The 30-second buffer applies to a
+token issued for a minute or more; below that, the token is reused for half its `expires_in` — a 20 s
+token for 10 s. So no token is stale the moment it is cached, and a sub-minute token costs one token
+round-trip per half-lifetime rather than one per call.
 
-⚠ **If the token response omits `expires_in`, the token never expires as far as the SDK is
-concerned** — and a non-positive `expires_in` is treated the same way. `expires_in` is RECOMMENDED but
-not required by RFC 6749, and the SDK's expiry check short-circuits to "not expired" when it is
-absent, so the first token is cached for the life of the client and the only thing that ever replaces
-it is a `401`. That is usually fine and occasionally not: a token revoked server-side keeps being sent
-until a request fails with it. If your provider omits `expires_in` and you need proactive rotation,
-supply your own token strategy (below) rather than trying to bound the cache.
-
-- **Invalidation is a hint, not a barrier.** It clears the cache without cancelling an acquisition
-  already in flight, so that fetch can complete and re-populate it. That is deliberate — the newer
-  token post-dates the invalidation — but it means "invalidate then immediately read" is not a
-  guarantee of a fresh token.
+⚠ **A token response without a positive `expires_in` never expires in the cache** — the first token
+is kept for the life of the client and only a `401` replaces it, so a token revoked server-side is
+sent until a request fails with it. For proactive rotation, supply your own token strategy (below).
 
 ### Supplying your own token source
 
@@ -311,42 +300,10 @@ turns into a redirect attempt inside a request.
 
 ## The failure mode that surprises everyone
 
-**A failed token fetch surfaces out of your *operation* call, and `.asApiResult()` does not protect
-you from it.**
-
-Auth is resolved inside the same dispatch the operation runs through, so both consequences follow from
-one fact — the token fetch happens *during* your operation:
-
-1. **The traceback points at the operation you called**, not at anything named "auth". A token
-   endpoint that answers `400 invalid_client` becomes an `AuthError` thrown from
-   `client.{resource}.{operation}(...)`, with the underlying `ApiError` on `.cause` — and its own
-   `method` and `uri` name that operation, not the token endpoint. Reading only the top frame sends you
-   looking in the wrong place entirely.
-2. **The non-throwing form still rejects.** `.asApiResult()` converts the *operation's* error response
-   into an `{ ok: false }` result instead of throwing — but auth is resolved before any response
-   exists, so an `AuthError` propagates straight out of the `await`. Code written specifically to
-   avoid exceptions still needs a `try`/`catch` around an authenticated call.
-
-So a boundary that only inspects `result.ok` is incomplete:
-
-```ts
-import { AuthError } from "{package-name}";
-
-try {
-  const result = await client.{resource}.{operation}(request).asApiResult();
-  if (!result.ok) { /* the operation's own error union */ }
-} catch (err) {
-  if (err instanceof AuthError) {
-    // Credentials/token problem — the operation request was never sent.
-    throw new Error("API credentials rejected", { cause: err });
-  }
-  throw err;
-}
-```
-
-Treat it as an **auth** failure, distinct from an operation rejection: nothing was attempted,
-so retrying it or reporting it as a failed operation are both wrong. `typescript-error-handling` has
-the full catch ladder.
+A token endpoint that answers `400 invalid_client` rejects the *operation* call with `AuthError` — its
+`method`/`uri` name the operation, the token endpoint's `ApiError` is on `.cause`, nothing was sent,
+and `.asApiResult()` does not convert it. Catch it around every authenticated call; the ladder is in
+**typescript-error-handling**.
 
 ## Combined / multiple schemes
 
@@ -361,10 +318,6 @@ by `allAuth(...)` / `anyAuth(...)`; you configure it by setting the relevant cre
   not on which looks more specific. A `TokenProvider` **function** always counts as "has credentials",
   even if it returns an empty string — so a function provider always wins the OR.
 
-**This layer never withholds a request over a missing credential, and never throws for one.** An
-unconfigured member simply drops out and the request goes out with whatever *was* configured; with
-nothing configured at all it goes out unauthenticated. The server decides.
-
 Because composition is **per operation**, one client may authenticate different operations with
 different schemes — so set every member the operations your integration actually calls need, not just
 the ones the API's front page advertises. The per-operation requirement is the **Auth** bullet on the
@@ -373,10 +326,8 @@ out: `` `{scheme}` ``, `all of …`, or `any of … — the first one configured
 
 ## No auth
 
-An operation the spec marked public is wired to `noneAuth` and sends **no credential even when every
-option member is filled**. Its **Auth** bullet reads `none — public; no credential is sent`. Nothing
-you pass at construction adds a credential to such an operation — if it needs one, that is a spec
-problem, not a configuration one.
+An operation whose **Auth** bullet reads `none — public; no credential is sent` sends **no credential
+even when every option member is filled**, and nothing you pass at construction adds one.
 
 ## ⚠ Missing credentials must stop the app from starting
 
@@ -394,31 +345,10 @@ An API that serves anonymous traffic at all — public endpoints, or a reduced r
 callers — makes this worse by answering `200` and hiding the omission entirely. So verify the member
 is actually set rather than waiting for a `401` to tell you.
 
-**A required credential that is not configured is a deployment fault, not a request fault.** If the
-app boots with a blank secret, an operator sees a provider outage, retry logic hammers a call that can
-never succeed, and the actual cause — an unset environment variable — is two layers away from the
-symptom. There is no `.env` support and no `fromEnvironment()` helper in the SDK, so **validate at the
-call site and refuse to boot**:
-
-```ts
-function buildClient(): {Api}Client {
-  const key = process.env.API_KEY;
-  if (!key) {
-    throw new Error(
-      "API_KEY is not configured. Set it via environment variable or your secret store " +
-      "before starting the app.",
-    );
-  }
-
-  return new {Api}Client({
-    serverEnvironment: ServerEnvironment.Production,
-    {scheme}: key,
-  });
-}
-```
-
-Run that check **before** the app is ready to serve — at module load or in your startup path, not
-lazily on first use, which is a request, which is exactly the late failure you are trying to avoid.
+**A required credential that is not configured is a deployment fault, not a request fault.** There is
+no `.env` support and no `fromEnvironment()` helper in the SDK, so **validate every required
+credential in your startup path and refuse to boot** — not lazily on first use, which is a request.
+The factory in **typescript-client-initialization** shows the shape.
 
 Three rules for the message it fails with:
 
@@ -435,38 +365,26 @@ absent, so a blank env var is the same fault as an unset one.
 
 ## Notes
 
-- A given SDK only exposes the credential members for the schemes its API declares; those names are
-  generated per-API (hence the `{scheme}` placeholders above). Fill every member the operations you
-  call need.
 - **Credentials are fixed at construction.** `ClientOptions` is `readonly` and the auth schemes are
   built in the constructor, so to rotate a credential you use a `TokenProvider` **function**, replace
   the strategy, or build a new client. There is no mutable accessor.
 - **Rotating a long-lived client:** the token cache is per client instance, so swap atomically — build
   the new client, then replace the shared reference. In-flight calls finish on the old one and there
   is no window where calls have no credential. Do not mutate the old client.
-- **Auth wins every header, query and cookie collision.** Auth params are merged **last**, after the
-  client's defaults and the endpoint's own, so a scheme's `Authorization` header overwrites anything
-  set earlier under that name. There is no per-request header override to undo it — a `fetch` wrapper
-  is the only place you can strip or replace an auth header (see
+- **Auth wins every header, query and cookie collision** — a scheme's `Authorization` header
+  overwrites anything else under that name, and only a `fetch` wrapper can strip or replace it (see
   `typescript-configuration-resilience`).
 - **Nothing hides secrets in a log you write.** Credentials are plain objects with no redacting
   `toString`, so `console.log(options)` or a serialized `ClientOptions` prints them in full. The SDK's
-  own logging, off by default, masks the `Authorization` header, a query value off its safe list and
-  the OAuth form keys (`client_secret`, `password`, `refresh_token`, …) — but a JSON request body it
-  logs verbatim once `logRequestBody` is on (see **typescript-configuration-resilience**).
-- On the OAuth 2 token request, header placement sends `base64(clientId:clientSecret)` **without
-  percent-encoding either half** first. A client id or secret containing a character RFC 6749 §2.3.1
-  would have you encode is sent raw, so a provider that follows the RFC strictly may reject it — use
-  body placement or a custom strategy if your secret is not in the unreserved set.
-- **`AuthError` means a credential could not be obtained** — the token request failed, every
-  configured branch of an alternatives requirement failed, PKCE was disabled without a secret, or your
-  `promptForAuthorizationCode` rejected. Being *refused* a credential by the API is an `ApiError` with
-  status 401/403 instead, so one `catch` arm cannot absorb the other. A token endpoint that answers with
-  an error status surfaces as `AuthError` with that `ApiError` on `.cause`; an alternatives requirement
-  whose every branch failed carries an `AggregateError` there, holding each branch's failure.
-- Credentials never appear in a thrown error's message.
-- **A token endpoint may live on a different server group than the operations.** Overriding
-  `serverOptions.default.{environment}.baseUrl` therefore does not move the token request — override
-  that group too if you need both redirected at a mock. See `typescript-configuration-resilience`.
-- Keep secrets out of source — read `process.env` or your secret manager at the call site. Set
-  credentials **before** constructing the client; there is no way to add them afterwards.
+  own logging masks a credential in a header, the query or an OAuth form body, but not in a JSON request
+  body (**typescript-configuration-resilience**).
+- On the OAuth 2 token request, header placement with a secret sends
+  `base64(clientId:clientSecret)` **without percent-encoding either half** first. A client id or
+  secret containing a character RFC 6749 §2.3.1 would have you encode is sent raw, so a provider that
+  follows the RFC strictly may reject it — use body placement or a custom strategy if your secret is
+  not in the unreserved set.
+- `AuthError` (a credential could not be *obtained*) versus a 401/403 `ApiError` (refused by the API):
+  **typescript-error-handling**.
+- A token endpoint may live on its own server group, so redirecting the operations' group at a mock
+  does not move it (**typescript-configuration-resilience**).
+- Keep secrets out of source — read `process.env` or your secret manager at the call site.

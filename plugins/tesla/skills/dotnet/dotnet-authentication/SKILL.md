@@ -47,7 +47,7 @@ options.ThirdpartytokenAuthorizationCode = new OAuth2AuthorizationCodeCredential
 };
 ```
 
-The SDK sends the user to `https://auth.tesla.com/oauth2/v3/authorize`, exchanges the returned code for a token at `https://auth.tesla.com/oauth2/v3/token`, and refreshes it when it expires; if the refresh fails, it invokes `PromptForAuthorizationCode` again to re-authorize.
+The SDK sends the user to `https://auth.tesla.com/oauth2/v3/authorize`, exchanges the returned code for a token at `https://fleet-auth.prd.vn.cloud.tesla.com/oauth2/v3/token`, and refreshes it when it expires; if the refresh fails, it invokes `PromptForAuthorizationCode` again to re-authorize.
 
 `PromptForAuthorizationCode` runs inside the call that needs a new token, so it must not make an SDK call that uses this scheme. It counts against the per-attempt `options.Retry.Timeout`, 100 s by default, and a timed-out attempt on a retryable call is retried and prompts again. A prompt that throws anything but `OperationCanceledException` fails the call with `AuthSchemeException`. `State` is sent as you set it and never checked, so your redirect handler must verify it.
 
@@ -66,7 +66,7 @@ options.ThirdpartytokenClientCredentials = new OAuth2ClientCredentials
 };
 ```
 
-The SDK fetches the token from `https://auth.tesla.com/oauth2/v3/token` and caches it, acquiring a fresh one when it expires; on a `401` it drops the cached token, acquires a new one and re-sends the call once (the upload exception is under **Token caching & refresh**). The token request carries the client id and secret in the form body.
+The SDK fetches the token from `https://fleet-auth.prd.vn.cloud.tesla.com/oauth2/v3/token` and caches it, acquiring a fresh one when it expires; on a `401` it drops the cached token, acquires a new one and re-sends the call once (the upload exception is under **Token caching & refresh**). The token request carries the client id and secret in the form body.
 
 ## Credential providers
 

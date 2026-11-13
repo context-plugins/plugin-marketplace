@@ -22,7 +22,7 @@ Usage companions: `dotnet-client-initialization`, `dotnet-authentication`, `dotn
 | Client class | `TeslaFleetManagementApiClient` |
 | Options class | `TeslaFleetManagementApiClientOptions` |
 | Auth | **Bearer** token — set `BearerAuth`<br>**OAuth 2.0** authorization code — set `ThirdpartytokenAuthorizationCode`<br>**OAuth 2.0** client credentials — set `ThirdpartytokenClientCredentials` |
-| Environments | `ServerEnvironment.Production` *(default)*<br>base URL per server group (2 groups): `sdk-map.md` *Servers & auth* |
+| Environments | `ServerEnvironment.Production` *(default)*<br>base URL per server group (3 groups): `sdk-map.md` *Servers & auth* |
 | Log environment variable | `TESLA_FLEET_MANAGEMENT_API_LOG` |
 | Target framework | `netstandard2.0` (C# `LangVersion 14`) |
 

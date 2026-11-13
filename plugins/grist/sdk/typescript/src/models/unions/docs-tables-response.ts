@@ -1,0 +1,22 @@
+import * as s from "../../core/validation/index.js";
+import type { Schema } from "../../core/validation/schema.js";
+
+export type DocsTablesResponse =
+  | string
+  | number
+  | boolean
+  | Record<string, unknown>
+  | Record<string, unknown>[]
+  | null;
+
+export const docsTablesResponseSchema: Schema<DocsTablesResponse> = s.of<DocsTablesResponse>(
+  s.nullable(
+    s.union([
+      s.string(),
+      s.float64(),
+      s.boolean(),
+      s.record(s.string(), s.unknown()),
+      s.array(s.record(s.string(), s.unknown())),
+    ]),
+  ),
+);

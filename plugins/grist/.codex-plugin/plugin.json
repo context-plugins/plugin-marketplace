@@ -1,0 +1,9 @@
+{
+  "name": "grist",
+  "version": "0.2.2",
+  "description": "Integrate and consume the APIMatic-generated Grist API SDK — bundled skills for TypeScript.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Grist"
+  }
+}

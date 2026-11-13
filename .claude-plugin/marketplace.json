@@ -20,6 +20,21 @@
       "name": "maxio-sdk",
       "source": "./plugins/maxio-sdk",
       "description": "Install and consume the Maxio Advanced Billing .NET SDK with skill-only guidance, a bundled SDK map, and subagent orchestration (integrate-maxio router + maxio-plan contract-sheet agent + maxio-debug escalation-first agent). The agent looks up signatures, errors, enums, and unions in the map and opens only the exact source file it needs in the cloned SDK, instead of grepping. No MCP server."
+    },
+    {
+      "name": "shortcut",
+      "source": "./plugins/shortcut",
+      "description": "Integrate and consume the APIMatic-generated Shortcut API SDK — bundled skills for TypeScript."
+    },
+    {
+      "name": "grist",
+      "source": "./plugins/grist",
+      "description": "Integrate and consume the APIMatic-generated Grist API SDK — bundled skills for TypeScript."
+    },
+    {
+      "name": "todoist",
+      "source": "./plugins/todoist",
+      "description": "Integrate and consume the APIMatic-generated Todoist API SDK — bundled skills for TypeScript."
     }
   ]
 }

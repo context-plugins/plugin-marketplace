@@ -1,0 +1,12 @@
+{
+  "name": "todoist",
+  "displayName": "Todoist",
+  "version": "0.2.2",
+  "description": "Integrate and consume the APIMatic-generated Todoist API SDK — bundled skills for TypeScript.",
+  "skills": [
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/todoist-api-planner.md"
+  ]
+}

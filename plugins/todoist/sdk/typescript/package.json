@@ -1,0 +1,70 @@
+{
+  "name": "todoist-sdk",
+  "version": "1.0.0",
+  "description": "# Developing with Todoist\n\nThanks for your interest in developing apps with Todoist. In this section\nwe will provide an overview of the API we offer and cover some common topics for\napplication development using them.\n\nYou can use our API for free, but depending on your Todoist account plan (or that of the authenticated user), some\nfeatures may be restricted.\n\nPlease consider subscribing to the [Todoist API mailing\nlist](https://groups.google.com/a/doist.com/g/todoist-api) to get important updates.\n\n## Our API\n\nOur API uses an approach that should be familiar to anyone with experience\ncalling [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) APIs.\n\nWe also have a special endpoint called `/sync`, which is used by our\nfirst-party clients to keep the data updated locally without having to make many\nseparate requests to the API. Anyone can use it, and some actions will only be\navailable via `/sync`. The format is unconventional compared to current API standards,\nbut it is our main driver for first-party apps.\n\n## Our SDKs\n\nOur Python and JavaScript SDKs streamline working with the Todoist API, and\ncan be installed from the main package registries for each ecosystem.\n\nFor instructions, examples, and reference documentation, visit their pages:\n\n- [Todoist Python SDK](https://todoist.github.io/todoist-api-python/)\n- [Todoist TypeScript SDK](https://todoist.github.io/todoist-sdk-typescript/)\n\n## Resource IDs and optimistic updates\n\nOur first-party clients use optimistic updates so newly-created resources\n(tasks, projects, etc.) are usable in the UI before the server has confirmed\nthem. During that window, the resource is referenced by a **client-side\nplaceholder ID** with a `tmp-` prefix — for example\n`tmp-UUID-XXXX-UnixMillis`. Once the sync with Todoist completes, the client\nreplaces the placeholder with the real server-assigned ID.\n\n**Placeholder IDs are not valid server-side resource identifiers.** If you\npass a `tmp-`-prefixed ID to a REST endpoint, the request will fail with a\nvalidation error (for example `Non-base32 digit found`) because the API only\naccepts base32-encoded or numeric IDs (depending on the resource).\n\nIf your integration receives a resource ID from a client context (e.g. a UI\nextension payload or a browser event fired right after task creation), you\nshould:\n\n1. **Detect placeholder IDs early** — any ID starting with `tmp-` has not\n   yet synced.\n2. **Wait for sync to complete before calling the REST API.** First-party\n   clients expose the real ID once the next `/sync` round-trip returns\n   (see the [`temp_id_mapping`](#tag/Sync/Overview/Temporary-resource-ID)\n   field in the Sync API response).\n3. **Retry your API call with the confirmed ID** once available. If you\n   cannot wait, surface the delay to the end user rather than calling the\n   REST API with the placeholder.\n\nNote that this client-side `tmp-`-prefixed placeholder is distinct from the\n`temp_id` used in Sync API commands — the latter is a developer-supplied\nUUID that the server resolves inside a single `/sync` request. See the\n[Sync API's Temporary resource ID documentation](#tag/Sync/Overview/Temporary-resource-ID)\nfor details on `temp_id` and `temp_id_mapping`.\n\n## Integrations\n\nIntegrations can be created and updated [here](https://app.todoist.com/app/settings/integrations/app-management).\n\nOnce done, they can also be submitted for evaluation and inclusion in [our\nofficial integrations list](https://www.todoist.com/integrations). This not\nonly serves as an opportunity to market your integration to our audience, but\nwill also serve as a way to help users get set up and familiar with your app quickly.\n\nFor more information on how to submit your integration for evaluation, refer to our [Marketing your integration page](https://www.todoist.com/help/articles/marketing-your-todoist-integration-B6C5sCKkn).\n\n## Brand usage\n\nWhen creating with the Todoist platform, you may reference Todoist to describe\nwhat your app does, but you must keep it clearly distinct from Todoist's official\nproducts.\n\n- **Naming:** \"Todoist\" cannot be the primary name of your app. Use a format\n  that signals independence, such as \"x for Todoist\" or \"x with Todoist\".\n- **Disclaimer:** Your application description must state that it is \"not\n  created by, affiliated with, or supported by Todoist.\"\n- **Logo and branding:** Any use of Todoist's marks must comply with our\n  [brand guidelines](https://www.todoist.com/brand-assets/todoist-logo.zip), which are\n  available for download.\n- **Legal compliance:** By using Todoist branding you agree to follow our brand\n  guidelines and [Terms of Service](https://www.todoist.com/terms-of-service).\n\nFor detailed questions about using the Todoist marks, contact\n[press@doist.com](mailto:press@doist.com).\n\nLost? [Reach out to us](https://www.todoist.com/contact/login?returnTo=%2Fcontact) anytime.\n",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "tshy": {
+    "exports": {
+      ".": "./src/index.ts",
+      "./package.json": "./package.json"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "project": "./tsconfig.tshy.json",
+    "selfLink": false
+  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "tsconfig.json",
+    "tsconfig.tshy.json",
+    "README.md",
+    "api-reference.md",
+    "sdk-map.md",
+    "map"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.3"
+  },
+  "scripts": {
+    "prepare": "tshy",
+    "build": "tshy",
+    "smoke": "node -e \"require('todoist-sdk')\" && node --input-type=module -e \"import('todoist-sdk')\"",
+    "typecheck": "tsc --noEmit",
+    "typecheck:dom": "tsc --noEmit -p tsconfig.dom.json",
+    "lint": "oxlint --type-aware --max-warnings=0 src",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "oxfmt": "^0.61.0",
+    "oxlint": "^1.76.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "tshy": "^4.1.3",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  }
+}

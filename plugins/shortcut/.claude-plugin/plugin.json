@@ -1,0 +1,12 @@
+{
+  "name": "shortcut",
+  "displayName": "Shortcut",
+  "version": "0.2.0",
+  "description": "Integrate and consume the APIMatic-generated Shortcut API SDK — bundled skills for TypeScript.",
+  "skills": [
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/shortcut-api-planner.md"
+  ]
+}

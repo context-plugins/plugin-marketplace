@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.tshy/
+.tshy-build/
+*.tsbuildinfo
+*.log
+.env
+.DS_Store

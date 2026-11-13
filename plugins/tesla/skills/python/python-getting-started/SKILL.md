@@ -23,7 +23,7 @@ This page owns the SDK's *identity and surface* (install, imports, controllers, 
 | Async client class | `AsyncTeslaFleetManagementApiClient` (alias `AsyncClient`) |
 | Client construction | **keyword-only**: `server_config` · `timeout` (default `30.0`) · `retry_options` · `logging_options` · `bearer_auth` · `thirdpartytoken_authorization_code` · `thirdpartytoken_authorization_code_token_source` · `thirdpartytoken_client_credentials` · `thirdpartytoken_client_credentials_token_source`, and the transport override — `custom_http_client` on the sync client, `custom_async_http_client` on the async one (the names differ) |
 | Auth | **Bearer** token — set `bearer_auth` · **OAuth 2.0** authorization code — set `thirdpartytoken_authorization_code` · **OAuth 2.0** client credentials — set `thirdpartytoken_client_credentials` |
-| Environments | one environment; 2 named servers configured through `server_config` |
+| Environments | one environment; 3 named servers configured through `server_config` |
 | Base-URL config | `ServerConfig` (`tesla_fleet_management_api/server/server_config.py`) |
 | Python floor | **`>=3.10`** (classifiers list `3.10–3.14`) |
 | Runtime dependencies | `httpx2 (>=2.13.1,<3.0.0)` · `certifi (>=2024.7.4)` · `pydantic[email] (>=2.11.0,<3.0.0)` · `typing-extensions (>=4.13.0,<5.0.0)` |
@@ -74,17 +74,18 @@ Everything else comes from its own subpackage:
 
 ## Servers — one config object, several servers
 
-This SDK has 2 named servers and a single environment, so the constructor takes `server_config: ServerConfigOrDict | None = None` rather than a bare `base_url`. Each server is a field on that config:
+This SDK has 3 named servers and a single environment, so the constructor takes `server_config: ServerConfigOrDict | None = None` rather than a bare `base_url`. Each server is a field on that config:
 
 | Server field | Base URL |
 | --- | --- |
 | `default` | `https://fleet-api.prd.na.vn.cloud.tesla.com` |
 | `auth_server` | `https://auth.tesla.com/oauth2/v3` |
+| `access_token_server` | `https://fleet-auth.prd.vn.cloud.tesla.com/oauth2/v3` |
 
 Consequences to state on every contract sheet that touches configuration:
 
 - Omitting `server_config` falls through to the config's own defaults rather than writing `None` over them.
-- The token endpoint (`/token`) resolves against the `auth_server` server rather than a client-wide base URL, so `server_config` is what moves token traffic.
+- The token endpoint (`/token`) resolves against the `access_token_server` server rather than a client-wide base URL, so `server_config` is what moves token traffic.
 - `ServerConfig` is a frozen pydantic model with `extra="forbid"`: a misspelled keyword raises `ValidationError` at construction rather than being ignored.
 - `timeout` is validated too — the base client raises `ValueError` for any non-positive value.
 
@@ -98,7 +99,7 @@ from tesla_fleet_management_api import Client
 client = Client(bearer_auth="<bearer_auth>")
 ```
 
-OAuth 2.0 authorization code, exposed as the client's `thirdpartytoken_authorization_code=` keyword taking `AuthorizationCodeCredentials` **or a plain dict**. The client fetches and caches the bearer token itself, lazily, from `/token` on the `auth_server` server.
+OAuth 2.0 authorization code, exposed as the client's `thirdpartytoken_authorization_code=` keyword taking `AuthorizationCodeCredentials` **or a plain dict**. The client fetches and caches the bearer token itself, lazily, from `/token` on the `access_token_server` server.
 
 ```python
 from tesla_fleet_management_api import Client
@@ -111,7 +112,7 @@ client = Client(thirdpartytoken_authorization_code=AuthorizationCodeCredentials(
 client = Client(thirdpartytoken_authorization_code={"client_id": "…", "client_secret": "…", "redirect_uri": "…", "prompt_for_authorization_code": prompt})   # equivalent
 ```
 
-OAuth 2.0 client credentials, exposed as the client's `thirdpartytoken_client_credentials=` keyword taking `ClientCredentials` **or a plain dict**. The client fetches and caches the bearer token itself, lazily, from `/token` on the `auth_server` server.
+OAuth 2.0 client credentials, exposed as the client's `thirdpartytoken_client_credentials=` keyword taking `ClientCredentials` **or a plain dict**. The client fetches and caches the bearer token itself, lazily, from `/token` on the `access_token_server` server.
 
 ```python
 from tesla_fleet_management_api import Client

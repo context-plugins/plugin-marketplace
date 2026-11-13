@@ -23,7 +23,7 @@ Verified against `package.json` and `sdk-map.md` of the package at version `1.0.
 | Options type | `ClientOptions` (`src/client-options.ts`) |
 | Client construction | `new TeslaFleetManagementApiClient(options: ClientOptions = {})` — the argument is optional, as is **every** field on it, so `new TeslaFleetManagementApiClient()` compiles. Fields: `serverOptions` · `retry` · `logging` · `fetch` · `bearerAuth` · `thirdpartytokenAuthorizationCode` · `thirdpartytokenAuthorizationCodeStrategy` · `thirdpartytokenClientCredentials` · `thirdpartytokenClientCredentialsStrategy`. `retry` is the `RetryOptions` policy |
 | Auth | **Bearer token** — set `ClientOptions.bearerAuth`<br>**OAuth 2 authorization code** — set `ClientOptions.thirdpartytokenAuthorizationCode`<br>**OAuth 2 client credentials** — set `ClientOptions.thirdpartytokenClientCredentials` |
-| Environments | no selector — one environment; 2 server groups |
+| Environments | no selector — one environment; 3 server groups |
 | Base-URL config | `serverOptions.<group>.baseUrl` (`src/servers.ts`) |
 | Log environment variable | `TESLA_FLEET_MANAGEMENT_API_CLIENT_LOG` |
 | Node floor | `>=20.3` (`engines.node`) |
@@ -95,8 +95,8 @@ const client = new TeslaFleetManagementApiClient({
 
 | Flow | Token endpoint | Client credentials travel |
 | --- | --- | --- |
-| `thirdpartytokenAuthorizationCode` | `authServer` + `/token` | in the token request's form body |
-| `thirdpartytokenClientCredentials` | `authServer` + `/token` | in the token request's form body |
+| `thirdpartytokenAuthorizationCode` | `accessTokenServer` + `/token` | in the token request's form body |
+| `thirdpartytokenClientCredentials` | `accessTokenServer` + `/token` | in the token request's form body |
 
 `thirdpartytokenAuthorizationCodeStrategy`, `thirdpartytokenClientCredentialsStrategy` on `ClientOptions` substitute the whole token request. The **token endpoint follows the base URL of its group** (named in the table), so it tracks the environment and any override.
 

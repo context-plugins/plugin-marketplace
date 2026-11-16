@@ -16,13 +16,6 @@ from {root_package}.core import UNSET, UnsetType
 - It is only ever a **default**. Never construct `UnsetType()` yourself; pass `UNSET` if you need to
   spell "omitted" explicitly while building kwargs.
 
-The two annotations that admit it, one per spelling a spec can declare:
-
-```python
-Optional         = T | UnsetType           # optional        — omitted or a value
-OptionalNullable = T | None | UnsetType    # optional+nullable — omitted, null, or a value
-```
-
 Building a payload conditionally, without a `None` ever reaching a non-nullable field:
 
 ```python
@@ -50,18 +43,13 @@ from {root_package}.models.enums import {Enum}
 
 {Enum}("{wire_value}")             # wire value -> member; ValueError if unknown
 {Enum}.{MEMBER}.value              # -> "{wire_value}"
-str({Enum}.{MEMBER})               # -> "{wire_value}"  (str enums only — see below)
+str({Enum}.{MEMBER})               # -> "{wire_value}"  (str enums only; an int enum raises TypeError)
 list({Enum})                       # every member
 ```
 
-Coercing an unknown value with `{Enum}(...)` raises `ValueError` — that is the *closed* lookup.
-The **open** alias used on model fields (`{Enum}OrStr` / `{Enum}OrInt`) does not raise; it passes the
-unknown value through as the underlying scalar. Do not reimplement that coercion at your boundary;
-read the field and handle the scalar arm.
-
-`__str__ = str.__str__` is emitted on **every** enum, which is right for a `(str, Enum)` and wrong for
-an `(int, Enum)`: on an int enum, `str(member)` and f-string interpolation raise
-`TypeError: descriptor '__str__' requires a 'str' object`. Use `.value` for int enums.
+`{Enum}(...)` is the *closed* lookup. The open alias on model fields passes an unknown value through
+as the scalar (`SKILL.md` *Enums are open*) — read the field and handle that arm rather than
+reimplementing the coercion at your boundary.
 
 Tolerating an unknown value when you must map to your own enum:
 
@@ -75,35 +63,14 @@ def to_domain(value: {Enum} | str) -> MyEnum:
 
 ## Union aliases — finding the exact arms
 
-A union is a **type alias**, not a class, so there is nothing to construct and nothing to unwrap. The
-contract sheet lists the arms; each arm is used directly. The SDK map names the **module** declaring
-the alias, not its arms — read them off the alias there.
-
 ```python
 from {root_package}.models import {Union}          # also {root_package}.models.unions.{module}
 ```
 
-- **Plain (`anyOf`)** — `{Union}: TypeAlias = {Variant1} | {Variant2}`, with a companion
-  `{Union}Dict: TypeAlias = {Variant1}Dict | {Variant2}Dict`. Named after its arms when the spec gave
-  it no name (`{Variant1}Or{Variant2}`).
-- **Discriminated (`oneOf` with a discriminator, or an `allOf` base with subtypes)** —
-  `{Union}: TypeAlias = Annotated[Annotated[{Variant1}, Tag("{value1}")] | …, WireDiscriminator("{tag}")]`.
-  The tag is the union's: build the variant and the union writes it. Some variants also declare the
-  tag as a field of their own, in which case it is yours to set. Where the companion alias names a
-  wrapper (`{Union}{Variant1}Dict`), that is the dict spelling to use — the variant's own dict shape
-  plus the tag key.
-- **One surviving arm** — no alias module is emitted at all; the field is typed with that arm directly
-  (`{Variant} | None` where a dropped arm was nullable). An alias the sheet does not list does not
-  exist.
-- Read a union back with `isinstance` / `match`; there are no `TryGet…`-style readers.
-
-Two runtime notes that the annotation does not show:
-
-```python
-{RequestType}({union_field}={"{tag}": "{value}", ...})   # ✓ dict form must carry the tag
-{RequestType}({union_field}={...})                       # ✗ ValidationError: union_tag_not_found
-model.to_dict(exclude_unset=True)                        # ✗ drops the defaulted tag; no longer validates back
-```
+The SDK map names the **module** declaring a union, not its arms — read them off the alias there. An
+unnamed `anyOf` alias is named after its arms (`{Variant1}Or{Variant2}`). A discriminated alias exists
+for a `oneOf` with a discriminator **and** for an `allOf` base with subtypes. Construction and reading
+rules are in `SKILL.md` *Union types*.
 
 ## Reading nested optional structures
 
@@ -138,14 +105,6 @@ Unknown keys are also reachable by attribute access **unless** the name collides
 
 ## Type-checking notes
 
-The SDK ships `py.typed`, so `mypy`/`pyright` check your calls against it fully.
-
-- `Optional[T]` from the SDK and `typing.Optional[T]` are **different types**. If you import both into
-  one module you will confuse yourself and your reader; the SDK's generated modules never import
-  `typing.Optional` — unions are spelled with PEP 604 `|` — and yours should not shadow the name.
-- Passing `None` to an `Optional[T]` field is a type error the checker reports. Believe it — at
-  runtime it is also a `ValidationError`. (`OptionalNullable[T]` is the annotation that does admit
-  `None`.)
-- A `{Model}Dict` literal is checked structurally, so an unknown key is an error there too. That check
-  is what makes the dict spelling safe to use at all — it is the *only* thing that catches a
-  misspelling, since the model base is `extra="allow"` at runtime.
+The SDK ships `py.typed`, so `mypy`/`pyright` check your calls against it fully. The SDK's modules
+never import `typing.Optional` (unions are spelled with PEP 604 `|`); don't import it into a module
+that also uses the SDK's `Optional`, a different type.

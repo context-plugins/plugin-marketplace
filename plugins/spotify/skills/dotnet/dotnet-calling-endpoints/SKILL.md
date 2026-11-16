@@ -1,6 +1,6 @@
 ---
 name: dotnet-calling-endpoints
-description: Calling operations on an APIMatic-generated .NET SDK in C# — finding the controller that owns an operation, required vs optional parameters, request and response envelope shapes, async usage, and cancellation. Load before writing the first call to an SDK operation, or when an operation's shape or return type is unclear.
+description: Load before writing the first call to an operation on an APIMatic .NET SDK in C#, or when an operation's input or return type is unclear — finding the controller that owns an operation, the per-operation request record, the requestOptions and cancellationToken arguments, response shapes and cancellation.
 ---
 
 # Calling endpoints on an APIMatic .NET SDK
@@ -16,7 +16,8 @@ names follow no fixed verb/resource pattern, so take the real name from the shee
 
 ## Method signature convention
 
-Every endpoint method is `async` (returns a `Task`) and takes at most three parameters, in a fixed order:
+Every endpoint method is `async` (returns a `Task`; there are no sync overloads) and takes at most three
+parameters, in a fixed order:
 
 ```csharp
 public Task<{ReturnType}> {Operation}(
@@ -44,13 +45,7 @@ public Task<{ReturnType}> {Operation}(
   positional call that skips it puts your `CancellationToken` where a `RequestOptions?` is expected, and the
   call fails to compile with `CS1503: Argument N: cannot convert from 'System.Threading.CancellationToken'
   to '{RootNamespace}.Core.RequestOptions?'`. Pass `cancellationToken:` by name and the problem cannot arise.
-- **The contract sheet is the source of truth for the record.** Which members are `required`, which are
-  nullable, which carry a default — and whether there is a `Body` — varies per operation. Take each
-  operation's record from the contract sheet (grounded from the SDK map/source), not from memory.
 - **Return type** varies by operation — see [Reading the response](#making-the-call-and-reading-the-response).
-- Methods are **async-only** (no sync overloads) and **throw `ApiException<TError>`** on API errors — one leaf
-  of the SDK's `SdkException` family, which also covers connection failures and timeouts — see
-  `dotnet-error-handling`.
 
 ## Building the request record
 
@@ -59,10 +54,10 @@ what you owe it:
 
 | Property | Meaning | You |
 |---|---|---|
-| `public required T X { get; init; }` | required, no spec default | **must** set it — the compiler enforces this |
-| `public T X { get; init; } = value;` | the spec declares a default | set it only to override; leaving it sends the default |
+| `public required T X { get; init; }` | required, no default | **must** set it — the compiler enforces this |
+| `public T X { get; init; } = value;` | has a default | set it only to override; leaving it sends the default |
 | `public T? X { get; init; }` | optional, no default | leave it unset to omit it from the request |
-| `public T X { get; } = value;` | the spec fixes the value (`const`) | cannot set it — it is sent as declared |
+| `public T X { get; } = value;` | a fixed value (`const`) | cannot set it — it is always sent |
 
 ```csharp
 var response = await client.{ApiGroup}.{Operation}(
@@ -79,34 +74,25 @@ var response = await client.{ApiGroup}.{Operation}(
 - **Property names are PascalCase C# names, not wire names.** `per_page` on the wire is `PerPage` on the
   record. The wire keys appear only inside the generated method body, as `new Param("per_page", request.PerPage)`
   — read names off the record, never off that list.
-- **The record is never serialized**, so it carries no `[JsonPropertyName]`. Its members may carry constraint
-  attributes (`[Minimum(0)]`, `[MaxLength(256)]`); they document the API's limits and nothing in the SDK
-  enforces them before the call.
+- **The record is never serialized**, so it carries no `[JsonPropertyName]`. Constraint attributes on its
+  members (`[Minimum(0)]`, `[MaxLength(256)]`) are not enforced — see **dotnet-models**.
 - **A JSON, plain-text or binary body is always the member `Body`** (`Body_` in the rare API that also has a parameter
   literally named `body`). A `application/x-www-form-urlencoded` or multipart form has **no** `Body`: each
-  form field is its own property on the record, and the generator assembles the form itself.
+  form field is its own property on the record, and the SDK assembles the form itself.
 
 ## Files
 
 A file is a `BinaryContent`, built with an object initializer that sets all three: a `Stream`, a `FileName`
-(may be `null`) and a `ContentType`
-(a `MediaTypeHeaderValue`). A `Stream` or `byte[]` also converts to one, typed `application/octet-stream` and
-named only for a `FileStream`; the SDK does not apply the spec's media type, so set `ContentType` whenever the spec
-declares one, and `FileName` when the API needs a name. The SDK never disposes or rewinds your stream, and never retries a call
-that sends a file.
+(may be `null`) and a `ContentType` (a `MediaTypeHeaderValue`). A `Stream` or `byte[]` also converts to one,
+typed `application/octet-stream` whatever media type the operation documents, and named only for a
+`FileStream` — so set `ContentType` whenever the API expects a specific type, and `FileName` when it needs a
+name. The SDK never disposes or rewinds your stream, and never retries a call that sends a file.
 
 ## Building request models
 
-**A form-bodied operation has no `Body` member.** Where the API declares a
-`application/x-www-form-urlencoded` or multipart request, the generator emits the fields as *individual
-members of the request record* and assembles the form itself — there is no body model to construct and no
-`Body` to set.
-In an API built that way this is the majority shape, not an exception. The contract sheet says
-which you are looking at; the record settles it.
-
-For the JSON case: request bodies are immutable `record`s built with object-initializer syntax (no
-builders). `required` members must be set; optional ones are nullable and are omitted from the JSON when
-left null. The body model is the type of the request record's `Body` member — a different type from the
+A JSON request body is an immutable `record` built with object-initializer syntax (no builders).
+`required` members must be set; optional ones are nullable and are omitted from the JSON when left null.
+The body model is the type of the request record's `Body` member — a different type from the
 request record itself — so take its exact name from the contract sheet (grounded from the SDK map/source):
 
 ```csharp
@@ -134,21 +120,14 @@ var body = new {RequestType}
 
 ## Enums
 
-Enums are type-safe string- **or int-**enums (`OpenStringEnum<T>` / `OpenIntEnum<T>`), not C# enums — use
-the static constants. There is no `FromValue`: a value the spec does not declare cannot be constructed, and
-a raw value resolves through `{EnumType}.TryGetKnownValue(value, out var known)`. See **dotnet-models** for
-read-back semantics (implicit conversion to the underlying value, `==` / `Is` against raw values, and the
-generated `Match`).
-
-```csharp
-SomeProp = {EnumType}.SomeConstant;
-SomeProp = {EnumType}.TryGetKnownValue(configured, out var known) ? known : {EnumType}.SomeConstant;
-```
+Enums are `OpenStringEnum<T>` / `OpenIntEnum<T>` records, not C# enums: use the static constants
+(`{EnumType}.SomeConstant`). There is no `FromValue`; resolve a raw value with
+`{EnumType}.TryGetKnownValue(value, out var known)`. See **dotnet-models**.
 
 ## Union types, collections, and dates
 
 Some properties are not plain scalars: polymorphic `OneOf`/`AnyOf` unions (built with **factory methods**,
-not object-initializers, and read via `TryGet…`), `IReadOnlyList`/`IReadOnlyDictionary` collections, and
+not object-initializers, and read via `TryGet…` or `Match`), `IReadOnlyList`/`IReadOnlyDictionary` collections, and
 `DateTimeOffset` dates. If a request property or response field is one of these, see **dotnet-models** for
 how to construct and read it.
 
@@ -189,20 +168,12 @@ contract sheet's response-envelope column names the return type and the inner fi
   bounds the read, and a drop while you read throws a raw `IOException` from your read, not
   `SdkConnectionException`.
 
-Endpoints in the same family can differ — one nests the resource, another returns it directly — so let each
-method's return type guide how you read it.
-
-An operation may also expose an optional **`{Operation}Result`** sibling that returns
-`ApiResult<TResponse, TError>` — the outcome (the response, or a typed/`RawError` error) instead of
-throwing, with the HTTP status and headers available on both. It's optionally generated, so it may not
-exist. See **dotnet-error-handling**.
+A non-throwing **`{Operation}Result`** sibling may exist — see **dotnet-error-handling**.
 
 ## Cancellation
 
-Every operation takes a `CancellationToken` as its last argument, passed as `cancellationToken:`, with
-`RequestOptions? requestOptions = null` immediately before it — so the token is last, never second-to-last. To bound an individual call with a
-timeout, use the per-request cancellation pattern in **dotnet-configuration-resilience** (it owns
-timeouts).
+Pass the token as `cancellationToken:` (see the signature above). To bound a call with a timeout, see
+**dotnet-configuration-resilience** § *Bounding a call*.
 
 ## Worked example — a list/GET call
 
@@ -223,7 +194,7 @@ var results = await client.{ApiGroup}.{Operation}(
         Filter = {EnumType}.SomeConstant,
         Q = "search text",
         PerPage = 20       // literal must match the member's type — a `20d` against an `int` is CS0266
-    },                     // StartDate is left unset and omitted; Page keeps the spec default
+    },                     // StartDate is left unset and omitted; Page keeps its default
     cancellationToken: ct);
 
 foreach (var item in results)

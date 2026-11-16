@@ -1,0 +1,13 @@
+{
+  "name": "finix",
+  "displayName": "Finix",
+  "version": "0.1.0",
+  "description": "Integrate and consume the APIMatic-generated Finix API Reference SDK — bundled skills for C#/.NET.",
+  "author": {
+    "name": "APIMatic"
+  },
+  "license": "MIT",
+  "skills": [
+    "./skills/dotnet"
+  ]
+}

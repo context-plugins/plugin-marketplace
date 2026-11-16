@@ -1,0 +1,62 @@
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using FinixApiReference.Core.Models;
+
+namespace FinixApiReference.Models;
+
+/// <summary>
+/// The home address of the merchant's principal control owner. This field is used for identity verification purposes.
+/// </summary>
+public record PersonalAddress4
+{
+    /// <summary>
+    /// First line of the address (max 35 characters).
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("line1")]
+    [MinLength(1)]
+    public string? Line1 { get; init; }
+
+    /// <summary>
+    /// Second line of the address (max 35 characters).
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("line2")]
+    [MinLength(1)]
+    public string? Line2 { get; init; }
+
+    /// <summary>
+    /// City (max 20 characters).
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("city")]
+    [MinLength(1)]
+    public string? City { get; init; }
+
+    /// <summary>
+    /// 2-letter State code.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("region")]
+    [MinLength(1)]
+    public string? Region { get; init; }
+
+    /// <summary>
+    /// Zip or Postal code (max 7 characters).
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("postal_code")]
+    [MinLength(1)]
+    public string? PostalCode { get; init; }
+
+    /// <summary>
+    /// 3-Letter country code (e.g. USA).
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("country")]
+    [MinLength(1)]
+    public string? Country { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

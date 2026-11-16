@@ -1,0 +1,15 @@
+{
+  "name": "context-plugins",
+  "description": "EXPERIMENT-ONLY branch: the Finix Context Plugin for plugin-experiments task 11. Not a published plugin; never merged into main.",
+  "owner": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "plugins": [
+    {
+      "name": "finix",
+      "source": "./plugins/finix",
+      "description": "Integrate and consume the APIMatic-generated Finix API Reference SDK — bundled skills for C#/.NET."
+    }
+  ]
+}

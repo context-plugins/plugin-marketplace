@@ -1,6 +1,6 @@
 ---
 name: dotnet-testing
-description: Testing code that calls an APIMatic-generated .NET SDK in C# — which seam to fake, covering error and edge paths, asserting real behaviour rather than execution, and keeping tests independent of SDK internals. Load before writing tests for the integration layer.
+description: Load before writing tests for code that calls an APIMatic .NET SDK in C# — the HttpClient stub seam, error and retry paths, faking the clock, constructing SDK exceptions directly, and asserting the outgoing request.
 ---
 
 # Testing code that uses an APIMatic .NET SDK
@@ -57,9 +57,18 @@ static {Api}Client ClientReturning(HttpStatusCode status, string json)
     {
         Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
     });
-    return new {Api}Client(new HttpClient(handler), new {Api}ClientOptions { /* auth not needed for stubs */ });
+    return new {Api}Client(new HttpClient(handler), new {Api}ClientOptions
+    {
+        {Credential} = "test-token",   // one placeholder per credential the operations under test require
+    });
 }
 ```
+
+**Set every credential the operations under test require, even against a stub.** An unset required
+credential throws `AuthSchemeException` before the stub sees a request. A value set in code also shields
+the test from any `{API}_*` environment variable on the machine — `{API}` being the SDK name in upper snake
+case. For an OAuth2 scheme, see *Test a client with OAuth credentials*: the placeholder makes the stub's
+first request the token `POST`.
 
 ## Test a success path
 
@@ -77,12 +86,9 @@ public async Task ReturnsDeserializedBody()
 
 ## Test an error path
 
-Endpoint methods throw `ApiException<TError>` on non-2xx (see `dotnet-error-handling`). `TError` is the
-operation's `{Operation}Error` model (**Case A**) for operations that have a generated `{Operation}Error`
-type, or `RawError` **directly** (**Case B**) otherwise — so assert the type that matches your operation.
-Whichever the case, the exception itself carries `StatusCode`, `Headers` and `ContentType` (from
-`ApiException`) plus the failed call's `Method` and `RequestUri` (from the `SdkException` root), and its
-`Message` is the call and the status — `"POST https://host/path returned 422 (UnprocessableEntity)."`.
+Endpoint methods throw `ApiException<TError>` on non-2xx — `{Operation}Error` (**Case A**) or `RawError`
+(**Case B**); see `dotnet-error-handling` — so assert the type that matches your operation. The exception
+carries `StatusCode`, `Headers`, `ContentType`, `Method` and `RequestUri`.
 
 **Case A — typed `{Operation}Error`:**
 
@@ -99,17 +105,13 @@ public async Task ThrowsOnApiError()
         () => client.{ApiGroup}.{Operation}(request, cancellationToken: default));
 
     Assert.Equal(HttpStatusCode.UnprocessableEntity, ex.StatusCode);   // the status is on the exception
-    // ex.Error is the typed ApiError. For a status the operation maps to a typed body (e.g. 422), assert the
-    // typed accessor — its name embeds the body type; the contract sheet lists the exact accessor name.
-    // TryGetRawError is FALSE for those statuses, so don't assert through it here:
+    // Assert the accessor for this status (name from the contract sheet); TryGetRawError is false here.
     Assert.True(ex.Error.TryGetSomeTypedBody(out var typed));
-    // ...assert on 'typed'. TryGetRawError fires ONLY for a status that falls to the error factory's
-    // default arm. A status with its own RawError accessor — TryGetNoContent, say — populates that
-    // accessor and leaves TryGetRawError false, so assert the specific one.
+    // ...assert on 'typed'.
 }
 ```
 
-**Case B — `ApiException<RawError>`** (e.g. read/list/find/archive/delete operations). Here `ex.Error` *is*
+**Case B — `ApiException<RawError>`.** Here `ex.Error` *is*
 the `RawError` — there is no `TryGet*` / `TryGetRawError`; read it directly:
 
 ```csharp
@@ -123,11 +125,11 @@ Assert.Equal(HttpStatusCode.UnprocessableEntity, ex.StatusCode);   // same value
 // You can also assert the deserialized error body: ex.Error.ReadAsString() / ex.Error.ReadAsJson<MyDto>().
 ```
 
-**A body that does not match the model is a third outcome.** Stub a 2xx whose JSON does not fit the
-response type — or an error status whose body does not fit the `{Operation}Error` template — and the call
-throws `ResponseDeserializationException`: an `ApiException` (so `StatusCode` tells you which of the two it
-was) but **not** an `ApiException<TError>`, carrying the `TargetType` it tried to build and the
-`JsonException` as `InnerException`. Lock this down for any operation whose provider is known to drift:
+**A body that does not match the model is a third outcome.** A 2xx whose JSON does not fit the response type,
+or an error body that does not fit `{Operation}Error`, throws `ResponseDeserializationException` (see
+`dotnet-error-handling`); its `StatusCode` says which. A `OneOf` or `AnyOf` response type is the exception: a
+body no variant accepts lands in its Unknown slot (see `dotnet-models`), so assert `TryGetUnknown` there
+instead of a throw. Lock it down for any operation whose provider is known to drift:
 
 ```csharp
 var client = ClientReturning(HttpStatusCode.OK, """{ "{resource}": "not-an-object" }""");
@@ -141,9 +143,8 @@ Assert.Equal(typeof({ReturnType}), ex.TargetType);
 
 ## Test the result-style (`ApiResult`) variant
 
-If the operation exposes the optional non-throwing `{Operation}Result` sibling (see `dotnet-error-handling`),
-there is nothing to catch — stub the response and assert on the returned `ApiResult<TResponse, TError>`
-directly. The status code and headers are available on both the success and failure outcomes.
+If the operation has a `{Operation}Result` sibling (see `dotnet-error-handling`), there is nothing to catch —
+assert on the returned `ApiResult<TResponse, TError>`; status and headers are on both outcomes:
 
 ```csharp
 using {RootNamespace}.Core.Models;        // ApiResult<TResponse, TError>
@@ -169,22 +170,21 @@ public async Task ResultVariantReportsFailureWithoutThrowing()
 With OAuth credentials set, the first request your stub sees is the token `POST`. `ClientReturning` answers
 every request alike, so give `StubHandler` a responder that returns queued responses, a token response such as
 `{ "access_token": "t", "token_type": "Bearer" }` first. The token is cached, so two calls make three
-requests. Or keep the credentials set and give `options.{Scheme}TokenStrategy` a stub that returns
-`new OAuthToken { AccessToken = "t", TokenType = "Bearer" }` (for authorization code, an
-`OAuthTokenRefreshable`, with `TryRefreshToken` returning `null`), because a strategy without credentials is
-never used. Either way, an authorization-code client also needs a `PromptForAuthorizationCode` that returns a
-fixed code.
-For a bad-credentials test, answer the token request with a 4xx and assert `AuthSchemeException`.
+requests. An authorization-code client also needs a `PromptForAuthorizationCode` that returns a fixed code.
+A `401` on an authenticated call makes the SDK drop the token, fetch a new one and re-send once, so a stub that
+answers `401` sees a second token request and a second call before the `401` reaches the test.
+For a bad-credentials test, answer the token request with a 4xx and assert `AuthSchemeException`; for a missing
+credential, leave the property unset (and its `{API}_*` environment variable too) and assert
+`AuthSchemeException` before any request reaches the stub.
 
 ## Fake the clock
 
 The SDK reads time through exactly one seam — `{Api}ClientOptions.TimeProvider` (default
 `TimeProvider.System`). Retry backoff, `Retry-After`, the per-attempt timeout, the SSE idle timeout, OAuth2
-token expiry and the logged request durations all follow it, so one fake provider drives them together and
-a retry test no longer sleeps through `1s + 2s + 4s` of real backoff. Use a provider that **implements
-timers** — `FakeTimeProvider` from `Microsoft.Extensions.TimeProvider.Testing` — because the retry delay
-and the idle window are timers on the provider: a `GetUtcNow`-only fake throws when the SDK asks it for a
-timer, which is deliberate and better than a silent real sleep.
+token expiry and the logged request durations all follow it, so one fake provider drives them together with
+no real sleeps. Use a provider that **implements timers** — `FakeTimeProvider` from
+`Microsoft.Extensions.TimeProvider.Testing` — because the retry delay and the idle window are timers on the
+provider: a `GetUtcNow`-only fake throws when the SDK asks it for a timer.
 
 ```csharp
 using Microsoft.Extensions.Time.Testing;   // FakeTimeProvider (Microsoft.Extensions.TimeProvider.Testing)
@@ -192,7 +192,11 @@ using Microsoft.Extensions.Time.Testing;   // FakeTimeProvider (Microsoft.Extens
 var clock = new FakeTimeProvider();
 var responses = new Queue<HttpStatusCode>([HttpStatusCode.ServiceUnavailable, HttpStatusCode.OK]);
 var handler = new StubHandler(_ => new HttpResponseMessage(responses.Dequeue()) { Content = new StringContent("{}") });
-var client = new {Api}Client(new HttpClient(handler), new {Api}ClientOptions { TimeProvider = clock });
+var client = new {Api}Client(new HttpClient(handler), new {Api}ClientOptions
+{
+    {Credential} = "test-token",   // as in ClientReturning
+    TimeProvider = clock,
+});
 
 var call = client.{ApiGroup}.{Operation}(request, cancellationToken: default);   // a GET: retryable
 clock.Advance(TimeSpan.FromSeconds(2));                              // past the 1s backoff (+ up to 500ms jitter)
@@ -202,10 +206,8 @@ Assert.Equal(2, handler.Requests.Count);
 ```
 
 The awaited call does not complete until the fake clock moves past the backoff — start the call, `Advance`,
-then `await`. Under DI, register the fake as the container's `TimeProvider` (before *or* after
-`Add{Api}Client` — order does not matter) and the SDK seeds the option from it; an explicit
-`o.TimeProvider = clock` in the configure callback wins over the container. The SDK never registers a
-`TimeProvider` itself, so nothing of yours is overwritten.
+then `await`. Under DI, register the fake as the container's `TimeProvider` (either order) or set
+`o.TimeProvider = clock` in the configure callback (see **dotnet-configuration-resilience** § *The clock*).
 
 ## Construct an SDK exception directly
 
@@ -250,13 +252,13 @@ Because the stub captures `LastRequest`, you can assert method, path, query, hea
 ```csharp
 var handler = new StubHandler(_ => new HttpResponseMessage(HttpStatusCode.OK)
                                    { Content = new StringContent("{}") });
-var client = new {Api}Client(new HttpClient(handler), new {Api}ClientOptions());
+var client = new {Api}Client(new HttpClient(handler), new {Api}ClientOptions { {Credential} = "test-token" });
 
 await client.{ApiGroup}.{Operation}(request, cancellationToken: default);
 
 Assert.Equal(HttpMethod.Post, handler.LastRequest!.Method);
 Assert.Contains("/expected/path", handler.LastRequest!.RequestUri!.AbsolutePath);
-Assert.Contains("per_page=20", handler.LastRequest!.RequestUri!.Query);  // query params are snake_case on the wire
+Assert.Contains("per_page=20", handler.LastRequest!.RequestUri!.Query);  // the wire name, not the C# property
 
 // Assert the serialized request body of a POST/PUT/PATCH:
 var sentJson = handler.LastBody;   // NOT LastRequest.Content — see below
@@ -266,31 +268,23 @@ Assert.Contains("\"expected_field\"", sentJson);
 ## Notes
 
 - ⚠ **Read the request body inside the handler, never off the captured request afterwards.** The SDK
-  disposes the request content in a `finally` that runs per attempt, *inside* the pipeline — so by the time
-  your awaited call returns, `handler.LastRequest.Content.ReadAsStringAsync()` throws
-  `ObjectDisposedException`. That is why the stub above buffers `Bodies` during `SendAsync`. Everything
-  else on the captured `HttpRequestMessage` — method, URI, headers — survives and can be asserted normally.
+  disposes the request content after each attempt, so once your awaited call returns,
+  `handler.LastRequest.Content.ReadAsStringAsync()` throws `ObjectDisposedException` — hence `Bodies` in the
+  stub above. Method, URI and headers on the captured `HttpRequestMessage` survive and can be asserted.
 - Mocking libraries (Moq, NSubstitute) work too — mock `HttpMessageHandler.SendAsync` (it's `protected`,
   so use `Protected()` with Moq). The hand-written stub above avoids that friction.
-- A stubbed retryable response — the default set is exactly `408, 429, 500, 502, 503, 504`, not all `5xx`
-  — on a retryable method will be retried by the SDK before the call returns. `HttpMethodsToRetry` (`GET/HEAD/PUT/OPTIONS` by default) gates **every** trigger, so a
-  `POST` retries on nothing — not a `503`, not a thrown `HttpRequestException`, not the per-attempt timeout
-  — unless you add its verb to the list (see `dotnet-configuration-resilience`). To observe retries firing,
-  stub a `GET` that returns `503` then `200` and count invocations.
-- **Status faults and transport faults are separate retry triggers** — the SDK distinguishes them itself
-  (`RetryAttempt.Reason` is `RetryReason.Status(...)` *or* `RetryReason.Failure(Exception)`), and a third,
-  the per-attempt timeout, arrives as `RetryReason.Failure(TimeoutRejectedException)`. A test that stubs a
-  `503` therefore proves nothing about what happens when the *connection* fails. The verb filter holds all
-  three at one send for a `POST` — which is exactly the property worth locking down with a test, because it
-  is a *configuration* guarantee and someone widening `HttpMethodsToRetry` for the read path silently
-  removes it. What reaches the test is the SDK's wrapper, never the raw `HttpRequestException`: a failed
-  send surfaces as `SdkConnectionException` (message `"POST https://host/path could not be sent: connection
-  reset"`, the raw exception as `InnerException`), and an exhausted per-attempt timeout as
-  `SdkTimeoutException` with `Timeout` set to the window that elapsed.
+- **Retries run before the call returns.** A stubbed `408`/`429`/`500`/`502`/`503`/`504` (not every `5xx`) on
+  `GET`/`HEAD`/`PUT`/`OPTIONS` is retried — stub `503` then `200` and count requests; a `POST` is retried on
+  nothing but an OAuth2 `401`, which every verb re-sends once (see `dotnet-configuration-resilience`). Status and transport faults are separate triggers
+  (`RetryAttempt.Reason` is `RetryReason.Status(...)` or `RetryReason.Failure(...)`), so a `503` stub proves
+  nothing about a connection failure — and the one-send `POST` is worth a test, since widening
+  `HttpMethodsToRetry` silently removes it. A thrown `HttpRequestException` surfaces as
+  `SdkConnectionException` with the raw exception as `InnerException`, and an exhausted per-attempt timeout
+  as `SdkTimeoutException`:
   ```csharp
   // Transport fault: the stub throws instead of answering, then we count what the server actually received.
   var handler = new StubHandler(_ => throw new HttpRequestException("connection reset"));
-  var client = new {Api}Client(new HttpClient(handler), new {Api}ClientOptions());
+  var client = new {Api}Client(new HttpClient(handler), new {Api}ClientOptions { {Credential} = "test-token" });
 
   var ex = await Assert.ThrowsAsync<SdkConnectionException>(
       () => client.{ApiGroup}.{Operation}(request, cancellationToken: default));
@@ -298,10 +292,8 @@ Assert.Contains("\"expected_field\"", sentJson);
   Assert.IsType<HttpRequestException>(ex.InnerException);
   Assert.Equal(1, handler.Requests.Count(r => r.Method == HttpMethod.Post));   // no resend
   ```
-- **Your own cancellation is the one thing the SDK never wraps.** A token you cancel surfaces as the usual
-  `OperationCanceledException` / `TaskCanceledException`, not as an `SdkException` — so a test that cancels
-  mid-call asserts on the framework type, and a `catch (SdkException)` in the code under test must be
-  expected *not* to fire.
+- **Your own cancellation surfaces as `OperationCanceledException`**, never an `SdkException` — assert the
+  framework type, and expect a `catch (SdkException)` in the code under test *not* to fire.
 - For DI-based code, the SDK's `Add{Api}Client` resolves the **default (unnamed)** `IHttpClientFactory`
   client, so register your stub on that one, then resolve `{Api}Client` from the provider:
   ```csharp
@@ -309,8 +301,6 @@ Assert.Contains("\"expected_field\"", sentJson);
   services.AddHttpClient(Options.DefaultName).ConfigurePrimaryHttpMessageHandler(() => stubHandler);
   var client = services.BuildServiceProvider().GetRequiredService<{Api}Client>();
   ```
-  A `TimeProvider` registered in the same container is picked up by the SDK automatically — see *Fake the
-  clock* below.
 - To look up an operation's signature, its request type, or a `{Operation}Error`'s accessor names, take them
   from the contract sheet (grounded from the SDK map/source) — not a decompiled or
   reflected view of the installed package, and not memory.

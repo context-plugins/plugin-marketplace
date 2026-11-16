@@ -1,0 +1,10 @@
+{
+  "name": "slack",
+  "version": "0.3.2",
+  "description": "Integrate and consume the APIMatic-generated Slack Web API SDK — bundled skills for C#/.NET, Python, TypeScript.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Slack Web API",
+    "developerName": "APIMatic"
+  }
+}

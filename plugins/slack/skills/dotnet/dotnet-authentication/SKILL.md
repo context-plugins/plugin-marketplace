@@ -1,17 +1,17 @@
 ---
 name: "dotnet-authentication"
-description: "Authentication for the Slack Web API .NET SDK in C# — this API authenticates with the OAuth 2.0 authorization-code grant, and this skill gives the credential each scheme takes, the SlackWebApiClientOptions property to set it on, and the startup check that keeps a missing secret from surfacing as a 401. Load before wiring credentials into the client, or when a call comes back 401/403."
+description: "Load before wiring credentials into the Slack Web API .NET SDK client in C#, or when a call throws AuthSchemeException or comes back 401/403. Covers the OAuth 2.0 authorization-code grant: the credential each scheme takes, the SlackWebApiClientOptions property it goes on, and a startup check that fails fast on a missing secret."
 ---
 
 # Authenticating the Slack Web API .NET SDK client
 
-This API authenticates with the OAuth 2.0 authorization-code grant. APIMatic surfaces each scheme as a **nullable credentials property** on `SlackWebApiClientOptions`; set the ones below, then construct the client (see `dotnet-client-initialization`).
+This API authenticates with the OAuth 2.0 authorization-code grant. Each scheme is a **nullable credentials property** on `SlackWebApiClientOptions`; set the ones below, then construct the client (see `dotnet-client-initialization`).
 
 | Scheme | Property on `SlackWebApiClientOptions` | Credential |
 | --- | --- | --- |
-| OAuth 2.0 authorization code | `SlackAuth` | `OAuth2AuthorizationCodeCredentials` |
+| OAuth 2.0 authorization code | `SlackAuth` | `OAuth2AuthorizationCodeCredentials?` |
 
-**That table is the entire authentication surface of this SDK.** `SlackWebApi.Core.Authentication` ships *every* scheme class APIMatic supports as shared runtime code, including kinds this API does not use, so read what is configurable off the properties above rather than off that folder.
+**That table is the entire authentication surface of this SDK.** `SlackWebApi.Core.Authentication` also holds scheme classes this API does not use, so read what is configurable off the properties above rather than off that folder.
 
 ## OAuth 2.0 — authorization code (3-legged, with PKCE)
 
@@ -35,47 +35,34 @@ options.SlackAuth = new OAuth2AuthorizationCodeCredentials
 };
 ```
 
-The SDK sends the user to `https://slack.com/api/authorize`, exchanges the returned code for a token at `https://slack.com/api/oauth.access`, and refreshes it when it expires; if the refresh fails, it invokes `PromptForAuthorizationCode` again to re-authorize.
+The SDK sends the user to `https://slack.com/oauth/v2/authorize`, exchanges the returned code for a token at `https://slack.com/api/oauth.v2.access`, and refreshes it when it expires; if the refresh fails, it invokes `PromptForAuthorizationCode` again to re-authorize.
 
-`PromptForAuthorizationCode` runs inside the call that needs a new token, under the scheme's fetch lock, so it must not make an SDK call that uses this scheme. It counts against the per-attempt `options.Retry.Timeout`, 100 s by default, and when the call is retryable (by default a `GET`, `HEAD`, `PUT` or `OPTIONS`) a timed-out attempt is retried and prompts again. A prompt that throws anything but `OperationCanceledException` fails the call with `AuthSchemeException`. `State` is sent as you set it and never checked, so your redirect handler must verify it.
+`PromptForAuthorizationCode` runs inside the call that needs a new token, so it must not make an SDK call that uses this scheme. It counts against the per-attempt `options.Retry.Timeout`, 100 s by default, and a timed-out attempt on a retryable call is retried and prompts again. A prompt that throws anything but `OperationCanceledException` fails the call with `AuthSchemeException`. `State` is sent as you set it and never checked, so your redirect handler must verify it.
 
-⚠ **`ClientSecret` is required here — PKCE does not make it optional.** This SDK builds the token request with `OAuth2AuthorizationCodeStrategy.ForBasicAuthRequest`, which sends the client id and secret as HTTP Basic credentials on the exchange. Omit it and the call fails with an `AuthSchemeException` wrapping an `InvalidOperationException`, at one of two very different moments:
+⚠ **`ClientSecret` is required here — PKCE does not make it optional.** The code exchange sends the client id and secret as HTTP Basic credentials. Omit it and the call fails with an `AuthSchemeException` wrapping an `InvalidOperationException`:
 
-- **PKCE disabled** (`Pkce = null`) — throws *before* `PromptForAuthorizationCode` runs.
-- **PKCE enabled** (the default `S256`) — throws *after* the prompt has already run. The user completes a full browser round-trip, and only then does the exchange fail. This is the expensive one.
-
-The public-client carve-out — a secret-less PKCE flow — belongs to the form-body token request, which this SDK does not use. Do not plan around it here.
+- **PKCE disabled** (`Pkce = null`) — *before* `PromptForAuthorizationCode` runs.
+- **PKCE enabled** (the default `S256`) — *after* the user has completed the browser round-trip.
 
 ## Token caching & refresh
 
 - Tokens are cached in-memory, **per client instance**, and reused until **30s** before expiry.
-- **This grant refreshes.** The authorization-code grant is wired to `IOAuth2RefreshableTokenStrategy` / `OAuth2RefreshableScheme`, so an expired access token is exchanged for a new one using the refresh token.
-- On `401`, the cached token is invalidated and re-acquired on the next call — the failing request is **not** retried. For the authorization-code grant, invalidation drops the refresh token along with the access token, so "re-acquired" means the *full* grant runs again and `PromptForAuthorizationCode` fires: a `401` there is an interactive re-authorization, not a silent refresh. **Plan for that in a non-interactive host** — a background worker will block on a prompt nobody can answer.
-- **Invalidation is a hint, not a barrier.** `Invalidate()` clears the cache without taking the fetch lock, so a token fetch already in flight can complete and re-populate it. That is deliberate — the refreshed token post-dates the invalidation — but it means "invalidate then immediately read" is not a guarantee of a fresh token.
+- **`options.SlackAuth` requests the whole catalogue (`admin admin.apps:read admin.apps:write admin.conversations:read admin.conversations:write admin.invites:read admin.invites:write admin.teams:read admin.teams:write admin.usergroups:read admin.usergroups:write admin.users:read admin.users:write authorizations:read bot calls:read calls:write channels:history channels:manage channels:read channels:write chat:write chat:write:bot chat:write:user conversations:history conversations:read conversations:write dnd:read dnd:write emoji:read files:read files:write:user groups:history groups:read groups:write identity.basic im:history im:read im:write links:write mpim:history mpim:read mpim:write none pins:read pins:write reactions:read reactions:write reminders:read reminders:write remote_files:read remote_files:share remote_files:write rtm:stream search:read stars:read stars:write team:read tokens.basic usergroups:read usergroups:write users.profile:read users.profile:write users:read users:read.email users:write workflow.steps:execute`) on every token request**, so one token — and one consent — covers every operation.
+- **This grant refreshes**: the SDK keeps the `refresh_token` the server issues and renews silently; when the refresh fails the full grant runs again.
+- On `401`, the rejected token is dropped, a new one is obtained and the failing request is **re-sent once** — under every retry setting, including `RetryOptions.Disabled()`; a second `401` is returned to you. A request whose body cannot be re-sent (a binary or file upload) is not re-sent, but its `401` still drops the cached token, so the next call recovers. For the authorization-code grant the refresh token is tried first, so the re-send is silent unless the refresh itself fails — then `PromptForAuthorizationCode` fires inside the call. **Plan for that in a non-interactive host** — a background worker will block on a prompt nobody can answer.
+- After a `401` clears the cache, a token fetch already in flight can still re-populate it, so the next call is not guaranteed a newly fetched token.
 
-⚠ **If the token response omits `expires_in`, the token never expires as far as the SDK is concerned.** `expires_in` is RECOMMENDED but not required by RFC 6749, and the SDK's expiry check short-circuits to "not expired" when it is absent — so the first token is cached for the life of the client and the only thing that ever replaces it is a `401`. That is usually fine and occasionally not: a token revoked server-side keeps being sent until a request fails with it. If your provider omits `expires_in` and you need proactive rotation, supply your own token strategy (below) rather than trying to bound the cache.
+Setting `Scope` on the credentials replaces the per-scheme behaviour above with one token requested with that value; an empty `Scope` requests none. Set it to the scopes your client is registered for when the API declares more than it grants you: the default asks for the whole catalogue, and an authorization server that enforces per-client scope registration answers `invalid_scope` to that request.
 
-### Supplying your own token source
+⚠ **If the token response omits `expires_in`, the SDK treats the token as never expiring**: it is cached for the client's lifetime and replaced only after a `401`, so a token revoked server-side keeps being sent until a request fails with it — a failure the one re-send above recovers, at the cost of a round trip.
 
-The token strategy is a public extension point: `SlackWebApiClientOptions` exposes a strategy property beside each credentials property, and the generated client falls back to the built-in strategy only when you leave it null. The strategy is used only when the credentials property beside it is also set, and `GetToken` receives that object.
+## Environment variables
 
-| Grant | Strategy property on `SlackWebApiClientOptions` | Type |
-| --- | --- | --- |
-| Authorization code | `SlackAuthTokenStrategy` | `IOAuth2RefreshableTokenStrategy<OAuth2AuthorizationCodeCredentials>` |
-
-```csharp
-options.SlackAuth = new OAuth2AuthorizationCodeCredentials { /* its required members */ };
-options.SlackAuthTokenStrategy = new MyTokenStrategy();   // Task<OAuthTokenRefreshable> GetToken(creds, ct)
-                                                          // Task<OAuthTokenRefreshable?> TryRefreshToken(creds, refreshToken, ct)
-```
-
-Reach for it when the token must come from somewhere other than the SDK's own call to the token endpoint — a shared cache across processes, a secrets broker, a sidecar that already holds a valid token, or a test double. The per-client in-memory cache above still wraps whatever you return.
+`options.SlackAuth` has no environment default.
 
 ## ⚠ Missing credentials must stop the app from starting
 
-⚠ **Configure nothing and the request goes out unauthenticated — no exception.** An unset credentials property on `SlackWebApiClientOptions` yields a no-op scheme, not an error, so the call reaches the provider with no credential and comes back `401`. The SDK will never tell you that you forgot to supply one; only the provider will, one round-trip later and one layer away from the cause.
-
-**A required credential that is not configured is a deployment fault, not a request fault.** If the app boots with a blank secret, an operator sees a provider outage, retry logic hammers a call that can never succeed, and the actual cause — an unset environment variable — is two layers away from the symptom.
+⚠ **Configure nothing and the first call that needs the credential throws.** A credentials property on `SlackWebApiClientOptions` that nothing fills fails the call with `AuthSchemeException` before anything is sent, naming the scheme. That is a request-time failure for a deployment fault: catch it at startup instead.
 
 **Validate at startup and refuse to boot.** Bind the credentials into your own options type and make the host check it before the app serves anything:
 

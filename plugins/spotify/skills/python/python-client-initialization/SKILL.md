@@ -1,6 +1,6 @@
 ---
 name: python-client-initialization
-description: Creating and holding an APIMatic-generated Python SDK client in Python — construction, the keyword-only constructor shape, choosing the sync or async class, transport ownership and the close/aclose obligation, and where the client lives in a script, an ASGI app, or a forking worker. Load before wiring the client into an application or writing the factory that builds it.
+description: Load before constructing an APIMatic-generated Python SDK client or wiring it into an application — a script, an ASGI app (FastAPI, Starlette), a WSGI app or a forking worker (Gunicorn, Celery). Covers the keyword-only constructor, choosing the sync or async class, transport ownership and the close/aclose obligation, and how long the client lives.
 ---
 
 # Initializing an APIMatic Python SDK client
@@ -23,8 +23,10 @@ constructor:
 {Api}Client(
     *,
     # server selection — one of four shapes, see "Choosing the server / base URL"
-    timeout: float = 30.0,             # seconds; the generator's default
+    timeout: float = 30.0,             # seconds
     retry_options=None,                # None: the default policy; 0 disables; a count, RetryOptions or dict tunes it
+    logging_options=None,              # what the built-in HTTP logging records — see python-configuration-resilience
+    hooks=None,                        # hook objects or {"on_request": [...], ...} — see python-configuration-resilience
     custom_http_client=None,           # your own transport
     {scheme}=None,                     # one credentials keyword per declared scheme
     {scheme}_token_source=None,        # managed-OAuth schemes only
@@ -35,25 +37,23 @@ Every parameter sits after `*` — there are **no positional arguments**, so a p
 immediate `TypeError`. There is no options object, no builder, and no separate configuration type to
 populate: everything is a constructor keyword.
 
-Operations are exposed on the client. Most are grouped under **group accessors** (one per API resource
-group) and called `client.{group}.{operation}(...)` — for example, a `widgets` group's `list_widgets`
-operation is `client.widgets.list_widgets(...)`. An operation that belongs to no group sits **directly
-on the client**, called `client.{operation}(...)`. Accessors are `cached_property`, so they are
-attributes without parentheses and return the same object each time. The available accessors (and any
-direct operations) come from the contract sheet, grounded in the SDK map's controller table
-(`sdk-map.md`) — not from a runtime `dir()` or a REPL poke. See
-`python-calling-endpoints`.
+Operations hang off **group accessors** — `client.{group}.{operation}(...)`, or `client.{operation}(...)`
+for an ungrouped one. Accessors are `cached_property` attributes, not methods: no parentheses, and the
+same object each time. Take them from the contract sheet, grounded in the SDK map's controller table
+(`sdk-map.md`), not from a runtime `dir()` (`python-calling-endpoints`).
 
 Both classes are also exported under the fixed aliases `Client` and `AsyncClient`. **Prefer the full
 names** — a bare `Client` collides in any application that talks to more than one API.
 
-The async class is a peer, not a variant: same accessors, same operation names, same parameters. Four
-names differ:
+The async class is a peer, not a variant: same accessors, same operation names, same parameter names.
+What differs at the client:
 
 | | Sync | Async |
 |---|---|---|
 | Transport keyword | `custom_http_client=` | `custom_async_http_client=` |
 | Transport protocol | `HttpClient` | `AsyncHttpClient` |
+| Hooks | `SdkHook` / `SdkHooksDict` | `AsyncSdkHook` / `AsyncSdkHooksDict` |
+| Per-call options | `RequestOptions` | `AsyncRequestOptions` |
 | Shutdown | `client.close()` | `await client.aclose()` |
 | Scope form | `with` | `async with` |
 
@@ -83,18 +83,11 @@ client = {Api}Client(
 )
 ```
 
-`timeout` is validated at construction: non-positive (or NaN) raises `ValueError` immediately.
-Credentials passed in dict form are validated by pydantic with `extra="forbid"`, so a misspelled key
-raises `ValidationError` there and then.
-
-Two things are **not** validated, so a clean construction does not mean a working client:
-
-- **`base_url` is taken unchecked.** A typo or the wrong environment surfaces as a connection error or
-  a `401` at the first call.
-- **Credentials are never exercised.** Managed-OAuth schemes fetch the token lazily on the first API
-  call, so wrong credentials construct happily and fail later, pointing at whichever operation ran
-  first. Every credentials keyword also defaults to `None`, and omitting it configures the client for
-  **no auth** — requests go out unauthenticated and the server answers `401`.
+Construction validates `timeout` (`ValueError`) and dict-form credentials (`ValidationError`), but a
+clean construction does not mean a working client: **`base_url` is taken unchecked** — a typo or the
+wrong environment surfaces as a connection error or a `401` at the first call — and **credentials are
+never exercised**: a managed-OAuth token is fetched on the first call, and an omitted credentials
+keyword means no auth (`python-authentication`).
 
 ### Transport ownership and the close obligation
 
@@ -120,23 +113,10 @@ is `aclose`, and calling `close()` on an async client is an `AttributeError`.
 
 ## Choosing the server / base URL
 
-Server selection is **not** an environment enum. What the constructor accepts depends on what the spec
-declares, in one of four shapes:
-
-| The API declares | Constructor keywords |
-|---|---|
-| one server, one environment | `base_url: str \| None = None` |
-| one server, several environments | `environment` (a string literal alias, with a default), then `base_url` |
-| several servers, one environment | `server_config: {Server}ConfigOrDict \| None = None` |
-| several servers, several environments | `environment`, then `timeout`, then `server_config` |
-
-Omitting the server keyword falls through to the config's own default rather than writing `None` over
-it — and **that default is whatever the spec listed first, which for many providers is a sandbox.**
-Nothing announces it. Confirm the default from the contract sheet — the SDK map's *Servers & auth*
-section names the base URL each arm resolves to — and pass the server explicitly in
-every environment, production included. Server template variables live on the config class, so how you
-reach them follows the arm above. **python-configuration-resilience** owns server / base-URL
-configuration in full.
+The server keyword takes one of four shapes, and **omitting it silently selects the API's
+first-listed environment — often a sandbox.** Pass it explicitly in every environment, production
+included; **python-configuration-resilience** owns the shapes, their nesting and server template
+variables.
 
 ## Where the client lives
 
@@ -184,48 +164,48 @@ thread-safe. The async client may be built outside a running loop, but from its 
 ## Supplying your own transport
 
 The transport is a `Protocol` — a structural interface, not a base class. The sync one requires
-`send(request) -> HttpResponse` and `close()`; the async one `send` and `aclose()`. There is one
-request seam whatever the operation returns, a file included, so a transport that implements those
-two satisfies the Protocol under `mypy --strict`:
+`send(request) -> HttpResponse` and `close()`; the async one `send` and `aclose()`:
 
 ```python
 client = {Api}Client(custom_http_client=MyTransport(), {scheme}=...)
 ```
 
-This is the seam for **logging, tracing, metrics and tests** — the SDK ships no logging or middleware of
-its own. Wrap the SDK's own transport rather than reimplementing HTTP:
+This is the seam for **tests and for replacing the send itself**. Tracing, metrics and changing a
+request or response go in a hook instead, and HTTP logging is built in
+(`python-configuration-resilience` covers both), so wrap the transport only for what neither can do.
+Wrap the SDK's own transport rather than reimplementing HTTP:
 
 ```python
-class LoggingTransport:
-    def __init__(self, inner): self._inner = inner
+class ReplayTransport:
+    def __init__(self, inner, replies): self._inner, self._replies = inner, replies
 
     def send(self, request):
+        if (reply := self._replies.get((request.method, request.url))) is not None:
+            return reply(request)  # your own HttpResponse; nothing is sent, which no hook can do
         # The head only: the body is still on the socket, and the caller closes it.
-        response = self._inner.send(request)
-        log.info("%s %s -> %s", request.method, request.url, response.status_code)
-        return response
+        return self._inner.send(request)
 
     def close(self): self._inner.close()
 ```
 
-`send` returns an `HttpResponse` — `url`, `status_code`, lowercased `headers`,
+`send` returns an `HttpResponse` — `method`, `url`, `status_code`, lowercased `headers`,
 `iter_bytes(chunk_size)`, `read()` and `close()` — whose body has **not** been read. That is true of
 every response, not just a download, so a wrapper must hand each one back unread; logging its size
 means consuming it, which leaves the caller nothing to read. `iter_bytes(None)` must yield each chunk
 as the network delivered it, holding nothing back — an event stream reads it that way, and a wrapper
 that re-chunks to a fixed size delays every small event.
 
-Four obligations the protocol places on anything you supply, all silent when broken: **do not mutate
+Five obligations the protocol places on anything you supply, all silent when broken: **do not mutate
 the incoming request** (it is frozen); **honour `request.timeout`** when set, falling back to your own
-when it is `None`; **lowercase the response header names**, because callers look them up that way; and
-**return once the head has arrived**, leaving the body for whoever reads it.
+when it is `None`; **lowercase the response header names**, because callers look them up that way;
+**return once the head has arrived**, leaving the body for whoever reads it; and **raise
+`SdkConnectionError`** (`SdkTimeoutError` for a timeout) from `send` and from the response's reads when
+no usable response arrives, chained `from` your library's exception (`python-configuration-resilience`).
 
-Two consequences. First, **the `timeout=` you passed to the client no longer reaches the wire** — that
-value only builds the client's *own default* transport, so set the timeout on the one you pass or you
-have silently reverted to the underlying library's default. The per-call
-`request_options={"timeout": ...}` is the exception: it travels on the request object and reaches any
-transport honouring the obligation above. Second, **the client still closes it** — don't close it
-yourself while the client is alive, and don't share one transport between two clients.
+Two consequences. First, **the client's `timeout=` does not reach the wire** — set the timeout on your
+transport, or you get the underlying library's default; a per-call `request_options` timeout still
+arrives on the request (`python-configuration-resilience`). Second, **the client still closes it** —
+don't close it yourself while the client is alive, and don't share one transport between two clients.
 
 ## Next
 

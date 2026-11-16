@@ -1,6 +1,6 @@
 ---
 name: python-file-handling
-description: Sending and receiving files with an APIMatic-generated Python SDK — which arm of the upload alias to hand an endpoint and what each one costs in memory, re-sendability and ownership, the three behaviours that differ between a multipart part and a raw body, when a body goes out chunked rather than sized, overriding a filename or media type, and consuming a streamed file response without leaking its connection. Load before passing a file to an operation or consuming one it returns, in addition to `python-calling-endpoints`.
+description: Load before passing a file to an APIMatic-generated Python SDK operation or consuming a file it returns, together with `python-calling-endpoints`. Covers which upload arm to pass and its memory, re-send and ownership costs, multipart part vs raw body, chunked vs sized bodies, filename and media-type overrides, and consuming a file response without leaking its connection.
 ---
 
 # File handling on an APIMatic Python SDK
@@ -17,8 +17,9 @@ AsyncFileInput     = AsyncBinaryContent | NamedFile[AsyncBinaryContent]   # asyn
 ```
 
 So you make exactly one choice: **where the bytes come from**. The destination is fixed by the
-endpoint, and the flavour by the client. All of these are imported from `{root_package}.core`, and
-`list[FileInput]` is an array part.
+endpoint, and the flavour by the client. These aliases and their content unions, `NamedFile`, the two
+reader protocols and the two response classes are all imported from `{root_package}.core` — they are
+not re-exported from the package root — and `list[FileInput]` is an array part.
 
 Nothing validates what you pass, so a wrong arm is a type error at build time and a wrong *value* is
 a failure at send time. What each arm accepts is wider than the annotation suggests.
@@ -67,10 +68,8 @@ These are the only places the position still matters, and none of them is visibl
    windows rather than one whole `bytes` from an `AsyncIterable` — your pieces are forwarded as you
    yield them, so a single large `bytes` is resident before the SDK ever sees it.
 
-   So **do not reach for an async handle over a file you could have named.** `anyio.open_file(p)` in
-   a part costs two reads and a write where `Path(p)` costs one read. The async arms earn their keep
-   when there is no path — bytes arriving from another connection, a queue, a subprocess — and cost a
-   round trip through the filesystem when there is one.
+   So prefer `Path(p)` to `anyio.open_file(p)` in a part — one read instead of two reads and a write;
+   the async arms are for bytes with no path behind them (another connection, a queue, a subprocess).
 
 On the **async client**, reading a *sync* arm inside a multipart body occupies the event loop while
 it reads, so `bytes` and the async arms are the spellings that never block it there. A raw body has
@@ -109,8 +108,8 @@ client.{group}.{operation}(NamedFile(b"...", filename="invoice.pdf", media_type=
 Set `filename` and it wins over a `Path`'s own name and a handle's `.name` alike, so wrapping a named
 source renames it rather than being ignored.
 
-**Every file currently goes out as `application/octet-stream`** whatever the spec declares, so
-`NamedFile(content, media_type=...)` is the only way to send anything else. If the server validates a
+**Every file goes out as `application/octet-stream`** unless you pass
+`NamedFile(content, media_type=...)` — the only way to send anything else. If the server validates a
 part's `Content-Type`, say the type yourself.
 
 ## There is no `str` arm
@@ -161,30 +160,24 @@ Both iterators take a `chunk_size`, defaulting to 64 KiB.
   f.aread()`, `async for chunk in f.aiter_bytes()`, `await f.aclose()`, and `async with` as the
   spelling to reach for. **`save_to` is the exception**: it keeps its name and is awaited — `await
   f.save_to("out.bin")` — so there is no `asave_to`. Calling it without `await` creates a coroutine
-  and drops it: nothing is written and the connection stays held. An abandoned response defers its
-  warning to loop shutdown, where it is far less useful — and that warning is silenced by default
-  too.
+  and drops it: nothing is written and the connection stays held. An abandoned async response defers
+  its warning to loop shutdown, and that `ResourceWarning` is hidden by Python's default warning
+  filters — so the leak is silent unless you enable it.
 - **`save_to` accepts a directory**, naming the file from the server's `Content-Disposition` — reduced
   to a safe basename first, because that header is attacker-controlled — and raising `ValueError` when
-  the server sent no filename, or sent one that reduces to nothing safe to create: empty, `.` or
-  `..`, a reserved device name (`CON`, `NUL`, `COM1`…), or longer than 255 characters. It writes
-  `<name>.part` and moves it into place atomically, so an interrupted download never appears under
+  the server sent no filename or none that is safe to create: empty, `.` or `..`, a reserved device
+  name (`CON`, `NUL`, `COM1`…), or longer than 255 characters. It writes `<name>.part` and moves it
+  into place atomically, so an interrupted download never appears under
   the final name. If the destination cannot be opened at all — a missing parent directory, or
   permissions — the response is still consumable.
 - **The head has already arrived**, so `headers`, `media_type`, `content_length` and `filename` are
   readable before you read a byte. `filename` is the server's suggestion and may be `None`.
 - **`request_options={"timeout": ...}` bounds each read of the body**, not the call as a whole, so a
-  stalled download raises rather than hanging.
-- **A transport failure mid-download raises out of the *read*, not out of the call.** The call already
+  stalled download raises `SdkTimeoutError` rather than hanging.
+- **A connection failure mid-download raises `SdkConnectionError` out of the *read*, not out of the call.** The call already
   returned successfully — only the head had arrived — so a `try` wrapped around the call alone catches
   nothing. Put the boundary around the consuming code (`python-error-handling`).
 
 With `with_raw_response`, the payload is the same unread `FileResponse`. The raw peer buys you the
 status code and headers, not the bytes — a result carries no body of its own, because here the body
 *is* the payload.
-
-## Where these types live
-
-Import all of them from `{root_package}.core`: the two aliases and their content unions, `NamedFile`,
-the two reader protocols, and the two response classes. They are not re-exported from
-`{root_package}/__init__.py`, so the package root is not where to look for them.

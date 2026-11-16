@@ -1,6 +1,6 @@
 ---
 name: dotnet-client-initialization
-description: Creating and registering an APIMatic-generated .NET SDK client in C# — construction, the builder/options shape, HttpClient ownership and lifetime, and dependency-injection registration in ASP.NET Core. Load before wiring the client into an application's service container or writing the factory that builds it.
+description: Load before constructing an APIMatic .NET SDK client in C#, registering it in a service container, or writing the factory that builds it — the client options class, HttpClient ownership and lifetime, dependency-injection registration in ASP.NET Core, and inbound webhooks.
 ---
 
 # Initializing an APIMatic .NET SDK client
@@ -22,12 +22,9 @@ object:
 public {Api}Client(HttpClient httpClient, {Api}ClientOptions options)
 ```
 
-Operations are exposed on the client. Most are grouped under **controller properties** (one per API resource
-group) and called `client.{ApiGroup}.{Operation}(...)` — for example, a `Widgets` controller's
-`ListWidgets` operation is `client.Widgets.ListWidgets(new ListWidgetsRequest { ... })`. An operation that belongs to no group sits
-**directly on the client**, called `client.{Operation}(...)`. The available controller properties (and any
-direct operations) come from the contract sheet (grounded from the SDK map/source),
-not a decompiled or reflected view of the installed package. See `dotnet-calling-endpoints`.
+Operations hang off **controller properties** (`client.{ApiGroup}.{Operation}(...)`) or sit directly on the
+client (`client.{Operation}(...)`). Take them from the contract sheet (grounded from the SDK map/source), not
+a decompiled or reflected view of the installed package — see `dotnet-calling-endpoints`.
 
 The options class always carries these knobs (auth properties vary per API — see
 `dotnet-authentication`):
@@ -41,19 +38,16 @@ public class {Api}ClientOptions
     public ServerOptions Server { get; set; } = new();
     public IReadOnlyList<SdkHook> Hooks { get; set; } = [];   // request/response observation —
                                                               //   see dotnet-configuration-resilience § Hooks
-    // + one nullable credentials property per auth scheme the API declares, and — for an OAuth2
-    //   scheme — a nullable {Scheme}TokenStrategy hook alongside it (see dotnet-authentication)
+    // + one nullable credentials property per auth scheme the API declares, and — for a static
+    //   scheme — a nullable {Scheme}Provider delegate asked on every request (see dotnet-authentication)
 }
 ```
 
-`Logging` is a real property, not a placeholder — the SDK has a **built-in** request/response logger, and
-what an unset `Logging.LoggerFactory` means depends on how the client is built. Under `Add{Api}Client` the
-extension fills it from the container's `ILoggerFactory`, so logging is **already on** at your host's level.
-On a client you construct yourself it falls through to a `{APICLIENTTYPENAME}_LOG` environment variable that
-can switch logging — including unredacted JSON request bodies — on from outside your code. Set it
-explicitly either way; **dotnet-configuration-resilience** has the full table. Tuning these knobs — `Retry` (retries, backoff, per-attempt timeout), `Logging`, and
-`Server` / `Environment` (server selection and **overriding the base URL**), plus pagination — is covered in
-**dotnet-configuration-resilience**.
+`Logging` is a **built-in** request/response logger: under `Add{Api}Client` it is **already on**; on a client
+you construct yourself a `{API}_LOG` environment variable — `{API}` being the SDK name in upper snake case — can
+turn it on, unredacted JSON bodies included. Set `Logging.LoggerFactory` explicitly either way.
+**dotnet-configuration-resilience** covers
+`Retry`, `Logging`, `Server` / `Environment` (including **overriding the base URL**) and pagination.
 
 ## Direct instantiation
 
@@ -64,7 +58,8 @@ using {RootNamespace}.Servers;
 var options = new {Api}ClientOptions
 {
     Environment = ServerEnvironment.Default(),   // pick the environment your API exposes
-    // ...set the auth credentials property your API uses (see dotnet-authentication)
+    // ...set the auth credentials property your API uses, or leave it null and set its
+    //    {API}_* environment variable instead (see dotnet-authentication)
 };
 
 var httpClient = new HttpClient();               // reuse a single long-lived instance
@@ -77,32 +72,19 @@ The SDK does **not** own the `HttpClient` — you provide it. Reuse one instance
 (or use `IHttpClientFactory`); do not create one per request. Attach custom `HttpMessageHandler`s here for
 logging, proxies, or custom TLS (see `dotnet-configuration-resilience`).
 
-**Keep both the `HttpClient` and the SDK client long-lived — the client is not a stateless wrapper.** The
-only thing you hand it is the HTTP pipeline; its constructor builds the rest and then owns it:
-
-- the **resilience pipelines** — two Polly pipelines are eagerly built from `options.Retry`;
-- the **logger** — constructed here, which is also where the `{APICLIENTTYPENAME}_LOG` environment variable
-  is read;
-- the **auth schemes**, and for an OAuth2 SDK the auth scheme *is* the access-token cache — an instance
-  field on the scheme object.
-
-That last one is the reason a per-request client is a real cost rather than a stylistic one: a fresh client
-starts with an empty token cache, so **every resolution pays a token request on its first call**. Three
-calls through three transient clients is three token round-trips where a shared client makes one.
-
-Reuse one `HttpClient` (or let `IHttpClientFactory` own it) *and* one SDK client for the app's lifetime.
-Construct per request only where you genuinely need different credentials per request — and then expect the
-token fetch.
+**Keep the SDK client long-lived too.** Its constructor builds and owns the retry pipelines (from
+`options.Retry`), the logger (reading `{API}_LOG`) and the auth schemes — for OAuth2 the scheme
+holds the access-token cache, so a fresh client starts with an empty cache and **pays a token request on its
+first call**. Reuse one SDK client for the app's lifetime; construct per request only where credentials
+genuinely differ per request, and expect the token fetch.
 
 ## Choosing the server / base URL
 
-Environments are modeled as a `ServerEnvironment` string-enum with one constant per environment the API
-defines (e.g. `ServerEnvironment.Production`, or region constants). Select one on `options.Environment`.
-Overriding a templated parameter or the base URL is nested **per server AND per environment** —
-`options.Server.{ServerName}.{Environment}.BaseUrl` (with any templated params at the same level), NOT
-directly on `ServerOptions`. **dotnet-configuration-resilience** documents this in full and owns
-server / base-URL configuration. The exact constants and template parameters for your API come from the
-contract sheet (grounded from the SDK map/source).
+Select the environment with `options.Environment = ServerEnvironment.{Environment}` — one constant per
+environment (e.g. `ServerEnvironment.Production`, or region constants). Base-URL and templated-parameter
+overrides live at `options.Server.{ServerName}.{Environment}`, NOT directly on `ServerOptions` — see
+**dotnet-configuration-resilience**. The constants and template parameters come from the contract sheet
+(grounded from the SDK map/source).
 
 ## Dependency injection (ASP.NET Core / generic host)
 
@@ -122,18 +104,13 @@ builder.Services.Add{Api}Client(options =>
 });
 ```
 
-⚠ **The extension registers the client as a `singleton`, and that has a consequence worth planning for.**
-A singleton calls `CreateClient()` *once* and holds that `HttpClient` for the process lifetime, so
-`IHttpClientFactory`'s handler rotation never applies to it and a DNS change is cached indefinitely — the
-classic symptom is an app that keeps calling a decommissioned IP after a provider fails over, and only a
-restart fixes it. (A transient registration avoids *this* problem — each resolution takes a fresh `HttpClient` and the
-pooled pipeline stays rotated — but it buys stale-DNS safety with a fresh, empty OAuth token cache per
-resolution, so it is a trade, not a fix. See the lifetime note above.)
-
-The actual fix is cheap: set `PooledConnectionLifetime` on the primary handler so the pool recycles
-connections on a timer, and keep the SDK client long-lived. Registering yourself over a named `HttpClient`
-(below) gives you the same control plus an unshared pipeline. Confirm the registration in the extension rather than trusting this paragraph if your SDK was
-generated by a different version — it is one line, and the contract sheet carries it.
+⚠ **The extension registers the client as a `singleton`.** It calls `CreateClient()` *once* and holds that
+`HttpClient` for the process lifetime, so `IHttpClientFactory`'s handler rotation never applies to it and a
+DNS change is never picked up — the app keeps calling a decommissioned IP after a provider fails over, until
+a restart. A transient registration avoids stale DNS but pays a fresh, empty OAuth token cache per
+resolution (see the lifetime note above). The fix: set `PooledConnectionLifetime` on the primary handler so
+the pool recycles connections on a timer, and keep the SDK client long-lived. Registering yourself over a
+named `HttpClient` (below) gives you the same control plus an unshared pipeline.
 
 To attach custom `DelegatingHandler`s (logging, proxies, custom TLS) under this DI registration, configure
 the **default, unnamed** factory client it resolves — e.g.
@@ -145,10 +122,8 @@ yourself over a **named** `HttpClient` — the same shape the extension uses, mi
 
 ### Registering over a named `HttpClient`
 
-The full shape. **`Timeout` is not optional to think about** — the default is `100s`, which matches the SDK's
-own per-attempt retry timeout. On defaults a hung provider costs you ~100s on a `POST` and **~407s on a
-`GET`**, because the SDK's per-attempt timeout is itself a retry trigger on the retryable verbs (see
-**dotnet-configuration-resilience**). Either number is an outage, not a timeout:
+The full shape. **Set `Timeout`**: the default `100s` bounds one attempt, and a hung provider costs ~100s on
+a `POST` and ~407s on a `GET` (see **dotnet-configuration-resilience** § *Bounding a call*):
 
 ```csharp
 using {RootNamespace};
@@ -175,10 +150,8 @@ services.AddSingleton(sp =>
 });
 ```
 
-Both knobs above are load-bearing and they answer different failures: `PooledConnectionLifetime` keeps DNS
-fresh behind a long-lived client, and `Timeout` stops a hung provider from holding a request, a pooled connection and the caller open (~100s,
-and ~407s on a retryable verb — see **dotnet-configuration-resilience**). Setting
-only the first is the common mistake — it looks like the resilience box is ticked.
+`PooledConnectionLifetime` keeps DNS fresh behind a long-lived client; `Timeout` stops a hung provider holding
+the request. Set both.
 
 Then inject it:
 
@@ -191,30 +164,19 @@ public sealed class MyService({Api}Client client)
 
 ## Inbound webhooks — what `Core/Webhooks/` does and does not give you
 
-Every emitted SDK ships a `Core/Webhooks/` tree: `WebhookRequest`, `WebhookEvent<…>`,
-`WebhookEventParser<…>`, and a `Signing/` folder holding `SignatureVerifier`. Three facts about it, verified
-on both sampled 4.0.0 SDKs, decide whether any of it is usable:
+Every SDK ships `Core/Webhooks/`: `WebhookRequest` (`FromStream`, `FromBytes`, `TryGetHeader` — a
+body-and-headers holder) and the `public abstract` `WebhookEventParser<TEvent>` and `WebhookEvent<…>`.
+**`WebhookEventParser<TEvent>.Parse` verifies nothing** — it checks the body is a JSON object and builds the
+event; it is a deserializer, not a security boundary.
 
-- **`SignatureVerifier` is `internal sealed`, with no `InternalsVisibleTo`.** You cannot call it, construct
-  it, or subclass it from your code. It is fully implemented — HMAC, digest encodings, replay tolerance —
-  and on both samples it has **zero callers**.
-- **`WebhookEventParser<TEvent>.Parse` verifies nothing.** It parses the body with `JsonDocument.Parse`,
-  checks the root is a JSON object, and hands off to an abstract `CreateEvent`. The name reads like a
-  security boundary; it is a deserializer.
-- **`WebhookEventParser` and `WebhookEvent` are `public abstract`, and neither sampled SDK generates a
-  concrete subclass**, because neither spec declares webhook events. The public machinery has nothing to
-  instantiate — a base class waiting on generated code that was never emitted.
-
-So on an SDK with no generated events, signature verification is yours to write, against the provider's
-published scheme. `WebhookRequest` remains useful on its own — `FromStream`, `FromBytes`, `TryGetHeader`
-give you a body-and-headers holder to verify against — but it computes nothing for you.
-
-> **Not settled by either sample.** Whether a spec that *does* declare webhook events generates a concrete
-> parser, and whether that generated parser calls the internal `SignatureVerifier`, is unknown here — no
-> sampled SDK exercises it. An `internal` verifier is exactly what you would expect if generated code is
-> its intended caller, so do not read "verification happens outside the SDK" as a property of the
-> generator. It is what is true when no events were generated. Look for a `WebhookEvent` subclass in the
-> emitted tree before assuming either way.
+If the SDK has a `{RootNamespace}.Webhooks` namespace, it holds a concrete `{Api}WebhookParser`, registered
+by `services.Add{Api}Webhooks()`. If that namespace also holds a public `{Api}WebhookSignatureVerifier`,
+verify with its `bool Verify(WebhookRequest)` before you parse: it is built from `WebhookOptions` (`Secret`,
+`TimeProvider`, and `ReplayTolerance` where present) and registered by
+`services.Add{Api}WebhookSignatureVerifier(o => o.Secret = ...)`; its constructor throws
+`InvalidOperationException` on a blank `Secret`. Without that class, verification is yours to write against
+the provider's published scheme — `Core/Webhooks/Signing/SignatureVerifier` is `internal` and cannot be
+called from your code.
 
 ## Next
 

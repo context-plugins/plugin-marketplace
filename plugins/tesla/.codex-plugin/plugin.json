@@ -1,6 +1,6 @@
 {
   "name": "tesla",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Integrate and consume the APIMatic-generated Tesla Fleet Management API SDK — bundled skills for C#/.NET, Python, TypeScript.",
   "skills": "./skills",
   "interface": {

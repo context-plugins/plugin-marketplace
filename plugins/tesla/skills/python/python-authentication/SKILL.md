@@ -24,7 +24,7 @@ its `{oauth2}_token_source=` override.)
 
 The credential classes below live under `{root_package}.core` and are the **same across all APIMatic
 Python SDKs**; only the **keyword names** differ per SDK — each is the scheme's id, snake_cased (hence
-the `{...}` placeholders).
+the `{...}` placeholders). One exception: this SDK's `ClientCredentials` and `AuthorizationCodeCredentials` also require `audience`.
 
 ## The two spellings
 
@@ -33,8 +33,8 @@ Every credential keyword accepts a typed model or a mapping, and the two produce
 ```python
 from {root_package}.core import ClientCredentials
 
-client = {Client}({oauth2}=ClientCredentials(client_id=cid, client_secret=secret))
-client = {Client}({oauth2}={"client_id": cid, "client_secret": secret})
+client = {Client}({oauth2}=ClientCredentials(client_id=cid, client_secret=secret, audience=audience))
+client = {Client}({oauth2}={"client_id": cid, "client_secret": secret, "audience": audience})
 ```
 
 Prefer the typed form in application code — it is what your type checker can verify. The dict form is
@@ -93,6 +93,7 @@ from {root_package}.core import ClientCredentials
 client = {Client}({oauth2}=ClientCredentials(
     client_id="...",
     client_secret="...",
+    audience="https://fleet-api.prd.na.vn.cloud.tesla.com",   # required — the Fleet API base URL of the token's region
     scopes=["a", "b"],          # optional
 ))
 ```
@@ -114,6 +115,7 @@ client = {Client}({oauth2}=AuthorizationCodeCredentials(
     client_id="...",
     client_secret="...",                        # optional; needed only when PKCE is disabled (pkce=None)
     redirect_uri="https://app.example.com/callback",
+    audience="https://fleet-api.prd.na.vn.cloud.tesla.com",   # required — sent on the code exchange
     scopes=["a"],                               # optional
     state="...",                                # optional CSRF token
     pkce="S256",                                # default; RFC 7636 ("plain" where §7.2 permits it)
@@ -165,7 +167,7 @@ is the part that matters:
   with bad credentials constructs perfectly happily; the failure surfaces at the first operation.
 - The fetch is a form-encoded `POST` to the token endpoint derived from the client's `base_url`, with
   the client id and secret sent as HTTP Basic (`client_secret_basic`) or in the form body
-  (`client_secret_post`), per the scheme.
+  (`client_secret_post`), per the scheme. The client-credentials request and the authorization-code exchange also send `audience`; a refresh does not.
 - The resulting token is **cached in memory on the client's auth scheme** and reused across calls, which
   is the whole reason a client must be long-lived (`python-client-initialization`); a burst of
   concurrent first calls pays for **one** fetch.

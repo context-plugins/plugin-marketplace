@@ -113,6 +113,7 @@ const client = new {Api}Client({
   {scheme}: {
     clientId: process.env.CLIENT_ID!,
     clientSecret: process.env.CLIENT_SECRET!,   // required for this grant
+    audience: "https://fleet-api.prd.na.vn.cloud.tesla.com",   // required — the Fleet API base URL of the token's region
     scope: "read write",                        // optional — omit if the API needs none
   },
 });
@@ -139,6 +140,7 @@ const client = new {Api}Client({
     clientId: process.env.CLIENT_ID!,
     clientSecret: process.env.CLIENT_SECRET,   // optional — see the note below
     redirectUri: "https://app.example.com/callback",
+    audience: "https://fleet-api.prd.na.vn.cloud.tesla.com",   // required — sent on the code exchange
     scope: "read write",                       // optional
     state: crypto.randomUUID(),                // optional CSRF token
     pkce: PkceMethod.S256,                     // default; RFC 7636

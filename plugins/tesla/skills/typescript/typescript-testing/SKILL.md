@@ -461,7 +461,7 @@ const stubStrategy = {                     // keep it a variable: inline, tryRef
 };
 
 const client = new {Api}Client({
-  {scheme}: { clientId: "id", clientSecret: "secret" },   // still required — the scheme is off without it
+  {scheme}: { clientId: "id", clientSecret: "secret", audience: "https://fleet-api.prd.na.vn.cloud.tesla.com" },   // still required — the scheme is off without it
   {scheme}Strategy: stubStrategy,
   fetch: stub.fetch,
 });
@@ -469,7 +469,7 @@ const client = new {Api}Client({
 
 That credential fits the client-credentials grant. Match `{scheme}`'s type in `src/client-options.ts`:
 `OAuth2PasswordCredentials` needs `username` and `password`, and `OAuth2AuthorizationCodeCredentials`
-needs `redirectUri` and `promptForAuthorizationCode` (e.g. `async () => "code"`).
+needs `redirectUri`, `audience` and `promptForAuthorizationCode` (e.g. `async () => "code"`).
 
 Facts that make these tests behave:
 

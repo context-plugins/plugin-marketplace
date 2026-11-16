@@ -84,8 +84,8 @@ Authentication is **per operation**: every operation declares the requirement it
 ```ts
 const client = new TeslaFleetManagementApiClient({
   bearerAuth: process.env.API_TOKEN!,
-  thirdpartytokenAuthorizationCode: { clientId: process.env.CLIENT_ID!, redirectUri: process.env.REDIRECT_URI!, promptForAuthorizationCode: async (url) => { /* send the user to url */ return "YOUR_AUTHORIZATION_CODE"; } },
-  thirdpartytokenClientCredentials: { clientId: process.env.CLIENT_ID!, clientSecret: process.env.CLIENT_SECRET! },
+  thirdpartytokenAuthorizationCode: { clientId: process.env.CLIENT_ID!, redirectUri: process.env.REDIRECT_URI!, audience: "https://fleet-api.prd.na.vn.cloud.tesla.com", promptForAuthorizationCode: async (url) => { /* send the user to url */ return "YOUR_AUTHORIZATION_CODE"; } },
+  thirdpartytokenClientCredentials: { clientId: process.env.CLIENT_ID!, clientSecret: process.env.CLIENT_SECRET!, audience: "https://fleet-api.prd.na.vn.cloud.tesla.com" },
 });
 ```
 

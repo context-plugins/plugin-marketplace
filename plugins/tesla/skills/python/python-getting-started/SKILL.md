@@ -108,8 +108,8 @@ from tesla_fleet_management_api.core import AuthorizationCodeCredentials
 def prompt(url: str) -> str:
     return input(f"Open {url}, then paste the code: ")
 
-client = Client(thirdpartytoken_authorization_code=AuthorizationCodeCredentials(client_id="…", client_secret="…", redirect_uri="…", prompt_for_authorization_code=prompt))
-client = Client(thirdpartytoken_authorization_code={"client_id": "…", "client_secret": "…", "redirect_uri": "…", "prompt_for_authorization_code": prompt})   # equivalent
+client = Client(thirdpartytoken_authorization_code=AuthorizationCodeCredentials(client_id="…", client_secret="…", redirect_uri="…", audience="https://fleet-api.prd.na.vn.cloud.tesla.com", prompt_for_authorization_code=prompt))
+client = Client(thirdpartytoken_authorization_code={"client_id": "…", "client_secret": "…", "redirect_uri": "…", "audience": "https://fleet-api.prd.na.vn.cloud.tesla.com", "prompt_for_authorization_code": prompt})   # equivalent
 ```
 
 OAuth 2.0 client credentials, exposed as the client's `thirdpartytoken_client_credentials=` keyword taking `ClientCredentials` **or a plain dict**. The client fetches and caches the bearer token itself, lazily, from `/token` on the `access_token_server` server.
@@ -118,8 +118,8 @@ OAuth 2.0 client credentials, exposed as the client's `thirdpartytoken_client_cr
 from tesla_fleet_management_api import Client
 from tesla_fleet_management_api.core import ClientCredentials
 
-client = Client(thirdpartytoken_client_credentials=ClientCredentials(client_id="…", client_secret="…"))
-client = Client(thirdpartytoken_client_credentials={"client_id": "…", "client_secret": "…"})   # equivalent
+client = Client(thirdpartytoken_client_credentials=ClientCredentials(client_id="…", client_secret="…", audience="https://fleet-api.prd.na.vn.cloud.tesla.com"))
+client = Client(thirdpartytoken_client_credentials={"client_id": "…", "client_secret": "…", "audience": "https://fleet-api.prd.na.vn.cloud.tesla.com"})   # equivalent
 ```
 
 **Every credentials keyword is optional** — omit it and requests go out unauthenticated, with nothing failing at construction; `python-authentication` covers how to catch that, and what a *failed token fetch* raises.

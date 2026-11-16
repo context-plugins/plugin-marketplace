@@ -35,6 +35,7 @@ options.ThirdpartytokenAuthorizationCode = new OAuth2AuthorizationCodeCredential
     ClientId = "...",
     ClientSecret = "...",
     RedirectUri = "https://app.example.com/callback",
+    Audience = "https://fleet-api.prd.na.vn.cloud.tesla.com",   // required — sent on the code exchange
     Scope = "...",                              // optional
     State = "...",                              // optional CSRF token
     Pkce = PkceMethod.S256,                     // default; RFC 7636
@@ -62,11 +63,12 @@ options.ThirdpartytokenClientCredentials = new OAuth2ClientCredentials
 {
     ClientId = "...",
     ClientSecret = "...",
+    Audience = "https://fleet-api.prd.na.vn.cloud.tesla.com",   // required — the Fleet API base URL of the token's region
     Scope = "..."            // optional
 };
 ```
 
-The SDK fetches the token from `https://fleet-auth.prd.vn.cloud.tesla.com/oauth2/v3/token` and caches it, acquiring a fresh one when it expires; on a `401` it drops the cached token, acquires a new one and re-sends the call once (the upload exception is under **Token caching & refresh**). The token request carries the client id and secret in the form body.
+The SDK fetches the token from `https://fleet-auth.prd.vn.cloud.tesla.com/oauth2/v3/token` and caches it, acquiring a fresh one when it expires; on a `401` it drops the cached token, acquires a new one and re-sends the call once (the upload exception is under **Token caching & refresh**). The token request carries the client id, secret and `audience` in the form body.
 
 ## Credential providers
 
@@ -110,7 +112,7 @@ A credentials property left `null` is read from an environment variable when the
 | Property on `TeslaFleetManagementApiClientOptions` | Environment variables |
 | --- | --- |
 | `BearerAuth` | `TESLA_FLEET_MANAGEMENT_API_BEARER_AUTH` |
-| `ThirdpartytokenClientCredentials` | `TESLA_FLEET_MANAGEMENT_API_THIRDPARTYTOKEN_CLIENT_CREDENTIALS_CLIENT_ID`, `TESLA_FLEET_MANAGEMENT_API_THIRDPARTYTOKEN_CLIENT_CREDENTIALS_CLIENT_SECRET`, `TESLA_FLEET_MANAGEMENT_API_THIRDPARTYTOKEN_CLIENT_CREDENTIALS_SCOPE` (optional) |
+| `ThirdpartytokenClientCredentials` | `TESLA_FLEET_MANAGEMENT_API_THIRDPARTYTOKEN_CLIENT_CREDENTIALS_CLIENT_ID`, `TESLA_FLEET_MANAGEMENT_API_THIRDPARTYTOKEN_CLIENT_CREDENTIALS_CLIENT_SECRET`, `TESLA_FLEET_MANAGEMENT_API_THIRDPARTYTOKEN_CLIENT_CREDENTIALS_AUDIENCE`, `TESLA_FLEET_MANAGEMENT_API_THIRDPARTYTOKEN_CLIENT_CREDENTIALS_SCOPE` (optional) |
 
 `options.ThirdpartytokenAuthorizationCode` has no environment default.
 
@@ -162,8 +164,10 @@ Check every value **the scheme you chose** needs. The rows below are not one che
 | `ClientId` | `ThirdpartytokenAuthorizationCode` | — |
 | `ClientSecret` | `ThirdpartytokenAuthorizationCode` | — |
 | `RedirectUri` | `ThirdpartytokenAuthorizationCode` | — |
+| `Audience` | `ThirdpartytokenAuthorizationCode` | — |
 | `ClientId` | `ThirdpartytokenClientCredentials` | `TESLA_FLEET_MANAGEMENT_API_THIRDPARTYTOKEN_CLIENT_CREDENTIALS_CLIENT_ID` |
 | `ClientSecret` | `ThirdpartytokenClientCredentials` | `TESLA_FLEET_MANAGEMENT_API_THIRDPARTYTOKEN_CLIENT_CREDENTIALS_CLIENT_SECRET` |
+| `Audience` | `ThirdpartytokenClientCredentials` | `TESLA_FLEET_MANAGEMENT_API_THIRDPARTYTOKEN_CLIENT_CREDENTIALS_AUDIENCE` |
 
 ## Notes
 

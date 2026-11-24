@@ -1,0 +1,24 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Final, TypeAlias
+
+from ..core import ErrorMapper, RawError, decode_json
+from ..models.http_validation_error import HttpValidationError
+
+V1CheckpointsV1CheckpointsGetErrorBody: TypeAlias = HttpValidationError | RawError
+
+
+@dataclass(frozen=True, slots=True)
+class _V1CheckpointsV1CheckpointsGetError:
+    def map(self, status_code: int, content: bytes) -> V1CheckpointsV1CheckpointsGetErrorBody:
+        match status_code:
+            case 422:
+                return decode_json[HttpValidationError](content)
+            case _:
+                return RawError(status_code, content)
+
+
+v1_checkpoints_v1_checkpoints_get_error_mapper: Final[
+    ErrorMapper[V1CheckpointsV1CheckpointsGetErrorBody]
+] = _V1CheckpointsV1CheckpointsGetError()

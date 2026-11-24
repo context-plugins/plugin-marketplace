@@ -1,0 +1,10 @@
+{
+  "name": "mailerlite",
+  "version": "0.1.0",
+  "description": "Create, update, and delete MailerLite webhooks.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "MailerLite",
+    "developerName": "APIMatic"
+  }
+}

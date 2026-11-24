@@ -1,0 +1,20 @@
+using System.Text.Json.Serialization;
+using Givebutter.Core.Models;
+
+namespace Givebutter.Models;
+
+/// <summary>
+/// Accepts a <c>string</c> value.
+/// </summary>
+public record ThankYouMessage
+{
+    [JsonPropertyName("name")]
+    public string Name { get; } = "thank_you_message";
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("value")]
+    public string? Value { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

@@ -1,0 +1,10 @@
+{
+  "name": "perigon",
+  "version": "0.1.0",
+  "description": "Search news, stories, people, and companies, and manage monitors and watchlists with Perigon.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Perigon",
+    "developerName": "APIMatic"
+  }
+}

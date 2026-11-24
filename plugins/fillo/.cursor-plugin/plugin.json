@@ -1,0 +1,18 @@
+{
+  "name": "fillo",
+  "displayName": "Fillo",
+  "version": "0.1.0",
+  "description": "Build forms and manage responses, respondents, agents, integrations, and webhooks with Fillo.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

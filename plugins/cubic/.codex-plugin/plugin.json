@@ -1,0 +1,10 @@
+{
+  "name": "cubic",
+  "version": "0.1.0",
+  "description": "Export pull request review analytics for your organizations with cubic.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "cubic",
+    "developerName": "APIMatic"
+  }
+}

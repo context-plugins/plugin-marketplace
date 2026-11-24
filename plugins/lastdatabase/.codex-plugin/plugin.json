@@ -1,0 +1,10 @@
+{
+  "name": "lastdatabase",
+  "version": "0.1.0",
+  "description": "Search email, phone, and fax lead lists by country, city, industry, and keyword with LastDatabase.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "LastDatabase",
+    "developerName": "APIMatic"
+  }
+}

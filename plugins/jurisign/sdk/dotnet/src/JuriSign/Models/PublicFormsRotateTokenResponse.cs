@@ -1,0 +1,18 @@
+using System.Text.Json.Serialization;
+using JuriSign.Core.Models;
+
+namespace JuriSign.Models;
+
+public record PublicFormsRotateTokenResponse
+{
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("data")]
+    public PublicForm? Data { get; init; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("message")]
+    public string? Message { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

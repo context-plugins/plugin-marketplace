@@ -1,0 +1,117 @@
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using AwsStorageGateway.Core.Models;
+using AwsStorageGateway.Models.Enums;
+
+namespace AwsStorageGateway.Models;
+
+public record UpdateNfsFileShareInput
+{
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the file share to be updated.
+    /// </summary>
+    [JsonPropertyName("FileShareARN")]
+    public required string FileShareArn { get; init; }
+
+    /// <summary>
+    /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3. We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("EncryptionType")]
+    public EncryptionType? EncryptionType { get; init; }
+
+    /// <summary>
+    /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the EncryptionType parameter instead. We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("KMSEncrypted")]
+    public bool? KmsEncrypted { get; init; }
+
+    /// <summary>
+    /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true, or if EncryptionType is SseKms or DsseKms.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("KMSKey")]
+    public string? KmsKey { get; init; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("NFSFileShareDefaults")]
+    public NfsFileShareDefaults? NfsFileShareDefaults { get; init; }
+
+    /// <summary>
+    /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("DefaultStorageClass")]
+    public string? DefaultStorageClass { get; init; }
+
+    /// <summary>
+    /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("ObjectACL")]
+    public ObjectAcl? ObjectAcl { get; init; }
+
+    /// <summary>
+    /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IPv4/IPv6 addresses or valid CIDR blocks.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("ClientList")]
+    public IReadOnlyList<string>? ClientList { get; init; }
+
+    /// <summary>
+    /// The user mapped to anonymous user. Valid values are the following: RootSquash: Only root is mapped to anonymous user. NoSquash: No one is mapped to anonymous user. AllSquash: Everyone is mapped to anonymous user.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("Squash")]
+    public string? Squash { get; init; }
+
+    /// <summary>
+    /// A value that sets the write status of a file share. Set this value to true to set the write status to read-only, otherwise set to false. Valid Values: true | false
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("ReadOnly")]
+    public bool? ReadOnly { get; init; }
+
+    /// <summary>
+    /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("GuessMIMETypeEnabled")]
+    public bool? GuessMimeTypeEnabled { get; init; }
+
+    /// <summary>
+    /// A value that sets who pays the cost of the request and the cost associated with data download from the S3 bucket. If this value is set to true, the requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner always pays the cost of storing data. RequesterPays is a configuration for the S3 bucket that backs the file share, so make sure that the configuration on the file share is the same as the S3 bucket configuration. Valid Values: true | false
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("RequesterPays")]
+    public bool? RequesterPays { get; init; }
+
+    /// <summary>
+    /// The name of the file share. Optional. FileShareName must be set if an S3 prefix name is set in LocationARN, or if an access point or access point alias is used. A valid NFS file share name can only contain the following characters: a-z, A-Z, 0-9, -, ., and _.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("FileShareName")]
+    public string? FileShareName { get; init; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("CacheAttributes")]
+    public CacheAttributes? CacheAttributes { get; init; }
+
+    /// <summary>
+    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. This setting is not meant to specify an exact time at which the notificat
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("NotificationPolicy")]
+    public string? NotificationPolicy { get; init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the storage used for audit logs.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("AuditDestinationARN")]
+    public string? AuditDestinationArn { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

@@ -1,0 +1,15 @@
+from __future__ import annotations
+
+from typing_extensions import NotRequired, TypedDict
+
+from ..core import UNSET, Optional, SdkBaseModel
+
+
+class ErrorError(SdkBaseModel):
+    status: Optional[str] = UNSET
+    error: Optional[str] = UNSET
+
+
+class ErrorErrorDict(TypedDict):
+    status: NotRequired[str]
+    error: NotRequired[str]

@@ -1,0 +1,18 @@
+{
+  "name": "flowaccount",
+  "displayName": "FlowAccount",
+  "version": "0.1.0",
+  "description": "Create quotations, invoices, receipts, credit notes, expenses, and purchase orders in FlowAccount.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

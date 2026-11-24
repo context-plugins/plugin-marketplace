@@ -1,0 +1,27 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
+# CountriesRegions — operations
+
+Accessor: `client.countries_regions` · Source: `microsoft_dynamics_nav/apis/countries_regions.py` · 1 operation
+
+Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omit what its invariants table covers and are otherwise self-contained, so chunk at block level. Signatures are the sync parsed spelling; the async and raw spellings take the same parameter names, the async ones typing `request_options` as `AsyncRequestOptionsOrDict` (see sdk-map.md). **Type sources** names the module declaring each type an operation mentions, so resolving a body, return or error payload is a lookup rather than a search; the runtime types `RawError` and `ApiResult` are excluded.
+
+### client.countries_regions.list_countries_regions
+
+- **Route**: `GET /companies({company_id})/countriesRegions`
+- **Auth**: `oauth2_authorization_code` OR `oauth2_client_credentials` OR `bearer_auth`
+- **Server**: `default`
+- **Signature**: `def list_countries_regions(company_id: UUID, *, top: int | None = None, skip: int | None = None, filter_: str | None = None, select: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `company_id`
+- **Params**: `company_id` — path · `top` — query `$top` · `skip` — query `$skip` · `filter_` — query `$filter` · `select` — query `$select`
+- **Returns (parsed)**: `CompaniesApiCountriesRegionsResponse`
+- **Returns (raw)**: `ApiResult[CompaniesApiCountriesRegionsResponse, ListCountriesRegionsErrorBody]`
+- **Error**: `ListCountriesRegionsErrorBody` — **Case A (typed)**
+- **Error arms**: `ErrorResponse` [401] · `RawError` [anything unmapped]
+
+| Type | Source |
+| --- | --- |
+| `CompaniesApiCountriesRegionsResponse` | `microsoft_dynamics_nav/models/companies_api_countries_regions_response.py` |
+| `ListCountriesRegionsErrorBody` | `microsoft_dynamics_nav/errors/list_countries_regions_error.py` |
+| `ErrorResponse` | `microsoft_dynamics_nav/models/error_response.py` |
+

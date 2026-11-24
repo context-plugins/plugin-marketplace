@@ -391,6 +391,501 @@
       "name": "stayingapi",
       "source": "./plugins/stayingapi",
       "description": "Search Airbnb, Booking.com, Vrbo, and Google Hotels availability and compare prices with StayingAPI."
+    },
+    {
+      "name": "agent-ready",
+      "source": "./plugins/agent-ready",
+      "description": "Scan websites for AI agent readability and check their MCP and NLWeb endpoints with Agent Ready."
+    },
+    {
+      "name": "amazon-certificate-manager",
+      "source": "./plugins/amazon-certificate-manager",
+      "description": "Request, import, renew, and export SSL/TLS certificates and manage ACME endpoints with AWS Certificate Manager."
+    },
+    {
+      "name": "amazon-comprehend",
+      "source": "./plugins/amazon-comprehend",
+      "description": "Detect entities, key phrases, sentiment, PII, and language, and train custom classifiers with Amazon Comprehend."
+    },
+    {
+      "name": "amazon-devops-guru",
+      "source": "./plugins/amazon-devops-guru",
+      "description": "Find operational anomalies, insights, and recommendations for your AWS resources with Amazon DevOps Guru."
+    },
+    {
+      "name": "amazon-direct-connect",
+      "source": "./plugins/amazon-direct-connect",
+      "description": "Manage dedicated connections, virtual interfaces, LAGs, and Direct Connect gateways with AWS Direct Connect."
+    },
+    {
+      "name": "amazon-ebs",
+      "source": "./plugins/amazon-ebs",
+      "description": "Read and write EBS snapshot blocks and list changed blocks with the Amazon EBS direct APIs."
+    },
+    {
+      "name": "amazon-forecast",
+      "source": "./plugins/amazon-forecast",
+      "description": "Import datasets, train predictors, and create and export time-series forecasts with Amazon Forecast."
+    },
+    {
+      "name": "amazon-freertos",
+      "source": "./plugins/amazon-freertos",
+      "description": "Manage FreeRTOS software configurations and over-the-air updates for microcontrollers with Amazon FreeRTOS."
+    },
+    {
+      "name": "amazon-lex",
+      "source": "./plugins/amazon-lex",
+      "description": "Build, version, test, and deploy conversational bots with Amazon Lex V2."
+    },
+    {
+      "name": "amazon-rekognition",
+      "source": "./plugins/amazon-rekognition",
+      "description": "Detect faces, labels, text, and unsafe content in images and video, and manage face collections with Amazon Rekognition."
+    },
+    {
+      "name": "amazon-sqs",
+      "source": "./plugins/amazon-sqs",
+      "description": "Create and manage queues and send, receive, and delete messages with Amazon SQS."
+    },
+    {
+      "name": "amazon-storage-gateway",
+      "source": "./plugins/amazon-storage-gateway",
+      "description": "Activate gateways and manage file shares, volumes, tapes, and caches with AWS Storage Gateway."
+    },
+    {
+      "name": "amazon-swf",
+      "source": "./plugins/amazon-swf",
+      "description": "Register workflow and activity types, run workflow executions, and poll for tasks with Amazon SWF."
+    },
+    {
+      "name": "amazon-transcribe",
+      "source": "./plugins/amazon-transcribe",
+      "description": "Run transcription, call analytics, and medical transcription jobs, and manage vocabularies with Amazon Transcribe."
+    },
+    {
+      "name": "amazon-vpc",
+      "source": "./plugins/amazon-vpc",
+      "description": "Manage VPCs, subnets, route tables, internet and NAT gateways, and network ACLs with Amazon VPC."
+    },
+    {
+      "name": "amazon-xray",
+      "source": "./plugins/amazon-xray",
+      "description": "Read traces and service graphs, and manage groups, sampling rules, and insights with AWS X-Ray."
+    },
+    {
+      "name": "apigee",
+      "source": "./plugins/apigee",
+      "description": "Manage Apigee organizations, environments, API proxies, products, developers, and apps."
+    },
+    {
+      "name": "apiverve",
+      "source": "./plugins/apiverve",
+      "description": "Call 370+ utility APIs for weather, geocoding, finance, DNS, validation, and text processing with APIVerve."
+    },
+    {
+      "name": "archbee",
+      "source": "./plugins/archbee",
+      "description": "Manage documentation spaces, documents, files, suggestions, and access control in Archbee."
+    },
+    {
+      "name": "atlassian-compass",
+      "source": "./plugins/atlassian-compass",
+      "description": "Send events and metrics, and manage attachments, webhooks, and package dependencies in Atlassian Compass."
+    },
+    {
+      "name": "aws-codebuild",
+      "source": "./plugins/aws-codebuild",
+      "description": "Run builds and manage build projects, reports, fleets, and sandboxes with AWS CodeBuild."
+    },
+    {
+      "name": "aws-step-functions",
+      "source": "./plugins/aws-step-functions",
+      "description": "Create and run state machines, and manage executions and activities with AWS Step Functions."
+    },
+    {
+      "name": "beehiiv",
+      "source": "./plugins/beehiiv",
+      "description": "Manage newsletter publications, posts, subscriptions, segments, automations, and webhooks on beehiiv."
+    },
+    {
+      "name": "betterstack",
+      "source": "./plugins/betterstack",
+      "description": "Manage uptime monitors, heartbeats, incidents, and status pages with Better Stack."
+    },
+    {
+      "name": "circleci",
+      "source": "./plugins/circleci",
+      "description": "Trigger pipelines and manage projects, workflows, jobs, contexts, schedules, and insights on CircleCI."
+    },
+    {
+      "name": "clix",
+      "source": "./plugins/clix",
+      "description": "Manage users, devices, and events, and send push notifications and Live Activities with Clix."
+    },
+    {
+      "name": "cloudkit",
+      "source": "./plugins/cloudkit",
+      "description": "Read and write records, zones, assets, and subscriptions in a CloudKit container from any platform."
+    },
+    {
+      "name": "compsniper",
+      "source": "./plugins/compsniper",
+      "description": "Get eBay sold prices, Poshmark, Mercari, TCGplayer, Grailed, Depop, and PSA card data with CompSniper."
+    },
+    {
+      "name": "contentstack",
+      "source": "./plugins/contentstack",
+      "description": "Manage content types, entries, assets, environments, and Launch deployments in Contentstack."
+    },
+    {
+      "name": "coresignal",
+      "source": "./plugins/coresignal",
+      "description": "Search and collect enriched multi-source company records with Coresignal."
+    },
+    {
+      "name": "crawl4ai",
+      "source": "./plugins/crawl4ai",
+      "description": "Crawl web pages and extract clean, AI-ready content with Crawl4AI."
+    },
+    {
+      "name": "cubic",
+      "source": "./plugins/cubic",
+      "description": "Export pull request review analytics for your organizations with cubic."
+    },
+    {
+      "name": "curlec",
+      "source": "./plugins/curlec",
+      "description": "Accept payments and manage orders, refunds, subscriptions, invoices, and payouts with Curlec by Razorpay."
+    },
+    {
+      "name": "deliverd",
+      "source": "./plugins/deliverd",
+      "description": "Run AI agents and governance flows, with tasks, approvals, policies, playbooks, and reports, on Deliverd."
+    },
+    {
+      "name": "devcycle",
+      "source": "./plugins/devcycle",
+      "description": "Manage feature flags, variables, environments, audiences, and overrides with DevCycle."
+    },
+    {
+      "name": "didlogic",
+      "source": "./plugins/didlogic",
+      "description": "Buy and manage phone numbers, SIP accounts, calls, SMS, and KYC documents with DIDLogic."
+    },
+    {
+      "name": "divvy",
+      "source": "./plugins/divvy",
+      "description": "Automate bills, payments, vendors, invoices, budgets, and cards with BILL (Divvy)."
+    },
+    {
+      "name": "doit",
+      "source": "./plugins/doit",
+      "description": "Analyze cloud costs, budgets, anomalies, allocations, and reports, and manage commitments with DoiT."
+    },
+    {
+      "name": "dopesecurity",
+      "source": "./plugins/dopesecurity",
+      "description": "Manage secure web gateway policies, custom categories, bypass lists, and endpoints with dope.security."
+    },
+    {
+      "name": "dynamicfeed",
+      "source": "./plugins/dynamicfeed",
+      "description": "Get live data for AI agents, including weather, air quality, sports, advisories, and AI model benchmarks, from DynamicFeed."
+    },
+    {
+      "name": "facebook-business-manager",
+      "source": "./plugins/facebook-business-manager",
+      "description": "Manage ad accounts, campaigns, ad sets, ads, creatives, audiences, and Page posts and insights on Meta."
+    },
+    {
+      "name": "fellow",
+      "source": "./plugins/fellow",
+      "description": "Read meeting notes, recordings, and action items, and manage webhooks with Fellow."
+    },
+    {
+      "name": "fillo",
+      "source": "./plugins/fillo",
+      "description": "Build forms and manage responses, respondents, agents, integrations, and webhooks with Fillo."
+    },
+    {
+      "name": "fireflies",
+      "source": "./plugins/fireflies",
+      "description": "Query and update meeting transcripts, summaries, and action items with Fireflies.ai."
+    },
+    {
+      "name": "flowaccount",
+      "source": "./plugins/flowaccount",
+      "description": "Create quotations, invoices, receipts, credit notes, expenses, and purchase orders in FlowAccount."
+    },
+    {
+      "name": "forcedream",
+      "source": "./plugins/forcedream",
+      "description": "Call pay-per-use data services for sentiment, fraud checks, tax rates, translation, and LLM inference with ForceDream."
+    },
+    {
+      "name": "givebutter",
+      "source": "./plugins/givebutter",
+      "description": "Manage fundraising campaigns, contacts, households, transactions, funds, and webhooks on Givebutter."
+    },
+    {
+      "name": "google-cloud-api-gateway",
+      "source": "./plugins/google-cloud-api-gateway",
+      "description": "Manage APIs, API configs, and gateways with Google Cloud API Gateway."
+    },
+    {
+      "name": "google-cloud-build",
+      "source": "./plugins/google-cloud-build",
+      "description": "Connect source repositories and manage connections and repositories with Google Cloud Build."
+    },
+    {
+      "name": "google-cloud-dataproc",
+      "source": "./plugins/google-cloud-dataproc",
+      "description": "Create and manage clusters, jobs, batches, and workflow templates with Google Cloud Dataproc."
+    },
+    {
+      "name": "google-cloud-datastream",
+      "source": "./plugins/google-cloud-datastream",
+      "description": "Create and run change data capture streams, connection profiles, and private connections with Google Cloud Datastream."
+    },
+    {
+      "name": "google-cloud-eventarc",
+      "source": "./plugins/google-cloud-eventarc",
+      "description": "Route events with triggers, channels, pipelines, and message buses in Google Cloud Eventarc."
+    },
+    {
+      "name": "google-cloud-speech-to-text",
+      "source": "./plugins/google-cloud-speech-to-text",
+      "description": "Transcribe audio to text and manage recognition operations with Google Cloud Speech-to-Text."
+    },
+    {
+      "name": "google-cloud-talent-solution",
+      "source": "./plugins/google-cloud-talent-solution",
+      "description": "Manage tenants, companies, and jobs, and run job search with Google Cloud Talent Solution."
+    },
+    {
+      "name": "google-cloud-tasks",
+      "source": "./plugins/google-cloud-tasks",
+      "description": "Create and manage queues and tasks with Google Cloud Tasks."
+    },
+    {
+      "name": "google-cloud-transfer-service",
+      "source": "./plugins/google-cloud-transfer-service",
+      "description": "Create and run transfer jobs and manage transfer operations with Google Cloud Storage Transfer Service."
+    },
+    {
+      "name": "google-translate",
+      "source": "./plugins/google-translate",
+      "description": "Translate text and documents, detect languages, and manage glossaries and adaptive MT datasets with Google Cloud Translation."
+    },
+    {
+      "name": "health-gorilla",
+      "source": "./plugins/health-gorilla",
+      "description": "Read and write FHIR R4 patients, coverage, observations, diagnostic reports, and documents with Health Gorilla."
+    },
+    {
+      "name": "hightouch",
+      "source": "./plugins/hightouch",
+      "description": "Manage syncs, models, sources, destinations, and identity resolution with Hightouch."
+    },
+    {
+      "name": "hud",
+      "source": "./plugins/hud",
+      "description": "Run AI agent evaluation jobs, tasks, builds, and traces on the HUD platform."
+    },
+    {
+      "name": "instacart",
+      "source": "./plugins/instacart",
+      "description": "Integrate Instacart fulfillment, delivery, pickup, catalog, and post-checkout orders and chat."
+    },
+    {
+      "name": "instagram",
+      "source": "./plugins/instagram",
+      "description": "Publish media, moderate comments, search hashtags, and read insights for Instagram professional accounts."
+    },
+    {
+      "name": "jid",
+      "source": "./plugins/jid",
+      "description": "Verify, screen, and monitor businesses before an agent pays or signs with JID."
+    },
+    {
+      "name": "jurisign",
+      "source": "./plugins/jurisign",
+      "description": "Send documents for electronic signature with OTP verification, and manage templates and webhooks with JuriSign."
+    },
+    {
+      "name": "lastdatabase",
+      "source": "./plugins/lastdatabase",
+      "description": "Search email, phone, and fax lead lists by country, city, industry, and keyword with LastDatabase."
+    },
+    {
+      "name": "leadspace",
+      "source": "./plugins/leadspace",
+      "description": "Enrich person and company records and find intent and discovery data with Leadspace."
+    },
+    {
+      "name": "lili",
+      "source": "./plugins/lili",
+      "description": "Create business banking applications, upload documents, register payments, and manage webhooks with Lili."
+    },
+    {
+      "name": "lusha",
+      "source": "./plugins/lusha",
+      "description": "Search and enrich B2B contacts and companies, and get signals and lookalikes with Lusha."
+    },
+    {
+      "name": "mailerlite",
+      "source": "./plugins/mailerlite",
+      "description": "Create, update, and delete MailerLite webhooks."
+    },
+    {
+      "name": "mrscraper",
+      "source": "./plugins/mrscraper",
+      "description": "Run scraping jobs and tasks and get results, proxies, and analytics with MrScraper."
+    },
+    {
+      "name": "navision",
+      "source": "./plugins/navision",
+      "description": "Manage companies, customers, vendors, items, sales and purchase orders, and environments in Dynamics 365 Business Central."
+    },
+    {
+      "name": "nordic-financial-news",
+      "source": "./plugins/nordic-financial-news",
+      "description": "Get English summaries of Nordic financial news, company events, calendars, and watchlists with Nordic Financial News."
+    },
+    {
+      "name": "ortto",
+      "source": "./plugins/ortto",
+      "description": "Manage people, accounts, activities, tags, campaigns, and transactional email with Ortto."
+    },
+    {
+      "name": "paid",
+      "source": "./plugins/paid",
+      "description": "Manage customers, orders, plans, products, invoices, and usage-based billing for AI agents with Paid."
+    },
+    {
+      "name": "parallel",
+      "source": "./plugins/parallel",
+      "description": "Run web search, extraction, research tasks, and monitors for AI agents with Parallel."
+    },
+    {
+      "name": "perigon",
+      "source": "./plugins/perigon",
+      "description": "Search news, stories, people, and companies, and manage monitors and watchlists with Perigon."
+    },
+    {
+      "name": "plinth-us-grants-data",
+      "source": "./plugins/plinth-us-grants-data",
+      "description": "Search US foundation grants, funders, and grantees from IRS Form 990 filings with Plinth."
+    },
+    {
+      "name": "postscript",
+      "source": "./plugins/postscript",
+      "description": "Manage SMS subscribers, keywords, messages, custom events, and webhooks with Postscript."
+    },
+    {
+      "name": "prismareviews",
+      "source": "./plugins/prismareviews",
+      "description": "Read and reply to reviews from App Store, Google Play, Yelp, Tripadvisor, and other platforms with PrismaReviews."
+    },
+    {
+      "name": "readme",
+      "source": "./plugins/readme",
+      "description": "Manage API docs, guides, changelogs, custom pages, and developer metrics in ReadMe."
+    },
+    {
+      "name": "relmcrm",
+      "source": "./plugins/relmcrm",
+      "description": "Manage contacts, companies, deals, pipelines, sequences, and automations in RelmCRM."
+    },
+    {
+      "name": "rendex",
+      "source": "./plugins/rendex",
+      "description": "Render web pages, HTML, or Markdown to images and PDFs, in single or batch jobs, with Rendex."
+    },
+    {
+      "name": "rocketreach",
+      "source": "./plugins/rocketreach",
+      "description": "Search and look up contact details for professionals and companies with RocketReach."
+    },
+    {
+      "name": "s1",
+      "source": "./plugins/s1",
+      "description": "Search the web and news, crawl pages, and take screenshots for AI agents with Search1 (S1)."
+    },
+    {
+      "name": "semrush",
+      "source": "./plugins/semrush",
+      "description": "Check subscriptions and user status, send notifications, and get API tokens with the Semrush partner APIs."
+    },
+    {
+      "name": "service-cloud",
+      "source": "./plugins/service-cloud",
+      "description": "Start, continue, and end Einstein Bot sessions in Salesforce Service Cloud."
+    },
+    {
+      "name": "skribble",
+      "source": "./plugins/skribble",
+      "description": "Create signature requests, sign and seal documents, and validate signatures with Skribble."
+    },
+    {
+      "name": "soda",
+      "source": "./plugins/soda",
+      "description": "Manage datasets, data sources, contracts, checks, scans, and incidents in Soda Cloud."
+    },
+    {
+      "name": "statable",
+      "source": "./plugins/statable",
+      "description": "Read site analytics and stats and manage API keys with Statable."
+    },
+    {
+      "name": "stoplight",
+      "source": "./plugins/stoplight",
+      "description": "Import, export, and publish API projects with Stoplight."
+    },
+    {
+      "name": "surfe",
+      "source": "./plugins/surfe",
+      "description": "Search and enrich B2B people and companies with verified emails and phone numbers with Surfe."
+    },
+    {
+      "name": "tabby",
+      "source": "./plugins/tabby",
+      "description": "Create checkout sessions, capture and refund payments, and handle disputes with Tabby."
+    },
+    {
+      "name": "transcriptfetch",
+      "source": "./plugins/transcriptfetch",
+      "description": "Fetch transcripts from YouTube, TikTok, Instagram, and podcasts, and list channels and playlists with TranscriptFetch."
+    },
+    {
+      "name": "uipath",
+      "source": "./plugins/uipath",
+      "description": "Manage Orchestrator robots, jobs, queues, and assets, and Document Understanding and Automation Hub with UiPath."
+    },
+    {
+      "name": "unbounce",
+      "source": "./plugins/unbounce",
+      "description": "Manage landing pages, page groups, domains, leads, and sub-accounts in Unbounce."
+    },
+    {
+      "name": "upstox",
+      "source": "./plugins/upstox",
+      "description": "Place and manage orders, and get market quotes, historical candles, holdings, and positions with Upstox."
+    },
+    {
+      "name": "whoisfreaks",
+      "source": "./plugins/whoisfreaks",
+      "description": "Look up WHOIS, DNS, SSL, IP geolocation, and domain reputation, and download bulk databases with WhoisFreaks."
+    },
+    {
+      "name": "zerobounce",
+      "source": "./plugins/zerobounce",
+      "description": "Validate email addresses with ZeroBounce."
+    },
+    {
+      "name": "zillapi",
+      "source": "./plugins/zillapi",
+      "description": "Look up Zillow properties, search listings, and run batch jobs with webhooks with Zillapi."
     }
   ]
 }

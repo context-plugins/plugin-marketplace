@@ -1,0 +1,21 @@
+{
+  "name": "prismareviews",
+  "displayName": "PrismaReviews",
+  "version": "0.1.0",
+  "description": "Read and reply to reviews from App Store, Google Play, Yelp, Tripadvisor, and other platforms with PrismaReviews.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/prisma-reviews-planner.md"
+  ]
+}

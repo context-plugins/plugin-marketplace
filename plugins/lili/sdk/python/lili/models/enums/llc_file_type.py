@@ -1,0 +1,25 @@
+from enum import Enum
+from typing import Annotated, TypeAlias
+
+from ...core import open_enum_validator
+
+
+class LlcFileType(str, Enum):
+    """The type of the file"""
+
+    IRS_EIN_LETTER = "IRS_EIN_LETTER"
+    ARTICLES_OF_ORGANIZATION = "ARTICLES_OF_ORGANIZATION"
+    LETTER_OF_REINSTATEMENT = "LETTER_OF_REINSTATEMENT"
+    GOVERNMENT_IDENTIFICATION = "GOVERNMENT_IDENTIFICATION"
+    ARTICLES_OF_INCORPORATION = "ARTICLES_OF_INCORPORATION"
+    SIGNED_PARTNERSHIP_AGREEMENT = "SIGNED_PARTNERSHIP_AGREEMENT"
+    AMENDMENT_DOCUMENT = "AMENDMENT_DOCUMENT"
+    OPERATING_AGREEMENT = "OPERATING_AGREEMENT"
+    UTILITY_BILL = "UTILITY_BILL"
+    PASSPORT = "PASSPORT"
+    SS4_DOCUMENT = "SS4_DOCUMENT"
+
+    __str__ = str.__str__
+
+
+LlcFileTypeOrStr: TypeAlias = Annotated[LlcFileType | str, open_enum_validator(LlcFileType)]

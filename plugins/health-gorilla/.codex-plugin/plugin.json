@@ -1,0 +1,10 @@
+{
+  "name": "health-gorilla",
+  "version": "0.1.0",
+  "description": "Read and write FHIR R4 patients, coverage, observations, diagnostic reports, and documents with Health Gorilla.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Health Gorilla",
+    "developerName": "APIMatic"
+  }
+}

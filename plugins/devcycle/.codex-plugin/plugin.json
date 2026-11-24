@@ -1,0 +1,10 @@
+{
+  "name": "devcycle",
+  "version": "0.1.0",
+  "description": "Manage feature flags, variables, environments, audiences, and overrides with DevCycle.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "DevCycle",
+    "developerName": "APIMatic"
+  }
+}

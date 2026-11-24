@@ -1,0 +1,10 @@
+{
+  "name": "aws-step-functions",
+  "version": "0.1.0",
+  "description": "Create and run state machines, and manage executions and activities with AWS Step Functions.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "AWS Step Functions",
+    "developerName": "APIMatic"
+  }
+}

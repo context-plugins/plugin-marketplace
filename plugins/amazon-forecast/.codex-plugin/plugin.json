@@ -1,0 +1,10 @@
+{
+  "name": "amazon-forecast",
+  "version": "0.1.0",
+  "description": "Import datasets, train predictors, and create and export time-series forecasts with Amazon Forecast.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Amazon Forecast",
+    "developerName": "APIMatic"
+  }
+}

@@ -1,0 +1,20 @@
+using System.Text.Json.Serialization;
+using Upstox.Core.Models;
+
+namespace Upstox.Models;
+
+/// <summary>
+/// Response data for place order request
+/// </summary>
+public record PlaceOrderData1
+{
+    /// <summary>
+    /// An order ID for the order request placed
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("order_id")]
+    public string? OrderId { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

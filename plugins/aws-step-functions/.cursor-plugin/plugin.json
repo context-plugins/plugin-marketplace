@@ -1,0 +1,18 @@
+{
+  "name": "aws-step-functions",
+  "displayName": "AWS Step Functions",
+  "version": "0.1.0",
+  "description": "Create and run state machines, and manage executions and activities with AWS Step Functions.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

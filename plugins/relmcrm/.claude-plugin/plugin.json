@@ -1,0 +1,21 @@
+{
+  "name": "relmcrm",
+  "displayName": "RelmCRM",
+  "version": "0.1.0",
+  "description": "Manage contacts, companies, deals, pipelines, sequences, and automations in RelmCRM.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/relm-crm-planner.md"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "amazon-direct-connect",
+  "version": "0.1.0",
+  "description": "Manage dedicated connections, virtual interfaces, LAGs, and Direct Connect gateways with AWS Direct Connect.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "AWS Direct Connect",
+    "developerName": "APIMatic"
+  }
+}

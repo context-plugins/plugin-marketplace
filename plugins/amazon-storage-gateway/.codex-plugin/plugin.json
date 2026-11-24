@@ -1,0 +1,10 @@
+{
+  "name": "amazon-storage-gateway",
+  "version": "0.1.0",
+  "description": "Activate gateways and manage file shares, volumes, tapes, and caches with AWS Storage Gateway.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "AWS Storage Gateway",
+    "developerName": "APIMatic"
+  }
+}

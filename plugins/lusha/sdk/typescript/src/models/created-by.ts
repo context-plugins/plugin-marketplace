@@ -1,0 +1,19 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+import { surfaceSchema, type Surface } from "./surface.js";
+
+/** Where and by whom the table was created. */
+export type CreatedBy = {
+  surface?: Surface;
+  createdByUserId?: number;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const createdBySchema: Schema<CreatedBy> = s.object<CreatedBy>(
+  {
+    surface: s.optional(s.lazy(() => surfaceSchema)),
+    createdByUserId: s.optional(s.int()),
+  },
+  { additionalProperties: s.json() },
+);

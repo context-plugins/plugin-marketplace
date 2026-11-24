@@ -1,0 +1,10 @@
+{
+  "name": "amazon-comprehend",
+  "version": "0.1.0",
+  "description": "Detect entities, key phrases, sentiment, PII, and language, and train custom classifiers with Amazon Comprehend.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Amazon Comprehend",
+    "developerName": "APIMatic"
+  }
+}

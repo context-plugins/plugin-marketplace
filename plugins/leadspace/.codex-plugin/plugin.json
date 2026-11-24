@@ -1,0 +1,10 @@
+{
+  "name": "leadspace",
+  "version": "0.1.0",
+  "description": "Enrich person and company records and find intent and discovery data with Leadspace.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Leadspace",
+    "developerName": "APIMatic"
+  }
+}

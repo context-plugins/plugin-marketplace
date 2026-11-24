@@ -1,0 +1,22 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Final, TypeAlias
+
+from ..core import ErrorMapper, RawError, decode_json
+from ..models.model_not_found_exception1 import ModelNotFoundException1
+
+CampaignsMembersShowErrorBody: TypeAlias = ModelNotFoundException1 | RawError
+
+
+@dataclass(frozen=True, slots=True)
+class _CampaignsMembersShowError:
+    def map(self, status_code: int, content: bytes) -> CampaignsMembersShowErrorBody:
+        match status_code:
+            case 404:
+                return decode_json[ModelNotFoundException1](content)
+            case _:
+                return RawError(status_code, content)
+
+
+campaigns_members_show_error_mapper: Final[ErrorMapper[CampaignsMembersShowErrorBody]] = _CampaignsMembersShowError()

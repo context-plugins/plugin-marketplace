@@ -1,0 +1,10 @@
+{
+  "name": "instagram",
+  "version": "0.1.0",
+  "description": "Publish media, moderate comments, search hashtags, and read insights for Instagram professional accounts.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Instagram",
+    "developerName": "APIMatic"
+  }
+}

@@ -1,0 +1,26 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+import { responsibilityTypeDtoSchema, type ResponsibilityTypeDto } from "./responsibility-type-dto.js";
+import { userContentDtoSchema, type UserContentDto } from "./user-content-dto.js";
+import {
+  userGroupContentBasicDtoSchema,
+  type UserGroupContentBasicDto,
+} from "./user-group-content-basic-dto.js";
+
+export type DatasetOwnerDtoSodaCloudApiV4DatasetsApi = {
+  type: ResponsibilityTypeDto;
+  user?: UserContentDto;
+  userGroup?: UserGroupContentBasicDto;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const datasetOwnerDtoSodaCloudApiV4DatasetsApiSchema: Schema<DatasetOwnerDtoSodaCloudApiV4DatasetsApi> =
+  s.object<DatasetOwnerDtoSodaCloudApiV4DatasetsApi>(
+    {
+      type: responsibilityTypeDtoSchema,
+      user: s.optional(s.lazy(() => userContentDtoSchema)),
+      userGroup: s.optional(s.lazy(() => userGroupContentBasicDtoSchema)),
+    },
+    { additionalProperties: s.json() },
+  );

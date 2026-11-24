@@ -1,0 +1,10 @@
+{
+  "name": "amazon-ebs",
+  "version": "0.1.0",
+  "description": "Read and write EBS snapshot blocks and list changed blocks with the Amazon EBS direct APIs.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Amazon EBS",
+    "developerName": "APIMatic"
+  }
+}

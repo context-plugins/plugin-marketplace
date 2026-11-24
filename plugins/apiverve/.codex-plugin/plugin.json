@@ -1,0 +1,10 @@
+{
+  "name": "apiverve",
+  "version": "0.1.0",
+  "description": "Call 370+ utility APIs for weather, geocoding, finance, DNS, validation, and text processing with APIVerve.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "APIVerve",
+    "developerName": "APIMatic"
+  }
+}

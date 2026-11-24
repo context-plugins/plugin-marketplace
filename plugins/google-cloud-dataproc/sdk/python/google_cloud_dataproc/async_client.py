@@ -1,0 +1,15858 @@
+from __future__ import annotations
+
+from collections.abc import Sequence
+from functools import cached_property
+from types import TracebackType
+from typing import Any
+from uuid import UUID, uuid4
+
+from typing_extensions import Self
+
+from .auth import AsyncAuthSchemes, Oauth2Scope
+from .base_client import DEFAULT_TIMEOUT, BaseGoogleCloudDataprocClient
+from .core import (
+    OPERATING_SYSTEM,
+    PYTHON_RUNTIME,
+    ApiKeyQueryScheme,
+    ApiResult,
+    AsyncAnySchemes,
+    AsyncAuthorizationCodeCredentials,
+    AsyncAuthorizationCodeCredentialsOrDict,
+    AsyncAuthorizationCodeTokenSource,
+    AsyncHttpClient,
+    AsyncHttpx2Client,
+    AsyncOAuth2RefreshableScheme,
+    AsyncRawClient,
+    AsyncRefreshableTokenSource,
+    AsyncRequestOptionsOrDict,
+    AsyncSdkHook,
+    AsyncSdkHooksDict,
+    LoggingOptionsOrDict,
+    RetryOptionsOrDict,
+    SecuredRawResponse,
+    async_json_decoder,
+    client_secret_basic,
+    json_body,
+    no_auth,
+    param,
+    unwrap,
+)
+from .errors.dataproc_projects_locations_autoscaling_policies_create_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesCreateErrorBody,
+    dataproc_projects_locations_autoscaling_policies_create_error_mapper,
+)
+from .errors.dataproc_projects_locations_autoscaling_policies_delete_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesDeleteErrorBody,
+    dataproc_projects_locations_autoscaling_policies_delete_error_mapper,
+)
+from .errors.dataproc_projects_locations_autoscaling_policies_get_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesGetErrorBody,
+    dataproc_projects_locations_autoscaling_policies_get_error_mapper,
+)
+from .errors.dataproc_projects_locations_autoscaling_policies_get_iam_policy_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesGetIamPolicyErrorBody,
+    dataproc_projects_locations_autoscaling_policies_get_iam_policy_error_mapper,
+)
+from .errors.dataproc_projects_locations_autoscaling_policies_list_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesListErrorBody,
+    dataproc_projects_locations_autoscaling_policies_list_error_mapper,
+)
+from .errors.dataproc_projects_locations_autoscaling_policies_set_iam_policy_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesSetIamPolicyErrorBody,
+    dataproc_projects_locations_autoscaling_policies_set_iam_policy_error_mapper,
+)
+from .errors.dataproc_projects_locations_autoscaling_policies_test_iam_permissions_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesTestIamPermissionsErrorBody,
+    dataproc_projects_locations_autoscaling_policies_test_iam_permissions_error_mapper,
+)
+from .errors.dataproc_projects_locations_autoscaling_policies_update_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesUpdateErrorBody,
+    dataproc_projects_locations_autoscaling_policies_update_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_analyze_error import (
+    DataprocProjectsLocationsBatchesAnalyzeErrorBody,
+    dataproc_projects_locations_batches_analyze_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_create_error import (
+    DataprocProjectsLocationsBatchesCreateErrorBody,
+    dataproc_projects_locations_batches_create_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_delete_error import (
+    DataprocProjectsLocationsBatchesDeleteErrorBody,
+    dataproc_projects_locations_batches_delete_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_get_error import (
+    DataprocProjectsLocationsBatchesGetErrorBody,
+    dataproc_projects_locations_batches_get_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_list_error import (
+    DataprocProjectsLocationsBatchesListErrorBody,
+    dataproc_projects_locations_batches_list_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_access_environment_info_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessEnvironmentInfoErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_environment_info_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_access_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_access_job_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessJobErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_job_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_access_native_build_info_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessNativeBuildInfoErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_native_build_info_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_access_native_sql_query_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessNativeSqlQueryErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_native_sql_query_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_access_sql_plan_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessSqlPlanErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_sql_plan_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_access_sql_query_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessSqlQueryErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_sql_query_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_access_stage_attempt_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessStageAttemptErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_stage_attempt_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_access_stage_rdd_graph_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessStageRddGraphErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_stage_rdd_graph_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_compute_tuning_config_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsComputeTuningConfigErrorBody,
+    dataproc_projects_locations_batches_spark_applications_compute_tuning_config_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_search_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_search_executor_stage_summary_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchExecutorStageSummaryErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_executor_stage_summary_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_search_executors_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchExecutorsErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_executors_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_search_jobs_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchJobsErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_jobs_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_search_native_sql_queries_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchNativeSqlQueriesErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_native_sql_queries_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_search_sql_queries_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchSqlQueriesErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_sql_queries_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_search_stage_attempt_tasks_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchStageAttemptTasksErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_stage_attempt_tasks_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_search_stage_attempts_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchStageAttemptsErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_stage_attempts_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_search_stages_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchStagesErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_stages_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_summarize_executors_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSummarizeExecutorsErrorBody,
+    dataproc_projects_locations_batches_spark_applications_summarize_executors_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_summarize_jobs_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSummarizeJobsErrorBody,
+    dataproc_projects_locations_batches_spark_applications_summarize_jobs_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_summarize_stage_attempt_tasks_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSummarizeStageAttemptTasksErrorBody,
+    dataproc_projects_locations_batches_spark_applications_summarize_stage_attempt_tasks_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_summarize_stages_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSummarizeStagesErrorBody,
+    dataproc_projects_locations_batches_spark_applications_summarize_stages_error_mapper,
+)
+from .errors.dataproc_projects_locations_batches_spark_applications_write_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsWriteErrorBody,
+    dataproc_projects_locations_batches_spark_applications_write_error_mapper,
+)
+from .errors.dataproc_projects_locations_operations_cancel_error import (
+    DataprocProjectsLocationsOperationsCancelErrorBody,
+    dataproc_projects_locations_operations_cancel_error_mapper,
+)
+from .errors.dataproc_projects_locations_operations_delete_error import (
+    DataprocProjectsLocationsOperationsDeleteErrorBody,
+    dataproc_projects_locations_operations_delete_error_mapper,
+)
+from .errors.dataproc_projects_locations_operations_get_error import (
+    DataprocProjectsLocationsOperationsGetErrorBody,
+    dataproc_projects_locations_operations_get_error_mapper,
+)
+from .errors.dataproc_projects_locations_operations_list_error import (
+    DataprocProjectsLocationsOperationsListErrorBody,
+    dataproc_projects_locations_operations_list_error_mapper,
+)
+from .errors.dataproc_projects_locations_session_templates_create_error import (
+    DataprocProjectsLocationsSessionTemplatesCreateErrorBody,
+    dataproc_projects_locations_session_templates_create_error_mapper,
+)
+from .errors.dataproc_projects_locations_session_templates_delete_error import (
+    DataprocProjectsLocationsSessionTemplatesDeleteErrorBody,
+    dataproc_projects_locations_session_templates_delete_error_mapper,
+)
+from .errors.dataproc_projects_locations_session_templates_get_error import (
+    DataprocProjectsLocationsSessionTemplatesGetErrorBody,
+    dataproc_projects_locations_session_templates_get_error_mapper,
+)
+from .errors.dataproc_projects_locations_session_templates_list_error import (
+    DataprocProjectsLocationsSessionTemplatesListErrorBody,
+    dataproc_projects_locations_session_templates_list_error_mapper,
+)
+from .errors.dataproc_projects_locations_session_templates_patch_error import (
+    DataprocProjectsLocationsSessionTemplatesPatchErrorBody,
+    dataproc_projects_locations_session_templates_patch_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_create_error import (
+    DataprocProjectsLocationsSessionsCreateErrorBody,
+    dataproc_projects_locations_sessions_create_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_delete_error import (
+    DataprocProjectsLocationsSessionsDeleteErrorBody,
+    dataproc_projects_locations_sessions_delete_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_get_error import (
+    DataprocProjectsLocationsSessionsGetErrorBody,
+    dataproc_projects_locations_sessions_get_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_list_error import (
+    DataprocProjectsLocationsSessionsListErrorBody,
+    dataproc_projects_locations_sessions_list_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_access_environment_info_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessEnvironmentInfoErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_environment_info_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_access_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_access_job_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessJobErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_job_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_access_native_build_info_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessNativeBuildInfoErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_native_build_info_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_access_native_sql_query_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessNativeSqlQueryErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_native_sql_query_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_access_sql_plan_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessSqlPlanErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_sql_plan_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_access_sql_query_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessSqlQueryErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_sql_query_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_access_stage_attempt_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessStageAttemptErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_stage_attempt_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_access_stage_rdd_graph_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessStageRddGraphErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_stage_rdd_graph_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_search_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_search_executor_stage_summary_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchExecutorStageSummaryErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_executor_stage_summary_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_search_executors_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchExecutorsErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_executors_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_search_jobs_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchJobsErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_jobs_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_search_native_sql_queries_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchNativeSqlQueriesErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_native_sql_queries_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_search_sql_queries_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchSqlQueriesErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_sql_queries_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_search_stage_attempt_tasks_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchStageAttemptTasksErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_stage_attempt_tasks_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_search_stage_attempts_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchStageAttemptsErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_stage_attempts_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_search_stages_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchStagesErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_stages_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_summarize_executors_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSummarizeExecutorsErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_summarize_executors_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_summarize_jobs_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSummarizeJobsErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_summarize_jobs_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_summarize_stage_attempt_tasks_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSummarizeStageAttemptTasksErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_summarize_stage_attempt_tasks_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_summarize_stages_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSummarizeStagesErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_summarize_stages_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_spark_applications_write_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsWriteErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_write_error_mapper,
+)
+from .errors.dataproc_projects_locations_sessions_terminate_error import (
+    DataprocProjectsLocationsSessionsTerminateErrorBody,
+    dataproc_projects_locations_sessions_terminate_error_mapper,
+)
+from .errors.dataproc_projects_locations_workflow_templates_create_error import (
+    DataprocProjectsLocationsWorkflowTemplatesCreateErrorBody,
+    dataproc_projects_locations_workflow_templates_create_error_mapper,
+)
+from .errors.dataproc_projects_locations_workflow_templates_delete_error import (
+    DataprocProjectsLocationsWorkflowTemplatesDeleteErrorBody,
+    dataproc_projects_locations_workflow_templates_delete_error_mapper,
+)
+from .errors.dataproc_projects_locations_workflow_templates_get_error import (
+    DataprocProjectsLocationsWorkflowTemplatesGetErrorBody,
+    dataproc_projects_locations_workflow_templates_get_error_mapper,
+)
+from .errors.dataproc_projects_locations_workflow_templates_get_iam_policy_error import (
+    DataprocProjectsLocationsWorkflowTemplatesGetIamPolicyErrorBody,
+    dataproc_projects_locations_workflow_templates_get_iam_policy_error_mapper,
+)
+from .errors.dataproc_projects_locations_workflow_templates_instantiate_error import (
+    DataprocProjectsLocationsWorkflowTemplatesInstantiateErrorBody,
+    dataproc_projects_locations_workflow_templates_instantiate_error_mapper,
+)
+from .errors.dataproc_projects_locations_workflow_templates_instantiate_inline_error import (
+    DataprocProjectsLocationsWorkflowTemplatesInstantiateInlineErrorBody,
+    dataproc_projects_locations_workflow_templates_instantiate_inline_error_mapper,
+)
+from .errors.dataproc_projects_locations_workflow_templates_list_error import (
+    DataprocProjectsLocationsWorkflowTemplatesListErrorBody,
+    dataproc_projects_locations_workflow_templates_list_error_mapper,
+)
+from .errors.dataproc_projects_locations_workflow_templates_set_iam_policy_error import (
+    DataprocProjectsLocationsWorkflowTemplatesSetIamPolicyErrorBody,
+    dataproc_projects_locations_workflow_templates_set_iam_policy_error_mapper,
+)
+from .errors.dataproc_projects_locations_workflow_templates_test_iam_permissions_error import (
+    DataprocProjectsLocationsWorkflowTemplatesTestIamPermissionsErrorBody,
+    dataproc_projects_locations_workflow_templates_test_iam_permissions_error_mapper,
+)
+from .errors.dataproc_projects_locations_workflow_templates_update_error import (
+    DataprocProjectsLocationsWorkflowTemplatesUpdateErrorBody,
+    dataproc_projects_locations_workflow_templates_update_error_mapper,
+)
+from .errors.dataproc_projects_regions_autoscaling_policies_create_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesCreateErrorBody,
+    dataproc_projects_regions_autoscaling_policies_create_error_mapper,
+)
+from .errors.dataproc_projects_regions_autoscaling_policies_delete_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesDeleteErrorBody,
+    dataproc_projects_regions_autoscaling_policies_delete_error_mapper,
+)
+from .errors.dataproc_projects_regions_autoscaling_policies_get_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesGetErrorBody,
+    dataproc_projects_regions_autoscaling_policies_get_error_mapper,
+)
+from .errors.dataproc_projects_regions_autoscaling_policies_get_iam_policy_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesGetIamPolicyErrorBody,
+    dataproc_projects_regions_autoscaling_policies_get_iam_policy_error_mapper,
+)
+from .errors.dataproc_projects_regions_autoscaling_policies_list_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesListErrorBody,
+    dataproc_projects_regions_autoscaling_policies_list_error_mapper,
+)
+from .errors.dataproc_projects_regions_autoscaling_policies_set_iam_policy_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesSetIamPolicyErrorBody,
+    dataproc_projects_regions_autoscaling_policies_set_iam_policy_error_mapper,
+)
+from .errors.dataproc_projects_regions_autoscaling_policies_test_iam_permissions_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesTestIamPermissionsErrorBody,
+    dataproc_projects_regions_autoscaling_policies_test_iam_permissions_error_mapper,
+)
+from .errors.dataproc_projects_regions_autoscaling_policies_update_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesUpdateErrorBody,
+    dataproc_projects_regions_autoscaling_policies_update_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_create_error import (
+    DataprocProjectsRegionsClustersCreateErrorBody,
+    dataproc_projects_regions_clusters_create_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_delete_error import (
+    DataprocProjectsRegionsClustersDeleteErrorBody,
+    dataproc_projects_regions_clusters_delete_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_diagnose_error import (
+    DataprocProjectsRegionsClustersDiagnoseErrorBody,
+    dataproc_projects_regions_clusters_diagnose_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_get_error import (
+    DataprocProjectsRegionsClustersGetErrorBody,
+    dataproc_projects_regions_clusters_get_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_get_iam_policy_error import (
+    DataprocProjectsRegionsClustersGetIamPolicyErrorBody,
+    dataproc_projects_regions_clusters_get_iam_policy_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_inject_credentials_error import (
+    DataprocProjectsRegionsClustersInjectCredentialsErrorBody,
+    dataproc_projects_regions_clusters_inject_credentials_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_list_error import (
+    DataprocProjectsRegionsClustersListErrorBody,
+    dataproc_projects_regions_clusters_list_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_node_groups_create_error import (
+    DataprocProjectsRegionsClustersNodeGroupsCreateErrorBody,
+    dataproc_projects_regions_clusters_node_groups_create_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_node_groups_get_error import (
+    DataprocProjectsRegionsClustersNodeGroupsGetErrorBody,
+    dataproc_projects_regions_clusters_node_groups_get_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_node_groups_repair_error import (
+    DataprocProjectsRegionsClustersNodeGroupsRepairErrorBody,
+    dataproc_projects_regions_clusters_node_groups_repair_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_node_groups_resize_error import (
+    DataprocProjectsRegionsClustersNodeGroupsResizeErrorBody,
+    dataproc_projects_regions_clusters_node_groups_resize_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_patch_error import (
+    DataprocProjectsRegionsClustersPatchErrorBody,
+    dataproc_projects_regions_clusters_patch_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_repair_error import (
+    DataprocProjectsRegionsClustersRepairErrorBody,
+    dataproc_projects_regions_clusters_repair_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_set_iam_policy_error import (
+    DataprocProjectsRegionsClustersSetIamPolicyErrorBody,
+    dataproc_projects_regions_clusters_set_iam_policy_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_start_error import (
+    DataprocProjectsRegionsClustersStartErrorBody,
+    dataproc_projects_regions_clusters_start_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_stop_error import (
+    DataprocProjectsRegionsClustersStopErrorBody,
+    dataproc_projects_regions_clusters_stop_error_mapper,
+)
+from .errors.dataproc_projects_regions_clusters_test_iam_permissions_error import (
+    DataprocProjectsRegionsClustersTestIamPermissionsErrorBody,
+    dataproc_projects_regions_clusters_test_iam_permissions_error_mapper,
+)
+from .errors.dataproc_projects_regions_jobs_cancel_error import (
+    DataprocProjectsRegionsJobsCancelErrorBody,
+    dataproc_projects_regions_jobs_cancel_error_mapper,
+)
+from .errors.dataproc_projects_regions_jobs_delete_error import (
+    DataprocProjectsRegionsJobsDeleteErrorBody,
+    dataproc_projects_regions_jobs_delete_error_mapper,
+)
+from .errors.dataproc_projects_regions_jobs_get_error import (
+    DataprocProjectsRegionsJobsGetErrorBody,
+    dataproc_projects_regions_jobs_get_error_mapper,
+)
+from .errors.dataproc_projects_regions_jobs_get_iam_policy_error import (
+    DataprocProjectsRegionsJobsGetIamPolicyErrorBody,
+    dataproc_projects_regions_jobs_get_iam_policy_error_mapper,
+)
+from .errors.dataproc_projects_regions_jobs_list_error import (
+    DataprocProjectsRegionsJobsListErrorBody,
+    dataproc_projects_regions_jobs_list_error_mapper,
+)
+from .errors.dataproc_projects_regions_jobs_patch_error import (
+    DataprocProjectsRegionsJobsPatchErrorBody,
+    dataproc_projects_regions_jobs_patch_error_mapper,
+)
+from .errors.dataproc_projects_regions_jobs_set_iam_policy_error import (
+    DataprocProjectsRegionsJobsSetIamPolicyErrorBody,
+    dataproc_projects_regions_jobs_set_iam_policy_error_mapper,
+)
+from .errors.dataproc_projects_regions_jobs_submit_as_operation_error import (
+    DataprocProjectsRegionsJobsSubmitAsOperationErrorBody,
+    dataproc_projects_regions_jobs_submit_as_operation_error_mapper,
+)
+from .errors.dataproc_projects_regions_jobs_submit_error import (
+    DataprocProjectsRegionsJobsSubmitErrorBody,
+    dataproc_projects_regions_jobs_submit_error_mapper,
+)
+from .errors.dataproc_projects_regions_jobs_test_iam_permissions_error import (
+    DataprocProjectsRegionsJobsTestIamPermissionsErrorBody,
+    dataproc_projects_regions_jobs_test_iam_permissions_error_mapper,
+)
+from .errors.dataproc_projects_regions_operations_cancel_error import (
+    DataprocProjectsRegionsOperationsCancelErrorBody,
+    dataproc_projects_regions_operations_cancel_error_mapper,
+)
+from .errors.dataproc_projects_regions_operations_delete_error import (
+    DataprocProjectsRegionsOperationsDeleteErrorBody,
+    dataproc_projects_regions_operations_delete_error_mapper,
+)
+from .errors.dataproc_projects_regions_operations_get_error import (
+    DataprocProjectsRegionsOperationsGetErrorBody,
+    dataproc_projects_regions_operations_get_error_mapper,
+)
+from .errors.dataproc_projects_regions_operations_get_iam_policy_error import (
+    DataprocProjectsRegionsOperationsGetIamPolicyErrorBody,
+    dataproc_projects_regions_operations_get_iam_policy_error_mapper,
+)
+from .errors.dataproc_projects_regions_operations_list_error import (
+    DataprocProjectsRegionsOperationsListErrorBody,
+    dataproc_projects_regions_operations_list_error_mapper,
+)
+from .errors.dataproc_projects_regions_operations_set_iam_policy_error import (
+    DataprocProjectsRegionsOperationsSetIamPolicyErrorBody,
+    dataproc_projects_regions_operations_set_iam_policy_error_mapper,
+)
+from .errors.dataproc_projects_regions_operations_test_iam_permissions_error import (
+    DataprocProjectsRegionsOperationsTestIamPermissionsErrorBody,
+    dataproc_projects_regions_operations_test_iam_permissions_error_mapper,
+)
+from .errors.dataproc_projects_regions_workflow_templates_create_error import (
+    DataprocProjectsRegionsWorkflowTemplatesCreateErrorBody,
+    dataproc_projects_regions_workflow_templates_create_error_mapper,
+)
+from .errors.dataproc_projects_regions_workflow_templates_delete_error import (
+    DataprocProjectsRegionsWorkflowTemplatesDeleteErrorBody,
+    dataproc_projects_regions_workflow_templates_delete_error_mapper,
+)
+from .errors.dataproc_projects_regions_workflow_templates_get_error import (
+    DataprocProjectsRegionsWorkflowTemplatesGetErrorBody,
+    dataproc_projects_regions_workflow_templates_get_error_mapper,
+)
+from .errors.dataproc_projects_regions_workflow_templates_get_iam_policy_error import (
+    DataprocProjectsRegionsWorkflowTemplatesGetIamPolicyErrorBody,
+    dataproc_projects_regions_workflow_templates_get_iam_policy_error_mapper,
+)
+from .errors.dataproc_projects_regions_workflow_templates_instantiate_error import (
+    DataprocProjectsRegionsWorkflowTemplatesInstantiateErrorBody,
+    dataproc_projects_regions_workflow_templates_instantiate_error_mapper,
+)
+from .errors.dataproc_projects_regions_workflow_templates_instantiate_inline_error import (
+    DataprocProjectsRegionsWorkflowTemplatesInstantiateInlineErrorBody,
+    dataproc_projects_regions_workflow_templates_instantiate_inline_error_mapper,
+)
+from .errors.dataproc_projects_regions_workflow_templates_list_error import (
+    DataprocProjectsRegionsWorkflowTemplatesListErrorBody,
+    dataproc_projects_regions_workflow_templates_list_error_mapper,
+)
+from .errors.dataproc_projects_regions_workflow_templates_set_iam_policy_error import (
+    DataprocProjectsRegionsWorkflowTemplatesSetIamPolicyErrorBody,
+    dataproc_projects_regions_workflow_templates_set_iam_policy_error_mapper,
+)
+from .errors.dataproc_projects_regions_workflow_templates_test_iam_permissions_error import (
+    DataprocProjectsRegionsWorkflowTemplatesTestIamPermissionsErrorBody,
+    dataproc_projects_regions_workflow_templates_test_iam_permissions_error_mapper,
+)
+from .errors.dataproc_projects_regions_workflow_templates_update_error import (
+    DataprocProjectsRegionsWorkflowTemplatesUpdateErrorBody,
+    dataproc_projects_regions_workflow_templates_update_error_mapper,
+)
+from .errors.metastore_projects_locations_federations_create_error import (
+    MetastoreProjectsLocationsFederationsCreateErrorBody,
+    metastore_projects_locations_federations_create_error_mapper,
+)
+from .errors.metastore_projects_locations_federations_delete_error import (
+    MetastoreProjectsLocationsFederationsDeleteErrorBody,
+    metastore_projects_locations_federations_delete_error_mapper,
+)
+from .errors.metastore_projects_locations_federations_get_error import (
+    MetastoreProjectsLocationsFederationsGetErrorBody,
+    metastore_projects_locations_federations_get_error_mapper,
+)
+from .errors.metastore_projects_locations_federations_get_iam_policy_error import (
+    MetastoreProjectsLocationsFederationsGetIamPolicyErrorBody,
+    metastore_projects_locations_federations_get_iam_policy_error_mapper,
+)
+from .errors.metastore_projects_locations_federations_list_error import (
+    MetastoreProjectsLocationsFederationsListErrorBody,
+    metastore_projects_locations_federations_list_error_mapper,
+)
+from .errors.metastore_projects_locations_federations_patch_error import (
+    MetastoreProjectsLocationsFederationsPatchErrorBody,
+    metastore_projects_locations_federations_patch_error_mapper,
+)
+from .errors.metastore_projects_locations_federations_set_iam_policy_error import (
+    MetastoreProjectsLocationsFederationsSetIamPolicyErrorBody,
+    metastore_projects_locations_federations_set_iam_policy_error_mapper,
+)
+from .errors.metastore_projects_locations_federations_test_iam_permissions_error import (
+    MetastoreProjectsLocationsFederationsTestIamPermissionsErrorBody,
+    metastore_projects_locations_federations_test_iam_permissions_error_mapper,
+)
+from .errors.metastore_projects_locations_get_error import (
+    MetastoreProjectsLocationsGetErrorBody,
+    metastore_projects_locations_get_error_mapper,
+)
+from .errors.metastore_projects_locations_list_error import (
+    MetastoreProjectsLocationsListErrorBody,
+    metastore_projects_locations_list_error_mapper,
+)
+from .errors.metastore_projects_locations_services_alter_location_error import (
+    MetastoreProjectsLocationsServicesAlterLocationErrorBody,
+    metastore_projects_locations_services_alter_location_error_mapper,
+)
+from .errors.metastore_projects_locations_services_alter_table_properties_error import (
+    MetastoreProjectsLocationsServicesAlterTablePropertiesErrorBody,
+    metastore_projects_locations_services_alter_table_properties_error_mapper,
+)
+from .errors.metastore_projects_locations_services_backups_create_error import (
+    MetastoreProjectsLocationsServicesBackupsCreateErrorBody,
+    metastore_projects_locations_services_backups_create_error_mapper,
+)
+from .errors.metastore_projects_locations_services_backups_delete_error import (
+    MetastoreProjectsLocationsServicesBackupsDeleteErrorBody,
+    metastore_projects_locations_services_backups_delete_error_mapper,
+)
+from .errors.metastore_projects_locations_services_backups_get_error import (
+    MetastoreProjectsLocationsServicesBackupsGetErrorBody,
+    metastore_projects_locations_services_backups_get_error_mapper,
+)
+from .errors.metastore_projects_locations_services_backups_get_iam_policy_error import (
+    MetastoreProjectsLocationsServicesBackupsGetIamPolicyErrorBody,
+    metastore_projects_locations_services_backups_get_iam_policy_error_mapper,
+)
+from .errors.metastore_projects_locations_services_backups_list_error import (
+    MetastoreProjectsLocationsServicesBackupsListErrorBody,
+    metastore_projects_locations_services_backups_list_error_mapper,
+)
+from .errors.metastore_projects_locations_services_backups_set_iam_policy_error import (
+    MetastoreProjectsLocationsServicesBackupsSetIamPolicyErrorBody,
+    metastore_projects_locations_services_backups_set_iam_policy_error_mapper,
+)
+from .errors.metastore_projects_locations_services_cancel_migration_error import (
+    MetastoreProjectsLocationsServicesCancelMigrationErrorBody,
+    metastore_projects_locations_services_cancel_migration_error_mapper,
+)
+from .errors.metastore_projects_locations_services_complete_migration_error import (
+    MetastoreProjectsLocationsServicesCompleteMigrationErrorBody,
+    metastore_projects_locations_services_complete_migration_error_mapper,
+)
+from .errors.metastore_projects_locations_services_create_error import (
+    MetastoreProjectsLocationsServicesCreateErrorBody,
+    metastore_projects_locations_services_create_error_mapper,
+)
+from .errors.metastore_projects_locations_services_databases_get_iam_policy_error import (
+    MetastoreProjectsLocationsServicesDatabasesGetIamPolicyErrorBody,
+    metastore_projects_locations_services_databases_get_iam_policy_error_mapper,
+)
+from .errors.metastore_projects_locations_services_databases_set_iam_policy_error import (
+    MetastoreProjectsLocationsServicesDatabasesSetIamPolicyErrorBody,
+    metastore_projects_locations_services_databases_set_iam_policy_error_mapper,
+)
+from .errors.metastore_projects_locations_services_databases_tables_get_iam_policy_error import (
+    MetastoreProjectsLocationsServicesDatabasesTablesGetIamPolicyErrorBody,
+    metastore_projects_locations_services_databases_tables_get_iam_policy_error_mapper,
+)
+from .errors.metastore_projects_locations_services_databases_tables_set_iam_policy_error import (
+    MetastoreProjectsLocationsServicesDatabasesTablesSetIamPolicyErrorBody,
+    metastore_projects_locations_services_databases_tables_set_iam_policy_error_mapper,
+)
+from .errors.metastore_projects_locations_services_delete_error import (
+    MetastoreProjectsLocationsServicesDeleteErrorBody,
+    metastore_projects_locations_services_delete_error_mapper,
+)
+from .errors.metastore_projects_locations_services_export_metadata_error import (
+    MetastoreProjectsLocationsServicesExportMetadataErrorBody,
+    metastore_projects_locations_services_export_metadata_error_mapper,
+)
+from .errors.metastore_projects_locations_services_get_error import (
+    MetastoreProjectsLocationsServicesGetErrorBody,
+    metastore_projects_locations_services_get_error_mapper,
+)
+from .errors.metastore_projects_locations_services_get_iam_policy_error import (
+    MetastoreProjectsLocationsServicesGetIamPolicyErrorBody,
+    metastore_projects_locations_services_get_iam_policy_error_mapper,
+)
+from .errors.metastore_projects_locations_services_list_error import (
+    MetastoreProjectsLocationsServicesListErrorBody,
+    metastore_projects_locations_services_list_error_mapper,
+)
+from .errors.metastore_projects_locations_services_metadata_imports_create_error import (
+    MetastoreProjectsLocationsServicesMetadataImportsCreateErrorBody,
+    metastore_projects_locations_services_metadata_imports_create_error_mapper,
+)
+from .errors.metastore_projects_locations_services_metadata_imports_get_error import (
+    MetastoreProjectsLocationsServicesMetadataImportsGetErrorBody,
+    metastore_projects_locations_services_metadata_imports_get_error_mapper,
+)
+from .errors.metastore_projects_locations_services_metadata_imports_list_error import (
+    MetastoreProjectsLocationsServicesMetadataImportsListErrorBody,
+    metastore_projects_locations_services_metadata_imports_list_error_mapper,
+)
+from .errors.metastore_projects_locations_services_metadata_imports_patch_error import (
+    MetastoreProjectsLocationsServicesMetadataImportsPatchErrorBody,
+    metastore_projects_locations_services_metadata_imports_patch_error_mapper,
+)
+from .errors.metastore_projects_locations_services_migration_executions_delete_error import (
+    MetastoreProjectsLocationsServicesMigrationExecutionsDeleteErrorBody,
+    metastore_projects_locations_services_migration_executions_delete_error_mapper,
+)
+from .errors.metastore_projects_locations_services_migration_executions_get_error import (
+    MetastoreProjectsLocationsServicesMigrationExecutionsGetErrorBody,
+    metastore_projects_locations_services_migration_executions_get_error_mapper,
+)
+from .errors.metastore_projects_locations_services_migration_executions_list_error import (
+    MetastoreProjectsLocationsServicesMigrationExecutionsListErrorBody,
+    metastore_projects_locations_services_migration_executions_list_error_mapper,
+)
+from .errors.metastore_projects_locations_services_move_table_to_database_error import (
+    MetastoreProjectsLocationsServicesMoveTableToDatabaseErrorBody,
+    metastore_projects_locations_services_move_table_to_database_error_mapper,
+)
+from .errors.metastore_projects_locations_services_patch_error import (
+    MetastoreProjectsLocationsServicesPatchErrorBody,
+    metastore_projects_locations_services_patch_error_mapper,
+)
+from .errors.metastore_projects_locations_services_query_metadata_error import (
+    MetastoreProjectsLocationsServicesQueryMetadataErrorBody,
+    metastore_projects_locations_services_query_metadata_error_mapper,
+)
+from .errors.metastore_projects_locations_services_restore_error import (
+    MetastoreProjectsLocationsServicesRestoreErrorBody,
+    metastore_projects_locations_services_restore_error_mapper,
+)
+from .errors.metastore_projects_locations_services_set_iam_policy_error import (
+    MetastoreProjectsLocationsServicesSetIamPolicyErrorBody,
+    metastore_projects_locations_services_set_iam_policy_error_mapper,
+)
+from .errors.metastore_projects_locations_services_start_migration_error import (
+    MetastoreProjectsLocationsServicesStartMigrationErrorBody,
+    metastore_projects_locations_services_start_migration_error_mapper,
+)
+from .errors.metastore_projects_locations_services_test_iam_permissions_error import (
+    MetastoreProjectsLocationsServicesTestIamPermissionsErrorBody,
+    metastore_projects_locations_services_test_iam_permissions_error_mapper,
+)
+from .models.access_session_spark_application_environment_info_response import (
+    AccessSessionSparkApplicationEnvironmentInfoResponse,
+)
+from .models.access_session_spark_application_job_response import AccessSessionSparkApplicationJobResponse
+from .models.access_session_spark_application_native_build_info_response import (
+    AccessSessionSparkApplicationNativeBuildInfoResponse,
+)
+from .models.access_session_spark_application_native_sql_query_response import (
+    AccessSessionSparkApplicationNativeSqlQueryResponse,
+)
+from .models.access_session_spark_application_response import AccessSessionSparkApplicationResponse
+from .models.access_session_spark_application_sql_query_response import AccessSessionSparkApplicationSqlQueryResponse
+from .models.access_session_spark_application_sql_spark_plan_graph_response import (
+    AccessSessionSparkApplicationSqlSparkPlanGraphResponse,
+)
+from .models.access_session_spark_application_stage_attempt_response import (
+    AccessSessionSparkApplicationStageAttemptResponse,
+)
+from .models.access_session_spark_application_stage_rdd_operation_graph_response import (
+    AccessSessionSparkApplicationStageRddOperationGraphResponse,
+)
+from .models.access_spark_application_environment_info_response import AccessSparkApplicationEnvironmentInfoResponse
+from .models.access_spark_application_job_response import AccessSparkApplicationJobResponse
+from .models.access_spark_application_native_build_info_response import AccessSparkApplicationNativeBuildInfoResponse
+from .models.access_spark_application_native_sql_query_response import AccessSparkApplicationNativeSqlQueryResponse
+from .models.access_spark_application_response import AccessSparkApplicationResponse
+from .models.access_spark_application_sql_query_response import AccessSparkApplicationSqlQueryResponse
+from .models.access_spark_application_sql_spark_plan_graph_response import (
+    AccessSparkApplicationSqlSparkPlanGraphResponse,
+)
+from .models.access_spark_application_stage_attempt_response import AccessSparkApplicationStageAttemptResponse
+from .models.access_spark_application_stage_rdd_operation_graph_response import (
+    AccessSparkApplicationStageRddOperationGraphResponse,
+)
+from .models.alter_metadata_resource_location_request import (
+    AlterMetadataResourceLocationRequest,
+    AlterMetadataResourceLocationRequestDict,
+)
+from .models.alter_table_properties_request import AlterTablePropertiesRequest, AlterTablePropertiesRequestDict
+from .models.analyze_batch_request import AnalyzeBatchRequest, AnalyzeBatchRequestDict
+from .models.autoscaling_policy import AutoscalingPolicy, AutoscalingPolicyDict
+from .models.backup import Backup, BackupDict
+from .models.batch import Batch, BatchDict
+from .models.cluster import Cluster, ClusterDict
+from .models.compute_tuning_config_response import ComputeTuningConfigResponse
+from .models.diagnose_cluster_request import DiagnoseClusterRequest, DiagnoseClusterRequestDict
+from .models.enums.action_on_failed_primary_workers import ActionOnFailedPrimaryWorkersOrStr
+from .models.enums.application_status import ApplicationStatusOrStr
+from .models.enums.executor_status import ExecutorStatusOrStr
+from .models.enums.job_state_matcher import JobStateMatcherOrStr
+from .models.enums.job_status2 import JobStatus2OrStr
+from .models.enums.stage_status import StageStatusOrStr
+from .models.enums.task_status import TaskStatusOrStr
+from .models.export_metadata_request import ExportMetadataRequest, ExportMetadataRequestDict
+from .models.federation import Federation, FederationDict
+from .models.get_iam_policy_request import GetIamPolicyRequest, GetIamPolicyRequestDict
+from .models.inject_credentials_request import InjectCredentialsRequest, InjectCredentialsRequestDict
+from .models.instantiate_workflow_template_request import (
+    InstantiateWorkflowTemplateRequest,
+    InstantiateWorkflowTemplateRequestDict,
+)
+from .models.job import Job, JobDict
+from .models.list_autoscaling_policies_response import ListAutoscalingPoliciesResponse
+from .models.list_backups_response import ListBackupsResponse
+from .models.list_batches_response import ListBatchesResponse
+from .models.list_clusters_response import ListClustersResponse
+from .models.list_federations_response import ListFederationsResponse
+from .models.list_jobs_response import ListJobsResponse
+from .models.list_locations_response import ListLocationsResponse
+from .models.list_metadata_imports_response import ListMetadataImportsResponse
+from .models.list_migration_executions_response import ListMigrationExecutionsResponse
+from .models.list_operations_response import ListOperationsResponse
+from .models.list_services_response import ListServicesResponse
+from .models.list_session_templates_response import ListSessionTemplatesResponse
+from .models.list_sessions_response import ListSessionsResponse
+from .models.list_workflow_templates_response import ListWorkflowTemplatesResponse
+from .models.location import Location
+from .models.metadata_import import MetadataImport, MetadataImportDict
+from .models.migration_execution import MigrationExecution
+from .models.move_table_to_database_request import MoveTableToDatabaseRequest, MoveTableToDatabaseRequestDict
+from .models.node_group import NodeGroup, NodeGroupDict
+from .models.operation import Operation
+from .models.policy import Policy
+from .models.policy2 import Policy2
+from .models.query_metadata_request import QueryMetadataRequest, QueryMetadataRequestDict
+from .models.repair_cluster_request import RepairClusterRequest, RepairClusterRequestDict
+from .models.repair_node_group_request import RepairNodeGroupRequest, RepairNodeGroupRequestDict
+from .models.resize_node_group_request import ResizeNodeGroupRequest, ResizeNodeGroupRequestDict
+from .models.restore_service_request import RestoreServiceRequest, RestoreServiceRequestDict
+from .models.search_session_spark_application_executor_stage_summary_response import (
+    SearchSessionSparkApplicationExecutorStageSummaryResponse,
+)
+from .models.search_session_spark_application_executors_response import SearchSessionSparkApplicationExecutorsResponse
+from .models.search_session_spark_application_jobs_response import SearchSessionSparkApplicationJobsResponse
+from .models.search_session_spark_application_native_sql_queries_response import (
+    SearchSessionSparkApplicationNativeSqlQueriesResponse,
+)
+from .models.search_session_spark_application_sql_queries_response import (
+    SearchSessionSparkApplicationSqlQueriesResponse,
+)
+from .models.search_session_spark_application_stage_attempt_tasks_response import (
+    SearchSessionSparkApplicationStageAttemptTasksResponse,
+)
+from .models.search_session_spark_application_stage_attempts_response import (
+    SearchSessionSparkApplicationStageAttemptsResponse,
+)
+from .models.search_session_spark_application_stages_response import SearchSessionSparkApplicationStagesResponse
+from .models.search_session_spark_applications_response import SearchSessionSparkApplicationsResponse
+from .models.search_spark_application_executor_stage_summary_response import (
+    SearchSparkApplicationExecutorStageSummaryResponse,
+)
+from .models.search_spark_application_executors_response import SearchSparkApplicationExecutorsResponse
+from .models.search_spark_application_jobs_response import SearchSparkApplicationJobsResponse
+from .models.search_spark_application_native_sql_queries_response import SearchSparkApplicationNativeSqlQueriesResponse
+from .models.search_spark_application_sql_queries_response import SearchSparkApplicationSqlQueriesResponse
+from .models.search_spark_application_stage_attempt_tasks_response import (
+    SearchSparkApplicationStageAttemptTasksResponse,
+)
+from .models.search_spark_application_stage_attempts_response import SearchSparkApplicationStageAttemptsResponse
+from .models.search_spark_application_stages_response import SearchSparkApplicationStagesResponse
+from .models.search_spark_applications_response import SearchSparkApplicationsResponse
+from .models.service import Service, ServiceDict
+from .models.session import Session, SessionDict
+from .models.session_template import SessionTemplate, SessionTemplateDict
+from .models.set_iam_policy_request import SetIamPolicyRequest, SetIamPolicyRequestDict
+from .models.set_iam_policy_request2 import SetIamPolicyRequest2, SetIamPolicyRequest2Dict
+from .models.start_cluster_request import StartClusterRequest, StartClusterRequestDict
+from .models.start_migration_request import StartMigrationRequest, StartMigrationRequestDict
+from .models.stop_cluster_request import StopClusterRequest, StopClusterRequestDict
+from .models.submit_job_request import SubmitJobRequest, SubmitJobRequestDict
+from .models.summarize_session_spark_application_executors_response import (
+    SummarizeSessionSparkApplicationExecutorsResponse,
+)
+from .models.summarize_session_spark_application_jobs_response import SummarizeSessionSparkApplicationJobsResponse
+from .models.summarize_session_spark_application_stage_attempt_tasks_response import (
+    SummarizeSessionSparkApplicationStageAttemptTasksResponse,
+)
+from .models.summarize_session_spark_application_stages_response import SummarizeSessionSparkApplicationStagesResponse
+from .models.summarize_spark_application_executors_response import SummarizeSparkApplicationExecutorsResponse
+from .models.summarize_spark_application_jobs_response import SummarizeSparkApplicationJobsResponse
+from .models.summarize_spark_application_stage_attempt_tasks_response import (
+    SummarizeSparkApplicationStageAttemptTasksResponse,
+)
+from .models.summarize_spark_application_stages_response import SummarizeSparkApplicationStagesResponse
+from .models.terminate_session_request import TerminateSessionRequest, TerminateSessionRequestDict
+from .models.test_iam_permissions_request import TestIamPermissionsRequest, TestIamPermissionsRequestDict
+from .models.test_iam_permissions_response import TestIamPermissionsResponse
+from .models.workflow_template import WorkflowTemplate, WorkflowTemplateDict
+from .models.write_session_spark_application_context_request import (
+    WriteSessionSparkApplicationContextRequest,
+    WriteSessionSparkApplicationContextRequestDict,
+)
+from .models.write_spark_application_context_request import (
+    WriteSparkApplicationContextRequest,
+    WriteSparkApplicationContextRequestDict,
+)
+from .server.environment import Environment
+from .server.server import Server
+from .server.server_config import ServerConfigOrDict
+
+
+class AsyncGoogleCloudDataprocClient(BaseGoogleCloudDataprocClient[AsyncRawClient]):
+    def __init__(
+        self,
+        *,
+        environment: Environment = "production",
+        timeout: float = DEFAULT_TIMEOUT,
+        server_config: ServerConfigOrDict | None = None,
+        retry_options: int | RetryOptionsOrDict | None = None,
+        logging_options: LoggingOptionsOrDict | None = None,
+        hooks: Sequence[AsyncSdkHook] | AsyncSdkHooksDict | None = None,
+        custom_async_http_client: AsyncHttpClient | None = None,
+        api_key: str | None = None,
+        oauth2: AsyncAuthorizationCodeCredentialsOrDict[Oauth2Scope] | None = None,
+        oauth2_token_source: AsyncRefreshableTokenSource[AsyncAuthorizationCodeCredentials[Oauth2Scope]] | None = None,
+    ) -> None:
+        super().__init__(
+            environment=environment,
+            timeout=timeout,
+            server_config=server_config,
+            retry_options=retry_options,
+            logging_options=logging_options,
+        )
+        self._raw_client = AsyncRawClient(
+            http_client=(
+                custom_async_http_client if custom_async_http_client is not None else AsyncHttpx2Client(timeout=timeout)
+            ),
+            retry_options=self._retry_options,
+            logging_options=self._logging_options,
+            hooks=hooks if hooks is not None else [],
+            global_headers=[
+                param[str]("User-Agent", "GoogleCloudDataprocClient/v1 Python"),
+                param[str]("X-APIMatic-Lang", "Python"),
+                param[str]("X-APIMatic-Package-Version", "v1"),
+                param[str]("X-APIMatic-Gen-Version", "4.0.0"),
+                param[str]("X-APIMatic-OS", OPERATING_SYSTEM),
+                param[str]("X-APIMatic-Runtime", PYTHON_RUNTIME),
+            ],
+        )
+        self._auth = AsyncAuthSchemes(
+            api_key=ApiKeyQueryScheme("key", api_key) if api_key is not None else no_auth,
+            oauth2=(
+                AsyncOAuth2RefreshableScheme(
+                    credentials=AsyncAuthorizationCodeCredentials[Oauth2Scope].coerce(oauth2),
+                    source=(
+                        oauth2_token_source
+                        if oauth2_token_source is not None
+                        else AsyncAuthorizationCodeTokenSource[Oauth2Scope](
+                            client=self._raw_client,
+                            authorization_url=self._server.auth_server("/auth"),
+                            token_url=self._server.access_token_server("/token"),
+                            refresh_url=self._server.access_token_server("/token"),
+                            placement=client_secret_basic,
+                        )
+                    ),
+                )
+                if oauth2 is not None
+                else no_auth
+            ),
+        )
+
+    @cached_property
+    def with_raw_response(self) -> AsyncApiWithRawResponse:
+        return AsyncApiWithRawResponse(self._raw_client, self._server, self._auth)
+
+    async def dataproc_projects_locations_autoscaling_policies_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: AutoscalingPolicy | AutoscalingPolicyDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AutoscalingPolicy:
+        """Creates new autoscaling policy.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_autoscaling_policies_create(
+                projects_id, locations_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_autoscaling_policies_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        autoscaling_policies_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Any:
+        """Deletes an autoscaling policy. It is an error to delete an autoscaling policy that is in use by one or more
+        clusters.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_autoscaling_policies_delete(
+                projects_id, locations_id, autoscaling_policies_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_autoscaling_policies_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        autoscaling_policies_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AutoscalingPolicy:
+        """Retrieves autoscaling policy.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_autoscaling_policies_get(
+                projects_id, locations_id, autoscaling_policies_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_autoscaling_policies_get_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        autoscaling_policies_id: str,
+        body: GetIamPolicyRequest | GetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_autoscaling_policies_get_iam_policy(
+                projects_id, locations_id, autoscaling_policies_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_autoscaling_policies_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListAutoscalingPoliciesResponse:
+        """Lists autoscaling policies in the project.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            page_size: Optional. The maximum number of results to return in each response. Must be less than or equal to
+                1000. Defaults to 100.
+            page_token: Optional. The page token, returned by a previous call, to request the next page of results.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_autoscaling_policies_list(
+                projects_id, locations_id, page_size=page_size, page_token=page_token, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_autoscaling_policies_set_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        autoscaling_policies_id: str,
+        body: SetIamPolicyRequest | SetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_autoscaling_policies_set_iam_policy(
+                projects_id, locations_id, autoscaling_policies_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_autoscaling_policies_test_iam_permissions(
+        self,
+        projects_id: str,
+        locations_id: str,
+        autoscaling_policies_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> TestIamPermissionsResponse:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_autoscaling_policies_test_iam_permissions(
+                projects_id, locations_id, autoscaling_policies_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_autoscaling_policies_update(
+        self,
+        projects_id: str,
+        locations_id: str,
+        autoscaling_policies_id: str,
+        body: AutoscalingPolicy | AutoscalingPolicyDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AutoscalingPolicy:
+        """Updates (replaces) autoscaling policy.Disabled check for update_mask, because all updates will be full
+        replacements.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_autoscaling_policies_update(
+                projects_id, locations_id, autoscaling_policies_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_analyze(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        body: AnalyzeBatchRequest | AnalyzeBatchRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Analyze a Batch for possible recommendations and insights.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_analyze(
+                projects_id, locations_id, batches_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: Batch | BatchDict,
+        *,
+        batch_id: str | None = None,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Creates a batch workload that executes asynchronously.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            batch_id: Optional. The ID to use for the batch, which will become the final component of the batch's
+                resource name.This value must be 4-63 characters. Valid characters are /[a-z][0-9]-/.
+            request_id: Optional. A unique ID used to identify the request. If the service receives two
+                CreateBatchRequests with the same request_id, the second request is ignored and the operation that
+                corresponds to the first Batch created and stored in the backend is returned.Recommendation: Set this
+                value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain
+                only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40
+                characters.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_create(
+                projects_id,
+                locations_id,
+                body,
+                batch_id=batch_id,
+                request_id=request_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Any:
+        """Deletes the batch workload resource. If the batch is not in a CANCELLED, SUCCEEDED or FAILED State, the
+        delete operation fails and the response returns FAILED_PRECONDITION.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_delete(
+                projects_id, locations_id, batches_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Batch:
+        """Gets the batch workload resource representation.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_get(
+                projects_id, locations_id, batches_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        filter_: str | None = None,
+        order_by: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListBatchesResponse:
+        """Lists batch workloads.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            filter_: Optional. A filter for the batches to return in the response.A filter is a logical expression
+                constraining the values of various fields in each batch resource. Filters are case sensitive, and may
+                contain multiple clauses combined with logical operators (AND/OR). Supported fields: * batch_id *
+                batch_uuid * state * create_time * labels * runtime_info.cohort_info.cohort e.g. state = RUNNING and
+                create_time < "2023-01-01T00:00:00Z" filters for batches in state RUNNING that were created before
+                2023-01-01. state = RUNNING and labels.environment=production filters for batches in state in a RUNNING
+                state that have a production environment label.See https://google.aip.dev/assets/misc/ebnf-filtering.txt
+                for a detailed description of the filter syntax and a list of supported comparisons.
+            order_by: Optional. Field(s) on which to sort the list of batches.Currently the only supported sort orders
+                are unspecified (empty) and create_time desc to sort by most recently created batches first.See
+                https://google.aip.dev/132#ordering for more details.
+            page_size: Optional. The maximum number of batches to return in each response. The service may return fewer
+                than this value. The default page size is 20; the maximum page size is 1000.
+            page_token: Optional. A page token received from a previous ListBatches call. Provide this token to retrieve
+                the subsequent page.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_list(
+                projects_id,
+                locations_id,
+                filter_=filter_,
+                order_by=order_by,
+                page_size=page_size,
+                page_token=page_token,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSparkApplicationResponse:
+        """Obtain high level information corresponding to a single Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_access(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_environment_info(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSparkApplicationEnvironmentInfoResponse:
+        """Obtain environment details for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_access_environment_info(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_job(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        job_id: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSparkApplicationJobResponse:
+        """Obtain data corresponding to a spark job for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            job_id: Required. Job ID to fetch data for.
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_access_job(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                job_id=job_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_native_build_info(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSparkApplicationNativeBuildInfoResponse:
+        """Obtain build data for Native Job
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_access_native_build_info(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_native_sql_query(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        execution_id: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSparkApplicationNativeSqlQueryResponse:
+        """Obtain data corresponding to a particular Native SQL Query for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            execution_id: Required. Execution ID
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_access_native_sql_query(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                execution_id=execution_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_sql_plan(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        execution_id: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSparkApplicationSqlSparkPlanGraphResponse:
+        """Obtain Spark Plan Graph for a Spark Application SQL execution. Limits the number of clusters returned as part
+        of the graph to 10000.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            execution_id: Required. Execution ID
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_access_sql_plan(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                execution_id=execution_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_sql_query(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        details: bool | None = None,
+        execution_id: str | None = None,
+        parent: str | None = None,
+        plan_description: bool | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSparkApplicationSqlQueryResponse:
+        """Obtain data corresponding to a particular SQL Query for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            details: Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide.
+            execution_id: Required. Execution ID
+            parent: Required. Parent (Batch) resource reference.
+            plan_description: Optional. Enables/ disables physical plan description on demand
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_access_sql_query(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                details=details,
+                execution_id=execution_id,
+                parent=parent,
+                plan_description=plan_description,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_stage_attempt(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        summary_metrics_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSparkApplicationStageAttemptResponse:
+        """Obtain data corresponding to a spark stage attempt for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            stage_attempt_id: Required. Stage Attempt ID
+            stage_id: Required. Stage ID
+            summary_metrics_mask: Optional. The list of summary metrics fields to include. Empty list will default to
+                skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the
+                request should have task_quantile_metrics in summary_metrics_mask field
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_access_stage_attempt(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                parent=parent,
+                stage_attempt_id=stage_attempt_id,
+                stage_id=stage_id,
+                summary_metrics_mask=summary_metrics_mask,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_stage_rdd_graph(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        stage_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSparkApplicationStageRddOperationGraphResponse:
+        """Obtain RDD operation graph for a Spark Application Stage. Limits the number of clusters returned as part of
+        the graph to 10000.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            stage_id: Required. Stage ID
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_access_stage_rdd_graph(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                parent=parent,
+                stage_id=stage_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_compute_tuning_config(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        execution_id: str | None = None,
+        parent: str | None = None,
+        semantic_query_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ComputeTuningConfigResponse:
+        """Returns autotuning configuration for a specific query plan id and cohort id. Called by Spark during query
+        planning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            execution_id: Required. Spark execution ID for the query.
+            parent: Required. Parent (Batch) resource reference.
+            semantic_query_id: Required. Spark semantic query ID.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_compute_tuning_config(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                execution_id=execution_id,
+                parent=parent,
+                semantic_query_id=semantic_query_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        *,
+        application_status: ApplicationStatusOrStr | None = None,
+        max_end_time: str | None = None,
+        max_time: str | None = None,
+        min_end_time: str | None = None,
+        min_time: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSparkApplicationsResponse:
+        """Obtain high level information and list of Spark Applications corresponding to a batch
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            application_status: Optional. Search only applications in the chosen state.
+            max_end_time: Optional. Latest end timestamp to list.
+            max_time: Optional. Latest start timestamp to list.
+            min_end_time: Optional. Earliest end timestamp to list.
+            min_time: Optional. Earliest start timestamp to list.
+            page_size: Optional. Maximum number of applications to return in each response. The service may return fewer
+                than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSparkApplications call. Provide this token
+                to retrieve the subsequent page.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_search(
+                projects_id,
+                locations_id,
+                batches_id,
+                application_status=application_status,
+                max_end_time=max_end_time,
+                max_time=max_time,
+                min_end_time=min_end_time,
+                min_time=min_time,
+                page_size=page_size,
+                page_token=page_token,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_executor_stage_summary(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSparkApplicationExecutorStageSummaryResponse:
+        """Obtain executor summary with respect to a spark stage attempt.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of executors to return in each response. The service may return fewer
+                than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous AccessSparkApplicationExecutorsList call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            stage_attempt_id: Required. Stage Attempt ID
+            stage_id: Required. Stage ID
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_search_executor_stage_summary(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                stage_attempt_id=stage_attempt_id,
+                stage_id=stage_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_executors(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        executor_status: ExecutorStatusOrStr | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSparkApplicationExecutorsResponse:
+        """Obtain data corresponding to executors for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            executor_status: Optional. Filter to select whether active/ dead or all executors should be selected.
+            page_size: Optional. Maximum number of executors to return in each response. The service may return fewer
+                than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous AccessSparkApplicationExecutorsList call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_search_executors(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                executor_status=executor_status,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_jobs(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        job_status: JobStatus2OrStr | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSparkApplicationJobsResponse:
+        """Obtain list of spark jobs corresponding to a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            job_status: Optional. List only jobs in the specific state.
+            page_size: Optional. Maximum number of jobs to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSparkApplicationJobs call. Provide this
+                token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_search_jobs(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                job_status=job_status,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_native_sql_queries(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSparkApplicationNativeSqlQueriesResponse:
+        """Obtain data corresponding to Native SQL Queries for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of queries to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSparkApplicationNativeSqlQueries call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_search_native_sql_queries(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_sql_queries(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        details: bool | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        plan_description: bool | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSparkApplicationSqlQueriesResponse:
+        """Obtain data corresponding to SQL Queries for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            details: Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide.
+            page_size: Optional. Maximum number of queries to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSparkApplicationSqlQueries call. Provide
+                this token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            plan_description: Optional. Enables/ disables physical plan description on demand
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_search_sql_queries(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                details=details,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                plan_description=plan_description,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_stage_attempt_tasks(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        sort_runtime: bool | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        task_status: TaskStatusOrStr | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSparkApplicationStageAttemptTasksResponse:
+        """Obtain data corresponding to tasks for a spark stage attempt for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of tasks to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous ListSparkApplicationStageAttemptTasks call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            sort_runtime: Optional. Sort the tasks by runtime.
+            stage_attempt_id: Optional. Stage Attempt ID
+            stage_id: Optional. Stage ID
+            task_status: Optional. List only tasks in the state.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_search_stage_attempt_tasks(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                sort_runtime=sort_runtime,
+                stage_attempt_id=stage_attempt_id,
+                stage_id=stage_id,
+                task_status=task_status,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_stage_attempts(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        stage_id: str | None = None,
+        summary_metrics_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSparkApplicationStageAttemptsResponse:
+        """Obtain data corresponding to a spark stage attempts for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of stage attempts (paging based on stage_attempt_id) to return in each
+                response. The service may return fewer than this. The default page size is 10; the maximum page size is
+                100.
+            page_token: Optional. A page token received from a previous SearchSparkApplicationStageAttempts call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            stage_id: Required. Stage ID for which attempts are to be fetched
+            summary_metrics_mask: Optional. The list of summary metrics fields to include. Empty list will default to
+                skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the
+                request should have task_quantile_metrics in summary_metrics_mask field
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_search_stage_attempts(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                stage_id=stage_id,
+                summary_metrics_mask=summary_metrics_mask,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_stages(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        stage_status: StageStatusOrStr | None = None,
+        summary_metrics_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSparkApplicationStagesResponse:
+        """Obtain data corresponding to stages for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of stages (paging based on stage_id) to return in each response. The
+                service may return fewer than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous FetchSparkApplicationStagesList call. Provide
+                this token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            stage_status: Optional. List only stages in the given state.
+            summary_metrics_mask: Optional. The list of summary metrics fields to include. Empty list will default to
+                skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the
+                request should have task_quantile_metrics in summary_metrics_mask field
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_search_stages(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                stage_status=stage_status,
+                summary_metrics_mask=summary_metrics_mask,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_summarize_executors(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SummarizeSparkApplicationExecutorsResponse:
+        """Obtain summary of Executor Summary for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_summarize_executors(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_summarize_jobs(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SummarizeSparkApplicationJobsResponse:
+        """Obtain summary of Jobs for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_summarize_jobs(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_summarize_stage_attempt_tasks(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SummarizeSparkApplicationStageAttemptTasksResponse:
+        """Obtain summary of Tasks for a Spark Application Stage Attempt
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            stage_attempt_id: Required. Stage Attempt ID
+            stage_id: Required. Stage ID
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_summarize_stage_attempt_tasks(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                parent=parent,
+                stage_attempt_id=stage_attempt_id,
+                stage_id=stage_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_summarize_stages(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SummarizeSparkApplicationStagesResponse:
+        """Obtain summary of Stages for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_summarize_stages(
+                projects_id,
+                locations_id,
+                batches_id,
+                spark_applications_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_write(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        body: WriteSparkApplicationContextRequest | WriteSparkApplicationContextRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Any:
+        """Write wrapper objects from dataplane to spanner
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_batches_spark_applications_write(
+                projects_id, locations_id, batches_id, spark_applications_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_operations_cancel(
+        self,
+        projects_id: str,
+        locations_id: str,
+        operations_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Any:
+        """Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the
+        operation, but success is not guaranteed. If the server doesn't support this method, it returns
+        google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the
+        cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the
+        operation is not deleted; instead, it becomes an operation with an Operation.error value with a
+        google.rpc.Status.code of 1, corresponding to Code.CANCELLED.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            operations_id: Resource name segment (operationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_operations_cancel(
+                projects_id, locations_id, operations_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_operations_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        operations_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Any:
+        """Deletes a long-running operation. This method indicates that the client is no longer interested in the
+        operation result. It does not cancel the operation. If the server doesn't support this method, it returns
+        google.rpc.Code.UNIMPLEMENTED.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            operations_id: Resource name segment (operationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_operations_delete(
+                projects_id, locations_id, operations_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_operations_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        operations_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Gets the latest state of a long-running operation. Clients can use this method to poll the operation result
+        at intervals as recommended by the API service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            operations_id: Resource name segment (operationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_operations_get(
+                projects_id, locations_id, operations_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_operations_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        filter_: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        return_partial_success: bool | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListOperationsResponse:
+        """Lists operations that match the specified filter in the request. If the server doesn't support this method,
+        it returns UNIMPLEMENTED.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            filter_: The standard list filter.
+            page_size: The standard list page size.
+            page_token: The standard list page token.
+            return_partial_success: When set to true, operations that are reachable are returned as normal, and those
+                that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true
+                when reading across collections. For example, when parent is set to "projects/example/locations/-".This
+                field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly
+                documented otherwise in service or product specific documentation.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_operations_list(
+                projects_id,
+                locations_id,
+                filter_=filter_,
+                page_size=page_size,
+                page_token=page_token,
+                return_partial_success=return_partial_success,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_session_templates_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: SessionTemplate | SessionTemplateDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SessionTemplate:
+        """Create a session template synchronously.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_session_templates_create(
+                projects_id, locations_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_session_templates_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        session_templates_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Any:
+        """Deletes a session template.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            session_templates_id: Resource name segment (sessionTemplatesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_session_templates_delete(
+                projects_id, locations_id, session_templates_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_session_templates_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        session_templates_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SessionTemplate:
+        """Gets the resource representation for a session template.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            session_templates_id: Resource name segment (sessionTemplatesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_session_templates_get(
+                projects_id, locations_id, session_templates_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_session_templates_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        filter_: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListSessionTemplatesResponse:
+        """Lists session templates.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            filter_: Optional. A filter for the session templates to return in the response. Filters are case sensitive
+                and have the following syntax:field = value AND field = value ...
+            page_size: Optional. The maximum number of sessions to return in each response. The service may return fewer
+                than this value.
+            page_token: Optional. A page token received from a previous ListSessions call. Provide this token to
+                retrieve the subsequent page.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_session_templates_list(
+                projects_id,
+                locations_id,
+                filter_=filter_,
+                page_size=page_size,
+                page_token=page_token,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_session_templates_patch(
+        self,
+        projects_id: str,
+        locations_id: str,
+        session_templates_id: str,
+        body: SessionTemplate | SessionTemplateDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SessionTemplate:
+        """Updates the session template synchronously.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            session_templates_id: Resource name segment (sessionTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_session_templates_patch(
+                projects_id, locations_id, session_templates_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: Session | SessionDict,
+        *,
+        request_id: str | None = None,
+        session_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Create an interactive session asynchronously.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            request_id: Optional. A unique ID used to identify the request. If the service receives two
+                CreateSessionRequests
+                (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateSessionRequest)s
+                with the same ID, the second request is ignored, and the first Session is created and stored in the
+                backend.Recommendation: Set this value to a UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z,
+                A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters.
+            session_id: Required. The ID to use for the session, which becomes the final component of the session's
+                resource name.This value must be 4-63 characters. Valid characters are /a-z-/.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_create(
+                projects_id,
+                locations_id,
+                body,
+                request_id=request_id,
+                session_id=session_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        *,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Deletes the interactive session resource. If the session is not in terminal state, it is terminated, and then
+        deleted.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            request_id: Optional. A unique ID used to identify the request. If the service receives two
+                DeleteSessionRequest
+                (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.DeleteSessionRequest)s
+                with the same ID, the second request is ignored.Recommendation: Set this value to a UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z,
+                A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_delete(
+                projects_id, locations_id, sessions_id, request_id=request_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Session:
+        """Gets the resource representation for an interactive session.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_get(
+                projects_id, locations_id, sessions_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        filter_: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListSessionsResponse:
+        """Lists interactive sessions.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            filter_: Optional. A filter for the sessions to return in the response.A filter is a logical expression
+                constraining the values of various fields in each session resource. Filters are case sensitive, and may
+                contain multiple clauses combined with logical operators (AND, OR). Supported fields are session_id,
+                session_uuid, state, create_time, and labels.Example: state = ACTIVE and create_time <
+                "2023-01-01T00:00:00Z" is a filter for sessions in an ACTIVE state that were created before 2023-01-01.
+                state = ACTIVE and labels.environment=production is a filter for sessions in an ACTIVE state that have a
+                production environment label.See https://google.aip.dev/assets/misc/ebnf-filtering.txt for a detailed
+                description of the filter syntax and a list of supported comparators.
+            page_size: Optional. The maximum number of sessions to return in each response. The service may return fewer
+                than this value.
+            page_token: Optional. A page token received from a previous ListSessions call. Provide this token to
+                retrieve the subsequent page.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_list(
+                projects_id,
+                locations_id,
+                filter_=filter_,
+                page_size=page_size,
+                page_token=page_token,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSessionSparkApplicationResponse:
+        """Obtain high level information corresponding to a single Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_access(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_environment_info(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSessionSparkApplicationEnvironmentInfoResponse:
+        """Obtain environment details for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_access_environment_info(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_job(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        job_id: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSessionSparkApplicationJobResponse:
+        """Obtain data corresponding to a spark job for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            job_id: Required. Job ID to fetch data for.
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_access_job(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                job_id=job_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_native_build_info(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSessionSparkApplicationNativeBuildInfoResponse:
+        """Obtain data corresponding to Native Build Information for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_access_native_build_info(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_native_sql_query(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        execution_id: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSessionSparkApplicationNativeSqlQueryResponse:
+        """Obtain data corresponding to a particular Native SQL Query for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            execution_id: Required. Execution ID
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_access_native_sql_query(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                execution_id=execution_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_sql_plan(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        execution_id: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSessionSparkApplicationSqlSparkPlanGraphResponse:
+        """Obtain Spark Plan Graph for a Spark Application SQL execution. Limits the number of clusters returned as part
+        of the graph to 10000.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            execution_id: Required. Execution ID
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_access_sql_plan(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                execution_id=execution_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_sql_query(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        details: bool | None = None,
+        execution_id: str | None = None,
+        parent: str | None = None,
+        plan_description: bool | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSessionSparkApplicationSqlQueryResponse:
+        """Obtain data corresponding to a particular SQL Query for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            details: Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide.
+            execution_id: Required. Execution ID
+            parent: Required. Parent (Session) resource reference.
+            plan_description: Optional. Enables/ disables physical plan description on demand
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_access_sql_query(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                details=details,
+                execution_id=execution_id,
+                parent=parent,
+                plan_description=plan_description,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_stage_attempt(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        summary_metrics_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSessionSparkApplicationStageAttemptResponse:
+        """Obtain data corresponding to a spark stage attempt for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            stage_attempt_id: Required. Stage Attempt ID
+            stage_id: Required. Stage ID
+            summary_metrics_mask: Optional. The list of summary metrics fields to include. Empty list will default to
+                skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the
+                request should have task_quantile_metrics in summary_metrics_mask field
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_access_stage_attempt(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                parent=parent,
+                stage_attempt_id=stage_attempt_id,
+                stage_id=stage_id,
+                summary_metrics_mask=summary_metrics_mask,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_stage_rdd_graph(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        stage_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AccessSessionSparkApplicationStageRddOperationGraphResponse:
+        """Obtain RDD operation graph for a Spark Application Stage. Limits the number of clusters returned as part of
+        the graph to 10000.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            stage_id: Required. Stage ID
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_access_stage_rdd_graph(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                parent=parent,
+                stage_id=stage_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        *,
+        application_status: ApplicationStatusOrStr | None = None,
+        max_end_time: str | None = None,
+        max_time: str | None = None,
+        min_end_time: str | None = None,
+        min_time: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSessionSparkApplicationsResponse:
+        """Obtain high level information and list of Spark Applications corresponding to a batch
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            application_status: Optional. Search only applications in the chosen state.
+            max_end_time: Optional. Latest end timestamp to list.
+            max_time: Optional. Latest start timestamp to list.
+            min_end_time: Optional. Earliest end timestamp to list.
+            min_time: Optional. Earliest start timestamp to list.
+            page_size: Optional. Maximum number of applications to return in each response. The service may return fewer
+                than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplications call. Provide
+                this token to retrieve the subsequent page.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_search(
+                projects_id,
+                locations_id,
+                sessions_id,
+                application_status=application_status,
+                max_end_time=max_end_time,
+                max_time=max_time,
+                min_end_time=min_end_time,
+                min_time=min_time,
+                page_size=page_size,
+                page_token=page_token,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_executor_stage_summary(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSessionSparkApplicationExecutorStageSummaryResponse:
+        """Obtain executor summary with respect to a spark stage attempt.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of executors to return in each response. The service may return fewer
+                than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous
+                SearchSessionSparkApplicationExecutorStageSummary call. Provide this token to retrieve the subsequent
+                page.
+            parent: Required. Parent (Session) resource reference.
+            stage_attempt_id: Required. Stage Attempt ID
+            stage_id: Required. Stage ID
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_search_executor_stage_summary(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                stage_attempt_id=stage_attempt_id,
+                stage_id=stage_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_executors(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        executor_status: ExecutorStatusOrStr | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSessionSparkApplicationExecutorsResponse:
+        """Obtain data corresponding to executors for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            executor_status: Optional. Filter to select whether active/ dead or all executors should be selected.
+            page_size: Optional. Maximum number of executors to return in each response. The service may return fewer
+                than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplicationExecutors call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_search_executors(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                executor_status=executor_status,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_jobs(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        job_ids: list[str] | None = None,
+        job_status: JobStatus2OrStr | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSessionSparkApplicationJobsResponse:
+        """Obtain list of spark jobs corresponding to a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            job_ids: Optional. List of Job IDs to filter by if provided.
+            job_status: Optional. List only jobs in the specific state.
+            page_size: Optional. Maximum number of jobs to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplicationJobs call. Provide
+                this token to retrieve the subsequent page.
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_search_jobs(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                job_ids=job_ids,
+                job_status=job_status,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_native_sql_queries(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSessionSparkApplicationNativeSqlQueriesResponse:
+        """Obtain data corresponding to Native SQL Queries for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of queries to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplicationSqlQueries call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_search_native_sql_queries(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_sql_queries(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        details: bool | None = None,
+        operation_ids: list[str] | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        plan_description: bool | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSessionSparkApplicationSqlQueriesResponse:
+        """Obtain data corresponding to SQL Queries for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            details: Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide.
+            operation_ids: Optional. List of Spark Connect operation IDs to filter by if provided.
+            page_size: Optional. Maximum number of queries to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplicationSqlQueries call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Session) resource reference.
+            plan_description: Optional. Enables/ disables physical plan description on demand
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_search_sql_queries(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                details=details,
+                operation_ids=operation_ids,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                plan_description=plan_description,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_stage_attempt_tasks(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        sort_runtime: bool | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        task_status: TaskStatusOrStr | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSessionSparkApplicationStageAttemptTasksResponse:
+        """Obtain data corresponding to tasks for a spark stage attempt for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of tasks to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplicationStageAttemptTasks
+                call. Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Session) resource reference.
+            sort_runtime: Optional. Sort the tasks by runtime.
+            stage_attempt_id: Optional. Stage Attempt ID
+            stage_id: Optional. Stage ID
+            task_status: Optional. List only tasks in the state.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_search_stage_attempt_tasks(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                sort_runtime=sort_runtime,
+                stage_attempt_id=stage_attempt_id,
+                stage_id=stage_id,
+                task_status=task_status,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_stage_attempts(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        stage_id: str | None = None,
+        summary_metrics_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSessionSparkApplicationStageAttemptsResponse:
+        """Obtain data corresponding to a spark stage attempts for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of stage attempts (paging based on stage_attempt_id) to return in each
+                response. The service may return fewer than this. The default page size is 10; the maximum page size is
+                100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplicationStageAttempts call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Session) resource reference.
+            stage_id: Required. Stage ID for which attempts are to be fetched
+            summary_metrics_mask: Optional. The list of summary metrics fields to include. Empty list will default to
+                skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the
+                request should have task_quantile_metrics in summary_metrics_mask field
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_search_stage_attempts(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                stage_id=stage_id,
+                summary_metrics_mask=summary_metrics_mask,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_stages(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        stage_ids: list[str] | None = None,
+        stage_status: StageStatusOrStr | None = None,
+        summary_metrics_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SearchSessionSparkApplicationStagesResponse:
+        """Obtain data corresponding to stages for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of stages (paging based on stage_id) to return in each response. The
+                service may return fewer than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplicationStages call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Session) resource reference.
+            stage_ids: Optional. List of Stage IDs to filter by if provided.
+            stage_status: Optional. List only stages in the given state.
+            summary_metrics_mask: Optional. The list of summary metrics fields to include. Empty list will default to
+                skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the
+                request should have task_quantile_metrics in summary_metrics_mask field
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_search_stages(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                page_size=page_size,
+                page_token=page_token,
+                parent=parent,
+                stage_ids=stage_ids,
+                stage_status=stage_status,
+                summary_metrics_mask=summary_metrics_mask,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_summarize_executors(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SummarizeSessionSparkApplicationExecutorsResponse:
+        """Obtain summary of Executor Summary for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_summarize_executors(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_summarize_jobs(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        job_ids: list[str] | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SummarizeSessionSparkApplicationJobsResponse:
+        """Obtain summary of Jobs for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            job_ids: Optional. List of Job IDs to filter by if provided.
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_summarize_jobs(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                job_ids=job_ids,
+                parent=parent,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_summarize_stage_attempt_tasks(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SummarizeSessionSparkApplicationStageAttemptTasksResponse:
+        """Obtain summary of Tasks for a Spark Application Stage Attempt
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            stage_attempt_id: Required. Stage Attempt ID
+            stage_id: Required. Stage ID
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_summarize_stage_attempt_tasks(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                parent=parent,
+                stage_attempt_id=stage_attempt_id,
+                stage_id=stage_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_summarize_stages(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        stage_ids: list[str] | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> SummarizeSessionSparkApplicationStagesResponse:
+        """Obtain summary of Stages for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            stage_ids: Optional. List of Stage IDs to filter by if provided.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_summarize_stages(
+                projects_id,
+                locations_id,
+                sessions_id,
+                spark_applications_id,
+                parent=parent,
+                stage_ids=stage_ids,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_write(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        body: WriteSessionSparkApplicationContextRequest | WriteSessionSparkApplicationContextRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Any:
+        """Write wrapper objects from dataplane to spanner
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_spark_applications_write(
+                projects_id, locations_id, sessions_id, spark_applications_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_sessions_terminate(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        body: TerminateSessionRequest | TerminateSessionRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Terminates the interactive session.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_sessions_terminate(
+                projects_id, locations_id, sessions_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_workflow_templates_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: WorkflowTemplate | WorkflowTemplateDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> WorkflowTemplate:
+        """Creates new workflow template.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_workflow_templates_create(
+                projects_id, locations_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_workflow_templates_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        workflow_templates_id: str,
+        *,
+        version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Any:
+        """Deletes a workflow template. It does not cancel in-progress workflows.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            version: Optional. The version of workflow template to delete. If specified, will only delete the template
+                if the current server version matches specified version.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_workflow_templates_delete(
+                projects_id, locations_id, workflow_templates_id, version=version, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_workflow_templates_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        workflow_templates_id: str,
+        *,
+        version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> WorkflowTemplate:
+        """Retrieves the latest workflow template.Can retrieve previously instantiated template by specifying optional
+        version parameter.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            version: Optional. The version of workflow template to retrieve. Only previously instantiated versions can
+                be retrieved.If unspecified, retrieves the current version.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_workflow_templates_get(
+                projects_id, locations_id, workflow_templates_id, version=version, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_workflow_templates_get_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        workflow_templates_id: str,
+        body: GetIamPolicyRequest | GetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_workflow_templates_get_iam_policy(
+                projects_id, locations_id, workflow_templates_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_workflow_templates_instantiate(
+        self,
+        projects_id: str,
+        locations_id: str,
+        workflow_templates_id: str,
+        body: InstantiateWorkflowTemplateRequest | InstantiateWorkflowTemplateRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Instantiates a template and begins execution.The returned Operation can be used to track execution of
+        workflow by polling operations.get. The Operation will complete when entire workflow is finished.The running
+        workflow can be aborted via operations.cancel. This will cause any inflight jobs to be cancelled and
+        workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using
+        WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On
+        successful completion, Operation.response will be Empty.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_workflow_templates_instantiate(
+                projects_id, locations_id, workflow_templates_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_workflow_templates_instantiate_inline(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: WorkflowTemplate | WorkflowTemplateDict,
+        *,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Instantiates a template and begins execution.This method is equivalent to executing the sequence
+        CreateWorkflowTemplate, InstantiateWorkflowTemplate, DeleteWorkflowTemplate.The returned Operation can be used
+        to track execution of workflow by polling operations.get. The Operation will complete when entire workflow is
+        finished.The running workflow can be aborted via operations.cancel. This will cause any inflight jobs to be
+        cancelled and workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using
+        WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On
+        successful completion, Operation.response will be Empty.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            request_id: Optional. A tag that prevents multiple concurrent workflow instances with the same tag from
+                running. This mitigates risk of concurrent instances started due to retries.It is recommended to always
+                set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The tag must
+                contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is
+                40 characters.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_workflow_templates_instantiate_inline(
+                projects_id, locations_id, body, request_id=request_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_workflow_templates_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListWorkflowTemplatesResponse:
+        """Lists workflows that match the specified filter in the request.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            page_size: Optional. The maximum number of results to return in each response.
+            page_token: Optional. The page token, returned by a previous call, to request the next page of results.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_workflow_templates_list(
+                projects_id, locations_id, page_size=page_size, page_token=page_token, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_workflow_templates_set_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        workflow_templates_id: str,
+        body: SetIamPolicyRequest | SetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_workflow_templates_set_iam_policy(
+                projects_id, locations_id, workflow_templates_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_workflow_templates_test_iam_permissions(
+        self,
+        projects_id: str,
+        locations_id: str,
+        workflow_templates_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> TestIamPermissionsResponse:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_workflow_templates_test_iam_permissions(
+                projects_id, locations_id, workflow_templates_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_locations_workflow_templates_update(
+        self,
+        projects_id: str,
+        locations_id: str,
+        workflow_templates_id: str,
+        body: WorkflowTemplate | WorkflowTemplateDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> WorkflowTemplate:
+        """Updates (replaces) workflow template. The updated template must contain version that matches the current
+        server version.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_locations_workflow_templates_update(
+                projects_id, locations_id, workflow_templates_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_create(
+        self,
+        projects_id: str,
+        regions_id: str,
+        body: AutoscalingPolicy | AutoscalingPolicyDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AutoscalingPolicy:
+        """Creates new autoscaling policy.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_autoscaling_policies_create(
+                projects_id, regions_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_delete(
+        self,
+        projects_id: str,
+        regions_id: str,
+        autoscaling_policies_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Any:
+        """Deletes an autoscaling policy. It is an error to delete an autoscaling policy that is in use by one or more
+        clusters.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_autoscaling_policies_delete(
+                projects_id, regions_id, autoscaling_policies_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_get(
+        self,
+        projects_id: str,
+        regions_id: str,
+        autoscaling_policies_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AutoscalingPolicy:
+        """Retrieves autoscaling policy.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_autoscaling_policies_get(
+                projects_id, regions_id, autoscaling_policies_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_get_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        autoscaling_policies_id: str,
+        body: GetIamPolicyRequest | GetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_autoscaling_policies_get_iam_policy(
+                projects_id, regions_id, autoscaling_policies_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_list(
+        self,
+        projects_id: str,
+        regions_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListAutoscalingPoliciesResponse:
+        """Lists autoscaling policies in the project.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            page_size: Optional. The maximum number of results to return in each response. Must be less than or equal to
+                1000. Defaults to 100.
+            page_token: Optional. The page token, returned by a previous call, to request the next page of results.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_autoscaling_policies_list(
+                projects_id, regions_id, page_size=page_size, page_token=page_token, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_set_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        autoscaling_policies_id: str,
+        body: SetIamPolicyRequest | SetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_autoscaling_policies_set_iam_policy(
+                projects_id, regions_id, autoscaling_policies_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_test_iam_permissions(
+        self,
+        projects_id: str,
+        regions_id: str,
+        autoscaling_policies_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> TestIamPermissionsResponse:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_autoscaling_policies_test_iam_permissions(
+                projects_id, regions_id, autoscaling_policies_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_update(
+        self,
+        projects_id: str,
+        regions_id: str,
+        autoscaling_policies_id: str,
+        body: AutoscalingPolicy | AutoscalingPolicyDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> AutoscalingPolicy:
+        """Updates (replaces) autoscaling policy.Disabled check for update_mask, because all updates will be full
+        replacements.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_autoscaling_policies_update(
+                projects_id, regions_id, autoscaling_policies_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_create(
+        self,
+        project_id: str,
+        region: str,
+        body: Cluster | ClusterDict,
+        *,
+        action_on_failed_primary_workers: ActionOnFailedPrimaryWorkersOrStr | None = None,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Creates a cluster in a project. The returned Operation.metadata will be ClusterOperationMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata).
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            body: The request body.
+            action_on_failed_primary_workers: Optional. Failure action when primary worker creation fails.
+            request_id: Optional. A unique ID used to identify the request. If the server receives two
+                CreateClusterRequest
+                (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateClusterRequest)s
+                with the same id, then the second request will be ignored and the first google.longrunning.Operation
+                created and stored in the backend is returned.It is recommended to always set this value to a UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z,
+                A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_create(
+                project_id,
+                region,
+                body,
+                action_on_failed_primary_workers=action_on_failed_primary_workers,
+                request_id=request_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_delete(
+        self,
+        project_id: str,
+        region: str,
+        cluster_name: str,
+        *,
+        cluster_uuid: str | None = None,
+        graceful_termination_timeout: str | None = None,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Deletes a cluster in a project. The returned Operation.metadata will be ClusterOperationMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata).
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            cluster_name: Required. The cluster name.
+            cluster_uuid: Optional. Specifying the cluster_uuid means the RPC should fail (with error NOT_FOUND) if
+                cluster with specified UUID does not exist.
+            graceful_termination_timeout: Optional. The graceful termination timeout for the deletion of the cluster.
+                Indicate the time the request will wait to complete the running jobs on the cluster before its forceful
+                deletion. Default value is 0 indicating that the user has not enabled the graceful termination. Value
+                can be between 60 second and 6 Hours, in case the graceful termination is enabled. (There is no separate
+                flag to check the enabling or disabling of graceful termination, it can be checked by the values in the
+                field).
+            request_id: Optional. A unique ID used to identify the request. If the server receives two
+                DeleteClusterRequest
+                (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.DeleteClusterRequest)s
+                with the same id, then the second request will be ignored and the first google.longrunning.Operation
+                created and stored in the backend is returned.It is recommended to always set this value to a UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z,
+                A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_delete(
+                project_id,
+                region,
+                cluster_name,
+                cluster_uuid=cluster_uuid,
+                graceful_termination_timeout=graceful_termination_timeout,
+                request_id=request_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_diagnose(
+        self,
+        project_id: str,
+        region: str,
+        cluster_name: str,
+        body: DiagnoseClusterRequest | DiagnoseClusterRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Gets cluster diagnostic information. The returned Operation.metadata will be ClusterOperationMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata). After
+        the operation completes, Operation.response contains DiagnoseClusterResults
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#diagnoseclusterresults).
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            cluster_name: Required. The cluster name.
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_diagnose(
+                project_id, region, cluster_name, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_get(
+        self,
+        project_id: str,
+        region: str,
+        cluster_name: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Cluster:
+        """Gets the resource representation for a cluster in a project.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            cluster_name: Required. The cluster name.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_get(
+                project_id, region, cluster_name, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_get_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        body: GetIamPolicyRequest | GetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_get_iam_policy(
+                projects_id, regions_id, clusters_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_inject_credentials(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        body: InjectCredentialsRequest | InjectCredentialsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Inject encrypted credentials into all of the VMs in a cluster.The target cluster must be a personal auth
+        cluster assigned to the user who is issuing the RPC.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_inject_credentials(
+                projects_id, regions_id, clusters_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_list(
+        self,
+        project_id: str,
+        region: str,
+        *,
+        filter_: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListClustersResponse:
+        """Lists all regions/{region}/clusters in a project alphabetically.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            filter_: Optional. A filter constraining the clusters to list. Filters are case-sensitive and have the
+                following syntax:field = value AND field = value ...where field is one of status.state, clusterName, or
+                labels.[KEY], and [KEY] is a label key. value can be "*" to match all values. status.state can be one of
+                the following: ACTIVE, INACTIVE, CREATING, RUNNING, ERROR, DELETING, UPDATING, STOPPING, or STOPPED.
+                ACTIVE contains the CREATING, UPDATING, and RUNNING states. INACTIVE contains the DELETING, ERROR,
+                STOPPING, and STOPPED states. clusterName is the name of the cluster provided at creation time. Only the
+                logical AND operator is supported; space-separated items are treated as having an implicit AND
+                operator.Example filter:status.state = ACTIVE AND clusterName = mycluster AND labels.env = staging AND
+                labels.starred = *
+            page_size: Optional. The maximum number of clusters to return in each response. The service may return fewer
+                than this value. If unspecified, the default value is 200. The maximum value is 1000.
+            page_token: Optional. A page token received from a previous ListClusters call. Provide this token to
+                retrieve the subsequent page.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_list(
+                project_id,
+                region,
+                filter_=filter_,
+                page_size=page_size,
+                page_token=page_token,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_node_groups_create(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        body: NodeGroup | NodeGroupDict,
+        *,
+        node_group_id: str | None = None,
+        parent_operation_id: str | None = None,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Creates a node group in a cluster. The returned Operation.metadata is NodeGroupOperationMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#nodegroupoperationmetadata).
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            body: The request body.
+            node_group_id: Optional. An optional node group ID. Generated if not specified.The ID must contain only
+                letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore
+                or hyphen. Must consist of from 3 to 33 characters.
+            parent_operation_id: Optional. operation id of the parent operation sending the create request
+            request_id: Optional. A unique ID used to identify the request. If the server receives two
+                CreateNodeGroupRequest
+                (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateNodeGroupRequest)
+                with the same ID, the second request is ignored and the first google.longrunning.Operation created and
+                stored in the backend is returned.Recommendation: Set this value to a UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z,
+                A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_node_groups_create(
+                projects_id,
+                regions_id,
+                clusters_id,
+                body,
+                node_group_id=node_group_id,
+                parent_operation_id=parent_operation_id,
+                request_id=request_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_node_groups_get(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        node_groups_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> NodeGroup:
+        """Gets the resource representation for a node group in a cluster.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            node_groups_id: Resource name segment (nodeGroupsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_node_groups_get(
+                projects_id, regions_id, clusters_id, node_groups_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_node_groups_repair(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        node_groups_id: str,
+        body: RepairNodeGroupRequest | RepairNodeGroupRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Repair nodes in a node group.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            node_groups_id: Resource name segment (nodeGroupsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_node_groups_repair(
+                projects_id, regions_id, clusters_id, node_groups_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_node_groups_resize(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        node_groups_id: str,
+        body: ResizeNodeGroupRequest | ResizeNodeGroupRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Resizes a node group in a cluster. The returned Operation.metadata is NodeGroupOperationMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#nodegroupoperationmetadata).
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            node_groups_id: Resource name segment (nodeGroupsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_node_groups_resize(
+                projects_id, regions_id, clusters_id, node_groups_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_patch(
+        self,
+        project_id: str,
+        region: str,
+        cluster_name: str,
+        body: Cluster | ClusterDict,
+        *,
+        graceful_decommission_timeout: str | None = None,
+        request_id: str | None = None,
+        update_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Updates a cluster in a project. The returned Operation.metadata will be ClusterOperationMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata). The
+        cluster must be in a RUNNING state or an error is returned.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            cluster_name: Required. The cluster name.
+            body: The request body.
+            graceful_decommission_timeout: Optional. Timeout for graceful YARN decommissioning. Graceful decommissioning
+                allows removing nodes from the cluster without interrupting jobs in progress. Timeout specifies how long
+                to wait for jobs in progress to finish before forcefully removing nodes (and potentially interrupting
+                jobs). Default timeout is 0 (for forceful decommission), and the maximum allowed timeout is 1 day. (see
+                JSON representation of Duration
+                (https://developers.google.com/protocol-buffers/docs/proto3#json)).Supported in image versions 1.2 and
+                higher.
+            request_id: Optional. A unique ID used to identify the request. If the server receives two
+                UpdateClusterRequest
+                (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.UpdateClusterRequest)s
+                with the same id, then the second request will be ignored and the first google.longrunning.Operation
+                created and stored in the backend is returned.It is recommended to always set this value to a UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z,
+                A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters.
+            update_mask: Required. Specifies the path, relative to Cluster, of the field to update. For example, to
+                change the number of workers in a cluster to 5, the update_mask parameter would be specified as
+                config.worker_config.num_instances, and the PATCH request body would specify the new value, as follows:
+                { "config":{ "workerConfig":{ "numInstances":"5" } } } Similarly, to change the number of preemptible
+                workers in a cluster to 5, the update_mask parameter would be
+                config.secondary_worker_config.num_instances, and the PATCH request body would be set as follows: {
+                "config":{ "secondaryWorkerConfig":{ "numInstances":"5" } } } *Note:* Currently, only the following
+                fields can be updated: *Mask* *Purpose* *labels* Update labels *config.worker_config.num_instances*
+                Resize primary worker group *config.secondary_worker_config.num_instances* Resize secondary worker group
+                config.autoscaling_config.policy_uri Use, stop using, or change autoscaling policies
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_patch(
+                project_id,
+                region,
+                cluster_name,
+                body,
+                graceful_decommission_timeout=graceful_decommission_timeout,
+                request_id=request_id,
+                update_mask=update_mask,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_repair(
+        self,
+        project_id: str,
+        region: str,
+        cluster_name: str,
+        body: RepairClusterRequest | RepairClusterRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Repairs a cluster.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            cluster_name: Required. The cluster name.
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_repair(
+                project_id, region, cluster_name, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_set_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        body: SetIamPolicyRequest | SetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_set_iam_policy(
+                projects_id, regions_id, clusters_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_start(
+        self,
+        project_id: str,
+        region: str,
+        cluster_name: str,
+        body: StartClusterRequest | StartClusterRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Starts a cluster in a project.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            cluster_name: Required. The cluster name.
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_start(
+                project_id, region, cluster_name, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_stop(
+        self,
+        project_id: str,
+        region: str,
+        cluster_name: str,
+        body: StopClusterRequest | StopClusterRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Stops a cluster in a project.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            cluster_name: Required. The cluster name.
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_stop(
+                project_id, region, cluster_name, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_clusters_test_iam_permissions(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> TestIamPermissionsResponse:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_clusters_test_iam_permissions(
+                projects_id, regions_id, clusters_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_jobs_cancel(
+        self,
+        project_id: str,
+        region: str,
+        job_id: str,
+        body: Any,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Job:
+        """Starts a job cancellation request. To access the job resource after cancellation, call
+        regions/{region}/jobs.list (https://cloud.google.com/dataproc/docs/reference/rest/v1/projects.regions.jobs/list)
+        or regions/{region}/jobs.get
+        (https://cloud.google.com/dataproc/docs/reference/rest/v1/projects.regions.jobs/get).
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the job belongs to.
+            region: Required. The Dataproc region in which to handle the request.
+            job_id: Required. The job ID.
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_jobs_cancel(
+                project_id, region, job_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_jobs_delete(
+        self, project_id: str, region: str, job_id: str, *, request_options: AsyncRequestOptionsOrDict | None = None
+    ) -> Any:
+        """Deletes the job from the project. If the job is active, the delete fails, and the response returns
+        FAILED_PRECONDITION.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the job belongs to.
+            region: Required. The Dataproc region in which to handle the request.
+            job_id: Required. The job ID.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_jobs_delete(
+                project_id, region, job_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_jobs_get(
+        self, project_id: str, region: str, job_id: str, *, request_options: AsyncRequestOptionsOrDict | None = None
+    ) -> Job:
+        """Gets the resource representation for a job in a project.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the job belongs to.
+            region: Required. The Dataproc region in which to handle the request.
+            job_id: Required. The job ID.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_jobs_get(
+                project_id, region, job_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_jobs_get_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        jobs_id: str,
+        body: GetIamPolicyRequest | GetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            jobs_id: Resource name segment (jobsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_jobs_get_iam_policy(
+                projects_id, regions_id, jobs_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_jobs_list(
+        self,
+        project_id: str,
+        region: str,
+        *,
+        cluster_name: str | None = None,
+        filter_: str | None = None,
+        job_state_matcher: JobStateMatcherOrStr | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListJobsResponse:
+        """Lists regions/{region}/jobs in a project.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the job belongs to.
+            region: Required. The Dataproc region in which to handle the request.
+            cluster_name: Optional. If set, the returned jobs list includes only jobs that were submitted to the named
+                cluster.
+            filter_: Optional. A filter constraining the jobs to list. Filters are case-sensitive and have the following
+                syntax:field = value AND field = value ...where field is status.state or insertTime, or labels.[KEY],
+                and [KEY] is a label key. value can be * to match all values. status.state can be either ACTIVE or
+                NON_ACTIVE. Allows insertTime to be a timestamp in RFC 3339 format in double quotes, such as
+                2025-01-01T00:00:00Z. Only the logical AND operator is supported; space-separated items are treated as
+                having an implicit AND operator.Example filter:status.state = ACTIVE AND labels.env = staging AND
+                labels.starred = * AND insertTime <= "2025-01-01T00:00:00Z"
+            job_state_matcher: Optional. Specifies enumerated categories of jobs to list. (default = match ALL jobs).If
+                filter is provided, jobStateMatcher will be ignored.
+            page_size: Optional. The number of results to return in each response.
+            page_token: Optional. The page token, returned by a previous call, to request the next page of results.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_jobs_list(
+                project_id,
+                region,
+                cluster_name=cluster_name,
+                filter_=filter_,
+                job_state_matcher=job_state_matcher,
+                page_size=page_size,
+                page_token=page_token,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_regions_jobs_patch(
+        self,
+        project_id: str,
+        region: str,
+        job_id: str,
+        body: Job | JobDict,
+        *,
+        update_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Job:
+        """Updates a job in a project.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the job belongs to.
+            region: Required. The Dataproc region in which to handle the request.
+            job_id: Required. The job ID.
+            body: The request body.
+            update_mask: Required. Specifies the path, relative to Job, of the field to update. For example, to update
+                the labels of a Job the update_mask parameter would be specified as labels, and the PATCH request body
+                would specify the new value. *Note:* Currently, labels is the only field that can be updated.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_jobs_patch(
+                project_id, region, job_id, body, update_mask=update_mask, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_jobs_set_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        jobs_id: str,
+        body: SetIamPolicyRequest | SetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            jobs_id: Resource name segment (jobsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_jobs_set_iam_policy(
+                projects_id, regions_id, jobs_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_jobs_submit(
+        self,
+        project_id: str,
+        region: str,
+        body: SubmitJobRequest | SubmitJobRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Job:
+        """Submits a job to a cluster.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the job belongs to.
+            region: Required. The Dataproc region in which to handle the request.
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_jobs_submit(
+                project_id, region, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_jobs_submit_as_operation(
+        self,
+        project_id: str,
+        region: str,
+        body: SubmitJobRequest | SubmitJobRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Submits job to a cluster.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the job belongs to.
+            region: Required. The Dataproc region in which to handle the request.
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_jobs_submit_as_operation(
+                project_id, region, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_jobs_test_iam_permissions(
+        self,
+        projects_id: str,
+        regions_id: str,
+        jobs_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> TestIamPermissionsResponse:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            jobs_id: Resource name segment (jobsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_jobs_test_iam_permissions(
+                projects_id, regions_id, jobs_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_operations_cancel(
+        self,
+        projects_id: str,
+        regions_id: str,
+        operations_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Any:
+        """Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the
+        operation, but success is not guaranteed. If the server doesn't support this method, it returns
+        google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the
+        cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the
+        operation is not deleted; instead, it becomes an operation with an Operation.error value with a
+        google.rpc.Status.code of 1, corresponding to Code.CANCELLED.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            operations_id: Resource name segment (operationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_operations_cancel(
+                projects_id, regions_id, operations_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_operations_delete(
+        self,
+        projects_id: str,
+        regions_id: str,
+        operations_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Any:
+        """Deletes a long-running operation. This method indicates that the client is no longer interested in the
+        operation result. It does not cancel the operation. If the server doesn't support this method, it returns
+        google.rpc.Code.UNIMPLEMENTED.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            operations_id: Resource name segment (operationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_operations_delete(
+                projects_id, regions_id, operations_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_operations_get(
+        self,
+        projects_id: str,
+        regions_id: str,
+        operations_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Gets the latest state of a long-running operation. Clients can use this method to poll the operation result
+        at intervals as recommended by the API service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            operations_id: Resource name segment (operationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_operations_get(
+                projects_id, regions_id, operations_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_operations_get_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        operations_id: str,
+        body: GetIamPolicyRequest | GetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            operations_id: Resource name segment (operationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_operations_get_iam_policy(
+                projects_id, regions_id, operations_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_operations_list(
+        self,
+        projects_id: str,
+        regions_id: str,
+        *,
+        filter_: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        return_partial_success: bool | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListOperationsResponse:
+        """Lists operations that match the specified filter in the request. If the server doesn't support this method,
+        it returns UNIMPLEMENTED.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            filter_: The standard list filter.
+            page_size: The standard list page size.
+            page_token: The standard list page token.
+            return_partial_success: When set to true, operations that are reachable are returned as normal, and those
+                that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true
+                when reading across collections. For example, when parent is set to "projects/example/locations/-".This
+                field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly
+                documented otherwise in service or product specific documentation.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_operations_list(
+                projects_id,
+                regions_id,
+                filter_=filter_,
+                page_size=page_size,
+                page_token=page_token,
+                return_partial_success=return_partial_success,
+                request_options=request_options,
+            ),
+        )
+
+    async def dataproc_projects_regions_operations_set_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        operations_id: str,
+        body: SetIamPolicyRequest | SetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            operations_id: Resource name segment (operationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_operations_set_iam_policy(
+                projects_id, regions_id, operations_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_operations_test_iam_permissions(
+        self,
+        projects_id: str,
+        regions_id: str,
+        operations_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> TestIamPermissionsResponse:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            operations_id: Resource name segment (operationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_operations_test_iam_permissions(
+                projects_id, regions_id, operations_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_workflow_templates_create(
+        self,
+        projects_id: str,
+        regions_id: str,
+        body: WorkflowTemplate | WorkflowTemplateDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> WorkflowTemplate:
+        """Creates new workflow template.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_workflow_templates_create(
+                projects_id, regions_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_workflow_templates_delete(
+        self,
+        projects_id: str,
+        regions_id: str,
+        workflow_templates_id: str,
+        *,
+        version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Any:
+        """Deletes a workflow template. It does not cancel in-progress workflows.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            version: Optional. The version of workflow template to delete. If specified, will only delete the template
+                if the current server version matches specified version.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_workflow_templates_delete(
+                projects_id, regions_id, workflow_templates_id, version=version, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_workflow_templates_get(
+        self,
+        projects_id: str,
+        regions_id: str,
+        workflow_templates_id: str,
+        *,
+        version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> WorkflowTemplate:
+        """Retrieves the latest workflow template.Can retrieve previously instantiated template by specifying optional
+        version parameter.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            version: Optional. The version of workflow template to retrieve. Only previously instantiated versions can
+                be retrieved.If unspecified, retrieves the current version.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_workflow_templates_get(
+                projects_id, regions_id, workflow_templates_id, version=version, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_workflow_templates_get_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        workflow_templates_id: str,
+        body: GetIamPolicyRequest | GetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_workflow_templates_get_iam_policy(
+                projects_id, regions_id, workflow_templates_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_workflow_templates_instantiate(
+        self,
+        projects_id: str,
+        regions_id: str,
+        workflow_templates_id: str,
+        body: InstantiateWorkflowTemplateRequest | InstantiateWorkflowTemplateRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Instantiates a template and begins execution.The returned Operation can be used to track execution of
+        workflow by polling operations.get. The Operation will complete when entire workflow is finished.The running
+        workflow can be aborted via operations.cancel. This will cause any inflight jobs to be cancelled and
+        workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using
+        WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On
+        successful completion, Operation.response will be Empty.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_workflow_templates_instantiate(
+                projects_id, regions_id, workflow_templates_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_workflow_templates_instantiate_inline(
+        self,
+        projects_id: str,
+        regions_id: str,
+        body: WorkflowTemplate | WorkflowTemplateDict,
+        *,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Instantiates a template and begins execution.This method is equivalent to executing the sequence
+        CreateWorkflowTemplate, InstantiateWorkflowTemplate, DeleteWorkflowTemplate.The returned Operation can be used
+        to track execution of workflow by polling operations.get. The Operation will complete when entire workflow is
+        finished.The running workflow can be aborted via operations.cancel. This will cause any inflight jobs to be
+        cancelled and workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using
+        WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On
+        successful completion, Operation.response will be Empty.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            body: The request body.
+            request_id: Optional. A tag that prevents multiple concurrent workflow instances with the same tag from
+                running. This mitigates risk of concurrent instances started due to retries.It is recommended to always
+                set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The tag must
+                contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is
+                40 characters.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_workflow_templates_instantiate_inline(
+                projects_id, regions_id, body, request_id=request_id, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_workflow_templates_list(
+        self,
+        projects_id: str,
+        regions_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListWorkflowTemplatesResponse:
+        """Lists workflows that match the specified filter in the request.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            page_size: Optional. The maximum number of results to return in each response.
+            page_token: Optional. The page token, returned by a previous call, to request the next page of results.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_workflow_templates_list(
+                projects_id, regions_id, page_size=page_size, page_token=page_token, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_workflow_templates_set_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        workflow_templates_id: str,
+        body: SetIamPolicyRequest | SetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_workflow_templates_set_iam_policy(
+                projects_id, regions_id, workflow_templates_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_workflow_templates_test_iam_permissions(
+        self,
+        projects_id: str,
+        regions_id: str,
+        workflow_templates_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> TestIamPermissionsResponse:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_workflow_templates_test_iam_permissions(
+                projects_id, regions_id, workflow_templates_id, body, request_options=request_options
+            ),
+        )
+
+    async def dataproc_projects_regions_workflow_templates_update(
+        self,
+        projects_id: str,
+        regions_id: str,
+        workflow_templates_id: str,
+        body: WorkflowTemplate | WorkflowTemplateDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> WorkflowTemplate:
+        """Updates (replaces) workflow template. The updated template must contain version that matches the current
+        server version.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.dataproc_projects_regions_workflow_templates_update(
+                projects_id, regions_id, workflow_templates_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_federations_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: Federation | FederationDict,
+        *,
+        federation_id: str | None = None,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Creates a metastore federation in a project and location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            federation_id: Required. The ID of the metastore federation, which is used as the final component of the
+                metastore federation's name.This value must be between 2 and 63 characters long inclusive, begin with a
+                letter, end with a letter or number, and consist of alpha-numeric ASCII characters or hyphens.
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_federations_create(
+                projects_id,
+                locations_id,
+                body,
+                federation_id=federation_id,
+                request_id=request_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_federations_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        federations_id: str,
+        *,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Deletes a single federation.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            federations_id: Resource name segment (federationsId).
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_federations_delete(
+                projects_id, locations_id, federations_id, request_id=request_id, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_federations_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        federations_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Federation:
+        """Gets the details of a single federation.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            federations_id: Resource name segment (federationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_federations_get(
+                projects_id, locations_id, federations_id, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_federations_get_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        federations_id: str,
+        *,
+        options_requested_policy_version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy2:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            federations_id: Resource name segment (federationsId).
+            options_requested_policy_version: Optional. The maximum policy version that will be used to format the
+                policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for
+                policies with any conditional role bindings must specify version 3. Policies with no conditional role
+                bindings may specify any valid value or leave the field unset.The policy in the response might use the
+                policy version that you specified, or it might use a lower policy version. For example, if you specify
+                version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which
+                resources support conditions in their IAM policies, see the IAM documentation
+                (https://cloud.google.com/iam/help/conditions/resource-policies).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_federations_get_iam_policy(
+                projects_id,
+                locations_id,
+                federations_id,
+                options_requested_policy_version=options_requested_policy_version,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_federations_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        filter_: str | None = None,
+        order_by: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListFederationsResponse:
+        """Lists federations in a project and location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            filter_: Optional. The filter to apply to list results.
+            order_by: Optional. Specify the ordering of results as described in Sorting Order
+                (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will
+                be sorted in the default order.
+            page_size: Optional. The maximum number of federations to return. The response may contain less than the
+                maximum number. If unspecified, no more than 500 services are returned. The maximum value is 1000;
+                values above 1000 are changed to 1000.
+            page_token: Optional. A page token, received from a previous ListFederationServices call. Provide this token
+                to retrieve the subsequent page.To retrieve the first page, supply an empty page token.When paginating,
+                other parameters provided to ListFederationServices must match the call that provided the page token.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_federations_list(
+                projects_id,
+                locations_id,
+                filter_=filter_,
+                order_by=order_by,
+                page_size=page_size,
+                page_token=page_token,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_federations_patch(
+        self,
+        projects_id: str,
+        locations_id: str,
+        federations_id: str,
+        body: Federation | FederationDict,
+        *,
+        request_id: str | None = None,
+        update_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Updates the fields of a federation.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            federations_id: Resource name segment (federationsId).
+            body: The request body.
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            update_mask: Required. A field mask used to specify the fields to be overwritten in the metastore federation
+                resource by the update. Fields specified in the update_mask are relative to the resource (not to the
+                full request). A field is overwritten if it is in the mask.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_federations_patch(
+                projects_id,
+                locations_id,
+                federations_id,
+                body,
+                request_id=request_id,
+                update_mask=update_mask,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_federations_set_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        federations_id: str,
+        body: SetIamPolicyRequest2 | SetIamPolicyRequest2Dict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy2:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            federations_id: Resource name segment (federationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_federations_set_iam_policy(
+                projects_id, locations_id, federations_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_federations_test_iam_permissions(
+        self,
+        projects_id: str,
+        locations_id: str,
+        federations_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> TestIamPermissionsResponse:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            federations_id: Resource name segment (federationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_federations_test_iam_permissions(
+                projects_id, locations_id, federations_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_get(
+        self, projects_id: str, locations_id: str, *, request_options: AsyncRequestOptionsOrDict | None = None
+    ) -> Location:
+        """Gets information about a location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_get(
+                projects_id, locations_id, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_list(
+        self,
+        projects_id: str,
+        *,
+        extra_location_types: list[str] | None = None,
+        filter_: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListLocationsResponse:
+        """Lists information about the supported locations for this service.This method lists locations based on the
+        resource scope provided in the ListLocationsRequest.name field: Global locations: If name is empty, the method
+        lists the public locations available to all projects. Project-specific locations: If name follows the format
+        projects/{project}, the method lists locations visible to that specific project. This includes public, private,
+        or other project-specific locations enabled for the project.For gRPC and client library implementations, the
+        resource name is passed as the name field. For direct service calls, the resource name is incorporated into the
+        request path based on the specific service implementation and version.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            extra_location_types: Optional. Do not use this field unless explicitly documented otherwise. This is
+                primarily for internal usage.
+            filter_: A filter to narrow down results to a preferred subset. The filtering language accepts strings like
+                "displayName=tokyo", and is documented in more detail in AIP-160 (https://google.aip.dev/160).
+            page_size: The maximum number of results to return. If not set, the service selects a default.
+            page_token: A page token received from the next_page_token field in the response. Send that page token to
+                receive the subsequent page.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_list(
+                projects_id,
+                extra_location_types=extra_location_types,
+                filter_=filter_,
+                page_size=page_size,
+                page_token=page_token,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_alter_location(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: AlterMetadataResourceLocationRequest | AlterMetadataResourceLocationRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Alter metadata resource location. The metadata resource can be a database, table, or partition. This
+        functionality only updates the parent directory for the respective metadata resource and does not transfer any
+        existing data to the new location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_alter_location(
+                projects_id, locations_id, services_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_alter_table_properties(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: AlterTablePropertiesRequest | AlterTablePropertiesRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Alter metadata table properties.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_alter_table_properties(
+                projects_id, locations_id, services_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_backups_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: Backup | BackupDict,
+        *,
+        backup_id: str | None = None,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Creates a new backup in a given project and location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            backup_id: Required. The ID of the backup, which is used as the final component of the backup's name.This
+                value must be between 1 and 64 characters long, begin with a letter, end with a letter or number, and
+                consist of alpha-numeric ASCII characters or hyphens.
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_backups_create(
+                projects_id,
+                locations_id,
+                services_id,
+                body,
+                backup_id=backup_id,
+                request_id=request_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_backups_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        backups_id: str,
+        *,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Deletes a single backup.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            backups_id: Resource name segment (backupsId).
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_backups_delete(
+                projects_id,
+                locations_id,
+                services_id,
+                backups_id,
+                request_id=request_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_backups_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        backups_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Backup:
+        """Gets details of a single backup.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            backups_id: Resource name segment (backupsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_backups_get(
+                projects_id, locations_id, services_id, backups_id, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_backups_get_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        backups_id: str,
+        *,
+        options_requested_policy_version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy2:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            backups_id: Resource name segment (backupsId).
+            options_requested_policy_version: Optional. The maximum policy version that will be used to format the
+                policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for
+                policies with any conditional role bindings must specify version 3. Policies with no conditional role
+                bindings may specify any valid value or leave the field unset.The policy in the response might use the
+                policy version that you specified, or it might use a lower policy version. For example, if you specify
+                version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which
+                resources support conditions in their IAM policies, see the IAM documentation
+                (https://cloud.google.com/iam/help/conditions/resource-policies).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_backups_get_iam_policy(
+                projects_id,
+                locations_id,
+                services_id,
+                backups_id,
+                options_requested_policy_version=options_requested_policy_version,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_backups_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        *,
+        filter_: str | None = None,
+        order_by: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListBackupsResponse:
+        """Lists backups in a service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            filter_: Optional. The filter to apply to list results.
+            order_by: Optional. Specify the ordering of results as described in Sorting Order
+                (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will
+                be sorted in the default order.
+            page_size: Optional. The maximum number of backups to return. The response may contain less than the maximum
+                number. If unspecified, no more than 500 backups are returned. The maximum value is 1000; values above
+                1000 are changed to 1000.
+            page_token: Optional. A page token, received from a previous DataprocMetastore.ListBackups call. Provide
+                this token to retrieve the subsequent page.To retrieve the first page, supply an empty page token.When
+                paginating, other parameters provided to DataprocMetastore.ListBackups must match the call that provided
+                the page token.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_backups_list(
+                projects_id,
+                locations_id,
+                services_id,
+                filter_=filter_,
+                order_by=order_by,
+                page_size=page_size,
+                page_token=page_token,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_backups_set_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        backups_id: str,
+        body: SetIamPolicyRequest2 | SetIamPolicyRequest2Dict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy2:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            backups_id: Resource name segment (backupsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_backups_set_iam_policy(
+                projects_id, locations_id, services_id, backups_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_cancel_migration(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: Any,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Cancels the ongoing Managed Migration process.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_cancel_migration(
+                projects_id, locations_id, services_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_complete_migration(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: Any,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Completes the managed migration process. The Dataproc Metastore service will switch to using its own backend
+        database after successful migration.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_complete_migration(
+                projects_id, locations_id, services_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: Service | ServiceDict,
+        *,
+        request_id: str | None = None,
+        service_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Creates a metastore service in a project and location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            service_id: Required. The ID of the metastore service, which is used as the final component of the metastore
+                service's name.This value must be between 2 and 63 characters long inclusive, begin with a letter, end
+                with a letter or number, and consist of alpha-numeric ASCII characters or hyphens.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_create(
+                projects_id,
+                locations_id,
+                body,
+                request_id=request_id,
+                service_id=service_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_databases_get_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        databases_id: str,
+        *,
+        options_requested_policy_version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy2:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            databases_id: Resource name segment (databasesId).
+            options_requested_policy_version: Optional. The maximum policy version that will be used to format the
+                policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for
+                policies with any conditional role bindings must specify version 3. Policies with no conditional role
+                bindings may specify any valid value or leave the field unset.The policy in the response might use the
+                policy version that you specified, or it might use a lower policy version. For example, if you specify
+                version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which
+                resources support conditions in their IAM policies, see the IAM documentation
+                (https://cloud.google.com/iam/help/conditions/resource-policies).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_databases_get_iam_policy(
+                projects_id,
+                locations_id,
+                services_id,
+                databases_id,
+                options_requested_policy_version=options_requested_policy_version,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_databases_set_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        databases_id: str,
+        body: SetIamPolicyRequest2 | SetIamPolicyRequest2Dict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy2:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            databases_id: Resource name segment (databasesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_databases_set_iam_policy(
+                projects_id, locations_id, services_id, databases_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_databases_tables_get_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        databases_id: str,
+        tables_id: str,
+        *,
+        options_requested_policy_version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy2:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            databases_id: Resource name segment (databasesId).
+            tables_id: Resource name segment (tablesId).
+            options_requested_policy_version: Optional. The maximum policy version that will be used to format the
+                policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for
+                policies with any conditional role bindings must specify version 3. Policies with no conditional role
+                bindings may specify any valid value or leave the field unset.The policy in the response might use the
+                policy version that you specified, or it might use a lower policy version. For example, if you specify
+                version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which
+                resources support conditions in their IAM policies, see the IAM documentation
+                (https://cloud.google.com/iam/help/conditions/resource-policies).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_databases_tables_get_iam_policy(
+                projects_id,
+                locations_id,
+                services_id,
+                databases_id,
+                tables_id,
+                options_requested_policy_version=options_requested_policy_version,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_databases_tables_set_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        databases_id: str,
+        tables_id: str,
+        body: SetIamPolicyRequest2 | SetIamPolicyRequest2Dict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy2:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            databases_id: Resource name segment (databasesId).
+            tables_id: Resource name segment (tablesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_databases_tables_set_iam_policy(
+                projects_id, locations_id, services_id, databases_id, tables_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        *,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Deletes a single service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_delete(
+                projects_id, locations_id, services_id, request_id=request_id, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_export_metadata(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: ExportMetadataRequest | ExportMetadataRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Exports metadata from a service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_export_metadata(
+                projects_id, locations_id, services_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Service:
+        """Gets the details of a single service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_get(
+                projects_id, locations_id, services_id, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_get_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        *,
+        options_requested_policy_version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy2:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            options_requested_policy_version: Optional. The maximum policy version that will be used to format the
+                policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for
+                policies with any conditional role bindings must specify version 3. Policies with no conditional role
+                bindings may specify any valid value or leave the field unset.The policy in the response might use the
+                policy version that you specified, or it might use a lower policy version. For example, if you specify
+                version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which
+                resources support conditions in their IAM policies, see the IAM documentation
+                (https://cloud.google.com/iam/help/conditions/resource-policies).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_get_iam_policy(
+                projects_id,
+                locations_id,
+                services_id,
+                options_requested_policy_version=options_requested_policy_version,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        filter_: str | None = None,
+        order_by: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListServicesResponse:
+        """Lists services in a project and location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            filter_: Optional. The filter to apply to list results.
+            order_by: Optional. Specify the ordering of results as described in Sorting Order
+                (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will
+                be sorted in the default order.
+            page_size: Optional. The maximum number of services to return. The response may contain less than the
+                maximum number. If unspecified, no more than 500 services are returned. The maximum value is 1000;
+                values above 1000 are changed to 1000.
+            page_token: Optional. A page token, received from a previous DataprocMetastore.ListServices call. Provide
+                this token to retrieve the subsequent page.To retrieve the first page, supply an empty page token.When
+                paginating, other parameters provided to DataprocMetastore.ListServices must match the call that
+                provided the page token.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_list(
+                projects_id,
+                locations_id,
+                filter_=filter_,
+                order_by=order_by,
+                page_size=page_size,
+                page_token=page_token,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_metadata_imports_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: MetadataImport | MetadataImportDict,
+        *,
+        metadata_import_id: str | None = None,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Creates a new MetadataImport in a given project and location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            metadata_import_id: Required. The ID of the metadata import, which is used as the final component of the
+                metadata import's name.This value must be between 1 and 64 characters long, begin with a letter, end
+                with a letter or number, and consist of alpha-numeric ASCII characters or hyphens.
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_metadata_imports_create(
+                projects_id,
+                locations_id,
+                services_id,
+                body,
+                metadata_import_id=metadata_import_id,
+                request_id=request_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_metadata_imports_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        metadata_imports_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> MetadataImport:
+        """Gets details of a single import.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            metadata_imports_id: Resource name segment (metadataImportsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_metadata_imports_get(
+                projects_id, locations_id, services_id, metadata_imports_id, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_metadata_imports_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        *,
+        filter_: str | None = None,
+        order_by: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListMetadataImportsResponse:
+        """Lists imports in a service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            filter_: Optional. The filter to apply to list results.
+            order_by: Optional. Specify the ordering of results as described in Sorting Order
+                (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will
+                be sorted in the default order.
+            page_size: Optional. The maximum number of imports to return. The response may contain less than the maximum
+                number. If unspecified, no more than 500 imports are returned. The maximum value is 1000; values above
+                1000 are changed to 1000.
+            page_token: Optional. A page token, received from a previous DataprocMetastore.ListServices call. Provide
+                this token to retrieve the subsequent page.To retrieve the first page, supply an empty page token.When
+                paginating, other parameters provided to DataprocMetastore.ListServices must match the call that
+                provided the page token.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_metadata_imports_list(
+                projects_id,
+                locations_id,
+                services_id,
+                filter_=filter_,
+                order_by=order_by,
+                page_size=page_size,
+                page_token=page_token,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_metadata_imports_patch(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        metadata_imports_id: str,
+        body: MetadataImport | MetadataImportDict,
+        *,
+        request_id: str | None = None,
+        update_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Updates a single import. Only the description field of MetadataImport is supported to be updated.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            metadata_imports_id: Resource name segment (metadataImportsId).
+            body: The request body.
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            update_mask: Required. A field mask used to specify the fields to be overwritten in the metadata import
+                resource by the update. Fields specified in the update_mask are relative to the resource (not to the
+                full request). A field is overwritten if it is in the mask.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_metadata_imports_patch(
+                projects_id,
+                locations_id,
+                services_id,
+                metadata_imports_id,
+                body,
+                request_id=request_id,
+                update_mask=update_mask,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_migration_executions_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        migration_executions_id: str,
+        *,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Deletes a single migration execution.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            migration_executions_id: Resource name segment (migrationExecutionsId).
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_migration_executions_delete(
+                projects_id,
+                locations_id,
+                services_id,
+                migration_executions_id,
+                request_id=request_id,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_migration_executions_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        migration_executions_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> MigrationExecution:
+        """Gets details of a single migration execution.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            migration_executions_id: Resource name segment (migrationExecutionsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_migration_executions_get(
+                projects_id, locations_id, services_id, migration_executions_id, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_migration_executions_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        *,
+        filter_: str | None = None,
+        order_by: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ListMigrationExecutionsResponse:
+        """Lists migration executions on a service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            filter_: Optional. The filter to apply to list results.
+            order_by: Optional. Specify the ordering of results as described in Sorting Order
+                (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will
+                be sorted in the default order.
+            page_size: Optional. The maximum number of migration executions to return. The response may contain less
+                than the maximum number. If unspecified, no more than 500 migration executions are returned. The maximum
+                value is 1000; values above 1000 are changed to 1000.
+            page_token: Optional. A page token, received from a previous DataprocMetastore.ListMigrationExecutions call.
+                Provide this token to retrieve the subsequent page.To retrieve the first page, supply an empty page
+                token.When paginating, other parameters provided to DataprocMetastore.ListMigrationExecutions must match
+                the call that provided the page token.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_migration_executions_list(
+                projects_id,
+                locations_id,
+                services_id,
+                filter_=filter_,
+                order_by=order_by,
+                page_size=page_size,
+                page_token=page_token,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_move_table_to_database(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: MoveTableToDatabaseRequest | MoveTableToDatabaseRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Move a table to another database.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_move_table_to_database(
+                projects_id, locations_id, services_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_patch(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: Service | ServiceDict,
+        *,
+        request_id: str | None = None,
+        update_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Updates the parameters of a single service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            update_mask: Required. A field mask used to specify the fields to be overwritten in the metastore service
+                resource by the update. Fields specified in the update_mask are relative to the resource (not to the
+                full request). A field is overwritten if it is in the mask.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_patch(
+                projects_id,
+                locations_id,
+                services_id,
+                body,
+                request_id=request_id,
+                update_mask=update_mask,
+                request_options=request_options,
+            ),
+        )
+
+    async def metastore_projects_locations_services_query_metadata(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: QueryMetadataRequest | QueryMetadataRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Query Dataproc Metastore metadata.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_query_metadata(
+                projects_id, locations_id, services_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_restore(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: RestoreServiceRequest | RestoreServiceRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Restores a service from a backup.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_restore(
+                projects_id, locations_id, services_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_set_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: SetIamPolicyRequest2 | SetIamPolicyRequest2Dict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Policy2:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_set_iam_policy(
+                projects_id, locations_id, services_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_start_migration(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: StartMigrationRequest | StartMigrationRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> Operation:
+        """Starts the Managed Migration process.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_start_migration(
+                projects_id, locations_id, services_id, body, request_options=request_options
+            ),
+        )
+
+    async def metastore_projects_locations_services_test_iam_permissions(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> TestIamPermissionsResponse:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Successful response
+
+        Raises:
+            ApiError: Client error (google.rpc.Status: INVALID_ARGUMENT, PERMISSION_DENIED, NOT_FOUND ...) ``error`` is
+                ``GoogleRpcError | RawError``."""
+        return unwrap(
+            await self.with_raw_response.metastore_projects_locations_services_test_iam_permissions(
+                projects_id, locations_id, services_id, body, request_options=request_options
+            ),
+        )
+
+    async def aclose(self) -> None:
+        await self._raw_client.http_client.aclose()
+
+    async def __aenter__(self) -> Self:
+        return self
+
+    async def __aexit__(
+        self, exc_type: type[BaseException] | None, exc: BaseException | None, exc_tb: TracebackType | None
+    ) -> None:
+        await self.aclose()
+
+
+class AsyncApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, AsyncAuthSchemes]):
+    async def dataproc_projects_locations_autoscaling_policies_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: AutoscalingPolicy | AutoscalingPolicyDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[AutoscalingPolicy, DataprocProjectsLocationsAutoscalingPoliciesCreateErrorBody]:
+        """Creates new autoscaling policy.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/autoscalingPolicies"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[AutoscalingPolicy | AutoscalingPolicyDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AutoscalingPolicy],
+            error_mapper=dataproc_projects_locations_autoscaling_policies_create_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_autoscaling_policies_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        autoscaling_policies_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Any, DataprocProjectsLocationsAutoscalingPoliciesDeleteErrorBody]:
+        """Deletes an autoscaling policy. It is an error to delete an autoscaling policy that is in use by one or more
+        clusters.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="DELETE",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/autoscalingPolicies/{autoscalingPoliciesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("autoscalingPoliciesId", autoscaling_policies_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Any],
+            error_mapper=dataproc_projects_locations_autoscaling_policies_delete_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_autoscaling_policies_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        autoscaling_policies_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[AutoscalingPolicy, DataprocProjectsLocationsAutoscalingPoliciesGetErrorBody]:
+        """Retrieves autoscaling policy.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/autoscalingPolicies/{autoscalingPoliciesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("autoscalingPoliciesId", autoscaling_policies_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AutoscalingPolicy],
+            error_mapper=dataproc_projects_locations_autoscaling_policies_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_autoscaling_policies_get_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        autoscaling_policies_id: str,
+        body: GetIamPolicyRequest | GetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy, DataprocProjectsLocationsAutoscalingPoliciesGetIamPolicyErrorBody]:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/autoscalingPolicies/{autoscalingPoliciesId}:getIamPolicy",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("autoscalingPoliciesId", autoscaling_policies_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[GetIamPolicyRequest | GetIamPolicyRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy],
+            error_mapper=dataproc_projects_locations_autoscaling_policies_get_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_autoscaling_policies_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListAutoscalingPoliciesResponse, DataprocProjectsLocationsAutoscalingPoliciesListErrorBody]:
+        """Lists autoscaling policies in the project.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            page_size: Optional. The maximum number of results to return in each response. Must be less than or equal to
+                1000. Defaults to 100.
+            page_token: Optional. The page token, returned by a previous call, to request the next page of results.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/autoscalingPolicies"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            query_params=[param[int | None]("pageSize", page_size), param[str | None]("pageToken", page_token)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListAutoscalingPoliciesResponse],
+            error_mapper=dataproc_projects_locations_autoscaling_policies_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_autoscaling_policies_set_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        autoscaling_policies_id: str,
+        body: SetIamPolicyRequest | SetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy, DataprocProjectsLocationsAutoscalingPoliciesSetIamPolicyErrorBody]:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/autoscalingPolicies/{autoscalingPoliciesId}:setIamPolicy",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("autoscalingPoliciesId", autoscaling_policies_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SetIamPolicyRequest | SetIamPolicyRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy],
+            error_mapper=dataproc_projects_locations_autoscaling_policies_set_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_autoscaling_policies_test_iam_permissions(
+        self,
+        projects_id: str,
+        locations_id: str,
+        autoscaling_policies_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[TestIamPermissionsResponse, DataprocProjectsLocationsAutoscalingPoliciesTestIamPermissionsErrorBody]:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/autoscalingPolicies/{autoscalingPoliciesId}:testIamPermissions",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("autoscalingPoliciesId", autoscaling_policies_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[TestIamPermissionsRequest | TestIamPermissionsRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[TestIamPermissionsResponse],
+            error_mapper=dataproc_projects_locations_autoscaling_policies_test_iam_permissions_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_autoscaling_policies_update(
+        self,
+        projects_id: str,
+        locations_id: str,
+        autoscaling_policies_id: str,
+        body: AutoscalingPolicy | AutoscalingPolicyDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[AutoscalingPolicy, DataprocProjectsLocationsAutoscalingPoliciesUpdateErrorBody]:
+        """Updates (replaces) autoscaling policy.Disabled check for update_mask, because all updates will be full
+        replacements.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="PUT",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/autoscalingPolicies/{autoscalingPoliciesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("autoscalingPoliciesId", autoscaling_policies_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[AutoscalingPolicy | AutoscalingPolicyDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AutoscalingPolicy],
+            error_mapper=dataproc_projects_locations_autoscaling_policies_update_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_analyze(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        body: AnalyzeBatchRequest | AnalyzeBatchRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsLocationsBatchesAnalyzeErrorBody]:
+        """Analyze a Batch for possible recommendations and insights.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}:analyze"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[AnalyzeBatchRequest | AnalyzeBatchRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_locations_batches_analyze_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: Batch | BatchDict,
+        *,
+        batch_id: str | None = None,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsLocationsBatchesCreateErrorBody]:
+        """Creates a batch workload that executes asynchronously.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            batch_id: Optional. The ID to use for the batch, which will become the final component of the batch's
+                resource name.This value must be 4-63 characters. Valid characters are /[a-z][0-9]-/.
+            request_id: Optional. A unique ID used to identify the request. If the service receives two
+                CreateBatchRequests with the same request_id, the second request is ignored and the operation that
+                corresponds to the first Batch created and stored in the backend is returned.Recommendation: Set this
+                value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain
+                only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40
+                characters.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/batches"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            query_params=[param[str | None]("batchId", batch_id), param[str | None]("requestId", request_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[Batch | BatchDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_locations_batches_create_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Any, DataprocProjectsLocationsBatchesDeleteErrorBody]:
+        """Deletes the batch workload resource. If the batch is not in a CANCELLED, SUCCEEDED or FAILED State, the
+        delete operation fails and the response returns FAILED_PRECONDITION.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="DELETE",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}"),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Any],
+            error_mapper=dataproc_projects_locations_batches_delete_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Batch, DataprocProjectsLocationsBatchesGetErrorBody]:
+        """Gets the batch workload resource representation.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}"),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Batch],
+            error_mapper=dataproc_projects_locations_batches_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        filter_: str | None = None,
+        order_by: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListBatchesResponse, DataprocProjectsLocationsBatchesListErrorBody]:
+        """Lists batch workloads.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            filter_: Optional. A filter for the batches to return in the response.A filter is a logical expression
+                constraining the values of various fields in each batch resource. Filters are case sensitive, and may
+                contain multiple clauses combined with logical operators (AND/OR). Supported fields: * batch_id *
+                batch_uuid * state * create_time * labels * runtime_info.cohort_info.cohort e.g. state = RUNNING and
+                create_time < "2023-01-01T00:00:00Z" filters for batches in state RUNNING that were created before
+                2023-01-01. state = RUNNING and labels.environment=production filters for batches in state in a RUNNING
+                state that have a production environment label.See https://google.aip.dev/assets/misc/ebnf-filtering.txt
+                for a detailed description of the filter syntax and a list of supported comparisons.
+            order_by: Optional. Field(s) on which to sort the list of batches.Currently the only supported sort orders
+                are unspecified (empty) and create_time desc to sort by most recently created batches first.See
+                https://google.aip.dev/132#ordering for more details.
+            page_size: Optional. The maximum number of batches to return in each response. The service may return fewer
+                than this value. The default page size is 20; the maximum page size is 1000.
+            page_token: Optional. A page token received from a previous ListBatches call. Provide this token to retrieve
+                the subsequent page.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/batches"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            query_params=[
+                param[str | None]("filter", filter_),
+                param[str | None]("orderBy", order_by),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListBatchesResponse],
+            error_mapper=dataproc_projects_locations_batches_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[AccessSparkApplicationResponse, DataprocProjectsLocationsBatchesSparkApplicationsAccessErrorBody]:
+        """Obtain high level information corresponding to a single Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:access",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSparkApplicationResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_access_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_environment_info(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSparkApplicationEnvironmentInfoResponse,
+        DataprocProjectsLocationsBatchesSparkApplicationsAccessEnvironmentInfoErrorBody,
+    ]:
+        """Obtain environment details for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:accessEnvironmentInfo",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSparkApplicationEnvironmentInfoResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_access_environment_info_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_job(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        job_id: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSparkApplicationJobResponse, DataprocProjectsLocationsBatchesSparkApplicationsAccessJobErrorBody
+    ]:
+        """Obtain data corresponding to a spark job for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            job_id: Required. Job ID to fetch data for.
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:accessJob",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("jobId", job_id), param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSparkApplicationJobResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_access_job_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_native_build_info(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSparkApplicationNativeBuildInfoResponse,
+        DataprocProjectsLocationsBatchesSparkApplicationsAccessNativeBuildInfoErrorBody,
+    ]:
+        """Obtain build data for Native Job
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:accessNativeBuildInfo",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSparkApplicationNativeBuildInfoResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_access_native_build_info_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_native_sql_query(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        execution_id: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSparkApplicationNativeSqlQueryResponse,
+        DataprocProjectsLocationsBatchesSparkApplicationsAccessNativeSqlQueryErrorBody,
+    ]:
+        """Obtain data corresponding to a particular Native SQL Query for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            execution_id: Required. Execution ID
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:accessNativeSqlQuery",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("executionId", execution_id), param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSparkApplicationNativeSqlQueryResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_access_native_sql_query_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_sql_plan(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        execution_id: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSparkApplicationSqlSparkPlanGraphResponse,
+        DataprocProjectsLocationsBatchesSparkApplicationsAccessSqlPlanErrorBody,
+    ]:
+        """Obtain Spark Plan Graph for a Spark Application SQL execution. Limits the number of clusters returned as part
+        of the graph to 10000.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            execution_id: Required. Execution ID
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:accessSqlPlan",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("executionId", execution_id), param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSparkApplicationSqlSparkPlanGraphResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_access_sql_plan_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_sql_query(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        details: bool | None = None,
+        execution_id: str | None = None,
+        parent: str | None = None,
+        plan_description: bool | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSparkApplicationSqlQueryResponse, DataprocProjectsLocationsBatchesSparkApplicationsAccessSqlQueryErrorBody
+    ]:
+        """Obtain data corresponding to a particular SQL Query for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            details: Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide.
+            execution_id: Required. Execution ID
+            parent: Required. Parent (Batch) resource reference.
+            plan_description: Optional. Enables/ disables physical plan description on demand
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:accessSqlQuery",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[bool | None]("details", details),
+                param[str | None]("executionId", execution_id),
+                param[str | None]("parent", parent),
+                param[bool | None]("planDescription", plan_description),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSparkApplicationSqlQueryResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_access_sql_query_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_stage_attempt(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        summary_metrics_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSparkApplicationStageAttemptResponse,
+        DataprocProjectsLocationsBatchesSparkApplicationsAccessStageAttemptErrorBody,
+    ]:
+        """Obtain data corresponding to a spark stage attempt for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            stage_attempt_id: Required. Stage Attempt ID
+            stage_id: Required. Stage ID
+            summary_metrics_mask: Optional. The list of summary metrics fields to include. Empty list will default to
+                skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the
+                request should have task_quantile_metrics in summary_metrics_mask field
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:accessStageAttempt",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[str | None]("parent", parent),
+                param[int | None]("stageAttemptId", stage_attempt_id),
+                param[str | None]("stageId", stage_id),
+                param[str | None]("summaryMetricsMask", summary_metrics_mask),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSparkApplicationStageAttemptResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_access_stage_attempt_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_access_stage_rdd_graph(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        stage_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSparkApplicationStageRddOperationGraphResponse,
+        DataprocProjectsLocationsBatchesSparkApplicationsAccessStageRddGraphErrorBody,
+    ]:
+        """Obtain RDD operation graph for a Spark Application Stage. Limits the number of clusters returned as part of
+        the graph to 10000.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            stage_id: Required. Stage ID
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:accessStageRddGraph",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("parent", parent), param[str | None]("stageId", stage_id)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSparkApplicationStageRddOperationGraphResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_access_stage_rdd_graph_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_compute_tuning_config(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        execution_id: str | None = None,
+        parent: str | None = None,
+        semantic_query_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        ComputeTuningConfigResponse, DataprocProjectsLocationsBatchesSparkApplicationsComputeTuningConfigErrorBody
+    ]:
+        """Returns autotuning configuration for a specific query plan id and cohort id. Called by Spark during query
+        planning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            execution_id: Required. Spark execution ID for the query.
+            parent: Required. Parent (Batch) resource reference.
+            semantic_query_id: Required. Spark semantic query ID.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:computeTuningConfig",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[str | None]("executionId", execution_id),
+                param[str | None]("parent", parent),
+                param[str | None]("semanticQueryId", semantic_query_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ComputeTuningConfigResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_compute_tuning_config_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        *,
+        application_status: ApplicationStatusOrStr | None = None,
+        max_end_time: str | None = None,
+        max_time: str | None = None,
+        min_end_time: str | None = None,
+        min_time: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[SearchSparkApplicationsResponse, DataprocProjectsLocationsBatchesSparkApplicationsSearchErrorBody]:
+        """Obtain high level information and list of Spark Applications corresponding to a batch
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            application_status: Optional. Search only applications in the chosen state.
+            max_end_time: Optional. Latest end timestamp to list.
+            max_time: Optional. Latest start timestamp to list.
+            min_end_time: Optional. Earliest end timestamp to list.
+            min_time: Optional. Earliest start timestamp to list.
+            page_size: Optional. Maximum number of applications to return in each response. The service may return fewer
+                than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSparkApplications call. Provide this token
+                to retrieve the subsequent page.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications:search"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+            ],
+            query_params=[
+                param[ApplicationStatusOrStr | None]("applicationStatus", application_status),
+                param[str | None]("maxEndTime", max_end_time),
+                param[str | None]("maxTime", max_time),
+                param[str | None]("minEndTime", min_end_time),
+                param[str | None]("minTime", min_time),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSparkApplicationsResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_search_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_executor_stage_summary(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSparkApplicationExecutorStageSummaryResponse,
+        DataprocProjectsLocationsBatchesSparkApplicationsSearchExecutorStageSummaryErrorBody,
+    ]:
+        """Obtain executor summary with respect to a spark stage attempt.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of executors to return in each response. The service may return fewer
+                than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous AccessSparkApplicationExecutorsList call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            stage_attempt_id: Required. Stage Attempt ID
+            stage_id: Required. Stage ID
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:searchExecutorStageSummary",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+                param[int | None]("stageAttemptId", stage_attempt_id),
+                param[str | None]("stageId", stage_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSparkApplicationExecutorStageSummaryResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_search_executor_stage_summary_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_executors(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        executor_status: ExecutorStatusOrStr | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSparkApplicationExecutorsResponse,
+        DataprocProjectsLocationsBatchesSparkApplicationsSearchExecutorsErrorBody,
+    ]:
+        """Obtain data corresponding to executors for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            executor_status: Optional. Filter to select whether active/ dead or all executors should be selected.
+            page_size: Optional. Maximum number of executors to return in each response. The service may return fewer
+                than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous AccessSparkApplicationExecutorsList call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:searchExecutors",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[ExecutorStatusOrStr | None]("executorStatus", executor_status),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSparkApplicationExecutorsResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_search_executors_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_jobs(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        job_status: JobStatus2OrStr | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSparkApplicationJobsResponse, DataprocProjectsLocationsBatchesSparkApplicationsSearchJobsErrorBody
+    ]:
+        """Obtain list of spark jobs corresponding to a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            job_status: Optional. List only jobs in the specific state.
+            page_size: Optional. Maximum number of jobs to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSparkApplicationJobs call. Provide this
+                token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:searchJobs",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[JobStatus2OrStr | None]("jobStatus", job_status),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSparkApplicationJobsResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_search_jobs_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_native_sql_queries(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSparkApplicationNativeSqlQueriesResponse,
+        DataprocProjectsLocationsBatchesSparkApplicationsSearchNativeSqlQueriesErrorBody,
+    ]:
+        """Obtain data corresponding to Native SQL Queries for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of queries to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSparkApplicationNativeSqlQueries call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:searchNativeSqlQueries",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSparkApplicationNativeSqlQueriesResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_search_native_sql_queries_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_sql_queries(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        details: bool | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        plan_description: bool | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSparkApplicationSqlQueriesResponse,
+        DataprocProjectsLocationsBatchesSparkApplicationsSearchSqlQueriesErrorBody,
+    ]:
+        """Obtain data corresponding to SQL Queries for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            details: Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide.
+            page_size: Optional. Maximum number of queries to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSparkApplicationSqlQueries call. Provide
+                this token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            plan_description: Optional. Enables/ disables physical plan description on demand
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:searchSqlQueries",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[bool | None]("details", details),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+                param[bool | None]("planDescription", plan_description),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSparkApplicationSqlQueriesResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_search_sql_queries_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_stage_attempt_tasks(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        sort_runtime: bool | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        task_status: TaskStatusOrStr | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSparkApplicationStageAttemptTasksResponse,
+        DataprocProjectsLocationsBatchesSparkApplicationsSearchStageAttemptTasksErrorBody,
+    ]:
+        """Obtain data corresponding to tasks for a spark stage attempt for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of tasks to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous ListSparkApplicationStageAttemptTasks call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            sort_runtime: Optional. Sort the tasks by runtime.
+            stage_attempt_id: Optional. Stage Attempt ID
+            stage_id: Optional. Stage ID
+            task_status: Optional. List only tasks in the state.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:searchStageAttemptTasks",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+                param[bool | None]("sortRuntime", sort_runtime),
+                param[int | None]("stageAttemptId", stage_attempt_id),
+                param[str | None]("stageId", stage_id),
+                param[TaskStatusOrStr | None]("taskStatus", task_status),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSparkApplicationStageAttemptTasksResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_search_stage_attempt_tasks_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_stage_attempts(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        stage_id: str | None = None,
+        summary_metrics_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSparkApplicationStageAttemptsResponse,
+        DataprocProjectsLocationsBatchesSparkApplicationsSearchStageAttemptsErrorBody,
+    ]:
+        """Obtain data corresponding to a spark stage attempts for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of stage attempts (paging based on stage_attempt_id) to return in each
+                response. The service may return fewer than this. The default page size is 10; the maximum page size is
+                100.
+            page_token: Optional. A page token received from a previous SearchSparkApplicationStageAttempts call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            stage_id: Required. Stage ID for which attempts are to be fetched
+            summary_metrics_mask: Optional. The list of summary metrics fields to include. Empty list will default to
+                skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the
+                request should have task_quantile_metrics in summary_metrics_mask field
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:searchStageAttempts",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+                param[str | None]("stageId", stage_id),
+                param[str | None]("summaryMetricsMask", summary_metrics_mask),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSparkApplicationStageAttemptsResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_search_stage_attempts_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_search_stages(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        stage_status: StageStatusOrStr | None = None,
+        summary_metrics_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSparkApplicationStagesResponse, DataprocProjectsLocationsBatchesSparkApplicationsSearchStagesErrorBody
+    ]:
+        """Obtain data corresponding to stages for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of stages (paging based on stage_id) to return in each response. The
+                service may return fewer than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous FetchSparkApplicationStagesList call. Provide
+                this token to retrieve the subsequent page.
+            parent: Required. Parent (Batch) resource reference.
+            stage_status: Optional. List only stages in the given state.
+            summary_metrics_mask: Optional. The list of summary metrics fields to include. Empty list will default to
+                skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the
+                request should have task_quantile_metrics in summary_metrics_mask field
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:searchStages",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+                param[StageStatusOrStr | None]("stageStatus", stage_status),
+                param[str | None]("summaryMetricsMask", summary_metrics_mask),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSparkApplicationStagesResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_search_stages_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_summarize_executors(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SummarizeSparkApplicationExecutorsResponse,
+        DataprocProjectsLocationsBatchesSparkApplicationsSummarizeExecutorsErrorBody,
+    ]:
+        """Obtain summary of Executor Summary for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:summarizeExecutors",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SummarizeSparkApplicationExecutorsResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_summarize_executors_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_summarize_jobs(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SummarizeSparkApplicationJobsResponse, DataprocProjectsLocationsBatchesSparkApplicationsSummarizeJobsErrorBody
+    ]:
+        """Obtain summary of Jobs for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:summarizeJobs",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SummarizeSparkApplicationJobsResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_summarize_jobs_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_summarize_stage_attempt_tasks(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SummarizeSparkApplicationStageAttemptTasksResponse,
+        DataprocProjectsLocationsBatchesSparkApplicationsSummarizeStageAttemptTasksErrorBody,
+    ]:
+        """Obtain summary of Tasks for a Spark Application Stage Attempt
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            stage_attempt_id: Required. Stage Attempt ID
+            stage_id: Required. Stage ID
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:summarizeStageAttemptTasks",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[str | None]("parent", parent),
+                param[int | None]("stageAttemptId", stage_attempt_id),
+                param[str | None]("stageId", stage_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SummarizeSparkApplicationStageAttemptTasksResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_summarize_stage_attempt_tasks_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_summarize_stages(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SummarizeSparkApplicationStagesResponse,
+        DataprocProjectsLocationsBatchesSparkApplicationsSummarizeStagesErrorBody,
+    ]:
+        """Obtain summary of Stages for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Batch) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:summarizeStages",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SummarizeSparkApplicationStagesResponse],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_summarize_stages_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_batches_spark_applications_write(
+        self,
+        projects_id: str,
+        locations_id: str,
+        batches_id: str,
+        spark_applications_id: str,
+        body: WriteSparkApplicationContextRequest | WriteSparkApplicationContextRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Any, DataprocProjectsLocationsBatchesSparkApplicationsWriteErrorBody]:
+        """Write wrapper objects from dataplane to spanner
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            batches_id: Resource name segment (batchesId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/batches/{batchesId}/sparkApplications/{sparkApplicationsId}:write",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("batchesId", batches_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[WriteSparkApplicationContextRequest | WriteSparkApplicationContextRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Any],
+            error_mapper=dataproc_projects_locations_batches_spark_applications_write_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_operations_cancel(
+        self,
+        projects_id: str,
+        locations_id: str,
+        operations_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Any, DataprocProjectsLocationsOperationsCancelErrorBody]:
+        """Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the
+        operation, but success is not guaranteed. If the server doesn't support this method, it returns
+        google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the
+        cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the
+        operation is not deleted; instead, it becomes an operation with an Operation.error value with a
+        google.rpc.Status.code of 1, corresponding to Code.CANCELLED.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            operations_id: Resource name segment (operationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("operationsId", operations_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Any],
+            error_mapper=dataproc_projects_locations_operations_cancel_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_operations_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        operations_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Any, DataprocProjectsLocationsOperationsDeleteErrorBody]:
+        """Deletes a long-running operation. This method indicates that the client is no longer interested in the
+        operation result. It does not cancel the operation. If the server doesn't support this method, it returns
+        google.rpc.Code.UNIMPLEMENTED.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            operations_id: Resource name segment (operationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="DELETE",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("operationsId", operations_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Any],
+            error_mapper=dataproc_projects_locations_operations_delete_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_operations_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        operations_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsLocationsOperationsGetErrorBody]:
+        """Gets the latest state of a long-running operation. Clients can use this method to poll the operation result
+        at intervals as recommended by the API service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            operations_id: Resource name segment (operationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("operationsId", operations_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_locations_operations_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_operations_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        filter_: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        return_partial_success: bool | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListOperationsResponse, DataprocProjectsLocationsOperationsListErrorBody]:
+        """Lists operations that match the specified filter in the request. If the server doesn't support this method,
+        it returns UNIMPLEMENTED.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            filter_: The standard list filter.
+            page_size: The standard list page size.
+            page_token: The standard list page token.
+            return_partial_success: When set to true, operations that are reachable are returned as normal, and those
+                that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true
+                when reading across collections. For example, when parent is set to "projects/example/locations/-".This
+                field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly
+                documented otherwise in service or product specific documentation.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/operations"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            query_params=[
+                param[str | None]("filter", filter_),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[bool | None]("returnPartialSuccess", return_partial_success),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListOperationsResponse],
+            error_mapper=dataproc_projects_locations_operations_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_session_templates_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: SessionTemplate | SessionTemplateDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[SessionTemplate, DataprocProjectsLocationsSessionTemplatesCreateErrorBody]:
+        """Create a session template synchronously.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/sessionTemplates"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SessionTemplate | SessionTemplateDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SessionTemplate],
+            error_mapper=dataproc_projects_locations_session_templates_create_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_session_templates_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        session_templates_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Any, DataprocProjectsLocationsSessionTemplatesDeleteErrorBody]:
+        """Deletes a session template.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            session_templates_id: Resource name segment (sessionTemplatesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="DELETE",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessionTemplates/{sessionTemplatesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionTemplatesId", session_templates_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Any],
+            error_mapper=dataproc_projects_locations_session_templates_delete_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_session_templates_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        session_templates_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[SessionTemplate, DataprocProjectsLocationsSessionTemplatesGetErrorBody]:
+        """Gets the resource representation for a session template.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            session_templates_id: Resource name segment (sessionTemplatesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessionTemplates/{sessionTemplatesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionTemplatesId", session_templates_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SessionTemplate],
+            error_mapper=dataproc_projects_locations_session_templates_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_session_templates_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        filter_: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListSessionTemplatesResponse, DataprocProjectsLocationsSessionTemplatesListErrorBody]:
+        """Lists session templates.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            filter_: Optional. A filter for the session templates to return in the response. Filters are case sensitive
+                and have the following syntax:field = value AND field = value ...
+            page_size: Optional. The maximum number of sessions to return in each response. The service may return fewer
+                than this value.
+            page_token: Optional. A page token received from a previous ListSessions call. Provide this token to
+                retrieve the subsequent page.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/sessionTemplates"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            query_params=[
+                param[str | None]("filter", filter_),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListSessionTemplatesResponse],
+            error_mapper=dataproc_projects_locations_session_templates_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_session_templates_patch(
+        self,
+        projects_id: str,
+        locations_id: str,
+        session_templates_id: str,
+        body: SessionTemplate | SessionTemplateDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[SessionTemplate, DataprocProjectsLocationsSessionTemplatesPatchErrorBody]:
+        """Updates the session template synchronously.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            session_templates_id: Resource name segment (sessionTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="PATCH",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessionTemplates/{sessionTemplatesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionTemplatesId", session_templates_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SessionTemplate | SessionTemplateDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SessionTemplate],
+            error_mapper=dataproc_projects_locations_session_templates_patch_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: Session | SessionDict,
+        *,
+        request_id: str | None = None,
+        session_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsLocationsSessionsCreateErrorBody]:
+        """Create an interactive session asynchronously.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            request_id: Optional. A unique ID used to identify the request. If the service receives two
+                CreateSessionRequests
+                (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateSessionRequest)s
+                with the same ID, the second request is ignored, and the first Session is created and stored in the
+                backend.Recommendation: Set this value to a UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z,
+                A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters.
+            session_id: Required. The ID to use for the session, which becomes the final component of the session's
+                resource name.This value must be 4-63 characters. Valid characters are /a-z-/.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/sessions"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            query_params=[param[str | None]("requestId", request_id), param[str | None]("sessionId", session_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[Session | SessionDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_locations_sessions_create_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        *,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsLocationsSessionsDeleteErrorBody]:
+        """Deletes the interactive session resource. If the session is not in terminal state, it is terminated, and then
+        deleted.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            request_id: Optional. A unique ID used to identify the request. If the service receives two
+                DeleteSessionRequest
+                (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.DeleteSessionRequest)s
+                with the same ID, the second request is ignored.Recommendation: Set this value to a UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z,
+                A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="DELETE",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+            ],
+            query_params=[param[str | None]("requestId", request_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_locations_sessions_delete_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Session, DataprocProjectsLocationsSessionsGetErrorBody]:
+        """Gets the resource representation for an interactive session.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Session],
+            error_mapper=dataproc_projects_locations_sessions_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        filter_: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListSessionsResponse, DataprocProjectsLocationsSessionsListErrorBody]:
+        """Lists interactive sessions.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            filter_: Optional. A filter for the sessions to return in the response.A filter is a logical expression
+                constraining the values of various fields in each session resource. Filters are case sensitive, and may
+                contain multiple clauses combined with logical operators (AND, OR). Supported fields are session_id,
+                session_uuid, state, create_time, and labels.Example: state = ACTIVE and create_time <
+                "2023-01-01T00:00:00Z" is a filter for sessions in an ACTIVE state that were created before 2023-01-01.
+                state = ACTIVE and labels.environment=production is a filter for sessions in an ACTIVE state that have a
+                production environment label.See https://google.aip.dev/assets/misc/ebnf-filtering.txt for a detailed
+                description of the filter syntax and a list of supported comparators.
+            page_size: Optional. The maximum number of sessions to return in each response. The service may return fewer
+                than this value.
+            page_token: Optional. A page token received from a previous ListSessions call. Provide this token to
+                retrieve the subsequent page.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/sessions"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            query_params=[
+                param[str | None]("filter", filter_),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListSessionsResponse],
+            error_mapper=dataproc_projects_locations_sessions_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSessionSparkApplicationResponse, DataprocProjectsLocationsSessionsSparkApplicationsAccessErrorBody
+    ]:
+        """Obtain high level information corresponding to a single Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:access",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSessionSparkApplicationResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_access_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_environment_info(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSessionSparkApplicationEnvironmentInfoResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsAccessEnvironmentInfoErrorBody,
+    ]:
+        """Obtain environment details for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:accessEnvironmentInfo",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSessionSparkApplicationEnvironmentInfoResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_access_environment_info_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_job(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        job_id: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSessionSparkApplicationJobResponse, DataprocProjectsLocationsSessionsSparkApplicationsAccessJobErrorBody
+    ]:
+        """Obtain data corresponding to a spark job for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            job_id: Required. Job ID to fetch data for.
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:accessJob",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("jobId", job_id), param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSessionSparkApplicationJobResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_access_job_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_native_build_info(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSessionSparkApplicationNativeBuildInfoResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsAccessNativeBuildInfoErrorBody,
+    ]:
+        """Obtain data corresponding to Native Build Information for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:accessNativeBuildInfo",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSessionSparkApplicationNativeBuildInfoResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_access_native_build_info_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_native_sql_query(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        execution_id: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSessionSparkApplicationNativeSqlQueryResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsAccessNativeSqlQueryErrorBody,
+    ]:
+        """Obtain data corresponding to a particular Native SQL Query for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            execution_id: Required. Execution ID
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:accessNativeSqlQuery",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("executionId", execution_id), param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSessionSparkApplicationNativeSqlQueryResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_access_native_sql_query_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_sql_plan(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        execution_id: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSessionSparkApplicationSqlSparkPlanGraphResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsAccessSqlPlanErrorBody,
+    ]:
+        """Obtain Spark Plan Graph for a Spark Application SQL execution. Limits the number of clusters returned as part
+        of the graph to 10000.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            execution_id: Required. Execution ID
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:accessSqlPlan",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("executionId", execution_id), param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSessionSparkApplicationSqlSparkPlanGraphResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_access_sql_plan_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_sql_query(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        details: bool | None = None,
+        execution_id: str | None = None,
+        parent: str | None = None,
+        plan_description: bool | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSessionSparkApplicationSqlQueryResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsAccessSqlQueryErrorBody,
+    ]:
+        """Obtain data corresponding to a particular SQL Query for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            details: Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide.
+            execution_id: Required. Execution ID
+            parent: Required. Parent (Session) resource reference.
+            plan_description: Optional. Enables/ disables physical plan description on demand
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:accessSqlQuery",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[bool | None]("details", details),
+                param[str | None]("executionId", execution_id),
+                param[str | None]("parent", parent),
+                param[bool | None]("planDescription", plan_description),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSessionSparkApplicationSqlQueryResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_access_sql_query_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_stage_attempt(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        summary_metrics_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSessionSparkApplicationStageAttemptResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsAccessStageAttemptErrorBody,
+    ]:
+        """Obtain data corresponding to a spark stage attempt for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            stage_attempt_id: Required. Stage Attempt ID
+            stage_id: Required. Stage ID
+            summary_metrics_mask: Optional. The list of summary metrics fields to include. Empty list will default to
+                skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the
+                request should have task_quantile_metrics in summary_metrics_mask field
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:accessStageAttempt",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[str | None]("parent", parent),
+                param[int | None]("stageAttemptId", stage_attempt_id),
+                param[str | None]("stageId", stage_id),
+                param[str | None]("summaryMetricsMask", summary_metrics_mask),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSessionSparkApplicationStageAttemptResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_access_stage_attempt_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_access_stage_rdd_graph(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        stage_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        AccessSessionSparkApplicationStageRddOperationGraphResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsAccessStageRddGraphErrorBody,
+    ]:
+        """Obtain RDD operation graph for a Spark Application Stage. Limits the number of clusters returned as part of
+        the graph to 10000.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            stage_id: Required. Stage ID
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:accessStageRddGraph",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("parent", parent), param[str | None]("stageId", stage_id)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AccessSessionSparkApplicationStageRddOperationGraphResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_access_stage_rdd_graph_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        *,
+        application_status: ApplicationStatusOrStr | None = None,
+        max_end_time: str | None = None,
+        max_time: str | None = None,
+        min_end_time: str | None = None,
+        min_time: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSessionSparkApplicationsResponse, DataprocProjectsLocationsSessionsSparkApplicationsSearchErrorBody
+    ]:
+        """Obtain high level information and list of Spark Applications corresponding to a batch
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            application_status: Optional. Search only applications in the chosen state.
+            max_end_time: Optional. Latest end timestamp to list.
+            max_time: Optional. Latest start timestamp to list.
+            min_end_time: Optional. Earliest end timestamp to list.
+            min_time: Optional. Earliest start timestamp to list.
+            page_size: Optional. Maximum number of applications to return in each response. The service may return fewer
+                than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplications call. Provide
+                this token to retrieve the subsequent page.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications:search"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+            ],
+            query_params=[
+                param[ApplicationStatusOrStr | None]("applicationStatus", application_status),
+                param[str | None]("maxEndTime", max_end_time),
+                param[str | None]("maxTime", max_time),
+                param[str | None]("minEndTime", min_end_time),
+                param[str | None]("minTime", min_time),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSessionSparkApplicationsResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_search_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_executor_stage_summary(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSessionSparkApplicationExecutorStageSummaryResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsSearchExecutorStageSummaryErrorBody,
+    ]:
+        """Obtain executor summary with respect to a spark stage attempt.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of executors to return in each response. The service may return fewer
+                than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous
+                SearchSessionSparkApplicationExecutorStageSummary call. Provide this token to retrieve the subsequent
+                page.
+            parent: Required. Parent (Session) resource reference.
+            stage_attempt_id: Required. Stage Attempt ID
+            stage_id: Required. Stage ID
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:searchExecutorStageSummary",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+                param[int | None]("stageAttemptId", stage_attempt_id),
+                param[str | None]("stageId", stage_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSessionSparkApplicationExecutorStageSummaryResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_search_executor_stage_summary_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_executors(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        executor_status: ExecutorStatusOrStr | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSessionSparkApplicationExecutorsResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsSearchExecutorsErrorBody,
+    ]:
+        """Obtain data corresponding to executors for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            executor_status: Optional. Filter to select whether active/ dead or all executors should be selected.
+            page_size: Optional. Maximum number of executors to return in each response. The service may return fewer
+                than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplicationExecutors call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:searchExecutors",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[ExecutorStatusOrStr | None]("executorStatus", executor_status),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSessionSparkApplicationExecutorsResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_search_executors_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_jobs(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        job_ids: list[str] | None = None,
+        job_status: JobStatus2OrStr | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSessionSparkApplicationJobsResponse, DataprocProjectsLocationsSessionsSparkApplicationsSearchJobsErrorBody
+    ]:
+        """Obtain list of spark jobs corresponding to a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            job_ids: Optional. List of Job IDs to filter by if provided.
+            job_status: Optional. List only jobs in the specific state.
+            page_size: Optional. Maximum number of jobs to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplicationJobs call. Provide
+                this token to retrieve the subsequent page.
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:searchJobs",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[list[str] | None]("jobIds", job_ids),
+                param[JobStatus2OrStr | None]("jobStatus", job_status),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSessionSparkApplicationJobsResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_search_jobs_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_native_sql_queries(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSessionSparkApplicationNativeSqlQueriesResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsSearchNativeSqlQueriesErrorBody,
+    ]:
+        """Obtain data corresponding to Native SQL Queries for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of queries to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplicationSqlQueries call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:searchNativeSqlQueries",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSessionSparkApplicationNativeSqlQueriesResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_search_native_sql_queries_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_sql_queries(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        details: bool | None = None,
+        operation_ids: list[str] | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        plan_description: bool | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSessionSparkApplicationSqlQueriesResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsSearchSqlQueriesErrorBody,
+    ]:
+        """Obtain data corresponding to SQL Queries for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            details: Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide.
+            operation_ids: Optional. List of Spark Connect operation IDs to filter by if provided.
+            page_size: Optional. Maximum number of queries to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplicationSqlQueries call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Session) resource reference.
+            plan_description: Optional. Enables/ disables physical plan description on demand
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:searchSqlQueries",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[bool | None]("details", details),
+                param[list[str] | None]("operationIds", operation_ids),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+                param[bool | None]("planDescription", plan_description),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSessionSparkApplicationSqlQueriesResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_search_sql_queries_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_stage_attempt_tasks(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        sort_runtime: bool | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        task_status: TaskStatusOrStr | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSessionSparkApplicationStageAttemptTasksResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsSearchStageAttemptTasksErrorBody,
+    ]:
+        """Obtain data corresponding to tasks for a spark stage attempt for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of tasks to return in each response. The service may return fewer than
+                this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplicationStageAttemptTasks
+                call. Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Session) resource reference.
+            sort_runtime: Optional. Sort the tasks by runtime.
+            stage_attempt_id: Optional. Stage Attempt ID
+            stage_id: Optional. Stage ID
+            task_status: Optional. List only tasks in the state.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:searchStageAttemptTasks",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+                param[bool | None]("sortRuntime", sort_runtime),
+                param[int | None]("stageAttemptId", stage_attempt_id),
+                param[str | None]("stageId", stage_id),
+                param[TaskStatusOrStr | None]("taskStatus", task_status),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSessionSparkApplicationStageAttemptTasksResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_search_stage_attempt_tasks_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_stage_attempts(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        stage_id: str | None = None,
+        summary_metrics_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSessionSparkApplicationStageAttemptsResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsSearchStageAttemptsErrorBody,
+    ]:
+        """Obtain data corresponding to a spark stage attempts for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of stage attempts (paging based on stage_attempt_id) to return in each
+                response. The service may return fewer than this. The default page size is 10; the maximum page size is
+                100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplicationStageAttempts call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Session) resource reference.
+            stage_id: Required. Stage ID for which attempts are to be fetched
+            summary_metrics_mask: Optional. The list of summary metrics fields to include. Empty list will default to
+                skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the
+                request should have task_quantile_metrics in summary_metrics_mask field
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:searchStageAttempts",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+                param[str | None]("stageId", stage_id),
+                param[str | None]("summaryMetricsMask", summary_metrics_mask),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSessionSparkApplicationStageAttemptsResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_search_stage_attempts_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_search_stages(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        parent: str | None = None,
+        stage_ids: list[str] | None = None,
+        stage_status: StageStatusOrStr | None = None,
+        summary_metrics_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SearchSessionSparkApplicationStagesResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsSearchStagesErrorBody,
+    ]:
+        """Obtain data corresponding to stages for a Spark Application.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            page_size: Optional. Maximum number of stages (paging based on stage_id) to return in each response. The
+                service may return fewer than this. The default page size is 10; the maximum page size is 100.
+            page_token: Optional. A page token received from a previous SearchSessionSparkApplicationStages call.
+                Provide this token to retrieve the subsequent page.
+            parent: Required. Parent (Session) resource reference.
+            stage_ids: Optional. List of Stage IDs to filter by if provided.
+            stage_status: Optional. List only stages in the given state.
+            summary_metrics_mask: Optional. The list of summary metrics fields to include. Empty list will default to
+                skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the
+                request should have task_quantile_metrics in summary_metrics_mask field
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:searchStages",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[str | None]("parent", parent),
+                param[list[str] | None]("stageIds", stage_ids),
+                param[StageStatusOrStr | None]("stageStatus", stage_status),
+                param[str | None]("summaryMetricsMask", summary_metrics_mask),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SearchSessionSparkApplicationStagesResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_search_stages_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_summarize_executors(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SummarizeSessionSparkApplicationExecutorsResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsSummarizeExecutorsErrorBody,
+    ]:
+        """Obtain summary of Executor Summary for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:summarizeExecutors",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SummarizeSessionSparkApplicationExecutorsResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_summarize_executors_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_summarize_jobs(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        job_ids: list[str] | None = None,
+        parent: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SummarizeSessionSparkApplicationJobsResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsSummarizeJobsErrorBody,
+    ]:
+        """Obtain summary of Jobs for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            job_ids: Optional. List of Job IDs to filter by if provided.
+            parent: Required. Parent (Session) resource reference.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:summarizeJobs",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[list[str] | None]("jobIds", job_ids), param[str | None]("parent", parent)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SummarizeSessionSparkApplicationJobsResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_summarize_jobs_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_summarize_stage_attempt_tasks(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        stage_attempt_id: int | None = None,
+        stage_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SummarizeSessionSparkApplicationStageAttemptTasksResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsSummarizeStageAttemptTasksErrorBody,
+    ]:
+        """Obtain summary of Tasks for a Spark Application Stage Attempt
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            stage_attempt_id: Required. Stage Attempt ID
+            stage_id: Required. Stage ID
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:summarizeStageAttemptTasks",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[
+                param[str | None]("parent", parent),
+                param[int | None]("stageAttemptId", stage_attempt_id),
+                param[str | None]("stageId", stage_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SummarizeSessionSparkApplicationStageAttemptTasksResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_summarize_stage_attempt_tasks_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_summarize_stages(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        *,
+        parent: str | None = None,
+        stage_ids: list[str] | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[
+        SummarizeSessionSparkApplicationStagesResponse,
+        DataprocProjectsLocationsSessionsSparkApplicationsSummarizeStagesErrorBody,
+    ]:
+        """Obtain summary of Stages for a Spark Application
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            parent: Required. Parent (Session) resource reference.
+            stage_ids: Optional. List of Stage IDs to filter by if provided.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:summarizeStages",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            query_params=[param[str | None]("parent", parent), param[list[str] | None]("stageIds", stage_ids)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[SummarizeSessionSparkApplicationStagesResponse],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_summarize_stages_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_spark_applications_write(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        spark_applications_id: str,
+        body: WriteSessionSparkApplicationContextRequest | WriteSessionSparkApplicationContextRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Any, DataprocProjectsLocationsSessionsSparkApplicationsWriteErrorBody]:
+        """Write wrapper objects from dataplane to spanner
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            spark_applications_id: Resource name segment (sparkApplicationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}/sparkApplications/{sparkApplicationsId}:write",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+                param[str]("sparkApplicationsId", spark_applications_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[WriteSessionSparkApplicationContextRequest | WriteSessionSparkApplicationContextRequestDict](
+                body
+            ),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Any],
+            error_mapper=dataproc_projects_locations_sessions_spark_applications_write_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_sessions_terminate(
+        self,
+        projects_id: str,
+        locations_id: str,
+        sessions_id: str,
+        body: TerminateSessionRequest | TerminateSessionRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsLocationsSessionsTerminateErrorBody]:
+        """Terminates the interactive session.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            sessions_id: Resource name segment (sessionsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/sessions/{sessionsId}:terminate"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("sessionsId", sessions_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[TerminateSessionRequest | TerminateSessionRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_locations_sessions_terminate_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_workflow_templates_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: WorkflowTemplate | WorkflowTemplateDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[WorkflowTemplate, DataprocProjectsLocationsWorkflowTemplatesCreateErrorBody]:
+        """Creates new workflow template.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/workflowTemplates"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[WorkflowTemplate | WorkflowTemplateDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[WorkflowTemplate],
+            error_mapper=dataproc_projects_locations_workflow_templates_create_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_workflow_templates_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        workflow_templates_id: str,
+        *,
+        version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Any, DataprocProjectsLocationsWorkflowTemplatesDeleteErrorBody]:
+        """Deletes a workflow template. It does not cancel in-progress workflows.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            version: Optional. The version of workflow template to delete. If specified, will only delete the template
+                if the current server version matches specified version.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="DELETE",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/workflowTemplates/{workflowTemplatesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("workflowTemplatesId", workflow_templates_id),
+            ],
+            query_params=[param[int | None]("version", version)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Any],
+            error_mapper=dataproc_projects_locations_workflow_templates_delete_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_workflow_templates_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        workflow_templates_id: str,
+        *,
+        version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[WorkflowTemplate, DataprocProjectsLocationsWorkflowTemplatesGetErrorBody]:
+        """Retrieves the latest workflow template.Can retrieve previously instantiated template by specifying optional
+        version parameter.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            version: Optional. The version of workflow template to retrieve. Only previously instantiated versions can
+                be retrieved.If unspecified, retrieves the current version.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/workflowTemplates/{workflowTemplatesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("workflowTemplatesId", workflow_templates_id),
+            ],
+            query_params=[param[int | None]("version", version)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[WorkflowTemplate],
+            error_mapper=dataproc_projects_locations_workflow_templates_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_workflow_templates_get_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        workflow_templates_id: str,
+        body: GetIamPolicyRequest | GetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy, DataprocProjectsLocationsWorkflowTemplatesGetIamPolicyErrorBody]:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/workflowTemplates/{workflowTemplatesId}:getIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("workflowTemplatesId", workflow_templates_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[GetIamPolicyRequest | GetIamPolicyRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy],
+            error_mapper=dataproc_projects_locations_workflow_templates_get_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_workflow_templates_instantiate(
+        self,
+        projects_id: str,
+        locations_id: str,
+        workflow_templates_id: str,
+        body: InstantiateWorkflowTemplateRequest | InstantiateWorkflowTemplateRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsLocationsWorkflowTemplatesInstantiateErrorBody]:
+        """Instantiates a template and begins execution.The returned Operation can be used to track execution of
+        workflow by polling operations.get. The Operation will complete when entire workflow is finished.The running
+        workflow can be aborted via operations.cancel. This will cause any inflight jobs to be cancelled and
+        workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using
+        WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On
+        successful completion, Operation.response will be Empty.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/workflowTemplates/{workflowTemplatesId}:instantiate"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("workflowTemplatesId", workflow_templates_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[InstantiateWorkflowTemplateRequest | InstantiateWorkflowTemplateRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_locations_workflow_templates_instantiate_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_workflow_templates_instantiate_inline(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: WorkflowTemplate | WorkflowTemplateDict,
+        *,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsLocationsWorkflowTemplatesInstantiateInlineErrorBody]:
+        """Instantiates a template and begins execution.This method is equivalent to executing the sequence
+        CreateWorkflowTemplate, InstantiateWorkflowTemplate, DeleteWorkflowTemplate.The returned Operation can be used
+        to track execution of workflow by polling operations.get. The Operation will complete when entire workflow is
+        finished.The running workflow can be aborted via operations.cancel. This will cause any inflight jobs to be
+        cancelled and workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using
+        WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On
+        successful completion, Operation.response will be Empty.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            request_id: Optional. A tag that prevents multiple concurrent workflow instances with the same tag from
+                running. This mitigates risk of concurrent instances started due to retries.It is recommended to always
+                set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The tag must
+                contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is
+                40 characters.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/workflowTemplates:instantiateInline"
+            ),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            query_params=[param[str | None]("requestId", request_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[WorkflowTemplate | WorkflowTemplateDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_locations_workflow_templates_instantiate_inline_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_workflow_templates_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListWorkflowTemplatesResponse, DataprocProjectsLocationsWorkflowTemplatesListErrorBody]:
+        """Lists workflows that match the specified filter in the request.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            page_size: Optional. The maximum number of results to return in each response.
+            page_token: Optional. The page token, returned by a previous call, to request the next page of results.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/workflowTemplates"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            query_params=[param[int | None]("pageSize", page_size), param[str | None]("pageToken", page_token)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListWorkflowTemplatesResponse],
+            error_mapper=dataproc_projects_locations_workflow_templates_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_workflow_templates_set_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        workflow_templates_id: str,
+        body: SetIamPolicyRequest | SetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy, DataprocProjectsLocationsWorkflowTemplatesSetIamPolicyErrorBody]:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/workflowTemplates/{workflowTemplatesId}:setIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("workflowTemplatesId", workflow_templates_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SetIamPolicyRequest | SetIamPolicyRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy],
+            error_mapper=dataproc_projects_locations_workflow_templates_set_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_workflow_templates_test_iam_permissions(
+        self,
+        projects_id: str,
+        locations_id: str,
+        workflow_templates_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[TestIamPermissionsResponse, DataprocProjectsLocationsWorkflowTemplatesTestIamPermissionsErrorBody]:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/workflowTemplates/{workflowTemplatesId}:testIamPermissions",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("workflowTemplatesId", workflow_templates_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[TestIamPermissionsRequest | TestIamPermissionsRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[TestIamPermissionsResponse],
+            error_mapper=dataproc_projects_locations_workflow_templates_test_iam_permissions_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_locations_workflow_templates_update(
+        self,
+        projects_id: str,
+        locations_id: str,
+        workflow_templates_id: str,
+        body: WorkflowTemplate | WorkflowTemplateDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[WorkflowTemplate, DataprocProjectsLocationsWorkflowTemplatesUpdateErrorBody]:
+        """Updates (replaces) workflow template. The updated template must contain version that matches the current
+        server version.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="PUT",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/workflowTemplates/{workflowTemplatesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("workflowTemplatesId", workflow_templates_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[WorkflowTemplate | WorkflowTemplateDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[WorkflowTemplate],
+            error_mapper=dataproc_projects_locations_workflow_templates_update_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_create(
+        self,
+        projects_id: str,
+        regions_id: str,
+        body: AutoscalingPolicy | AutoscalingPolicyDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[AutoscalingPolicy, DataprocProjectsRegionsAutoscalingPoliciesCreateErrorBody]:
+        """Creates new autoscaling policy.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default("/v1/projects/{projectsId}/regions/{regionsId}/autoscalingPolicies"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("regionsId", regions_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[AutoscalingPolicy | AutoscalingPolicyDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AutoscalingPolicy],
+            error_mapper=dataproc_projects_regions_autoscaling_policies_create_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_delete(
+        self,
+        projects_id: str,
+        regions_id: str,
+        autoscaling_policies_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Any, DataprocProjectsRegionsAutoscalingPoliciesDeleteErrorBody]:
+        """Deletes an autoscaling policy. It is an error to delete an autoscaling policy that is in use by one or more
+        clusters.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="DELETE",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/autoscalingPolicies/{autoscalingPoliciesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("autoscalingPoliciesId", autoscaling_policies_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Any],
+            error_mapper=dataproc_projects_regions_autoscaling_policies_delete_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_get(
+        self,
+        projects_id: str,
+        regions_id: str,
+        autoscaling_policies_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[AutoscalingPolicy, DataprocProjectsRegionsAutoscalingPoliciesGetErrorBody]:
+        """Retrieves autoscaling policy.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/autoscalingPolicies/{autoscalingPoliciesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("autoscalingPoliciesId", autoscaling_policies_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AutoscalingPolicy],
+            error_mapper=dataproc_projects_regions_autoscaling_policies_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_get_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        autoscaling_policies_id: str,
+        body: GetIamPolicyRequest | GetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy, DataprocProjectsRegionsAutoscalingPoliciesGetIamPolicyErrorBody]:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/autoscalingPolicies/{autoscalingPoliciesId}:getIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("autoscalingPoliciesId", autoscaling_policies_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[GetIamPolicyRequest | GetIamPolicyRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy],
+            error_mapper=dataproc_projects_regions_autoscaling_policies_get_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_list(
+        self,
+        projects_id: str,
+        regions_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListAutoscalingPoliciesResponse, DataprocProjectsRegionsAutoscalingPoliciesListErrorBody]:
+        """Lists autoscaling policies in the project.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            page_size: Optional. The maximum number of results to return in each response. Must be less than or equal to
+                1000. Defaults to 100.
+            page_token: Optional. The page token, returned by a previous call, to request the next page of results.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectsId}/regions/{regionsId}/autoscalingPolicies"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("regionsId", regions_id)],
+            query_params=[param[int | None]("pageSize", page_size), param[str | None]("pageToken", page_token)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListAutoscalingPoliciesResponse],
+            error_mapper=dataproc_projects_regions_autoscaling_policies_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_set_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        autoscaling_policies_id: str,
+        body: SetIamPolicyRequest | SetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy, DataprocProjectsRegionsAutoscalingPoliciesSetIamPolicyErrorBody]:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/autoscalingPolicies/{autoscalingPoliciesId}:setIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("autoscalingPoliciesId", autoscaling_policies_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SetIamPolicyRequest | SetIamPolicyRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy],
+            error_mapper=dataproc_projects_regions_autoscaling_policies_set_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_test_iam_permissions(
+        self,
+        projects_id: str,
+        regions_id: str,
+        autoscaling_policies_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[TestIamPermissionsResponse, DataprocProjectsRegionsAutoscalingPoliciesTestIamPermissionsErrorBody]:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/autoscalingPolicies/{autoscalingPoliciesId}:testIamPermissions",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("autoscalingPoliciesId", autoscaling_policies_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[TestIamPermissionsRequest | TestIamPermissionsRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[TestIamPermissionsResponse],
+            error_mapper=dataproc_projects_regions_autoscaling_policies_test_iam_permissions_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_autoscaling_policies_update(
+        self,
+        projects_id: str,
+        regions_id: str,
+        autoscaling_policies_id: str,
+        body: AutoscalingPolicy | AutoscalingPolicyDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[AutoscalingPolicy, DataprocProjectsRegionsAutoscalingPoliciesUpdateErrorBody]:
+        """Updates (replaces) autoscaling policy.Disabled check for update_mask, because all updates will be full
+        replacements.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            autoscaling_policies_id: Resource name segment (autoscalingPoliciesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="PUT",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/autoscalingPolicies/{autoscalingPoliciesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("autoscalingPoliciesId", autoscaling_policies_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[AutoscalingPolicy | AutoscalingPolicyDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[AutoscalingPolicy],
+            error_mapper=dataproc_projects_regions_autoscaling_policies_update_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_create(
+        self,
+        project_id: str,
+        region: str,
+        body: Cluster | ClusterDict,
+        *,
+        action_on_failed_primary_workers: ActionOnFailedPrimaryWorkersOrStr | None = None,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsRegionsClustersCreateErrorBody]:
+        """Creates a cluster in a project. The returned Operation.metadata will be ClusterOperationMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata).
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            body: The request body.
+            action_on_failed_primary_workers: Optional. Failure action when primary worker creation fails.
+            request_id: Optional. A unique ID used to identify the request. If the server receives two
+                CreateClusterRequest
+                (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateClusterRequest)s
+                with the same id, then the second request will be ignored and the first google.longrunning.Operation
+                created and stored in the backend is returned.It is recommended to always set this value to a UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z,
+                A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default("/v1/projects/{projectId}/regions/{region}/clusters"),
+            path_params=[param[str]("projectId", project_id), param[str]("region", region)],
+            query_params=[
+                param[ActionOnFailedPrimaryWorkersOrStr | None](
+                    "actionOnFailedPrimaryWorkers", action_on_failed_primary_workers
+                ),
+                param[str | None]("requestId", request_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[Cluster | ClusterDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_regions_clusters_create_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_delete(
+        self,
+        project_id: str,
+        region: str,
+        cluster_name: str,
+        *,
+        cluster_uuid: str | None = None,
+        graceful_termination_timeout: str | None = None,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsRegionsClustersDeleteErrorBody]:
+        """Deletes a cluster in a project. The returned Operation.metadata will be ClusterOperationMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata).
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            cluster_name: Required. The cluster name.
+            cluster_uuid: Optional. Specifying the cluster_uuid means the RPC should fail (with error NOT_FOUND) if
+                cluster with specified UUID does not exist.
+            graceful_termination_timeout: Optional. The graceful termination timeout for the deletion of the cluster.
+                Indicate the time the request will wait to complete the running jobs on the cluster before its forceful
+                deletion. Default value is 0 indicating that the user has not enabled the graceful termination. Value
+                can be between 60 second and 6 Hours, in case the graceful termination is enabled. (There is no separate
+                flag to check the enabling or disabling of graceful termination, it can be checked by the values in the
+                field).
+            request_id: Optional. A unique ID used to identify the request. If the server receives two
+                DeleteClusterRequest
+                (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.DeleteClusterRequest)s
+                with the same id, then the second request will be ignored and the first google.longrunning.Operation
+                created and stored in the backend is returned.It is recommended to always set this value to a UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z,
+                A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="DELETE",
+            url_template=self._server.default("/v1/projects/{projectId}/regions/{region}/clusters/{clusterName}"),
+            path_params=[
+                param[str]("projectId", project_id),
+                param[str]("region", region),
+                param[str]("clusterName", cluster_name),
+            ],
+            query_params=[
+                param[str | None]("clusterUuid", cluster_uuid),
+                param[str | None]("gracefulTerminationTimeout", graceful_termination_timeout),
+                param[str | None]("requestId", request_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_regions_clusters_delete_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_diagnose(
+        self,
+        project_id: str,
+        region: str,
+        cluster_name: str,
+        body: DiagnoseClusterRequest | DiagnoseClusterRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsRegionsClustersDiagnoseErrorBody]:
+        """Gets cluster diagnostic information. The returned Operation.metadata will be ClusterOperationMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata). After
+        the operation completes, Operation.response contains DiagnoseClusterResults
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#diagnoseclusterresults).
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            cluster_name: Required. The cluster name.
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectId}/regions/{region}/clusters/{clusterName}:diagnose"
+            ),
+            path_params=[
+                param[str]("projectId", project_id),
+                param[str]("region", region),
+                param[str]("clusterName", cluster_name),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[DiagnoseClusterRequest | DiagnoseClusterRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_regions_clusters_diagnose_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_get(
+        self,
+        project_id: str,
+        region: str,
+        cluster_name: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Cluster, DataprocProjectsRegionsClustersGetErrorBody]:
+        """Gets the resource representation for a cluster in a project.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            cluster_name: Required. The cluster name.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectId}/regions/{region}/clusters/{clusterName}"),
+            path_params=[
+                param[str]("projectId", project_id),
+                param[str]("region", region),
+                param[str]("clusterName", cluster_name),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Cluster],
+            error_mapper=dataproc_projects_regions_clusters_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_get_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        body: GetIamPolicyRequest | GetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy, DataprocProjectsRegionsClustersGetIamPolicyErrorBody]:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/clusters/{clustersId}:getIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("clustersId", clusters_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[GetIamPolicyRequest | GetIamPolicyRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy],
+            error_mapper=dataproc_projects_regions_clusters_get_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_inject_credentials(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        body: InjectCredentialsRequest | InjectCredentialsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsRegionsClustersInjectCredentialsErrorBody]:
+        """Inject encrypted credentials into all of the VMs in a cluster.The target cluster must be a personal auth
+        cluster assigned to the user who is issuing the RPC.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/clusters/{clustersId}:injectCredentials"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("clustersId", clusters_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[InjectCredentialsRequest | InjectCredentialsRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_regions_clusters_inject_credentials_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_list(
+        self,
+        project_id: str,
+        region: str,
+        *,
+        filter_: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListClustersResponse, DataprocProjectsRegionsClustersListErrorBody]:
+        """Lists all regions/{region}/clusters in a project alphabetically.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            filter_: Optional. A filter constraining the clusters to list. Filters are case-sensitive and have the
+                following syntax:field = value AND field = value ...where field is one of status.state, clusterName, or
+                labels.[KEY], and [KEY] is a label key. value can be "*" to match all values. status.state can be one of
+                the following: ACTIVE, INACTIVE, CREATING, RUNNING, ERROR, DELETING, UPDATING, STOPPING, or STOPPED.
+                ACTIVE contains the CREATING, UPDATING, and RUNNING states. INACTIVE contains the DELETING, ERROR,
+                STOPPING, and STOPPED states. clusterName is the name of the cluster provided at creation time. Only the
+                logical AND operator is supported; space-separated items are treated as having an implicit AND
+                operator.Example filter:status.state = ACTIVE AND clusterName = mycluster AND labels.env = staging AND
+                labels.starred = *
+            page_size: Optional. The maximum number of clusters to return in each response. The service may return fewer
+                than this value. If unspecified, the default value is 200. The maximum value is 1000.
+            page_token: Optional. A page token received from a previous ListClusters call. Provide this token to
+                retrieve the subsequent page.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectId}/regions/{region}/clusters"),
+            path_params=[param[str]("projectId", project_id), param[str]("region", region)],
+            query_params=[
+                param[str | None]("filter", filter_),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListClustersResponse],
+            error_mapper=dataproc_projects_regions_clusters_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_node_groups_create(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        body: NodeGroup | NodeGroupDict,
+        *,
+        node_group_id: str | None = None,
+        parent_operation_id: str | None = None,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsRegionsClustersNodeGroupsCreateErrorBody]:
+        """Creates a node group in a cluster. The returned Operation.metadata is NodeGroupOperationMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#nodegroupoperationmetadata).
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            body: The request body.
+            node_group_id: Optional. An optional node group ID. Generated if not specified.The ID must contain only
+                letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore
+                or hyphen. Must consist of from 3 to 33 characters.
+            parent_operation_id: Optional. operation id of the parent operation sending the create request
+            request_id: Optional. A unique ID used to identify the request. If the server receives two
+                CreateNodeGroupRequest
+                (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateNodeGroupRequest)
+                with the same ID, the second request is ignored and the first google.longrunning.Operation created and
+                stored in the backend is returned.Recommendation: Set this value to a UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z,
+                A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/clusters/{clustersId}/nodeGroups"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("clustersId", clusters_id),
+            ],
+            query_params=[
+                param[str | None]("nodeGroupId", node_group_id),
+                param[str | None]("parentOperationId", parent_operation_id),
+                param[str | None]("requestId", request_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[NodeGroup | NodeGroupDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_regions_clusters_node_groups_create_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_node_groups_get(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        node_groups_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[NodeGroup, DataprocProjectsRegionsClustersNodeGroupsGetErrorBody]:
+        """Gets the resource representation for a node group in a cluster.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            node_groups_id: Resource name segment (nodeGroupsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/clusters/{clustersId}/nodeGroups/{nodeGroupsId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("clustersId", clusters_id),
+                param[str]("nodeGroupsId", node_groups_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[NodeGroup],
+            error_mapper=dataproc_projects_regions_clusters_node_groups_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_node_groups_repair(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        node_groups_id: str,
+        body: RepairNodeGroupRequest | RepairNodeGroupRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsRegionsClustersNodeGroupsRepairErrorBody]:
+        """Repair nodes in a node group.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            node_groups_id: Resource name segment (nodeGroupsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/clusters/{clustersId}/nodeGroups/{nodeGroupsId}:repair"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("clustersId", clusters_id),
+                param[str]("nodeGroupsId", node_groups_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[RepairNodeGroupRequest | RepairNodeGroupRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_regions_clusters_node_groups_repair_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_node_groups_resize(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        node_groups_id: str,
+        body: ResizeNodeGroupRequest | ResizeNodeGroupRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsRegionsClustersNodeGroupsResizeErrorBody]:
+        """Resizes a node group in a cluster. The returned Operation.metadata is NodeGroupOperationMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#nodegroupoperationmetadata).
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            node_groups_id: Resource name segment (nodeGroupsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/clusters/{clustersId}/nodeGroups/{nodeGroupsId}:resize"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("clustersId", clusters_id),
+                param[str]("nodeGroupsId", node_groups_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[ResizeNodeGroupRequest | ResizeNodeGroupRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_regions_clusters_node_groups_resize_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_patch(
+        self,
+        project_id: str,
+        region: str,
+        cluster_name: str,
+        body: Cluster | ClusterDict,
+        *,
+        graceful_decommission_timeout: str | None = None,
+        request_id: str | None = None,
+        update_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsRegionsClustersPatchErrorBody]:
+        """Updates a cluster in a project. The returned Operation.metadata will be ClusterOperationMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata). The
+        cluster must be in a RUNNING state or an error is returned.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            cluster_name: Required. The cluster name.
+            body: The request body.
+            graceful_decommission_timeout: Optional. Timeout for graceful YARN decommissioning. Graceful decommissioning
+                allows removing nodes from the cluster without interrupting jobs in progress. Timeout specifies how long
+                to wait for jobs in progress to finish before forcefully removing nodes (and potentially interrupting
+                jobs). Default timeout is 0 (for forceful decommission), and the maximum allowed timeout is 1 day. (see
+                JSON representation of Duration
+                (https://developers.google.com/protocol-buffers/docs/proto3#json)).Supported in image versions 1.2 and
+                higher.
+            request_id: Optional. A unique ID used to identify the request. If the server receives two
+                UpdateClusterRequest
+                (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.UpdateClusterRequest)s
+                with the same id, then the second request will be ignored and the first google.longrunning.Operation
+                created and stored in the backend is returned.It is recommended to always set this value to a UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z,
+                A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters.
+            update_mask: Required. Specifies the path, relative to Cluster, of the field to update. For example, to
+                change the number of workers in a cluster to 5, the update_mask parameter would be specified as
+                config.worker_config.num_instances, and the PATCH request body would specify the new value, as follows:
+                { "config":{ "workerConfig":{ "numInstances":"5" } } } Similarly, to change the number of preemptible
+                workers in a cluster to 5, the update_mask parameter would be
+                config.secondary_worker_config.num_instances, and the PATCH request body would be set as follows: {
+                "config":{ "secondaryWorkerConfig":{ "numInstances":"5" } } } *Note:* Currently, only the following
+                fields can be updated: *Mask* *Purpose* *labels* Update labels *config.worker_config.num_instances*
+                Resize primary worker group *config.secondary_worker_config.num_instances* Resize secondary worker group
+                config.autoscaling_config.policy_uri Use, stop using, or change autoscaling policies
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="PATCH",
+            url_template=self._server.default("/v1/projects/{projectId}/regions/{region}/clusters/{clusterName}"),
+            path_params=[
+                param[str]("projectId", project_id),
+                param[str]("region", region),
+                param[str]("clusterName", cluster_name),
+            ],
+            query_params=[
+                param[str | None]("gracefulDecommissionTimeout", graceful_decommission_timeout),
+                param[str | None]("requestId", request_id),
+                param[str | None]("updateMask", update_mask),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[Cluster | ClusterDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_regions_clusters_patch_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_repair(
+        self,
+        project_id: str,
+        region: str,
+        cluster_name: str,
+        body: RepairClusterRequest | RepairClusterRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsRegionsClustersRepairErrorBody]:
+        """Repairs a cluster.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            cluster_name: Required. The cluster name.
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectId}/regions/{region}/clusters/{clusterName}:repair"
+            ),
+            path_params=[
+                param[str]("projectId", project_id),
+                param[str]("region", region),
+                param[str]("clusterName", cluster_name),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[RepairClusterRequest | RepairClusterRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_regions_clusters_repair_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_set_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        body: SetIamPolicyRequest | SetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy, DataprocProjectsRegionsClustersSetIamPolicyErrorBody]:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/clusters/{clustersId}:setIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("clustersId", clusters_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SetIamPolicyRequest | SetIamPolicyRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy],
+            error_mapper=dataproc_projects_regions_clusters_set_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_start(
+        self,
+        project_id: str,
+        region: str,
+        cluster_name: str,
+        body: StartClusterRequest | StartClusterRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsRegionsClustersStartErrorBody]:
+        """Starts a cluster in a project.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            cluster_name: Required. The cluster name.
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default("/v1/projects/{projectId}/regions/{region}/clusters/{clusterName}:start"),
+            path_params=[
+                param[str]("projectId", project_id),
+                param[str]("region", region),
+                param[str]("clusterName", cluster_name),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[StartClusterRequest | StartClusterRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_regions_clusters_start_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_stop(
+        self,
+        project_id: str,
+        region: str,
+        cluster_name: str,
+        body: StopClusterRequest | StopClusterRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsRegionsClustersStopErrorBody]:
+        """Stops a cluster in a project.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project the cluster belongs to.
+            region: Required. The region in which to handle the request.
+            cluster_name: Required. The cluster name.
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default("/v1/projects/{projectId}/regions/{region}/clusters/{clusterName}:stop"),
+            path_params=[
+                param[str]("projectId", project_id),
+                param[str]("region", region),
+                param[str]("clusterName", cluster_name),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[StopClusterRequest | StopClusterRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_regions_clusters_stop_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_clusters_test_iam_permissions(
+        self,
+        projects_id: str,
+        regions_id: str,
+        clusters_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[TestIamPermissionsResponse, DataprocProjectsRegionsClustersTestIamPermissionsErrorBody]:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            clusters_id: Resource name segment (clustersId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/clusters/{clustersId}:testIamPermissions"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("clustersId", clusters_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[TestIamPermissionsRequest | TestIamPermissionsRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[TestIamPermissionsResponse],
+            error_mapper=dataproc_projects_regions_clusters_test_iam_permissions_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_jobs_cancel(
+        self,
+        project_id: str,
+        region: str,
+        job_id: str,
+        body: Any,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Job, DataprocProjectsRegionsJobsCancelErrorBody]:
+        """Starts a job cancellation request. To access the job resource after cancellation, call
+        regions/{region}/jobs.list (https://cloud.google.com/dataproc/docs/reference/rest/v1/projects.regions.jobs/list)
+        or regions/{region}/jobs.get
+        (https://cloud.google.com/dataproc/docs/reference/rest/v1/projects.regions.jobs/get).
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the job belongs to.
+            region: Required. The Dataproc region in which to handle the request.
+            job_id: Required. The job ID.
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default("/v1/projects/{projectId}/regions/{region}/jobs/{jobId}:cancel"),
+            path_params=[
+                param[str]("projectId", project_id), param[str]("region", region), param[str]("jobId", job_id)
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[Any](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Job],
+            error_mapper=dataproc_projects_regions_jobs_cancel_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_jobs_delete(
+        self, project_id: str, region: str, job_id: str, *, request_options: AsyncRequestOptionsOrDict | None = None
+    ) -> ApiResult[Any, DataprocProjectsRegionsJobsDeleteErrorBody]:
+        """Deletes the job from the project. If the job is active, the delete fails, and the response returns
+        FAILED_PRECONDITION.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the job belongs to.
+            region: Required. The Dataproc region in which to handle the request.
+            job_id: Required. The job ID.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="DELETE",
+            url_template=self._server.default("/v1/projects/{projectId}/regions/{region}/jobs/{jobId}"),
+            path_params=[
+                param[str]("projectId", project_id), param[str]("region", region), param[str]("jobId", job_id)
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Any],
+            error_mapper=dataproc_projects_regions_jobs_delete_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_jobs_get(
+        self, project_id: str, region: str, job_id: str, *, request_options: AsyncRequestOptionsOrDict | None = None
+    ) -> ApiResult[Job, DataprocProjectsRegionsJobsGetErrorBody]:
+        """Gets the resource representation for a job in a project.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the job belongs to.
+            region: Required. The Dataproc region in which to handle the request.
+            job_id: Required. The job ID.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectId}/regions/{region}/jobs/{jobId}"),
+            path_params=[
+                param[str]("projectId", project_id), param[str]("region", region), param[str]("jobId", job_id)
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Job],
+            error_mapper=dataproc_projects_regions_jobs_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_jobs_get_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        jobs_id: str,
+        body: GetIamPolicyRequest | GetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy, DataprocProjectsRegionsJobsGetIamPolicyErrorBody]:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            jobs_id: Resource name segment (jobsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/jobs/{jobsId}:getIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("jobsId", jobs_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[GetIamPolicyRequest | GetIamPolicyRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy],
+            error_mapper=dataproc_projects_regions_jobs_get_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_jobs_list(
+        self,
+        project_id: str,
+        region: str,
+        *,
+        cluster_name: str | None = None,
+        filter_: str | None = None,
+        job_state_matcher: JobStateMatcherOrStr | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListJobsResponse, DataprocProjectsRegionsJobsListErrorBody]:
+        """Lists regions/{region}/jobs in a project.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the job belongs to.
+            region: Required. The Dataproc region in which to handle the request.
+            cluster_name: Optional. If set, the returned jobs list includes only jobs that were submitted to the named
+                cluster.
+            filter_: Optional. A filter constraining the jobs to list. Filters are case-sensitive and have the following
+                syntax:field = value AND field = value ...where field is status.state or insertTime, or labels.[KEY],
+                and [KEY] is a label key. value can be * to match all values. status.state can be either ACTIVE or
+                NON_ACTIVE. Allows insertTime to be a timestamp in RFC 3339 format in double quotes, such as
+                2025-01-01T00:00:00Z. Only the logical AND operator is supported; space-separated items are treated as
+                having an implicit AND operator.Example filter:status.state = ACTIVE AND labels.env = staging AND
+                labels.starred = * AND insertTime <= "2025-01-01T00:00:00Z"
+            job_state_matcher: Optional. Specifies enumerated categories of jobs to list. (default = match ALL jobs).If
+                filter is provided, jobStateMatcher will be ignored.
+            page_size: Optional. The number of results to return in each response.
+            page_token: Optional. The page token, returned by a previous call, to request the next page of results.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectId}/regions/{region}/jobs"),
+            path_params=[param[str]("projectId", project_id), param[str]("region", region)],
+            query_params=[
+                param[str | None]("clusterName", cluster_name),
+                param[str | None]("filter", filter_),
+                param[JobStateMatcherOrStr | None]("jobStateMatcher", job_state_matcher),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListJobsResponse],
+            error_mapper=dataproc_projects_regions_jobs_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_jobs_patch(
+        self,
+        project_id: str,
+        region: str,
+        job_id: str,
+        body: Job | JobDict,
+        *,
+        update_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Job, DataprocProjectsRegionsJobsPatchErrorBody]:
+        """Updates a job in a project.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the job belongs to.
+            region: Required. The Dataproc region in which to handle the request.
+            job_id: Required. The job ID.
+            body: The request body.
+            update_mask: Required. Specifies the path, relative to Job, of the field to update. For example, to update
+                the labels of a Job the update_mask parameter would be specified as labels, and the PATCH request body
+                would specify the new value. *Note:* Currently, labels is the only field that can be updated.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="PATCH",
+            url_template=self._server.default("/v1/projects/{projectId}/regions/{region}/jobs/{jobId}"),
+            path_params=[
+                param[str]("projectId", project_id), param[str]("region", region), param[str]("jobId", job_id)
+            ],
+            query_params=[param[str | None]("updateMask", update_mask)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[Job | JobDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Job],
+            error_mapper=dataproc_projects_regions_jobs_patch_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_jobs_set_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        jobs_id: str,
+        body: SetIamPolicyRequest | SetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy, DataprocProjectsRegionsJobsSetIamPolicyErrorBody]:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            jobs_id: Resource name segment (jobsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/jobs/{jobsId}:setIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("jobsId", jobs_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SetIamPolicyRequest | SetIamPolicyRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy],
+            error_mapper=dataproc_projects_regions_jobs_set_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_jobs_submit(
+        self,
+        project_id: str,
+        region: str,
+        body: SubmitJobRequest | SubmitJobRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Job, DataprocProjectsRegionsJobsSubmitErrorBody]:
+        """Submits a job to a cluster.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the job belongs to.
+            region: Required. The Dataproc region in which to handle the request.
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default("/v1/projects/{projectId}/regions/{region}/jobs:submit"),
+            path_params=[param[str]("projectId", project_id), param[str]("region", region)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SubmitJobRequest | SubmitJobRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Job],
+            error_mapper=dataproc_projects_regions_jobs_submit_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_jobs_submit_as_operation(
+        self,
+        project_id: str,
+        region: str,
+        body: SubmitJobRequest | SubmitJobRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsRegionsJobsSubmitAsOperationErrorBody]:
+        """Submits job to a cluster.
+
+        Args:
+            project_id: Required. The ID of the Google Cloud Platform project that the job belongs to.
+            region: Required. The Dataproc region in which to handle the request.
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default("/v1/projects/{projectId}/regions/{region}/jobs:submitAsOperation"),
+            path_params=[param[str]("projectId", project_id), param[str]("region", region)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SubmitJobRequest | SubmitJobRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_regions_jobs_submit_as_operation_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_jobs_test_iam_permissions(
+        self,
+        projects_id: str,
+        regions_id: str,
+        jobs_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[TestIamPermissionsResponse, DataprocProjectsRegionsJobsTestIamPermissionsErrorBody]:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            jobs_id: Resource name segment (jobsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/jobs/{jobsId}:testIamPermissions"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("jobsId", jobs_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[TestIamPermissionsRequest | TestIamPermissionsRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[TestIamPermissionsResponse],
+            error_mapper=dataproc_projects_regions_jobs_test_iam_permissions_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_operations_cancel(
+        self,
+        projects_id: str,
+        regions_id: str,
+        operations_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Any, DataprocProjectsRegionsOperationsCancelErrorBody]:
+        """Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the
+        operation, but success is not guaranteed. If the server doesn't support this method, it returns
+        google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the
+        cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the
+        operation is not deleted; instead, it becomes an operation with an Operation.error value with a
+        google.rpc.Status.code of 1, corresponding to Code.CANCELLED.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            operations_id: Resource name segment (operationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/operations/{operationsId}:cancel"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("operationsId", operations_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Any],
+            error_mapper=dataproc_projects_regions_operations_cancel_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_operations_delete(
+        self,
+        projects_id: str,
+        regions_id: str,
+        operations_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Any, DataprocProjectsRegionsOperationsDeleteErrorBody]:
+        """Deletes a long-running operation. This method indicates that the client is no longer interested in the
+        operation result. It does not cancel the operation. If the server doesn't support this method, it returns
+        google.rpc.Code.UNIMPLEMENTED.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            operations_id: Resource name segment (operationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="DELETE",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/operations/{operationsId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("operationsId", operations_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Any],
+            error_mapper=dataproc_projects_regions_operations_delete_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_operations_get(
+        self,
+        projects_id: str,
+        regions_id: str,
+        operations_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsRegionsOperationsGetErrorBody]:
+        """Gets the latest state of a long-running operation. Clients can use this method to poll the operation result
+        at intervals as recommended by the API service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            operations_id: Resource name segment (operationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/operations/{operationsId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("operationsId", operations_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_regions_operations_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_operations_get_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        operations_id: str,
+        body: GetIamPolicyRequest | GetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy, DataprocProjectsRegionsOperationsGetIamPolicyErrorBody]:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            operations_id: Resource name segment (operationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/operations/{operationsId}:getIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("operationsId", operations_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[GetIamPolicyRequest | GetIamPolicyRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy],
+            error_mapper=dataproc_projects_regions_operations_get_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_operations_list(
+        self,
+        projects_id: str,
+        regions_id: str,
+        *,
+        filter_: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        return_partial_success: bool | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListOperationsResponse, DataprocProjectsRegionsOperationsListErrorBody]:
+        """Lists operations that match the specified filter in the request. If the server doesn't support this method,
+        it returns UNIMPLEMENTED.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            filter_: The standard list filter.
+            page_size: The standard list page size.
+            page_token: The standard list page token.
+            return_partial_success: When set to true, operations that are reachable are returned as normal, and those
+                that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true
+                when reading across collections. For example, when parent is set to "projects/example/locations/-".This
+                field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly
+                documented otherwise in service or product specific documentation.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectsId}/regions/{regionsId}/operations"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("regionsId", regions_id)],
+            query_params=[
+                param[str | None]("filter", filter_),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+                param[bool | None]("returnPartialSuccess", return_partial_success),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListOperationsResponse],
+            error_mapper=dataproc_projects_regions_operations_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_operations_set_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        operations_id: str,
+        body: SetIamPolicyRequest | SetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy, DataprocProjectsRegionsOperationsSetIamPolicyErrorBody]:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            operations_id: Resource name segment (operationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/operations/{operationsId}:setIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("operationsId", operations_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SetIamPolicyRequest | SetIamPolicyRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy],
+            error_mapper=dataproc_projects_regions_operations_set_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_operations_test_iam_permissions(
+        self,
+        projects_id: str,
+        regions_id: str,
+        operations_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[TestIamPermissionsResponse, DataprocProjectsRegionsOperationsTestIamPermissionsErrorBody]:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            operations_id: Resource name segment (operationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/operations/{operationsId}:testIamPermissions"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("operationsId", operations_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[TestIamPermissionsRequest | TestIamPermissionsRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[TestIamPermissionsResponse],
+            error_mapper=dataproc_projects_regions_operations_test_iam_permissions_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_workflow_templates_create(
+        self,
+        projects_id: str,
+        regions_id: str,
+        body: WorkflowTemplate | WorkflowTemplateDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[WorkflowTemplate, DataprocProjectsRegionsWorkflowTemplatesCreateErrorBody]:
+        """Creates new workflow template.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default("/v1/projects/{projectsId}/regions/{regionsId}/workflowTemplates"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("regionsId", regions_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[WorkflowTemplate | WorkflowTemplateDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[WorkflowTemplate],
+            error_mapper=dataproc_projects_regions_workflow_templates_create_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_workflow_templates_delete(
+        self,
+        projects_id: str,
+        regions_id: str,
+        workflow_templates_id: str,
+        *,
+        version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Any, DataprocProjectsRegionsWorkflowTemplatesDeleteErrorBody]:
+        """Deletes a workflow template. It does not cancel in-progress workflows.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            version: Optional. The version of workflow template to delete. If specified, will only delete the template
+                if the current server version matches specified version.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="DELETE",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/workflowTemplates/{workflowTemplatesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("workflowTemplatesId", workflow_templates_id),
+            ],
+            query_params=[param[int | None]("version", version)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Any],
+            error_mapper=dataproc_projects_regions_workflow_templates_delete_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_workflow_templates_get(
+        self,
+        projects_id: str,
+        regions_id: str,
+        workflow_templates_id: str,
+        *,
+        version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[WorkflowTemplate, DataprocProjectsRegionsWorkflowTemplatesGetErrorBody]:
+        """Retrieves the latest workflow template.Can retrieve previously instantiated template by specifying optional
+        version parameter.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            version: Optional. The version of workflow template to retrieve. Only previously instantiated versions can
+                be retrieved.If unspecified, retrieves the current version.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/workflowTemplates/{workflowTemplatesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("workflowTemplatesId", workflow_templates_id),
+            ],
+            query_params=[param[int | None]("version", version)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[WorkflowTemplate],
+            error_mapper=dataproc_projects_regions_workflow_templates_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_workflow_templates_get_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        workflow_templates_id: str,
+        body: GetIamPolicyRequest | GetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy, DataprocProjectsRegionsWorkflowTemplatesGetIamPolicyErrorBody]:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/workflowTemplates/{workflowTemplatesId}:getIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("workflowTemplatesId", workflow_templates_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[GetIamPolicyRequest | GetIamPolicyRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy],
+            error_mapper=dataproc_projects_regions_workflow_templates_get_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_workflow_templates_instantiate(
+        self,
+        projects_id: str,
+        regions_id: str,
+        workflow_templates_id: str,
+        body: InstantiateWorkflowTemplateRequest | InstantiateWorkflowTemplateRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsRegionsWorkflowTemplatesInstantiateErrorBody]:
+        """Instantiates a template and begins execution.The returned Operation can be used to track execution of
+        workflow by polling operations.get. The Operation will complete when entire workflow is finished.The running
+        workflow can be aborted via operations.cancel. This will cause any inflight jobs to be cancelled and
+        workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using
+        WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On
+        successful completion, Operation.response will be Empty.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/workflowTemplates/{workflowTemplatesId}:instantiate"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("workflowTemplatesId", workflow_templates_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[InstantiateWorkflowTemplateRequest | InstantiateWorkflowTemplateRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_regions_workflow_templates_instantiate_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_workflow_templates_instantiate_inline(
+        self,
+        projects_id: str,
+        regions_id: str,
+        body: WorkflowTemplate | WorkflowTemplateDict,
+        *,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, DataprocProjectsRegionsWorkflowTemplatesInstantiateInlineErrorBody]:
+        """Instantiates a template and begins execution.This method is equivalent to executing the sequence
+        CreateWorkflowTemplate, InstantiateWorkflowTemplate, DeleteWorkflowTemplate.The returned Operation can be used
+        to track execution of workflow by polling operations.get. The Operation will complete when entire workflow is
+        finished.The running workflow can be aborted via operations.cancel. This will cause any inflight jobs to be
+        cancelled and workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata
+        (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using
+        WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On
+        successful completion, Operation.response will be Empty.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            body: The request body.
+            request_id: Optional. A tag that prevents multiple concurrent workflow instances with the same tag from
+                running. This mitigates risk of concurrent instances started due to retries.It is recommended to always
+                set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The tag must
+                contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is
+                40 characters.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/workflowTemplates:instantiateInline"
+            ),
+            path_params=[param[str]("projectsId", projects_id), param[str]("regionsId", regions_id)],
+            query_params=[param[str | None]("requestId", request_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[WorkflowTemplate | WorkflowTemplateDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=dataproc_projects_regions_workflow_templates_instantiate_inline_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_workflow_templates_list(
+        self,
+        projects_id: str,
+        regions_id: str,
+        *,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListWorkflowTemplatesResponse, DataprocProjectsRegionsWorkflowTemplatesListErrorBody]:
+        """Lists workflows that match the specified filter in the request.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            page_size: Optional. The maximum number of results to return in each response.
+            page_token: Optional. The page token, returned by a previous call, to request the next page of results.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectsId}/regions/{regionsId}/workflowTemplates"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("regionsId", regions_id)],
+            query_params=[param[int | None]("pageSize", page_size), param[str | None]("pageToken", page_token)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListWorkflowTemplatesResponse],
+            error_mapper=dataproc_projects_regions_workflow_templates_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_workflow_templates_set_iam_policy(
+        self,
+        projects_id: str,
+        regions_id: str,
+        workflow_templates_id: str,
+        body: SetIamPolicyRequest | SetIamPolicyRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy, DataprocProjectsRegionsWorkflowTemplatesSetIamPolicyErrorBody]:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/workflowTemplates/{workflowTemplatesId}:setIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("workflowTemplatesId", workflow_templates_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SetIamPolicyRequest | SetIamPolicyRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy],
+            error_mapper=dataproc_projects_regions_workflow_templates_set_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_workflow_templates_test_iam_permissions(
+        self,
+        projects_id: str,
+        regions_id: str,
+        workflow_templates_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[TestIamPermissionsResponse, DataprocProjectsRegionsWorkflowTemplatesTestIamPermissionsErrorBody]:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/workflowTemplates/{workflowTemplatesId}:testIamPermissions",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("workflowTemplatesId", workflow_templates_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[TestIamPermissionsRequest | TestIamPermissionsRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[TestIamPermissionsResponse],
+            error_mapper=dataproc_projects_regions_workflow_templates_test_iam_permissions_error_mapper,
+            request_options=request_options,
+        )
+
+    async def dataproc_projects_regions_workflow_templates_update(
+        self,
+        projects_id: str,
+        regions_id: str,
+        workflow_templates_id: str,
+        body: WorkflowTemplate | WorkflowTemplateDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[WorkflowTemplate, DataprocProjectsRegionsWorkflowTemplatesUpdateErrorBody]:
+        """Updates (replaces) workflow template. The updated template must contain version that matches the current
+        server version.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            regions_id: Resource name segment (regionsId).
+            workflow_templates_id: Resource name segment (workflowTemplatesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="PUT",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/regions/{regionsId}/workflowTemplates/{workflowTemplatesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("regionsId", regions_id),
+                param[str]("workflowTemplatesId", workflow_templates_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[WorkflowTemplate | WorkflowTemplateDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[WorkflowTemplate],
+            error_mapper=dataproc_projects_regions_workflow_templates_update_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_federations_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: Federation | FederationDict,
+        *,
+        federation_id: str | None = None,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsFederationsCreateErrorBody]:
+        """Creates a metastore federation in a project and location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            federation_id: Required. The ID of the metastore federation, which is used as the final component of the
+                metastore federation's name.This value must be between 2 and 63 characters long inclusive, begin with a
+                letter, end with a letter or number, and consist of alpha-numeric ASCII characters or hyphens.
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/federations"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            query_params=[param[str | None]("federationId", federation_id), param[str | None]("requestId", request_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[Federation | FederationDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_federations_create_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_federations_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        federations_id: str,
+        *,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsFederationsDeleteErrorBody]:
+        """Deletes a single federation.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            federations_id: Resource name segment (federationsId).
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="DELETE",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("federationsId", federations_id),
+            ],
+            query_params=[param[str | None]("requestId", request_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_federations_delete_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_federations_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        federations_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Federation, MetastoreProjectsLocationsFederationsGetErrorBody]:
+        """Gets the details of a single federation.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            federations_id: Resource name segment (federationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("federationsId", federations_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Federation],
+            error_mapper=metastore_projects_locations_federations_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_federations_get_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        federations_id: str,
+        *,
+        options_requested_policy_version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy2, MetastoreProjectsLocationsFederationsGetIamPolicyErrorBody]:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            federations_id: Resource name segment (federationsId).
+            options_requested_policy_version: Optional. The maximum policy version that will be used to format the
+                policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for
+                policies with any conditional role bindings must specify version 3. Policies with no conditional role
+                bindings may specify any valid value or leave the field unset.The policy in the response might use the
+                policy version that you specified, or it might use a lower policy version. For example, if you specify
+                version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which
+                resources support conditions in their IAM policies, see the IAM documentation
+                (https://cloud.google.com/iam/help/conditions/resource-policies).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}:getIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("federationsId", federations_id),
+            ],
+            query_params=[param[int | None]("options.requestedPolicyVersion", options_requested_policy_version)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy2],
+            error_mapper=metastore_projects_locations_federations_get_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_federations_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        filter_: str | None = None,
+        order_by: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListFederationsResponse, MetastoreProjectsLocationsFederationsListErrorBody]:
+        """Lists federations in a project and location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            filter_: Optional. The filter to apply to list results.
+            order_by: Optional. Specify the ordering of results as described in Sorting Order
+                (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will
+                be sorted in the default order.
+            page_size: Optional. The maximum number of federations to return. The response may contain less than the
+                maximum number. If unspecified, no more than 500 services are returned. The maximum value is 1000;
+                values above 1000 are changed to 1000.
+            page_token: Optional. A page token, received from a previous ListFederationServices call. Provide this token
+                to retrieve the subsequent page.To retrieve the first page, supply an empty page token.When paginating,
+                other parameters provided to ListFederationServices must match the call that provided the page token.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/federations"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            query_params=[
+                param[str | None]("filter", filter_),
+                param[str | None]("orderBy", order_by),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListFederationsResponse],
+            error_mapper=metastore_projects_locations_federations_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_federations_patch(
+        self,
+        projects_id: str,
+        locations_id: str,
+        federations_id: str,
+        body: Federation | FederationDict,
+        *,
+        request_id: str | None = None,
+        update_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsFederationsPatchErrorBody]:
+        """Updates the fields of a federation.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            federations_id: Resource name segment (federationsId).
+            body: The request body.
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            update_mask: Required. A field mask used to specify the fields to be overwritten in the metastore federation
+                resource by the update. Fields specified in the update_mask are relative to the resource (not to the
+                full request). A field is overwritten if it is in the mask.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="PATCH",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("federationsId", federations_id),
+            ],
+            query_params=[param[str | None]("requestId", request_id), param[str | None]("updateMask", update_mask)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[Federation | FederationDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_federations_patch_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_federations_set_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        federations_id: str,
+        body: SetIamPolicyRequest2 | SetIamPolicyRequest2Dict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy2, MetastoreProjectsLocationsFederationsSetIamPolicyErrorBody]:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            federations_id: Resource name segment (federationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}:setIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("federationsId", federations_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SetIamPolicyRequest2 | SetIamPolicyRequest2Dict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy2],
+            error_mapper=metastore_projects_locations_federations_set_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_federations_test_iam_permissions(
+        self,
+        projects_id: str,
+        locations_id: str,
+        federations_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[TestIamPermissionsResponse, MetastoreProjectsLocationsFederationsTestIamPermissionsErrorBody]:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            federations_id: Resource name segment (federationsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/federations/{federationsId}:testIamPermissions"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("federationsId", federations_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[TestIamPermissionsRequest | TestIamPermissionsRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[TestIamPermissionsResponse],
+            error_mapper=metastore_projects_locations_federations_test_iam_permissions_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_get(
+        self, projects_id: str, locations_id: str, *, request_options: AsyncRequestOptionsOrDict | None = None
+    ) -> ApiResult[Location, MetastoreProjectsLocationsGetErrorBody]:
+        """Gets information about a location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Location],
+            error_mapper=metastore_projects_locations_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_list(
+        self,
+        projects_id: str,
+        *,
+        extra_location_types: list[str] | None = None,
+        filter_: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListLocationsResponse, MetastoreProjectsLocationsListErrorBody]:
+        """Lists information about the supported locations for this service.This method lists locations based on the
+        resource scope provided in the ListLocationsRequest.name field: Global locations: If name is empty, the method
+        lists the public locations available to all projects. Project-specific locations: If name follows the format
+        projects/{project}, the method lists locations visible to that specific project. This includes public, private,
+        or other project-specific locations enabled for the project.For gRPC and client library implementations, the
+        resource name is passed as the name field. For direct service calls, the resource name is incorporated into the
+        request path based on the specific service implementation and version.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            extra_location_types: Optional. Do not use this field unless explicitly documented otherwise. This is
+                primarily for internal usage.
+            filter_: A filter to narrow down results to a preferred subset. The filtering language accepts strings like
+                "displayName=tokyo", and is documented in more detail in AIP-160 (https://google.aip.dev/160).
+            page_size: The maximum number of results to return. If not set, the service selects a default.
+            page_token: A page token received from the next_page_token field in the response. Send that page token to
+                receive the subsequent page.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations"),
+            path_params=[param[str]("projectsId", projects_id)],
+            query_params=[
+                param[list[str] | None]("extraLocationTypes", extra_location_types),
+                param[str | None]("filter", filter_),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListLocationsResponse],
+            error_mapper=metastore_projects_locations_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_alter_location(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: AlterMetadataResourceLocationRequest | AlterMetadataResourceLocationRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesAlterLocationErrorBody]:
+        """Alter metadata resource location. The metadata resource can be a database, table, or partition. This
+        functionality only updates the parent directory for the respective metadata resource and does not transfer any
+        existing data to the new location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:alterLocation"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[AlterMetadataResourceLocationRequest | AlterMetadataResourceLocationRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_alter_location_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_alter_table_properties(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: AlterTablePropertiesRequest | AlterTablePropertiesRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesAlterTablePropertiesErrorBody]:
+        """Alter metadata table properties.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:alterTableProperties"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[AlterTablePropertiesRequest | AlterTablePropertiesRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_alter_table_properties_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_backups_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: Backup | BackupDict,
+        *,
+        backup_id: str | None = None,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesBackupsCreateErrorBody]:
+        """Creates a new backup in a given project and location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            backup_id: Required. The ID of the backup, which is used as the final component of the backup's name.This
+                value must be between 1 and 64 characters long, begin with a letter, end with a letter or number, and
+                consist of alpha-numeric ASCII characters or hyphens.
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            query_params=[param[str | None]("backupId", backup_id), param[str | None]("requestId", request_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[Backup | BackupDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_backups_create_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_backups_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        backups_id: str,
+        *,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesBackupsDeleteErrorBody]:
+        """Deletes a single backup.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            backups_id: Resource name segment (backupsId).
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="DELETE",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups/{backupsId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+                param[str]("backupsId", backups_id),
+            ],
+            query_params=[param[str | None]("requestId", request_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_backups_delete_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_backups_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        backups_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Backup, MetastoreProjectsLocationsServicesBackupsGetErrorBody]:
+        """Gets details of a single backup.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            backups_id: Resource name segment (backupsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups/{backupsId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+                param[str]("backupsId", backups_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Backup],
+            error_mapper=metastore_projects_locations_services_backups_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_backups_get_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        backups_id: str,
+        *,
+        options_requested_policy_version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy2, MetastoreProjectsLocationsServicesBackupsGetIamPolicyErrorBody]:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            backups_id: Resource name segment (backupsId).
+            options_requested_policy_version: Optional. The maximum policy version that will be used to format the
+                policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for
+                policies with any conditional role bindings must specify version 3. Policies with no conditional role
+                bindings may specify any valid value or leave the field unset.The policy in the response might use the
+                policy version that you specified, or it might use a lower policy version. For example, if you specify
+                version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which
+                resources support conditions in their IAM policies, see the IAM documentation
+                (https://cloud.google.com/iam/help/conditions/resource-policies).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups/{backupsId}:getIamPolicy",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+                param[str]("backupsId", backups_id),
+            ],
+            query_params=[param[int | None]("options.requestedPolicyVersion", options_requested_policy_version)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy2],
+            error_mapper=metastore_projects_locations_services_backups_get_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_backups_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        *,
+        filter_: str | None = None,
+        order_by: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListBackupsResponse, MetastoreProjectsLocationsServicesBackupsListErrorBody]:
+        """Lists backups in a service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            filter_: Optional. The filter to apply to list results.
+            order_by: Optional. Specify the ordering of results as described in Sorting Order
+                (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will
+                be sorted in the default order.
+            page_size: Optional. The maximum number of backups to return. The response may contain less than the maximum
+                number. If unspecified, no more than 500 backups are returned. The maximum value is 1000; values above
+                1000 are changed to 1000.
+            page_token: Optional. A page token, received from a previous DataprocMetastore.ListBackups call. Provide
+                this token to retrieve the subsequent page.To retrieve the first page, supply an empty page token.When
+                paginating, other parameters provided to DataprocMetastore.ListBackups must match the call that provided
+                the page token.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            query_params=[
+                param[str | None]("filter", filter_),
+                param[str | None]("orderBy", order_by),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListBackupsResponse],
+            error_mapper=metastore_projects_locations_services_backups_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_backups_set_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        backups_id: str,
+        body: SetIamPolicyRequest2 | SetIamPolicyRequest2Dict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy2, MetastoreProjectsLocationsServicesBackupsSetIamPolicyErrorBody]:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            backups_id: Resource name segment (backupsId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/backups/{backupsId}:setIamPolicy",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+                param[str]("backupsId", backups_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SetIamPolicyRequest2 | SetIamPolicyRequest2Dict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy2],
+            error_mapper=metastore_projects_locations_services_backups_set_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_cancel_migration(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: Any,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesCancelMigrationErrorBody]:
+        """Cancels the ongoing Managed Migration process.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:cancelMigration"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[Any](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_cancel_migration_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_complete_migration(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: Any,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesCompleteMigrationErrorBody]:
+        """Completes the managed migration process. The Dataproc Metastore service will switch to using its own backend
+        database after successful migration.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:completeMigration"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[Any](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_complete_migration_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        body: Service | ServiceDict,
+        *,
+        request_id: str | None = None,
+        service_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesCreateErrorBody]:
+        """Creates a metastore service in a project and location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            body: The request body.
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            service_id: Required. The ID of the metastore service, which is used as the final component of the metastore
+                service's name.This value must be between 2 and 63 characters long inclusive, begin with a letter, end
+                with a letter or number, and consist of alpha-numeric ASCII characters or hyphens.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/services"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            query_params=[param[str | None]("requestId", request_id), param[str | None]("serviceId", service_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[Service | ServiceDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_create_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_databases_get_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        databases_id: str,
+        *,
+        options_requested_policy_version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy2, MetastoreProjectsLocationsServicesDatabasesGetIamPolicyErrorBody]:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            databases_id: Resource name segment (databasesId).
+            options_requested_policy_version: Optional. The maximum policy version that will be used to format the
+                policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for
+                policies with any conditional role bindings must specify version 3. Policies with no conditional role
+                bindings may specify any valid value or leave the field unset.The policy in the response might use the
+                policy version that you specified, or it might use a lower policy version. For example, if you specify
+                version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which
+                resources support conditions in their IAM policies, see the IAM documentation
+                (https://cloud.google.com/iam/help/conditions/resource-policies).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}:getIamPolicy",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+                param[str]("databasesId", databases_id),
+            ],
+            query_params=[param[int | None]("options.requestedPolicyVersion", options_requested_policy_version)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy2],
+            error_mapper=metastore_projects_locations_services_databases_get_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_databases_set_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        databases_id: str,
+        body: SetIamPolicyRequest2 | SetIamPolicyRequest2Dict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy2, MetastoreProjectsLocationsServicesDatabasesSetIamPolicyErrorBody]:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            databases_id: Resource name segment (databasesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}:setIamPolicy",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+                param[str]("databasesId", databases_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SetIamPolicyRequest2 | SetIamPolicyRequest2Dict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy2],
+            error_mapper=metastore_projects_locations_services_databases_set_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_databases_tables_get_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        databases_id: str,
+        tables_id: str,
+        *,
+        options_requested_policy_version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy2, MetastoreProjectsLocationsServicesDatabasesTablesGetIamPolicyErrorBody]:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            databases_id: Resource name segment (databasesId).
+            tables_id: Resource name segment (tablesId).
+            options_requested_policy_version: Optional. The maximum policy version that will be used to format the
+                policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for
+                policies with any conditional role bindings must specify version 3. Policies with no conditional role
+                bindings may specify any valid value or leave the field unset.The policy in the response might use the
+                policy version that you specified, or it might use a lower policy version. For example, if you specify
+                version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which
+                resources support conditions in their IAM policies, see the IAM documentation
+                (https://cloud.google.com/iam/help/conditions/resource-policies).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}/tables/{tablesId}:getIamPolicy",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+                param[str]("databasesId", databases_id),
+                param[str]("tablesId", tables_id),
+            ],
+            query_params=[param[int | None]("options.requestedPolicyVersion", options_requested_policy_version)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy2],
+            error_mapper=metastore_projects_locations_services_databases_tables_get_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_databases_tables_set_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        databases_id: str,
+        tables_id: str,
+        body: SetIamPolicyRequest2 | SetIamPolicyRequest2Dict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy2, MetastoreProjectsLocationsServicesDatabasesTablesSetIamPolicyErrorBody]:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            databases_id: Resource name segment (databasesId).
+            tables_id: Resource name segment (tablesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/databases/{databasesId}/tables/{tablesId}:setIamPolicy",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+                param[str]("databasesId", databases_id),
+                param[str]("tablesId", tables_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SetIamPolicyRequest2 | SetIamPolicyRequest2Dict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy2],
+            error_mapper=metastore_projects_locations_services_databases_tables_set_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        *,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesDeleteErrorBody]:
+        """Deletes a single service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="DELETE",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            query_params=[param[str | None]("requestId", request_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_delete_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_export_metadata(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: ExportMetadataRequest | ExportMetadataRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesExportMetadataErrorBody]:
+        """Exports metadata from a service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:exportMetadata"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[ExportMetadataRequest | ExportMetadataRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_export_metadata_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Service, MetastoreProjectsLocationsServicesGetErrorBody]:
+        """Gets the details of a single service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Service],
+            error_mapper=metastore_projects_locations_services_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_get_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        *,
+        options_requested_policy_version: int | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy2, MetastoreProjectsLocationsServicesGetIamPolicyErrorBody]:
+        """Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not
+        have a policy set.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            options_requested_policy_version: Optional. The maximum policy version that will be used to format the
+                policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for
+                policies with any conditional role bindings must specify version 3. Policies with no conditional role
+                bindings may specify any valid value or leave the field unset.The policy in the response might use the
+                policy version that you specified, or it might use a lower policy version. For example, if you specify
+                version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which
+                resources support conditions in their IAM policies, see the IAM documentation
+                (https://cloud.google.com/iam/help/conditions/resource-policies).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:getIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            query_params=[param[int | None]("options.requestedPolicyVersion", options_requested_policy_version)],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy2],
+            error_mapper=metastore_projects_locations_services_get_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        *,
+        filter_: str | None = None,
+        order_by: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListServicesResponse, MetastoreProjectsLocationsServicesListErrorBody]:
+        """Lists services in a project and location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            filter_: Optional. The filter to apply to list results.
+            order_by: Optional. Specify the ordering of results as described in Sorting Order
+                (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will
+                be sorted in the default order.
+            page_size: Optional. The maximum number of services to return. The response may contain less than the
+                maximum number. If unspecified, no more than 500 services are returned. The maximum value is 1000;
+                values above 1000 are changed to 1000.
+            page_token: Optional. A page token, received from a previous DataprocMetastore.ListServices call. Provide
+                this token to retrieve the subsequent page.To retrieve the first page, supply an empty page token.When
+                paginating, other parameters provided to DataprocMetastore.ListServices must match the call that
+                provided the page token.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default("/v1/projects/{projectsId}/locations/{locationsId}/services"),
+            path_params=[param[str]("projectsId", projects_id), param[str]("locationsId", locations_id)],
+            query_params=[
+                param[str | None]("filter", filter_),
+                param[str | None]("orderBy", order_by),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListServicesResponse],
+            error_mapper=metastore_projects_locations_services_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_metadata_imports_create(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: MetadataImport | MetadataImportDict,
+        *,
+        metadata_import_id: str | None = None,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesMetadataImportsCreateErrorBody]:
+        """Creates a new MetadataImport in a given project and location.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            metadata_import_id: Required. The ID of the metadata import, which is used as the final component of the
+                metadata import's name.This value must be between 1 and 64 characters long, begin with a letter, end
+                with a letter or number, and consist of alpha-numeric ASCII characters or hyphens.
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/metadataImports"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            query_params=[
+                param[str | None]("metadataImportId", metadata_import_id), param[str | None]("requestId", request_id)
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[MetadataImport | MetadataImportDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_metadata_imports_create_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_metadata_imports_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        metadata_imports_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[MetadataImport, MetastoreProjectsLocationsServicesMetadataImportsGetErrorBody]:
+        """Gets details of a single import.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            metadata_imports_id: Resource name segment (metadataImportsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/metadataImports/{metadataImportsId}",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+                param[str]("metadataImportsId", metadata_imports_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[MetadataImport],
+            error_mapper=metastore_projects_locations_services_metadata_imports_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_metadata_imports_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        *,
+        filter_: str | None = None,
+        order_by: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListMetadataImportsResponse, MetastoreProjectsLocationsServicesMetadataImportsListErrorBody]:
+        """Lists imports in a service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            filter_: Optional. The filter to apply to list results.
+            order_by: Optional. Specify the ordering of results as described in Sorting Order
+                (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will
+                be sorted in the default order.
+            page_size: Optional. The maximum number of imports to return. The response may contain less than the maximum
+                number. If unspecified, no more than 500 imports are returned. The maximum value is 1000; values above
+                1000 are changed to 1000.
+            page_token: Optional. A page token, received from a previous DataprocMetastore.ListServices call. Provide
+                this token to retrieve the subsequent page.To retrieve the first page, supply an empty page token.When
+                paginating, other parameters provided to DataprocMetastore.ListServices must match the call that
+                provided the page token.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/metadataImports"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            query_params=[
+                param[str | None]("filter", filter_),
+                param[str | None]("orderBy", order_by),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListMetadataImportsResponse],
+            error_mapper=metastore_projects_locations_services_metadata_imports_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_metadata_imports_patch(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        metadata_imports_id: str,
+        body: MetadataImport | MetadataImportDict,
+        *,
+        request_id: str | None = None,
+        update_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesMetadataImportsPatchErrorBody]:
+        """Updates a single import. Only the description field of MetadataImport is supported to be updated.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            metadata_imports_id: Resource name segment (metadataImportsId).
+            body: The request body.
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            update_mask: Required. A field mask used to specify the fields to be overwritten in the metadata import
+                resource by the update. Fields specified in the update_mask are relative to the resource (not to the
+                full request). A field is overwritten if it is in the mask.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="PATCH",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/metadataImports/{metadataImportsId}",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+                param[str]("metadataImportsId", metadata_imports_id),
+            ],
+            query_params=[param[str | None]("requestId", request_id), param[str | None]("updateMask", update_mask)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[MetadataImport | MetadataImportDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_metadata_imports_patch_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_migration_executions_delete(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        migration_executions_id: str,
+        *,
+        request_id: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesMigrationExecutionsDeleteErrorBody]:
+        """Deletes a single migration execution.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            migration_executions_id: Resource name segment (migrationExecutionsId).
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="DELETE",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/migrationExecutions/{migrationExecutionsId}",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+                param[str]("migrationExecutionsId", migration_executions_id),
+            ],
+            query_params=[param[str | None]("requestId", request_id)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_migration_executions_delete_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_migration_executions_get(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        migration_executions_id: str,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[MigrationExecution, MetastoreProjectsLocationsServicesMigrationExecutionsGetErrorBody]:
+        """Gets details of a single migration execution.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            migration_executions_id: Resource name segment (migrationExecutionsId).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/migrationExecutions/{migrationExecutionsId}",
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+                param[str]("migrationExecutionsId", migration_executions_id),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[MigrationExecution],
+            error_mapper=metastore_projects_locations_services_migration_executions_get_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_migration_executions_list(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        *,
+        filter_: str | None = None,
+        order_by: str | None = None,
+        page_size: int | None = None,
+        page_token: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[ListMigrationExecutionsResponse, MetastoreProjectsLocationsServicesMigrationExecutionsListErrorBody]:
+        """Lists migration executions on a service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            filter_: Optional. The filter to apply to list results.
+            order_by: Optional. Specify the ordering of results as described in Sorting Order
+                (https://cloud.google.com/apis/design/design_patterns#sorting_order). If not specified, the results will
+                be sorted in the default order.
+            page_size: Optional. The maximum number of migration executions to return. The response may contain less
+                than the maximum number. If unspecified, no more than 500 migration executions are returned. The maximum
+                value is 1000; values above 1000 are changed to 1000.
+            page_token: Optional. A page token, received from a previous DataprocMetastore.ListMigrationExecutions call.
+                Provide this token to retrieve the subsequent page.To retrieve the first page, supply an empty page
+                token.When paginating, other parameters provided to DataprocMetastore.ListMigrationExecutions must match
+                the call that provided the page token.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="GET",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}/migrationExecutions"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            query_params=[
+                param[str | None]("filter", filter_),
+                param[str | None]("orderBy", order_by),
+                param[int | None]("pageSize", page_size),
+                param[str | None]("pageToken", page_token),
+            ],
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[ListMigrationExecutionsResponse],
+            error_mapper=metastore_projects_locations_services_migration_executions_list_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_move_table_to_database(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: MoveTableToDatabaseRequest | MoveTableToDatabaseRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesMoveTableToDatabaseErrorBody]:
+        """Move a table to another database.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:moveTableToDatabase"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[MoveTableToDatabaseRequest | MoveTableToDatabaseRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_move_table_to_database_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_patch(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: Service | ServiceDict,
+        *,
+        request_id: str | None = None,
+        update_mask: str | None = None,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesPatchErrorBody]:
+        """Updates the parameters of a single service.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_id: Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if
+                it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at
+                least 60 minutes after the first request.For example, if an initial request times out, followed by
+                another request with the same request ID, the server ignores the second request to prevent the creation
+                of duplicate commitments.The request ID must be a valid UUID
+                (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID
+                (00000000-0000-0000-0000-000000000000) is not supported.
+            update_mask: Required. A field mask used to specify the fields to be overwritten in the metastore service
+                resource by the update. Fields specified in the update_mask are relative to the resource (not to the
+                full request). A field is overwritten if it is in the mask.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="PATCH",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            query_params=[param[str | None]("requestId", request_id), param[str | None]("updateMask", update_mask)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[Service | ServiceDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_patch_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_query_metadata(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: QueryMetadataRequest | QueryMetadataRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesQueryMetadataErrorBody]:
+        """Query Dataproc Metastore metadata.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:queryMetadata"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[QueryMetadataRequest | QueryMetadataRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_query_metadata_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_restore(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: RestoreServiceRequest | RestoreServiceRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesRestoreErrorBody]:
+        """Restores a service from a backup.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:restore"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[RestoreServiceRequest | RestoreServiceRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_restore_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_set_iam_policy(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: SetIamPolicyRequest2 | SetIamPolicyRequest2Dict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Policy2, MetastoreProjectsLocationsServicesSetIamPolicyErrorBody]:
+        """Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND,
+        INVALID_ARGUMENT, and PERMISSION_DENIED errors.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:setIamPolicy"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[SetIamPolicyRequest2 | SetIamPolicyRequest2Dict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Policy2],
+            error_mapper=metastore_projects_locations_services_set_iam_policy_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_start_migration(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: StartMigrationRequest | StartMigrationRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[Operation, MetastoreProjectsLocationsServicesStartMigrationErrorBody]:
+        """Starts the Managed Migration process.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:startMigration"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[StartMigrationRequest | StartMigrationRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[Operation],
+            error_mapper=metastore_projects_locations_services_start_migration_error_mapper,
+            request_options=request_options,
+        )
+
+    async def metastore_projects_locations_services_test_iam_permissions(
+        self,
+        projects_id: str,
+        locations_id: str,
+        services_id: str,
+        body: TestIamPermissionsRequest | TestIamPermissionsRequestDict,
+        *,
+        request_options: AsyncRequestOptionsOrDict | None = None,
+    ) -> ApiResult[TestIamPermissionsResponse, MetastoreProjectsLocationsServicesTestIamPermissionsErrorBody]:
+        """Returns permissions that a caller has on the specified resource. If the resource does not exist, this will
+        return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for
+        building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail
+        open" without warning.
+
+        Args:
+            projects_id: Resource name segment (projectsId).
+            locations_id: Resource name segment (locationsId).
+            services_id: Resource name segment (servicesId).
+            body: The request body.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            An ``ApiResult`` holding the deserialized response or the error body."""
+        return await self._client.execute(
+            http_method="POST",
+            url_template=self._server.default(
+                "/v1/projects/{projectsId}/locations/{locationsId}/services/{servicesId}:testIamPermissions"
+            ),
+            path_params=[
+                param[str]("projectsId", projects_id),
+                param[str]("locationsId", locations_id),
+                param[str]("servicesId", services_id),
+            ],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[TestIamPermissionsRequest | TestIamPermissionsRequestDict](body),
+            auth_scheme=AsyncAnySchemes(self._auth.oauth2, self._auth.api_key),
+            decoder=async_json_decoder[TestIamPermissionsResponse],
+            error_mapper=metastore_projects_locations_services_test_iam_permissions_error_mapper,
+            request_options=request_options,
+        )
+
+
+AsyncClient = AsyncGoogleCloudDataprocClient

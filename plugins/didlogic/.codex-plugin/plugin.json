@@ -1,0 +1,10 @@
+{
+  "name": "didlogic",
+  "version": "0.1.0",
+  "description": "Buy and manage phone numbers, SIP accounts, calls, SMS, and KYC documents with DIDLogic.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "DIDLogic",
+    "developerName": "APIMatic"
+  }
+}

@@ -1,0 +1,51 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+import { exportFilterSchema, type ExportFilter } from "./export-filter.js";
+import { exportSortBySchema, type ExportSortBy } from "./export-sort-by.js";
+
+export type ListExportsRequest = {
+  /** The unique identifier that Amazon Lex assigned to the bot. */
+  botId?: string;
+  /** The version of the bot to list exports for. */
+  botVersion?: string;
+  sortBy?: ExportSortBy;
+  /**
+   * Provides the specification of a filter used to limit the exports in the response to only those
+   * that match the filter specification. You can only specify one filter and one string to filter
+   * on.
+   */
+  filters?: ExportFilter[];
+  /**
+   * The maximum number of exports to return in each page of results. If there are fewer results
+   * than the max page size, only the actual number of results are returned.
+   */
+  maxResults?: number;
+  /**
+   * If the response from the ListExports operation contains more results that specified in the
+   * maxResults parameter, a token is returned in the response. Use the returned token in the
+   * nextToken parameter of a ListExports request to return the next page of results. For a complete
+   * set of results, call the ListExports operation until the nextToken returned in the response is
+   * null.
+   */
+  nextToken?: string;
+  /**
+   * Specifies the resources that should be exported. If you don't specify a resource type in the
+   * filters parameter, both bot locales and custom vocabularies are exported.
+   */
+  localeId?: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const listExportsRequestSchema: Schema<ListExportsRequest> = s.object<ListExportsRequest>(
+  {
+    botId: s.optional(s.string()),
+    botVersion: s.optional(s.string()),
+    sortBy: s.optional(s.lazy(() => exportSortBySchema)),
+    filters: s.optional(s.array(s.lazy(() => exportFilterSchema))),
+    maxResults: s.optional(s.int()),
+    nextToken: s.optional(s.string()),
+    localeId: s.optional(s.string()),
+  },
+  { additionalProperties: s.json() },
+);

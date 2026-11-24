@@ -1,0 +1,17 @@
+namespace ApiVerve.Requests.Finance;
+
+/// <summary>
+/// The inputs of the Palladiumprice operation.
+/// </summary>
+public sealed record PalladiumpriceRequest
+{
+    /// <summary>
+    /// The currency to get the price in
+    /// </summary>
+    public string? Currency { get; init; }
+
+    /// <summary>
+    /// Include hourly price data for the past 24 hours
+    /// </summary>
+    public bool? Hourly { get; init; }
+}

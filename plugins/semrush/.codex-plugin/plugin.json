@@ -1,0 +1,10 @@
+{
+  "name": "semrush",
+  "version": "0.1.0",
+  "description": "Check subscriptions and user status, send notifications, and get API tokens with the Semrush partner APIs.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Semrush",
+    "developerName": "APIMatic"
+  }
+}

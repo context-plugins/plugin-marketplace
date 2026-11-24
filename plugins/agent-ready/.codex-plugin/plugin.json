@@ -1,0 +1,10 @@
+{
+  "name": "agent-ready",
+  "version": "0.1.0",
+  "description": "Scan websites for AI agent readability and check their MCP and NLWeb endpoints with Agent Ready.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Agent Ready",
+    "developerName": "APIMatic"
+  }
+}

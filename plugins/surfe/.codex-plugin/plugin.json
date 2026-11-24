@@ -1,0 +1,10 @@
+{
+  "name": "surfe",
+  "version": "0.1.0",
+  "description": "Search and enrich B2B people and companies with verified emails and phone numbers with Surfe.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Surfe",
+    "developerName": "APIMatic"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "divvy",
+  "version": "0.1.0",
+  "description": "Automate bills, payments, vendors, invoices, budgets, and cards with BILL (Divvy).",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Divvy",
+    "developerName": "APIMatic"
+  }
+}

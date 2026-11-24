@@ -1,0 +1,21 @@
+{
+  "name": "amazon-certificate-manager",
+  "displayName": "AWS Certificate Manager",
+  "version": "0.1.0",
+  "description": "Request, import, renew, and export SSL/TLS certificates and manage ACME endpoints with AWS Certificate Manager.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/aws-certificate-manager-planner.md"
+  ]
+}

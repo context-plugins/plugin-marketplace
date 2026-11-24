@@ -1,0 +1,10 @@
+{
+  "name": "relmcrm",
+  "version": "0.1.0",
+  "description": "Manage contacts, companies, deals, pipelines, sequences, and automations in RelmCRM.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "RelmCRM",
+    "developerName": "APIMatic"
+  }
+}

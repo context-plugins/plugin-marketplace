@@ -1,0 +1,10 @@
+{
+  "name": "apigee",
+  "version": "0.1.0",
+  "description": "Manage Apigee organizations, environments, API proxies, products, developers, and apps.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Apigee",
+    "developerName": "APIMatic"
+  }
+}

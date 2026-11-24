@@ -1,0 +1,10 @@
+{
+  "name": "amazon-xray",
+  "version": "0.1.0",
+  "description": "Read traces and service graphs, and manage groups, sampling rules, and insights with AWS X-Ray.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "AWS X-Ray",
+    "developerName": "APIMatic"
+  }
+}

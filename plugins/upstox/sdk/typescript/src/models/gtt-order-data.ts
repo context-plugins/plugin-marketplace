@@ -1,0 +1,19 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+
+export type GttOrderData = {
+  /** Order ID for the placed GTT order */
+  gttOrderIds?: string[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const gttOrderDataSchema: Schema<GttOrderData> = s.object<GttOrderData>(
+  {
+    gttOrderIds: s.optional(s.array(s.string())),
+    _keysMap: {
+      gttOrderIds: "gtt_order_ids",
+    },
+  },
+  { additionalProperties: s.json() },
+);

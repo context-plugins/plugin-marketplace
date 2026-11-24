@@ -1,0 +1,46 @@
+from enum import Enum
+from typing import Annotated, TypeAlias
+
+from ...core import open_enum_validator
+
+
+class Type1AmazonRekognitionFaceCollectionsApi(str, Enum):
+    """Type of landmark."""
+
+    EYE_LEFT = "eyeLeft"
+    EYE_RIGHT = "eyeRight"
+    NOSE = "nose"
+    MOUTH_LEFT = "mouthLeft"
+    MOUTH_RIGHT = "mouthRight"
+    LEFT_EYE_BROW_LEFT = "leftEyeBrowLeft"
+    LEFT_EYE_BROW_RIGHT = "leftEyeBrowRight"
+    LEFT_EYE_BROW_UP = "leftEyeBrowUp"
+    RIGHT_EYE_BROW_LEFT = "rightEyeBrowLeft"
+    RIGHT_EYE_BROW_RIGHT = "rightEyeBrowRight"
+    RIGHT_EYE_BROW_UP = "rightEyeBrowUp"
+    LEFT_EYE_LEFT = "leftEyeLeft"
+    LEFT_EYE_RIGHT = "leftEyeRight"
+    LEFT_EYE_UP = "leftEyeUp"
+    LEFT_EYE_DOWN = "leftEyeDown"
+    RIGHT_EYE_LEFT = "rightEyeLeft"
+    RIGHT_EYE_RIGHT = "rightEyeRight"
+    RIGHT_EYE_UP = "rightEyeUp"
+    RIGHT_EYE_DOWN = "rightEyeDown"
+    NOSE_LEFT = "noseLeft"
+    NOSE_RIGHT = "noseRight"
+    MOUTH_UP = "mouthUp"
+    MOUTH_DOWN = "mouthDown"
+    LEFT_PUPIL = "leftPupil"
+    RIGHT_PUPIL = "rightPupil"
+    UPPER_JAWLINE_LEFT = "upperJawlineLeft"
+    MID_JAWLINE_LEFT = "midJawlineLeft"
+    CHIN_BOTTOM = "chinBottom"
+    MID_JAWLINE_RIGHT = "midJawlineRight"
+    UPPER_JAWLINE_RIGHT = "upperJawlineRight"
+
+    __str__ = str.__str__
+
+
+Type1AmazonRekognitionFaceCollectionsApiOrStr: TypeAlias = Annotated[
+    Type1AmazonRekognitionFaceCollectionsApi | str, open_enum_validator(Type1AmazonRekognitionFaceCollectionsApi)
+]

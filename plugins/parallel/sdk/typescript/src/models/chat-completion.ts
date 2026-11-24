@@ -1,0 +1,52 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+import { choiceSchema, type Choice } from "./choice.js";
+import { fieldBasisSchema, type FieldBasis } from "./field-basis.js";
+import { interactionIdSchema, type InteractionId } from "./unions/interaction-id.js";
+import { moderation11Schema, type Moderation11 } from "./unions/moderation11.js";
+import { serviceTier1Schema, type ServiceTier1 } from "./unions/service-tier1.js";
+import { systemFingerprintSchema, type SystemFingerprint } from "./unions/system-fingerprint.js";
+import { usageSchema, type Usage } from "./unions/usage.js";
+
+/** Chat completion response. */
+export type ChatCompletion = {
+  /** The id of the chat completion. */
+  id: string;
+  choices: Choice[];
+  created: number;
+  model: string;
+  /** @default "chat.completion" */
+  object?: "chat.completion";
+  moderation?: Moderation11;
+  serviceTier?: ServiceTier1;
+  systemFingerprint?: SystemFingerprint;
+  usage?: Usage;
+  /** Basis for the chat completion, including citations and reasoning supporting the output. */
+  basis?: FieldBasis[];
+  /** Identifier for this interaction. Pass as previous_interaction_id for follow-ups. */
+  interactionId?: InteractionId;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const chatCompletionSchema: Schema<ChatCompletion> = s.object<ChatCompletion>(
+  {
+    id: s.string(),
+    choices: s.array(s.lazy(() => choiceSchema)),
+    created: s.int(),
+    model: s.string(),
+    object: s.defaulted(s.literal("chat.completion"), "chat.completion"),
+    moderation: s.optional(s.lazy(() => moderation11Schema)),
+    serviceTier: s.optional(s.lazy(() => serviceTier1Schema)),
+    systemFingerprint: s.optional(s.lazy(() => systemFingerprintSchema)),
+    usage: s.optional(s.lazy(() => usageSchema)),
+    basis: s.optional(s.array(s.lazy(() => fieldBasisSchema))),
+    interactionId: s.optional(s.lazy(() => interactionIdSchema)),
+    _keysMap: {
+      serviceTier: "service_tier",
+      systemFingerprint: "system_fingerprint",
+      interactionId: "interaction_id",
+    },
+  },
+  { additionalProperties: s.json() },
+);

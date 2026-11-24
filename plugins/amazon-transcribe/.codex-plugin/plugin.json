@@ -1,0 +1,10 @@
+{
+  "name": "amazon-transcribe",
+  "version": "0.1.0",
+  "description": "Run transcription, call analytics, and medical transcription jobs, and manage vocabularies with Amazon Transcribe.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Amazon Transcribe",
+    "developerName": "APIMatic"
+  }
+}

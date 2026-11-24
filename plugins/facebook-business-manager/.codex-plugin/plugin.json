@@ -1,0 +1,10 @@
+{
+  "name": "facebook-business-manager",
+  "version": "0.1.0",
+  "description": "Manage ad accounts, campaigns, ad sets, ads, creatives, audiences, and Page posts and insights on Meta.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Facebook Business Manager",
+    "developerName": "APIMatic"
+  }
+}

@@ -1,0 +1,39 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+
+export type ListRecommendedIntentsRequest = {
+  /** The unique identifier of the bot associated with the recommended intents. */
+  botId: string;
+  /** The version of the bot that contains the recommended intents. */
+  botVersion: string;
+  /** The identifier of the language and locale of the recommended intents. */
+  localeId: string;
+  /** The identifier of the bot recommendation that contains the recommended intents. */
+  botRecommendationId: string;
+  /**
+   * If the response from the ListRecommendedIntents operation contains more results than specified
+   * in the maxResults parameter, a token is returned in the response. Use that token in the
+   * nextToken parameter to return the next page of results.
+   */
+  nextToken?: string;
+  /**
+   * The maximum number of bot recommendations to return in each page of results. If there are fewer
+   * results than the max page size, only the actual number of results are returned.
+   */
+  maxResults?: number;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const listRecommendedIntentsRequestSchema: Schema<ListRecommendedIntentsRequest> =
+  s.object<ListRecommendedIntentsRequest>(
+    {
+      botId: s.string(),
+      botVersion: s.string(),
+      localeId: s.string(),
+      botRecommendationId: s.string(),
+      nextToken: s.optional(s.string()),
+      maxResults: s.optional(s.int()),
+    },
+    { additionalProperties: s.json() },
+  );

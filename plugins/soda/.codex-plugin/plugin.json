@@ -1,0 +1,10 @@
+{
+  "name": "soda",
+  "version": "0.1.0",
+  "description": "Manage datasets, data sources, contracts, checks, scans, and incidents in Soda Cloud.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Soda",
+    "developerName": "APIMatic"
+  }
+}

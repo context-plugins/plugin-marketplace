@@ -1,0 +1,5 @@
+<Solution>
+    <Folder Name="/src/">
+        <Project Path="src/DynamicFeed/DynamicFeed.csproj" />
+    </Folder>
+</Solution>

@@ -1,0 +1,10 @@
+{
+  "name": "google-cloud-tasks",
+  "version": "0.1.0",
+  "description": "Create and manage queues and tasks with Google Cloud Tasks.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Google Cloud Tasks",
+    "developerName": "APIMatic"
+  }
+}

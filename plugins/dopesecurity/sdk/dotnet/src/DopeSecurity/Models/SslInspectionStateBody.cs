@@ -1,0 +1,20 @@
+using System.Text.Json.Serialization;
+using DopeSecurity.Core.Models;
+using DopeSecurity.Models.Enums;
+
+namespace DopeSecurity.Models;
+
+/// <summary>
+/// Set a custom SSL inspection state on a policy.
+/// </summary>
+public record SslInspectionStateBody
+{
+    /// <summary>
+    /// The state of SSL inspection for this policy.
+    /// </summary>
+    [JsonPropertyName("state")]
+    public required State State { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

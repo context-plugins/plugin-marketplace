@@ -1,0 +1,10 @@
+{
+  "name": "cloudkit",
+  "version": "0.1.0",
+  "description": "Read and write records, zones, assets, and subscriptions in a CloudKit container from any platform.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "CloudKit",
+    "developerName": "APIMatic"
+  }
+}

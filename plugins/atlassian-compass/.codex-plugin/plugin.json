@@ -1,0 +1,10 @@
+{
+  "name": "atlassian-compass",
+  "version": "0.1.0",
+  "description": "Send events and metrics, and manage attachments, webhooks, and package dependencies in Atlassian Compass.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Atlassian Compass",
+    "developerName": "APIMatic"
+  }
+}

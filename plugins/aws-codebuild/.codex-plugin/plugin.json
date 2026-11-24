@@ -1,0 +1,10 @@
+{
+  "name": "aws-codebuild",
+  "version": "0.1.0",
+  "description": "Run builds and manage build projects, reports, fleets, and sandboxes with AWS CodeBuild.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "AWS CodeBuild",
+    "developerName": "APIMatic"
+  }
+}

@@ -1,0 +1,28 @@
+using System.Text.Json.Serialization;
+using Divvy.Core.Models;
+using Divvy.Models.Enums;
+
+namespace Divvy.Models;
+
+/// <summary>
+/// User provided options for processing the payments request.
+/// </summary>
+public record BulkProcessingOptions
+{
+    /// <summary>
+    /// Set as <c>true</c> to use BILL Pay Faster. This field is required if <c>requestCheckDeliveryType</c> is set.
+    /// <para>
+    ///   See <see href="https://developer.bill.com/docs/ap-payments">Payments</see>   in the Guides section for information about BILL Pay Faster payments.
+    /// </para>
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("requestPayFaster")]
+    public bool? RequestPayFaster { get; init; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("requestCheckDeliveryType")]
+    public CheckDeliveryTypeRequest? RequestCheckDeliveryType { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

@@ -1,0 +1,70 @@
+{
+  "name": "nordic-financial-news",
+  "version": "1.0.0",
+  "description": "REST API for Nordic financial news. Each article is summarized in English (headline, short summary, and key points) with the original-language article linked via `article_url`. The full article body stays at the source. ## Authentication\nAll endpoints require Bearer token authentication using an API key. Include the API key in the Authorization header:\n```\nAuthorization: Bearer YOUR_API_KEY\n```\n\n## Rate Limiting\nRate limits apply per account, shared across every API key on that account — not per\nindividual key:\n- **Free**: 100 requests/hour\n- **Plus**: 100 requests/hour\n- **Pro**: 5,000 requests/hour\n\nOn Free and Plus, MCP tool calls have their own hourly and monthly allowance and do not\ncount toward these REST limits. On Pro, REST requests and MCP tool calls share one allowance. Rate limit information is included in response headers:\n- `X-RateLimit-Limit`: Maximum requests per hour\n- `X-RateLimit-Remaining`: Requests remaining\n- `X-RateLimit-Reset`: Seconds until limit resets\n- `X-RateLimit-Policy`: Human-readable rate limit policy (e.g. `5000 per hour; fixed window`)\n\nA single client IP is additionally capped at 300 requests per 5-minute window, so\nreaching your account's full hourly allowance requires spreading requests across more\nthan one source IP. The `/health` endpoint is exempt from rate limiting and does not return rate limit headers. ## Monthly Usage Limits\nFree and Plus accounts have a fixed monthly allowance that resets at the start of each\ncalendar month, shared across every API key on the account:\n- **Free**: 100 requests/month\n- **Plus**: 100 requests/month\n\nResponses on these plans include:\n- `X-Monthly-Limit`: Maximum requests for the current month\n- `X-Monthly-Remaining`: Requests remaining this month\n- `X-Monthly-Reset`: ISO 8601 timestamp when the allowance resets\n\nWhen the allowance is exceeded, the API returns `429 Too Many Requests` with a `Retry-After` header. Pro has no hard limit. It includes 25,000 requests per billing cycle, with usage-based\npricing beyond that, so requests are never blocked. Responses on Pro include:\n- `X-Monthly-Usage`: Requests used in the current billing cycle\n- `X-Monthly-Reset`: ISO 8601 timestamp when the current billing cycle ends\n\nA Pro billing cycle follows your subscription's billing period, which begins on the\ndate you subscribed and is not necessarily a calendar month. Usage is counted by day,\nso the first day of a billing cycle is counted in full. ## Caching\nEvery list and single-resource endpoint returns an `ETag`. Most also return\n`Last-Modified` (on lists, when the page is not empty); `GET /stories/{id}` and the\nEvents endpoints do not. Send the ETag back as `If-None-Match`, or the date as\n`If-Modified-Since`, to receive `304 Not Modified` when nothing has changed. A 304\nhas no body and does not count against the monthly request allowance. `GET /events`, `GET /events/{id}` and `GET /companies/{identifier}/events` return an\n`ETag` but no `Last-Modified`, so revalidate those routes with `If-None-Match`. An\nevent's visible company and story membership, and its live article count, all change\nwithout moving its `updated_at`, so a date-based validator would report \"not\nmodified\" across a change the `ETag` catches. Some requests are never cached and return `Cache-Control: no-cache, no-store` with\nno `ETag`: full-text search (`q`), `updated_after` sync requests, and `GET /search`. The `ETag` reflects the response as served, not only record timestamps. On articles\nand stories, including the company-scoped routes, and on `GET /calendar_events`, it\nchanges when a plan limit alters the visible set, and on stories when a story's\nvisible article set changes. A changed `ETag` does not necessarily mean a record was\nupdated. On the Events endpoints the `ETag` additionally covers each event's visible\ncompany and story ids and its live article count, none of which move the event's\n`updated_at`. ## Pagination\nList endpoints support cursor-based pagination.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "tshy": {
+    "exports": {
+      ".": "./src/index.ts",
+      "./package.json": "./package.json"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "project": "./tsconfig.tshy.json",
+    "selfLink": false
+  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "tsconfig.json",
+    "tsconfig.tshy.json",
+    "README.md",
+    "api-reference.md",
+    "sdk-map.md",
+    "map"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.3"
+  },
+  "scripts": {
+    "prepare": "tshy",
+    "build": "tshy",
+    "smoke": "node -e \"require('nordic-financial-news')\" && node --input-type=module -e \"import('nordic-financial-news')\"",
+    "typecheck": "tsc --noEmit",
+    "typecheck:dom": "tsc --noEmit -p tsconfig.dom.json",
+    "lint": "oxlint --type-aware --max-warnings=0 src",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "oxfmt": "^0.61.0",
+    "oxlint": "^1.76.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "tshy": "^4.1.3",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "lusha",
+  "version": "0.1.0",
+  "description": "Search and enrich B2B contacts and companies, and get signals and lookalikes with Lusha.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Lusha",
+    "developerName": "APIMatic"
+  }
+}

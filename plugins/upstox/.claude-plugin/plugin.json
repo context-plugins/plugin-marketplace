@@ -1,0 +1,21 @@
+{
+  "name": "upstox",
+  "displayName": "Upstox",
+  "version": "0.1.0",
+  "description": "Place and manage orders, and get market quotes, historical candles, holdings, and positions with Upstox.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/upstox-planner.md"
+  ]
+}

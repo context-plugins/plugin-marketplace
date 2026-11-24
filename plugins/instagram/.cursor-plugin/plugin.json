@@ -1,0 +1,18 @@
+{
+  "name": "instagram",
+  "displayName": "Instagram",
+  "version": "0.1.0",
+  "description": "Publish media, moderate comments, search hashtags, and read insights for Instagram professional accounts.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

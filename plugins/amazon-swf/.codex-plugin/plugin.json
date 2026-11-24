@@ -1,0 +1,10 @@
+{
+  "name": "amazon-swf",
+  "version": "0.1.0",
+  "description": "Register workflow and activity types, run workflow executions, and poll for tasks with Amazon SWF.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Amazon SWF",
+    "developerName": "APIMatic"
+  }
+}

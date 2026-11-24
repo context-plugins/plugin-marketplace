@@ -1,0 +1,18 @@
+{
+  "name": "paid",
+  "displayName": "Paid",
+  "version": "0.1.0",
+  "description": "Manage customers, orders, plans, products, invoices, and usage-based billing for AI agents with Paid.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

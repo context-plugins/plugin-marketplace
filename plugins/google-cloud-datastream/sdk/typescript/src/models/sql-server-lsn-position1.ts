@@ -1,0 +1,17 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+
+/** SqlServer LSN to start replicating from. */
+export type SqlServerLsnPosition1 = {
+  /** Required. Log sequence number (LSN) from where Logs will be read */
+  lsn?: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const sqlServerLsnPosition1Schema: Schema<SqlServerLsnPosition1> = s.object<SqlServerLsnPosition1>(
+  {
+    lsn: s.optional(s.string()),
+  },
+  { additionalProperties: s.json() },
+);

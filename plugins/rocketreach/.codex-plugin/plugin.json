@@ -1,0 +1,10 @@
+{
+  "name": "rocketreach",
+  "version": "0.1.0",
+  "description": "Search and look up contact details for professionals and companies with RocketReach.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "RocketReach",
+    "developerName": "APIMatic"
+  }
+}

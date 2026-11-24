@@ -1,0 +1,10 @@
+{
+  "name": "service-cloud",
+  "version": "0.1.0",
+  "description": "Start, continue, and end Einstein Bot sessions in Salesforce Service Cloud.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Salesforce Service Cloud",
+    "developerName": "APIMatic"
+  }
+}

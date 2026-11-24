@@ -1,0 +1,10 @@
+{
+  "name": "crawl4ai",
+  "version": "0.1.0",
+  "description": "Crawl web pages and extract clean, AI-ready content with Crawl4AI.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Crawl4AI",
+    "developerName": "APIMatic"
+  }
+}

@@ -1,0 +1,19 @@
+from __future__ import annotations
+
+from typing_extensions import NotRequired, TypedDict
+
+from ..core import UNSET, Optional, OptionalNullable, SdkBaseModel
+
+
+class HouseholdUpdateRequest(SdkBaseModel):
+    name: Optional[str] = UNSET
+    head_contact_id: OptionalNullable[int] = UNSET
+    note: OptionalNullable[str] = UNSET
+    envelope_name: OptionalNullable[str] = UNSET
+
+
+class HouseholdUpdateRequestDict(TypedDict):
+    name: NotRequired[str]
+    head_contact_id: NotRequired[int | None]
+    note: NotRequired[str | None]
+    envelope_name: NotRequired[str | None]

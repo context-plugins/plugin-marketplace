@@ -1,0 +1,10 @@
+{
+  "name": "paid",
+  "version": "0.1.0",
+  "description": "Manage customers, orders, plans, products, invoices, and usage-based billing for AI agents with Paid.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Paid",
+    "developerName": "APIMatic"
+  }
+}

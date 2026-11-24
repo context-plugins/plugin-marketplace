@@ -1,0 +1,46 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+import { includedData1Schema, type IncludedData1 } from "./included-data1.js";
+
+export type StartSyncExecutionInput = {
+  /** The Amazon Resource Name (ARN) of the state machine to execute. */
+  stateMachineArn: string;
+  /** The name of the execution. */
+  name?: string;
+  /**
+   * The string that contains the JSON input data for the execution, for example: "{\"first_name\" :
+   * \"Alejandro\"}" If you don't include any JSON input data, you still must include the two
+   * braces, for example: "{}" Length constraints apply to the payload size, and are expressed as
+   * bytes in UTF-8 encoding.
+   */
+  input?: string;
+  /**
+   * Passes the X-Ray trace header. The trace header can also be passed in the request payload. For
+   * X-Ray traces, all Amazon Web Services services use the X-Amzn-Trace-Id header from the HTTP
+   * request. Using the header is the preferred mechanism to identify a trace. StartExecution and
+   * StartSyncExecution API operations can also use traceHeader from the body of the request
+   * payload. If both sources are provided, Step Functions will use the header value (preferred)
+   * over the value in the request body.
+   */
+  traceHeader?: string;
+  /**
+   * If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt
+   * permission to decrypt the definition. Alternatively, you can call the API with includedData =
+   * METADATA_ONLY to get a successful response without the encrypted definition.
+   */
+  includedData?: IncludedData1;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const startSyncExecutionInputSchema: Schema<StartSyncExecutionInput> =
+  s.object<StartSyncExecutionInput>(
+    {
+      stateMachineArn: s.string(),
+      name: s.optional(s.string()),
+      input: s.optional(s.string()),
+      traceHeader: s.optional(s.string()),
+      includedData: s.optional(s.lazy(() => includedData1Schema)),
+    },
+    { additionalProperties: s.json() },
+  );

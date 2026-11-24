@@ -1,0 +1,21 @@
+{
+  "name": "whoisfreaks",
+  "displayName": "WhoisFreaks",
+  "version": "0.1.0",
+  "description": "Look up WHOIS, DNS, SSL, IP geolocation, and domain reputation, and download bulk databases with WhoisFreaks.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/whois-freaks-planner.md"
+  ]
+}

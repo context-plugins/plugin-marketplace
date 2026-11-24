@@ -1,0 +1,26 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+import {
+  allOrganizationsResponseDtoSchema,
+  type AllOrganizationsResponseDto,
+} from "./all-organizations-response-dto.js";
+
+/** Response from a list API request with paging references. */
+export type ListAllResponseDtoAllOrganizationsResponseDto = {
+  nextPage?: string;
+  prevPage?: string;
+  /** Get list of organizations response. */
+  results?: AllOrganizationsResponseDto;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const listAllResponseDtoAllOrganizationsResponseDtoSchema: Schema<ListAllResponseDtoAllOrganizationsResponseDto> =
+  s.object<ListAllResponseDtoAllOrganizationsResponseDto>(
+    {
+      nextPage: s.optional(s.string()),
+      prevPage: s.optional(s.string()),
+      results: s.optional(s.lazy(() => allOrganizationsResponseDtoSchema)),
+    },
+    { additionalProperties: s.json() },
+  );

@@ -1,0 +1,10 @@
+{
+  "name": "rendex",
+  "version": "0.1.0",
+  "description": "Render web pages, HTML, or Markdown to images and PDFs, in single or batch jobs, with Rendex.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Rendex",
+    "developerName": "APIMatic"
+  }
+}

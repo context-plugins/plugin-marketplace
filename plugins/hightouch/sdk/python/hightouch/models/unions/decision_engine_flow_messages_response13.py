@@ -1,0 +1,15 @@
+from __future__ import annotations
+
+from typing import TypeAlias
+
+from ..decision_engine_error_response import DecisionEngineErrorResponse, DecisionEngineErrorResponseDict
+from ..enums.internal_server_error import InternalServerErrorOrStr
+from ..validate_error_json import ValidateErrorJson, ValidateErrorJsonDict
+
+DecisionEngineFlowMessagesResponse13: TypeAlias = (
+    DecisionEngineErrorResponse | ValidateErrorJson | InternalServerErrorOrStr
+)
+
+DecisionEngineFlowMessagesResponse13Dict: TypeAlias = (
+    DecisionEngineErrorResponseDict | ValidateErrorJsonDict | InternalServerErrorOrStr
+)

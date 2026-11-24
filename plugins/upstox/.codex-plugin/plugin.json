@@ -1,0 +1,10 @@
+{
+  "name": "upstox",
+  "version": "0.1.0",
+  "description": "Place and manage orders, and get market quotes, historical candles, holdings, and positions with Upstox.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Upstox",
+    "developerName": "APIMatic"
+  }
+}

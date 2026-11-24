@@ -1,0 +1,17 @@
+from __future__ import annotations
+
+from typing_extensions import NotRequired, TypedDict
+
+from ..core import UNSET, Optional, SdkBaseModel
+
+
+class Chargeback(SdkBaseModel):
+    email: Optional[str] = UNSET
+    phone: Optional[str] = UNSET
+    policy_url: Optional[str] = UNSET
+
+
+class ChargebackDict(TypedDict):
+    email: NotRequired[str]
+    phone: NotRequired[str]
+    policy_url: NotRequired[str]

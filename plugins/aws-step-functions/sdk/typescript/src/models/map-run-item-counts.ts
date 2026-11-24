@@ -1,0 +1,67 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+
+export type MapRunItemCounts = {
+  /**
+   * The total number of items to process in child workflow executions that haven't started running
+   * yet.
+   */
+  pending: number;
+  /**
+   * The total number of items being processed in child workflow executions that are currently
+   * in-progress.
+   */
+  running: number;
+  /**
+   * The total number of items processed in child workflow executions that have completed
+   * successfully.
+   */
+  succeeded: number;
+  /** The total number of items processed in child workflow executions that have failed. */
+  failed: number;
+  /** The total number of items processed in child workflow executions that have timed out. */
+  timedOut: number;
+  /**
+   * The total number of items processed in child workflow executions that were either stopped by
+   * the user or by Step Functions, because the Map Run failed.
+   */
+  aborted: number;
+  /**
+   * The total number of items processed in all the child workflow executions started by a Map Run.
+   */
+  total: number;
+  /**
+   * Returns the count of items whose results were written by ResultWriter. For more information,
+   * see ResultWriter in the Step Functions Developer Guide.
+   */
+  resultsWritten: number;
+  /**
+   * The number of FAILED, ABORTED, or TIMED_OUT items in child workflow executions that cannot be
+   * redriven because the execution status of those child workflows is terminal. For example, child
+   * workflows with an execution status of FAILED, ABORTED, or TIMED_OUT and a redriveStatus of
+   * NOT_REDRIVABLE.
+   */
+  failuresNotRedrivable?: number;
+  /**
+   * The number of unsuccessful items in child workflow executions currently waiting to be redriven.
+   */
+  pendingRedrive?: number;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const mapRunItemCountsSchema: Schema<MapRunItemCounts> = s.object<MapRunItemCounts>(
+  {
+    pending: s.int(),
+    running: s.int(),
+    succeeded: s.int(),
+    failed: s.int(),
+    timedOut: s.int(),
+    aborted: s.int(),
+    total: s.int(),
+    resultsWritten: s.int(),
+    failuresNotRedrivable: s.optional(s.int()),
+    pendingRedrive: s.optional(s.int()),
+  },
+  { additionalProperties: s.json() },
+);

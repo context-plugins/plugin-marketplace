@@ -1,0 +1,14 @@
+import * as s from "../core/validation/index.js";
+import type { EnumSchema } from "../core/validation/schema.js";
+
+export const Status3 = {
+  Active: "active",
+  Retired: "retired",
+  PaymentPending: "payment_pending",
+  PaymentFailed: "payment_failed",
+  Queued: "queued",
+  QueuedDeleted: "queued_deleted",
+} as const;
+export type Status3 = (typeof Status3)[keyof typeof Status3] | (string & {});
+
+export const status3Schema: EnumSchema<Status3> = s.enumOf<Status3>(Status3);

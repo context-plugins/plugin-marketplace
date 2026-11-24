@@ -1,0 +1,22 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Final, TypeAlias
+
+from ..core import ErrorMapper, RawError, decode_json
+from ..models.http_validation_error import HttpValidationError
+
+MoversMoversGetErrorBody: TypeAlias = HttpValidationError | RawError
+
+
+@dataclass(frozen=True, slots=True)
+class _MoversMoversGetError:
+    def map(self, status_code: int, content: bytes) -> MoversMoversGetErrorBody:
+        match status_code:
+            case 422:
+                return decode_json[HttpValidationError](content)
+            case _:
+                return RawError(status_code, content)
+
+
+movers_movers_get_error_mapper: Final[ErrorMapper[MoversMoversGetErrorBody]] = _MoversMoversGetError()

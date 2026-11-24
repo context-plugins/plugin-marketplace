@@ -1,0 +1,21 @@
+from __future__ import annotations
+
+from typing_extensions import NotRequired, TypedDict
+
+from ..core import UNSET, Optional, SdkBaseModel
+
+
+class PostWebRecipients(SdkBaseModel):
+    tier_ids: Optional[list[str]] = UNSET
+    """The tier IDs to target. Accepts specific tier UUIDs or the special values ``"free"``, ``"premium"``, or
+    ``"all"``. When ``"all"`` is provided, targets all subscriber tiers — free subscribers, and premium subscribers if
+    the publication has an active paid tier."""
+
+    include_segment_ids: Optional[list[str]] = UNSET
+    exclude_segment_ids: Optional[list[str]] = UNSET
+
+
+class PostWebRecipientsDict(TypedDict):
+    tier_ids: NotRequired[list[str]]
+    include_segment_ids: NotRequired[list[str]]
+    exclude_segment_ids: NotRequired[list[str]]

@@ -1,0 +1,18 @@
+{
+  "name": "google-cloud-datastream",
+  "displayName": "Google Cloud Datastream",
+  "version": "0.1.0",
+  "description": "Create and run change data capture streams, connection profiles, and private connections with Google Cloud Datastream.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

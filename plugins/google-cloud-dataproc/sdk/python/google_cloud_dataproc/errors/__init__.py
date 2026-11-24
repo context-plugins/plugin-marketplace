@@ -1,0 +1,1083 @@
+from .dataproc_projects_locations_autoscaling_policies_create_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesCreateErrorBody,
+    dataproc_projects_locations_autoscaling_policies_create_error_mapper,
+)
+from .dataproc_projects_locations_autoscaling_policies_delete_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesDeleteErrorBody,
+    dataproc_projects_locations_autoscaling_policies_delete_error_mapper,
+)
+from .dataproc_projects_locations_autoscaling_policies_get_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesGetErrorBody,
+    dataproc_projects_locations_autoscaling_policies_get_error_mapper,
+)
+from .dataproc_projects_locations_autoscaling_policies_get_iam_policy_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesGetIamPolicyErrorBody,
+    dataproc_projects_locations_autoscaling_policies_get_iam_policy_error_mapper,
+)
+from .dataproc_projects_locations_autoscaling_policies_list_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesListErrorBody,
+    dataproc_projects_locations_autoscaling_policies_list_error_mapper,
+)
+from .dataproc_projects_locations_autoscaling_policies_set_iam_policy_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesSetIamPolicyErrorBody,
+    dataproc_projects_locations_autoscaling_policies_set_iam_policy_error_mapper,
+)
+from .dataproc_projects_locations_autoscaling_policies_test_iam_permissions_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesTestIamPermissionsErrorBody,
+    dataproc_projects_locations_autoscaling_policies_test_iam_permissions_error_mapper,
+)
+from .dataproc_projects_locations_autoscaling_policies_update_error import (
+    DataprocProjectsLocationsAutoscalingPoliciesUpdateErrorBody,
+    dataproc_projects_locations_autoscaling_policies_update_error_mapper,
+)
+from .dataproc_projects_locations_batches_analyze_error import (
+    DataprocProjectsLocationsBatchesAnalyzeErrorBody,
+    dataproc_projects_locations_batches_analyze_error_mapper,
+)
+from .dataproc_projects_locations_batches_create_error import (
+    DataprocProjectsLocationsBatchesCreateErrorBody,
+    dataproc_projects_locations_batches_create_error_mapper,
+)
+from .dataproc_projects_locations_batches_delete_error import (
+    DataprocProjectsLocationsBatchesDeleteErrorBody,
+    dataproc_projects_locations_batches_delete_error_mapper,
+)
+from .dataproc_projects_locations_batches_get_error import (
+    DataprocProjectsLocationsBatchesGetErrorBody,
+    dataproc_projects_locations_batches_get_error_mapper,
+)
+from .dataproc_projects_locations_batches_list_error import (
+    DataprocProjectsLocationsBatchesListErrorBody,
+    dataproc_projects_locations_batches_list_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_access_environment_info_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessEnvironmentInfoErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_environment_info_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_access_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_access_job_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessJobErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_job_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_access_native_build_info_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessNativeBuildInfoErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_native_build_info_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_access_native_sql_query_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessNativeSqlQueryErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_native_sql_query_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_access_sql_plan_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessSqlPlanErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_sql_plan_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_access_sql_query_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessSqlQueryErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_sql_query_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_access_stage_attempt_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessStageAttemptErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_stage_attempt_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_access_stage_rdd_graph_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsAccessStageRddGraphErrorBody,
+    dataproc_projects_locations_batches_spark_applications_access_stage_rdd_graph_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_compute_tuning_config_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsComputeTuningConfigErrorBody,
+    dataproc_projects_locations_batches_spark_applications_compute_tuning_config_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_search_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_search_executor_stage_summary_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchExecutorStageSummaryErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_executor_stage_summary_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_search_executors_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchExecutorsErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_executors_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_search_jobs_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchJobsErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_jobs_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_search_native_sql_queries_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchNativeSqlQueriesErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_native_sql_queries_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_search_sql_queries_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchSqlQueriesErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_sql_queries_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_search_stage_attempt_tasks_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchStageAttemptTasksErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_stage_attempt_tasks_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_search_stage_attempts_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchStageAttemptsErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_stage_attempts_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_search_stages_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSearchStagesErrorBody,
+    dataproc_projects_locations_batches_spark_applications_search_stages_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_summarize_executors_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSummarizeExecutorsErrorBody,
+    dataproc_projects_locations_batches_spark_applications_summarize_executors_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_summarize_jobs_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSummarizeJobsErrorBody,
+    dataproc_projects_locations_batches_spark_applications_summarize_jobs_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_summarize_stage_attempt_tasks_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSummarizeStageAttemptTasksErrorBody,
+    dataproc_projects_locations_batches_spark_applications_summarize_stage_attempt_tasks_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_summarize_stages_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsSummarizeStagesErrorBody,
+    dataproc_projects_locations_batches_spark_applications_summarize_stages_error_mapper,
+)
+from .dataproc_projects_locations_batches_spark_applications_write_error import (
+    DataprocProjectsLocationsBatchesSparkApplicationsWriteErrorBody,
+    dataproc_projects_locations_batches_spark_applications_write_error_mapper,
+)
+from .dataproc_projects_locations_operations_cancel_error import (
+    DataprocProjectsLocationsOperationsCancelErrorBody,
+    dataproc_projects_locations_operations_cancel_error_mapper,
+)
+from .dataproc_projects_locations_operations_delete_error import (
+    DataprocProjectsLocationsOperationsDeleteErrorBody,
+    dataproc_projects_locations_operations_delete_error_mapper,
+)
+from .dataproc_projects_locations_operations_get_error import (
+    DataprocProjectsLocationsOperationsGetErrorBody,
+    dataproc_projects_locations_operations_get_error_mapper,
+)
+from .dataproc_projects_locations_operations_list_error import (
+    DataprocProjectsLocationsOperationsListErrorBody,
+    dataproc_projects_locations_operations_list_error_mapper,
+)
+from .dataproc_projects_locations_session_templates_create_error import (
+    DataprocProjectsLocationsSessionTemplatesCreateErrorBody,
+    dataproc_projects_locations_session_templates_create_error_mapper,
+)
+from .dataproc_projects_locations_session_templates_delete_error import (
+    DataprocProjectsLocationsSessionTemplatesDeleteErrorBody,
+    dataproc_projects_locations_session_templates_delete_error_mapper,
+)
+from .dataproc_projects_locations_session_templates_get_error import (
+    DataprocProjectsLocationsSessionTemplatesGetErrorBody,
+    dataproc_projects_locations_session_templates_get_error_mapper,
+)
+from .dataproc_projects_locations_session_templates_list_error import (
+    DataprocProjectsLocationsSessionTemplatesListErrorBody,
+    dataproc_projects_locations_session_templates_list_error_mapper,
+)
+from .dataproc_projects_locations_session_templates_patch_error import (
+    DataprocProjectsLocationsSessionTemplatesPatchErrorBody,
+    dataproc_projects_locations_session_templates_patch_error_mapper,
+)
+from .dataproc_projects_locations_sessions_create_error import (
+    DataprocProjectsLocationsSessionsCreateErrorBody,
+    dataproc_projects_locations_sessions_create_error_mapper,
+)
+from .dataproc_projects_locations_sessions_delete_error import (
+    DataprocProjectsLocationsSessionsDeleteErrorBody,
+    dataproc_projects_locations_sessions_delete_error_mapper,
+)
+from .dataproc_projects_locations_sessions_get_error import (
+    DataprocProjectsLocationsSessionsGetErrorBody,
+    dataproc_projects_locations_sessions_get_error_mapper,
+)
+from .dataproc_projects_locations_sessions_list_error import (
+    DataprocProjectsLocationsSessionsListErrorBody,
+    dataproc_projects_locations_sessions_list_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_access_environment_info_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessEnvironmentInfoErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_environment_info_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_access_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_access_job_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessJobErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_job_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_access_native_build_info_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessNativeBuildInfoErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_native_build_info_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_access_native_sql_query_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessNativeSqlQueryErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_native_sql_query_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_access_sql_plan_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessSqlPlanErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_sql_plan_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_access_sql_query_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessSqlQueryErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_sql_query_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_access_stage_attempt_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessStageAttemptErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_stage_attempt_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_access_stage_rdd_graph_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsAccessStageRddGraphErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_access_stage_rdd_graph_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_search_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_search_executor_stage_summary_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchExecutorStageSummaryErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_executor_stage_summary_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_search_executors_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchExecutorsErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_executors_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_search_jobs_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchJobsErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_jobs_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_search_native_sql_queries_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchNativeSqlQueriesErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_native_sql_queries_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_search_sql_queries_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchSqlQueriesErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_sql_queries_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_search_stage_attempt_tasks_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchStageAttemptTasksErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_stage_attempt_tasks_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_search_stage_attempts_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchStageAttemptsErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_stage_attempts_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_search_stages_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSearchStagesErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_search_stages_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_summarize_executors_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSummarizeExecutorsErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_summarize_executors_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_summarize_jobs_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSummarizeJobsErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_summarize_jobs_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_summarize_stage_attempt_tasks_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSummarizeStageAttemptTasksErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_summarize_stage_attempt_tasks_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_summarize_stages_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsSummarizeStagesErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_summarize_stages_error_mapper,
+)
+from .dataproc_projects_locations_sessions_spark_applications_write_error import (
+    DataprocProjectsLocationsSessionsSparkApplicationsWriteErrorBody,
+    dataproc_projects_locations_sessions_spark_applications_write_error_mapper,
+)
+from .dataproc_projects_locations_sessions_terminate_error import (
+    DataprocProjectsLocationsSessionsTerminateErrorBody,
+    dataproc_projects_locations_sessions_terminate_error_mapper,
+)
+from .dataproc_projects_locations_workflow_templates_create_error import (
+    DataprocProjectsLocationsWorkflowTemplatesCreateErrorBody,
+    dataproc_projects_locations_workflow_templates_create_error_mapper,
+)
+from .dataproc_projects_locations_workflow_templates_delete_error import (
+    DataprocProjectsLocationsWorkflowTemplatesDeleteErrorBody,
+    dataproc_projects_locations_workflow_templates_delete_error_mapper,
+)
+from .dataproc_projects_locations_workflow_templates_get_error import (
+    DataprocProjectsLocationsWorkflowTemplatesGetErrorBody,
+    dataproc_projects_locations_workflow_templates_get_error_mapper,
+)
+from .dataproc_projects_locations_workflow_templates_get_iam_policy_error import (
+    DataprocProjectsLocationsWorkflowTemplatesGetIamPolicyErrorBody,
+    dataproc_projects_locations_workflow_templates_get_iam_policy_error_mapper,
+)
+from .dataproc_projects_locations_workflow_templates_instantiate_error import (
+    DataprocProjectsLocationsWorkflowTemplatesInstantiateErrorBody,
+    dataproc_projects_locations_workflow_templates_instantiate_error_mapper,
+)
+from .dataproc_projects_locations_workflow_templates_instantiate_inline_error import (
+    DataprocProjectsLocationsWorkflowTemplatesInstantiateInlineErrorBody,
+    dataproc_projects_locations_workflow_templates_instantiate_inline_error_mapper,
+)
+from .dataproc_projects_locations_workflow_templates_list_error import (
+    DataprocProjectsLocationsWorkflowTemplatesListErrorBody,
+    dataproc_projects_locations_workflow_templates_list_error_mapper,
+)
+from .dataproc_projects_locations_workflow_templates_set_iam_policy_error import (
+    DataprocProjectsLocationsWorkflowTemplatesSetIamPolicyErrorBody,
+    dataproc_projects_locations_workflow_templates_set_iam_policy_error_mapper,
+)
+from .dataproc_projects_locations_workflow_templates_test_iam_permissions_error import (
+    DataprocProjectsLocationsWorkflowTemplatesTestIamPermissionsErrorBody,
+    dataproc_projects_locations_workflow_templates_test_iam_permissions_error_mapper,
+)
+from .dataproc_projects_locations_workflow_templates_update_error import (
+    DataprocProjectsLocationsWorkflowTemplatesUpdateErrorBody,
+    dataproc_projects_locations_workflow_templates_update_error_mapper,
+)
+from .dataproc_projects_regions_autoscaling_policies_create_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesCreateErrorBody,
+    dataproc_projects_regions_autoscaling_policies_create_error_mapper,
+)
+from .dataproc_projects_regions_autoscaling_policies_delete_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesDeleteErrorBody,
+    dataproc_projects_regions_autoscaling_policies_delete_error_mapper,
+)
+from .dataproc_projects_regions_autoscaling_policies_get_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesGetErrorBody,
+    dataproc_projects_regions_autoscaling_policies_get_error_mapper,
+)
+from .dataproc_projects_regions_autoscaling_policies_get_iam_policy_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesGetIamPolicyErrorBody,
+    dataproc_projects_regions_autoscaling_policies_get_iam_policy_error_mapper,
+)
+from .dataproc_projects_regions_autoscaling_policies_list_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesListErrorBody,
+    dataproc_projects_regions_autoscaling_policies_list_error_mapper,
+)
+from .dataproc_projects_regions_autoscaling_policies_set_iam_policy_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesSetIamPolicyErrorBody,
+    dataproc_projects_regions_autoscaling_policies_set_iam_policy_error_mapper,
+)
+from .dataproc_projects_regions_autoscaling_policies_test_iam_permissions_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesTestIamPermissionsErrorBody,
+    dataproc_projects_regions_autoscaling_policies_test_iam_permissions_error_mapper,
+)
+from .dataproc_projects_regions_autoscaling_policies_update_error import (
+    DataprocProjectsRegionsAutoscalingPoliciesUpdateErrorBody,
+    dataproc_projects_regions_autoscaling_policies_update_error_mapper,
+)
+from .dataproc_projects_regions_clusters_create_error import (
+    DataprocProjectsRegionsClustersCreateErrorBody,
+    dataproc_projects_regions_clusters_create_error_mapper,
+)
+from .dataproc_projects_regions_clusters_delete_error import (
+    DataprocProjectsRegionsClustersDeleteErrorBody,
+    dataproc_projects_regions_clusters_delete_error_mapper,
+)
+from .dataproc_projects_regions_clusters_diagnose_error import (
+    DataprocProjectsRegionsClustersDiagnoseErrorBody,
+    dataproc_projects_regions_clusters_diagnose_error_mapper,
+)
+from .dataproc_projects_regions_clusters_get_error import (
+    DataprocProjectsRegionsClustersGetErrorBody,
+    dataproc_projects_regions_clusters_get_error_mapper,
+)
+from .dataproc_projects_regions_clusters_get_iam_policy_error import (
+    DataprocProjectsRegionsClustersGetIamPolicyErrorBody,
+    dataproc_projects_regions_clusters_get_iam_policy_error_mapper,
+)
+from .dataproc_projects_regions_clusters_inject_credentials_error import (
+    DataprocProjectsRegionsClustersInjectCredentialsErrorBody,
+    dataproc_projects_regions_clusters_inject_credentials_error_mapper,
+)
+from .dataproc_projects_regions_clusters_list_error import (
+    DataprocProjectsRegionsClustersListErrorBody,
+    dataproc_projects_regions_clusters_list_error_mapper,
+)
+from .dataproc_projects_regions_clusters_node_groups_create_error import (
+    DataprocProjectsRegionsClustersNodeGroupsCreateErrorBody,
+    dataproc_projects_regions_clusters_node_groups_create_error_mapper,
+)
+from .dataproc_projects_regions_clusters_node_groups_get_error import (
+    DataprocProjectsRegionsClustersNodeGroupsGetErrorBody,
+    dataproc_projects_regions_clusters_node_groups_get_error_mapper,
+)
+from .dataproc_projects_regions_clusters_node_groups_repair_error import (
+    DataprocProjectsRegionsClustersNodeGroupsRepairErrorBody,
+    dataproc_projects_regions_clusters_node_groups_repair_error_mapper,
+)
+from .dataproc_projects_regions_clusters_node_groups_resize_error import (
+    DataprocProjectsRegionsClustersNodeGroupsResizeErrorBody,
+    dataproc_projects_regions_clusters_node_groups_resize_error_mapper,
+)
+from .dataproc_projects_regions_clusters_patch_error import (
+    DataprocProjectsRegionsClustersPatchErrorBody,
+    dataproc_projects_regions_clusters_patch_error_mapper,
+)
+from .dataproc_projects_regions_clusters_repair_error import (
+    DataprocProjectsRegionsClustersRepairErrorBody,
+    dataproc_projects_regions_clusters_repair_error_mapper,
+)
+from .dataproc_projects_regions_clusters_set_iam_policy_error import (
+    DataprocProjectsRegionsClustersSetIamPolicyErrorBody,
+    dataproc_projects_regions_clusters_set_iam_policy_error_mapper,
+)
+from .dataproc_projects_regions_clusters_start_error import (
+    DataprocProjectsRegionsClustersStartErrorBody,
+    dataproc_projects_regions_clusters_start_error_mapper,
+)
+from .dataproc_projects_regions_clusters_stop_error import (
+    DataprocProjectsRegionsClustersStopErrorBody,
+    dataproc_projects_regions_clusters_stop_error_mapper,
+)
+from .dataproc_projects_regions_clusters_test_iam_permissions_error import (
+    DataprocProjectsRegionsClustersTestIamPermissionsErrorBody,
+    dataproc_projects_regions_clusters_test_iam_permissions_error_mapper,
+)
+from .dataproc_projects_regions_jobs_cancel_error import (
+    DataprocProjectsRegionsJobsCancelErrorBody,
+    dataproc_projects_regions_jobs_cancel_error_mapper,
+)
+from .dataproc_projects_regions_jobs_delete_error import (
+    DataprocProjectsRegionsJobsDeleteErrorBody,
+    dataproc_projects_regions_jobs_delete_error_mapper,
+)
+from .dataproc_projects_regions_jobs_get_error import (
+    DataprocProjectsRegionsJobsGetErrorBody,
+    dataproc_projects_regions_jobs_get_error_mapper,
+)
+from .dataproc_projects_regions_jobs_get_iam_policy_error import (
+    DataprocProjectsRegionsJobsGetIamPolicyErrorBody,
+    dataproc_projects_regions_jobs_get_iam_policy_error_mapper,
+)
+from .dataproc_projects_regions_jobs_list_error import (
+    DataprocProjectsRegionsJobsListErrorBody,
+    dataproc_projects_regions_jobs_list_error_mapper,
+)
+from .dataproc_projects_regions_jobs_patch_error import (
+    DataprocProjectsRegionsJobsPatchErrorBody,
+    dataproc_projects_regions_jobs_patch_error_mapper,
+)
+from .dataproc_projects_regions_jobs_set_iam_policy_error import (
+    DataprocProjectsRegionsJobsSetIamPolicyErrorBody,
+    dataproc_projects_regions_jobs_set_iam_policy_error_mapper,
+)
+from .dataproc_projects_regions_jobs_submit_as_operation_error import (
+    DataprocProjectsRegionsJobsSubmitAsOperationErrorBody,
+    dataproc_projects_regions_jobs_submit_as_operation_error_mapper,
+)
+from .dataproc_projects_regions_jobs_submit_error import (
+    DataprocProjectsRegionsJobsSubmitErrorBody,
+    dataproc_projects_regions_jobs_submit_error_mapper,
+)
+from .dataproc_projects_regions_jobs_test_iam_permissions_error import (
+    DataprocProjectsRegionsJobsTestIamPermissionsErrorBody,
+    dataproc_projects_regions_jobs_test_iam_permissions_error_mapper,
+)
+from .dataproc_projects_regions_operations_cancel_error import (
+    DataprocProjectsRegionsOperationsCancelErrorBody,
+    dataproc_projects_regions_operations_cancel_error_mapper,
+)
+from .dataproc_projects_regions_operations_delete_error import (
+    DataprocProjectsRegionsOperationsDeleteErrorBody,
+    dataproc_projects_regions_operations_delete_error_mapper,
+)
+from .dataproc_projects_regions_operations_get_error import (
+    DataprocProjectsRegionsOperationsGetErrorBody,
+    dataproc_projects_regions_operations_get_error_mapper,
+)
+from .dataproc_projects_regions_operations_get_iam_policy_error import (
+    DataprocProjectsRegionsOperationsGetIamPolicyErrorBody,
+    dataproc_projects_regions_operations_get_iam_policy_error_mapper,
+)
+from .dataproc_projects_regions_operations_list_error import (
+    DataprocProjectsRegionsOperationsListErrorBody,
+    dataproc_projects_regions_operations_list_error_mapper,
+)
+from .dataproc_projects_regions_operations_set_iam_policy_error import (
+    DataprocProjectsRegionsOperationsSetIamPolicyErrorBody,
+    dataproc_projects_regions_operations_set_iam_policy_error_mapper,
+)
+from .dataproc_projects_regions_operations_test_iam_permissions_error import (
+    DataprocProjectsRegionsOperationsTestIamPermissionsErrorBody,
+    dataproc_projects_regions_operations_test_iam_permissions_error_mapper,
+)
+from .dataproc_projects_regions_workflow_templates_create_error import (
+    DataprocProjectsRegionsWorkflowTemplatesCreateErrorBody,
+    dataproc_projects_regions_workflow_templates_create_error_mapper,
+)
+from .dataproc_projects_regions_workflow_templates_delete_error import (
+    DataprocProjectsRegionsWorkflowTemplatesDeleteErrorBody,
+    dataproc_projects_regions_workflow_templates_delete_error_mapper,
+)
+from .dataproc_projects_regions_workflow_templates_get_error import (
+    DataprocProjectsRegionsWorkflowTemplatesGetErrorBody,
+    dataproc_projects_regions_workflow_templates_get_error_mapper,
+)
+from .dataproc_projects_regions_workflow_templates_get_iam_policy_error import (
+    DataprocProjectsRegionsWorkflowTemplatesGetIamPolicyErrorBody,
+    dataproc_projects_regions_workflow_templates_get_iam_policy_error_mapper,
+)
+from .dataproc_projects_regions_workflow_templates_instantiate_error import (
+    DataprocProjectsRegionsWorkflowTemplatesInstantiateErrorBody,
+    dataproc_projects_regions_workflow_templates_instantiate_error_mapper,
+)
+from .dataproc_projects_regions_workflow_templates_instantiate_inline_error import (
+    DataprocProjectsRegionsWorkflowTemplatesInstantiateInlineErrorBody,
+    dataproc_projects_regions_workflow_templates_instantiate_inline_error_mapper,
+)
+from .dataproc_projects_regions_workflow_templates_list_error import (
+    DataprocProjectsRegionsWorkflowTemplatesListErrorBody,
+    dataproc_projects_regions_workflow_templates_list_error_mapper,
+)
+from .dataproc_projects_regions_workflow_templates_set_iam_policy_error import (
+    DataprocProjectsRegionsWorkflowTemplatesSetIamPolicyErrorBody,
+    dataproc_projects_regions_workflow_templates_set_iam_policy_error_mapper,
+)
+from .dataproc_projects_regions_workflow_templates_test_iam_permissions_error import (
+    DataprocProjectsRegionsWorkflowTemplatesTestIamPermissionsErrorBody,
+    dataproc_projects_regions_workflow_templates_test_iam_permissions_error_mapper,
+)
+from .dataproc_projects_regions_workflow_templates_update_error import (
+    DataprocProjectsRegionsWorkflowTemplatesUpdateErrorBody,
+    dataproc_projects_regions_workflow_templates_update_error_mapper,
+)
+from .metastore_projects_locations_federations_create_error import (
+    MetastoreProjectsLocationsFederationsCreateErrorBody,
+    metastore_projects_locations_federations_create_error_mapper,
+)
+from .metastore_projects_locations_federations_delete_error import (
+    MetastoreProjectsLocationsFederationsDeleteErrorBody,
+    metastore_projects_locations_federations_delete_error_mapper,
+)
+from .metastore_projects_locations_federations_get_error import (
+    MetastoreProjectsLocationsFederationsGetErrorBody,
+    metastore_projects_locations_federations_get_error_mapper,
+)
+from .metastore_projects_locations_federations_get_iam_policy_error import (
+    MetastoreProjectsLocationsFederationsGetIamPolicyErrorBody,
+    metastore_projects_locations_federations_get_iam_policy_error_mapper,
+)
+from .metastore_projects_locations_federations_list_error import (
+    MetastoreProjectsLocationsFederationsListErrorBody,
+    metastore_projects_locations_federations_list_error_mapper,
+)
+from .metastore_projects_locations_federations_patch_error import (
+    MetastoreProjectsLocationsFederationsPatchErrorBody,
+    metastore_projects_locations_federations_patch_error_mapper,
+)
+from .metastore_projects_locations_federations_set_iam_policy_error import (
+    MetastoreProjectsLocationsFederationsSetIamPolicyErrorBody,
+    metastore_projects_locations_federations_set_iam_policy_error_mapper,
+)
+from .metastore_projects_locations_federations_test_iam_permissions_error import (
+    MetastoreProjectsLocationsFederationsTestIamPermissionsErrorBody,
+    metastore_projects_locations_federations_test_iam_permissions_error_mapper,
+)
+from .metastore_projects_locations_get_error import (
+    MetastoreProjectsLocationsGetErrorBody,
+    metastore_projects_locations_get_error_mapper,
+)
+from .metastore_projects_locations_list_error import (
+    MetastoreProjectsLocationsListErrorBody,
+    metastore_projects_locations_list_error_mapper,
+)
+from .metastore_projects_locations_services_alter_location_error import (
+    MetastoreProjectsLocationsServicesAlterLocationErrorBody,
+    metastore_projects_locations_services_alter_location_error_mapper,
+)
+from .metastore_projects_locations_services_alter_table_properties_error import (
+    MetastoreProjectsLocationsServicesAlterTablePropertiesErrorBody,
+    metastore_projects_locations_services_alter_table_properties_error_mapper,
+)
+from .metastore_projects_locations_services_backups_create_error import (
+    MetastoreProjectsLocationsServicesBackupsCreateErrorBody,
+    metastore_projects_locations_services_backups_create_error_mapper,
+)
+from .metastore_projects_locations_services_backups_delete_error import (
+    MetastoreProjectsLocationsServicesBackupsDeleteErrorBody,
+    metastore_projects_locations_services_backups_delete_error_mapper,
+)
+from .metastore_projects_locations_services_backups_get_error import (
+    MetastoreProjectsLocationsServicesBackupsGetErrorBody,
+    metastore_projects_locations_services_backups_get_error_mapper,
+)
+from .metastore_projects_locations_services_backups_get_iam_policy_error import (
+    MetastoreProjectsLocationsServicesBackupsGetIamPolicyErrorBody,
+    metastore_projects_locations_services_backups_get_iam_policy_error_mapper,
+)
+from .metastore_projects_locations_services_backups_list_error import (
+    MetastoreProjectsLocationsServicesBackupsListErrorBody,
+    metastore_projects_locations_services_backups_list_error_mapper,
+)
+from .metastore_projects_locations_services_backups_set_iam_policy_error import (
+    MetastoreProjectsLocationsServicesBackupsSetIamPolicyErrorBody,
+    metastore_projects_locations_services_backups_set_iam_policy_error_mapper,
+)
+from .metastore_projects_locations_services_cancel_migration_error import (
+    MetastoreProjectsLocationsServicesCancelMigrationErrorBody,
+    metastore_projects_locations_services_cancel_migration_error_mapper,
+)
+from .metastore_projects_locations_services_complete_migration_error import (
+    MetastoreProjectsLocationsServicesCompleteMigrationErrorBody,
+    metastore_projects_locations_services_complete_migration_error_mapper,
+)
+from .metastore_projects_locations_services_create_error import (
+    MetastoreProjectsLocationsServicesCreateErrorBody,
+    metastore_projects_locations_services_create_error_mapper,
+)
+from .metastore_projects_locations_services_databases_get_iam_policy_error import (
+    MetastoreProjectsLocationsServicesDatabasesGetIamPolicyErrorBody,
+    metastore_projects_locations_services_databases_get_iam_policy_error_mapper,
+)
+from .metastore_projects_locations_services_databases_set_iam_policy_error import (
+    MetastoreProjectsLocationsServicesDatabasesSetIamPolicyErrorBody,
+    metastore_projects_locations_services_databases_set_iam_policy_error_mapper,
+)
+from .metastore_projects_locations_services_databases_tables_get_iam_policy_error import (
+    MetastoreProjectsLocationsServicesDatabasesTablesGetIamPolicyErrorBody,
+    metastore_projects_locations_services_databases_tables_get_iam_policy_error_mapper,
+)
+from .metastore_projects_locations_services_databases_tables_set_iam_policy_error import (
+    MetastoreProjectsLocationsServicesDatabasesTablesSetIamPolicyErrorBody,
+    metastore_projects_locations_services_databases_tables_set_iam_policy_error_mapper,
+)
+from .metastore_projects_locations_services_delete_error import (
+    MetastoreProjectsLocationsServicesDeleteErrorBody,
+    metastore_projects_locations_services_delete_error_mapper,
+)
+from .metastore_projects_locations_services_export_metadata_error import (
+    MetastoreProjectsLocationsServicesExportMetadataErrorBody,
+    metastore_projects_locations_services_export_metadata_error_mapper,
+)
+from .metastore_projects_locations_services_get_error import (
+    MetastoreProjectsLocationsServicesGetErrorBody,
+    metastore_projects_locations_services_get_error_mapper,
+)
+from .metastore_projects_locations_services_get_iam_policy_error import (
+    MetastoreProjectsLocationsServicesGetIamPolicyErrorBody,
+    metastore_projects_locations_services_get_iam_policy_error_mapper,
+)
+from .metastore_projects_locations_services_list_error import (
+    MetastoreProjectsLocationsServicesListErrorBody,
+    metastore_projects_locations_services_list_error_mapper,
+)
+from .metastore_projects_locations_services_metadata_imports_create_error import (
+    MetastoreProjectsLocationsServicesMetadataImportsCreateErrorBody,
+    metastore_projects_locations_services_metadata_imports_create_error_mapper,
+)
+from .metastore_projects_locations_services_metadata_imports_get_error import (
+    MetastoreProjectsLocationsServicesMetadataImportsGetErrorBody,
+    metastore_projects_locations_services_metadata_imports_get_error_mapper,
+)
+from .metastore_projects_locations_services_metadata_imports_list_error import (
+    MetastoreProjectsLocationsServicesMetadataImportsListErrorBody,
+    metastore_projects_locations_services_metadata_imports_list_error_mapper,
+)
+from .metastore_projects_locations_services_metadata_imports_patch_error import (
+    MetastoreProjectsLocationsServicesMetadataImportsPatchErrorBody,
+    metastore_projects_locations_services_metadata_imports_patch_error_mapper,
+)
+from .metastore_projects_locations_services_migration_executions_delete_error import (
+    MetastoreProjectsLocationsServicesMigrationExecutionsDeleteErrorBody,
+    metastore_projects_locations_services_migration_executions_delete_error_mapper,
+)
+from .metastore_projects_locations_services_migration_executions_get_error import (
+    MetastoreProjectsLocationsServicesMigrationExecutionsGetErrorBody,
+    metastore_projects_locations_services_migration_executions_get_error_mapper,
+)
+from .metastore_projects_locations_services_migration_executions_list_error import (
+    MetastoreProjectsLocationsServicesMigrationExecutionsListErrorBody,
+    metastore_projects_locations_services_migration_executions_list_error_mapper,
+)
+from .metastore_projects_locations_services_move_table_to_database_error import (
+    MetastoreProjectsLocationsServicesMoveTableToDatabaseErrorBody,
+    metastore_projects_locations_services_move_table_to_database_error_mapper,
+)
+from .metastore_projects_locations_services_patch_error import (
+    MetastoreProjectsLocationsServicesPatchErrorBody,
+    metastore_projects_locations_services_patch_error_mapper,
+)
+from .metastore_projects_locations_services_query_metadata_error import (
+    MetastoreProjectsLocationsServicesQueryMetadataErrorBody,
+    metastore_projects_locations_services_query_metadata_error_mapper,
+)
+from .metastore_projects_locations_services_restore_error import (
+    MetastoreProjectsLocationsServicesRestoreErrorBody,
+    metastore_projects_locations_services_restore_error_mapper,
+)
+from .metastore_projects_locations_services_set_iam_policy_error import (
+    MetastoreProjectsLocationsServicesSetIamPolicyErrorBody,
+    metastore_projects_locations_services_set_iam_policy_error_mapper,
+)
+from .metastore_projects_locations_services_start_migration_error import (
+    MetastoreProjectsLocationsServicesStartMigrationErrorBody,
+    metastore_projects_locations_services_start_migration_error_mapper,
+)
+from .metastore_projects_locations_services_test_iam_permissions_error import (
+    MetastoreProjectsLocationsServicesTestIamPermissionsErrorBody,
+    metastore_projects_locations_services_test_iam_permissions_error_mapper,
+)
+
+__all__ = [
+    "DataprocProjectsLocationsAutoscalingPoliciesCreateErrorBody",
+    "DataprocProjectsLocationsAutoscalingPoliciesDeleteErrorBody",
+    "DataprocProjectsLocationsAutoscalingPoliciesGetErrorBody",
+    "DataprocProjectsLocationsAutoscalingPoliciesGetIamPolicyErrorBody",
+    "DataprocProjectsLocationsAutoscalingPoliciesListErrorBody",
+    "DataprocProjectsLocationsAutoscalingPoliciesSetIamPolicyErrorBody",
+    "DataprocProjectsLocationsAutoscalingPoliciesTestIamPermissionsErrorBody",
+    "DataprocProjectsLocationsAutoscalingPoliciesUpdateErrorBody",
+    "DataprocProjectsLocationsBatchesAnalyzeErrorBody",
+    "DataprocProjectsLocationsBatchesCreateErrorBody",
+    "DataprocProjectsLocationsBatchesDeleteErrorBody",
+    "DataprocProjectsLocationsBatchesGetErrorBody",
+    "DataprocProjectsLocationsBatchesListErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsAccessEnvironmentInfoErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsAccessErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsAccessJobErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsAccessNativeBuildInfoErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsAccessNativeSqlQueryErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsAccessSqlPlanErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsAccessSqlQueryErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsAccessStageAttemptErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsAccessStageRddGraphErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsComputeTuningConfigErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsSearchErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsSearchExecutorStageSummaryErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsSearchExecutorsErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsSearchJobsErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsSearchNativeSqlQueriesErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsSearchSqlQueriesErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsSearchStageAttemptTasksErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsSearchStageAttemptsErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsSearchStagesErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsSummarizeExecutorsErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsSummarizeJobsErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsSummarizeStageAttemptTasksErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsSummarizeStagesErrorBody",
+    "DataprocProjectsLocationsBatchesSparkApplicationsWriteErrorBody",
+    "DataprocProjectsLocationsOperationsCancelErrorBody",
+    "DataprocProjectsLocationsOperationsDeleteErrorBody",
+    "DataprocProjectsLocationsOperationsGetErrorBody",
+    "DataprocProjectsLocationsOperationsListErrorBody",
+    "DataprocProjectsLocationsSessionTemplatesCreateErrorBody",
+    "DataprocProjectsLocationsSessionTemplatesDeleteErrorBody",
+    "DataprocProjectsLocationsSessionTemplatesGetErrorBody",
+    "DataprocProjectsLocationsSessionTemplatesListErrorBody",
+    "DataprocProjectsLocationsSessionTemplatesPatchErrorBody",
+    "DataprocProjectsLocationsSessionsCreateErrorBody",
+    "DataprocProjectsLocationsSessionsDeleteErrorBody",
+    "DataprocProjectsLocationsSessionsGetErrorBody",
+    "DataprocProjectsLocationsSessionsListErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsAccessEnvironmentInfoErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsAccessErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsAccessJobErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsAccessNativeBuildInfoErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsAccessNativeSqlQueryErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsAccessSqlPlanErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsAccessSqlQueryErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsAccessStageAttemptErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsAccessStageRddGraphErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsSearchErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsSearchExecutorStageSummaryErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsSearchExecutorsErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsSearchJobsErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsSearchNativeSqlQueriesErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsSearchSqlQueriesErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsSearchStageAttemptTasksErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsSearchStageAttemptsErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsSearchStagesErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsSummarizeExecutorsErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsSummarizeJobsErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsSummarizeStageAttemptTasksErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsSummarizeStagesErrorBody",
+    "DataprocProjectsLocationsSessionsSparkApplicationsWriteErrorBody",
+    "DataprocProjectsLocationsSessionsTerminateErrorBody",
+    "DataprocProjectsLocationsWorkflowTemplatesCreateErrorBody",
+    "DataprocProjectsLocationsWorkflowTemplatesDeleteErrorBody",
+    "DataprocProjectsLocationsWorkflowTemplatesGetErrorBody",
+    "DataprocProjectsLocationsWorkflowTemplatesGetIamPolicyErrorBody",
+    "DataprocProjectsLocationsWorkflowTemplatesInstantiateErrorBody",
+    "DataprocProjectsLocationsWorkflowTemplatesInstantiateInlineErrorBody",
+    "DataprocProjectsLocationsWorkflowTemplatesListErrorBody",
+    "DataprocProjectsLocationsWorkflowTemplatesSetIamPolicyErrorBody",
+    "DataprocProjectsLocationsWorkflowTemplatesTestIamPermissionsErrorBody",
+    "DataprocProjectsLocationsWorkflowTemplatesUpdateErrorBody",
+    "DataprocProjectsRegionsAutoscalingPoliciesCreateErrorBody",
+    "DataprocProjectsRegionsAutoscalingPoliciesDeleteErrorBody",
+    "DataprocProjectsRegionsAutoscalingPoliciesGetErrorBody",
+    "DataprocProjectsRegionsAutoscalingPoliciesGetIamPolicyErrorBody",
+    "DataprocProjectsRegionsAutoscalingPoliciesListErrorBody",
+    "DataprocProjectsRegionsAutoscalingPoliciesSetIamPolicyErrorBody",
+    "DataprocProjectsRegionsAutoscalingPoliciesTestIamPermissionsErrorBody",
+    "DataprocProjectsRegionsAutoscalingPoliciesUpdateErrorBody",
+    "DataprocProjectsRegionsClustersCreateErrorBody",
+    "DataprocProjectsRegionsClustersDeleteErrorBody",
+    "DataprocProjectsRegionsClustersDiagnoseErrorBody",
+    "DataprocProjectsRegionsClustersGetErrorBody",
+    "DataprocProjectsRegionsClustersGetIamPolicyErrorBody",
+    "DataprocProjectsRegionsClustersInjectCredentialsErrorBody",
+    "DataprocProjectsRegionsClustersListErrorBody",
+    "DataprocProjectsRegionsClustersNodeGroupsCreateErrorBody",
+    "DataprocProjectsRegionsClustersNodeGroupsGetErrorBody",
+    "DataprocProjectsRegionsClustersNodeGroupsRepairErrorBody",
+    "DataprocProjectsRegionsClustersNodeGroupsResizeErrorBody",
+    "DataprocProjectsRegionsClustersPatchErrorBody",
+    "DataprocProjectsRegionsClustersRepairErrorBody",
+    "DataprocProjectsRegionsClustersSetIamPolicyErrorBody",
+    "DataprocProjectsRegionsClustersStartErrorBody",
+    "DataprocProjectsRegionsClustersStopErrorBody",
+    "DataprocProjectsRegionsClustersTestIamPermissionsErrorBody",
+    "DataprocProjectsRegionsJobsCancelErrorBody",
+    "DataprocProjectsRegionsJobsDeleteErrorBody",
+    "DataprocProjectsRegionsJobsGetErrorBody",
+    "DataprocProjectsRegionsJobsGetIamPolicyErrorBody",
+    "DataprocProjectsRegionsJobsListErrorBody",
+    "DataprocProjectsRegionsJobsPatchErrorBody",
+    "DataprocProjectsRegionsJobsSetIamPolicyErrorBody",
+    "DataprocProjectsRegionsJobsSubmitAsOperationErrorBody",
+    "DataprocProjectsRegionsJobsSubmitErrorBody",
+    "DataprocProjectsRegionsJobsTestIamPermissionsErrorBody",
+    "DataprocProjectsRegionsOperationsCancelErrorBody",
+    "DataprocProjectsRegionsOperationsDeleteErrorBody",
+    "DataprocProjectsRegionsOperationsGetErrorBody",
+    "DataprocProjectsRegionsOperationsGetIamPolicyErrorBody",
+    "DataprocProjectsRegionsOperationsListErrorBody",
+    "DataprocProjectsRegionsOperationsSetIamPolicyErrorBody",
+    "DataprocProjectsRegionsOperationsTestIamPermissionsErrorBody",
+    "DataprocProjectsRegionsWorkflowTemplatesCreateErrorBody",
+    "DataprocProjectsRegionsWorkflowTemplatesDeleteErrorBody",
+    "DataprocProjectsRegionsWorkflowTemplatesGetErrorBody",
+    "DataprocProjectsRegionsWorkflowTemplatesGetIamPolicyErrorBody",
+    "DataprocProjectsRegionsWorkflowTemplatesInstantiateErrorBody",
+    "DataprocProjectsRegionsWorkflowTemplatesInstantiateInlineErrorBody",
+    "DataprocProjectsRegionsWorkflowTemplatesListErrorBody",
+    "DataprocProjectsRegionsWorkflowTemplatesSetIamPolicyErrorBody",
+    "DataprocProjectsRegionsWorkflowTemplatesTestIamPermissionsErrorBody",
+    "DataprocProjectsRegionsWorkflowTemplatesUpdateErrorBody",
+    "MetastoreProjectsLocationsFederationsCreateErrorBody",
+    "MetastoreProjectsLocationsFederationsDeleteErrorBody",
+    "MetastoreProjectsLocationsFederationsGetErrorBody",
+    "MetastoreProjectsLocationsFederationsGetIamPolicyErrorBody",
+    "MetastoreProjectsLocationsFederationsListErrorBody",
+    "MetastoreProjectsLocationsFederationsPatchErrorBody",
+    "MetastoreProjectsLocationsFederationsSetIamPolicyErrorBody",
+    "MetastoreProjectsLocationsFederationsTestIamPermissionsErrorBody",
+    "MetastoreProjectsLocationsGetErrorBody",
+    "MetastoreProjectsLocationsListErrorBody",
+    "MetastoreProjectsLocationsServicesAlterLocationErrorBody",
+    "MetastoreProjectsLocationsServicesAlterTablePropertiesErrorBody",
+    "MetastoreProjectsLocationsServicesBackupsCreateErrorBody",
+    "MetastoreProjectsLocationsServicesBackupsDeleteErrorBody",
+    "MetastoreProjectsLocationsServicesBackupsGetErrorBody",
+    "MetastoreProjectsLocationsServicesBackupsGetIamPolicyErrorBody",
+    "MetastoreProjectsLocationsServicesBackupsListErrorBody",
+    "MetastoreProjectsLocationsServicesBackupsSetIamPolicyErrorBody",
+    "MetastoreProjectsLocationsServicesCancelMigrationErrorBody",
+    "MetastoreProjectsLocationsServicesCompleteMigrationErrorBody",
+    "MetastoreProjectsLocationsServicesCreateErrorBody",
+    "MetastoreProjectsLocationsServicesDatabasesGetIamPolicyErrorBody",
+    "MetastoreProjectsLocationsServicesDatabasesSetIamPolicyErrorBody",
+    "MetastoreProjectsLocationsServicesDatabasesTablesGetIamPolicyErrorBody",
+    "MetastoreProjectsLocationsServicesDatabasesTablesSetIamPolicyErrorBody",
+    "MetastoreProjectsLocationsServicesDeleteErrorBody",
+    "MetastoreProjectsLocationsServicesExportMetadataErrorBody",
+    "MetastoreProjectsLocationsServicesGetErrorBody",
+    "MetastoreProjectsLocationsServicesGetIamPolicyErrorBody",
+    "MetastoreProjectsLocationsServicesListErrorBody",
+    "MetastoreProjectsLocationsServicesMetadataImportsCreateErrorBody",
+    "MetastoreProjectsLocationsServicesMetadataImportsGetErrorBody",
+    "MetastoreProjectsLocationsServicesMetadataImportsListErrorBody",
+    "MetastoreProjectsLocationsServicesMetadataImportsPatchErrorBody",
+    "MetastoreProjectsLocationsServicesMigrationExecutionsDeleteErrorBody",
+    "MetastoreProjectsLocationsServicesMigrationExecutionsGetErrorBody",
+    "MetastoreProjectsLocationsServicesMigrationExecutionsListErrorBody",
+    "MetastoreProjectsLocationsServicesMoveTableToDatabaseErrorBody",
+    "MetastoreProjectsLocationsServicesPatchErrorBody",
+    "MetastoreProjectsLocationsServicesQueryMetadataErrorBody",
+    "MetastoreProjectsLocationsServicesRestoreErrorBody",
+    "MetastoreProjectsLocationsServicesSetIamPolicyErrorBody",
+    "MetastoreProjectsLocationsServicesStartMigrationErrorBody",
+    "MetastoreProjectsLocationsServicesTestIamPermissionsErrorBody",
+    "dataproc_projects_locations_autoscaling_policies_create_error_mapper",
+    "dataproc_projects_locations_autoscaling_policies_delete_error_mapper",
+    "dataproc_projects_locations_autoscaling_policies_get_error_mapper",
+    "dataproc_projects_locations_autoscaling_policies_get_iam_policy_error_mapper",
+    "dataproc_projects_locations_autoscaling_policies_list_error_mapper",
+    "dataproc_projects_locations_autoscaling_policies_set_iam_policy_error_mapper",
+    "dataproc_projects_locations_autoscaling_policies_test_iam_permissions_error_mapper",
+    "dataproc_projects_locations_autoscaling_policies_update_error_mapper",
+    "dataproc_projects_locations_batches_analyze_error_mapper",
+    "dataproc_projects_locations_batches_create_error_mapper",
+    "dataproc_projects_locations_batches_delete_error_mapper",
+    "dataproc_projects_locations_batches_get_error_mapper",
+    "dataproc_projects_locations_batches_list_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_access_environment_info_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_access_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_access_job_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_access_native_build_info_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_access_native_sql_query_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_access_sql_plan_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_access_sql_query_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_access_stage_attempt_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_access_stage_rdd_graph_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_compute_tuning_config_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_search_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_search_executor_stage_summary_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_search_executors_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_search_jobs_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_search_native_sql_queries_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_search_sql_queries_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_search_stage_attempt_tasks_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_search_stage_attempts_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_search_stages_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_summarize_executors_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_summarize_jobs_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_summarize_stage_attempt_tasks_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_summarize_stages_error_mapper",
+    "dataproc_projects_locations_batches_spark_applications_write_error_mapper",
+    "dataproc_projects_locations_operations_cancel_error_mapper",
+    "dataproc_projects_locations_operations_delete_error_mapper",
+    "dataproc_projects_locations_operations_get_error_mapper",
+    "dataproc_projects_locations_operations_list_error_mapper",
+    "dataproc_projects_locations_session_templates_create_error_mapper",
+    "dataproc_projects_locations_session_templates_delete_error_mapper",
+    "dataproc_projects_locations_session_templates_get_error_mapper",
+    "dataproc_projects_locations_session_templates_list_error_mapper",
+    "dataproc_projects_locations_session_templates_patch_error_mapper",
+    "dataproc_projects_locations_sessions_create_error_mapper",
+    "dataproc_projects_locations_sessions_delete_error_mapper",
+    "dataproc_projects_locations_sessions_get_error_mapper",
+    "dataproc_projects_locations_sessions_list_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_access_environment_info_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_access_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_access_job_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_access_native_build_info_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_access_native_sql_query_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_access_sql_plan_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_access_sql_query_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_access_stage_attempt_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_access_stage_rdd_graph_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_search_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_search_executor_stage_summary_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_search_executors_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_search_jobs_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_search_native_sql_queries_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_search_sql_queries_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_search_stage_attempt_tasks_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_search_stage_attempts_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_search_stages_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_summarize_executors_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_summarize_jobs_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_summarize_stage_attempt_tasks_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_summarize_stages_error_mapper",
+    "dataproc_projects_locations_sessions_spark_applications_write_error_mapper",
+    "dataproc_projects_locations_sessions_terminate_error_mapper",
+    "dataproc_projects_locations_workflow_templates_create_error_mapper",
+    "dataproc_projects_locations_workflow_templates_delete_error_mapper",
+    "dataproc_projects_locations_workflow_templates_get_error_mapper",
+    "dataproc_projects_locations_workflow_templates_get_iam_policy_error_mapper",
+    "dataproc_projects_locations_workflow_templates_instantiate_error_mapper",
+    "dataproc_projects_locations_workflow_templates_instantiate_inline_error_mapper",
+    "dataproc_projects_locations_workflow_templates_list_error_mapper",
+    "dataproc_projects_locations_workflow_templates_set_iam_policy_error_mapper",
+    "dataproc_projects_locations_workflow_templates_test_iam_permissions_error_mapper",
+    "dataproc_projects_locations_workflow_templates_update_error_mapper",
+    "dataproc_projects_regions_autoscaling_policies_create_error_mapper",
+    "dataproc_projects_regions_autoscaling_policies_delete_error_mapper",
+    "dataproc_projects_regions_autoscaling_policies_get_error_mapper",
+    "dataproc_projects_regions_autoscaling_policies_get_iam_policy_error_mapper",
+    "dataproc_projects_regions_autoscaling_policies_list_error_mapper",
+    "dataproc_projects_regions_autoscaling_policies_set_iam_policy_error_mapper",
+    "dataproc_projects_regions_autoscaling_policies_test_iam_permissions_error_mapper",
+    "dataproc_projects_regions_autoscaling_policies_update_error_mapper",
+    "dataproc_projects_regions_clusters_create_error_mapper",
+    "dataproc_projects_regions_clusters_delete_error_mapper",
+    "dataproc_projects_regions_clusters_diagnose_error_mapper",
+    "dataproc_projects_regions_clusters_get_error_mapper",
+    "dataproc_projects_regions_clusters_get_iam_policy_error_mapper",
+    "dataproc_projects_regions_clusters_inject_credentials_error_mapper",
+    "dataproc_projects_regions_clusters_list_error_mapper",
+    "dataproc_projects_regions_clusters_node_groups_create_error_mapper",
+    "dataproc_projects_regions_clusters_node_groups_get_error_mapper",
+    "dataproc_projects_regions_clusters_node_groups_repair_error_mapper",
+    "dataproc_projects_regions_clusters_node_groups_resize_error_mapper",
+    "dataproc_projects_regions_clusters_patch_error_mapper",
+    "dataproc_projects_regions_clusters_repair_error_mapper",
+    "dataproc_projects_regions_clusters_set_iam_policy_error_mapper",
+    "dataproc_projects_regions_clusters_start_error_mapper",
+    "dataproc_projects_regions_clusters_stop_error_mapper",
+    "dataproc_projects_regions_clusters_test_iam_permissions_error_mapper",
+    "dataproc_projects_regions_jobs_cancel_error_mapper",
+    "dataproc_projects_regions_jobs_delete_error_mapper",
+    "dataproc_projects_regions_jobs_get_error_mapper",
+    "dataproc_projects_regions_jobs_get_iam_policy_error_mapper",
+    "dataproc_projects_regions_jobs_list_error_mapper",
+    "dataproc_projects_regions_jobs_patch_error_mapper",
+    "dataproc_projects_regions_jobs_set_iam_policy_error_mapper",
+    "dataproc_projects_regions_jobs_submit_as_operation_error_mapper",
+    "dataproc_projects_regions_jobs_submit_error_mapper",
+    "dataproc_projects_regions_jobs_test_iam_permissions_error_mapper",
+    "dataproc_projects_regions_operations_cancel_error_mapper",
+    "dataproc_projects_regions_operations_delete_error_mapper",
+    "dataproc_projects_regions_operations_get_error_mapper",
+    "dataproc_projects_regions_operations_get_iam_policy_error_mapper",
+    "dataproc_projects_regions_operations_list_error_mapper",
+    "dataproc_projects_regions_operations_set_iam_policy_error_mapper",
+    "dataproc_projects_regions_operations_test_iam_permissions_error_mapper",
+    "dataproc_projects_regions_workflow_templates_create_error_mapper",
+    "dataproc_projects_regions_workflow_templates_delete_error_mapper",
+    "dataproc_projects_regions_workflow_templates_get_error_mapper",
+    "dataproc_projects_regions_workflow_templates_get_iam_policy_error_mapper",
+    "dataproc_projects_regions_workflow_templates_instantiate_error_mapper",
+    "dataproc_projects_regions_workflow_templates_instantiate_inline_error_mapper",
+    "dataproc_projects_regions_workflow_templates_list_error_mapper",
+    "dataproc_projects_regions_workflow_templates_set_iam_policy_error_mapper",
+    "dataproc_projects_regions_workflow_templates_test_iam_permissions_error_mapper",
+    "dataproc_projects_regions_workflow_templates_update_error_mapper",
+    "metastore_projects_locations_federations_create_error_mapper",
+    "metastore_projects_locations_federations_delete_error_mapper",
+    "metastore_projects_locations_federations_get_error_mapper",
+    "metastore_projects_locations_federations_get_iam_policy_error_mapper",
+    "metastore_projects_locations_federations_list_error_mapper",
+    "metastore_projects_locations_federations_patch_error_mapper",
+    "metastore_projects_locations_federations_set_iam_policy_error_mapper",
+    "metastore_projects_locations_federations_test_iam_permissions_error_mapper",
+    "metastore_projects_locations_get_error_mapper",
+    "metastore_projects_locations_list_error_mapper",
+    "metastore_projects_locations_services_alter_location_error_mapper",
+    "metastore_projects_locations_services_alter_table_properties_error_mapper",
+    "metastore_projects_locations_services_backups_create_error_mapper",
+    "metastore_projects_locations_services_backups_delete_error_mapper",
+    "metastore_projects_locations_services_backups_get_error_mapper",
+    "metastore_projects_locations_services_backups_get_iam_policy_error_mapper",
+    "metastore_projects_locations_services_backups_list_error_mapper",
+    "metastore_projects_locations_services_backups_set_iam_policy_error_mapper",
+    "metastore_projects_locations_services_cancel_migration_error_mapper",
+    "metastore_projects_locations_services_complete_migration_error_mapper",
+    "metastore_projects_locations_services_create_error_mapper",
+    "metastore_projects_locations_services_databases_get_iam_policy_error_mapper",
+    "metastore_projects_locations_services_databases_set_iam_policy_error_mapper",
+    "metastore_projects_locations_services_databases_tables_get_iam_policy_error_mapper",
+    "metastore_projects_locations_services_databases_tables_set_iam_policy_error_mapper",
+    "metastore_projects_locations_services_delete_error_mapper",
+    "metastore_projects_locations_services_export_metadata_error_mapper",
+    "metastore_projects_locations_services_get_error_mapper",
+    "metastore_projects_locations_services_get_iam_policy_error_mapper",
+    "metastore_projects_locations_services_list_error_mapper",
+    "metastore_projects_locations_services_metadata_imports_create_error_mapper",
+    "metastore_projects_locations_services_metadata_imports_get_error_mapper",
+    "metastore_projects_locations_services_metadata_imports_list_error_mapper",
+    "metastore_projects_locations_services_metadata_imports_patch_error_mapper",
+    "metastore_projects_locations_services_migration_executions_delete_error_mapper",
+    "metastore_projects_locations_services_migration_executions_get_error_mapper",
+    "metastore_projects_locations_services_migration_executions_list_error_mapper",
+    "metastore_projects_locations_services_move_table_to_database_error_mapper",
+    "metastore_projects_locations_services_patch_error_mapper",
+    "metastore_projects_locations_services_query_metadata_error_mapper",
+    "metastore_projects_locations_services_restore_error_mapper",
+    "metastore_projects_locations_services_set_iam_policy_error_mapper",
+    "metastore_projects_locations_services_start_migration_error_mapper",
+    "metastore_projects_locations_services_test_iam_permissions_error_mapper",
+]

@@ -1,0 +1,10 @@
+{
+  "name": "google-cloud-build",
+  "version": "0.1.0",
+  "description": "Connect source repositories and manage connections and repositories with Google Cloud Build.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Google Cloud Build",
+    "developerName": "APIMatic"
+  }
+}

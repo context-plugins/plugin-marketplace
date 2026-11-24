@@ -1,0 +1,10 @@
+{
+  "name": "google-cloud-talent-solution",
+  "version": "0.1.0",
+  "description": "Manage tenants, companies, and jobs, and run job search with Google Cloud Talent Solution.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Google Cloud Talent Solution",
+    "developerName": "APIMatic"
+  }
+}

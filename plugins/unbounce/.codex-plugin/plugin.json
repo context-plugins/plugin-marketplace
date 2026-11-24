@@ -1,0 +1,10 @@
+{
+  "name": "unbounce",
+  "version": "0.1.0",
+  "description": "Manage landing pages, page groups, domains, leads, and sub-accounts in Unbounce.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Unbounce",
+    "developerName": "APIMatic"
+  }
+}

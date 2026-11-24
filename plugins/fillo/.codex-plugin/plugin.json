@@ -1,0 +1,10 @@
+{
+  "name": "fillo",
+  "version": "0.1.0",
+  "description": "Build forms and manage responses, respondents, agents, integrations, and webhooks with Fillo.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Fillo",
+    "developerName": "APIMatic"
+  }
+}

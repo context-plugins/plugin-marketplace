@@ -1,0 +1,48 @@
+using System.Text.Json.Serialization;
+using Apigee.Core.Models;
+
+namespace Apigee.Models;
+
+/// <summary>
+/// Response for certain delete operations.
+/// </summary>
+public record GoogleCloudApigeeV1DeleteResponse
+{
+    /// <summary>
+    /// Status of the operation.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("status")]
+    public string? Status { get; init; }
+
+    /// <summary>
+    /// Unique ID of the request.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("requestId")]
+    public string? RequestId { get; init; }
+
+    /// <summary>
+    /// Unique error code for the request, if any.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("errorCode")]
+    public string? ErrorCode { get; init; }
+
+    /// <summary>
+    /// Description of the operation.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("message")]
+    public string? Message { get; init; }
+
+    /// <summary>
+    /// Google Cloud name of deleted resource.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("gcpResource")]
+    public string? GcpResource { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

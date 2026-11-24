@@ -1,0 +1,10 @@
+{
+  "name": "dynamicfeed",
+  "version": "0.1.0",
+  "description": "Get live data for AI agents, including weather, air quality, sports, advisories, and AI model benchmarks, from DynamicFeed.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "DynamicFeed",
+    "developerName": "APIMatic"
+  }
+}

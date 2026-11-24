@@ -1,0 +1,18 @@
+{
+  "name": "atlassian-compass",
+  "displayName": "Atlassian Compass",
+  "version": "0.1.0",
+  "description": "Send events and metrics, and manage attachments, webhooks, and package dependencies in Atlassian Compass.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

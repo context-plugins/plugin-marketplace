@@ -1,0 +1,70 @@
+{
+  "name": "plinth-us-grants-data",
+  "version": "1.0.0",
+  "description": "A read API over the US grantmaking universe, read from public IRS Form 990, 990-EZ and 990-PF e-file filings.\n\nThe funder-grantee graph traverses in BOTH directions: filter by `funder_id` for everything a foundation funded, or by `recip_id` for every funder behind a nonprofit.\n\nStart with `/api/search` to turn an organization name into an EIN and a canonical page URL — it needs no key. Every other endpoint requires one (free tier: 50 calls a month).\n\nFigures are read directly from named IRS filings. The IRS releases e-file data on a 12-24 month lag, so every figure is dated to its fiscal year rather than to today. Funding relationships are reported as association, never as causation. Organizations that do not e-file may be absent., A read API over the US grantmaking universe, read from public IRS Form 990, 990-EZ and 990-PF e-file filings.\n\nThe funder-grantee graph traverses in BOTH directions: filter by `funder_id` for everything a foundation funded, or by `recip_id` for every funder behind a nonprofit.\n\nStart with `/api/v1/search` to turn an organization name into an EIN and a canonical page URL — it needs no key. The grant endpoints need a free key (50 calls a day); the organization endpoints (/compliance, /essentials, /premier) need a paid one.\n\n**No CORS headers, deliberately.** This is a server-side API: a key in browser JavaScript is a key you have published, and every allowance here is per-key. Call it from your backend, or from an agent. There is no browser-callable subset planned.\n\nFigures are read directly from named IRS filings. The IRS releases e-file data on a 12-24 month lag, so every figure is dated to its fiscal year rather than to today. Funding relationships are reported as association, never as causation. Organizations that do not e-file may be absent., A read API over the US grantmaking universe, read from public IRS Form 990, 990-EZ and 990-PF e-file filings.\n\nThe funder-grantee graph traverses in BOTH directions: filter by `funder_id` for everything a foundation funded, or by `recip_id` for every funder behind a nonprofit.\n\nStart with `/api/v1/search` to turn an organization name into an EIN and a canonical page URL — it needs no key. The grant endpoints need a free key (50 calls a day); the organization endpoints (/compliance, /essentials, /premier) need a paid one.\n\n**No CORS headers, deliberately.** This is a server-side API: a key in browser JavaScript is a key you have published, and every allowance here is per-key. Call it from your backend, or from an agent. There is no browser-callable subset planned.\n\nFigures are read directly from named IRS filings. The IRS releases e-file data on a 12-24 month lag, so every figure is dated to its fiscal year rather than to today. Funding relationships are reported as association, never as causation. Organizations that do not e-file may be absent., Operations tagged Grants across 2 of this provider's published API definitions: plinth-us-grants-data-openapi-2026-08-14.json, plinth-us-grants-data-openapi.json. Each path carries the servers of the definition it was published in., A read API over the US grantmaking universe, read from public IRS Form 990, 990-EZ and 990-PF e-file filings.\n\nThe funder-grantee graph traverses in BOTH directions: filter by `funder_id` for everything a foundation funded, or by `recip_id` for every funder behind a nonprofit.\n\nStart with `/api/v1/search` to turn an organization name into an EIN and a canonical page URL — it needs no key. The grant endpoints need a free key (50 calls a day); the organization endpoints (/compliance, /essentials, /premier) need a paid one.\n\n**No CORS headers, deliberately.** This is a server-side API: a key in browser JavaScript is a key you have published, and every allowance here is per-key. Call it from your backend, or from an agent. There is no browser-callable subset planned.\n\nFigures are read directly from named IRS filings. The IRS releases e-file data on a 12-24 month lag, so every figure is dated to its fiscal year rather than to today. Funding relationships are reported as association, never as causation. Organizations that do not e-file may be absent., Operations tagged Organizations across 2 of this provider's published API definitions: plinth-us-grants-data-openapi-2026-08-14.json, plinth-us-grants-data-openapi.json. Each path carries the servers of the definition it was published in., A read API over the US grantmaking universe, read from public IRS Form 990, 990-EZ and 990-PF e-file filings.\n\nThe funder-grantee graph traverses in BOTH directions: filter by `funder_id` for everything a foundation funded, or by `recip_id` for every funder behind a nonprofit.\n\nStart with `/api/v1/search` to turn an organization name into an EIN and a canonical page URL — it needs no key. The grant endpoints need a free key (50 calls a day); the organization endpoints (/compliance, /essentials, /premier) need a paid one.\n\n**No CORS headers, deliberately.** This is a server-side API: a key in browser JavaScript is a key you have published, and every allowance here is per-key. Call it from your backend, or from an agent. There is no browser-callable subset planned.\n\nFigures are read directly from named IRS filings. The IRS releases e-file data on a 12-24 month lag, so every figure is dated to its fiscal year rather than to today. Funding relationships are reported as association, never as causation. Organizations that do not e-file may be absent., Operations tagged Resolve across 2 of this provider's published API definitions: plinth-us-grants-data-openapi-2026-08-14.json, plinth-us-grants-data-openapi.json. Each path carries the servers of the definition it was published in., Operations tagged SQL across 2 of this provider's published API definitions: plinth-us-grants-data-openapi-2026-08-14.json, plinth-us-grants-data-openapi.json. Each path carries the servers of the definition it was published in.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "tshy": {
+    "exports": {
+      ".": "./src/index.ts",
+      "./package.json": "./package.json"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "project": "./tsconfig.tshy.json",
+    "selfLink": false
+  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "tsconfig.json",
+    "tsconfig.tshy.json",
+    "README.md",
+    "api-reference.md",
+    "sdk-map.md",
+    "map"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.3"
+  },
+  "scripts": {
+    "prepare": "tshy",
+    "build": "tshy",
+    "smoke": "node -e \"require('plinth-us-grants-data')\" && node --input-type=module -e \"import('plinth-us-grants-data')\"",
+    "typecheck": "tsc --noEmit",
+    "typecheck:dom": "tsc --noEmit -p tsconfig.dom.json",
+    "lint": "oxlint --type-aware --max-warnings=0 src",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "oxfmt": "^0.61.0",
+    "oxlint": "^1.76.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "tshy": "^4.1.3",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  }
+}

@@ -1,0 +1,54 @@
+using System;
+using System.Text.Json.Serialization;
+using Paid.Core.Enum;
+
+namespace Paid.Models.Enums;
+
+[JsonConverter(typeof(StringEnumConverter<CreateOrderLineAttributeRequestPricingBillingFrequency>))]
+public sealed record CreateOrderLineAttributeRequestPricingBillingFrequency : OpenStringEnum<CreateOrderLineAttributeRequestPricingBillingFrequency>
+{
+    private CreateOrderLineAttributeRequestPricingBillingFrequency(string value) : base(value)
+    {
+    }
+
+    public static readonly CreateOrderLineAttributeRequestPricingBillingFrequency Monthly = new("monthly");
+
+    public static readonly CreateOrderLineAttributeRequestPricingBillingFrequency Quarterly = new("quarterly");
+
+    public static readonly CreateOrderLineAttributeRequestPricingBillingFrequency SemiAnnually = new("semiAnnually");
+
+    public static readonly CreateOrderLineAttributeRequestPricingBillingFrequency Annual = new("annual");
+
+    public static readonly CreateOrderLineAttributeRequestPricingBillingFrequency Custom = new("custom");
+
+    public TResult Match<TResult>(Func<TResult> onMonthly,
+        Func<TResult> onQuarterly,
+        Func<TResult> onSemiAnnually,
+        Func<TResult> onAnnual,
+        Func<TResult> onCustom,
+        Func<string, TResult> otherwise) =>
+        this switch
+        {
+            _ when this == Monthly => onMonthly(),
+            _ when this == Quarterly => onQuarterly(),
+            _ when this == SemiAnnually => onSemiAnnually(),
+            _ when this == Annual => onAnnual(),
+            _ when this == Custom => onCustom(),
+            _ => otherwise(Value)
+        };
+
+    public void Match(Action onMonthly,
+        Action onQuarterly,
+        Action onSemiAnnually,
+        Action onAnnual,
+        Action onCustom,
+        Action<string> otherwise)
+    {
+        if (this == Monthly) onMonthly();
+        else if (this == Quarterly) onQuarterly();
+        else if (this == SemiAnnually) onSemiAnnually();
+        else if (this == Annual) onAnnual();
+        else if (this == Custom) onCustom();
+        else otherwise(Value);
+    }
+}

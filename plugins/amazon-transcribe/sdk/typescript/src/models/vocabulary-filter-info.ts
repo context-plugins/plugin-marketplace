@@ -1,0 +1,45 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+import {
+  languageCodeAmazonTranscribeServiceVocabularyFilterApiSchema,
+  type LanguageCodeAmazonTranscribeServiceVocabularyFilterApi,
+} from "./language-code-amazon-transcribe-service-vocabulary-filter-api.js";
+
+export type VocabularyFilterInfo = {
+  /**
+   * A unique name, chosen by you, for your custom vocabulary filter. This name is case sensitive,
+   * cannot contain spaces, and must be unique within an Amazon Web Services account.
+   */
+  vocabularyFilterName?: string;
+  /**
+   * The language code that represents the language of the entries in your vocabulary filter. Each
+   * custom vocabulary filter must contain terms in only one language. A custom vocabulary filter
+   * can only be used to transcribe files in the same language as the filter. For example, if you
+   * create a custom vocabulary filter using US English (en-US), you can only apply this filter to
+   * files that contain English audio. For a list of supported languages and their associated
+   * language codes, refer to the Supported languages table.
+   */
+  languageCode?: LanguageCodeAmazonTranscribeServiceVocabularyFilterApi;
+  /**
+   * The date and time the specified custom vocabulary filter was last modified. Timestamps are in
+   * the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00
+   * represents 12:32 PM UTC-7 on May 4, 2022.
+   */
+  lastModifiedTime?: Date;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const vocabularyFilterInfoSchema: Schema<VocabularyFilterInfo> = s.object<VocabularyFilterInfo>(
+  {
+    vocabularyFilterName: s.optional(s.string()),
+    languageCode: s.optional(s.lazy(() => languageCodeAmazonTranscribeServiceVocabularyFilterApiSchema)),
+    lastModifiedTime: s.optional(s.dateTime()),
+    _keysMap: {
+      vocabularyFilterName: "VocabularyFilterName",
+      languageCode: "LanguageCode",
+      lastModifiedTime: "LastModifiedTime",
+    },
+  },
+  { additionalProperties: s.json() },
+);

@@ -1,0 +1,51 @@
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using DevCycle.Core.Models;
+using DevCycle.Models.Enums;
+
+namespace DevCycle.Models;
+
+public record UpdateCustomPropertyDto
+{
+    /// <summary>
+    /// Display name for Custom Property.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("name")]
+    [StringLength(100, MinimumLength = 1)]
+    public string? Name { get; init; }
+
+    /// <summary>
+    /// Auto generated key to be used by the API to reference by 'key' rather then _id for CRUD operations.
+    /// Must only contain lower-case characters and <c>_</c>, <c>-</c> or <c>.</c>.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("key")]
+    [StringLength(100, MinimumLength = 1)]
+    [RegularExpression("^[a-z0-9-_.]+$")]
+    public string? Key { get; init; }
+
+    /// <summary>
+    /// Custom Property key, must be unique by Project. Only to be used by the SDKs to reference the Custom Property..
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("propertyKey")]
+    public string? PropertyKey { get; init; }
+
+    /// <summary>
+    /// Type of the Custom Propety. Must be one of: "Boolean", "Number" or "String"
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("type")]
+    public TypeDevCycleManagementCustomPropertiesApi? Type { get; init; }
+
+    /// <summary>
+    /// Schema definition for the custom property.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("schema")]
+    public PropertySchema? Schema { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

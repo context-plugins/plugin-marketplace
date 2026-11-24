@@ -1,0 +1,10 @@
+{
+  "name": "hightouch",
+  "version": "0.1.0",
+  "description": "Manage syncs, models, sources, destinations, and identity resolution with Hightouch.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Hightouch",
+    "developerName": "APIMatic"
+  }
+}

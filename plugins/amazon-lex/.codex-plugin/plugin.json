@@ -1,0 +1,10 @@
+{
+  "name": "amazon-lex",
+  "version": "0.1.0",
+  "description": "Build, version, test, and deploy conversational bots with Amazon Lex V2.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Amazon Lex",
+    "developerName": "APIMatic"
+  }
+}

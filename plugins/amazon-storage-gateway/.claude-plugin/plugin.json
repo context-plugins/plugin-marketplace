@@ -1,0 +1,21 @@
+{
+  "name": "amazon-storage-gateway",
+  "displayName": "AWS Storage Gateway",
+  "version": "0.1.0",
+  "description": "Activate gateways and manage file shares, volumes, tapes, and caches with AWS Storage Gateway.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/aws-storage-gateway-planner.md"
+  ]
+}

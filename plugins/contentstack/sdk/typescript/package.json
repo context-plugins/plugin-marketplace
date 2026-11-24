@@ -1,0 +1,70 @@
+{
+  "name": "contentstack",
+  "version": "1.0.0",
+  "description": "The Contentstack Launch API allows developers to programmatically manage web application deployments within Contentstack Launch., The Contentstack Automate Management API allows developers to programmatically manage automation projects and workflows within a Contentstack organization., Operations tagged Assets across 2 of this provider's published API definitions: contentstack-content-delivery-api-openapi.yml, contentstack-content-management-api-openapi.yml. Each path carries the servers of the definition it was published in., The Contentstack Personalize Management API provides programmatic control over the resources in a Contentstack Personalize project, including Attributes, Audiences, Events, and Experiences., The Contentstack Personalize Management API provides programmatic control over the resources in a Contentstack Personalize project, including Attributes, Audiences, Events, and Experiences., The Contentstack Automate Management API allows developers to programmatically manage automation projects and workflows within a Contentstack organization., The Contentstack Automate Management API allows developers to programmatically manage automation projects and workflows within a Contentstack organization., The Contentstack Brand Kit Management API provides programmatic control over Brand Kit resources within a Contentstack organization., Operations tagged Content Types across 2 of this provider's published API definitions: contentstack-content-delivery-api-openapi.yml, contentstack-content-management-api-openapi.yml. Each path carries the servers of the definition it was published in., The Contentstack Launch API allows developers to programmatically manage web application deployments within Contentstack Launch., Operations tagged Entries across 2 of this provider's published API definitions: contentstack-content-delivery-api-openapi.yml, contentstack-content-management-api-openapi.yml. Each path carries the servers of the definition it was published in., The Contentstack Content Delivery API (CDA) allows developers to retrieve published content from their Contentstack stacks and deliver it to web or mobile applications., Operations tagged Environments across 2 of this provider's published API definitions: contentstack-content-management-api-openapi.yml, contentstack-launch-api-openapi.yml. Each path carries the servers of the definition it was published in., Operations tagged Events across 2 of this provider's published API definitions: contentstack-personalize-edge-api-openapi.yml, contentstack-personalize-management-api-openapi.yml. Each path carries the servers of the definition it was published in., The Contentstack Automate Management API allows developers to programmatically manage automation projects and workflows within a Contentstack organization., The Contentstack Personalize Management API provides programmatic control over the resources in a Contentstack Personalize project, including Attributes, Audiences, Events, and Experiences., The Contentstack Launch API allows developers to programmatically manage web application deployments within Contentstack Launch., The Contentstack Personalize Management API provides programmatic control over the resources in a Contentstack Personalize project, including Attributes, Audiences, Events, and Experiences., The Contentstack Content Delivery API (CDA) allows developers to retrieve published content from their Contentstack stacks and deliver it to web or mobile applications., The Contentstack Brand Kit Management API provides programmatic control over Brand Kit resources within a Contentstack organization., The Contentstack Personalize Edge API enables real-time, dynamic personalization interactions using edge computing to deliver targeted content experiences., The Contentstack Content Management API (CMA) provides programmatic access to manage all aspects of a Contentstack stack, including content types, entries, assets, environments, workflows, and users., Operations tagged Projects across 2 of this provider's published API definitions: contentstack-automate-management-api-openapi.yml, contentstack-launch-api-openapi.yml. Each path carries the servers of the definition it was published in., The Contentstack SCIM API implements the System for Cross-domain Identity Management (SCIM 2.0) standard to enable automated user lifecycle management within a Contentstack organization., The Contentstack SCIM API implements the System for Cross-domain Identity Management (SCIM 2.0) standard to enable automated user lifecycle management within a Contentstack organization., The Contentstack SCIM API implements the System for Cross-domain Identity Management (SCIM 2.0) standard to enable automated user lifecycle management within a Contentstack organization., The Contentstack Content Management API (CMA) provides programmatic access to manage all aspects of a Contentstack stack, including content types, entries, assets, environments, workflows, and users., The Contentstack Content Delivery API (CDA) allows developers to retrieve published content from their Contentstack stacks and deliver it to web or mobile applications., The Contentstack Personalize Edge API enables real-time, dynamic personalization interactions using edge computing to deliver targeted content experiences., The Contentstack Content Management API (CMA) provides programmatic access to manage all aspects of a Contentstack stack, including content types, entries, assets, environments, workflows, and users., The Contentstack Content Management API (CMA) provides programmatic access to manage all aspects of a Contentstack stack, including content types, entries, assets, environments, workflows, and users., The Contentstack Automate Management API allows developers to programmatically manage automation projects and workflows within a Contentstack organization., The Contentstack Brand Kit Management API provides programmatic control over Brand Kit resources within a Contentstack organization.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "tshy": {
+    "exports": {
+      ".": "./src/index.ts",
+      "./package.json": "./package.json"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "project": "./tsconfig.tshy.json",
+    "selfLink": false
+  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "tsconfig.json",
+    "tsconfig.tshy.json",
+    "README.md",
+    "api-reference.md",
+    "sdk-map.md",
+    "map"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.3"
+  },
+  "scripts": {
+    "prepare": "tshy",
+    "build": "tshy",
+    "smoke": "node -e \"require('contentstack')\" && node --input-type=module -e \"import('contentstack')\"",
+    "typecheck": "tsc --noEmit",
+    "typecheck:dom": "tsc --noEmit -p tsconfig.dom.json",
+    "lint": "oxlint --type-aware --max-warnings=0 src",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "oxfmt": "^0.61.0",
+    "oxlint": "^1.76.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "tshy": "^4.1.3",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  }
+}

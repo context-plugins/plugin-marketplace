@@ -1,0 +1,10 @@
+{
+  "name": "amazon-sqs",
+  "version": "0.1.0",
+  "description": "Create and manage queues and send, receive, and delete messages with Amazon SQS.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Amazon SQS",
+    "developerName": "APIMatic"
+  }
+}

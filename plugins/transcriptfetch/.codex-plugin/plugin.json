@@ -1,0 +1,10 @@
+{
+  "name": "transcriptfetch",
+  "version": "0.1.0",
+  "description": "Fetch transcripts from YouTube, TikTok, Instagram, and podcasts, and list channels and playlists with TranscriptFetch.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "TranscriptFetch",
+    "developerName": "APIMatic"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "hud",
+  "version": "0.1.0",
+  "description": "Run AI agent evaluation jobs, tasks, builds, and traces on the HUD platform.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "HUD",
+    "developerName": "APIMatic"
+  }
+}

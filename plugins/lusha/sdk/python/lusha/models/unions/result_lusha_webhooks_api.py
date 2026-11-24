@@ -1,0 +1,10 @@
+from __future__ import annotations
+
+from typing import TypeAlias
+
+from ..create_subscription_error_result import CreateSubscriptionErrorResult, CreateSubscriptionErrorResultDict
+from ..create_subscription_success_result import CreateSubscriptionSuccessResult, CreateSubscriptionSuccessResultDict
+
+ResultLushaWebhooksApi: TypeAlias = CreateSubscriptionSuccessResult | CreateSubscriptionErrorResult
+
+ResultLushaWebhooksApiDict: TypeAlias = CreateSubscriptionSuccessResultDict | CreateSubscriptionErrorResultDict

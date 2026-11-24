@@ -1,0 +1,10 @@
+{
+  "name": "google-translate",
+  "version": "0.1.0",
+  "description": "Translate text and documents, detect languages, and manage glossaries and adaptive MT datasets with Google Cloud Translation.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Google Translate",
+    "developerName": "APIMatic"
+  }
+}

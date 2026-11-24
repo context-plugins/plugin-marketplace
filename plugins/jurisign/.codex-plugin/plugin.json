@@ -1,0 +1,10 @@
+{
+  "name": "jurisign",
+  "version": "0.1.0",
+  "description": "Send documents for electronic signature with OTP verification, and manage templates and webhooks with JuriSign.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "JuriSign",
+    "developerName": "APIMatic"
+  }
+}

@@ -1,0 +1,21 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Final, TypeAlias
+
+from ..core import ErrorMapper, RawError
+
+CreateDatasetErrorBody: TypeAlias = RawError
+
+
+@dataclass(frozen=True, slots=True)
+class _CreateDatasetError:
+    def map(self, status_code: int, content: bytes) -> CreateDatasetErrorBody:
+        match status_code:
+            case 400 | 403 | 409:
+                return RawError(status_code, content)
+            case _:
+                return RawError(status_code, content)
+
+
+create_dataset_error_mapper: Final[ErrorMapper[CreateDatasetErrorBody]] = _CreateDatasetError()

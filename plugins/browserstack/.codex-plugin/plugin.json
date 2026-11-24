@@ -1,0 +1,10 @@
+{
+  "name": "browserstack",
+  "version": "0.1.0",
+  "description": "Manage BrowserStack Automate builds, sessions, projects, plans, browsers, and access keys.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "BrowserStack",
+    "developerName": "APIMatic"
+  }
+}

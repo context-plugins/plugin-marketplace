@@ -1,0 +1,16 @@
+using System.Text.Json.Serialization;
+using AppstoreSpy.Core.Models;
+
+namespace AppstoreSpy.Models;
+
+public record IosDevelopers401Error
+{
+    [JsonPropertyName("message")]
+    public required string Message { get; init; }
+
+    [JsonPropertyName("code")]
+    public required int Code { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

@@ -1,0 +1,21 @@
+{
+  "name": "callnode",
+  "displayName": "CallNode",
+  "version": "0.1.0",
+  "description": "Place calls and send SMS, MMS, fax, and email, and manage phone numbers and SIP trunks with CallNode.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/call-node-planner.md"
+  ]
+}

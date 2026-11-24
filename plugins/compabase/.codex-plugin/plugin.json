@@ -1,0 +1,10 @@
+{
+  "name": "compabase",
+  "version": "0.1.0",
+  "description": "Search companies and people, financial statements, registers, tenders, and news with Compabase.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Compabase",
+    "developerName": "APIMatic"
+  }
+}

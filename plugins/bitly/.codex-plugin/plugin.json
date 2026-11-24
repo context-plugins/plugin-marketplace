@@ -1,0 +1,10 @@
+{
+  "name": "bitly",
+  "version": "0.1.0",
+  "description": "Shorten links and manage Bitlinks, QR codes, campaigns, branded domains, and webhooks on Bitly.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Bitly",
+    "developerName": "APIMatic"
+  }
+}

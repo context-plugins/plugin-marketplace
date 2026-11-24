@@ -1,0 +1,18 @@
+{
+  "name": "cloro",
+  "displayName": "Cloro",
+  "version": "0.1.0",
+  "description": "Monitor ChatGPT, Gemini, and Grok answers and run async AI search scraping tasks with Cloro.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

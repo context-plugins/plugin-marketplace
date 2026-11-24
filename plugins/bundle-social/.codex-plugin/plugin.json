@@ -1,0 +1,10 @@
+{
+  "name": "bundle-social",
+  "version": "0.1.0",
+  "description": "Schedule and publish social media posts, import comments, and read analytics with Bundle.social.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Bundle.social",
+    "developerName": "APIMatic"
+  }
+}

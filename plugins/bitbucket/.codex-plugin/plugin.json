@@ -1,0 +1,10 @@
+{
+  "name": "bitbucket",
+  "version": "0.1.0",
+  "description": "Automate Bitbucket repositories, pull requests, pipelines, issues, commits, and deployments.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Bitbucket",
+    "developerName": "APIMatic"
+  }
+}

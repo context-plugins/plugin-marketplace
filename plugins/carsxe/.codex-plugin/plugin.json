@@ -1,0 +1,10 @@
+{
+  "name": "carsxe",
+  "version": "0.1.0",
+  "description": "Decode VINs and license plates and get vehicle specs, market values, history, recalls, and images from CarsXE.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "CarsXE",
+    "developerName": "APIMatic"
+  }
+}

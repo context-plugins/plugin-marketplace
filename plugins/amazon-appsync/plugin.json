@@ -1,0 +1,18 @@
+{
+  "name": "amazon-appsync",
+  "displayName": "Amazon AppSync",
+  "version": "0.1.0",
+  "description": "Manage AWS AppSync GraphQL and Event APIs, data sources, resolvers, functions, caches, and API keys.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

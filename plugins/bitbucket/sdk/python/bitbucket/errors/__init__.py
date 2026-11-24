@@ -1,0 +1,1740 @@
+from .create_deployment_variable_error import CreateDeploymentVariableErrorBody, create_deployment_variable_error_mapper
+from .create_environment_error import CreateEnvironmentErrorBody, create_environment_error_mapper
+from .create_or_update_annotation2_error import (
+    CreateOrUpdateAnnotation2ErrorBody,
+    create_or_update_annotation2_error_mapper,
+)
+from .create_or_update_annotation_error import (
+    CreateOrUpdateAnnotationErrorBody,
+    create_or_update_annotation_error_mapper,
+)
+from .create_or_update_report2_error import CreateOrUpdateReport2ErrorBody, create_or_update_report2_error_mapper
+from .create_or_update_report_error import CreateOrUpdateReportErrorBody, create_or_update_report_error_mapper
+from .create_pipeline_for_repository_error import (
+    CreatePipelineForRepositoryErrorBody,
+    create_pipeline_for_repository_error_mapper,
+)
+from .create_pipeline_variable_for_team_error import (
+    CreatePipelineVariableForTeamErrorBody,
+    create_pipeline_variable_for_team_error_mapper,
+)
+from .create_pipeline_variable_for_user_error import (
+    CreatePipelineVariableForUserErrorBody,
+    create_pipeline_variable_for_user_error_mapper,
+)
+from .create_pipeline_variable_for_workspace_error import (
+    CreatePipelineVariableForWorkspaceErrorBody,
+    create_pipeline_variable_for_workspace_error_mapper,
+)
+from .create_repository_pipeline_known_host_error import (
+    CreateRepositoryPipelineKnownHostErrorBody,
+    create_repository_pipeline_known_host_error_mapper,
+)
+from .create_repository_pipeline_schedule_error import (
+    CreateRepositoryPipelineScheduleErrorBody,
+    create_repository_pipeline_schedule_error_mapper,
+)
+from .create_repository_pipeline_variable_error import (
+    CreateRepositoryPipelineVariableErrorBody,
+    create_repository_pipeline_variable_error_mapper,
+)
+from .create_repository_runner_error import CreateRepositoryRunnerErrorBody, create_repository_runner_error_mapper
+from .create_workspace_runner_error import CreateWorkspaceRunnerErrorBody, create_workspace_runner_error_mapper
+from .delete_addon_error import DeleteAddonErrorBody, delete_addon_error_mapper
+from .delete_addon_linkers_by_linker_key_values_by_value_id_error import (
+    DeleteAddonLinkersByLinkerKeyValuesByValueIdErrorBody,
+    delete_addon_linkers_by_linker_key_values_by_value_id_error_mapper,
+)
+from .delete_addon_linkers_by_linker_key_values_error import (
+    DeleteAddonLinkersByLinkerKeyValuesErrorBody,
+    delete_addon_linkers_by_linker_key_values_error_mapper,
+)
+from .delete_deployment_variable_error import DeleteDeploymentVariableErrorBody, delete_deployment_variable_error_mapper
+from .delete_environment_for_repository_error import (
+    DeleteEnvironmentForRepositoryErrorBody,
+    delete_environment_for_repository_error_mapper,
+)
+from .delete_pipeline_variable_for_team_error import (
+    DeletePipelineVariableForTeamErrorBody,
+    delete_pipeline_variable_for_team_error_mapper,
+)
+from .delete_pipeline_variable_for_user_error import (
+    DeletePipelineVariableForUserErrorBody,
+    delete_pipeline_variable_for_user_error_mapper,
+)
+from .delete_pipeline_variable_for_workspace_error import (
+    DeletePipelineVariableForWorkspaceErrorBody,
+    delete_pipeline_variable_for_workspace_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_branch_restrictions_by_id_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugBranchRestrictionsByIdErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_branch_restrictions_by_id_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_commit_by_commit_approve_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugCommitByCommitApproveErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_commit_by_commit_approve_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_commit_by_commit_comments_by_comment_id_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugCommitByCommitCommentsByCommentIdErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_commit_by_commit_comments_by_comment_id_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_default_reviewers_by_target_username_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugDefaultReviewersByTargetUsernameErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_default_reviewers_by_target_username_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_deploy_keys_by_key_id_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugDeployKeysByKeyIdErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_deploy_keys_by_key_id_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_downloads_by_filename_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugDownloadsByFilenameErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_downloads_by_filename_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_hooks_by_uid2_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugHooksByUid2ErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_hooks_by_uid2_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_hooks_by_uid_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugHooksByUidErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_hooks_by_uid_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_issues_by_issue_id_attachments_by_path_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdAttachmentsByPathErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_issues_by_issue_id_attachments_by_path_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_issues_by_issue_id_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_issues_by_issue_id_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_issues_by_issue_id_watch_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdWatchErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_issues_by_issue_id_watch_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_permissions_config_groups_by_group_slug_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugPermissionsConfigGroupsByGroupSlugErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_permissions_config_groups_by_group_slug_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_permissions_config_users_by_selected_user_id_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugPermissionsConfigUsersBySelectedUserIdErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_permissions_config_users_by_selected_user_id_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_approve_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdApproveErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_approve_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_by_comment_id_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommentsByCommentIdErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_by_comment_id_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_by_comment_id_resolve_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommentsByCommentIdResolveErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_by_comment_id_resolve_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_request_changes_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdRequestChangesErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_request_changes_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_tasks_by_task_id_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdTasksByTaskIdErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_tasks_by_task_id_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_refs_branches_by_name_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugRefsBranchesByNameErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_refs_branches_by_name_error_mapper,
+)
+from .delete_repositories_by_workspace_by_repo_slug_refs_tags_by_name_error import (
+    DeleteRepositoriesByWorkspaceByRepoSlugRefsTagsByNameErrorBody,
+    delete_repositories_by_workspace_by_repo_slug_refs_tags_by_name_error_mapper,
+)
+from .delete_repository_pipeline_cache_error import (
+    DeleteRepositoryPipelineCacheErrorBody,
+    delete_repository_pipeline_cache_error_mapper,
+)
+from .delete_repository_pipeline_caches_error import (
+    DeleteRepositoryPipelineCachesErrorBody,
+    delete_repository_pipeline_caches_error_mapper,
+)
+from .delete_repository_pipeline_key_pair_error import (
+    DeleteRepositoryPipelineKeyPairErrorBody,
+    delete_repository_pipeline_key_pair_error_mapper,
+)
+from .delete_repository_pipeline_known_host_error import (
+    DeleteRepositoryPipelineKnownHostErrorBody,
+    delete_repository_pipeline_known_host_error_mapper,
+)
+from .delete_repository_pipeline_schedule_error import (
+    DeleteRepositoryPipelineScheduleErrorBody,
+    delete_repository_pipeline_schedule_error_mapper,
+)
+from .delete_repository_pipeline_variable_error import (
+    DeleteRepositoryPipelineVariableErrorBody,
+    delete_repository_pipeline_variable_error_mapper,
+)
+from .delete_repository_runner_error import DeleteRepositoryRunnerErrorBody, delete_repository_runner_error_mapper
+from .delete_snippets_by_workspace_by_encoded_id_by_node_id_error import (
+    DeleteSnippetsByWorkspaceByEncodedIdByNodeIdErrorBody,
+    delete_snippets_by_workspace_by_encoded_id_by_node_id_error_mapper,
+)
+from .delete_snippets_by_workspace_by_encoded_id_comments_by_comment_id_error import (
+    DeleteSnippetsByWorkspaceByEncodedIdCommentsByCommentIdErrorBody,
+    delete_snippets_by_workspace_by_encoded_id_comments_by_comment_id_error_mapper,
+)
+from .delete_snippets_by_workspace_by_encoded_id_error import (
+    DeleteSnippetsByWorkspaceByEncodedIdErrorBody,
+    delete_snippets_by_workspace_by_encoded_id_error_mapper,
+)
+from .delete_snippets_by_workspace_by_encoded_id_watch_error import (
+    DeleteSnippetsByWorkspaceByEncodedIdWatchErrorBody,
+    delete_snippets_by_workspace_by_encoded_id_watch_error_mapper,
+)
+from .delete_users_by_selected_user_gpg_keys_by_fingerprint_error import (
+    DeleteUsersBySelectedUserGpgKeysByFingerprintErrorBody,
+    delete_users_by_selected_user_gpg_keys_by_fingerprint_error_mapper,
+)
+from .delete_users_by_selected_user_ssh_keys_by_key_id_error import (
+    DeleteUsersBySelectedUserSshKeysByKeyIdErrorBody,
+    delete_users_by_selected_user_ssh_keys_by_key_id_error_mapper,
+)
+from .delete_workspace_runner_error import DeleteWorkspaceRunnerErrorBody, delete_workspace_runner_error_mapper
+from .delete_workspaces_by_workspace_hooks_by_uid2_error import (
+    DeleteWorkspacesByWorkspaceHooksByUid2ErrorBody,
+    delete_workspaces_by_workspace_hooks_by_uid2_error_mapper,
+)
+from .delete_workspaces_by_workspace_hooks_by_uid_error import (
+    DeleteWorkspacesByWorkspaceHooksByUidErrorBody,
+    delete_workspaces_by_workspace_hooks_by_uid_error_mapper,
+)
+from .delete_workspaces_by_workspace_projects_by_project_key_default_reviewers_by_selected_user_error import (
+    DeleteWorkspacesByWorkspaceProjectsByProjectKeyDefaultReviewersBySelectedUserErrorBody,
+    delete_workspaces_by_workspace_projects_by_project_key_default_reviewers_by_selected_user_error_mapper,
+)
+from .delete_workspaces_by_workspace_projects_by_project_key_deploy_keys_by_key_id_error import (
+    DeleteWorkspacesByWorkspaceProjectsByProjectKeyDeployKeysByKeyIdErrorBody,
+    delete_workspaces_by_workspace_projects_by_project_key_deploy_keys_by_key_id_error_mapper,
+)
+from .delete_workspaces_by_workspace_projects_by_project_key_error import (
+    DeleteWorkspacesByWorkspaceProjectsByProjectKeyErrorBody,
+    delete_workspaces_by_workspace_projects_by_project_key_error_mapper,
+)
+from .delete_workspaces_by_workspace_projects_by_project_key_permissions_config_groups_by_group_slug_error import (
+    DeleteWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigGroupsByGroupSlugErrorBody,
+    delete_workspaces_by_workspace_projects_by_project_key_permissions_config_groups_by_group_slug_error_mapper,
+)
+from .delete_workspaces_by_workspace_projects_by_project_key_permissions_config_users_by_selected_user_id_error import (
+    DeleteWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigUsersBySelectedUserIdErrorBody,
+    delete_workspaces_by_workspace_projects_by_project_key_permissions_config_users_by_selected_user_id_error_mapper,
+)
+from .get_addon_linkers_by_linker_key_error import (
+    GetAddonLinkersByLinkerKeyErrorBody,
+    get_addon_linkers_by_linker_key_error_mapper,
+)
+from .get_addon_linkers_by_linker_key_values_by_value_id_error import (
+    GetAddonLinkersByLinkerKeyValuesByValueIdErrorBody,
+    get_addon_linkers_by_linker_key_values_by_value_id_error_mapper,
+)
+from .get_addon_linkers_by_linker_key_values_error import (
+    GetAddonLinkersByLinkerKeyValuesErrorBody,
+    get_addon_linkers_by_linker_key_values_error_mapper,
+)
+from .get_addon_linkers_error import GetAddonLinkersErrorBody, get_addon_linkers_error_mapper
+from .get_annotation2_error import GetAnnotation2ErrorBody, get_annotation2_error_mapper
+from .get_annotation_error import GetAnnotationErrorBody, get_annotation_error_mapper
+from .get_deployment_for_repository_error import (
+    GetDeploymentForRepositoryErrorBody,
+    get_deployment_for_repository_error_mapper,
+)
+from .get_environment_for_repository_error import (
+    GetEnvironmentForRepositoryErrorBody,
+    get_environment_for_repository_error_mapper,
+)
+from .get_hook_events_by_subject_type_error import (
+    GetHookEventsBySubjectTypeErrorBody,
+    get_hook_events_by_subject_type_error_mapper,
+)
+from .get_oidc_configuration_error import GetOidcConfigurationErrorBody, get_oidc_configuration_error_mapper
+from .get_oidc_keys_error import GetOidcKeysErrorBody, get_oidc_keys_error_mapper
+from .get_pipeline_container_log_error import GetPipelineContainerLogErrorBody, get_pipeline_container_log_error_mapper
+from .get_pipeline_for_repository_error import (
+    GetPipelineForRepositoryErrorBody,
+    get_pipeline_for_repository_error_mapper,
+)
+from .get_pipeline_step_for_repository_error import (
+    GetPipelineStepForRepositoryErrorBody,
+    get_pipeline_step_for_repository_error_mapper,
+)
+from .get_pipeline_step_log_for_repository_error import (
+    GetPipelineStepLogForRepositoryErrorBody,
+    get_pipeline_step_log_for_repository_error_mapper,
+)
+from .get_pipeline_test_report_test_case_reasons_error import (
+    GetPipelineTestReportTestCaseReasonsErrorBody,
+    get_pipeline_test_report_test_case_reasons_error_mapper,
+)
+from .get_pipeline_test_report_test_cases_error import (
+    GetPipelineTestReportTestCasesErrorBody,
+    get_pipeline_test_report_test_cases_error_mapper,
+)
+from .get_pipeline_test_reports_error import GetPipelineTestReportsErrorBody, get_pipeline_test_reports_error_mapper
+from .get_pipeline_variable_for_team_error import (
+    GetPipelineVariableForTeamErrorBody,
+    get_pipeline_variable_for_team_error_mapper,
+)
+from .get_pipeline_variable_for_user_error import (
+    GetPipelineVariableForUserErrorBody,
+    get_pipeline_variable_for_user_error_mapper,
+)
+from .get_pipeline_variable_for_workspace_error import (
+    GetPipelineVariableForWorkspaceErrorBody,
+    get_pipeline_variable_for_workspace_error_mapper,
+)
+from .get_pullrequests_for_commit_error import (
+    GetPullrequestsForCommitErrorBody,
+    get_pullrequests_for_commit_error_mapper,
+)
+from .get_report2_error import GetReport2ErrorBody, get_report2_error_mapper
+from .get_report_error import GetReportErrorBody, get_report_error_mapper
+from .get_repositories_by_workspace_by_repo_slug_branch_restrictions_by_id_error import (
+    GetRepositoriesByWorkspaceByRepoSlugBranchRestrictionsByIdErrorBody,
+    get_repositories_by_workspace_by_repo_slug_branch_restrictions_by_id_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_branch_restrictions_error import (
+    GetRepositoriesByWorkspaceByRepoSlugBranchRestrictionsErrorBody,
+    get_repositories_by_workspace_by_repo_slug_branch_restrictions_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_branching_model_error import (
+    GetRepositoriesByWorkspaceByRepoSlugBranchingModelErrorBody,
+    get_repositories_by_workspace_by_repo_slug_branching_model_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_branching_model_settings_error import (
+    GetRepositoriesByWorkspaceByRepoSlugBranchingModelSettingsErrorBody,
+    get_repositories_by_workspace_by_repo_slug_branching_model_settings_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_commit_by_commit_error import (
+    GetRepositoriesByWorkspaceByRepoSlugCommitByCommitErrorBody,
+    get_repositories_by_workspace_by_repo_slug_commit_by_commit_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_commit_by_commit_statuses_build_by_key_error import (
+    GetRepositoriesByWorkspaceByRepoSlugCommitByCommitStatusesBuildByKeyErrorBody,
+    get_repositories_by_workspace_by_repo_slug_commit_by_commit_statuses_build_by_key_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_commit_by_commit_statuses_error import (
+    GetRepositoriesByWorkspaceByRepoSlugCommitByCommitStatusesErrorBody,
+    get_repositories_by_workspace_by_repo_slug_commit_by_commit_statuses_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_commits_by_revision_error import (
+    GetRepositoriesByWorkspaceByRepoSlugCommitsByRevisionErrorBody,
+    get_repositories_by_workspace_by_repo_slug_commits_by_revision_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_commits_error import (
+    GetRepositoriesByWorkspaceByRepoSlugCommitsErrorBody,
+    get_repositories_by_workspace_by_repo_slug_commits_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_components_by_component_id_error import (
+    GetRepositoriesByWorkspaceByRepoSlugComponentsByComponentIdErrorBody,
+    get_repositories_by_workspace_by_repo_slug_components_by_component_id_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_components_error import (
+    GetRepositoriesByWorkspaceByRepoSlugComponentsErrorBody,
+    get_repositories_by_workspace_by_repo_slug_components_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_default_reviewers_by_target_username_error import (
+    GetRepositoriesByWorkspaceByRepoSlugDefaultReviewersByTargetUsernameErrorBody,
+    get_repositories_by_workspace_by_repo_slug_default_reviewers_by_target_username_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_default_reviewers_error import (
+    GetRepositoriesByWorkspaceByRepoSlugDefaultReviewersErrorBody,
+    get_repositories_by_workspace_by_repo_slug_default_reviewers_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_deploy_keys_by_key_id_error import (
+    GetRepositoriesByWorkspaceByRepoSlugDeployKeysByKeyIdErrorBody,
+    get_repositories_by_workspace_by_repo_slug_deploy_keys_by_key_id_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_deploy_keys_error import (
+    GetRepositoriesByWorkspaceByRepoSlugDeployKeysErrorBody,
+    get_repositories_by_workspace_by_repo_slug_deploy_keys_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_diff_by_spec_error import (
+    GetRepositoriesByWorkspaceByRepoSlugDiffBySpecErrorBody,
+    get_repositories_by_workspace_by_repo_slug_diff_by_spec_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_diffstat_by_spec_error import (
+    GetRepositoriesByWorkspaceByRepoSlugDiffstatBySpecErrorBody,
+    get_repositories_by_workspace_by_repo_slug_diffstat_by_spec_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_downloads_by_filename_error import (
+    GetRepositoriesByWorkspaceByRepoSlugDownloadsByFilenameErrorBody,
+    get_repositories_by_workspace_by_repo_slug_downloads_by_filename_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_downloads_error import (
+    GetRepositoriesByWorkspaceByRepoSlugDownloadsErrorBody,
+    get_repositories_by_workspace_by_repo_slug_downloads_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_effective_branching_model_error import (
+    GetRepositoriesByWorkspaceByRepoSlugEffectiveBranchingModelErrorBody,
+    get_repositories_by_workspace_by_repo_slug_effective_branching_model_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_effective_default_reviewers_error import (
+    GetRepositoriesByWorkspaceByRepoSlugEffectiveDefaultReviewersErrorBody,
+    get_repositories_by_workspace_by_repo_slug_effective_default_reviewers_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_error import (
+    GetRepositoriesByWorkspaceByRepoSlugErrorBody,
+    get_repositories_by_workspace_by_repo_slug_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_filehistory_by_commit_by_path2_error import (
+    GetRepositoriesByWorkspaceByRepoSlugFilehistoryByCommitByPath2ErrorBody,
+    get_repositories_by_workspace_by_repo_slug_filehistory_by_commit_by_path2_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_filehistory_by_commit_by_path_error import (
+    GetRepositoriesByWorkspaceByRepoSlugFilehistoryByCommitByPathErrorBody,
+    get_repositories_by_workspace_by_repo_slug_filehistory_by_commit_by_path_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_hooks2_error import (
+    GetRepositoriesByWorkspaceByRepoSlugHooks2ErrorBody,
+    get_repositories_by_workspace_by_repo_slug_hooks2_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_hooks_by_uid2_error import (
+    GetRepositoriesByWorkspaceByRepoSlugHooksByUid2ErrorBody,
+    get_repositories_by_workspace_by_repo_slug_hooks_by_uid2_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_hooks_by_uid_error import (
+    GetRepositoriesByWorkspaceByRepoSlugHooksByUidErrorBody,
+    get_repositories_by_workspace_by_repo_slug_hooks_by_uid_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_hooks_error import (
+    GetRepositoriesByWorkspaceByRepoSlugHooksErrorBody,
+    get_repositories_by_workspace_by_repo_slug_hooks_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_attachments_by_path_error import (
+    GetRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdAttachmentsByPathErrorBody,
+    get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_attachments_by_path_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_attachments_error import (
+    GetRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdAttachmentsErrorBody,
+    get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_attachments_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_changes_by_change_id_error import (
+    GetRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdChangesByChangeIdErrorBody,
+    get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_changes_by_change_id_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_changes_error import (
+    GetRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdChangesErrorBody,
+    get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_changes_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_error import (
+    GetRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdErrorBody,
+    get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_vote_error import (
+    GetRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdVoteErrorBody,
+    get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_vote_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_watch_error import (
+    GetRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdWatchErrorBody,
+    get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_watch_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_issues_error import (
+    GetRepositoriesByWorkspaceByRepoSlugIssuesErrorBody,
+    get_repositories_by_workspace_by_repo_slug_issues_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_issues_export_repo_name_issues_task_id_zip_error import (
+    GetRepositoriesByWorkspaceByRepoSlugIssuesExportRepoNameIssuesTaskIdZipErrorBody,
+    get_repositories_by_workspace_by_repo_slug_issues_export_repo_name_issues_task_id_zip_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_issues_import_error import (
+    GetRepositoriesByWorkspaceByRepoSlugIssuesImportErrorBody,
+    get_repositories_by_workspace_by_repo_slug_issues_import_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_merge_base_by_revspec_error import (
+    GetRepositoriesByWorkspaceByRepoSlugMergeBaseByRevspecErrorBody,
+    get_repositories_by_workspace_by_repo_slug_merge_base_by_revspec_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_milestones_by_milestone_id_error import (
+    GetRepositoriesByWorkspaceByRepoSlugMilestonesByMilestoneIdErrorBody,
+    get_repositories_by_workspace_by_repo_slug_milestones_by_milestone_id_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_milestones_error import (
+    GetRepositoriesByWorkspaceByRepoSlugMilestonesErrorBody,
+    get_repositories_by_workspace_by_repo_slug_milestones_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_override_settings_error import (
+    GetRepositoriesByWorkspaceByRepoSlugOverrideSettingsErrorBody,
+    get_repositories_by_workspace_by_repo_slug_override_settings_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_patch_by_spec_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPatchBySpecErrorBody,
+    get_repositories_by_workspace_by_repo_slug_patch_by_spec_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_permissions_config_groups_by_group_slug_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPermissionsConfigGroupsByGroupSlugErrorBody,
+    get_repositories_by_workspace_by_repo_slug_permissions_config_groups_by_group_slug_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_permissions_config_groups_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPermissionsConfigGroupsErrorBody,
+    get_repositories_by_workspace_by_repo_slug_permissions_config_groups_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_permissions_config_users_by_selected_user_id_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPermissionsConfigUsersBySelectedUserIdErrorBody,
+    get_repositories_by_workspace_by_repo_slug_permissions_config_users_by_selected_user_id_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_permissions_config_users_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPermissionsConfigUsersErrorBody,
+    get_repositories_by_workspace_by_repo_slug_permissions_config_users_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_pullrequests_activity_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPullrequestsActivityErrorBody,
+    get_repositories_by_workspace_by_repo_slug_pullrequests_activity_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_activity_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdActivityErrorBody,
+    get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_activity_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_by_comment_id_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommentsByCommentIdErrorBody,
+    get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_by_comment_id_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommentsErrorBody,
+    get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_commits_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommitsErrorBody,
+    get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_commits_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdErrorBody,
+    get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_merge_task_status_by_task_id_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdMergeTaskStatusByTaskIdErrorBody,
+    get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_merge_task_status_by_task_id_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_statuses2_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdStatuses2ErrorBody,
+    get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_statuses2_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_statuses_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdStatusesErrorBody,
+    get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_statuses_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_tasks_by_task_id_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdTasksByTaskIdErrorBody,
+    get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_tasks_by_task_id_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_tasks_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdTasksErrorBody,
+    get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_tasks_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_pullrequests_error import (
+    GetRepositoriesByWorkspaceByRepoSlugPullrequestsErrorBody,
+    get_repositories_by_workspace_by_repo_slug_pullrequests_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_refs_branches_by_name_error import (
+    GetRepositoriesByWorkspaceByRepoSlugRefsBranchesByNameErrorBody,
+    get_repositories_by_workspace_by_repo_slug_refs_branches_by_name_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_refs_branches_error import (
+    GetRepositoriesByWorkspaceByRepoSlugRefsBranchesErrorBody,
+    get_repositories_by_workspace_by_repo_slug_refs_branches_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_refs_error import (
+    GetRepositoriesByWorkspaceByRepoSlugRefsErrorBody,
+    get_repositories_by_workspace_by_repo_slug_refs_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_refs_tags_by_name_error import (
+    GetRepositoriesByWorkspaceByRepoSlugRefsTagsByNameErrorBody,
+    get_repositories_by_workspace_by_repo_slug_refs_tags_by_name_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_refs_tags_error import (
+    GetRepositoriesByWorkspaceByRepoSlugRefsTagsErrorBody,
+    get_repositories_by_workspace_by_repo_slug_refs_tags_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_src2_error import (
+    GetRepositoriesByWorkspaceByRepoSlugSrc2ErrorBody,
+    get_repositories_by_workspace_by_repo_slug_src2_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_src_by_commit_by_path2_error import (
+    GetRepositoriesByWorkspaceByRepoSlugSrcByCommitByPath2ErrorBody,
+    get_repositories_by_workspace_by_repo_slug_src_by_commit_by_path2_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_src_by_commit_by_path_error import (
+    GetRepositoriesByWorkspaceByRepoSlugSrcByCommitByPathErrorBody,
+    get_repositories_by_workspace_by_repo_slug_src_by_commit_by_path_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_src_error import (
+    GetRepositoriesByWorkspaceByRepoSlugSrcErrorBody,
+    get_repositories_by_workspace_by_repo_slug_src_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_versions_by_version_id_error import (
+    GetRepositoriesByWorkspaceByRepoSlugVersionsByVersionIdErrorBody,
+    get_repositories_by_workspace_by_repo_slug_versions_by_version_id_error_mapper,
+)
+from .get_repositories_by_workspace_by_repo_slug_versions_error import (
+    GetRepositoriesByWorkspaceByRepoSlugVersionsErrorBody,
+    get_repositories_by_workspace_by_repo_slug_versions_error_mapper,
+)
+from .get_repositories_by_workspace_error import (
+    GetRepositoriesByWorkspaceErrorBody,
+    get_repositories_by_workspace_error_mapper,
+)
+from .get_repository_pipeline_cache_content_uri_error import (
+    GetRepositoryPipelineCacheContentUriErrorBody,
+    get_repository_pipeline_cache_content_uri_error_mapper,
+)
+from .get_repository_pipeline_caches_error import (
+    GetRepositoryPipelineCachesErrorBody,
+    get_repository_pipeline_caches_error_mapper,
+)
+from .get_repository_pipeline_known_host_error import (
+    GetRepositoryPipelineKnownHostErrorBody,
+    get_repository_pipeline_known_host_error_mapper,
+)
+from .get_repository_pipeline_schedule_error import (
+    GetRepositoryPipelineScheduleErrorBody,
+    get_repository_pipeline_schedule_error_mapper,
+)
+from .get_repository_pipeline_schedule_executions_error import (
+    GetRepositoryPipelineScheduleExecutionsErrorBody,
+    get_repository_pipeline_schedule_executions_error_mapper,
+)
+from .get_repository_pipeline_schedules_error import (
+    GetRepositoryPipelineSchedulesErrorBody,
+    get_repository_pipeline_schedules_error_mapper,
+)
+from .get_repository_pipeline_ssh_key_pair_error import (
+    GetRepositoryPipelineSshKeyPairErrorBody,
+    get_repository_pipeline_ssh_key_pair_error_mapper,
+)
+from .get_repository_pipeline_variable_error import (
+    GetRepositoryPipelineVariableErrorBody,
+    get_repository_pipeline_variable_error_mapper,
+)
+from .get_repository_runner_error import GetRepositoryRunnerErrorBody, get_repository_runner_error_mapper
+from .get_snippets_by_workspace_by_encoded_id_by_node_id_error import (
+    GetSnippetsByWorkspaceByEncodedIdByNodeIdErrorBody,
+    get_snippets_by_workspace_by_encoded_id_by_node_id_error_mapper,
+)
+from .get_snippets_by_workspace_by_encoded_id_by_node_id_files_by_path_error import (
+    GetSnippetsByWorkspaceByEncodedIdByNodeIdFilesByPathErrorBody,
+    get_snippets_by_workspace_by_encoded_id_by_node_id_files_by_path_error_mapper,
+)
+from .get_snippets_by_workspace_by_encoded_id_by_revision_diff_error import (
+    GetSnippetsByWorkspaceByEncodedIdByRevisionDiffErrorBody,
+    get_snippets_by_workspace_by_encoded_id_by_revision_diff_error_mapper,
+)
+from .get_snippets_by_workspace_by_encoded_id_by_revision_patch_error import (
+    GetSnippetsByWorkspaceByEncodedIdByRevisionPatchErrorBody,
+    get_snippets_by_workspace_by_encoded_id_by_revision_patch_error_mapper,
+)
+from .get_snippets_by_workspace_by_encoded_id_comments_by_comment_id_error import (
+    GetSnippetsByWorkspaceByEncodedIdCommentsByCommentIdErrorBody,
+    get_snippets_by_workspace_by_encoded_id_comments_by_comment_id_error_mapper,
+)
+from .get_snippets_by_workspace_by_encoded_id_comments_error import (
+    GetSnippetsByWorkspaceByEncodedIdCommentsErrorBody,
+    get_snippets_by_workspace_by_encoded_id_comments_error_mapper,
+)
+from .get_snippets_by_workspace_by_encoded_id_commits_by_revision_error import (
+    GetSnippetsByWorkspaceByEncodedIdCommitsByRevisionErrorBody,
+    get_snippets_by_workspace_by_encoded_id_commits_by_revision_error_mapper,
+)
+from .get_snippets_by_workspace_by_encoded_id_commits_error import (
+    GetSnippetsByWorkspaceByEncodedIdCommitsErrorBody,
+    get_snippets_by_workspace_by_encoded_id_commits_error_mapper,
+)
+from .get_snippets_by_workspace_by_encoded_id_error import (
+    GetSnippetsByWorkspaceByEncodedIdErrorBody,
+    get_snippets_by_workspace_by_encoded_id_error_mapper,
+)
+from .get_snippets_by_workspace_by_encoded_id_files_by_path_error import (
+    GetSnippetsByWorkspaceByEncodedIdFilesByPathErrorBody,
+    get_snippets_by_workspace_by_encoded_id_files_by_path_error_mapper,
+)
+from .get_snippets_by_workspace_by_encoded_id_watch_error import (
+    GetSnippetsByWorkspaceByEncodedIdWatchErrorBody,
+    get_snippets_by_workspace_by_encoded_id_watch_error_mapper,
+)
+from .get_snippets_by_workspace_by_encoded_id_watchers_error import (
+    GetSnippetsByWorkspaceByEncodedIdWatchersErrorBody,
+    get_snippets_by_workspace_by_encoded_id_watchers_error_mapper,
+)
+from .get_snippets_by_workspace_error import GetSnippetsByWorkspaceErrorBody, get_snippets_by_workspace_error_mapper
+from .get_snippets_error import GetSnippetsErrorBody, get_snippets_error_mapper
+from .get_user_error import GetUserErrorBody, get_user_error_mapper
+from .get_user_permissions_workspaces_error import (
+    GetUserPermissionsWorkspacesErrorBody,
+    get_user_permissions_workspaces_error_mapper,
+)
+from .get_user_workspaces_by_workspace_permission_error import (
+    GetUserWorkspacesByWorkspacePermissionErrorBody,
+    get_user_workspaces_by_workspace_permission_error_mapper,
+)
+from .get_user_workspaces_by_workspace_permissions_repositories_error import (
+    GetUserWorkspacesByWorkspacePermissionsRepositoriesErrorBody,
+    get_user_workspaces_by_workspace_permissions_repositories_error_mapper,
+)
+from .get_user_workspaces_error import GetUserWorkspacesErrorBody, get_user_workspaces_error_mapper
+from .get_users_by_selected_user_error import GetUsersBySelectedUserErrorBody, get_users_by_selected_user_error_mapper
+from .get_users_by_selected_user_gpg_keys_by_fingerprint_error import (
+    GetUsersBySelectedUserGpgKeysByFingerprintErrorBody,
+    get_users_by_selected_user_gpg_keys_by_fingerprint_error_mapper,
+)
+from .get_users_by_selected_user_gpg_keys_error import (
+    GetUsersBySelectedUserGpgKeysErrorBody,
+    get_users_by_selected_user_gpg_keys_error_mapper,
+)
+from .get_users_by_selected_user_ssh_keys_by_key_id_error import (
+    GetUsersBySelectedUserSshKeysByKeyIdErrorBody,
+    get_users_by_selected_user_ssh_keys_by_key_id_error_mapper,
+)
+from .get_users_by_selected_user_ssh_keys_error import (
+    GetUsersBySelectedUserSshKeysErrorBody,
+    get_users_by_selected_user_ssh_keys_error_mapper,
+)
+from .get_workspace_runner_error import GetWorkspaceRunnerErrorBody, get_workspace_runner_error_mapper
+from .get_workspaces_by_workspace_error import (
+    GetWorkspacesByWorkspaceErrorBody,
+    get_workspaces_by_workspace_error_mapper,
+)
+from .get_workspaces_by_workspace_hooks2_error import (
+    GetWorkspacesByWorkspaceHooks2ErrorBody,
+    get_workspaces_by_workspace_hooks2_error_mapper,
+)
+from .get_workspaces_by_workspace_hooks_by_uid2_error import (
+    GetWorkspacesByWorkspaceHooksByUid2ErrorBody,
+    get_workspaces_by_workspace_hooks_by_uid2_error_mapper,
+)
+from .get_workspaces_by_workspace_hooks_by_uid_error import (
+    GetWorkspacesByWorkspaceHooksByUidErrorBody,
+    get_workspaces_by_workspace_hooks_by_uid_error_mapper,
+)
+from .get_workspaces_by_workspace_hooks_error import (
+    GetWorkspacesByWorkspaceHooksErrorBody,
+    get_workspaces_by_workspace_hooks_error_mapper,
+)
+from .get_workspaces_by_workspace_members_by_member_error import (
+    GetWorkspacesByWorkspaceMembersByMemberErrorBody,
+    get_workspaces_by_workspace_members_by_member_error_mapper,
+)
+from .get_workspaces_by_workspace_members_error import (
+    GetWorkspacesByWorkspaceMembersErrorBody,
+    get_workspaces_by_workspace_members_error_mapper,
+)
+from .get_workspaces_by_workspace_permissions_error import (
+    GetWorkspacesByWorkspacePermissionsErrorBody,
+    get_workspaces_by_workspace_permissions_error_mapper,
+)
+from .get_workspaces_by_workspace_permissions_repositories_by_repo_slug_error import (
+    GetWorkspacesByWorkspacePermissionsRepositoriesByRepoSlugErrorBody,
+    get_workspaces_by_workspace_permissions_repositories_by_repo_slug_error_mapper,
+)
+from .get_workspaces_by_workspace_permissions_repositories_error import (
+    GetWorkspacesByWorkspacePermissionsRepositoriesErrorBody,
+    get_workspaces_by_workspace_permissions_repositories_error_mapper,
+)
+from .get_workspaces_by_workspace_projects_by_project_key2_error import (
+    GetWorkspacesByWorkspaceProjectsByProjectKey2ErrorBody,
+    get_workspaces_by_workspace_projects_by_project_key2_error_mapper,
+)
+from .get_workspaces_by_workspace_projects_by_project_key_branching_model_error import (
+    GetWorkspacesByWorkspaceProjectsByProjectKeyBranchingModelErrorBody,
+    get_workspaces_by_workspace_projects_by_project_key_branching_model_error_mapper,
+)
+from .get_workspaces_by_workspace_projects_by_project_key_branching_model_settings_error import (
+    GetWorkspacesByWorkspaceProjectsByProjectKeyBranchingModelSettingsErrorBody,
+    get_workspaces_by_workspace_projects_by_project_key_branching_model_settings_error_mapper,
+)
+from .get_workspaces_by_workspace_projects_by_project_key_default_reviewers_by_selected_user_error import (
+    GetWorkspacesByWorkspaceProjectsByProjectKeyDefaultReviewersBySelectedUserErrorBody,
+    get_workspaces_by_workspace_projects_by_project_key_default_reviewers_by_selected_user_error_mapper,
+)
+from .get_workspaces_by_workspace_projects_by_project_key_default_reviewers_error import (
+    GetWorkspacesByWorkspaceProjectsByProjectKeyDefaultReviewersErrorBody,
+    get_workspaces_by_workspace_projects_by_project_key_default_reviewers_error_mapper,
+)
+from .get_workspaces_by_workspace_projects_by_project_key_deploy_keys_by_key_id_error import (
+    GetWorkspacesByWorkspaceProjectsByProjectKeyDeployKeysByKeyIdErrorBody,
+    get_workspaces_by_workspace_projects_by_project_key_deploy_keys_by_key_id_error_mapper,
+)
+from .get_workspaces_by_workspace_projects_by_project_key_deploy_keys_error import (
+    GetWorkspacesByWorkspaceProjectsByProjectKeyDeployKeysErrorBody,
+    get_workspaces_by_workspace_projects_by_project_key_deploy_keys_error_mapper,
+)
+from .get_workspaces_by_workspace_projects_by_project_key_error import (
+    GetWorkspacesByWorkspaceProjectsByProjectKeyErrorBody,
+    get_workspaces_by_workspace_projects_by_project_key_error_mapper,
+)
+from .get_workspaces_by_workspace_projects_by_project_key_permissions_config_groups_by_group_slug_error import (
+    GetWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigGroupsByGroupSlugErrorBody,
+    get_workspaces_by_workspace_projects_by_project_key_permissions_config_groups_by_group_slug_error_mapper,
+)
+from .get_workspaces_by_workspace_projects_by_project_key_permissions_config_groups_error import (
+    GetWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigGroupsErrorBody,
+    get_workspaces_by_workspace_projects_by_project_key_permissions_config_groups_error_mapper,
+)
+from .get_workspaces_by_workspace_projects_by_project_key_permissions_config_users_by_selected_user_id_error import (
+    GetWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigUsersBySelectedUserIdErrorBody,
+    get_workspaces_by_workspace_projects_by_project_key_permissions_config_users_by_selected_user_id_error_mapper,
+)
+from .get_workspaces_by_workspace_projects_by_project_key_permissions_config_users_error import (
+    GetWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigUsersErrorBody,
+    get_workspaces_by_workspace_projects_by_project_key_permissions_config_users_error_mapper,
+)
+from .get_workspaces_by_workspace_projects_error import (
+    GetWorkspacesByWorkspaceProjectsErrorBody,
+    get_workspaces_by_workspace_projects_error_mapper,
+)
+from .get_workspaces_by_workspace_pullrequests_by_selected_user2_error import (
+    GetWorkspacesByWorkspacePullrequestsBySelectedUser2ErrorBody,
+    get_workspaces_by_workspace_pullrequests_by_selected_user2_error_mapper,
+)
+from .get_workspaces_by_workspace_pullrequests_by_selected_user_error import (
+    GetWorkspacesByWorkspacePullrequestsBySelectedUserErrorBody,
+    get_workspaces_by_workspace_pullrequests_by_selected_user_error_mapper,
+)
+from .get_workspaces_error import GetWorkspacesErrorBody, get_workspaces_error_mapper
+from .post_addon_linkers_by_linker_key_values_error import (
+    PostAddonLinkersByLinkerKeyValuesErrorBody,
+    post_addon_linkers_by_linker_key_values_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_branch_restrictions_error import (
+    PostRepositoriesByWorkspaceByRepoSlugBranchRestrictionsErrorBody,
+    post_repositories_by_workspace_by_repo_slug_branch_restrictions_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_commit_by_commit_approve_error import (
+    PostRepositoriesByWorkspaceByRepoSlugCommitByCommitApproveErrorBody,
+    post_repositories_by_workspace_by_repo_slug_commit_by_commit_approve_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_commit_by_commit_comments_error import (
+    PostRepositoriesByWorkspaceByRepoSlugCommitByCommitCommentsErrorBody,
+    post_repositories_by_workspace_by_repo_slug_commit_by_commit_comments_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_commit_by_commit_statuses_build_error import (
+    PostRepositoriesByWorkspaceByRepoSlugCommitByCommitStatusesBuildErrorBody,
+    post_repositories_by_workspace_by_repo_slug_commit_by_commit_statuses_build_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_commits_by_revision_error import (
+    PostRepositoriesByWorkspaceByRepoSlugCommitsByRevisionErrorBody,
+    post_repositories_by_workspace_by_repo_slug_commits_by_revision_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_commits_error import (
+    PostRepositoriesByWorkspaceByRepoSlugCommitsErrorBody,
+    post_repositories_by_workspace_by_repo_slug_commits_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_deploy_keys_error import (
+    PostRepositoriesByWorkspaceByRepoSlugDeployKeysErrorBody,
+    post_repositories_by_workspace_by_repo_slug_deploy_keys_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_downloads_error import (
+    PostRepositoriesByWorkspaceByRepoSlugDownloadsErrorBody,
+    post_repositories_by_workspace_by_repo_slug_downloads_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_error import (
+    PostRepositoriesByWorkspaceByRepoSlugErrorBody,
+    post_repositories_by_workspace_by_repo_slug_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_hooks2_error import (
+    PostRepositoriesByWorkspaceByRepoSlugHooks2ErrorBody,
+    post_repositories_by_workspace_by_repo_slug_hooks2_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_hooks_error import (
+    PostRepositoriesByWorkspaceByRepoSlugHooksErrorBody,
+    post_repositories_by_workspace_by_repo_slug_hooks_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_issues_by_issue_id_attachments_error import (
+    PostRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdAttachmentsErrorBody,
+    post_repositories_by_workspace_by_repo_slug_issues_by_issue_id_attachments_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_issues_by_issue_id_changes_error import (
+    PostRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdChangesErrorBody,
+    post_repositories_by_workspace_by_repo_slug_issues_by_issue_id_changes_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_issues_by_issue_id_comments_error import (
+    PostRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdCommentsErrorBody,
+    post_repositories_by_workspace_by_repo_slug_issues_by_issue_id_comments_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_issues_error import (
+    PostRepositoriesByWorkspaceByRepoSlugIssuesErrorBody,
+    post_repositories_by_workspace_by_repo_slug_issues_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_issues_export_error import (
+    PostRepositoriesByWorkspaceByRepoSlugIssuesExportErrorBody,
+    post_repositories_by_workspace_by_repo_slug_issues_export_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_issues_import_error import (
+    PostRepositoriesByWorkspaceByRepoSlugIssuesImportErrorBody,
+    post_repositories_by_workspace_by_repo_slug_issues_import_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_approve_error import (
+    PostRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdApproveErrorBody,
+    post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_approve_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_by_comment_id_resolve_error import (
+    PostRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommentsByCommentIdResolveErrorBody,
+    post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_by_comment_id_resolve_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_error import (
+    PostRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommentsErrorBody,
+    post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_decline_error import (
+    PostRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdDeclineErrorBody,
+    post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_decline_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_merge_error import (
+    PostRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdMergeErrorBody,
+    post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_merge_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_request_changes_error import (
+    PostRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdRequestChangesErrorBody,
+    post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_request_changes_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_tasks_error import (
+    PostRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdTasksErrorBody,
+    post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_tasks_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_pullrequests_error import (
+    PostRepositoriesByWorkspaceByRepoSlugPullrequestsErrorBody,
+    post_repositories_by_workspace_by_repo_slug_pullrequests_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_refs_branches_error import (
+    PostRepositoriesByWorkspaceByRepoSlugRefsBranchesErrorBody,
+    post_repositories_by_workspace_by_repo_slug_refs_branches_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_refs_tags_error import (
+    PostRepositoriesByWorkspaceByRepoSlugRefsTagsErrorBody,
+    post_repositories_by_workspace_by_repo_slug_refs_tags_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_src2_error import (
+    PostRepositoriesByWorkspaceByRepoSlugSrc2ErrorBody,
+    post_repositories_by_workspace_by_repo_slug_src2_error_mapper,
+)
+from .post_repositories_by_workspace_by_repo_slug_src_error import (
+    PostRepositoriesByWorkspaceByRepoSlugSrcErrorBody,
+    post_repositories_by_workspace_by_repo_slug_src_error_mapper,
+)
+from .post_snippets_by_workspace_by_encoded_id_comments_error import (
+    PostSnippetsByWorkspaceByEncodedIdCommentsErrorBody,
+    post_snippets_by_workspace_by_encoded_id_comments_error_mapper,
+)
+from .post_snippets_by_workspace_error import PostSnippetsByWorkspaceErrorBody, post_snippets_by_workspace_error_mapper
+from .post_snippets_error import PostSnippetsErrorBody, post_snippets_error_mapper
+from .post_users_by_selected_user_gpg_keys_error import (
+    PostUsersBySelectedUserGpgKeysErrorBody,
+    post_users_by_selected_user_gpg_keys_error_mapper,
+)
+from .post_users_by_selected_user_ssh_keys_error import (
+    PostUsersBySelectedUserSshKeysErrorBody,
+    post_users_by_selected_user_ssh_keys_error_mapper,
+)
+from .post_workspaces_by_workspace_hooks2_error import (
+    PostWorkspacesByWorkspaceHooks2ErrorBody,
+    post_workspaces_by_workspace_hooks2_error_mapper,
+)
+from .post_workspaces_by_workspace_hooks_error import (
+    PostWorkspacesByWorkspaceHooksErrorBody,
+    post_workspaces_by_workspace_hooks_error_mapper,
+)
+from .post_workspaces_by_workspace_projects_by_project_key_deploy_keys_error import (
+    PostWorkspacesByWorkspaceProjectsByProjectKeyDeployKeysErrorBody,
+    post_workspaces_by_workspace_projects_by_project_key_deploy_keys_error_mapper,
+)
+from .post_workspaces_by_workspace_projects_error import (
+    PostWorkspacesByWorkspaceProjectsErrorBody,
+    post_workspaces_by_workspace_projects_error_mapper,
+)
+from .put_addon_error import PutAddonErrorBody, put_addon_error_mapper
+from .put_addon_linkers_by_linker_key_values_error import (
+    PutAddonLinkersByLinkerKeyValuesErrorBody,
+    put_addon_linkers_by_linker_key_values_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_branch_restrictions_by_id_error import (
+    PutRepositoriesByWorkspaceByRepoSlugBranchRestrictionsByIdErrorBody,
+    put_repositories_by_workspace_by_repo_slug_branch_restrictions_by_id_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_branching_model_settings_error import (
+    PutRepositoriesByWorkspaceByRepoSlugBranchingModelSettingsErrorBody,
+    put_repositories_by_workspace_by_repo_slug_branching_model_settings_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_commit_by_commit_comments_by_comment_id_error import (
+    PutRepositoriesByWorkspaceByRepoSlugCommitByCommitCommentsByCommentIdErrorBody,
+    put_repositories_by_workspace_by_repo_slug_commit_by_commit_comments_by_comment_id_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_commit_by_commit_statuses_build_by_key_error import (
+    PutRepositoriesByWorkspaceByRepoSlugCommitByCommitStatusesBuildByKeyErrorBody,
+    put_repositories_by_workspace_by_repo_slug_commit_by_commit_statuses_build_by_key_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_default_reviewers_by_target_username_error import (
+    PutRepositoriesByWorkspaceByRepoSlugDefaultReviewersByTargetUsernameErrorBody,
+    put_repositories_by_workspace_by_repo_slug_default_reviewers_by_target_username_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_deploy_keys_by_key_id_error import (
+    PutRepositoriesByWorkspaceByRepoSlugDeployKeysByKeyIdErrorBody,
+    put_repositories_by_workspace_by_repo_slug_deploy_keys_by_key_id_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_error import (
+    PutRepositoriesByWorkspaceByRepoSlugErrorBody,
+    put_repositories_by_workspace_by_repo_slug_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_hooks_by_uid2_error import (
+    PutRepositoriesByWorkspaceByRepoSlugHooksByUid2ErrorBody,
+    put_repositories_by_workspace_by_repo_slug_hooks_by_uid2_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_hooks_by_uid_error import (
+    PutRepositoriesByWorkspaceByRepoSlugHooksByUidErrorBody,
+    put_repositories_by_workspace_by_repo_slug_hooks_by_uid_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_issues_by_issue_id_comments_by_comment_id_error import (
+    PutRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdCommentsByCommentIdErrorBody,
+    put_repositories_by_workspace_by_repo_slug_issues_by_issue_id_comments_by_comment_id_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_issues_by_issue_id_error import (
+    PutRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdErrorBody,
+    put_repositories_by_workspace_by_repo_slug_issues_by_issue_id_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_issues_by_issue_id_vote_error import (
+    PutRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdVoteErrorBody,
+    put_repositories_by_workspace_by_repo_slug_issues_by_issue_id_vote_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_issues_by_issue_id_watch_error import (
+    PutRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdWatchErrorBody,
+    put_repositories_by_workspace_by_repo_slug_issues_by_issue_id_watch_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_override_settings_error import (
+    PutRepositoriesByWorkspaceByRepoSlugOverrideSettingsErrorBody,
+    put_repositories_by_workspace_by_repo_slug_override_settings_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_permissions_config_groups_by_group_slug_error import (
+    PutRepositoriesByWorkspaceByRepoSlugPermissionsConfigGroupsByGroupSlugErrorBody,
+    put_repositories_by_workspace_by_repo_slug_permissions_config_groups_by_group_slug_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_permissions_config_users_by_selected_user_id_error import (
+    PutRepositoriesByWorkspaceByRepoSlugPermissionsConfigUsersBySelectedUserIdErrorBody,
+    put_repositories_by_workspace_by_repo_slug_permissions_config_users_by_selected_user_id_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_by_comment_id_error import (
+    PutRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommentsByCommentIdErrorBody,
+    put_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_by_comment_id_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_error import (
+    PutRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdErrorBody,
+    put_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_error_mapper,
+)
+from .put_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_tasks_by_task_id_error import (
+    PutRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdTasksByTaskIdErrorBody,
+    put_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_tasks_by_task_id_error_mapper,
+)
+from .put_snippets_by_workspace_by_encoded_id_by_node_id_error import (
+    PutSnippetsByWorkspaceByEncodedIdByNodeIdErrorBody,
+    put_snippets_by_workspace_by_encoded_id_by_node_id_error_mapper,
+)
+from .put_snippets_by_workspace_by_encoded_id_comments_by_comment_id_error import (
+    PutSnippetsByWorkspaceByEncodedIdCommentsByCommentIdErrorBody,
+    put_snippets_by_workspace_by_encoded_id_comments_by_comment_id_error_mapper,
+)
+from .put_snippets_by_workspace_by_encoded_id_error import (
+    PutSnippetsByWorkspaceByEncodedIdErrorBody,
+    put_snippets_by_workspace_by_encoded_id_error_mapper,
+)
+from .put_snippets_by_workspace_by_encoded_id_watch_error import (
+    PutSnippetsByWorkspaceByEncodedIdWatchErrorBody,
+    put_snippets_by_workspace_by_encoded_id_watch_error_mapper,
+)
+from .put_users_by_selected_user_ssh_keys_by_key_id_error import (
+    PutUsersBySelectedUserSshKeysByKeyIdErrorBody,
+    put_users_by_selected_user_ssh_keys_by_key_id_error_mapper,
+)
+from .put_workspaces_by_workspace_hooks_by_uid2_error import (
+    PutWorkspacesByWorkspaceHooksByUid2ErrorBody,
+    put_workspaces_by_workspace_hooks_by_uid2_error_mapper,
+)
+from .put_workspaces_by_workspace_hooks_by_uid_error import (
+    PutWorkspacesByWorkspaceHooksByUidErrorBody,
+    put_workspaces_by_workspace_hooks_by_uid_error_mapper,
+)
+from .put_workspaces_by_workspace_projects_by_project_key_branching_model_settings_error import (
+    PutWorkspacesByWorkspaceProjectsByProjectKeyBranchingModelSettingsErrorBody,
+    put_workspaces_by_workspace_projects_by_project_key_branching_model_settings_error_mapper,
+)
+from .put_workspaces_by_workspace_projects_by_project_key_default_reviewers_by_selected_user_error import (
+    PutWorkspacesByWorkspaceProjectsByProjectKeyDefaultReviewersBySelectedUserErrorBody,
+    put_workspaces_by_workspace_projects_by_project_key_default_reviewers_by_selected_user_error_mapper,
+)
+from .put_workspaces_by_workspace_projects_by_project_key_error import (
+    PutWorkspacesByWorkspaceProjectsByProjectKeyErrorBody,
+    put_workspaces_by_workspace_projects_by_project_key_error_mapper,
+)
+from .put_workspaces_by_workspace_projects_by_project_key_permissions_config_groups_by_group_slug_error import (
+    PutWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigGroupsByGroupSlugErrorBody,
+    put_workspaces_by_workspace_projects_by_project_key_permissions_config_groups_by_group_slug_error_mapper,
+)
+from .put_workspaces_by_workspace_projects_by_project_key_permissions_config_users_by_selected_user_id_error import (
+    PutWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigUsersBySelectedUserIdErrorBody,
+    put_workspaces_by_workspace_projects_by_project_key_permissions_config_users_by_selected_user_id_error_mapper,
+)
+from .search_account_error import SearchAccountErrorBody, search_account_error_mapper
+from .search_team_error import SearchTeamErrorBody, search_team_error_mapper
+from .search_workspace_error import SearchWorkspaceErrorBody, search_workspace_error_mapper
+from .stop_pipeline_error import StopPipelineErrorBody, stop_pipeline_error_mapper
+from .update_deployment_variable_error import UpdateDeploymentVariableErrorBody, update_deployment_variable_error_mapper
+from .update_environment_for_repository_error import (
+    UpdateEnvironmentForRepositoryErrorBody,
+    update_environment_for_repository_error_mapper,
+)
+from .update_pipeline_variable_for_team_error import (
+    UpdatePipelineVariableForTeamErrorBody,
+    update_pipeline_variable_for_team_error_mapper,
+)
+from .update_pipeline_variable_for_user_error import (
+    UpdatePipelineVariableForUserErrorBody,
+    update_pipeline_variable_for_user_error_mapper,
+)
+from .update_pipeline_variable_for_workspace_error import (
+    UpdatePipelineVariableForWorkspaceErrorBody,
+    update_pipeline_variable_for_workspace_error_mapper,
+)
+from .update_repository_build_number_error import (
+    UpdateRepositoryBuildNumberErrorBody,
+    update_repository_build_number_error_mapper,
+)
+from .update_repository_pipeline_key_pair_error import (
+    UpdateRepositoryPipelineKeyPairErrorBody,
+    update_repository_pipeline_key_pair_error_mapper,
+)
+from .update_repository_pipeline_known_host_error import (
+    UpdateRepositoryPipelineKnownHostErrorBody,
+    update_repository_pipeline_known_host_error_mapper,
+)
+from .update_repository_pipeline_schedule_error import (
+    UpdateRepositoryPipelineScheduleErrorBody,
+    update_repository_pipeline_schedule_error_mapper,
+)
+from .update_repository_pipeline_variable_error import (
+    UpdateRepositoryPipelineVariableErrorBody,
+    update_repository_pipeline_variable_error_mapper,
+)
+from .update_repository_runner_error import UpdateRepositoryRunnerErrorBody, update_repository_runner_error_mapper
+from .update_workspace_runner_error import UpdateWorkspaceRunnerErrorBody, update_workspace_runner_error_mapper
+
+__all__ = [
+    "CreateDeploymentVariableErrorBody",
+    "CreateEnvironmentErrorBody",
+    "CreateOrUpdateAnnotation2ErrorBody",
+    "CreateOrUpdateAnnotationErrorBody",
+    "CreateOrUpdateReport2ErrorBody",
+    "CreateOrUpdateReportErrorBody",
+    "CreatePipelineForRepositoryErrorBody",
+    "CreatePipelineVariableForTeamErrorBody",
+    "CreatePipelineVariableForUserErrorBody",
+    "CreatePipelineVariableForWorkspaceErrorBody",
+    "CreateRepositoryPipelineKnownHostErrorBody",
+    "CreateRepositoryPipelineScheduleErrorBody",
+    "CreateRepositoryPipelineVariableErrorBody",
+    "CreateRepositoryRunnerErrorBody",
+    "CreateWorkspaceRunnerErrorBody",
+    "DeleteAddonErrorBody",
+    "DeleteAddonLinkersByLinkerKeyValuesByValueIdErrorBody",
+    "DeleteAddonLinkersByLinkerKeyValuesErrorBody",
+    "DeleteDeploymentVariableErrorBody",
+    "DeleteEnvironmentForRepositoryErrorBody",
+    "DeletePipelineVariableForTeamErrorBody",
+    "DeletePipelineVariableForUserErrorBody",
+    "DeletePipelineVariableForWorkspaceErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugBranchRestrictionsByIdErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugCommitByCommitApproveErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugCommitByCommitCommentsByCommentIdErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugDefaultReviewersByTargetUsernameErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugDeployKeysByKeyIdErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugDownloadsByFilenameErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugHooksByUid2ErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugHooksByUidErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdAttachmentsByPathErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdWatchErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugPermissionsConfigGroupsByGroupSlugErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugPermissionsConfigUsersBySelectedUserIdErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdApproveErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommentsByCommentIdErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommentsByCommentIdResolveErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdRequestChangesErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdTasksByTaskIdErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugRefsBranchesByNameErrorBody",
+    "DeleteRepositoriesByWorkspaceByRepoSlugRefsTagsByNameErrorBody",
+    "DeleteRepositoryPipelineCacheErrorBody",
+    "DeleteRepositoryPipelineCachesErrorBody",
+    "DeleteRepositoryPipelineKeyPairErrorBody",
+    "DeleteRepositoryPipelineKnownHostErrorBody",
+    "DeleteRepositoryPipelineScheduleErrorBody",
+    "DeleteRepositoryPipelineVariableErrorBody",
+    "DeleteRepositoryRunnerErrorBody",
+    "DeleteSnippetsByWorkspaceByEncodedIdByNodeIdErrorBody",
+    "DeleteSnippetsByWorkspaceByEncodedIdCommentsByCommentIdErrorBody",
+    "DeleteSnippetsByWorkspaceByEncodedIdErrorBody",
+    "DeleteSnippetsByWorkspaceByEncodedIdWatchErrorBody",
+    "DeleteUsersBySelectedUserGpgKeysByFingerprintErrorBody",
+    "DeleteUsersBySelectedUserSshKeysByKeyIdErrorBody",
+    "DeleteWorkspaceRunnerErrorBody",
+    "DeleteWorkspacesByWorkspaceHooksByUid2ErrorBody",
+    "DeleteWorkspacesByWorkspaceHooksByUidErrorBody",
+    "DeleteWorkspacesByWorkspaceProjectsByProjectKeyDefaultReviewersBySelectedUserErrorBody",
+    "DeleteWorkspacesByWorkspaceProjectsByProjectKeyDeployKeysByKeyIdErrorBody",
+    "DeleteWorkspacesByWorkspaceProjectsByProjectKeyErrorBody",
+    "DeleteWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigGroupsByGroupSlugErrorBody",
+    "DeleteWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigUsersBySelectedUserIdErrorBody",
+    "GetAddonLinkersByLinkerKeyErrorBody",
+    "GetAddonLinkersByLinkerKeyValuesByValueIdErrorBody",
+    "GetAddonLinkersByLinkerKeyValuesErrorBody",
+    "GetAddonLinkersErrorBody",
+    "GetAnnotation2ErrorBody",
+    "GetAnnotationErrorBody",
+    "GetDeploymentForRepositoryErrorBody",
+    "GetEnvironmentForRepositoryErrorBody",
+    "GetHookEventsBySubjectTypeErrorBody",
+    "GetOidcConfigurationErrorBody",
+    "GetOidcKeysErrorBody",
+    "GetPipelineContainerLogErrorBody",
+    "GetPipelineForRepositoryErrorBody",
+    "GetPipelineStepForRepositoryErrorBody",
+    "GetPipelineStepLogForRepositoryErrorBody",
+    "GetPipelineTestReportTestCaseReasonsErrorBody",
+    "GetPipelineTestReportTestCasesErrorBody",
+    "GetPipelineTestReportsErrorBody",
+    "GetPipelineVariableForTeamErrorBody",
+    "GetPipelineVariableForUserErrorBody",
+    "GetPipelineVariableForWorkspaceErrorBody",
+    "GetPullrequestsForCommitErrorBody",
+    "GetReport2ErrorBody",
+    "GetReportErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugBranchRestrictionsByIdErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugBranchRestrictionsErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugBranchingModelErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugBranchingModelSettingsErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugCommitByCommitErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugCommitByCommitStatusesBuildByKeyErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugCommitByCommitStatusesErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugCommitsByRevisionErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugCommitsErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugComponentsByComponentIdErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugComponentsErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugDefaultReviewersByTargetUsernameErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugDefaultReviewersErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugDeployKeysByKeyIdErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugDeployKeysErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugDiffBySpecErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugDiffstatBySpecErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugDownloadsByFilenameErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugDownloadsErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugEffectiveBranchingModelErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugEffectiveDefaultReviewersErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugFilehistoryByCommitByPath2ErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugFilehistoryByCommitByPathErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugHooks2ErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugHooksByUid2ErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugHooksByUidErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugHooksErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdAttachmentsByPathErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdAttachmentsErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdChangesByChangeIdErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdChangesErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdVoteErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdWatchErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugIssuesErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugIssuesExportRepoNameIssuesTaskIdZipErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugIssuesImportErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugMergeBaseByRevspecErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugMilestonesByMilestoneIdErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugMilestonesErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugOverrideSettingsErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPatchBySpecErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPermissionsConfigGroupsByGroupSlugErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPermissionsConfigGroupsErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPermissionsConfigUsersBySelectedUserIdErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPermissionsConfigUsersErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPullrequestsActivityErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdActivityErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommentsByCommentIdErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommentsErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommitsErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdMergeTaskStatusByTaskIdErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdStatuses2ErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdStatusesErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdTasksByTaskIdErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdTasksErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugPullrequestsErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugRefsBranchesByNameErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugRefsBranchesErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugRefsErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugRefsTagsByNameErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugRefsTagsErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugSrc2ErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugSrcByCommitByPath2ErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugSrcByCommitByPathErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugSrcErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugVersionsByVersionIdErrorBody",
+    "GetRepositoriesByWorkspaceByRepoSlugVersionsErrorBody",
+    "GetRepositoriesByWorkspaceErrorBody",
+    "GetRepositoryPipelineCacheContentUriErrorBody",
+    "GetRepositoryPipelineCachesErrorBody",
+    "GetRepositoryPipelineKnownHostErrorBody",
+    "GetRepositoryPipelineScheduleErrorBody",
+    "GetRepositoryPipelineScheduleExecutionsErrorBody",
+    "GetRepositoryPipelineSchedulesErrorBody",
+    "GetRepositoryPipelineSshKeyPairErrorBody",
+    "GetRepositoryPipelineVariableErrorBody",
+    "GetRepositoryRunnerErrorBody",
+    "GetSnippetsByWorkspaceByEncodedIdByNodeIdErrorBody",
+    "GetSnippetsByWorkspaceByEncodedIdByNodeIdFilesByPathErrorBody",
+    "GetSnippetsByWorkspaceByEncodedIdByRevisionDiffErrorBody",
+    "GetSnippetsByWorkspaceByEncodedIdByRevisionPatchErrorBody",
+    "GetSnippetsByWorkspaceByEncodedIdCommentsByCommentIdErrorBody",
+    "GetSnippetsByWorkspaceByEncodedIdCommentsErrorBody",
+    "GetSnippetsByWorkspaceByEncodedIdCommitsByRevisionErrorBody",
+    "GetSnippetsByWorkspaceByEncodedIdCommitsErrorBody",
+    "GetSnippetsByWorkspaceByEncodedIdErrorBody",
+    "GetSnippetsByWorkspaceByEncodedIdFilesByPathErrorBody",
+    "GetSnippetsByWorkspaceByEncodedIdWatchErrorBody",
+    "GetSnippetsByWorkspaceByEncodedIdWatchersErrorBody",
+    "GetSnippetsByWorkspaceErrorBody",
+    "GetSnippetsErrorBody",
+    "GetUserErrorBody",
+    "GetUserPermissionsWorkspacesErrorBody",
+    "GetUserWorkspacesByWorkspacePermissionErrorBody",
+    "GetUserWorkspacesByWorkspacePermissionsRepositoriesErrorBody",
+    "GetUserWorkspacesErrorBody",
+    "GetUsersBySelectedUserErrorBody",
+    "GetUsersBySelectedUserGpgKeysByFingerprintErrorBody",
+    "GetUsersBySelectedUserGpgKeysErrorBody",
+    "GetUsersBySelectedUserSshKeysByKeyIdErrorBody",
+    "GetUsersBySelectedUserSshKeysErrorBody",
+    "GetWorkspaceRunnerErrorBody",
+    "GetWorkspacesByWorkspaceErrorBody",
+    "GetWorkspacesByWorkspaceHooks2ErrorBody",
+    "GetWorkspacesByWorkspaceHooksByUid2ErrorBody",
+    "GetWorkspacesByWorkspaceHooksByUidErrorBody",
+    "GetWorkspacesByWorkspaceHooksErrorBody",
+    "GetWorkspacesByWorkspaceMembersByMemberErrorBody",
+    "GetWorkspacesByWorkspaceMembersErrorBody",
+    "GetWorkspacesByWorkspacePermissionsErrorBody",
+    "GetWorkspacesByWorkspacePermissionsRepositoriesByRepoSlugErrorBody",
+    "GetWorkspacesByWorkspacePermissionsRepositoriesErrorBody",
+    "GetWorkspacesByWorkspaceProjectsByProjectKey2ErrorBody",
+    "GetWorkspacesByWorkspaceProjectsByProjectKeyBranchingModelErrorBody",
+    "GetWorkspacesByWorkspaceProjectsByProjectKeyBranchingModelSettingsErrorBody",
+    "GetWorkspacesByWorkspaceProjectsByProjectKeyDefaultReviewersBySelectedUserErrorBody",
+    "GetWorkspacesByWorkspaceProjectsByProjectKeyDefaultReviewersErrorBody",
+    "GetWorkspacesByWorkspaceProjectsByProjectKeyDeployKeysByKeyIdErrorBody",
+    "GetWorkspacesByWorkspaceProjectsByProjectKeyDeployKeysErrorBody",
+    "GetWorkspacesByWorkspaceProjectsByProjectKeyErrorBody",
+    "GetWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigGroupsByGroupSlugErrorBody",
+    "GetWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigGroupsErrorBody",
+    "GetWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigUsersBySelectedUserIdErrorBody",
+    "GetWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigUsersErrorBody",
+    "GetWorkspacesByWorkspaceProjectsErrorBody",
+    "GetWorkspacesByWorkspacePullrequestsBySelectedUser2ErrorBody",
+    "GetWorkspacesByWorkspacePullrequestsBySelectedUserErrorBody",
+    "GetWorkspacesErrorBody",
+    "PostAddonLinkersByLinkerKeyValuesErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugBranchRestrictionsErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugCommitByCommitApproveErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugCommitByCommitCommentsErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugCommitByCommitStatusesBuildErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugCommitsByRevisionErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugCommitsErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugDeployKeysErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugDownloadsErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugHooks2ErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugHooksErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdAttachmentsErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdChangesErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdCommentsErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugIssuesErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugIssuesExportErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugIssuesImportErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdApproveErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommentsByCommentIdResolveErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommentsErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdDeclineErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdMergeErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdRequestChangesErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdTasksErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugPullrequestsErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugRefsBranchesErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugRefsTagsErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugSrc2ErrorBody",
+    "PostRepositoriesByWorkspaceByRepoSlugSrcErrorBody",
+    "PostSnippetsByWorkspaceByEncodedIdCommentsErrorBody",
+    "PostSnippetsByWorkspaceErrorBody",
+    "PostSnippetsErrorBody",
+    "PostUsersBySelectedUserGpgKeysErrorBody",
+    "PostUsersBySelectedUserSshKeysErrorBody",
+    "PostWorkspacesByWorkspaceHooks2ErrorBody",
+    "PostWorkspacesByWorkspaceHooksErrorBody",
+    "PostWorkspacesByWorkspaceProjectsByProjectKeyDeployKeysErrorBody",
+    "PostWorkspacesByWorkspaceProjectsErrorBody",
+    "PutAddonErrorBody",
+    "PutAddonLinkersByLinkerKeyValuesErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugBranchRestrictionsByIdErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugBranchingModelSettingsErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugCommitByCommitCommentsByCommentIdErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugCommitByCommitStatusesBuildByKeyErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugDefaultReviewersByTargetUsernameErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugDeployKeysByKeyIdErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugHooksByUid2ErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugHooksByUidErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdCommentsByCommentIdErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdVoteErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugIssuesByIssueIdWatchErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugOverrideSettingsErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugPermissionsConfigGroupsByGroupSlugErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugPermissionsConfigUsersBySelectedUserIdErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdCommentsByCommentIdErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdErrorBody",
+    "PutRepositoriesByWorkspaceByRepoSlugPullrequestsByPullRequestIdTasksByTaskIdErrorBody",
+    "PutSnippetsByWorkspaceByEncodedIdByNodeIdErrorBody",
+    "PutSnippetsByWorkspaceByEncodedIdCommentsByCommentIdErrorBody",
+    "PutSnippetsByWorkspaceByEncodedIdErrorBody",
+    "PutSnippetsByWorkspaceByEncodedIdWatchErrorBody",
+    "PutUsersBySelectedUserSshKeysByKeyIdErrorBody",
+    "PutWorkspacesByWorkspaceHooksByUid2ErrorBody",
+    "PutWorkspacesByWorkspaceHooksByUidErrorBody",
+    "PutWorkspacesByWorkspaceProjectsByProjectKeyBranchingModelSettingsErrorBody",
+    "PutWorkspacesByWorkspaceProjectsByProjectKeyDefaultReviewersBySelectedUserErrorBody",
+    "PutWorkspacesByWorkspaceProjectsByProjectKeyErrorBody",
+    "PutWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigGroupsByGroupSlugErrorBody",
+    "PutWorkspacesByWorkspaceProjectsByProjectKeyPermissionsConfigUsersBySelectedUserIdErrorBody",
+    "SearchAccountErrorBody",
+    "SearchTeamErrorBody",
+    "SearchWorkspaceErrorBody",
+    "StopPipelineErrorBody",
+    "UpdateDeploymentVariableErrorBody",
+    "UpdateEnvironmentForRepositoryErrorBody",
+    "UpdatePipelineVariableForTeamErrorBody",
+    "UpdatePipelineVariableForUserErrorBody",
+    "UpdatePipelineVariableForWorkspaceErrorBody",
+    "UpdateRepositoryBuildNumberErrorBody",
+    "UpdateRepositoryPipelineKeyPairErrorBody",
+    "UpdateRepositoryPipelineKnownHostErrorBody",
+    "UpdateRepositoryPipelineScheduleErrorBody",
+    "UpdateRepositoryPipelineVariableErrorBody",
+    "UpdateRepositoryRunnerErrorBody",
+    "UpdateWorkspaceRunnerErrorBody",
+    "create_deployment_variable_error_mapper",
+    "create_environment_error_mapper",
+    "create_or_update_annotation2_error_mapper",
+    "create_or_update_annotation_error_mapper",
+    "create_or_update_report2_error_mapper",
+    "create_or_update_report_error_mapper",
+    "create_pipeline_for_repository_error_mapper",
+    "create_pipeline_variable_for_team_error_mapper",
+    "create_pipeline_variable_for_user_error_mapper",
+    "create_pipeline_variable_for_workspace_error_mapper",
+    "create_repository_pipeline_known_host_error_mapper",
+    "create_repository_pipeline_schedule_error_mapper",
+    "create_repository_pipeline_variable_error_mapper",
+    "create_repository_runner_error_mapper",
+    "create_workspace_runner_error_mapper",
+    "delete_addon_error_mapper",
+    "delete_addon_linkers_by_linker_key_values_by_value_id_error_mapper",
+    "delete_addon_linkers_by_linker_key_values_error_mapper",
+    "delete_deployment_variable_error_mapper",
+    "delete_environment_for_repository_error_mapper",
+    "delete_pipeline_variable_for_team_error_mapper",
+    "delete_pipeline_variable_for_user_error_mapper",
+    "delete_pipeline_variable_for_workspace_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_branch_restrictions_by_id_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_commit_by_commit_approve_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_commit_by_commit_comments_by_comment_id_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_default_reviewers_by_target_username_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_deploy_keys_by_key_id_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_downloads_by_filename_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_hooks_by_uid2_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_hooks_by_uid_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_issues_by_issue_id_attachments_by_path_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_issues_by_issue_id_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_issues_by_issue_id_watch_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_permissions_config_groups_by_group_slug_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_permissions_config_users_by_selected_user_id_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_approve_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_by_comment_id_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_by_comment_id_resolve_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_request_changes_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_tasks_by_task_id_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_refs_branches_by_name_error_mapper",
+    "delete_repositories_by_workspace_by_repo_slug_refs_tags_by_name_error_mapper",
+    "delete_repository_pipeline_cache_error_mapper",
+    "delete_repository_pipeline_caches_error_mapper",
+    "delete_repository_pipeline_key_pair_error_mapper",
+    "delete_repository_pipeline_known_host_error_mapper",
+    "delete_repository_pipeline_schedule_error_mapper",
+    "delete_repository_pipeline_variable_error_mapper",
+    "delete_repository_runner_error_mapper",
+    "delete_snippets_by_workspace_by_encoded_id_by_node_id_error_mapper",
+    "delete_snippets_by_workspace_by_encoded_id_comments_by_comment_id_error_mapper",
+    "delete_snippets_by_workspace_by_encoded_id_error_mapper",
+    "delete_snippets_by_workspace_by_encoded_id_watch_error_mapper",
+    "delete_users_by_selected_user_gpg_keys_by_fingerprint_error_mapper",
+    "delete_users_by_selected_user_ssh_keys_by_key_id_error_mapper",
+    "delete_workspace_runner_error_mapper",
+    "delete_workspaces_by_workspace_hooks_by_uid2_error_mapper",
+    "delete_workspaces_by_workspace_hooks_by_uid_error_mapper",
+    "delete_workspaces_by_workspace_projects_by_project_key_default_reviewers_by_selected_user_error_mapper",
+    "delete_workspaces_by_workspace_projects_by_project_key_deploy_keys_by_key_id_error_mapper",
+    "delete_workspaces_by_workspace_projects_by_project_key_error_mapper",
+    "delete_workspaces_by_workspace_projects_by_project_key_permissions_config_groups_by_group_slug_error_mapper",
+    "delete_workspaces_by_workspace_projects_by_project_key_permissions_config_users_by_selected_user_id_error_mapper",
+    "get_addon_linkers_by_linker_key_error_mapper",
+    "get_addon_linkers_by_linker_key_values_by_value_id_error_mapper",
+    "get_addon_linkers_by_linker_key_values_error_mapper",
+    "get_addon_linkers_error_mapper",
+    "get_annotation2_error_mapper",
+    "get_annotation_error_mapper",
+    "get_deployment_for_repository_error_mapper",
+    "get_environment_for_repository_error_mapper",
+    "get_hook_events_by_subject_type_error_mapper",
+    "get_oidc_configuration_error_mapper",
+    "get_oidc_keys_error_mapper",
+    "get_pipeline_container_log_error_mapper",
+    "get_pipeline_for_repository_error_mapper",
+    "get_pipeline_step_for_repository_error_mapper",
+    "get_pipeline_step_log_for_repository_error_mapper",
+    "get_pipeline_test_report_test_case_reasons_error_mapper",
+    "get_pipeline_test_report_test_cases_error_mapper",
+    "get_pipeline_test_reports_error_mapper",
+    "get_pipeline_variable_for_team_error_mapper",
+    "get_pipeline_variable_for_user_error_mapper",
+    "get_pipeline_variable_for_workspace_error_mapper",
+    "get_pullrequests_for_commit_error_mapper",
+    "get_report2_error_mapper",
+    "get_report_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_branch_restrictions_by_id_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_branch_restrictions_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_branching_model_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_branching_model_settings_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_commit_by_commit_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_commit_by_commit_statuses_build_by_key_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_commit_by_commit_statuses_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_commits_by_revision_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_commits_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_components_by_component_id_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_components_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_default_reviewers_by_target_username_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_default_reviewers_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_deploy_keys_by_key_id_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_deploy_keys_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_diff_by_spec_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_diffstat_by_spec_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_downloads_by_filename_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_downloads_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_effective_branching_model_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_effective_default_reviewers_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_filehistory_by_commit_by_path2_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_filehistory_by_commit_by_path_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_hooks2_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_hooks_by_uid2_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_hooks_by_uid_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_hooks_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_attachments_by_path_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_attachments_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_changes_by_change_id_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_changes_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_vote_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_issues_by_issue_id_watch_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_issues_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_issues_export_repo_name_issues_task_id_zip_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_issues_import_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_merge_base_by_revspec_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_milestones_by_milestone_id_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_milestones_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_override_settings_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_patch_by_spec_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_permissions_config_groups_by_group_slug_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_permissions_config_groups_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_permissions_config_users_by_selected_user_id_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_permissions_config_users_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_pullrequests_activity_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_activity_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_by_comment_id_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_commits_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_merge_task_status_by_task_id_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_statuses2_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_statuses_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_tasks_by_task_id_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_tasks_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_pullrequests_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_refs_branches_by_name_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_refs_branches_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_refs_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_refs_tags_by_name_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_refs_tags_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_src2_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_src_by_commit_by_path2_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_src_by_commit_by_path_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_src_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_versions_by_version_id_error_mapper",
+    "get_repositories_by_workspace_by_repo_slug_versions_error_mapper",
+    "get_repositories_by_workspace_error_mapper",
+    "get_repository_pipeline_cache_content_uri_error_mapper",
+    "get_repository_pipeline_caches_error_mapper",
+    "get_repository_pipeline_known_host_error_mapper",
+    "get_repository_pipeline_schedule_error_mapper",
+    "get_repository_pipeline_schedule_executions_error_mapper",
+    "get_repository_pipeline_schedules_error_mapper",
+    "get_repository_pipeline_ssh_key_pair_error_mapper",
+    "get_repository_pipeline_variable_error_mapper",
+    "get_repository_runner_error_mapper",
+    "get_snippets_by_workspace_by_encoded_id_by_node_id_error_mapper",
+    "get_snippets_by_workspace_by_encoded_id_by_node_id_files_by_path_error_mapper",
+    "get_snippets_by_workspace_by_encoded_id_by_revision_diff_error_mapper",
+    "get_snippets_by_workspace_by_encoded_id_by_revision_patch_error_mapper",
+    "get_snippets_by_workspace_by_encoded_id_comments_by_comment_id_error_mapper",
+    "get_snippets_by_workspace_by_encoded_id_comments_error_mapper",
+    "get_snippets_by_workspace_by_encoded_id_commits_by_revision_error_mapper",
+    "get_snippets_by_workspace_by_encoded_id_commits_error_mapper",
+    "get_snippets_by_workspace_by_encoded_id_error_mapper",
+    "get_snippets_by_workspace_by_encoded_id_files_by_path_error_mapper",
+    "get_snippets_by_workspace_by_encoded_id_watch_error_mapper",
+    "get_snippets_by_workspace_by_encoded_id_watchers_error_mapper",
+    "get_snippets_by_workspace_error_mapper",
+    "get_snippets_error_mapper",
+    "get_user_error_mapper",
+    "get_user_permissions_workspaces_error_mapper",
+    "get_user_workspaces_by_workspace_permission_error_mapper",
+    "get_user_workspaces_by_workspace_permissions_repositories_error_mapper",
+    "get_user_workspaces_error_mapper",
+    "get_users_by_selected_user_error_mapper",
+    "get_users_by_selected_user_gpg_keys_by_fingerprint_error_mapper",
+    "get_users_by_selected_user_gpg_keys_error_mapper",
+    "get_users_by_selected_user_ssh_keys_by_key_id_error_mapper",
+    "get_users_by_selected_user_ssh_keys_error_mapper",
+    "get_workspace_runner_error_mapper",
+    "get_workspaces_by_workspace_error_mapper",
+    "get_workspaces_by_workspace_hooks2_error_mapper",
+    "get_workspaces_by_workspace_hooks_by_uid2_error_mapper",
+    "get_workspaces_by_workspace_hooks_by_uid_error_mapper",
+    "get_workspaces_by_workspace_hooks_error_mapper",
+    "get_workspaces_by_workspace_members_by_member_error_mapper",
+    "get_workspaces_by_workspace_members_error_mapper",
+    "get_workspaces_by_workspace_permissions_error_mapper",
+    "get_workspaces_by_workspace_permissions_repositories_by_repo_slug_error_mapper",
+    "get_workspaces_by_workspace_permissions_repositories_error_mapper",
+    "get_workspaces_by_workspace_projects_by_project_key2_error_mapper",
+    "get_workspaces_by_workspace_projects_by_project_key_branching_model_error_mapper",
+    "get_workspaces_by_workspace_projects_by_project_key_branching_model_settings_error_mapper",
+    "get_workspaces_by_workspace_projects_by_project_key_default_reviewers_by_selected_user_error_mapper",
+    "get_workspaces_by_workspace_projects_by_project_key_default_reviewers_error_mapper",
+    "get_workspaces_by_workspace_projects_by_project_key_deploy_keys_by_key_id_error_mapper",
+    "get_workspaces_by_workspace_projects_by_project_key_deploy_keys_error_mapper",
+    "get_workspaces_by_workspace_projects_by_project_key_error_mapper",
+    "get_workspaces_by_workspace_projects_by_project_key_permissions_config_groups_by_group_slug_error_mapper",
+    "get_workspaces_by_workspace_projects_by_project_key_permissions_config_groups_error_mapper",
+    "get_workspaces_by_workspace_projects_by_project_key_permissions_config_users_by_selected_user_id_error_mapper",
+    "get_workspaces_by_workspace_projects_by_project_key_permissions_config_users_error_mapper",
+    "get_workspaces_by_workspace_projects_error_mapper",
+    "get_workspaces_by_workspace_pullrequests_by_selected_user2_error_mapper",
+    "get_workspaces_by_workspace_pullrequests_by_selected_user_error_mapper",
+    "get_workspaces_error_mapper",
+    "post_addon_linkers_by_linker_key_values_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_branch_restrictions_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_commit_by_commit_approve_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_commit_by_commit_comments_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_commit_by_commit_statuses_build_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_commits_by_revision_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_commits_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_deploy_keys_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_downloads_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_hooks2_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_hooks_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_issues_by_issue_id_attachments_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_issues_by_issue_id_changes_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_issues_by_issue_id_comments_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_issues_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_issues_export_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_issues_import_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_approve_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_by_comment_id_resolve_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_decline_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_merge_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_request_changes_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_tasks_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_pullrequests_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_refs_branches_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_refs_tags_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_src2_error_mapper",
+    "post_repositories_by_workspace_by_repo_slug_src_error_mapper",
+    "post_snippets_by_workspace_by_encoded_id_comments_error_mapper",
+    "post_snippets_by_workspace_error_mapper",
+    "post_snippets_error_mapper",
+    "post_users_by_selected_user_gpg_keys_error_mapper",
+    "post_users_by_selected_user_ssh_keys_error_mapper",
+    "post_workspaces_by_workspace_hooks2_error_mapper",
+    "post_workspaces_by_workspace_hooks_error_mapper",
+    "post_workspaces_by_workspace_projects_by_project_key_deploy_keys_error_mapper",
+    "post_workspaces_by_workspace_projects_error_mapper",
+    "put_addon_error_mapper",
+    "put_addon_linkers_by_linker_key_values_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_branch_restrictions_by_id_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_branching_model_settings_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_commit_by_commit_comments_by_comment_id_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_commit_by_commit_statuses_build_by_key_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_default_reviewers_by_target_username_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_deploy_keys_by_key_id_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_hooks_by_uid2_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_hooks_by_uid_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_issues_by_issue_id_comments_by_comment_id_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_issues_by_issue_id_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_issues_by_issue_id_vote_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_issues_by_issue_id_watch_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_override_settings_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_permissions_config_groups_by_group_slug_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_permissions_config_users_by_selected_user_id_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_comments_by_comment_id_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_error_mapper",
+    "put_repositories_by_workspace_by_repo_slug_pullrequests_by_pull_request_id_tasks_by_task_id_error_mapper",
+    "put_snippets_by_workspace_by_encoded_id_by_node_id_error_mapper",
+    "put_snippets_by_workspace_by_encoded_id_comments_by_comment_id_error_mapper",
+    "put_snippets_by_workspace_by_encoded_id_error_mapper",
+    "put_snippets_by_workspace_by_encoded_id_watch_error_mapper",
+    "put_users_by_selected_user_ssh_keys_by_key_id_error_mapper",
+    "put_workspaces_by_workspace_hooks_by_uid2_error_mapper",
+    "put_workspaces_by_workspace_hooks_by_uid_error_mapper",
+    "put_workspaces_by_workspace_projects_by_project_key_branching_model_settings_error_mapper",
+    "put_workspaces_by_workspace_projects_by_project_key_default_reviewers_by_selected_user_error_mapper",
+    "put_workspaces_by_workspace_projects_by_project_key_error_mapper",
+    "put_workspaces_by_workspace_projects_by_project_key_permissions_config_groups_by_group_slug_error_mapper",
+    "put_workspaces_by_workspace_projects_by_project_key_permissions_config_users_by_selected_user_id_error_mapper",
+    "search_account_error_mapper",
+    "search_team_error_mapper",
+    "search_workspace_error_mapper",
+    "stop_pipeline_error_mapper",
+    "update_deployment_variable_error_mapper",
+    "update_environment_for_repository_error_mapper",
+    "update_pipeline_variable_for_team_error_mapper",
+    "update_pipeline_variable_for_user_error_mapper",
+    "update_pipeline_variable_for_workspace_error_mapper",
+    "update_repository_build_number_error_mapper",
+    "update_repository_pipeline_key_pair_error_mapper",
+    "update_repository_pipeline_known_host_error_mapper",
+    "update_repository_pipeline_schedule_error_mapper",
+    "update_repository_pipeline_variable_error_mapper",
+    "update_repository_runner_error_mapper",
+    "update_workspace_runner_error_mapper",
+]

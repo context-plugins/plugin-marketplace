@@ -1,0 +1,10 @@
+{
+  "name": "callnode",
+  "version": "0.1.0",
+  "description": "Place calls and send SMS, MMS, fax, and email, and manage phone numbers and SIP trunks with CallNode.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "CallNode",
+    "developerName": "APIMatic"
+  }
+}

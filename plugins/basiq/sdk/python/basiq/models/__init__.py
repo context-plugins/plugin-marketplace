@@ -1,0 +1,1952 @@
+from . import enums, unions
+from .account import Account, AccountDict
+from .account_balance_data import AccountBalanceData, AccountBalanceDataDict
+from .account_insight_data import AccountInsightData, AccountInsightDataDict
+from .account_insight_data_item import AccountInsightDataItem, AccountInsightDataItemDict
+from .account_insight_response import AccountInsightResponse, AccountInsightResponseDict
+from .account_number_match import AccountNumberMatch, AccountNumberMatchDict
+from .account_reporting_reports_api import AccountReportingReportsApi, AccountReportingReportsApiDict
+from .account_response_resource import AccountResponseResource, AccountResponseResourceDict
+from .account_response_resource1 import AccountResponseResource1, AccountResponseResource1Dict
+from .account_type_match import AccountTypeMatch, AccountTypeMatchDict
+from .account_verification_data import AccountVerificationData, AccountVerificationDataDict
+from .accounts import Accounts, AccountsDict
+from .active import Active, ActiveDict
+from .address import Address, AddressDict
+from .amount import Amount, AmountDict
+from .amount1 import Amount1, Amount1Dict
+from .analysis import Analysis, AnalysisDict
+from .analysis1 import Analysis1, Analysis1Dict
+from .analytics_response import AnalyticsResponse, AnalyticsResponseDict
+from .anzsic import Anzsic, AnzsicDict
+from .anzsic1 import Anzsic1, Anzsic1Dict
+from .anzsic_connect_transactions_api import AnzsicConnectTransactionsApi, AnzsicConnectTransactionsApiDict
+from .anzsic_reporting_reports_api import AnzsicReportingReportsApi, AnzsicReportingReportsApiDict
+from .applicability_conditions import ApplicabilityConditions, ApplicabilityConditionsDict
+from .authorization import Authorization, AuthorizationDict
+from .average import Average, AverageDict
+from .average_duration_ms import AverageDurationMs, AverageDurationMsDict
+from .bad_request_error_schema import BadRequestErrorSchema, BadRequestErrorSchemaDict
+from .bad_request_error_schema_error import BadRequestErrorSchemaError, BadRequestErrorSchemaErrorDict
+from .balance import Balance, BalanceDict
+from .balance1 import Balance1, Balance1Dict
+from .balance2 import Balance2, Balance2Dict
+from .balance3 import Balance3, Balance3Dict
+from .balance_insight_data_item import BalanceInsightDataItem, BalanceInsightDataItemDict
+from .balance_insight_request import BalanceInsightRequest, BalanceInsightRequestDict
+from .balance_insight_response import BalanceInsightResponse, BalanceInsightResponseDict
+from .balance_verification_data import BalanceVerificationData, BalanceVerificationDataDict
+from .bank_details import BankDetails, BankDetailsDict
+from .bank_fees import BankFees, BankFeesDict
+from .beneficiary_details import BeneficiaryDetails, BeneficiaryDetailsDict
+from .biller_payee_details import BillerPayeeDetails, BillerPayeeDetailsDict
+from .bpay import Bpay, BpayDict
+from .business_address import BusinessAddress, BusinessAddressDict
+from .cash_withdrawals import CashWithdrawals, CashWithdrawalsDict
+from .category import Category, CategoryDict
+from .category1 import Category1, Category1Dict
+from .category_affordability_expenses_api import CategoryAffordabilityExpensesApi, CategoryAffordabilityExpensesApiDict
+from .category_connect_transactions_api import CategoryConnectTransactionsApi, CategoryConnectTransactionsApiDict
+from .category_reporting_reports_api import CategoryReportingReportsApi, CategoryReportingReportsApiDict
+from .change_history import ChangeHistory, ChangeHistoryDict
+from .change_history_affordability_income_api import (
+    ChangeHistoryAffordabilityIncomeApi,
+    ChangeHistoryAffordabilityIncomeApiDict,
+)
+from .class1 import Class1, Class1Dict
+from .class1_connect_transactions_api import Class1ConnectTransactionsApi, Class1ConnectTransactionsApiDict
+from .class1_enrich_api import Class1EnrichApi, Class1EnrichApiDict
+from .class2 import Class2, Class2Dict
+from .class_connections_api import ClassConnectionsApi, ClassConnectionsApiDict
+from .class_enrich_api import ClassEnrichApi, ClassEnrichApiDict
+from .class_model import ClassModel, ClassModelDict
+from .class_reporting_reports_api import ClassReportingReportsApi, ClassReportingReportsApiDict
+from .colors import Colors, ColorsDict
+from .connected import Connected, ConnectedDict
+from .connection_analytics_response import ConnectionAnalyticsResponse, ConnectionAnalyticsResponseDict
+from .connection_get_response_resource import ConnectionGetResponseResource, ConnectionGetResponseResourceDict
+from .connection_institution import ConnectionInstitution, ConnectionInstitutionDict
+from .connection_response_resource import ConnectionResponseResource, ConnectionResponseResourceDict
+from .connections_get_response_resource import ConnectionsGetResponseResource, ConnectionsGetResponseResourceDict
+from .connections_refresh_resource import ConnectionsRefreshResource, ConnectionsRefreshResourceDict
+from .connectors400_error import Connectors400Error, Connectors400ErrorDict
+from .connectors400_error1 import Connectors400Error1, Connectors400Error1Dict
+from .connectors401_error import Connectors401Error, Connectors401ErrorDict
+from .connectors401_error1 import Connectors401Error1, Connectors401Error1Dict
+from .connectors404_error import Connectors404Error, Connectors404ErrorDict
+from .connectors404_error1 import Connectors404Error1, Connectors404Error1Dict
+from .connectors500_error import Connectors500Error, Connectors500ErrorDict
+from .connectors500_error1 import Connectors500Error1, Connectors500Error1Dict
+from .connectors_response import ConnectorsResponse, ConnectorsResponseDict
+from .connectors_response1 import ConnectorsResponse1, ConnectorsResponse1Dict
+from .created import Created, CreatedDict
+from .credit_card import CreditCard, CreditCardDict
+from .current import Current, CurrentDict
+from .current1 import Current1, Current1Dict
+from .current2 import Current2, Current2Dict
+from .data import Data, DataDict
+from .data1 import Data1, Data1Dict
+from .data1_platform_events_api import Data1PlatformEventsApi, Data1PlatformEventsApiDict
+from .data1_reporting_reports_api import Data1ReportingReportsApi, Data1ReportingReportsApiDict
+from .data2 import Data2, Data2Dict
+from .data2_enrich_api import Data2EnrichApi, Data2EnrichApiDict
+from .data2_reporting_reports_api import Data2ReportingReportsApi, Data2ReportingReportsApiDict
+from .data3 import Data3, Data3Dict
+from .data3_enrich_api import Data3EnrichApi, Data3EnrichApiDict
+from .data4 import Data4, Data4Dict
+from .data8 import Data8, Data8Dict
+from .data9 import Data9, Data9Dict
+from .data10 import Data10, Data10Dict
+from .data11 import Data11, Data11Dict
+from .data14 import Data14, Data14Dict
+from .data_enrich_api import DataEnrichApi, DataEnrichApiDict
+from .data_platform_events_api import DataPlatformEventsApi, DataPlatformEventsApiDict
+from .data_reporting_reports_api import DataReportingReportsApi, DataReportingReportsApiDict
+from .datum import Datum, DatumDict
+from .datum1 import Datum1, Datum1Dict
+from .datum1_connect_authentication_api import Datum1ConnectAuthenticationApi, Datum1ConnectAuthenticationApiDict
+from .datum1_connect_jobs_api import Datum1ConnectJobsApi, Datum1ConnectJobsApiDict
+from .datum1_connections_api import Datum1ConnectionsApi, Datum1ConnectionsApiDict
+from .datum1_core_analytics_api import Datum1CoreAnalyticsApi, Datum1CoreAnalyticsApiDict
+from .datum1_platform_auth_links_api import Datum1PlatformAuthLinksApi, Datum1PlatformAuthLinksApiDict
+from .datum1_platform_events_api import Datum1PlatformEventsApi, Datum1PlatformEventsApiDict
+from .datum1_platform_payees_api import Datum1PlatformPayeesApi, Datum1PlatformPayeesApiDict
+from .datum1_reporting_reports_api import Datum1ReportingReportsApi, Datum1ReportingReportsApiDict
+from .datum2 import Datum2, Datum2Dict
+from .datum2_connect_users_api import Datum2ConnectUsersApi, Datum2ConnectUsersApiDict
+from .datum2_connections_api import Datum2ConnectionsApi, Datum2ConnectionsApiDict
+from .datum2_platform_auth_links_api import Datum2PlatformAuthLinksApi, Datum2PlatformAuthLinksApiDict
+from .datum2_platform_connectors_api import Datum2PlatformConnectorsApi, Datum2PlatformConnectorsApiDict
+from .datum2_platform_payees_api import Datum2PlatformPayeesApi, Datum2PlatformPayeesApiDict
+from .datum3 import Datum3, Datum3Dict
+from .datum3_identity_identities_api import Datum3IdentityIdentitiesApi, Datum3IdentityIdentitiesApiDict
+from .datum3_platform_payees_api import Datum3PlatformPayeesApi, Datum3PlatformPayeesApiDict
+from .datum5 import Datum5, Datum5Dict
+from .datum5_reporting_reports_api import Datum5ReportingReportsApi, Datum5ReportingReportsApiDict
+from .datum6 import Datum6, Datum6Dict
+from .datum7 import Datum7, Datum7Dict
+from .datum10 import Datum10, Datum10Dict
+from .datum11 import Datum11, Datum11Dict
+from .datum12 import Datum12, Datum12Dict
+from .datum31 import Datum31, Datum31Dict
+from .datum_connect_jobs_api import DatumConnectJobsApi, DatumConnectJobsApiDict
+from .datum_connect_transactions_api import DatumConnectTransactionsApi, DatumConnectTransactionsApiDict
+from .datum_connections_api import DatumConnectionsApi, DatumConnectionsApiDict
+from .datum_core_analytics_api import DatumCoreAnalyticsApi, DatumCoreAnalyticsApiDict
+from .datum_enrich_api import DatumEnrichApi, DatumEnrichApiDict
+from .datum_identity_identities_api import DatumIdentityIdentitiesApi, DatumIdentityIdentitiesApiDict
+from .datum_platform_connectors_api import DatumPlatformConnectorsApi, DatumPlatformConnectorsApiDict
+from .datum_platform_events_api import DatumPlatformEventsApi, DatumPlatformEventsApiDict
+from .datum_platform_payees_api import DatumPlatformPayeesApi, DatumPlatformPayeesApiDict
+from .datum_webhooks_api import DatumWebhooksApi, DatumWebhooksApiDict
+from .deposit_rate import DepositRate, DepositRateDict
+from .digital_wallet_payee_details import DigitalWalletPayeeDetails, DigitalWalletPayeeDetailsDict
+from .discount import Discount, DiscountDict
+from .division import Division, DivisionDict
+from .division1 import Division1, Division1Dict
+from .division_reporting_reports_api import DivisionReportingReportsApi, DivisionReportingReportsApiDict
+from .domestic_payee_details import DomesticPayeeDetails, DomesticPayeeDetailsDict
+from .eligibility import Eligibility, EligibilityDict
+from .enrich import Enrich, EnrichDict
+from .enrich400_error import Enrich400Error, Enrich400ErrorDict
+from .enrich400_error1 import Enrich400Error1, Enrich400Error1Dict
+from .enrich403_error import Enrich403Error, Enrich403ErrorDict
+from .enrich403_error1 import Enrich403Error1, Enrich403Error1Dict
+from .enrich500_error import Enrich500Error, Enrich500ErrorDict
+from .enrich500_error1 import Enrich500Error1, Enrich500Error1Dict
+from .enrich_connect_transactions_api import EnrichConnectTransactionsApi, EnrichConnectTransactionsApiDict
+from .enrich_response import EnrichResponse, EnrichResponseDict
+from .error import Error, ErrorDict
+from .error_detail import ErrorDetail, ErrorDetailDict
+from .error_error import ErrorError, ErrorErrorDict
+from .error_item import ErrorItem, ErrorItemDict
+from .error_list import ErrorList, ErrorListDict
+from .error_list_error import ErrorListError, ErrorListErrorDict
+from .error_response import ErrorResponse, ErrorResponseDict
+from .error_response_error import ErrorResponseError, ErrorResponseErrorDict
+from .events400_error import Events400Error, Events400ErrorDict
+from .events400_error1 import Events400Error1, Events400Error1Dict
+from .events400_error2 import Events400Error2, Events400Error2Dict
+from .events400_error21 import Events400Error21, Events400Error21Dict
+from .events401_error import Events401Error, Events401ErrorDict
+from .events401_error1 import Events401Error1, Events401Error1Dict
+from .events401_error2 import Events401Error2, Events401Error2Dict
+from .events401_error21 import Events401Error21, Events401Error21Dict
+from .events403_error import Events403Error, Events403ErrorDict
+from .events403_error1 import Events403Error1, Events403Error1Dict
+from .events403_error2 import Events403Error2, Events403Error2Dict
+from .events403_error21 import Events403Error21, Events403Error21Dict
+from .events404_error import Events404Error, Events404ErrorDict
+from .events404_error1 import Events404Error1, Events404Error1Dict
+from .events404_error2 import Events404Error2, Events404Error2Dict
+from .events404_error21 import Events404Error21, Events404Error21Dict
+from .events429_error import Events429Error, Events429ErrorDict
+from .events429_error1 import Events429Error1, Events429Error1Dict
+from .events500_error import Events500Error, Events500ErrorDict
+from .events500_error1 import Events500Error1, Events500Error1Dict
+from .events500_error2 import Events500Error2, Events500Error2Dict
+from .events500_error21 import Events500Error21, Events500Error21Dict
+from .events503_error import Events503Error, Events503ErrorDict
+from .events503_error1 import Events503Error1, Events503Error1Dict
+from .events503_error2 import Events503Error2, Events503Error2Dict
+from .events503_error21 import Events503Error21, Events503Error21Dict
+from .events_get_response_resource import EventsGetResponseResource, EventsGetResponseResourceDict
+from .events_response import EventsResponse, EventsResponseDict
+from .events_types400_error import EventsTypes400Error, EventsTypes400ErrorDict
+from .events_types400_error1 import EventsTypes400Error1, EventsTypes400Error1Dict
+from .events_types401_error import EventsTypes401Error, EventsTypes401ErrorDict
+from .events_types401_error1 import EventsTypes401Error1, EventsTypes401Error1Dict
+from .events_types403_error import EventsTypes403Error, EventsTypes403ErrorDict
+from .events_types403_error1 import EventsTypes403Error1, EventsTypes403Error1Dict
+from .events_types404_error import EventsTypes404Error, EventsTypes404ErrorDict
+from .events_types404_error1 import EventsTypes404Error1, EventsTypes404Error1Dict
+from .events_types429_error import EventsTypes429Error, EventsTypes429ErrorDict
+from .events_types429_error1 import EventsTypes429Error1, EventsTypes429Error1Dict
+from .events_types500_error import EventsTypes500Error, EventsTypes500ErrorDict
+from .events_types500_error1 import EventsTypes500Error1, EventsTypes500Error1Dict
+from .events_types503_error import EventsTypes503Error, EventsTypes503ErrorDict
+from .events_types503_error1 import EventsTypes503Error1, EventsTypes503Error1Dict
+from .events_types_response import EventsTypesResponse, EventsTypesResponseDict
+from .events_types_response1 import EventsTypesResponse1, EventsTypesResponse1Dict
+from .expense_class import ExpenseClass, ExpenseClassDict
+from .expense_ratio_data import ExpenseRatioData, ExpenseRatioDataDict
+from .expense_ratio_insight_data_item import ExpenseRatioInsightDataItem, ExpenseRatioInsightDataItemDict
+from .expense_ratio_insight_request import ExpenseRatioInsightRequest, ExpenseRatioInsightRequestDict
+from .expense_ratio_insight_response import ExpenseRatioInsightResponse, ExpenseRatioInsightResponseDict
+from .expenses_response import ExpensesResponse, ExpensesResponseDict
+from .external_transfers import ExternalTransfers, ExternalTransfersDict
+from .feature import Feature, FeatureDict
+from .fee import Fee, FeeDict
+from .filter import Filter, FilterDict
+from .filter1 import Filter1, Filter1Dict
+from .filter2 import Filter2, Filter2Dict
+from .filter3 import Filter3, Filter3Dict
+from .forbidden_access_error import ForbiddenAccessError, ForbiddenAccessErrorDict
+from .forbidden_access_error1 import ForbiddenAccessError1, ForbiddenAccessError1Dict
+from .frequency_reporting_reports_api import FrequencyReportingReportsApi, FrequencyReportingReportsApiDict
+from .geometry import Geometry, GeometryDict
+from .geometry1 import Geometry1, Geometry1Dict
+from .geometry_reporting_reports_api import GeometryReportingReportsApi, GeometryReportingReportsApiDict
+from .get_connection_links import GetConnectionLinks, GetConnectionLinksDict
+from .get_connections_links import GetConnectionsLinks, GetConnectionsLinksDict
+from .get_user_connection_data import GetUserConnectionData, GetUserConnectionDataDict
+from .get_user_links import GetUserLinks, GetUserLinksDict
+from .group import Group, GroupDict
+from .group1 import Group1, Group1Dict
+from .group1_reporting_reports_api import Group1ReportingReportsApi, Group1ReportingReportsApiDict
+from .group_connect_transactions_api import GroupConnectTransactionsApi, GroupConnectTransactionsApiDict
+from .group_reporting_reports_api import GroupReportingReportsApi, GroupReportingReportsApiDict
+from .identities_get_response_resource import IdentitiesGetResponseResource, IdentitiesGetResponseResourceDict
+from .identity_insight_data import IdentityInsightData, IdentityInsightDataDict
+from .identity_insight_data_item import IdentityInsightDataItem, IdentityInsightDataItemDict
+from .identity_insight_request import IdentityInsightRequest, IdentityInsightRequestDict
+from .identity_insight_response import IdentityInsightResponse, IdentityInsightResponseDict
+from .identity_match import IdentityMatch, IdentityMatchDict
+from .identity_verification_data import IdentityVerificationData, IdentityVerificationDataDict
+from .income import Income, IncomeDict
+from .income1 import Income1, Income1Dict
+from .income_insight_data_item import IncomeInsightDataItem, IncomeInsightDataItemDict
+from .income_insight_request import IncomeInsightRequest, IncomeInsightRequestDict
+from .income_insight_response import IncomeInsightResponse, IncomeInsightResponseDict
+from .income_response import IncomeResponse, IncomeResponseDict
+from .income_verification_data import IncomeVerificationData, IncomeVerificationDataDict
+from .information import Information, InformationDict
+from .initial import Initial, InitialDict
+from .initial1 import Initial1, Initial1Dict
+from .input import Input, InputDict
+from .input1 import Input1, Input1Dict
+from .input2 import Input2, Input2Dict
+from .input3 import Input3, Input3Dict
+from .insight import Insight, InsightDict
+from .insight_list_response import InsightListResponse, InsightListResponseDict
+from .insight_type_item import InsightTypeItem, InsightTypeItemDict
+from .insight_types_list import InsightTypesList, InsightTypesListDict
+from .institution import Institution, InstitutionDict
+from .institution_connect_jobs_api import InstitutionConnectJobsApi, InstitutionConnectJobsApiDict
+from .institution_platform_events_api import InstitutionPlatformEventsApi, InstitutionPlatformEventsApiDict
+from .international_payee_details import InternationalPayeeDetails, InternationalPayeeDetailsDict
+from .irregular import Irregular, IrregularDict
+from .irregularity import Irregularity, IrregularityDict
+from .jobs400_error import Jobs400Error, Jobs400ErrorDict
+from .jobs400_error1 import Jobs400Error1, Jobs400Error1Dict
+from .jobs401_error import Jobs401Error, Jobs401ErrorDict
+from .jobs401_error1 import Jobs401Error1, Jobs401Error1Dict
+from .jobs403_error import Jobs403Error, Jobs403ErrorDict
+from .jobs403_error1 import Jobs403Error1, Jobs403Error1Dict
+from .jobs404_error import Jobs404Error, Jobs404ErrorDict
+from .jobs404_error1 import Jobs404Error1, Jobs404Error1Dict
+from .jobs500_error import Jobs500Error, Jobs500ErrorDict
+from .jobs500_error1 import Jobs500Error1, Jobs500Error1Dict
+from .jobs_data import JobsData, JobsDataDict
+from .jobs_links import JobsLinks, JobsLinksDict
+from .jobs_mfa400_error import JobsMfa400Error, JobsMfa400ErrorDict
+from .jobs_mfa400_error1 import JobsMfa400Error1, JobsMfa400Error1Dict
+from .jobs_mfa401_error import JobsMfa401Error, JobsMfa401ErrorDict
+from .jobs_mfa401_error1 import JobsMfa401Error1, JobsMfa401Error1Dict
+from .jobs_mfa403_error import JobsMfa403Error, JobsMfa403ErrorDict
+from .jobs_mfa403_error1 import JobsMfa403Error1, JobsMfa403Error1Dict
+from .jobs_mfa404_error import JobsMfa404Error, JobsMfa404ErrorDict
+from .jobs_mfa404_error1 import JobsMfa404Error1, JobsMfa404Error1Dict
+from .jobs_mfa500_error import JobsMfa500Error, JobsMfa500ErrorDict
+from .jobs_mfa500_error1 import JobsMfa500Error1, JobsMfa500Error1Dict
+from .jobs_mfa_request import JobsMfaRequest, JobsMfaRequestDict
+from .jobs_response import JobsResponse, JobsResponseDict
+from .jobs_response1 import JobsResponse1, JobsResponse1Dict
+from .jobs_response2 import JobsResponse2, JobsResponse2Dict
+from .jobs_result import JobsResult, JobsResultDict
+from .jobs_step import JobsStep, JobsStepDict
+from .lending_rate import LendingRate, LendingRateDict
+from .links import Links, LinksDict
+from .links1 import Links1, Links1Dict
+from .links1_connect_consents_api import Links1ConnectConsentsApi, Links1ConnectConsentsApiDict
+from .links1_connect_transactions_api import Links1ConnectTransactionsApi, Links1ConnectTransactionsApiDict
+from .links1_enrich_api import Links1EnrichApi, Links1EnrichApiDict
+from .links1_insights_api import Links1InsightsApi, Links1InsightsApiDict
+from .links1_platform_events_api import Links1PlatformEventsApi, Links1PlatformEventsApiDict
+from .links2 import Links2, Links2Dict
+from .links2_connect_jobs_api import Links2ConnectJobsApi, Links2ConnectJobsApiDict
+from .links2_platform_payees_api import Links2PlatformPayeesApi, Links2PlatformPayeesApiDict
+from .links2_reporting_reports_api import Links2ReportingReportsApi, Links2ReportingReportsApiDict
+from .links3 import Links3, Links3Dict
+from .links3_reporting_reports_api import Links3ReportingReportsApi, Links3ReportingReportsApiDict
+from .links4 import Links4, Links4Dict
+from .links4_insights_api import Links4InsightsApi, Links4InsightsApiDict
+from .links4_reporting_reports_api import Links4ReportingReportsApi, Links4ReportingReportsApiDict
+from .links5 import Links5, Links5Dict
+from .links6 import Links6, Links6Dict
+from .links_affordability_expenses_api import LinksAffordabilityExpensesApi, LinksAffordabilityExpensesApiDict
+from .links_affordability_income_api import LinksAffordabilityIncomeApi, LinksAffordabilityIncomeApiDict
+from .links_connect_consents_api import LinksConnectConsentsApi, LinksConnectConsentsApiDict
+from .links_connect_jobs_api import LinksConnectJobsApi, LinksConnectJobsApiDict
+from .links_connect_transactions_api import LinksConnectTransactionsApi, LinksConnectTransactionsApiDict
+from .links_connections_api import LinksConnectionsApi, LinksConnectionsApiDict
+from .links_enrich_api import LinksEnrichApi, LinksEnrichApiDict
+from .links_identity_identities_api import LinksIdentityIdentitiesApi, LinksIdentityIdentitiesApiDict
+from .links_insights_api import LinksInsightsApi, LinksInsightsApiDict
+from .links_platform_connectors_api import LinksPlatformConnectorsApi, LinksPlatformConnectorsApiDict
+from .links_platform_events_api import LinksPlatformEventsApi, LinksPlatformEventsApiDict
+from .links_platform_payees_api import LinksPlatformPayeesApi, LinksPlatformPayeesApiDict
+from .links_webhooks_api import LinksWebhooksApi, LinksWebhooksApiDict
+from .loan import Loan, LoanDict
+from .loan_interests import LoanInterests, LoanInterestsDict
+from .loan_repayments import LoanRepayments, LoanRepaymentsDict
+from .location import Location, LocationDict
+from .location1 import Location1, Location1Dict
+from .location_reporting_reports_api import LocationReportingReportsApi, LocationReportingReportsApiDict
+from .logo import Logo, LogoDict
+from .mcc import Mcc, MccDict
+from .merchant import Merchant, MerchantDict
+from .merchant1 import Merchant1, Merchant1Dict
+from .merchant_details import MerchantDetails, MerchantDetailsDict
+from .merchant_not_found_error import MerchantNotFoundError, MerchantNotFoundErrorDict
+from .merchant_not_found_error_error import MerchantNotFoundErrorError, MerchantNotFoundErrorErrorDict
+from .merchant_reporting_reports_api import MerchantReportingReportsApi, MerchantReportingReportsApiDict
+from .merchants_response import MerchantsResponse, MerchantsResponseDict
+from .meta import Meta, MetaDict
+from .meta_core_analytics_api import MetaCoreAnalyticsApi, MetaCoreAnalyticsApiDict
+from .meta_platform_connectors_api import MetaPlatformConnectorsApi, MetaPlatformConnectorsApiDict
+from .method_distribution import MethodDistribution, MethodDistributionDict
+from .method_distribution1 import MethodDistribution1, MethodDistribution1Dict
+from .metric import Metric, MetricDict
+from .next import Next, NextDict
+from .non_deleted import NonDeleted, NonDeletedDict
+from .not_found_error_schema import NotFoundErrorSchema, NotFoundErrorSchemaDict
+from .not_found_error_schema_error import NotFoundErrorSchemaError, NotFoundErrorSchemaErrorDict
+from .notifications_messages_test_request import NotificationsMessagesTestRequest, NotificationsMessagesTestRequestDict
+from .notifications_webhooks_messages_response import (
+    NotificationsWebhooksMessagesResponse,
+    NotificationsWebhooksMessagesResponseDict,
+)
+from .notifications_webhooks_messages_response1 import (
+    NotificationsWebhooksMessagesResponse1,
+    NotificationsWebhooksMessagesResponse1Dict,
+)
+from .notifications_webhooks_request import NotificationsWebhooksRequest, NotificationsWebhooksRequestDict
+from .notifications_webhooks_response import NotificationsWebhooksResponse, NotificationsWebhooksResponseDict
+from .notifications_webhooks_response1 import NotificationsWebhooksResponse1, NotificationsWebhooksResponse1Dict
+from .organisation import Organisation, OrganisationDict
+from .other_credit import OtherCredit, OtherCreditDict
+from .overall_percentage import OverallPercentage, OverallPercentageDict
+from .paf import Paf, PafDict
+from .paf_identity_identities_api import PafIdentityIdentitiesApi, PafIdentityIdentitiesApiDict
+from .pay_id import PayId, PayIdDict
+from .payee_details_response import PayeeDetailsResponse, PayeeDetailsResponseDict
+from .payee_summary import PayeeSummary, PayeeSummaryDict
+from .payees_list_response import PayeesListResponse, PayeesListResponseDict
+from .payload import Payload, PayloadDict
+from .payment import Payment, PaymentDict
+from .payment_details import PaymentDetails, PaymentDetailsDict
+from .permission import Permission, PermissionDict
+from .phone_number import PhoneNumber, PhoneNumberDict
+from .phone_number1 import PhoneNumber1, PhoneNumber1Dict
+from .phone_number_reporting_reports_api import PhoneNumberReportingReportsApi, PhoneNumberReportingReportsApiDict
+from .physical_address import PhysicalAddress, PhysicalAddressDict
+from .physical_addresses import PhysicalAddresses, PhysicalAddressesDict
+from .post_insights_request import PostInsightsRequest, PostInsightsRequestDict
+from .post_insights_response import PostInsightsResponse, PostInsightsResponseDict
+from .previous3_months import Previous3Months, Previous3MonthsDict
+from .primary import Primary, PrimaryDict
+from .profile import Profile, ProfileDict
+from .purpose import Purpose, PurposeDict
+from .purse import Purse, PurseDict
+from .range_reporting_reports_api import RangeReportingReportsApi, RangeReportingReportsApiDict
+from .regular import Regular, RegularDict
+from .reports400_error import Reports400Error, Reports400ErrorDict
+from .reports400_error1 import Reports400Error1, Reports400Error1Dict
+from .reports400_error2 import Reports400Error2, Reports400Error2Dict
+from .reports400_error21 import Reports400Error21, Reports400Error21Dict
+from .reports403_error import Reports403Error, Reports403ErrorDict
+from .reports403_error1 import Reports403Error1, Reports403Error1Dict
+from .reports403_error2 import Reports403Error2, Reports403Error2Dict
+from .reports403_error3 import Reports403Error3, Reports403Error3Dict
+from .reports403_error21 import Reports403Error21, Reports403Error21Dict
+from .reports403_error31 import Reports403Error31, Reports403Error31Dict
+from .reports404_error import Reports404Error, Reports404ErrorDict
+from .reports404_error1 import Reports404Error1, Reports404Error1Dict
+from .reports404_error2 import Reports404Error2, Reports404Error2Dict
+from .reports404_error3 import Reports404Error3, Reports404Error3Dict
+from .reports404_error21 import Reports404Error21, Reports404Error21Dict
+from .reports404_error31 import Reports404Error31, Reports404Error31Dict
+from .reports500_error import Reports500Error, Reports500ErrorDict
+from .reports500_error1 import Reports500Error1, Reports500Error1Dict
+from .reports500_error2 import Reports500Error2, Reports500Error2Dict
+from .reports500_error3 import Reports500Error3, Reports500Error3Dict
+from .reports500_error21 import Reports500Error21, Reports500Error21Dict
+from .reports500_error31 import Reports500Error31, Reports500Error31Dict
+from .reports_request import ReportsRequest, ReportsRequestDict
+from .reports_response import ReportsResponse, ReportsResponseDict
+from .reports_response1 import ReportsResponse1, ReportsResponse1Dict
+from .reports_response2 import ReportsResponse2, ReportsResponse2Dict
+from .reports_response3 import ReportsResponse3, ReportsResponse3Dict
+from .reports_response11 import ReportsResponse11, ReportsResponse11Dict
+from .reports_transactions400_error import ReportsTransactions400Error, ReportsTransactions400ErrorDict
+from .reports_transactions400_error1 import ReportsTransactions400Error1, ReportsTransactions400Error1Dict
+from .reports_transactions403_error import ReportsTransactions403Error, ReportsTransactions403ErrorDict
+from .reports_transactions403_error1 import ReportsTransactions403Error1, ReportsTransactions403Error1Dict
+from .reports_transactions404_error import ReportsTransactions404Error, ReportsTransactions404ErrorDict
+from .reports_transactions404_error1 import ReportsTransactions404Error1, ReportsTransactions404Error1Dict
+from .reports_transactions500_error import ReportsTransactions500Error, ReportsTransactions500ErrorDict
+from .reports_transactions500_error1 import ReportsTransactions500Error1, ReportsTransactions500Error1Dict
+from .reports_types400_error import ReportsTypes400Error, ReportsTypes400ErrorDict
+from .reports_types400_error1 import ReportsTypes400Error1, ReportsTypes400Error1Dict
+from .reports_types403_error import ReportsTypes403Error, ReportsTypes403ErrorDict
+from .reports_types403_error1 import ReportsTypes403Error1, ReportsTypes403Error1Dict
+from .reports_types404_error import ReportsTypes404Error, ReportsTypes404ErrorDict
+from .reports_types404_error1 import ReportsTypes404Error1, ReportsTypes404Error1Dict
+from .reports_types500_error import ReportsTypes500Error, ReportsTypes500ErrorDict
+from .reports_types500_error1 import ReportsTypes500Error1, ReportsTypes500Error1Dict
+from .reports_types_response import ReportsTypesResponse, ReportsTypesResponseDict
+from .resource_account_link import ResourceAccountLink, ResourceAccountLinkDict
+from .resource_link import ResourceLink, ResourceLinkDict
+from .result import Result, ResultDict
+from .result1 import Result1, Result1Dict
+from .result_connect_jobs_api import ResultConnectJobsApi, ResultConnectJobsApiDict
+from .result_reporting_reports_api import ResultReportingReportsApi, ResultReportingReportsApiDict
+from .simple import Simple, SimpleDict
+from .single_merchant_response import SingleMerchantResponse, SingleMerchantResponseDict
+from .source import Source, SourceDict
+from .source2 import Source2, Source2Dict
+from .source2_reporting_reports_api import Source2ReportingReportsApi, Source2ReportingReportsApiDict
+from .source_connect_authentication_api import SourceConnectAuthenticationApi, SourceConnectAuthenticationApiDict
+from .source_core_analytics_api import SourceCoreAnalyticsApi, SourceCoreAnalyticsApiDict
+from .source_insights_api import SourceInsightsApi, SourceInsightsApiDict
+from .source_platform_payees_api import SourcePlatformPayeesApi, SourcePlatformPayeesApiDict
+from .stats import Stats, StatsDict
+from .status_distribution import StatusDistribution, StatusDistributionDict
+from .step import Step, StepDict
+from .step1 import Step1, Step1Dict
+from .step2 import Step2, Step2Dict
+from .sub_category import SubCategory, SubCategoryDict
+from .sub_class_connect_transactions_api import SubClassConnectTransactionsApi, SubClassConnectTransactionsApiDict
+from .subclass import Subclass, SubclassDict
+from .subclass1 import Subclass1, Subclass1Dict
+from .subdivision import Subdivision, SubdivisionDict
+from .subdivision1 import Subdivision1, Subdivision1Dict
+from .subdivision_reporting_reports_api import SubdivisionReportingReportsApi, SubdivisionReportingReportsApiDict
+from .subgroup import Subgroup, SubgroupDict
+from .summary import Summary, SummaryDict
+from .summary1 import Summary1, Summary1Dict
+from .summary_reporting_reports_api import SummaryReportingReportsApi, SummaryReportingReportsApiDict
+from .term_deposit import TermDeposit, TermDepositDict
+from .tier import Tier, TierDict
+from .token400_error import Token400Error, Token400ErrorDict
+from .token400_error1 import Token400Error1, Token400Error1Dict
+from .token404_error import Token404Error, Token404ErrorDict
+from .token404_error1 import Token404Error1, Token404Error1Dict
+from .token500_error import Token500Error, Token500ErrorDict
+from .token500_error1 import Token500Error1, Token500Error1Dict
+from .token_response import TokenResponse, TokenResponseDict
+from .transaction import Transaction, TransactionDict
+from .transaction_interval import TransactionInterval, TransactionIntervalDict
+from .transaction_interval_reporting_reports_api import (
+    TransactionIntervalReportingReportsApi,
+    TransactionIntervalReportingReportsApiDict,
+)
+from .transactions_container_object import TransactionsContainerObject, TransactionsContainerObjectDict
+from .transactions_container_object_connect_transactions_api import (
+    TransactionsContainerObjectConnectTransactionsApi,
+    TransactionsContainerObjectConnectTransactionsApiDict,
+)
+from .unauthorized_error_schema import UnauthorizedErrorSchema, UnauthorizedErrorSchemaDict
+from .unauthorized_error_schema_error import UnauthorizedErrorSchemaError, UnauthorizedErrorSchemaErrorDict
+from .unions import (
+    DataInsightsApi,
+    DataInsightsApiDict,
+    Datum1InsightsApi,
+    Datum1InsightsApiDict,
+    DatumInsightsApi,
+    DatumInsightsApiDict,
+    JobsResponse3,
+    JobsResponse3Dict,
+    ReportsResponse12,
+    ReportsResponse12Dict,
+    Value,
+    ValueDict,
+)
+from .user_consent_get_response import UserConsentGetResponse, UserConsentGetResponseDict
+from .user_get_account import UserGetAccount, UserGetAccountDict
+from .user_get_account_data import UserGetAccountData, UserGetAccountDataDict
+from .user_get_connection import UserGetConnection, UserGetConnectionDict
+from .user_get_response import UserGetResponse, UserGetResponseDict
+from .user_post_response import UserPostResponse, UserPostResponseDict
+from .users400_error import Users400Error, Users400ErrorDict
+from .users400_error1 import Users400Error1, Users400Error1Dict
+from .users401_error import Users401Error, Users401ErrorDict
+from .users401_error1 import Users401Error1, Users401Error1Dict
+from .users403_error import Users403Error, Users403ErrorDict
+from .users403_error1 import Users403Error1, Users403Error1Dict
+from .users404_error import Users404Error, Users404ErrorDict
+from .users404_error1 import Users404Error1, Users404Error1Dict
+from .users500_error import Users500Error, Users500ErrorDict
+from .users500_error1 import Users500Error1, Users500Error1Dict
+from .users503_error import Users503Error, Users503ErrorDict
+from .users503_error1 import Users503Error1, Users503Error1Dict
+from .users_accounts400_error import UsersAccounts400Error, UsersAccounts400ErrorDict
+from .users_accounts400_error1 import UsersAccounts400Error1, UsersAccounts400Error1Dict
+from .users_accounts403_error import UsersAccounts403Error, UsersAccounts403ErrorDict
+from .users_accounts403_error1 import UsersAccounts403Error1, UsersAccounts403Error1Dict
+from .users_accounts404_error import UsersAccounts404Error, UsersAccounts404ErrorDict
+from .users_accounts404_error1 import UsersAccounts404Error1, UsersAccounts404Error1Dict
+from .users_accounts500_error import UsersAccounts500Error, UsersAccounts500ErrorDict
+from .users_accounts500_error1 import UsersAccounts500Error1, UsersAccounts500Error1Dict
+from .users_accounts_response import UsersAccountsResponse, UsersAccountsResponseDict
+from .users_auth_link400_error import UsersAuthLink400Error, UsersAuthLink400ErrorDict
+from .users_auth_link400_error1 import UsersAuthLink400Error1, UsersAuthLink400Error1Dict
+from .users_auth_link401_error import UsersAuthLink401Error, UsersAuthLink401ErrorDict
+from .users_auth_link401_error1 import UsersAuthLink401Error1, UsersAuthLink401Error1Dict
+from .users_auth_link403_error import UsersAuthLink403Error, UsersAuthLink403ErrorDict
+from .users_auth_link403_error1 import UsersAuthLink403Error1, UsersAuthLink403Error1Dict
+from .users_auth_link404_error import UsersAuthLink404Error, UsersAuthLink404ErrorDict
+from .users_auth_link404_error1 import UsersAuthLink404Error1, UsersAuthLink404Error1Dict
+from .users_auth_link410_error import UsersAuthLink410Error, UsersAuthLink410ErrorDict
+from .users_auth_link410_error1 import UsersAuthLink410Error1, UsersAuthLink410Error1Dict
+from .users_auth_link500_error import UsersAuthLink500Error, UsersAuthLink500ErrorDict
+from .users_auth_link500_error1 import UsersAuthLink500Error1, UsersAuthLink500Error1Dict
+from .users_auth_link503_error import UsersAuthLink503Error, UsersAuthLink503ErrorDict
+from .users_auth_link503_error1 import UsersAuthLink503Error1, UsersAuthLink503Error1Dict
+from .users_auth_link_request import UsersAuthLinkRequest, UsersAuthLinkRequestDict
+from .users_auth_link_response import UsersAuthLinkResponse, UsersAuthLinkResponseDict
+from .users_auth_link_response1 import UsersAuthLinkResponse1, UsersAuthLinkResponse1Dict
+from .users_connections400_error import UsersConnections400Error, UsersConnections400ErrorDict
+from .users_connections400_error1 import UsersConnections400Error1, UsersConnections400Error1Dict
+from .users_connections401_error import UsersConnections401Error, UsersConnections401ErrorDict
+from .users_connections401_error1 import UsersConnections401Error1, UsersConnections401Error1Dict
+from .users_connections403_error import UsersConnections403Error, UsersConnections403ErrorDict
+from .users_connections403_error1 import UsersConnections403Error1, UsersConnections403Error1Dict
+from .users_connections404_error import UsersConnections404Error, UsersConnections404ErrorDict
+from .users_connections404_error1 import UsersConnections404Error1, UsersConnections404Error1Dict
+from .users_connections500_error import UsersConnections500Error, UsersConnections500ErrorDict
+from .users_connections500_error1 import UsersConnections500Error1, UsersConnections500Error1Dict
+from .users_connections503_error import UsersConnections503Error, UsersConnections503ErrorDict
+from .users_connections503_error1 import UsersConnections503Error1, UsersConnections503Error1Dict
+from .users_connections_purge400_error import UsersConnectionsPurge400Error, UsersConnectionsPurge400ErrorDict
+from .users_connections_purge400_error1 import UsersConnectionsPurge400Error1, UsersConnectionsPurge400Error1Dict
+from .users_connections_purge403_error import UsersConnectionsPurge403Error, UsersConnectionsPurge403ErrorDict
+from .users_connections_purge403_error1 import UsersConnectionsPurge403Error1, UsersConnectionsPurge403Error1Dict
+from .users_connections_purge404_error import UsersConnectionsPurge404Error, UsersConnectionsPurge404ErrorDict
+from .users_connections_purge404_error1 import UsersConnectionsPurge404Error1, UsersConnectionsPurge404Error1Dict
+from .users_connections_purge500_error import UsersConnectionsPurge500Error, UsersConnectionsPurge500ErrorDict
+from .users_connections_purge500_error1 import UsersConnectionsPurge500Error1, UsersConnectionsPurge500Error1Dict
+from .users_connections_purge503_error import UsersConnectionsPurge503Error, UsersConnectionsPurge503ErrorDict
+from .users_connections_purge503_error1 import UsersConnectionsPurge503Error1, UsersConnectionsPurge503Error1Dict
+from .users_connections_refresh400_error import UsersConnectionsRefresh400Error, UsersConnectionsRefresh400ErrorDict
+from .users_connections_refresh400_error1 import UsersConnectionsRefresh400Error1, UsersConnectionsRefresh400Error1Dict
+from .users_connections_refresh403_error import UsersConnectionsRefresh403Error, UsersConnectionsRefresh403ErrorDict
+from .users_connections_refresh403_error1 import UsersConnectionsRefresh403Error1, UsersConnectionsRefresh403Error1Dict
+from .users_connections_refresh404_error import UsersConnectionsRefresh404Error, UsersConnectionsRefresh404ErrorDict
+from .users_connections_refresh404_error1 import UsersConnectionsRefresh404Error1, UsersConnectionsRefresh404Error1Dict
+from .users_connections_refresh500_error import UsersConnectionsRefresh500Error, UsersConnectionsRefresh500ErrorDict
+from .users_connections_refresh500_error1 import UsersConnectionsRefresh500Error1, UsersConnectionsRefresh500Error1Dict
+from .users_connections_refresh503_error import UsersConnectionsRefresh503Error, UsersConnectionsRefresh503ErrorDict
+from .users_connections_refresh503_error1 import UsersConnectionsRefresh503Error1, UsersConnectionsRefresh503Error1Dict
+from .users_consents400_error import UsersConsents400Error, UsersConsents400ErrorDict
+from .users_consents400_error1 import UsersConsents400Error1, UsersConsents400Error1Dict
+from .users_consents401_error import UsersConsents401Error, UsersConsents401ErrorDict
+from .users_consents401_error1 import UsersConsents401Error1, UsersConsents401Error1Dict
+from .users_consents403_error import UsersConsents403Error, UsersConsents403ErrorDict
+from .users_consents403_error1 import UsersConsents403Error1, UsersConsents403Error1Dict
+from .users_consents404_error import UsersConsents404Error, UsersConsents404ErrorDict
+from .users_consents404_error1 import UsersConsents404Error1, UsersConsents404Error1Dict
+from .users_consents500_error import UsersConsents500Error, UsersConsents500ErrorDict
+from .users_consents500_error1 import UsersConsents500Error1, UsersConsents500Error1Dict
+from .users_consents503_error import UsersConsents503Error, UsersConsents503ErrorDict
+from .users_consents503_error1 import UsersConsents503Error1, UsersConsents503Error1Dict
+from .users_consents_response import UsersConsentsResponse, UsersConsentsResponseDict
+from .users_expenses400_error import UsersExpenses400Error, UsersExpenses400ErrorDict
+from .users_expenses400_error1 import UsersExpenses400Error1, UsersExpenses400Error1Dict
+from .users_expenses403_error import UsersExpenses403Error, UsersExpenses403ErrorDict
+from .users_expenses403_error1 import UsersExpenses403Error1, UsersExpenses403Error1Dict
+from .users_expenses404_error import UsersExpenses404Error, UsersExpenses404ErrorDict
+from .users_expenses404_error1 import UsersExpenses404Error1, UsersExpenses404Error1Dict
+from .users_expenses500_error import UsersExpenses500Error, UsersExpenses500ErrorDict
+from .users_expenses500_error1 import UsersExpenses500Error1, UsersExpenses500Error1Dict
+from .users_expenses_request import UsersExpensesRequest, UsersExpensesRequestDict
+from .users_expenses_response import UsersExpensesResponse, UsersExpensesResponseDict
+from .users_expenses_response1 import UsersExpensesResponse1, UsersExpensesResponse1Dict
+from .users_expenses_response2 import UsersExpensesResponse2, UsersExpensesResponse2Dict
+from .users_identities400_error import UsersIdentities400Error, UsersIdentities400ErrorDict
+from .users_identities400_error1 import UsersIdentities400Error1, UsersIdentities400Error1Dict
+from .users_identities403_error import UsersIdentities403Error, UsersIdentities403ErrorDict
+from .users_identities403_error1 import UsersIdentities403Error1, UsersIdentities403Error1Dict
+from .users_identities404_error import UsersIdentities404Error, UsersIdentities404ErrorDict
+from .users_identities404_error1 import UsersIdentities404Error1, UsersIdentities404Error1Dict
+from .users_identities500_error import UsersIdentities500Error, UsersIdentities500ErrorDict
+from .users_identities500_error1 import UsersIdentities500Error1, UsersIdentities500Error1Dict
+from .users_identities_response import UsersIdentitiesResponse, UsersIdentitiesResponseDict
+from .users_income400_error import UsersIncome400Error, UsersIncome400ErrorDict
+from .users_income400_error1 import UsersIncome400Error1, UsersIncome400Error1Dict
+from .users_income403_error import UsersIncome403Error, UsersIncome403ErrorDict
+from .users_income403_error1 import UsersIncome403Error1, UsersIncome403Error1Dict
+from .users_income404_error import UsersIncome404Error, UsersIncome404ErrorDict
+from .users_income404_error1 import UsersIncome404Error1, UsersIncome404Error1Dict
+from .users_income500_error import UsersIncome500Error, UsersIncome500ErrorDict
+from .users_income500_error1 import UsersIncome500Error1, UsersIncome500Error1Dict
+from .users_income_request import UsersIncomeRequest, UsersIncomeRequestDict
+from .users_insights_account_request import UsersInsightsAccountRequest, UsersInsightsAccountRequestDict
+from .users_jobs400_error import UsersJobs400Error, UsersJobs400ErrorDict
+from .users_jobs400_error1 import UsersJobs400Error1, UsersJobs400Error1Dict
+from .users_jobs401_error import UsersJobs401Error, UsersJobs401ErrorDict
+from .users_jobs401_error1 import UsersJobs401Error1, UsersJobs401Error1Dict
+from .users_jobs403_error import UsersJobs403Error, UsersJobs403ErrorDict
+from .users_jobs403_error1 import UsersJobs403Error1, UsersJobs403Error1Dict
+from .users_jobs404_error import UsersJobs404Error, UsersJobs404ErrorDict
+from .users_jobs404_error1 import UsersJobs404Error1, UsersJobs404Error1Dict
+from .users_jobs500_error import UsersJobs500Error, UsersJobs500ErrorDict
+from .users_jobs500_error1 import UsersJobs500Error1, UsersJobs500Error1Dict
+from .users_jobs_response import UsersJobsResponse, UsersJobsResponseDict
+from .users_request import UsersRequest, UsersRequestDict
+from .users_request1 import UsersRequest1, UsersRequest1Dict
+from .users_statements400_error import UsersStatements400Error, UsersStatements400ErrorDict
+from .users_statements400_error1 import UsersStatements400Error1, UsersStatements400Error1Dict
+from .users_statements403_error import UsersStatements403Error, UsersStatements403ErrorDict
+from .users_statements403_error1 import UsersStatements403Error1, UsersStatements403Error1Dict
+from .users_statements404_error import UsersStatements404Error, UsersStatements404ErrorDict
+from .users_statements404_error1 import UsersStatements404Error1, UsersStatements404Error1Dict
+from .users_statements500_error import UsersStatements500Error, UsersStatements500ErrorDict
+from .users_statements500_error1 import UsersStatements500Error1, UsersStatements500Error1Dict
+from .users_statements503_error import UsersStatements503Error, UsersStatements503ErrorDict
+from .users_statements503_error1 import UsersStatements503Error1, UsersStatements503Error1Dict
+from .users_statements_response import UsersStatementsResponse, UsersStatementsResponseDict
+from .users_transactions400_error import UsersTransactions400Error, UsersTransactions400ErrorDict
+from .users_transactions400_error1 import UsersTransactions400Error1, UsersTransactions400Error1Dict
+from .users_transactions403_error import UsersTransactions403Error, UsersTransactions403ErrorDict
+from .users_transactions403_error1 import UsersTransactions403Error1, UsersTransactions403Error1Dict
+from .users_transactions404_error import UsersTransactions404Error, UsersTransactions404ErrorDict
+from .users_transactions404_error1 import UsersTransactions404Error1, UsersTransactions404Error1Dict
+from .users_transactions500_error import UsersTransactions500Error, UsersTransactions500ErrorDict
+from .users_transactions500_error1 import UsersTransactions500Error1, UsersTransactions500Error1Dict
+from .users_transactions503_error import UsersTransactions503Error, UsersTransactions503ErrorDict
+from .users_transactions503_error1 import UsersTransactions503Error1, UsersTransactions503Error1Dict
+from .users_transactions_response import UsersTransactionsResponse, UsersTransactionsResponseDict
+from .verification_result import VerificationResult, VerificationResultDict
+from .verification_result1 import VerificationResult1, VerificationResult1Dict
+from .verification_result2 import VerificationResult2, VerificationResult2Dict
+from .verification_result4 import VerificationResult4, VerificationResult4Dict
+from .webhook_stats import WebhookStats, WebhookStatsDict
+
+__all__ = [
+    "enums",
+    "unions",
+    "Account",
+    "AccountBalanceData",
+    "AccountBalanceDataDict",
+    "AccountDict",
+    "AccountInsightData",
+    "AccountInsightDataDict",
+    "AccountInsightDataItem",
+    "AccountInsightDataItemDict",
+    "AccountInsightResponse",
+    "AccountInsightResponseDict",
+    "AccountNumberMatch",
+    "AccountNumberMatchDict",
+    "AccountReportingReportsApi",
+    "AccountReportingReportsApiDict",
+    "AccountResponseResource",
+    "AccountResponseResource1",
+    "AccountResponseResource1Dict",
+    "AccountResponseResourceDict",
+    "AccountTypeMatch",
+    "AccountTypeMatchDict",
+    "AccountVerificationData",
+    "AccountVerificationDataDict",
+    "Accounts",
+    "AccountsDict",
+    "Active",
+    "ActiveDict",
+    "Address",
+    "AddressDict",
+    "Amount",
+    "Amount1",
+    "Amount1Dict",
+    "AmountDict",
+    "Analysis",
+    "Analysis1",
+    "Analysis1Dict",
+    "AnalysisDict",
+    "AnalyticsResponse",
+    "AnalyticsResponseDict",
+    "Anzsic",
+    "Anzsic1",
+    "Anzsic1Dict",
+    "AnzsicConnectTransactionsApi",
+    "AnzsicConnectTransactionsApiDict",
+    "AnzsicDict",
+    "AnzsicReportingReportsApi",
+    "AnzsicReportingReportsApiDict",
+    "ApplicabilityConditions",
+    "ApplicabilityConditionsDict",
+    "Authorization",
+    "AuthorizationDict",
+    "Average",
+    "AverageDict",
+    "AverageDurationMs",
+    "AverageDurationMsDict",
+    "BadRequestErrorSchema",
+    "BadRequestErrorSchemaDict",
+    "BadRequestErrorSchemaError",
+    "BadRequestErrorSchemaErrorDict",
+    "Balance",
+    "Balance1",
+    "Balance1Dict",
+    "Balance2",
+    "Balance2Dict",
+    "Balance3",
+    "Balance3Dict",
+    "BalanceDict",
+    "BalanceInsightDataItem",
+    "BalanceInsightDataItemDict",
+    "BalanceInsightRequest",
+    "BalanceInsightRequestDict",
+    "BalanceInsightResponse",
+    "BalanceInsightResponseDict",
+    "BalanceVerificationData",
+    "BalanceVerificationDataDict",
+    "BankDetails",
+    "BankDetailsDict",
+    "BankFees",
+    "BankFeesDict",
+    "BeneficiaryDetails",
+    "BeneficiaryDetailsDict",
+    "BillerPayeeDetails",
+    "BillerPayeeDetailsDict",
+    "Bpay",
+    "BpayDict",
+    "BusinessAddress",
+    "BusinessAddressDict",
+    "CashWithdrawals",
+    "CashWithdrawalsDict",
+    "Category",
+    "Category1",
+    "Category1Dict",
+    "CategoryAffordabilityExpensesApi",
+    "CategoryAffordabilityExpensesApiDict",
+    "CategoryConnectTransactionsApi",
+    "CategoryConnectTransactionsApiDict",
+    "CategoryDict",
+    "CategoryReportingReportsApi",
+    "CategoryReportingReportsApiDict",
+    "ChangeHistory",
+    "ChangeHistoryAffordabilityIncomeApi",
+    "ChangeHistoryAffordabilityIncomeApiDict",
+    "ChangeHistoryDict",
+    "Class1",
+    "Class1ConnectTransactionsApi",
+    "Class1ConnectTransactionsApiDict",
+    "Class1Dict",
+    "Class1EnrichApi",
+    "Class1EnrichApiDict",
+    "Class2",
+    "Class2Dict",
+    "ClassConnectionsApi",
+    "ClassConnectionsApiDict",
+    "ClassEnrichApi",
+    "ClassEnrichApiDict",
+    "ClassModel",
+    "ClassModelDict",
+    "ClassReportingReportsApi",
+    "ClassReportingReportsApiDict",
+    "Colors",
+    "ColorsDict",
+    "Connected",
+    "ConnectedDict",
+    "ConnectionAnalyticsResponse",
+    "ConnectionAnalyticsResponseDict",
+    "ConnectionGetResponseResource",
+    "ConnectionGetResponseResourceDict",
+    "ConnectionInstitution",
+    "ConnectionInstitutionDict",
+    "ConnectionResponseResource",
+    "ConnectionResponseResourceDict",
+    "ConnectionsGetResponseResource",
+    "ConnectionsGetResponseResourceDict",
+    "ConnectionsRefreshResource",
+    "ConnectionsRefreshResourceDict",
+    "Connectors400Error",
+    "Connectors400Error1",
+    "Connectors400Error1Dict",
+    "Connectors400ErrorDict",
+    "Connectors401Error",
+    "Connectors401Error1",
+    "Connectors401Error1Dict",
+    "Connectors401ErrorDict",
+    "Connectors404Error",
+    "Connectors404Error1",
+    "Connectors404Error1Dict",
+    "Connectors404ErrorDict",
+    "Connectors500Error",
+    "Connectors500Error1",
+    "Connectors500Error1Dict",
+    "Connectors500ErrorDict",
+    "ConnectorsResponse",
+    "ConnectorsResponse1",
+    "ConnectorsResponse1Dict",
+    "ConnectorsResponseDict",
+    "Created",
+    "CreatedDict",
+    "CreditCard",
+    "CreditCardDict",
+    "Current",
+    "Current1",
+    "Current1Dict",
+    "Current2",
+    "Current2Dict",
+    "CurrentDict",
+    "Data",
+    "Data1",
+    "Data10",
+    "Data10Dict",
+    "Data11",
+    "Data11Dict",
+    "Data14",
+    "Data14Dict",
+    "Data1Dict",
+    "Data1PlatformEventsApi",
+    "Data1PlatformEventsApiDict",
+    "Data1ReportingReportsApi",
+    "Data1ReportingReportsApiDict",
+    "Data2",
+    "Data2Dict",
+    "Data2EnrichApi",
+    "Data2EnrichApiDict",
+    "Data2ReportingReportsApi",
+    "Data2ReportingReportsApiDict",
+    "Data3",
+    "Data3Dict",
+    "Data3EnrichApi",
+    "Data3EnrichApiDict",
+    "Data4",
+    "Data4Dict",
+    "Data8",
+    "Data8Dict",
+    "Data9",
+    "Data9Dict",
+    "DataDict",
+    "DataEnrichApi",
+    "DataEnrichApiDict",
+    "DataInsightsApi",
+    "DataInsightsApiDict",
+    "DataPlatformEventsApi",
+    "DataPlatformEventsApiDict",
+    "DataReportingReportsApi",
+    "DataReportingReportsApiDict",
+    "Datum",
+    "Datum1",
+    "Datum10",
+    "Datum10Dict",
+    "Datum11",
+    "Datum11Dict",
+    "Datum12",
+    "Datum12Dict",
+    "Datum1ConnectAuthenticationApi",
+    "Datum1ConnectAuthenticationApiDict",
+    "Datum1ConnectJobsApi",
+    "Datum1ConnectJobsApiDict",
+    "Datum1ConnectionsApi",
+    "Datum1ConnectionsApiDict",
+    "Datum1CoreAnalyticsApi",
+    "Datum1CoreAnalyticsApiDict",
+    "Datum1Dict",
+    "Datum1InsightsApi",
+    "Datum1InsightsApiDict",
+    "Datum1PlatformAuthLinksApi",
+    "Datum1PlatformAuthLinksApiDict",
+    "Datum1PlatformEventsApi",
+    "Datum1PlatformEventsApiDict",
+    "Datum1PlatformPayeesApi",
+    "Datum1PlatformPayeesApiDict",
+    "Datum1ReportingReportsApi",
+    "Datum1ReportingReportsApiDict",
+    "Datum2",
+    "Datum2ConnectUsersApi",
+    "Datum2ConnectUsersApiDict",
+    "Datum2ConnectionsApi",
+    "Datum2ConnectionsApiDict",
+    "Datum2Dict",
+    "Datum2PlatformAuthLinksApi",
+    "Datum2PlatformAuthLinksApiDict",
+    "Datum2PlatformConnectorsApi",
+    "Datum2PlatformConnectorsApiDict",
+    "Datum2PlatformPayeesApi",
+    "Datum2PlatformPayeesApiDict",
+    "Datum3",
+    "Datum31",
+    "Datum31Dict",
+    "Datum3Dict",
+    "Datum3IdentityIdentitiesApi",
+    "Datum3IdentityIdentitiesApiDict",
+    "Datum3PlatformPayeesApi",
+    "Datum3PlatformPayeesApiDict",
+    "Datum5",
+    "Datum5Dict",
+    "Datum5ReportingReportsApi",
+    "Datum5ReportingReportsApiDict",
+    "Datum6",
+    "Datum6Dict",
+    "Datum7",
+    "Datum7Dict",
+    "DatumConnectJobsApi",
+    "DatumConnectJobsApiDict",
+    "DatumConnectTransactionsApi",
+    "DatumConnectTransactionsApiDict",
+    "DatumConnectionsApi",
+    "DatumConnectionsApiDict",
+    "DatumCoreAnalyticsApi",
+    "DatumCoreAnalyticsApiDict",
+    "DatumDict",
+    "DatumEnrichApi",
+    "DatumEnrichApiDict",
+    "DatumIdentityIdentitiesApi",
+    "DatumIdentityIdentitiesApiDict",
+    "DatumInsightsApi",
+    "DatumInsightsApiDict",
+    "DatumPlatformConnectorsApi",
+    "DatumPlatformConnectorsApiDict",
+    "DatumPlatformEventsApi",
+    "DatumPlatformEventsApiDict",
+    "DatumPlatformPayeesApi",
+    "DatumPlatformPayeesApiDict",
+    "DatumWebhooksApi",
+    "DatumWebhooksApiDict",
+    "DepositRate",
+    "DepositRateDict",
+    "DigitalWalletPayeeDetails",
+    "DigitalWalletPayeeDetailsDict",
+    "Discount",
+    "DiscountDict",
+    "Division",
+    "Division1",
+    "Division1Dict",
+    "DivisionDict",
+    "DivisionReportingReportsApi",
+    "DivisionReportingReportsApiDict",
+    "DomesticPayeeDetails",
+    "DomesticPayeeDetailsDict",
+    "Eligibility",
+    "EligibilityDict",
+    "Enrich",
+    "Enrich400Error",
+    "Enrich400Error1",
+    "Enrich400Error1Dict",
+    "Enrich400ErrorDict",
+    "Enrich403Error",
+    "Enrich403Error1",
+    "Enrich403Error1Dict",
+    "Enrich403ErrorDict",
+    "Enrich500Error",
+    "Enrich500Error1",
+    "Enrich500Error1Dict",
+    "Enrich500ErrorDict",
+    "EnrichConnectTransactionsApi",
+    "EnrichConnectTransactionsApiDict",
+    "EnrichDict",
+    "EnrichResponse",
+    "EnrichResponseDict",
+    "Error",
+    "ErrorDetail",
+    "ErrorDetailDict",
+    "ErrorDict",
+    "ErrorError",
+    "ErrorErrorDict",
+    "ErrorItem",
+    "ErrorItemDict",
+    "ErrorList",
+    "ErrorListDict",
+    "ErrorListError",
+    "ErrorListErrorDict",
+    "ErrorResponse",
+    "ErrorResponseDict",
+    "ErrorResponseError",
+    "ErrorResponseErrorDict",
+    "Events400Error",
+    "Events400Error1",
+    "Events400Error1Dict",
+    "Events400Error2",
+    "Events400Error21",
+    "Events400Error21Dict",
+    "Events400Error2Dict",
+    "Events400ErrorDict",
+    "Events401Error",
+    "Events401Error1",
+    "Events401Error1Dict",
+    "Events401Error2",
+    "Events401Error21",
+    "Events401Error21Dict",
+    "Events401Error2Dict",
+    "Events401ErrorDict",
+    "Events403Error",
+    "Events403Error1",
+    "Events403Error1Dict",
+    "Events403Error2",
+    "Events403Error21",
+    "Events403Error21Dict",
+    "Events403Error2Dict",
+    "Events403ErrorDict",
+    "Events404Error",
+    "Events404Error1",
+    "Events404Error1Dict",
+    "Events404Error2",
+    "Events404Error21",
+    "Events404Error21Dict",
+    "Events404Error2Dict",
+    "Events404ErrorDict",
+    "Events429Error",
+    "Events429Error1",
+    "Events429Error1Dict",
+    "Events429ErrorDict",
+    "Events500Error",
+    "Events500Error1",
+    "Events500Error1Dict",
+    "Events500Error2",
+    "Events500Error21",
+    "Events500Error21Dict",
+    "Events500Error2Dict",
+    "Events500ErrorDict",
+    "Events503Error",
+    "Events503Error1",
+    "Events503Error1Dict",
+    "Events503Error2",
+    "Events503Error21",
+    "Events503Error21Dict",
+    "Events503Error2Dict",
+    "Events503ErrorDict",
+    "EventsGetResponseResource",
+    "EventsGetResponseResourceDict",
+    "EventsResponse",
+    "EventsResponseDict",
+    "EventsTypes400Error",
+    "EventsTypes400Error1",
+    "EventsTypes400Error1Dict",
+    "EventsTypes400ErrorDict",
+    "EventsTypes401Error",
+    "EventsTypes401Error1",
+    "EventsTypes401Error1Dict",
+    "EventsTypes401ErrorDict",
+    "EventsTypes403Error",
+    "EventsTypes403Error1",
+    "EventsTypes403Error1Dict",
+    "EventsTypes403ErrorDict",
+    "EventsTypes404Error",
+    "EventsTypes404Error1",
+    "EventsTypes404Error1Dict",
+    "EventsTypes404ErrorDict",
+    "EventsTypes429Error",
+    "EventsTypes429Error1",
+    "EventsTypes429Error1Dict",
+    "EventsTypes429ErrorDict",
+    "EventsTypes500Error",
+    "EventsTypes500Error1",
+    "EventsTypes500Error1Dict",
+    "EventsTypes500ErrorDict",
+    "EventsTypes503Error",
+    "EventsTypes503Error1",
+    "EventsTypes503Error1Dict",
+    "EventsTypes503ErrorDict",
+    "EventsTypesResponse",
+    "EventsTypesResponse1",
+    "EventsTypesResponse1Dict",
+    "EventsTypesResponseDict",
+    "ExpenseClass",
+    "ExpenseClassDict",
+    "ExpenseRatioData",
+    "ExpenseRatioDataDict",
+    "ExpenseRatioInsightDataItem",
+    "ExpenseRatioInsightDataItemDict",
+    "ExpenseRatioInsightRequest",
+    "ExpenseRatioInsightRequestDict",
+    "ExpenseRatioInsightResponse",
+    "ExpenseRatioInsightResponseDict",
+    "ExpensesResponse",
+    "ExpensesResponseDict",
+    "ExternalTransfers",
+    "ExternalTransfersDict",
+    "Feature",
+    "FeatureDict",
+    "Fee",
+    "FeeDict",
+    "Filter",
+    "Filter1",
+    "Filter1Dict",
+    "Filter2",
+    "Filter2Dict",
+    "Filter3",
+    "Filter3Dict",
+    "FilterDict",
+    "ForbiddenAccessError",
+    "ForbiddenAccessError1",
+    "ForbiddenAccessError1Dict",
+    "ForbiddenAccessErrorDict",
+    "FrequencyReportingReportsApi",
+    "FrequencyReportingReportsApiDict",
+    "Geometry",
+    "Geometry1",
+    "Geometry1Dict",
+    "GeometryDict",
+    "GeometryReportingReportsApi",
+    "GeometryReportingReportsApiDict",
+    "GetConnectionLinks",
+    "GetConnectionLinksDict",
+    "GetConnectionsLinks",
+    "GetConnectionsLinksDict",
+    "GetUserConnectionData",
+    "GetUserConnectionDataDict",
+    "GetUserLinks",
+    "GetUserLinksDict",
+    "Group",
+    "Group1",
+    "Group1Dict",
+    "Group1ReportingReportsApi",
+    "Group1ReportingReportsApiDict",
+    "GroupConnectTransactionsApi",
+    "GroupConnectTransactionsApiDict",
+    "GroupDict",
+    "GroupReportingReportsApi",
+    "GroupReportingReportsApiDict",
+    "IdentitiesGetResponseResource",
+    "IdentitiesGetResponseResourceDict",
+    "IdentityInsightData",
+    "IdentityInsightDataDict",
+    "IdentityInsightDataItem",
+    "IdentityInsightDataItemDict",
+    "IdentityInsightRequest",
+    "IdentityInsightRequestDict",
+    "IdentityInsightResponse",
+    "IdentityInsightResponseDict",
+    "IdentityMatch",
+    "IdentityMatchDict",
+    "IdentityVerificationData",
+    "IdentityVerificationDataDict",
+    "Income",
+    "Income1",
+    "Income1Dict",
+    "IncomeDict",
+    "IncomeInsightDataItem",
+    "IncomeInsightDataItemDict",
+    "IncomeInsightRequest",
+    "IncomeInsightRequestDict",
+    "IncomeInsightResponse",
+    "IncomeInsightResponseDict",
+    "IncomeResponse",
+    "IncomeResponseDict",
+    "IncomeVerificationData",
+    "IncomeVerificationDataDict",
+    "Information",
+    "InformationDict",
+    "Initial",
+    "Initial1",
+    "Initial1Dict",
+    "InitialDict",
+    "Input",
+    "Input1",
+    "Input1Dict",
+    "Input2",
+    "Input2Dict",
+    "Input3",
+    "Input3Dict",
+    "InputDict",
+    "Insight",
+    "InsightDict",
+    "InsightListResponse",
+    "InsightListResponseDict",
+    "InsightTypeItem",
+    "InsightTypeItemDict",
+    "InsightTypesList",
+    "InsightTypesListDict",
+    "Institution",
+    "InstitutionConnectJobsApi",
+    "InstitutionConnectJobsApiDict",
+    "InstitutionDict",
+    "InstitutionPlatformEventsApi",
+    "InstitutionPlatformEventsApiDict",
+    "InternationalPayeeDetails",
+    "InternationalPayeeDetailsDict",
+    "Irregular",
+    "IrregularDict",
+    "Irregularity",
+    "IrregularityDict",
+    "Jobs400Error",
+    "Jobs400Error1",
+    "Jobs400Error1Dict",
+    "Jobs400ErrorDict",
+    "Jobs401Error",
+    "Jobs401Error1",
+    "Jobs401Error1Dict",
+    "Jobs401ErrorDict",
+    "Jobs403Error",
+    "Jobs403Error1",
+    "Jobs403Error1Dict",
+    "Jobs403ErrorDict",
+    "Jobs404Error",
+    "Jobs404Error1",
+    "Jobs404Error1Dict",
+    "Jobs404ErrorDict",
+    "Jobs500Error",
+    "Jobs500Error1",
+    "Jobs500Error1Dict",
+    "Jobs500ErrorDict",
+    "JobsData",
+    "JobsDataDict",
+    "JobsLinks",
+    "JobsLinksDict",
+    "JobsMfa400Error",
+    "JobsMfa400Error1",
+    "JobsMfa400Error1Dict",
+    "JobsMfa400ErrorDict",
+    "JobsMfa401Error",
+    "JobsMfa401Error1",
+    "JobsMfa401Error1Dict",
+    "JobsMfa401ErrorDict",
+    "JobsMfa403Error",
+    "JobsMfa403Error1",
+    "JobsMfa403Error1Dict",
+    "JobsMfa403ErrorDict",
+    "JobsMfa404Error",
+    "JobsMfa404Error1",
+    "JobsMfa404Error1Dict",
+    "JobsMfa404ErrorDict",
+    "JobsMfa500Error",
+    "JobsMfa500Error1",
+    "JobsMfa500Error1Dict",
+    "JobsMfa500ErrorDict",
+    "JobsMfaRequest",
+    "JobsMfaRequestDict",
+    "JobsResponse",
+    "JobsResponse1",
+    "JobsResponse1Dict",
+    "JobsResponse2",
+    "JobsResponse2Dict",
+    "JobsResponse3",
+    "JobsResponse3Dict",
+    "JobsResponseDict",
+    "JobsResult",
+    "JobsResultDict",
+    "JobsStep",
+    "JobsStepDict",
+    "LendingRate",
+    "LendingRateDict",
+    "Links",
+    "Links1",
+    "Links1ConnectConsentsApi",
+    "Links1ConnectConsentsApiDict",
+    "Links1ConnectTransactionsApi",
+    "Links1ConnectTransactionsApiDict",
+    "Links1Dict",
+    "Links1EnrichApi",
+    "Links1EnrichApiDict",
+    "Links1InsightsApi",
+    "Links1InsightsApiDict",
+    "Links1PlatformEventsApi",
+    "Links1PlatformEventsApiDict",
+    "Links2",
+    "Links2ConnectJobsApi",
+    "Links2ConnectJobsApiDict",
+    "Links2Dict",
+    "Links2PlatformPayeesApi",
+    "Links2PlatformPayeesApiDict",
+    "Links2ReportingReportsApi",
+    "Links2ReportingReportsApiDict",
+    "Links3",
+    "Links3Dict",
+    "Links3ReportingReportsApi",
+    "Links3ReportingReportsApiDict",
+    "Links4",
+    "Links4Dict",
+    "Links4InsightsApi",
+    "Links4InsightsApiDict",
+    "Links4ReportingReportsApi",
+    "Links4ReportingReportsApiDict",
+    "Links5",
+    "Links5Dict",
+    "Links6",
+    "Links6Dict",
+    "LinksAffordabilityExpensesApi",
+    "LinksAffordabilityExpensesApiDict",
+    "LinksAffordabilityIncomeApi",
+    "LinksAffordabilityIncomeApiDict",
+    "LinksConnectConsentsApi",
+    "LinksConnectConsentsApiDict",
+    "LinksConnectJobsApi",
+    "LinksConnectJobsApiDict",
+    "LinksConnectTransactionsApi",
+    "LinksConnectTransactionsApiDict",
+    "LinksConnectionsApi",
+    "LinksConnectionsApiDict",
+    "LinksDict",
+    "LinksEnrichApi",
+    "LinksEnrichApiDict",
+    "LinksIdentityIdentitiesApi",
+    "LinksIdentityIdentitiesApiDict",
+    "LinksInsightsApi",
+    "LinksInsightsApiDict",
+    "LinksPlatformConnectorsApi",
+    "LinksPlatformConnectorsApiDict",
+    "LinksPlatformEventsApi",
+    "LinksPlatformEventsApiDict",
+    "LinksPlatformPayeesApi",
+    "LinksPlatformPayeesApiDict",
+    "LinksWebhooksApi",
+    "LinksWebhooksApiDict",
+    "Loan",
+    "LoanDict",
+    "LoanInterests",
+    "LoanInterestsDict",
+    "LoanRepayments",
+    "LoanRepaymentsDict",
+    "Location",
+    "Location1",
+    "Location1Dict",
+    "LocationDict",
+    "LocationReportingReportsApi",
+    "LocationReportingReportsApiDict",
+    "Logo",
+    "LogoDict",
+    "Mcc",
+    "MccDict",
+    "Merchant",
+    "Merchant1",
+    "Merchant1Dict",
+    "MerchantDetails",
+    "MerchantDetailsDict",
+    "MerchantDict",
+    "MerchantNotFoundError",
+    "MerchantNotFoundErrorDict",
+    "MerchantNotFoundErrorError",
+    "MerchantNotFoundErrorErrorDict",
+    "MerchantReportingReportsApi",
+    "MerchantReportingReportsApiDict",
+    "MerchantsResponse",
+    "MerchantsResponseDict",
+    "Meta",
+    "MetaCoreAnalyticsApi",
+    "MetaCoreAnalyticsApiDict",
+    "MetaDict",
+    "MetaPlatformConnectorsApi",
+    "MetaPlatformConnectorsApiDict",
+    "MethodDistribution",
+    "MethodDistribution1",
+    "MethodDistribution1Dict",
+    "MethodDistributionDict",
+    "Metric",
+    "MetricDict",
+    "Next",
+    "NextDict",
+    "NonDeleted",
+    "NonDeletedDict",
+    "NotFoundErrorSchema",
+    "NotFoundErrorSchemaDict",
+    "NotFoundErrorSchemaError",
+    "NotFoundErrorSchemaErrorDict",
+    "NotificationsMessagesTestRequest",
+    "NotificationsMessagesTestRequestDict",
+    "NotificationsWebhooksMessagesResponse",
+    "NotificationsWebhooksMessagesResponse1",
+    "NotificationsWebhooksMessagesResponse1Dict",
+    "NotificationsWebhooksMessagesResponseDict",
+    "NotificationsWebhooksRequest",
+    "NotificationsWebhooksRequestDict",
+    "NotificationsWebhooksResponse",
+    "NotificationsWebhooksResponse1",
+    "NotificationsWebhooksResponse1Dict",
+    "NotificationsWebhooksResponseDict",
+    "Organisation",
+    "OrganisationDict",
+    "OtherCredit",
+    "OtherCreditDict",
+    "OverallPercentage",
+    "OverallPercentageDict",
+    "Paf",
+    "PafDict",
+    "PafIdentityIdentitiesApi",
+    "PafIdentityIdentitiesApiDict",
+    "PayId",
+    "PayIdDict",
+    "PayeeDetailsResponse",
+    "PayeeDetailsResponseDict",
+    "PayeeSummary",
+    "PayeeSummaryDict",
+    "PayeesListResponse",
+    "PayeesListResponseDict",
+    "Payload",
+    "PayloadDict",
+    "Payment",
+    "PaymentDetails",
+    "PaymentDetailsDict",
+    "PaymentDict",
+    "Permission",
+    "PermissionDict",
+    "PhoneNumber",
+    "PhoneNumber1",
+    "PhoneNumber1Dict",
+    "PhoneNumberDict",
+    "PhoneNumberReportingReportsApi",
+    "PhoneNumberReportingReportsApiDict",
+    "PhysicalAddress",
+    "PhysicalAddressDict",
+    "PhysicalAddresses",
+    "PhysicalAddressesDict",
+    "PostInsightsRequest",
+    "PostInsightsRequestDict",
+    "PostInsightsResponse",
+    "PostInsightsResponseDict",
+    "Previous3Months",
+    "Previous3MonthsDict",
+    "Primary",
+    "PrimaryDict",
+    "Profile",
+    "ProfileDict",
+    "Purpose",
+    "PurposeDict",
+    "Purse",
+    "PurseDict",
+    "RangeReportingReportsApi",
+    "RangeReportingReportsApiDict",
+    "Regular",
+    "RegularDict",
+    "Reports400Error",
+    "Reports400Error1",
+    "Reports400Error1Dict",
+    "Reports400Error2",
+    "Reports400Error21",
+    "Reports400Error21Dict",
+    "Reports400Error2Dict",
+    "Reports400ErrorDict",
+    "Reports403Error",
+    "Reports403Error1",
+    "Reports403Error1Dict",
+    "Reports403Error2",
+    "Reports403Error21",
+    "Reports403Error21Dict",
+    "Reports403Error2Dict",
+    "Reports403Error3",
+    "Reports403Error31",
+    "Reports403Error31Dict",
+    "Reports403Error3Dict",
+    "Reports403ErrorDict",
+    "Reports404Error",
+    "Reports404Error1",
+    "Reports404Error1Dict",
+    "Reports404Error2",
+    "Reports404Error21",
+    "Reports404Error21Dict",
+    "Reports404Error2Dict",
+    "Reports404Error3",
+    "Reports404Error31",
+    "Reports404Error31Dict",
+    "Reports404Error3Dict",
+    "Reports404ErrorDict",
+    "Reports500Error",
+    "Reports500Error1",
+    "Reports500Error1Dict",
+    "Reports500Error2",
+    "Reports500Error21",
+    "Reports500Error21Dict",
+    "Reports500Error2Dict",
+    "Reports500Error3",
+    "Reports500Error31",
+    "Reports500Error31Dict",
+    "Reports500Error3Dict",
+    "Reports500ErrorDict",
+    "ReportsRequest",
+    "ReportsRequestDict",
+    "ReportsResponse",
+    "ReportsResponse1",
+    "ReportsResponse11",
+    "ReportsResponse11Dict",
+    "ReportsResponse12",
+    "ReportsResponse12Dict",
+    "ReportsResponse1Dict",
+    "ReportsResponse2",
+    "ReportsResponse2Dict",
+    "ReportsResponse3",
+    "ReportsResponse3Dict",
+    "ReportsResponseDict",
+    "ReportsTransactions400Error",
+    "ReportsTransactions400Error1",
+    "ReportsTransactions400Error1Dict",
+    "ReportsTransactions400ErrorDict",
+    "ReportsTransactions403Error",
+    "ReportsTransactions403Error1",
+    "ReportsTransactions403Error1Dict",
+    "ReportsTransactions403ErrorDict",
+    "ReportsTransactions404Error",
+    "ReportsTransactions404Error1",
+    "ReportsTransactions404Error1Dict",
+    "ReportsTransactions404ErrorDict",
+    "ReportsTransactions500Error",
+    "ReportsTransactions500Error1",
+    "ReportsTransactions500Error1Dict",
+    "ReportsTransactions500ErrorDict",
+    "ReportsTypes400Error",
+    "ReportsTypes400Error1",
+    "ReportsTypes400Error1Dict",
+    "ReportsTypes400ErrorDict",
+    "ReportsTypes403Error",
+    "ReportsTypes403Error1",
+    "ReportsTypes403Error1Dict",
+    "ReportsTypes403ErrorDict",
+    "ReportsTypes404Error",
+    "ReportsTypes404Error1",
+    "ReportsTypes404Error1Dict",
+    "ReportsTypes404ErrorDict",
+    "ReportsTypes500Error",
+    "ReportsTypes500Error1",
+    "ReportsTypes500Error1Dict",
+    "ReportsTypes500ErrorDict",
+    "ReportsTypesResponse",
+    "ReportsTypesResponseDict",
+    "ResourceAccountLink",
+    "ResourceAccountLinkDict",
+    "ResourceLink",
+    "ResourceLinkDict",
+    "Result",
+    "Result1",
+    "Result1Dict",
+    "ResultConnectJobsApi",
+    "ResultConnectJobsApiDict",
+    "ResultDict",
+    "ResultReportingReportsApi",
+    "ResultReportingReportsApiDict",
+    "Simple",
+    "SimpleDict",
+    "SingleMerchantResponse",
+    "SingleMerchantResponseDict",
+    "Source",
+    "Source2",
+    "Source2Dict",
+    "Source2ReportingReportsApi",
+    "Source2ReportingReportsApiDict",
+    "SourceConnectAuthenticationApi",
+    "SourceConnectAuthenticationApiDict",
+    "SourceCoreAnalyticsApi",
+    "SourceCoreAnalyticsApiDict",
+    "SourceDict",
+    "SourceInsightsApi",
+    "SourceInsightsApiDict",
+    "SourcePlatformPayeesApi",
+    "SourcePlatformPayeesApiDict",
+    "Stats",
+    "StatsDict",
+    "StatusDistribution",
+    "StatusDistributionDict",
+    "Step",
+    "Step1",
+    "Step1Dict",
+    "Step2",
+    "Step2Dict",
+    "StepDict",
+    "SubCategory",
+    "SubCategoryDict",
+    "SubClassConnectTransactionsApi",
+    "SubClassConnectTransactionsApiDict",
+    "Subclass",
+    "Subclass1",
+    "Subclass1Dict",
+    "SubclassDict",
+    "Subdivision",
+    "Subdivision1",
+    "Subdivision1Dict",
+    "SubdivisionDict",
+    "SubdivisionReportingReportsApi",
+    "SubdivisionReportingReportsApiDict",
+    "Subgroup",
+    "SubgroupDict",
+    "Summary",
+    "Summary1",
+    "Summary1Dict",
+    "SummaryDict",
+    "SummaryReportingReportsApi",
+    "SummaryReportingReportsApiDict",
+    "TermDeposit",
+    "TermDepositDict",
+    "Tier",
+    "TierDict",
+    "Token400Error",
+    "Token400Error1",
+    "Token400Error1Dict",
+    "Token400ErrorDict",
+    "Token404Error",
+    "Token404Error1",
+    "Token404Error1Dict",
+    "Token404ErrorDict",
+    "Token500Error",
+    "Token500Error1",
+    "Token500Error1Dict",
+    "Token500ErrorDict",
+    "TokenResponse",
+    "TokenResponseDict",
+    "Transaction",
+    "TransactionDict",
+    "TransactionInterval",
+    "TransactionIntervalDict",
+    "TransactionIntervalReportingReportsApi",
+    "TransactionIntervalReportingReportsApiDict",
+    "TransactionsContainerObject",
+    "TransactionsContainerObjectConnectTransactionsApi",
+    "TransactionsContainerObjectConnectTransactionsApiDict",
+    "TransactionsContainerObjectDict",
+    "UnauthorizedErrorSchema",
+    "UnauthorizedErrorSchemaDict",
+    "UnauthorizedErrorSchemaError",
+    "UnauthorizedErrorSchemaErrorDict",
+    "UserConsentGetResponse",
+    "UserConsentGetResponseDict",
+    "UserGetAccount",
+    "UserGetAccountData",
+    "UserGetAccountDataDict",
+    "UserGetAccountDict",
+    "UserGetConnection",
+    "UserGetConnectionDict",
+    "UserGetResponse",
+    "UserGetResponseDict",
+    "UserPostResponse",
+    "UserPostResponseDict",
+    "Users400Error",
+    "Users400Error1",
+    "Users400Error1Dict",
+    "Users400ErrorDict",
+    "Users401Error",
+    "Users401Error1",
+    "Users401Error1Dict",
+    "Users401ErrorDict",
+    "Users403Error",
+    "Users403Error1",
+    "Users403Error1Dict",
+    "Users403ErrorDict",
+    "Users404Error",
+    "Users404Error1",
+    "Users404Error1Dict",
+    "Users404ErrorDict",
+    "Users500Error",
+    "Users500Error1",
+    "Users500Error1Dict",
+    "Users500ErrorDict",
+    "Users503Error",
+    "Users503Error1",
+    "Users503Error1Dict",
+    "Users503ErrorDict",
+    "UsersAccounts400Error",
+    "UsersAccounts400Error1",
+    "UsersAccounts400Error1Dict",
+    "UsersAccounts400ErrorDict",
+    "UsersAccounts403Error",
+    "UsersAccounts403Error1",
+    "UsersAccounts403Error1Dict",
+    "UsersAccounts403ErrorDict",
+    "UsersAccounts404Error",
+    "UsersAccounts404Error1",
+    "UsersAccounts404Error1Dict",
+    "UsersAccounts404ErrorDict",
+    "UsersAccounts500Error",
+    "UsersAccounts500Error1",
+    "UsersAccounts500Error1Dict",
+    "UsersAccounts500ErrorDict",
+    "UsersAccountsResponse",
+    "UsersAccountsResponseDict",
+    "UsersAuthLink400Error",
+    "UsersAuthLink400Error1",
+    "UsersAuthLink400Error1Dict",
+    "UsersAuthLink400ErrorDict",
+    "UsersAuthLink401Error",
+    "UsersAuthLink401Error1",
+    "UsersAuthLink401Error1Dict",
+    "UsersAuthLink401ErrorDict",
+    "UsersAuthLink403Error",
+    "UsersAuthLink403Error1",
+    "UsersAuthLink403Error1Dict",
+    "UsersAuthLink403ErrorDict",
+    "UsersAuthLink404Error",
+    "UsersAuthLink404Error1",
+    "UsersAuthLink404Error1Dict",
+    "UsersAuthLink404ErrorDict",
+    "UsersAuthLink410Error",
+    "UsersAuthLink410Error1",
+    "UsersAuthLink410Error1Dict",
+    "UsersAuthLink410ErrorDict",
+    "UsersAuthLink500Error",
+    "UsersAuthLink500Error1",
+    "UsersAuthLink500Error1Dict",
+    "UsersAuthLink500ErrorDict",
+    "UsersAuthLink503Error",
+    "UsersAuthLink503Error1",
+    "UsersAuthLink503Error1Dict",
+    "UsersAuthLink503ErrorDict",
+    "UsersAuthLinkRequest",
+    "UsersAuthLinkRequestDict",
+    "UsersAuthLinkResponse",
+    "UsersAuthLinkResponse1",
+    "UsersAuthLinkResponse1Dict",
+    "UsersAuthLinkResponseDict",
+    "UsersConnections400Error",
+    "UsersConnections400Error1",
+    "UsersConnections400Error1Dict",
+    "UsersConnections400ErrorDict",
+    "UsersConnections401Error",
+    "UsersConnections401Error1",
+    "UsersConnections401Error1Dict",
+    "UsersConnections401ErrorDict",
+    "UsersConnections403Error",
+    "UsersConnections403Error1",
+    "UsersConnections403Error1Dict",
+    "UsersConnections403ErrorDict",
+    "UsersConnections404Error",
+    "UsersConnections404Error1",
+    "UsersConnections404Error1Dict",
+    "UsersConnections404ErrorDict",
+    "UsersConnections500Error",
+    "UsersConnections500Error1",
+    "UsersConnections500Error1Dict",
+    "UsersConnections500ErrorDict",
+    "UsersConnections503Error",
+    "UsersConnections503Error1",
+    "UsersConnections503Error1Dict",
+    "UsersConnections503ErrorDict",
+    "UsersConnectionsPurge400Error",
+    "UsersConnectionsPurge400Error1",
+    "UsersConnectionsPurge400Error1Dict",
+    "UsersConnectionsPurge400ErrorDict",
+    "UsersConnectionsPurge403Error",
+    "UsersConnectionsPurge403Error1",
+    "UsersConnectionsPurge403Error1Dict",
+    "UsersConnectionsPurge403ErrorDict",
+    "UsersConnectionsPurge404Error",
+    "UsersConnectionsPurge404Error1",
+    "UsersConnectionsPurge404Error1Dict",
+    "UsersConnectionsPurge404ErrorDict",
+    "UsersConnectionsPurge500Error",
+    "UsersConnectionsPurge500Error1",
+    "UsersConnectionsPurge500Error1Dict",
+    "UsersConnectionsPurge500ErrorDict",
+    "UsersConnectionsPurge503Error",
+    "UsersConnectionsPurge503Error1",
+    "UsersConnectionsPurge503Error1Dict",
+    "UsersConnectionsPurge503ErrorDict",
+    "UsersConnectionsRefresh400Error",
+    "UsersConnectionsRefresh400Error1",
+    "UsersConnectionsRefresh400Error1Dict",
+    "UsersConnectionsRefresh400ErrorDict",
+    "UsersConnectionsRefresh403Error",
+    "UsersConnectionsRefresh403Error1",
+    "UsersConnectionsRefresh403Error1Dict",
+    "UsersConnectionsRefresh403ErrorDict",
+    "UsersConnectionsRefresh404Error",
+    "UsersConnectionsRefresh404Error1",
+    "UsersConnectionsRefresh404Error1Dict",
+    "UsersConnectionsRefresh404ErrorDict",
+    "UsersConnectionsRefresh500Error",
+    "UsersConnectionsRefresh500Error1",
+    "UsersConnectionsRefresh500Error1Dict",
+    "UsersConnectionsRefresh500ErrorDict",
+    "UsersConnectionsRefresh503Error",
+    "UsersConnectionsRefresh503Error1",
+    "UsersConnectionsRefresh503Error1Dict",
+    "UsersConnectionsRefresh503ErrorDict",
+    "UsersConsents400Error",
+    "UsersConsents400Error1",
+    "UsersConsents400Error1Dict",
+    "UsersConsents400ErrorDict",
+    "UsersConsents401Error",
+    "UsersConsents401Error1",
+    "UsersConsents401Error1Dict",
+    "UsersConsents401ErrorDict",
+    "UsersConsents403Error",
+    "UsersConsents403Error1",
+    "UsersConsents403Error1Dict",
+    "UsersConsents403ErrorDict",
+    "UsersConsents404Error",
+    "UsersConsents404Error1",
+    "UsersConsents404Error1Dict",
+    "UsersConsents404ErrorDict",
+    "UsersConsents500Error",
+    "UsersConsents500Error1",
+    "UsersConsents500Error1Dict",
+    "UsersConsents500ErrorDict",
+    "UsersConsents503Error",
+    "UsersConsents503Error1",
+    "UsersConsents503Error1Dict",
+    "UsersConsents503ErrorDict",
+    "UsersConsentsResponse",
+    "UsersConsentsResponseDict",
+    "UsersExpenses400Error",
+    "UsersExpenses400Error1",
+    "UsersExpenses400Error1Dict",
+    "UsersExpenses400ErrorDict",
+    "UsersExpenses403Error",
+    "UsersExpenses403Error1",
+    "UsersExpenses403Error1Dict",
+    "UsersExpenses403ErrorDict",
+    "UsersExpenses404Error",
+    "UsersExpenses404Error1",
+    "UsersExpenses404Error1Dict",
+    "UsersExpenses404ErrorDict",
+    "UsersExpenses500Error",
+    "UsersExpenses500Error1",
+    "UsersExpenses500Error1Dict",
+    "UsersExpenses500ErrorDict",
+    "UsersExpensesRequest",
+    "UsersExpensesRequestDict",
+    "UsersExpensesResponse",
+    "UsersExpensesResponse1",
+    "UsersExpensesResponse1Dict",
+    "UsersExpensesResponse2",
+    "UsersExpensesResponse2Dict",
+    "UsersExpensesResponseDict",
+    "UsersIdentities400Error",
+    "UsersIdentities400Error1",
+    "UsersIdentities400Error1Dict",
+    "UsersIdentities400ErrorDict",
+    "UsersIdentities403Error",
+    "UsersIdentities403Error1",
+    "UsersIdentities403Error1Dict",
+    "UsersIdentities403ErrorDict",
+    "UsersIdentities404Error",
+    "UsersIdentities404Error1",
+    "UsersIdentities404Error1Dict",
+    "UsersIdentities404ErrorDict",
+    "UsersIdentities500Error",
+    "UsersIdentities500Error1",
+    "UsersIdentities500Error1Dict",
+    "UsersIdentities500ErrorDict",
+    "UsersIdentitiesResponse",
+    "UsersIdentitiesResponseDict",
+    "UsersIncome400Error",
+    "UsersIncome400Error1",
+    "UsersIncome400Error1Dict",
+    "UsersIncome400ErrorDict",
+    "UsersIncome403Error",
+    "UsersIncome403Error1",
+    "UsersIncome403Error1Dict",
+    "UsersIncome403ErrorDict",
+    "UsersIncome404Error",
+    "UsersIncome404Error1",
+    "UsersIncome404Error1Dict",
+    "UsersIncome404ErrorDict",
+    "UsersIncome500Error",
+    "UsersIncome500Error1",
+    "UsersIncome500Error1Dict",
+    "UsersIncome500ErrorDict",
+    "UsersIncomeRequest",
+    "UsersIncomeRequestDict",
+    "UsersInsightsAccountRequest",
+    "UsersInsightsAccountRequestDict",
+    "UsersJobs400Error",
+    "UsersJobs400Error1",
+    "UsersJobs400Error1Dict",
+    "UsersJobs400ErrorDict",
+    "UsersJobs401Error",
+    "UsersJobs401Error1",
+    "UsersJobs401Error1Dict",
+    "UsersJobs401ErrorDict",
+    "UsersJobs403Error",
+    "UsersJobs403Error1",
+    "UsersJobs403Error1Dict",
+    "UsersJobs403ErrorDict",
+    "UsersJobs404Error",
+    "UsersJobs404Error1",
+    "UsersJobs404Error1Dict",
+    "UsersJobs404ErrorDict",
+    "UsersJobs500Error",
+    "UsersJobs500Error1",
+    "UsersJobs500Error1Dict",
+    "UsersJobs500ErrorDict",
+    "UsersJobsResponse",
+    "UsersJobsResponseDict",
+    "UsersRequest",
+    "UsersRequest1",
+    "UsersRequest1Dict",
+    "UsersRequestDict",
+    "UsersStatements400Error",
+    "UsersStatements400Error1",
+    "UsersStatements400Error1Dict",
+    "UsersStatements400ErrorDict",
+    "UsersStatements403Error",
+    "UsersStatements403Error1",
+    "UsersStatements403Error1Dict",
+    "UsersStatements403ErrorDict",
+    "UsersStatements404Error",
+    "UsersStatements404Error1",
+    "UsersStatements404Error1Dict",
+    "UsersStatements404ErrorDict",
+    "UsersStatements500Error",
+    "UsersStatements500Error1",
+    "UsersStatements500Error1Dict",
+    "UsersStatements500ErrorDict",
+    "UsersStatements503Error",
+    "UsersStatements503Error1",
+    "UsersStatements503Error1Dict",
+    "UsersStatements503ErrorDict",
+    "UsersStatementsResponse",
+    "UsersStatementsResponseDict",
+    "UsersTransactions400Error",
+    "UsersTransactions400Error1",
+    "UsersTransactions400Error1Dict",
+    "UsersTransactions400ErrorDict",
+    "UsersTransactions403Error",
+    "UsersTransactions403Error1",
+    "UsersTransactions403Error1Dict",
+    "UsersTransactions403ErrorDict",
+    "UsersTransactions404Error",
+    "UsersTransactions404Error1",
+    "UsersTransactions404Error1Dict",
+    "UsersTransactions404ErrorDict",
+    "UsersTransactions500Error",
+    "UsersTransactions500Error1",
+    "UsersTransactions500Error1Dict",
+    "UsersTransactions500ErrorDict",
+    "UsersTransactions503Error",
+    "UsersTransactions503Error1",
+    "UsersTransactions503Error1Dict",
+    "UsersTransactions503ErrorDict",
+    "UsersTransactionsResponse",
+    "UsersTransactionsResponseDict",
+    "Value",
+    "ValueDict",
+    "VerificationResult",
+    "VerificationResult1",
+    "VerificationResult1Dict",
+    "VerificationResult2",
+    "VerificationResult2Dict",
+    "VerificationResult4",
+    "VerificationResult4Dict",
+    "VerificationResultDict",
+    "WebhookStats",
+    "WebhookStatsDict",
+]

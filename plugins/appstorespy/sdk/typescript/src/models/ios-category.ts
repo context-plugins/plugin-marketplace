@@ -1,0 +1,50 @@
+import * as s from "../core/validation/index.js";
+import type { EnumSchema } from "../core/validation/schema.js";
+
+/** An enumeration. */
+export const IosCategory = {
+  Games: "GAMES",
+  GamesAction: "GAMES_ACTION",
+  GamesAdventure: "GAMES_ADVENTURE",
+  GamesArcade: "GAMES_ARCADE",
+  GamesBoard: "GAMES_BOARD",
+  GamesCard: "GAMES_CARD",
+  GamesCasino: "GAMES_CASINO",
+  GamesFamily: "GAMES_FAMILY",
+  GamesMusic: "GAMES_MUSIC",
+  GamesPuzzle: "GAMES_PUZZLE",
+  GamesRacing: "GAMES_RACING",
+  GamesRolePlaying: "GAMES_ROLE_PLAYING",
+  GamesSimulation: "GAMES_SIMULATION",
+  GamesSports: "GAMES_SPORTS",
+  GamesStrategy: "GAMES_STRATEGY",
+  GamesTrivia: "GAMES_TRIVIA",
+  GamesWord: "GAMES_WORD",
+  Books: "BOOKS",
+  Business: "BUSINESS",
+  Education: "EDUCATION",
+  Entertainment: "ENTERTAINMENT",
+  Finance: "FINANCE",
+  FoodAndDrink: "FOOD_AND_DRINK",
+  HealthAndFitness: "HEALTH_AND_FITNESS",
+  Lifestyle: "LIFESTYLE",
+  Medical: "MEDICAL",
+  Music: "MUSIC",
+  Navigation: "NAVIGATION",
+  News: "NEWS",
+  PhotoAndVideo: "PHOTO_AND_VIDEO",
+  Productivity: "PRODUCTIVITY",
+  Reference: "REFERENCE",
+  Shopping: "SHOPPING",
+  SocialNetworking: "SOCIAL_NETWORKING",
+  Sports: "SPORTS",
+  Travel: "TRAVEL",
+  Utilities: "UTILITIES",
+  Weather: "WEATHER",
+  DeveloperTools: "DEVELOPER_TOOLS",
+  GraphicsAndDesign: "GRAPHICS_AND_DESIGN",
+  All: "ALL",
+} as const;
+export type IosCategory = (typeof IosCategory)[keyof typeof IosCategory] | (string & {});
+
+export const iosCategorySchema: EnumSchema<IosCategory> = s.enumOf<IosCategory>(IosCategory);

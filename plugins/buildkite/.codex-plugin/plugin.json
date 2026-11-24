@@ -1,0 +1,10 @@
+{
+  "name": "buildkite",
+  "version": "0.1.0",
+  "description": "Control Buildkite pipelines, builds, jobs, artifacts, annotations, agents, and clusters.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Buildkite",
+    "developerName": "APIMatic"
+  }
+}

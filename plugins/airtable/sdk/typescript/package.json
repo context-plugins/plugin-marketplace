@@ -1,0 +1,70 @@
+{
+  "name": "airtable",
+  "version": "1.0.0",
+  "description": "The Airtable Metadata API provides access to base and schema management operations. You can list bases, retrieve base schemas with table and field definitions, create new bases, tables, and fields, and update table and field configurations programmatically. This API enables developers to introspect and modify the structure of their Airtable data., The Airtable API can be used to integrate your data in Airtable with any external system. The API closely follows REST semantics, uses JSON to encode objects, and relies on standard HTTP codes to signal operation outcomes. It provides full CRUD operations on records, comment management, and webhook subscriptions for real-time notifications., The Airtable Metadata API provides access to base and schema management operations. You can list bases, retrieve base schemas with table and field definitions, create new bases, tables, and fields, and update table and field configurations programmatically. This API enables developers to introspect and modify the structure of their Airtable data., The Airtable SCIM API supports the System for Cross-domain Identity Management (SCIM 2.0) specification for automated user and group provisioning. It enables identity providers like Okta and Microsoft Entra ID to manage user accounts and group memberships programmatically. SCIM is available for Enterprise License Agreement (ELA) and CLAIM enterprise accounts with SSO configured., The Airtable API can be used to integrate your data in Airtable with any external system. The API closely follows REST semantics, uses JSON to encode objects, and relies on standard HTTP codes to signal operation outcomes. It provides full CRUD operations on records, comment management, and webhook subscriptions for real-time notifications., The Airtable Metadata API provides access to base and schema management operations. You can list bases, retrieve base schemas with table and field definitions, create new bases, tables, and fields, and update table and field configurations programmatically. This API enables developers to introspect and modify the structure of their Airtable data., The Airtable SCIM API supports the System for Cross-domain Identity Management (SCIM 2.0) specification for automated user and group provisioning. It enables identity providers like Okta and Microsoft Entra ID to manage user accounts and group memberships programmatically. SCIM is available for Enterprise License Agreement (ELA) and CLAIM enterprise accounts with SSO configured., The Airtable API can be used to integrate your data in Airtable with any external system. The API closely follows REST semantics, uses JSON to encode objects, and relies on standard HTTP codes to signal operation outcomes. It provides full CRUD operations on records, comment management, and webhook subscriptions for real-time notifications.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "tshy": {
+    "exports": {
+      ".": "./src/index.ts",
+      "./package.json": "./package.json"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "project": "./tsconfig.tshy.json",
+    "selfLink": false
+  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "tsconfig.json",
+    "tsconfig.tshy.json",
+    "README.md",
+    "api-reference.md",
+    "sdk-map.md",
+    "map"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.3"
+  },
+  "scripts": {
+    "prepare": "tshy",
+    "build": "tshy",
+    "smoke": "node -e \"require('airtable')\" && node --input-type=module -e \"import('airtable')\"",
+    "typecheck": "tsc --noEmit",
+    "typecheck:dom": "tsc --noEmit -p tsconfig.dom.json",
+    "lint": "oxlint --type-aware --max-warnings=0 src",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "oxfmt": "^0.61.0",
+    "oxlint": "^1.76.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "tshy": "^4.1.3",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  }
+}

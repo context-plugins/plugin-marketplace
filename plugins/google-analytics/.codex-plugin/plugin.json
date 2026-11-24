@@ -1,0 +1,10 @@
+{
+  "name": "google-analytics",
+  "version": "0.1.0",
+  "description": "Manage Google Analytics accounts, account summaries, and properties through the Admin API.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Google Analytics",
+    "developerName": "APIMatic"
+  }
+}

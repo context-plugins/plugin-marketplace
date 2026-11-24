@@ -1,0 +1,10 @@
+{
+  "name": "asana",
+  "version": "0.1.0",
+  "description": "Manage Asana tasks, projects, portfolios, goals, custom fields, teams, and workspaces.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Asana",
+    "developerName": "APIMatic"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "codeqr",
+  "version": "0.1.0",
+  "description": "Create short links and QR codes, and manage domains, folders, tags, and analytics with CodeQR.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "CodeQR",
+    "developerName": "APIMatic"
+  }
+}

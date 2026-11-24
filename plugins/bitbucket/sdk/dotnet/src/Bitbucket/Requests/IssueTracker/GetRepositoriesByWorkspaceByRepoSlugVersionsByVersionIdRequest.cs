@@ -1,0 +1,24 @@
+namespace Bitbucket.Requests.IssueTracker;
+
+/// <summary>
+/// The inputs of the GetRepositoriesByWorkspaceByRepoSlugVersionsByVersionId operation.
+/// </summary>
+public sealed record GetRepositoriesByWorkspaceByRepoSlugVersionsByVersionIdRequest
+{
+    /// <summary>
+    /// This can either be the repository slug or the UUID of the repository,
+    /// surrounded by curly-braces, for example: <c>{repository UUID}</c>.
+    /// </summary>
+    public required string RepoSlug { get; init; }
+
+    /// <summary>
+    /// The version's id
+    /// </summary>
+    public required int VersionId { get; init; }
+
+    /// <summary>
+    /// This can either be the workspace ID (slug) or the workspace UUID
+    /// surrounded by curly-braces, for example: <c>{workspace UUID}</c>.
+    /// </summary>
+    public required string Workspace { get; init; }
+}

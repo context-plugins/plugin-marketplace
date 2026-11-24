@@ -1,0 +1,10 @@
+{
+  "name": "sapling",
+  "version": "0.1.0",
+  "description": "Detect AI-generated text, proofread, classify, and extract structured data with Sapling.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Sapling",
+    "developerName": "APIMatic"
+  }
+}

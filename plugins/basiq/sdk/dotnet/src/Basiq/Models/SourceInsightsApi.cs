@@ -1,0 +1,18 @@
+using System.Text.Json.Serialization;
+using Basiq.Core.Models;
+
+namespace Basiq.Models;
+
+public record SourceInsightsApi
+{
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("pointer")]
+    public string? Pointer { get; init; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("parameter")]
+    public string? Parameter { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

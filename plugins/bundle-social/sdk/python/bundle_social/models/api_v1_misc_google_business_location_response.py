@@ -1,0 +1,13 @@
+from __future__ import annotations
+
+from typing_extensions import NotRequired, TypedDict
+
+from ..core import UNSET, Optional, SdkBaseModel
+
+
+class ApiV1MiscGoogleBusinessLocationResponse(SdkBaseModel):
+    name: Optional[str] = UNSET
+
+
+class ApiV1MiscGoogleBusinessLocationResponseDict(TypedDict):
+    name: NotRequired[str]

@@ -1,0 +1,21 @@
+{
+  "name": "browser-use",
+  "displayName": "Browser Use",
+  "version": "0.1.0",
+  "description": "Run Browser Use AI agents and manage cloud browser sessions, profiles, extensions, and integrations.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/browser-use-planner.md"
+  ]
+}

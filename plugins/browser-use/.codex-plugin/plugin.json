@@ -1,0 +1,10 @@
+{
+  "name": "browser-use",
+  "version": "0.1.0",
+  "description": "Run Browser Use AI agents and manage cloud browser sessions, profiles, extensions, and integrations.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Browser Use",
+    "developerName": "APIMatic"
+  }
+}

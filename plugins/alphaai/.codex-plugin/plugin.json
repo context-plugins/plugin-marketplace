@@ -1,0 +1,10 @@
+{
+  "name": "alphaai",
+  "version": "0.1.0",
+  "description": "Fetch ticker-linked financial news, stories, earnings calendars, and market radar signals from AlphaAI.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "AlphaAI",
+    "developerName": "APIMatic"
+  }
+}

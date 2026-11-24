@@ -1,0 +1,70 @@
+{
+  "name": "staying-api",
+  "version": "1.0.0",
+  "description": "One accommodation-data API for Airbnb, Booking.com, Vrbo and Google Hotels — availability, search and cross-OTA price comparison in a single unified schema. Every endpoint returns the canonical envelope (§6.3.3); errors use the locked sub-code catalog (§6.4). Failed, empty and blocked calls are never billed; cached results bill at tier (caching is margin, not a discount). Full docs: https://stayingapi.com/docs.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "tshy": {
+    "exports": {
+      ".": "./src/index.ts",
+      "./package.json": "./package.json"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "project": "./tsconfig.tshy.json",
+    "selfLink": false
+  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "tsconfig.json",
+    "tsconfig.tshy.json",
+    "README.md",
+    "api-reference.md",
+    "sdk-map.md",
+    "map"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.3"
+  },
+  "scripts": {
+    "prepare": "tshy",
+    "build": "tshy",
+    "smoke": "node -e \"require('staying-api')\" && node --input-type=module -e \"import('staying-api')\"",
+    "typecheck": "tsc --noEmit",
+    "typecheck:dom": "tsc --noEmit -p tsconfig.dom.json",
+    "lint": "oxlint --type-aware --max-warnings=0 src",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "oxfmt": "^0.61.0",
+    "oxlint": "^1.76.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "tshy": "^4.1.3",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  }
+}

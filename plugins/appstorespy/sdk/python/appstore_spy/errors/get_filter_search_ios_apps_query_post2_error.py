@@ -1,0 +1,29 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Final, TypeAlias
+
+from ..core import ErrorMapper, RawError, decode_json
+from ..models.http_validation_error import HttpValidationError
+from ..models.ios_apps_query401_error1 import IosAppsQuery401Error1
+
+GetFilterSearchIosAppsQueryPost2ErrorBody: TypeAlias = IosAppsQuery401Error1 | str | HttpValidationError | RawError
+
+
+@dataclass(frozen=True, slots=True)
+class _GetFilterSearchIosAppsQueryPost2Error:
+    def map(self, status_code: int, content: bytes) -> GetFilterSearchIosAppsQueryPost2ErrorBody:
+        match status_code:
+            case 401:
+                return decode_json[IosAppsQuery401Error1](content)
+            case 402:
+                return decode_json[str](content)
+            case 422:
+                return decode_json[HttpValidationError](content)
+            case _:
+                return RawError(status_code, content)
+
+
+get_filter_search_ios_apps_query_post2_error_mapper: Final[
+    ErrorMapper[GetFilterSearchIosAppsQueryPost2ErrorBody]
+] = _GetFilterSearchIosAppsQueryPost2Error()

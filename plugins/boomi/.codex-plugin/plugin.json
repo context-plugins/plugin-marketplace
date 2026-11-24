@@ -1,0 +1,10 @@
+{
+  "name": "boomi",
+  "version": "0.1.0",
+  "description": "Manage Boomi atoms, components, environments, deployments, process executions, and DataHub records.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Boomi",
+    "developerName": "APIMatic"
+  }
+}

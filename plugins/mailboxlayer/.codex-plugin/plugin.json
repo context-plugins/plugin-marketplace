@@ -1,0 +1,10 @@
+{
+  "name": "mailboxlayer",
+  "version": "0.1.0",
+  "description": "Check and verify email addresses, singly or in bulk, with mailboxlayer.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "mailboxlayer",
+    "developerName": "APIMatic"
+  }
+}

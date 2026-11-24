@@ -1,0 +1,32 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+import { deviceMetricSchema, type DeviceMetric } from "./device-metric.js";
+import {
+  facetBitlyCustomBitlinksApiSchema,
+  type FacetBitlyCustomBitlinksApi,
+} from "./facet-bitly-custom-bitlinks-api.js";
+
+export type DeviceMetricsBitlyGroupsApi = {
+  unit?: string;
+  units?: number;
+  facet?: FacetBitlyCustomBitlinksApi;
+  unitReference?: string;
+  metrics?: DeviceMetric[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const deviceMetricsBitlyGroupsApiSchema: Schema<DeviceMetricsBitlyGroupsApi> =
+  s.object<DeviceMetricsBitlyGroupsApi>(
+    {
+      unit: s.optional(s.string()),
+      units: s.optional(s.int()),
+      facet: s.optional(s.lazy(() => facetBitlyCustomBitlinksApiSchema)),
+      unitReference: s.optional(s.string()),
+      metrics: s.optional(s.array(s.lazy(() => deviceMetricSchema))),
+      _keysMap: {
+        unitReference: "unit_reference",
+      },
+    },
+    { additionalProperties: s.json() },
+  );

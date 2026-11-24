@@ -1,0 +1,10 @@
+from __future__ import annotations
+
+from typing import TypeAlias
+
+from ..google_news_monitor_request import GoogleNewsMonitorRequest, GoogleNewsMonitorRequestDict
+from ..google_news_monitor_request1 import GoogleNewsMonitorRequest1, GoogleNewsMonitorRequest1Dict
+
+GoogleNewsMonitorRequest2: TypeAlias = GoogleNewsMonitorRequest | GoogleNewsMonitorRequest1
+
+GoogleNewsMonitorRequest2Dict: TypeAlias = GoogleNewsMonitorRequestDict | GoogleNewsMonitorRequest1Dict

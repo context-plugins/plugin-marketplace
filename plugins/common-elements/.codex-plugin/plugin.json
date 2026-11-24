@@ -1,0 +1,10 @@
+{
+  "name": "common-elements",
+  "version": "0.1.0",
+  "description": "Search US community associations with parcel, permit, and compliance data from Common Elements.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Common Elements",
+    "developerName": "APIMatic"
+  }
+}

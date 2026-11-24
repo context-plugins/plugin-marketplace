@@ -1,0 +1,20 @@
+from __future__ import annotations
+
+from pydantic import Field
+from typing_extensions import TypedDict
+
+from ..core import SdkBaseModel
+from .datum2_connections_api import Datum2ConnectionsApi, Datum2ConnectionsApiDict
+
+
+class Reports403Error1(SdkBaseModel):
+    correlation_id: str = Field(alias="correlationId")
+    """Unique identifier for this particular occurrence of the problem."""
+
+    data: list[Datum2ConnectionsApi]
+    """Error data."""
+
+
+class Reports403Error1Dict(TypedDict):
+    correlation_id: str
+    data: list[Datum2ConnectionsApiDict]

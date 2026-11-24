@@ -1,0 +1,10 @@
+{
+  "name": "apibara",
+  "version": "0.1.0",
+  "description": "Search Copart and IAAI vehicle auctions: lot and VIN details, photos, prices, and sale history with Apibara.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Apibara",
+    "developerName": "APIMatic"
+  }
+}

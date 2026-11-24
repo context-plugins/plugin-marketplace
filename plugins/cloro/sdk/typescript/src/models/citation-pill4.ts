@@ -1,0 +1,52 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+
+export type CitationPill4 = {
+  /**
+   * Per-source title from the sources rail (for example `"Best Laptops 2026 — Reuters"`). Empty
+   * string when the rail has no title for this source — consumers should read `domain` / `url` for
+   * source identity in that case. Entries grouped under the same `citationPillId` carry different
+   * per-source labels.
+   */
+  label: string;
+  /**
+   * 1-based ordinal shared by all entries from the same chip. Group by `citationPillId` to
+   * reconstruct the visible chip; the per-source `label` differs across entries within a chip.
+   */
+  citationPillId: number;
+  /** Direct URL of the cited source. */
+  url: string;
+  /** Host extracted from `url`, for grouping and display. */
+  domain: string;
+  /**
+   * Source description from the sources rail when Google ships one. Omitted when the source carries
+   * no snippet.
+   */
+  description?: string;
+  /**
+   * 1-based position of this source in the sibling `result.sources` array. Omitted when the cited
+   * source isn't in `result.sources`.
+   */
+  position?: number;
+  /**
+   * Google's `/goto` redirect for this link, in the absolute form `POST /v1/monitor/google/goto`
+   * accepts. Present only when Google served the link as a redirect — the sibling link field holds
+   * the destination cloro resolved it to.
+   */
+  redirectLink?: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const citationPill4Schema: Schema<CitationPill4> = s.object<CitationPill4>(
+  {
+    label: s.string(),
+    citationPillId: s.int(),
+    url: s.string(),
+    domain: s.string(),
+    description: s.optional(s.string()),
+    position: s.optional(s.int()),
+    redirectLink: s.optional(s.string()),
+  },
+  { additionalProperties: s.json() },
+);

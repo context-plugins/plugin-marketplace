@@ -1,0 +1,21 @@
+{
+  "name": "bundle-social",
+  "displayName": "Bundle.social",
+  "version": "0.1.0",
+  "description": "Schedule and publish social media posts, import comments, and read analytics with Bundle.social.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/bundle-social-planner.md"
+  ]
+}

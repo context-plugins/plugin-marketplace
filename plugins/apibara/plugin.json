@@ -1,0 +1,18 @@
+{
+  "name": "apibara",
+  "displayName": "Apibara",
+  "version": "0.1.0",
+  "description": "Search Copart and IAAI vehicle auctions: lot and VIN details, photos, prices, and sale history with Apibara.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

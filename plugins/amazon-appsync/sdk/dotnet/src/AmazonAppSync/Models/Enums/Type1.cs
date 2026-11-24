@@ -1,0 +1,81 @@
+using System;
+using System.Text.Json.Serialization;
+using AmazonAppSync.Core.Enum;
+
+namespace AmazonAppSync.Models.Enums;
+
+/// <summary>
+/// The type of the DataSource.
+/// </summary>
+[JsonConverter(typeof(StringEnumConverter<Type1>))]
+public sealed record Type1 : OpenStringEnum<Type1>
+{
+    private Type1(string value) : base(value)
+    {
+    }
+
+    public static readonly Type1 AwsLambda = new("AWS_LAMBDA");
+
+    public static readonly Type1 AmazonDynamodb = new("AMAZON_DYNAMODB");
+
+    public static readonly Type1 AmazonElasticsearch = new("AMAZON_ELASTICSEARCH");
+
+    public static readonly Type1 None = new("NONE");
+
+    public static readonly Type1 Http = new("HTTP");
+
+    public static readonly Type1 RelationalDatabase = new("RELATIONAL_DATABASE");
+
+    public static readonly Type1 AmazonOpensearchService = new("AMAZON_OPENSEARCH_SERVICE");
+
+    public static readonly Type1 AmazonEventbridge = new("AMAZON_EVENTBRIDGE");
+
+    public static readonly Type1 AmazonBedrockRuntime = new("AMAZON_BEDROCK_RUNTIME");
+
+    public TResult Match<TResult>(Func<TResult> onAwsLambda,
+        Func<TResult> onAmazonDynamodb,
+        Func<TResult> onAmazonElasticsearch,
+        Func<TResult> onNone,
+        Func<TResult> onHttp,
+        Func<TResult> onRelationalDatabase,
+        Func<TResult> onAmazonOpensearchService,
+        Func<TResult> onAmazonEventbridge,
+        Func<TResult> onAmazonBedrockRuntime,
+        Func<string, TResult> otherwise) =>
+        this switch
+        {
+            _ when this == AwsLambda => onAwsLambda(),
+            _ when this == AmazonDynamodb => onAmazonDynamodb(),
+            _ when this == AmazonElasticsearch => onAmazonElasticsearch(),
+            _ when this == None => onNone(),
+            _ when this == Http => onHttp(),
+            _ when this == RelationalDatabase => onRelationalDatabase(),
+            _ when this == AmazonOpensearchService => onAmazonOpensearchService(),
+            _ when this == AmazonEventbridge => onAmazonEventbridge(),
+            _ when this == AmazonBedrockRuntime => onAmazonBedrockRuntime(),
+            _ => otherwise(Value)
+        };
+
+    public void Match(Action onAwsLambda,
+        Action onAmazonDynamodb,
+        Action onAmazonElasticsearch,
+        Action onNone,
+        Action onHttp,
+        Action onRelationalDatabase,
+        Action onAmazonOpensearchService,
+        Action onAmazonEventbridge,
+        Action onAmazonBedrockRuntime,
+        Action<string> otherwise)
+    {
+        if (this == AwsLambda) onAwsLambda();
+        else if (this == AmazonDynamodb) onAmazonDynamodb();
+        else if (this == AmazonElasticsearch) onAmazonElasticsearch();
+        else if (this == None) onNone();
+        else if (this == Http) onHttp();
+        else if (this == RelationalDatabase) onRelationalDatabase();
+        else if (this == AmazonOpensearchService) onAmazonOpensearchService();
+        else if (this == AmazonEventbridge) onAmazonEventbridge();
+        else if (this == AmazonBedrockRuntime) onAmazonBedrockRuntime();
+        else otherwise(Value);
+    }
+}

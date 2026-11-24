@@ -1,0 +1,29 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Final, TypeAlias
+
+from ..core import ErrorMapper, RawError, decode_json
+from ..models.http_validation_error import HttpValidationError
+from ..models.ios_apps_summary401_error1 import IosAppsSummary401Error1
+
+GetSummaryIosAppsSummaryPostErrorBody: TypeAlias = IosAppsSummary401Error1 | str | HttpValidationError | RawError
+
+
+@dataclass(frozen=True, slots=True)
+class _GetSummaryIosAppsSummaryPostError:
+    def map(self, status_code: int, content: bytes) -> GetSummaryIosAppsSummaryPostErrorBody:
+        match status_code:
+            case 401:
+                return decode_json[IosAppsSummary401Error1](content)
+            case 402:
+                return decode_json[str](content)
+            case 422:
+                return decode_json[HttpValidationError](content)
+            case _:
+                return RawError(status_code, content)
+
+
+get_summary_ios_apps_summary_post_error_mapper: Final[
+    ErrorMapper[GetSummaryIosAppsSummaryPostErrorBody]
+] = _GetSummaryIosAppsSummaryPostError()

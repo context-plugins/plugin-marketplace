@@ -1,0 +1,20 @@
+{
+  "name": "bitbucket",
+  "displayName": "Bitbucket",
+  "version": "0.1.0",
+  "description": "Automate Bitbucket repositories, pull requests, pipelines, issues, commits, and deployments.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python"
+  ],
+  "agents": [
+    "./scoped/agents/bitbucket-planner.md"
+  ]
+}

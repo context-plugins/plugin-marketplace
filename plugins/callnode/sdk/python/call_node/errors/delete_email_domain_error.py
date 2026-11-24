@@ -1,0 +1,22 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Final, TypeAlias
+
+from ..core import ErrorMapper, RawError, decode_json
+from ..models.error import Error
+
+DeleteEmailDomainErrorBody: TypeAlias = Error | RawError
+
+
+@dataclass(frozen=True, slots=True)
+class _DeleteEmailDomainError:
+    def map(self, status_code: int, content: bytes) -> DeleteEmailDomainErrorBody:
+        match status_code:
+            case 401 | 404:
+                return decode_json[Error](content)
+            case _:
+                return RawError(status_code, content)
+
+
+delete_email_domain_error_mapper: Final[ErrorMapper[DeleteEmailDomainErrorBody]] = _DeleteEmailDomainError()

@@ -1,0 +1,10 @@
+{
+  "name": "appstorespy",
+  "version": "0.1.0",
+  "description": "Look up App Store and Google Play apps, rankings, events, and search suggestions with AppstoreSpy.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "AppstoreSpy",
+    "developerName": "APIMatic"
+  }
+}

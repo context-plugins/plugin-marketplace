@@ -1,0 +1,10 @@
+{
+  "name": "audioscrape",
+  "version": "0.1.0",
+  "description": "Search podcasts and episodes, top charts, people, and knowledge-graph entities with Audioscrape.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Audioscrape",
+    "developerName": "APIMatic"
+  }
+}

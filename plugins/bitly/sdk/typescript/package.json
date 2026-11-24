@@ -1,0 +1,70 @@
+{
+  "name": "bitly",
+  "version": "4.0.0",
+  "description": "Bitlinks are shortened links. They could begin with the bit.ly domain or your own custom branded short domain (BSD).\n\n**Related Operations:**\n- POST /bitlinks - Create a new bitlink or add a custom keyword to an existing bitlink\n- PATCH /bitlinks/{bitlink} - Redirect an existing bitlink, Branded short domains (BSDs) are the custom domains used to brand your links. A BSD can be added to a Bitly organization and may be assigned to one or more groups. They can contain up to 32 characters., Bitly Campaigns are used to build and organize links and metrics for marketing campaigns., These endpoints are for updating custom Bitlinks only. Custom Bitlinks have both a BSD and a customized back-half (e.g., yourcompany.com/yourcampaign). If a link begins with the bit.ly domain or ends with an auto-generated random string it is not a custom Bitlink., Groups are subdivisions within organizations. Every user will be in at least one group, and every shortened link will be in one group. Most actions on our API will be on behalf of a group. For example, when you shorten a link, it will be on behalf of a user and a group., Organizations are equivalent to a Bitly account. Every plan limit, group, and user is tied to an organization., QR codes can be created and customized with different dot patterns, corner shapes, colors, and more. They can contain bitlinks, links to microsites, or several kinds of static data., Some subscription plans allow multiple users. Only one user is used for authenticating a call, and these operations apply only to the authenticated user., Webhooks are a method of sending information from Bitly to an application outside of Bitly. It's a way to automate actions or updates between two different systems. These endpoints are for configuring your webhooks.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "tshy": {
+    "exports": {
+      ".": "./src/index.ts",
+      "./package.json": "./package.json"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "project": "./tsconfig.tshy.json",
+    "selfLink": false
+  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "tsconfig.json",
+    "tsconfig.tshy.json",
+    "README.md",
+    "api-reference.md",
+    "sdk-map.md",
+    "map"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.3"
+  },
+  "scripts": {
+    "prepare": "tshy",
+    "build": "tshy",
+    "smoke": "node -e \"require('bitly')\" && node --input-type=module -e \"import('bitly')\"",
+    "typecheck": "tsc --noEmit",
+    "typecheck:dom": "tsc --noEmit -p tsconfig.dom.json",
+    "lint": "oxlint --type-aware --max-warnings=0 src",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "oxfmt": "^0.61.0",
+    "oxlint": "^1.76.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "tshy": "^4.1.3",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  }
+}

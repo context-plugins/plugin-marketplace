@@ -1,0 +1,16 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+import { projectRequestSchema, type ProjectRequest } from "./project-request.js";
+
+export type ProjectsRequest = {
+  data?: ProjectRequest;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const projectsRequestSchema: Schema<ProjectsRequest> = s.object<ProjectsRequest>(
+  {
+    data: s.optional(s.lazy(() => projectRequestSchema)),
+  },
+  { additionalProperties: s.json() },
+);

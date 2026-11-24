@@ -1,0 +1,18 @@
+{
+  "name": "google-cloud-eventarc",
+  "displayName": "Google Cloud Eventarc",
+  "version": "0.1.0",
+  "description": "Route events with triggers, channels, pipelines, and message buses in Google Cloud Eventarc.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

@@ -1,0 +1,27 @@
+namespace GoogleCloudDataproc.Requests;
+
+/// <summary>
+/// The inputs of the DataprocProjectsRegionsWorkflowTemplatesList operation.
+/// </summary>
+public sealed record DataprocProjectsRegionsWorkflowTemplatesListRequest
+{
+    /// <summary>
+    /// Resource name segment (projectsId).
+    /// </summary>
+    public required string ProjectsId { get; init; }
+
+    /// <summary>
+    /// Resource name segment (regionsId).
+    /// </summary>
+    public required string RegionsId { get; init; }
+
+    /// <summary>
+    /// Optional. The maximum number of results to return in each response.
+    /// </summary>
+    public int? PageSize { get; init; }
+
+    /// <summary>
+    /// Optional. The page token, returned by a previous call, to request the next page of results.
+    /// </summary>
+    public string? PageToken { get; init; }
+}

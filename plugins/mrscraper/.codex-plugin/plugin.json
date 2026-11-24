@@ -1,0 +1,10 @@
+{
+  "name": "mrscraper",
+  "version": "0.1.0",
+  "description": "Run scraping jobs and tasks and get results, proxies, and analytics with MrScraper.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "MrScraper",
+    "developerName": "APIMatic"
+  }
+}

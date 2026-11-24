@@ -1,0 +1,10 @@
+from __future__ import annotations
+
+from typing import TypeAlias
+
+from ..delete_subscription_error_result import DeleteSubscriptionErrorResult, DeleteSubscriptionErrorResultDict
+from ..delete_subscription_success_result import DeleteSubscriptionSuccessResult, DeleteSubscriptionSuccessResultDict
+
+Result1LushaWebhooksApi: TypeAlias = DeleteSubscriptionSuccessResult | DeleteSubscriptionErrorResult
+
+Result1LushaWebhooksApiDict: TypeAlias = DeleteSubscriptionSuccessResultDict | DeleteSubscriptionErrorResultDict

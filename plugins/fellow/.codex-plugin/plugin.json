@@ -1,0 +1,10 @@
+{
+  "name": "fellow",
+  "version": "0.1.0",
+  "description": "Read meeting notes, recordings, and action items, and manage webhooks with Fellow.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Fellow",
+    "developerName": "APIMatic"
+  }
+}

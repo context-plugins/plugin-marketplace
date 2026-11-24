@@ -1,0 +1,18 @@
+{
+  "name": "amazon-transcribe",
+  "displayName": "Amazon Transcribe",
+  "version": "0.1.0",
+  "description": "Run transcription, call analytics, and medical transcription jobs, and manage vocabularies with Amazon Transcribe.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

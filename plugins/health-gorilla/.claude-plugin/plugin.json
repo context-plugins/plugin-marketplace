@@ -1,0 +1,21 @@
+{
+  "name": "health-gorilla",
+  "displayName": "Health Gorilla",
+  "version": "0.1.0",
+  "description": "Read and write FHIR R4 patients, coverage, observations, diagnostic reports, and documents with Health Gorilla.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/health-gorilla-planner.md"
+  ]
+}

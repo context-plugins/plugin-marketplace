@@ -1,0 +1,89 @@
+from __future__ import annotations
+
+from pydantic import Field
+from typing_extensions import NotRequired, TypedDict
+
+from ..core import UNSET, Optional, SdkBaseModel
+
+
+class ObjectConditions1(SdkBaseModel):
+    """Object conditions that determine which objects are transferred. For replication jobs, only ``include_prefixes``
+    and ``exclude_prefixes`` are supported."""
+
+    include_prefixes: Optional[list[str]] = Field(default=UNSET, alias="includePrefixes")
+    """If you specify ``include_prefixes``, Storage Transfer Service uses the items in the ``include_prefixes`` array to
+    determine which objects to include in a transfer. Objects must start with one of the matching ``include_prefixes``
+    for inclusion in the transfer. If exclude_prefixes is specified, objects must not start with any of the
+    ``exclude_prefixes`` specified for inclusion in the transfer. The following are requirements of
+    ``include_prefixes``: * Each include-prefix can contain any sequence of Unicode characters, to a max length of 1024
+    bytes when UTF8-encoded, and must not contain Carriage Return or Line Feed characters. Wildcard matching and regular
+    expression matching are not supported. * Each include-prefix must omit the leading slash. For example, to include
+    the object ``s3://my-aws-bucket/logs/y=2015/requests.gz``, specify the include-prefix as
+    ``logs/y=2015/requests.gz``. * None of the include-prefix values can be empty, if specified. * Each include-prefix
+    must include a distinct portion of the object namespace. No include-prefix may be a prefix of another
+    include-prefix. The max size of ``include_prefixes`` is 1000. For more information, see `Filtering objects from
+    transfers </storage-transfer/docs/filtering-objects-from-transfers>`__."""
+
+    match_glob: Optional[str] = Field(default=UNSET, alias="matchGlob")
+    """Optional. If specified, only objects matching this glob are transferred."""
+
+    include_storage_classes: Optional[list[str]] = Field(default=UNSET, alias="includeStorageClasses")
+    """Optional. If specified, objects in the source matching any of the storage classes in this field will be
+    transferred. Objects in storage classes not included in this field will be skipped. If empty, the default behavior
+    regarding the storage classes is applied. This includes all storage classes except "GLACIER" as per default
+    behavior. Currently, this field only supports S3 data source. For the list of valid Amazon S3 storage classnames,
+    please refer to the AWS documentation: https://docs.aws.amazon.com/AmazonS3/latest/userguide/sc-howtoset.html"""
+
+    last_modified_before: Optional[str] = Field(default=UNSET, alias="lastModifiedBefore")
+    """If specified, only objects with a "last modification time" before this timestamp and objects that don't have a
+    "last modification time" are transferred."""
+
+    exclude_prefixes: Optional[list[str]] = Field(default=UNSET, alias="excludePrefixes")
+    """If you specify ``exclude_prefixes``, Storage Transfer Service uses the items in the ``exclude_prefixes`` array to
+    determine which objects to exclude from a transfer. Objects must not start with one of the matching
+    ``exclude_prefixes`` for inclusion in a transfer. The following are requirements of ``exclude_prefixes``: * Each
+    exclude-prefix can contain any sequence of Unicode characters, to a max length of 1024 bytes when UTF8-encoded, and
+    must not contain Carriage Return or Line Feed characters. Wildcard matching and regular expression matching are not
+    supported. * Each exclude-prefix must omit the leading slash. For example, to exclude the object
+    ``s3://my-aws-bucket/logs/y=2015/requests.gz``, specify the exclude-prefix as ``logs/y=2015/requests.gz``. * None of
+    the exclude-prefix values can be empty, if specified. * Each exclude-prefix must exclude a distinct portion of the
+    object namespace. No exclude-prefix may be a prefix of another exclude-prefix. * If include_prefixes is specified,
+    then each exclude-prefix must start with the value of a path explicitly included by ``include_prefixes``. The max
+    size of ``exclude_prefixes`` is 1000. For more information, see `Filtering objects from transfers
+    </storage-transfer/docs/filtering-objects-from-transfers>`__."""
+
+    max_time_elapsed_since_last_modification: Optional[str] = Field(
+        default=UNSET, alias="maxTimeElapsedSinceLastModification"
+    )
+    """Ensures that objects are not transferred if a specific maximum time has elapsed since the "last modification
+    time". When a TransferOperation begins, objects with a "last modification time" are transferred only if the elapsed
+    time between the start_time of the ``TransferOperation``and the "last modification time" of the object is less than
+    the value of max_time_elapsed_since_last_modification`. Objects that do not have a "last modification time" are also
+    transferred."""
+
+    min_time_elapsed_since_last_modification: Optional[str] = Field(
+        default=UNSET, alias="minTimeElapsedSinceLastModification"
+    )
+    """Ensures that objects are not transferred until a specific minimum time has elapsed after the "last modification
+    time". When a TransferOperation begins, objects with a "last modification time" are transferred only if the elapsed
+    time between the start_time of the ``TransferOperation`` and the "last modification time" of the object is equal to
+    or greater than the value of min_time_elapsed_since_last_modification`. Objects that do not have a "last
+    modification time" are also transferred."""
+
+    last_modified_since: Optional[str] = Field(default=UNSET, alias="lastModifiedSince")
+    """If specified, only objects with a "last modification time" on or after this timestamp and objects that don't have
+    a "last modification time" are transferred. The ``last_modified_since`` and ``last_modified_before`` fields can be
+    used together for chunked data processing. For example, consider a script that processes each day's worth of data at
+    a time. For that you'd set each of the fields as follows: * ``last_modified_since`` to the start of the day *
+    ``last_modified_before`` to the end of the day"""
+
+
+class ObjectConditions1Dict(TypedDict):
+    include_prefixes: NotRequired[list[str]]
+    match_glob: NotRequired[str]
+    include_storage_classes: NotRequired[list[str]]
+    last_modified_before: NotRequired[str]
+    exclude_prefixes: NotRequired[list[str]]
+    max_time_elapsed_since_last_modification: NotRequired[str]
+    min_time_elapsed_since_last_modification: NotRequired[str]
+    last_modified_since: NotRequired[str]

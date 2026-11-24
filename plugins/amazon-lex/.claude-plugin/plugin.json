@@ -1,0 +1,21 @@
+{
+  "name": "amazon-lex",
+  "displayName": "Amazon Lex",
+  "version": "0.1.0",
+  "description": "Build, version, test, and deploy conversational bots with Amazon Lex V2.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/amazon-lex-planner.md"
+  ]
+}

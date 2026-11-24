@@ -1,0 +1,26 @@
+import * as s from "../core/validation/index.js";
+import type { EnumSchema } from "../core/validation/schema.js";
+
+/**
+ * The status of the subscription.<br>`validating` - The email address is being
+ * validated.<br>`invalid` - The email address is invalid.<br>`pending` - The email address is
+ * valid, but the subscription is pending double opt-in.<br>`active` - The email was valid and the
+ * subscription is active.<br>`inactive` - The subscription was made inactive, possibly due to an
+ * unsubscribe.<br>`needs_attention` - The subscription requires approval or denial.<br>`paused` -
+ * The subscriber has paused their subscription.
+ */
+export const SubscriptionExpandedStatus = {
+  Validating: "validating",
+  Invalid: "invalid",
+  Pending: "pending",
+  Active: "active",
+  Inactive: "inactive",
+  NeedsAttention: "needs_attention",
+  Paused: "paused",
+} as const;
+export type SubscriptionExpandedStatus =
+  | (typeof SubscriptionExpandedStatus)[keyof typeof SubscriptionExpandedStatus]
+  | (string & {});
+
+export const subscriptionExpandedStatusSchema: EnumSchema<SubscriptionExpandedStatus> =
+  s.enumOf<SubscriptionExpandedStatus>(SubscriptionExpandedStatus);

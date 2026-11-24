@@ -1,0 +1,21 @@
+{
+  "name": "crawl4ai",
+  "displayName": "Crawl4AI",
+  "version": "0.1.0",
+  "description": "Crawl web pages and extract clean, AI-ready content with Crawl4AI.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/crawl4-ai-planner.md"
+  ]
+}

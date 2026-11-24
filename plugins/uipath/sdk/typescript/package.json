@@ -1,0 +1,70 @@
+{
+  "name": "ui-path",
+  "version": "2024.10.0",
+  "description": "The UiPath Orchestrator API provides programmatic access to the core automation management platform, enabling developers to manage robots, jobs, processes, queues, assets, schedules, and more., The UiPath Automation Hub API provides access to the automation pipeline and idea management platform, allowing developers to programmatically create, retrieve, and manage automation ideas, projects, and pipeline data., The UiPath Orchestrator API provides programmatic access to the core automation management platform, enabling developers to manage robots, jobs, processes, queues, assets, schedules, and more., The UiPath Platform Management API covers foundational platform administration resources including identity management, audit log access, and licensing operations., The UiPath Automation Hub API provides access to the automation pipeline and idea management platform, allowing developers to programmatically create, retrieve, and manage automation ideas, projects, and pipeline data., The UiPath Document Understanding API enables programmatic access to intelligent document processing capabilities including digitization, classification, extraction, and validation of document content., The UiPath Document Understanding API enables programmatic access to intelligent document processing capabilities including digitization, classification, extraction, and validation of document content., The UiPath Document Understanding API enables programmatic access to intelligent document processing capabilities including digitization, classification, extraction, and validation of document content., The UiPath Data Service API, also referred to as the Data Fabric OpenAPI, enables external applications to interact with structured data entities stored in UiPath's cloud data platform., The UiPath Document Understanding API enables programmatic access to intelligent document processing capabilities including digitization, classification, extraction, and validation of document content., The UiPath Orchestrator API provides programmatic access to the core automation management platform, enabling developers to manage robots, jobs, processes, queues, assets, schedules, and more., The UiPath Platform Management API covers foundational platform administration resources including identity management, audit log access, and licensing operations., The UiPath Orchestrator API provides programmatic access to the core automation management platform, enabling developers to manage robots, jobs, processes, queues, assets, schedules, and more., The UiPath Platform Management API covers foundational platform administration resources including identity management, audit log access, and licensing operations., The UiPath Orchestrator API provides programmatic access to the core automation management platform, enabling developers to manage robots, jobs, processes, queues, assets, schedules, and more., The UiPath Orchestrator API provides programmatic access to the core automation management platform, enabling developers to manage robots, jobs, processes, queues, assets, schedules, and more., The UiPath Automation Hub API provides access to the automation pipeline and idea management platform, allowing developers to programmatically create, retrieve, and manage automation ideas, projects, and pipeline data., The UiPath Orchestrator API provides programmatic access to the core automation management platform, enabling developers to manage robots, jobs, processes, queues, assets, schedules, and more., The UiPath Test Manager API allows external tools and systems to integrate with UiPath's test management platform for managing test projects, test cases, test sets, requirements, and execution results programmatically., The UiPath Orchestrator API provides programmatic access to the core automation management platform, enabling developers to manage robots, jobs, processes, queues, assets, schedules, and more., The UiPath Orchestrator API provides programmatic access to the core automation management platform, enabling developers to manage robots, jobs, processes, queues, assets, schedules, and more., The UiPath Test Manager API allows external tools and systems to integrate with UiPath's test management platform for managing test projects, test cases, test sets, requirements, and execution results programmatically., The UiPath Orchestrator API provides programmatic access to the core automation management platform, enabling developers to manage robots, jobs, processes, queues, assets, schedules, and more., The UiPath Orchestrator API provides programmatic access to the core automation management platform, enabling developers to manage robots, jobs, processes, queues, assets, schedules, and more., The UiPath Orchestrator API provides programmatic access to the core automation management platform, enabling developers to manage robots, jobs, processes, queues, assets, schedules, and more., The UiPath Orchestrator API provides programmatic access to the core automation management platform, enabling developers to manage robots, jobs, processes, queues, assets, schedules, and more., The UiPath Test Manager API allows external tools and systems to integrate with UiPath's test management platform for managing test projects, test cases, test sets, requirements, and execution results programmatically., The UiPath Test Manager API allows external tools and systems to integrate with UiPath's test management platform for managing test projects, test cases, test sets, requirements, and execution results programmatically., The UiPath Test Manager API allows external tools and systems to integrate with UiPath's test management platform for managing test projects, test cases, test sets, requirements, and execution results programmatically., Operations tagged Users across 3 of this provider's published API definitions: uipath-automation-hub-openapi.yml, uipath-orchestrator-openapi.yml, uipath-platform-management-openapi.yml. Each path carries the servers of the definition it was published in., The UiPath Document Understanding API enables programmatic access to intelligent document processing capabilities including digitization, classification, extraction, and validation of document content., The UiPath Orchestrator API provides programmatic access to the core automation management platform, enabling developers to manage robots, jobs, processes, queues, assets, schedules, and more.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "tshy": {
+    "exports": {
+      ".": "./src/index.ts",
+      "./package.json": "./package.json"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "project": "./tsconfig.tshy.json",
+    "selfLink": false
+  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "tsconfig.json",
+    "tsconfig.tshy.json",
+    "README.md",
+    "api-reference.md",
+    "sdk-map.md",
+    "map"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.3"
+  },
+  "scripts": {
+    "prepare": "tshy",
+    "build": "tshy",
+    "smoke": "node -e \"require('ui-path')\" && node --input-type=module -e \"import('ui-path')\"",
+    "typecheck": "tsc --noEmit",
+    "typecheck:dom": "tsc --noEmit -p tsconfig.dom.json",
+    "lint": "oxlint --type-aware --max-warnings=0 src",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "oxfmt": "^0.61.0",
+    "oxlint": "^1.76.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "tshy": "^4.1.3",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  }
+}

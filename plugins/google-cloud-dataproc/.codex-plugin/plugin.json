@@ -1,0 +1,10 @@
+{
+  "name": "google-cloud-dataproc",
+  "version": "0.1.0",
+  "description": "Create and manage clusters, jobs, batches, and workflow templates with Google Cloud Dataproc.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Google Cloud Dataproc",
+    "developerName": "APIMatic"
+  }
+}

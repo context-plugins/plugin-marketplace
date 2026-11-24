@@ -1,0 +1,54 @@
+using System.Text.Json.Serialization;
+using Divvy.Core.Models;
+
+namespace Divvy.Models;
+
+/// <summary>
+/// Line items that define a bill's overall amount.
+/// </summary>
+public record BillResponseLineItem
+{
+    /// <summary>
+    /// BILL-generated ID of the bill line item. The value begins with <c>bli</c>.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("id")]
+    public string? Id { get; init; }
+
+    /// <summary>
+    /// Bill line item amount. For a bill in an international currency (not USD), this value is in the local currency.
+    /// <para>
+    /// If you set <c>amount</c>, <c>quantity</c>, and <c>price</c>, BILL uses the <c>amount</c> value as the bill line item total amount.
+    /// </para>
+    /// </summary>
+    [JsonPropertyName("amount")]
+    public required double Amount { get; init; }
+
+    /// <summary>
+    /// Bill line item unit quantity
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("quantity")]
+    public double? Quantity { get; init; }
+
+    /// <summary>
+    /// Bill line item unit price. For a bill in an international currency (not USD), this value is in the local currency.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("price")]
+    public double? Price { get; init; }
+
+    /// <summary>
+    /// Bill line item description
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("description")]
+    public string? Description { get; init; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("classifications")]
+    public Classifications1? Classifications { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

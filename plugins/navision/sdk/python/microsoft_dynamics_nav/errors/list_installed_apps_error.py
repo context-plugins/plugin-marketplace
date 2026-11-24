@@ -1,0 +1,24 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Final, TypeAlias
+
+from ..core import ErrorMapper, RawError, decode_json
+from ..models.error_response_business_central_administration_center_app_management_api import (
+    ErrorResponseBusinessCentralAdministrationCenterAppManagementApi,
+)
+
+ListInstalledAppsErrorBody: TypeAlias = ErrorResponseBusinessCentralAdministrationCenterAppManagementApi | RawError
+
+
+@dataclass(frozen=True, slots=True)
+class _ListInstalledAppsError:
+    def map(self, status_code: int, content: bytes) -> ListInstalledAppsErrorBody:
+        match status_code:
+            case 401:
+                return decode_json[ErrorResponseBusinessCentralAdministrationCenterAppManagementApi](content)
+            case _:
+                return RawError(status_code, content)
+
+
+list_installed_apps_error_mapper: Final[ErrorMapper[ListInstalledAppsErrorBody]] = _ListInstalledAppsError()

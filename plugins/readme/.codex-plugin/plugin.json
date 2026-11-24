@@ -1,0 +1,10 @@
+{
+  "name": "readme",
+  "version": "0.1.0",
+  "description": "Manage API docs, guides, changelogs, custom pages, and developer metrics in ReadMe.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "ReadMe",
+    "developerName": "APIMatic"
+  }
+}

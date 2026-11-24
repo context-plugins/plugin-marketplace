@@ -1,0 +1,25 @@
+from __future__ import annotations
+
+from typing_extensions import NotRequired, TypedDict
+
+from ..core import UNSET, OptionalNullable, SdkBaseModel
+
+
+class WatchlistCompanyDto(SdkBaseModel):
+    """Companies included in the watchlist."""
+
+    name: OptionalNullable[str] = UNSET
+    description: OptionalNullable[str] = UNSET
+    id: OptionalNullable[str] = UNSET
+    domain: OptionalNullable[str] = UNSET
+    aliases: OptionalNullable[list[str]] = UNSET
+    query: OptionalNullable[str] = UNSET
+
+
+class WatchlistCompanyDtoDict(TypedDict):
+    name: NotRequired[str | None]
+    description: NotRequired[str | None]
+    id: NotRequired[str | None]
+    domain: NotRequired[str | None]
+    aliases: NotRequired[list[str] | None]
+    query: NotRequired[str | None]

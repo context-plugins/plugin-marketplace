@@ -1,0 +1,64 @@
+from __future__ import annotations
+
+from pydantic import Field
+from typing_extensions import NotRequired, TypedDict
+
+from ..core import UNSET, Optional, SdkBaseModel
+from .encryption_configuration import EncryptionConfiguration, EncryptionConfigurationDict
+from .enums.language_code_amazon_transcribe_service_vocabulary_filter_api import (
+    LanguageCodeAmazonTranscribeServiceVocabularyFilterApiOrStr,
+)
+from .tag_model import TagModel, TagModelDict
+
+
+class CreateVocabularyFilterRequest(SdkBaseModel):
+    vocabulary_filter_name: str = Field(alias="VocabularyFilterName")
+    """A unique name, chosen by you, for your new custom vocabulary filter. This name is case sensitive, cannot contain
+    spaces, and must be unique within an Amazon Web Services account. If you try to create a new custom vocabulary
+    filter with the same name as an existing custom vocabulary filter, you get a ConflictException error."""
+
+    language_code: LanguageCodeAmazonTranscribeServiceVocabularyFilterApiOrStr = Field(alias="LanguageCode")
+    """The language code that represents the language of the entries in your vocabulary filter. Each custom vocabulary
+    filter must contain terms in only one language. A custom vocabulary filter can only be used to transcribe files in
+    the same language as the filter. For example, if you create a custom vocabulary filter using US English (en-US), you
+    can only apply this filter to files that contain English audio. For a list of supported languages and their
+    associated language codes, refer to the Supported languages table."""
+
+    words: Optional[list[str]] = Field(default=UNSET, alias="Words")
+    """Use this parameter if you want to create your custom vocabulary filter by including all desired terms, as
+    comma-separated values, within your request. The other option for creating your vocabulary filter is to save your
+    entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the
+    VocabularyFilterFileUri parameter. Note that if you include Words in your request, you cannot use
+    VocabularyFilterFileUri; you must choose one or the other. Each language has a character set that contains all
+    allowed characters for that specific language. If you use u"""
+
+    vocabulary_filter_file_uri: Optional[str] = Field(default=UNSET, alias="VocabularyFilterFileUri")
+    """The Amazon S3 location of the text file that contains your custom vocabulary filter terms. The URI must be
+    located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path:
+    s3://DOC-EXAMPLE-BUCKET/my-vocab-filter-file.txt Note that if you include VocabularyFilterFileUri in your request,
+    you cannot use Words; you must choose one or the other."""
+
+    tags: Optional[list[TagModel]] = Field(default=UNSET, alias="Tags")
+    """Adds one or more custom tags, each in the form of a key:value pair, to a new custom vocabulary filter at the time
+    you create this new vocabulary filter. To learn more about using tags with Amazon Transcribe, refer to Tagging
+    resources."""
+
+    data_access_role_arn: Optional[str] = Field(default=UNSET, alias="DataAccessRoleArn")
+    """The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains
+    your input files (in this case, your custom vocabulary filter). If you include EncryptionConfiguration in your
+    request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t
+    have the appropriate permissions, your request fails. IAM role ARNs have the format
+    arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more
+    information, see IAM ARNs."""
+
+    encryption_configuration: Optional[EncryptionConfiguration] = Field(default=UNSET, alias="EncryptionConfiguration")
+
+
+class CreateVocabularyFilterRequestDict(TypedDict):
+    vocabulary_filter_name: str
+    language_code: LanguageCodeAmazonTranscribeServiceVocabularyFilterApiOrStr
+    words: NotRequired[list[str]]
+    vocabulary_filter_file_uri: NotRequired[str]
+    tags: NotRequired[list[TagModelDict]]
+    data_access_role_arn: NotRequired[str]
+    encryption_configuration: NotRequired[EncryptionConfigurationDict]

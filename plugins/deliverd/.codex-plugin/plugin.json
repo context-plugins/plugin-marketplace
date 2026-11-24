@@ -1,0 +1,10 @@
+{
+  "name": "deliverd",
+  "version": "0.1.0",
+  "description": "Run AI agents and governance flows, with tasks, approvals, policies, playbooks, and reports, on Deliverd.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Deliverd",
+    "developerName": "APIMatic"
+  }
+}

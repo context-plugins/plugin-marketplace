@@ -1,0 +1,10 @@
+{
+  "name": "s1",
+  "version": "0.1.0",
+  "description": "Search the web and news, crawl pages, and take screenshots for AI agents with Search1 (S1).",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "S1",
+    "developerName": "APIMatic"
+  }
+}

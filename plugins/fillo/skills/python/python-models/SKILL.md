@@ -1,0 +1,420 @@
+---
+name: python-models
+description: Load before building request payloads for an APIMatic-generated Python SDK or mapping its response models onto your own types. Covers pydantic models and their TypedDict companions, required members vs UNSET (Optional here is not typing.Optional), open enums, union aliases and discriminators, wire aliases, unknown-field preservation, and to_dict/to_json.
+---
+
+# Working with models in an APIMatic Python SDK
+
+Most request/response data are **immutable pydantic v2 models** built with keyword arguments (covered
+in `python-calling-endpoints`). This skill covers the **non-obvious model shapes** that trip
+integrations up. The patterns are generic across APIMatic Python SDKs; take the real type and member
+names from the contract sheet — the SDK map's **Type sources** table names the module declaring each
+type, and the members themselves are read there, since the map carries no shapes — never from a
+REPL poke at the installed package.
+
+> Throughout this skill, `{...}` is a placeholder for a name you take from your SDK (e.g.
+> `{root_package}`, `{Model}`, `{RequestType}`, `{Enum}`, `{Union}`, `{Variant}`) — replace it with the
+> concrete identifier from the source.
+
+## The base every model shares
+
+Domain models subclass `{root_package}.core.SdkBaseModel`, configured identically in every APIMatic
+Python SDK; four of its settings change how you write code:
+
+| Config | What it means for you |
+|---|---|
+| `frozen=True` | Instances are immutable — assigning to a field raises. Use `model_copy(update={...})` to derive a changed copy. |
+| `extra="allow"` | **Unknown fields are preserved, not dropped**, unless the model's schema types or closes them — see below. |
+| `validate_by_name` + `validate_by_alias` | Input is accepted under **either** the Python name or the wire alias. |
+| `serialize_by_alias` | Output uses the **wire alias** by default. |
+
+`frozen` blocks rebinding an attribute; it does **not** deep-freeze. A `list` or `dict` field's
+contents remain mutable in place, so `model.{list_field}.append(...)` may well succeed and is still a
+bug — treat the whole graph as read-only.
+
+## Required vs optional: `UNSET`, and the `Optional` that is not `typing.Optional`
+
+```python
+class {RequestType}(SdkBaseModel):
+    {required_field}: {Enum}OrStr                      # required
+    {required_list}: list[{Model}]                     # required
+    {optional_field}: Optional[{Model}] = UNSET        # optional
+    {nullable_field}: OptionalNullable[str] = UNSET    # optional *and* nullable
+```
+
+- A **bare annotation** is required. Omit it and pydantic raises `ValidationError` at construction —
+  which is the good case: the failure is at the point of the mistake, not at the API.
+- **`Optional[T] = UNSET` is optional.** Leave it out entirely and the key is omitted from the JSON.
+
+**`Optional` here means `T | UnsetType` — present or absent, with no `None` arm.** It is *not*
+`typing.Optional[T]` (`T | None`), and the difference is the arm that matters: a field that is not
+nullable cannot reach the wire as `null`. So:
+
+```python
+{RequestType}({required_field}="...", {required_list}=[...], {optional_field}=None)   # ✗ type error, and rejected
+{RequestType}({required_field}="...", {required_list}=[...])                          # ✓ omitted
+```
+
+Never "clear" an optional field by passing `None`. Omit it, or pass `UNSET` explicitly if you are
+building the kwargs dynamically.
+
+A field annotated **`OptionalNullable[T]`** (`T | None | UnsetType`) — a member both optional *and*
+nullable — is the three-state case: omitted, explicitly `null`, or a value. There, `None` *is* meaningful — it sends `null`, which for a PATCH-style API
+is how you erase a value rather than leave it unchanged. Read the annotation before deciding what
+`None` means.
+
+`UNSET` is falsy and identity-stable, so all three of these work on a response at runtime — but only
+one of them narrows for the type checker:
+
+```python
+from {root_package}.core import UNSET, UnsetType
+
+if response.{optional_field}:                                        # falsy when UNSET (and when empty!)
+if response.{optional_field} is not UNSET:                           # precise: was it set at all? — does NOT narrow
+if not isinstance(value := response.{optional_field}, UnsetType):    # precise AND narrows: value is T here
+    use(value)
+```
+
+`UNSET` is an *instance*, not a `Literal`, so after `is not UNSET` mypy/pyright still see
+`T | UnsetType`, and every attribute access that follows is a `union-attr` error under `--strict`. Use
+the `isinstance` form whenever you go on to *use* the value; reserve `is UNSET` for a yes/no test.
+Prefer either precise form over truthiness when "set but empty" and "not set" are different facts.
+
+## Dict companions
+
+Every model has a `{Model}Dict` `TypedDict` companion mirroring it field for field, with optional
+members marked `NotRequired`. Anywhere a model is accepted, the companion is too — the choice between
+the two spellings is offered at the signature. Inside a companion, a nested model member is typed as
+that model's companion alone (`{Model}Dict`), so a dict literal nests all the way down:
+
+```python
+{RequestType}({required_field}="...", {required_list}=[{"{member}": {"{nested}": "..."}}])
+```
+
+The companion is a **closed** TypedDict, so a misspelled key is a type-checker error at the call site
+rather than a runtime surprise. One exception: the companion of a model with typed additional
+properties declares `extra_items`, so pyright accepts an extra key whose value has that type. Three
+caveats:
+
+- the companion is a typing construct only — it performs no runtime validation until the SDK validates
+  the whole body;
+- it cannot express `UNSET`, so a dict simply omits what it does not set;
+- **the closed check only helps if a type checker actually runs.** At runtime a misspelled key is
+  accepted and sent as an extra field by a model that keeps any extra, and refused by a closed model.
+  A model with typed extras checks it as an extra: it is sent if its value fits the type and refused
+  otherwise (see *Additional properties* below).
+
+## Enums are open
+
+Enums are real `Enum` subclasses — `(str, Enum)` for a string enum, `(int, Enum)` for a numeric one —
+living under `{root_package}.models.enums`. Each is paired with an **open alias**: `{Enum}OrStr` =
+`Annotated[{Enum} | str, ...]`, or `{Enum}OrInt` = `Annotated[{Enum} | int, ...]`. A field typed with
+the open alias accepts either spelling:
+
+```python
+from {root_package}.models.enums import {Enum}
+
+value = {Enum}.{MEMBER}     # preferred: checked, discoverable
+value = "{wire_value}"      # also valid
+```
+
+The point of the open alias is forward compatibility: **a value the server adds after this SDK was
+generated survives as a plain string (or int)** instead of raising. That cuts both ways, and it is the
+thing to get right when *reading* a response:
+
+```python
+status = response.{enum_field}                 # may be {Enum} OR str
+
+if status == {Enum}.{MEMBER}:                  # ✓ works for the known member
+    ...
+
+match response.{enum_field}:                   # handle the open arm explicitly
+    case {Enum}.{MEMBER}: ...
+    case {Enum}.{OTHER_MEMBER}: ...
+    case str() as unknown:                     # a value newer than this SDK
+        log.warning("unknown value %s", unknown)
+```
+
+An `if/elif` chain over members with no final `else` silently does nothing for an unknown value.
+
+**Stringifying differs by enum kind.** On a `(str, Enum)`, `str(member)` and f-string interpolation
+give the **wire value** (`"{wire_value}"`), not `"{Enum}.{MEMBER}"`, so logging and comparison against
+raw strings both behave. On an `(int, Enum)`, `str(member)` raises
+`TypeError: descriptor '__str__' requires a 'str' object` — so never interpolate an int-enum member
+into a log line or an f-string. Use `member.value` (or `int(member)`) instead.
+
+## Union types: alias, not class
+
+Where a field can be one of several types, APIMatic generates a **type alias** under
+`{root_package}/models/unions/` — re-exported from `{root_package}.models`. There is no union class,
+no factory method and nothing to unwrap: the alias *is* a PEP 604 union of the arms, and you pass a
+variant directly.
+
+```python
+# anyOf — a plain alias, named after its arms
+{Variant1}Or{Variant2}: TypeAlias = {Variant1} | {Variant2}
+{Variant1}Or{Variant2}Dict: TypeAlias = {Variant1}Dict | {Variant2}Dict
+
+# oneOf with a discriminator — the same union, tagged by the wire key
+{Union}: TypeAlias = Annotated[
+    Annotated[{Variant1}, Tag("{value1}")] | Annotated[{Variant2}, Tag("{value2}")],
+    WireDiscriminator("{tag}"),
+]
+{Union}Dict: TypeAlias = {Variant1}Dict | {Variant2}Dict
+```
+
+**Construct** by building the variant you mean; **read back** with `isinstance` (or `match`):
+
+```python
+body = {RequestType}({union_field}={Variant1}(...))
+
+if isinstance(response.{union_field}, {Variant1}):
+    ...
+elif isinstance(response.{union_field}, {Variant2}):
+    ...
+```
+
+Four things the alias does not show:
+
+- **The tag belongs to the union, not to the variant.** Build the variant you mean and pass it; the
+  union writes the tag on the way out. One model can be an arm of several unions that tag it
+  differently, so do not expect to find a tag field on it.
+- **Some variants do carry the tag as a field, because the API declares it on them.** Where the
+  field is there it is yours to set, and it is sent exactly as you wrote it — nothing overwrites it.
+  Where it is not, `to_dict()` on that model carries no tag, so hand the model to the SDK rather
+  than dumping it and posting the dict yourself.
+- **The dict spelling must carry the tag.** Read the union's companion alias: where it names a
+  wrapper (`{Union}{Variant1}Dict`), use that one — it is the variant's dict shape plus the tag key.
+  Omitting the key raises `ValidationError` (`union_tag_not_found`) at runtime while type-checking
+  cleanly.
+- **A union whose arms collapse to one is inlined at the use site** — the field is simply typed
+  `{Variant} | None` and no alias module exists. Do not go looking for an alias the sheet does not
+  list.
+
+## Collections
+
+List properties are `list[T]`; maps are `dict[str, V]` — **the key type is always `str`**.
+Inside a companion, a model element is typed as that model's companion
+(`list[{Model}Dict]`).
+
+```python
+body = {RequestType}(
+    {list_field}=["A", "B"],
+    {map_field}={"k": "v"},
+)
+```
+
+An **unset** collection is omitted from the JSON; an **empty** one (`[]`, `{}`) is serialized. Those
+are different wire messages — do not use `[]` to mean "leave this alone".
+
+## Wire aliases
+
+A field carries a pydantic alias **exactly when its Python name differs from the wire name** —
+snake-casing a `camelCase` property, sanitizing a name that is not a valid identifier, escaping a Python
+keyword (trailing underscore, `type_` for `type`), or de-duplicating a collision.
+
+```python
+{field}: Optional[str] = Field(default=UNSET, alias="{wireField}")
+```
+
+The Python name is what you write in code; the alias is what crosses the wire. Both are accepted on
+input, and output uses the alias. When a sheet lists a member as `{field} (wire {wireField})`, use
+`{field}` in code and expect `{wireField}` in a captured request body — do not "fix" a test that
+asserts the alias.
+
+**The `…Dict` companion is keyed by the PYTHON name, not the alias:**
+
+```python
+client.{controller}.{operation}(body={"{field}": "..."})       # ✓ the companion's key
+client.{controller}.{operation}(body={"{wireField}": "..."})   # validates, but type-checks as nothing
+```
+
+The serialized body carries `"{wireField}"` either way; both validate at runtime, but only the first
+type-checks. Write the Python name.
+
+## Serializing
+
+```python
+model.to_dict()                     # JSON-safe values, wire aliases, json.dumps-able
+model.to_json()                     # the same content as text, indented 2 by default
+model.to_dict(mode="python")        # keep Python objects (datetime stays datetime)
+model.to_dict(by_alias=False)       # key by Python name instead
+model.to_dict(exclude_none=True)    # drop nulls, round-trip safe
+```
+
+`to_dict`/`to_json` are the front door; `model_dump`/`model_dump_json` remain available for options
+the wrappers do not surface (`include`/`exclude`, `context`, `round_trip`, `warnings`). Two behaviours
+worth knowing:
+
+- A never-touched `OptionalNullable` field is **omitted** by `to_dict`, even though a plain
+  `model_dump` renders it as `null`. That is the tri-state being honoured; it is the one documented
+  place the wrapper differs from the underlying dump.
+- **`exclude_unset=True` is a trap on a locally built model.** It drops any field still sitting on
+  its default — including a tag field that has one — after which the result
+  no longer validates back against the union. Use `exclude_none=True` if your goal is just to
+  suppress nulls. (On a *decoded response* it is the right tool — see the read-path note under the
+  `Optional[Any]` trap below.)
+
+## The `Optional[Any]` trap — a real serialization failure
+
+**A field annotated `Optional[Any]` (or `OptionalNullable[Any]`) cannot be left unset.** Leaving it at
+`UNSET` makes the whole model unserializable — `to_dict()`, `to_json()` *and the request path* all
+raise:
+
+```
+pydantic_core._pydantic_core.PydanticSerializationError:
+    Unable to serialize unknown type: <class '…core.optionality.UnsetType'>
+```
+
+Every other `Optional[T]` is fine, and so is a *container* of `Any` (`Optional[list[Any]]`,
+`Optional[dict[str, Any]]`) — this is specific to a bare `Any` at the top of the annotation.
+
+A member is typed `Any` wherever it is unconstrained: a free-form object, an anonymous object, or
+no schema at all. **Check the contract sheet for which members are typed `Any`** — it is
+usually a small, fixed list, and a JSON-Patch-style `value` member is the classic case, because the
+ops that take no value are exactly the ones that would leave it unset.
+
+**Workaround: pass `None` explicitly.**
+
+```python
+client.{controller}.{operation}(body={Model}({field}=None))
+# request body -> {"{field}": null}
+```
+
+It type-checks (`Any` admits `None`) and it serializes, at the cost of sending `"{field}": null`
+instead of nothing — an explicit `null` is not the same wire message as an omitted key, so a strict
+server-side validator could reject it; confirm against sandbox before shipping. This is the one place
+where `None` on an `Optional[...]` field is correct; everywhere else it is a type error (see above).
+The dict spelling is no escape — it validates into the same model, sentinel included.
+
+**The trap fires on the read path too.** A *response* model whose `Any`-typed member the server
+omitted decodes fine — and then fails `to_dict()` / `to_json()` with the same error, because that
+member is sitting at `UNSET`. For a decoded response, `to_dict(exclude_unset=True)` is the escape: it
+drops the sentinel before serialization, and the discriminator concern above does not apply to a
+model the SDK decoded from the wire.
+
+## Handing SDK values out
+
+`UNSET` is not `None`, and nothing outside the SDK knows what it is. `json.dumps`, a web framework's
+response encoder, an ORM column, a cache or message-queue serializer will each raise on it —
+typically `Unable to serialize unknown type: UnsetType` or a `TypeError` — and in a request handler
+that surfaces as a 500 the first time an optional member happens to be absent. Before an SDK value
+crosses your boundary, do one of two things:
+
+- map it into your **own** type, resolving `UNSET` to `None` or to an absent key as you go (the
+  `isinstance` / `is not UNSET` checks above are the tool);
+- or serialize the **whole model** with `to_dict()` / `to_json()`, which know the sentinel.
+
+Never pass a raw member straight through to something that will encode it.
+
+## Additional properties
+
+What a model does with a key its schema does not declare follows the schema, and the model's class
+says which — read it before relying on either behaviour:
+
+| The class | An extra key |
+|---|---|
+| subclasses `SdkBaseModel`, declares no `__pydantic_extra__` | kept, with any value, at every nesting level, and **re-emitted under the key it arrived with** |
+| subclasses `SdkTypedExtrasModel`, declares `__pydantic_extra__: dict[str, T]` | must be a `T`; one wrong value, or a `null` the type does not allow, refuses the whole object |
+| sets `model_config = ConfigDict(extra="forbid")` | refused |
+
+A class on `SdkBaseModel` that declares `__pydantic_extra__: dict[str, Any]` behaves as the first row.
+
+Every model reads its extras the same way, typed by the model — `T` where it declares one, `Any`
+otherwise:
+
+```python
+for key, value in response.additional_properties.items():  # a read-only mapping
+    ...
+new_field = response["{some_new_field}"]  # one extra; KeyError when absent
+response.additional_properties.get("{some_new_field}")  # None when absent
+```
+
+Set extras when you build the model, through `model_validate` with the extra keys beside the declared
+ones. A keyword argument works at run time too, but pyright reports any extra keyword as an unknown
+parameter, and mypy with the pydantic plugin accepts it without checking its value. An extra cannot
+be assigned as an attribute afterwards: the model is frozen. A model on `SdkTypedExtrasModel` also
+raises `TypeError` on a write into `model_extra` or a `model_copy(update=...)` that adds a key; on
+any other model that mapping stays writable in place, but unchecked. Build a new model from the old
+one's values instead. A wrong value is refused when the model is built, by
+pydantic's `ValidationError`, which names the key; a response with one raises `ResponseDecodeError`,
+with that `ValidationError` as its `__cause__`.
+
+On a model that keeps any extra, it is safe to read an object, change one member and send it back
+without silently discarding server-side state you never modelled. The symmetry also means an unknown
+key *you* supply is sent rather than rejected — convenient for a field newer than the SDK, and a
+silent no-op when you misspell a real one. If a value you set is not taking effect, check it against
+the sheet's member list before suspecting the API. A closed model refuses the misspelling instead.
+
+## Dates and numbers
+
+Spec types map to Python as follows — take the exact type of any given member from the contract sheet
+rather than assuming:
+
+| Spec type | Python type |
+|---|---|
+| `string` (plain, password, regex, ip, hostname, json-pointer, time, uri) | `str` |
+| `string` / `email` | pydantic `EmailStr` |
+| `string` / `uuid` | `uuid.UUID` |
+| integer widths (`integer`, `long`) | `int` |
+| fractional numbers (`number`, `decimal`) | **`float`** |
+| `boolean` | `bool` |
+| `binary`, `file` | `bytes` — **in a model member or a text position only**; see the third consequence below |
+| `date` | the SDK's `Date` converter |
+| `date-time` | `RFC3339DateTime`, `RFC1123DateTime` or `UnixSecondsDateTime` |
+
+Three consequences:
+
+- **Date/time fields use the SDK's converter types**, so the wire format is handled for you. Assign a
+  `datetime`/`date` and read one back; do not format strings by hand. Every one of those names is an
+  `Annotated` alias over the stdlib type, declared in `{root_package}/core/converters/date_time.py`:
+  `Date` → `datetime.date`; `RFC3339DateTime`, `RFC1123DateTime` and `UnixSecondsDateTime` →
+  `datetime.datetime`. The alias only governs the wire format. The map's **Type sources** tables do
+  not list these runtime types.
+- **There is no `Decimal` arm.** A fractional number becomes `float`, so a spec that models money as a
+  number gives you binary floating point. Most payment APIs instead model money as a **`str`** scaled
+  to the currency (`"10.00"`) — where yours does, build it with `Decimal` and format explicitly, never
+  with `%f`/`round()` and never through a locale-dependent conversion that can produce `"10,00"`.
+  **The decimal format is specific to the currency**, never the literal `2`:
+
+  ```python
+  from decimal import Decimal
+
+  # ISO 4217 minor units (List One, published 2026-09-17) for every currency that does not have two.
+  # A provider can differ from ISO; where it documents its own rule, that rule wins.
+  EXPONENT = {
+      "BIF": 0, "CLP": 0, "DJF": 0, "GNF": 0, "ISK": 0, "JPY": 0, "KMF": 0, "KRW": 0, "PYG": 0,
+      "RWF": 0, "UGX": 0, "UYI": 0, "VND": 0, "VUV": 0, "XAF": 0, "XOF": 0, "XPF": 0,
+      "BHD": 3, "IQD": 3, "JOD": 3, "KWD": 3, "LYD": 3, "OMR": 3, "TND": 3,
+      "CLF": 4, "UYW": 4,
+  }
+
+  def amount(value: Decimal, currency: str) -> str:
+      places = EXPONENT.get(currency, 2)
+      return str(value.quantize(Decimal(1).scaleb(-places)))
+
+  amount(Decimal("10"), "USD")      # "10.00"
+  amount(Decimal("1000"), "JPY")    # "1000"   -- not "1000.00"
+  amount(Decimal("1.2344"), "KWD")  # "1.234"  -- not "1.23"
+  ```
+
+- **`binary`/`file` is never `bytes` at a file position**: it takes `FileInput` and returns
+  `FileResponse` (`AsyncFileInput` / `AsyncFileResponse` on the async client), from
+  `{root_package}.core` — see **python-file-handling**.
+
+Currency codes are typically plain `str` with no enum — pass `"USD"`.
+
+## ValidationError is your friend, not an error to suppress
+
+Constructing a model wrong raises `pydantic.ValidationError` (a `ValueError`) with the exact field
+path. That is the SDK catching your mistake at the point you made it. Let it propagate in development;
+in production, catch it at the boundary where *you* assemble a payload from external input, and treat
+it as a 4xx on your own API rather than an upstream failure.
+
+See [reference.md](reference.md) for the mechanics — `UNSET` semantics, `model_copy`, enum helpers,
+reading nested optional structures, and type-checking notes.
+
+## Next
+
+- Calls and bodies → **python-calling-endpoints**
+- Error payload models → **python-error-handling**

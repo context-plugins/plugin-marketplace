@@ -1,0 +1,21 @@
+{
+  "name": "jurisign",
+  "displayName": "JuriSign",
+  "version": "0.1.0",
+  "description": "Send documents for electronic signature with OTP verification, and manage templates and webhooks with JuriSign.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/juri-sign-planner.md"
+  ]
+}

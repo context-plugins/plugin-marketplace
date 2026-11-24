@@ -1,0 +1,10 @@
+{
+  "name": "amazon-certificate-manager",
+  "version": "0.1.0",
+  "description": "Request, import, renew, and export SSL/TLS certificates and manage ACME endpoints with AWS Certificate Manager.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "AWS Certificate Manager",
+    "developerName": "APIMatic"
+  }
+}

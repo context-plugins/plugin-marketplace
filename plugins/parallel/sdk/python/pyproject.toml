@@ -1,0 +1,74 @@
+[project]
+name = "parallel"
+version = "0.1.2"
+description = "The official Python library for the Parallel API"
+authors = [
+    { name = "Parallel Support", email = "support@parallel.ai" },
+]
+maintainers = [
+    { name = "APIMatic", email = "support@apimatic.io" },
+]
+keywords = ["sdk", "api-client", "openapi", "rest", "http", "apimatic"]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "httpx2 (>=2.13.1,<3.0.0)",
+    "certifi (>=2024.7.4)",
+    "pydantic[email] (>=2.11.0,<3.0.0)",
+    "typing-extensions (>=4.13.0,<5.0.0)",
+]
+
+classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Typing :: Typed",
+    "Operating System :: OS Independent",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://parallel.ai"
+
+[dependency-groups]
+dev = [
+    "mypy (>=2.2.0,<3.0.0)",
+    "ruff (>=0.14.14,<0.15.0)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.2.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry]
+packages = [{ include = "parallel" }]
+
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["A", "E", "W", "F", "I", "UP", "B", "RUF"]
+ignore = [
+    "RUF001", "RUF002", "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["RUF022"]   # curated, grouped __all__
+
+[tool.mypy]
+python_version = "3.10"         # the supported floor, not whichever interpreter is local
+files = ["parallel"]
+strict = true
+warn_unreachable = true
+enable_error_code = ["redundant-expr", "truthy-bool", "ignore-without-code", "possibly-undefined"]
+warn_return_any = true
+pretty = true

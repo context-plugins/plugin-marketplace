@@ -1,0 +1,18 @@
+{
+  "name": "compsniper",
+  "displayName": "CompSniper",
+  "version": "0.1.0",
+  "description": "Get eBay sold prices, Poshmark, Mercari, TCGplayer, Grailed, Depop, and PSA card data with CompSniper.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

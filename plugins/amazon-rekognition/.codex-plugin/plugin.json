@@ -1,0 +1,10 @@
+{
+  "name": "amazon-rekognition",
+  "version": "0.1.0",
+  "description": "Detect faces, labels, text, and unsafe content in images and video, and manage face collections with Amazon Rekognition.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Amazon Rekognition",
+    "developerName": "APIMatic"
+  }
+}

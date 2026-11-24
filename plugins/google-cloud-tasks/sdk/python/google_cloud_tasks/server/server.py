@@ -1,0 +1,20 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+from ..core import UrlTemplate
+from .server_config import ServerConfig
+
+
+@dataclass(frozen=True, slots=True)
+class Server:
+    config: ServerConfig
+
+    def default(self, path: str) -> UrlTemplate:
+        return self.config.default.resolve(path)
+
+    def auth_server(self, path: str) -> UrlTemplate:
+        return self.config.auth_server.resolve(path)
+
+    def access_token_server(self, path: str) -> UrlTemplate:
+        return self.config.access_token_server.resolve(path)

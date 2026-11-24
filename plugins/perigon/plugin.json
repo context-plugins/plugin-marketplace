@@ -1,0 +1,18 @@
+{
+  "name": "perigon",
+  "displayName": "Perigon",
+  "version": "0.1.0",
+  "description": "Search news, stories, people, and companies, and manage monitors and watchlists with Perigon.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

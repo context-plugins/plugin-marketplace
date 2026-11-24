@@ -1,0 +1,10 @@
+{
+  "name": "postscript",
+  "version": "0.1.0",
+  "description": "Manage SMS subscribers, keywords, messages, custom events, and webhooks with Postscript.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Postscript",
+    "developerName": "APIMatic"
+  }
+}

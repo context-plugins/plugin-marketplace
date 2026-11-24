@@ -1,0 +1,58 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
+using Deliverd.Core.ErrorResponse;
+using Deliverd.Core.Models;
+using Deliverd.Models;
+
+namespace Deliverd.Errors;
+
+public sealed class GetApiV1WebhookEndpointsError : ApiError
+{
+    private readonly Optional<ApiV1WebhookEndpoints403Error1> _apiV1WebhookEndpoints403Error1Value;
+
+    private GetApiV1WebhookEndpointsError(Optional<ApiV1WebhookEndpoints403Error1> apiV1WebhookEndpoints403Error1Value,
+        Optional<RawError> fallback) : base(fallback)
+    {
+        _apiV1WebhookEndpoints403Error1Value = apiV1WebhookEndpoints403Error1Value;
+    }
+
+    private static GetApiV1WebhookEndpointsError AsApiV1WebhookEndpoints403Error1(ApiV1WebhookEndpoints403Error1 value) =>
+        new(Optional<ApiV1WebhookEndpoints403Error1>.Some(value), default);
+
+    private static GetApiV1WebhookEndpointsError AsFallback(RawError value) =>
+        new(default, Optional<RawError>.Some(value));
+
+    public bool TryGetApiV1WebhookEndpoints403Error1([NotNullWhen(true)] out ApiV1WebhookEndpoints403Error1? value) =>
+        _apiV1WebhookEndpoints403Error1Value.TryGetValue(out value);
+
+    public TResult Match<TResult>(Func<ApiV1WebhookEndpoints403Error1, TResult> onApiV1WebhookEndpoints403Error1,
+        Func<RawError, TResult> otherwise) =>
+        this switch
+        {
+            _ when TryGetApiV1WebhookEndpoints403Error1(
+                out var apiV1WebhookEndpoints403Error1Value) => onApiV1WebhookEndpoints403Error1(
+                apiV1WebhookEndpoints403Error1Value),
+            _ when TryGetRawError(out var fallback) => otherwise(fallback),
+            _ => throw new InvalidOperationException($"{nameof(GetApiV1WebhookEndpointsError)} holds no value.")
+        };
+
+    public void Match(Action<ApiV1WebhookEndpoints403Error1> onApiV1WebhookEndpoints403Error1,
+        Action<RawError> otherwise)
+    {
+        if (TryGetApiV1WebhookEndpoints403Error1(
+            out var apiV1WebhookEndpoints403Error1Value)) onApiV1WebhookEndpoints403Error1(
+            apiV1WebhookEndpoints403Error1Value);
+        else if (TryGetRawError(out var fallback)) otherwise(fallback);
+        else throw new InvalidOperationException($"{nameof(GetApiV1WebhookEndpointsError)} holds no value.");
+    }
+
+    private static Task<GetApiV1WebhookEndpointsError> Create(FailedResponse response) =>
+        response.StatusCode switch
+        {
+            403 => response.Json<ApiV1WebhookEndpoints403Error1>().As(AsApiV1WebhookEndpoints403Error1),
+            _ => response.RawBody().As(AsFallback)
+        };
+
+    internal static ApiErrorResponse<GetApiV1WebhookEndpointsError> Response { get; } = new(Create);
+}

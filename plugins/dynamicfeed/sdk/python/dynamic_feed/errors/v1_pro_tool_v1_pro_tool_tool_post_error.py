@@ -1,0 +1,24 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Final, TypeAlias
+
+from ..core import ErrorMapper, RawError, decode_json
+from ..models.http_validation_error import HttpValidationError
+
+V1ProToolV1ProToolToolPostErrorBody: TypeAlias = HttpValidationError | RawError
+
+
+@dataclass(frozen=True, slots=True)
+class _V1ProToolV1ProToolToolPostError:
+    def map(self, status_code: int, content: bytes) -> V1ProToolV1ProToolToolPostErrorBody:
+        match status_code:
+            case 422:
+                return decode_json[HttpValidationError](content)
+            case _:
+                return RawError(status_code, content)
+
+
+v1_pro_tool_v1_pro_tool_tool_post_error_mapper: Final[
+    ErrorMapper[V1ProToolV1ProToolToolPostErrorBody]
+] = _V1ProToolV1ProToolToolPostError()

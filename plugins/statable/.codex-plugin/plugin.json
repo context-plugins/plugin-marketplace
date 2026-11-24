@@ -1,0 +1,10 @@
+{
+  "name": "statable",
+  "version": "0.1.0",
+  "description": "Read site analytics and stats and manage API keys with Statable.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Statable",
+    "developerName": "APIMatic"
+  }
+}

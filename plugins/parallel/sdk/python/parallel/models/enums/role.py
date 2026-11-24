@@ -1,0 +1,17 @@
+from enum import Enum
+from typing import Annotated, TypeAlias
+
+from ...core import open_enum_validator
+
+
+class Role(str, Enum):
+    DEVELOPER = "developer"
+    SYSTEM = "system"
+    USER = "user"
+    ASSISTANT = "assistant"
+    TOOL = "tool"
+
+    __str__ = str.__str__
+
+
+RoleOrStr: TypeAlias = Annotated[Role | str, open_enum_validator(Role)]

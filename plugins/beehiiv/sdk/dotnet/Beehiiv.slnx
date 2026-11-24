@@ -1,0 +1,5 @@
+<Solution>
+    <Folder Name="/src/">
+        <Project Path="src/Beehiiv/Beehiiv.csproj" />
+    </Folder>
+</Solution>

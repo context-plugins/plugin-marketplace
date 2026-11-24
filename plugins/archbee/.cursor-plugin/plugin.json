@@ -1,0 +1,18 @@
+{
+  "name": "archbee",
+  "displayName": "Archbee",
+  "version": "0.1.0",
+  "description": "Manage documentation spaces, documents, files, suggestions, and access control in Archbee.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

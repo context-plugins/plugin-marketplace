@@ -1,0 +1,11 @@
+import * as s from "../core/validation/index.js";
+import type { EnumSchema } from "../core/validation/schema.js";
+
+/** Whether this recipient was accepted for delivery or rejected at validation time. */
+export const Status = {
+  Accepted: "accepted",
+  Rejected: "rejected",
+} as const;
+export type Status = (typeof Status)[keyof typeof Status] | (string & {});
+
+export const statusSchema: EnumSchema<Status> = s.enumOf<Status>(Status);

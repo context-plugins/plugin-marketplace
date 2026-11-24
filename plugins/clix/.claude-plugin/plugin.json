@@ -1,0 +1,21 @@
+{
+  "name": "clix",
+  "displayName": "Clix",
+  "version": "0.1.0",
+  "description": "Manage users, devices, and events, and send push notifications and Live Activities with Clix.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/clix-planner.md"
+  ]
+}

@@ -1,0 +1,132 @@
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using AmazonTranscribe.Core.Models;
+using AmazonTranscribe.Models.Enums;
+
+namespace AmazonTranscribe.Models;
+
+public record StartTranscriptionJobRequest
+{
+    /// <summary>
+    /// A unique name, chosen by you, for your transcription job. The name that you specify is also used as the default name of your transcription output file. If you want to specify a different name for your transcription output, use the OutputKey parameter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictException error.
+    /// </summary>
+    [JsonPropertyName("TranscriptionJobName")]
+    public required string TranscriptionJobName { get; init; }
+
+    /// <summary>
+    /// The language code that represents the language spoken in the input media file. If you're unsure of the language spoken in your media file, consider using IdentifyLanguage or IdentifyMultipleLanguages to enable automatic language identification. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails. For a list of supported languages and their associated language codes, refer to the Supported languages table. To transcribe speech in Modern Standard Arabic (ar-S
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("LanguageCode")]
+    public LanguageCode3AmazonTranscribeServiceTranscriptionJobsApi? LanguageCode { get; init; }
+
+    /// <summary>
+    /// The sample rate, in hertz, of the audio track in your input media file. If you do not specify the media sample rate, Amazon Transcribe determines it for you. If you specify the sample rate, it must match the rate detected by Amazon Transcribe. If there's a mismatch between the value that you specify and the value detected, your job fails. In most cases, you can omit MediaSampleRateHertz and let Amazon Transcribe determine the sample rate.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("MediaSampleRateHertz")]
+    public int? MediaSampleRateHertz { get; init; }
+
+    /// <summary>
+    /// Specify the format of your input media file.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("MediaFormat")]
+    public MediaFormat1? MediaFormat { get; init; }
+
+    [JsonPropertyName("Media")]
+    public required Media Media { get; init; }
+
+    /// <summary>
+    /// The name of the Amazon S3 bucket where you want your transcription output stored. Do not include the S3:// prefix of the specified bucket. If you want your output to go to a sub-folder of this bucket, specify it using the OutputKey parameter; OutputBucketName only accepts the name of a bucket. For example, if you want your output stored in S3://DOC-EXAMPLE-BUCKET, set OutputBucketName to DOC-EXAMPLE-BUCKET. However, if you want your output stored in S3://DOC-EXAMPLE-BUCKET/test-files/, set OutputBucketName to DOC-EXAMPLE-BUCKET and OutputKey to test-files/. Note that Amazon Transcribe must hav
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("OutputBucketName")]
+    public string? OutputBucketName { get; init; }
+
+    /// <summary>
+    /// Use in combination with OutputBucketName to specify the output location of your transcript and, optionally, a unique name for your output file. The default name for your transcription output is the same as the name you specified for your transcription job (TranscriptionJobName). Here are some examples of how you can use OutputKey: If you specify 'DOC-EXAMPLE-BUCKET' as the OutputBucketName and 'my-transcript.json' as the OutputKey, your transcription output path is s3://DOC-EXAMPLE-BUCKET/my-transcript.json. If you specify 'my-first-transcription' as the TranscriptionJobName, 'DOC-EXAMPLE-BUCK
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("OutputKey")]
+    public string? OutputKey { get; init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of a KMS key that you want to use to encrypt your transcription output. KMS key ARNs have the format arn:partition:kms:region:account:key/key-id. For example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab. For more information, see KMS key ARNs. If you do not specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). Note that the role making the request and the role specified in the DataAccessRoleArn request parameter (if present) must have permission to use the specified KMS key.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("OutputEncryptionKMSKeyId")]
+    public string? OutputEncryptionKmsKeyId { get; init; }
+
+    /// <summary>
+    /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see KMS encryption context and Asymmetric keys in KMS.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("KMSEncryptionContext")]
+    public IReadOnlyDictionary<string, string>? KmsEncryptionContext { get; init; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("Settings")]
+    public Settings? Settings { get; init; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("ModelSettings")]
+    public ModelSettings? ModelSettings { get; init; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("JobExecutionSettings")]
+    public JobExecutionSettings? JobExecutionSettings { get; init; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("ContentRedaction")]
+    public ContentRedaction? ContentRedaction { get; init; }
+
+    /// <summary>
+    /// Enables automatic language identification in your transcription job request. Use this parameter if your media file contains only one language. If your media contains multiple languages, use IdentifyMultipleLanguages instead. If you include IdentifyLanguage, you can optionally include a list of language codes, using LanguageOptions, that you think may be present in your media file. Including LanguageOptions restricts IdentifyLanguage to only the language options that you specify, which can improve transcription accuracy. If you want to apply a custom language model, a custom vocabulary, or a cu
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("IdentifyLanguage")]
+    public bool? IdentifyLanguage { get; init; }
+
+    /// <summary>
+    /// Enables automatic multi-language identification in your transcription job request. Use this parameter if your media file contains more than one language. If your media contains only one language, use IdentifyLanguage instead. If you include IdentifyMultipleLanguages, you can optionally include a list of language codes, using LanguageOptions, that you think may be present in your media file. Including LanguageOptions restricts IdentifyLanguage to only the language options that you specify, which can improve transcription accuracy. If you want to apply a custom vocabulary or a custom vocabulary
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("IdentifyMultipleLanguages")]
+    public bool? IdentifyMultipleLanguages { get; init; }
+
+    /// <summary>
+    /// You can specify two or more language codes that represent the languages you think may be present in your media. Including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. If you include LanguageOptions in your request, you must also include IdentifyLanguage. For more information, refer to Supported languages. To transcribe speech in Modern Standard Arabic (ar-SA)in Amazon Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web Services GovCloud (US) (US-East, us-gov-east-1), in Canada (Calgary) ca-west-1 and Africa (Cape Tow
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("LanguageOptions")]
+    public IReadOnlyList<LanguageOption>? LanguageOptions { get; init; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("Subtitles")]
+    public Subtitles? Subtitles { get; init; }
+
+    /// <summary>
+    /// Adds one or more custom tags, each in the form of a key:value pair, to a new transcription job at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("Tags")]
+    public IReadOnlyList<Tag>? Tags { get; init; }
+
+    /// <summary>
+    /// If using automatic language identification in your request and you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). Note that multi-language identification (IdentifyMultipleLanguages) doesn't support custom language models. LanguageIdSettings supports two to five language codes. Each language code you include can have an associated custom language model, custom vocabulary, and custom vocabulary filter. The language codes that you s
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("LanguageIdSettings")]
+    public IReadOnlyDictionary<string, LanguageIdSettings>? LanguageIdSettings { get; init; }
+
+    /// <summary>
+    /// Enables toxic speech detection in your transcript. If you include ToxicityDetection in your request, you must also include ToxicityCategories. For information on the types of toxic speech Amazon Transcribe can detect, see Detecting toxic speech.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("ToxicityDetection")]
+    public IReadOnlyList<ToxicityDetectionSettings>? ToxicityDetection { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

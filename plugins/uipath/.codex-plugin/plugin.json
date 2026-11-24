@@ -1,0 +1,10 @@
+{
+  "name": "uipath",
+  "version": "0.1.0",
+  "description": "Manage Orchestrator robots, jobs, queues, and assets, and Document Understanding and Automation Hub with UiPath.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "UiPath",
+    "developerName": "APIMatic"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "dynamicfeed",
+  "displayName": "DynamicFeed",
+  "version": "0.1.0",
+  "description": "Get live data for AI agents, including weather, air quality, sports, advisories, and AI model benchmarks, from DynamicFeed.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/dynamic-feed-planner.md"
+  ]
+}

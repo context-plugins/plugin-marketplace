@@ -1,0 +1,5 @@
+<Solution>
+    <Folder Name="/src/">
+        <Project Path="src/FlowAccount/FlowAccount.csproj" />
+    </Folder>
+</Solution>

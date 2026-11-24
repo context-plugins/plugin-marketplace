@@ -1,0 +1,10 @@
+{
+  "name": "amazon-freertos",
+  "version": "0.1.0",
+  "description": "Manage FreeRTOS software configurations and over-the-air updates for microcontrollers with Amazon FreeRTOS.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Amazon FreeRTOS",
+    "developerName": "APIMatic"
+  }
+}

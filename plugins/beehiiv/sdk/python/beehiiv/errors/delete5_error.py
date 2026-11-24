@@ -1,0 +1,22 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Final, TypeAlias
+
+from ..core import ErrorMapper, RawError, decode_json
+from ..models.error import Error
+
+Delete5ErrorBody: TypeAlias = Error | RawError
+
+
+@dataclass(frozen=True, slots=True)
+class _Delete5Error:
+    def map(self, status_code: int, content: bytes) -> Delete5ErrorBody:
+        match status_code:
+            case 400 | 401 | 404 | 429 | 500:
+                return decode_json[Error](content)
+            case _:
+                return RawError(status_code, content)
+
+
+delete5_error_mapper: Final[ErrorMapper[Delete5ErrorBody]] = _Delete5Error()

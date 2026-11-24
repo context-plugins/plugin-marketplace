@@ -1,0 +1,10 @@
+{
+  "name": "dopesecurity",
+  "version": "0.1.0",
+  "description": "Manage secure web gateway policies, custom categories, bypass lists, and endpoints with dope.security.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "dope.security",
+    "developerName": "APIMatic"
+  }
+}

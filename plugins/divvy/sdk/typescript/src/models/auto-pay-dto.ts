@@ -1,0 +1,52 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+
+/** The type Auto Pay dto. (CONTROLLER) */
+export type AutoPayDto = {
+  /** Set as `true` if the vendor auto-pay is enabled */
+  enabled?: boolean;
+  /**
+   * BILL-generated ID of the organization bank account used to set up vendor auto-pay. The value
+   * begins with `bac`.
+   */
+  bankAccountId?: string;
+  /**
+   * BILL-generated ID of the user that set up vendor auto-pay. The value begins with `006`.
+   *
+   * You can retrieve your user ID when you sign in with `/v3/login`.
+   */
+  createdBy?: string;
+  /** Maximum bill amount for which vendor auto-pay is enabled */
+  maxAmount?: number;
+  /**
+   * Number of days before the bill payment due date.
+   *
+   * For example, if `dueBeforeDueDate` is `3`, BILL submits the vendor payment 3 days before the
+   * bill payment due date.
+   */
+  daysBeforeDueDate?: number;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+const autoPayDtoProperties: s.Shape<AutoPayDto> = {
+  enabled: s.optional(s.boolean()),
+  bankAccountId: s.optional(s.string()),
+  createdBy: s.optional(s.string()),
+  maxAmount: s.optional(s.float64()),
+  daysBeforeDueDate: s.optional(s.int()),
+};
+
+export const autoPayDtoInternalSchema: Schema<AutoPayDto> = s.object<AutoPayDto>(autoPayDtoProperties, {
+  additionalProperties: s.json(),
+});
+
+export const autoPayDtoSchema: Schema<AutoPayDto> = s.lazySchema(() =>
+  s.object<AutoPayDto>(
+    {
+      ...autoPayDtoProperties,
+      daysBeforeDueDate: s.optional(s.int().check(s.gte(0), s.lte(60))),
+    },
+    { additionalProperties: s.json() },
+  ),
+);

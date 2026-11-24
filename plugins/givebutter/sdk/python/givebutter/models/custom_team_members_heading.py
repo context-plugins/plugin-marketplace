@@ -1,0 +1,19 @@
+from __future__ import annotations
+
+from typing import Literal
+
+from typing_extensions import NotRequired, TypedDict
+
+from ..core import UNSET, OptionalNullable, SdkBaseModel
+
+
+class CustomTeamMembersHeading(SdkBaseModel):
+    """Accepts a ``string`` value."""
+
+    name: Literal["custom_team_members_heading"] = "custom_team_members_heading"
+    value: OptionalNullable[str] = UNSET
+
+
+class CustomTeamMembersHeadingDict(TypedDict):
+    name: Literal["custom_team_members_heading"]
+    value: NotRequired[str | None]

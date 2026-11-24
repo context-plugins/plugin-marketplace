@@ -1,0 +1,10 @@
+{
+  "name": "whoisfreaks",
+  "version": "0.1.0",
+  "description": "Look up WHOIS, DNS, SSL, IP geolocation, and domain reputation, and download bulk databases with WhoisFreaks.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "WhoisFreaks",
+    "developerName": "APIMatic"
+  }
+}

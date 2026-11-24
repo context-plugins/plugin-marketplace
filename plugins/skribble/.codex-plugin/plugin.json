@@ -1,0 +1,10 @@
+{
+  "name": "skribble",
+  "version": "0.1.0",
+  "description": "Create signature requests, sign and seal documents, and validate signatures with Skribble.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Skribble",
+    "developerName": "APIMatic"
+  }
+}

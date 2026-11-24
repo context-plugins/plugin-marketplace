@@ -1,0 +1,10 @@
+{
+  "name": "archbee",
+  "version": "0.1.0",
+  "description": "Manage documentation spaces, documents, files, suggestions, and access control in Archbee.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Archbee",
+    "developerName": "APIMatic"
+  }
+}

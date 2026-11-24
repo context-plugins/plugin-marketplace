@@ -1,0 +1,10 @@
+{
+  "name": "curlec",
+  "version": "0.1.0",
+  "description": "Accept payments and manage orders, refunds, subscriptions, invoices, and payouts with Curlec by Razorpay.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Curlec",
+    "developerName": "APIMatic"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "instacart",
+  "version": "0.1.0",
+  "description": "Integrate Instacart fulfillment, delivery, pickup, catalog, and post-checkout orders and chat.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Instacart",
+    "developerName": "APIMatic"
+  }
+}

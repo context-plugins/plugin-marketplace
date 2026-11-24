@@ -1,0 +1,10 @@
+{
+  "name": "givebutter",
+  "version": "0.1.0",
+  "description": "Manage fundraising campaigns, contacts, households, transactions, funds, and webhooks on Givebutter.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Givebutter",
+    "developerName": "APIMatic"
+  }
+}

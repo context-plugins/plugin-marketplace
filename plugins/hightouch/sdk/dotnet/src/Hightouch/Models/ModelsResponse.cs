@@ -1,0 +1,14 @@
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using Hightouch.Core.Models;
+
+namespace Hightouch.Models;
+
+public record ModelsResponse
+{
+    [JsonPropertyName("data")]
+    public required IReadOnlyList<Model> Data { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

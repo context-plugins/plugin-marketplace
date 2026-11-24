@@ -1,0 +1,10 @@
+{
+  "name": "amazon-devops-guru",
+  "version": "0.1.0",
+  "description": "Find operational anomalies, insights, and recommendations for your AWS resources with Amazon DevOps Guru.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Amazon DevOps Guru",
+    "developerName": "APIMatic"
+  }
+}

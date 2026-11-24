@@ -1,0 +1,124 @@
+from __future__ import annotations
+
+from pydantic import Field
+from typing_extensions import NotRequired, TypedDict
+
+from ..core import UNSET, Optional, SdkBaseModel
+from .google_cloud_apihub_v1_attribute_values import (
+    GoogleCloudApihubV1AttributeValues,
+    GoogleCloudApihubV1AttributeValuesDict,
+)
+from .google_cloud_apihub_v1_attribute_values6 import (
+    GoogleCloudApihubV1AttributeValues6,
+    GoogleCloudApihubV1AttributeValues6Dict,
+)
+from .google_cloud_apihub_v1_attribute_values7 import (
+    GoogleCloudApihubV1AttributeValues7,
+    GoogleCloudApihubV1AttributeValues7Dict,
+)
+from .google_cloud_apihub_v1_attribute_values8 import (
+    GoogleCloudApihubV1AttributeValues8,
+    GoogleCloudApihubV1AttributeValues8Dict,
+)
+from .google_cloud_apihub_v1_documentation2 import (
+    GoogleCloudApihubV1Documentation2,
+    GoogleCloudApihubV1Documentation2Dict,
+)
+from .google_cloud_apihub_v1_source_metadata import (
+    GoogleCloudApihubV1SourceMetadata,
+    GoogleCloudApihubV1SourceMetadataDict,
+)
+
+
+class GoogleCloudApihubV1Version5(SdkBaseModel):
+    """This represents Version resource in search results. Only name, display_name, description, lifecycle, compliance
+    and accreditation fields are populated in search results."""
+
+    specs: Optional[list[str]] = UNSET
+    """Output only. The specs associated with this version. Note that an API version can be associated with multiple
+    specs. Format is ``projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec}``"""
+
+    definitions: Optional[list[str]] = UNSET
+    """Output only. The definitions contained in the API version. These definitions will be added to the version when a
+    new spec is added or when an existing spec is updated. Format is
+    ``projects/{project}/locations/{location}/apis/{api}/versions/{version}/definitions/{definition}``"""
+
+    selected_deployment: Optional[str] = Field(default=UNSET, alias="selectedDeployment")
+    """Optional. The selected deployment for a Version resource. This can be used when special handling is needed on
+    client side for a particular deployment linked to the version. Format is
+    ``projects/{project}/locations/{location}/deployments/{deployment}``"""
+
+    update_time: Optional[str] = Field(default=UNSET, alias="updateTime")
+    """Output only. The time at which the version was last updated."""
+
+    api_operations: Optional[list[str]] = Field(default=UNSET, alias="apiOperations")
+    """Output only. The operations contained in the API version. These operations will be added to the version when a
+    new spec is added or when an existing spec is updated. Format is
+    ``projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation}``"""
+
+    create_time: Optional[str] = Field(default=UNSET, alias="createTime")
+    """Output only. The time at which the version was created."""
+
+    deployments: Optional[list[str]] = UNSET
+    """Optional. The deployments linked directly to this API version. Only directly-linked deployments are returned;
+    deployments linked to this version's specs or operations are not included. Note: A particular API version could be
+    deployed to multiple deployments (for dev deployment, UAT deployment, etc) Format is
+    ``projects/{project}/locations/{location}/deployments/{deployment}``"""
+
+    display_name: Optional[str] = Field(default=UNSET, alias="displayName")
+    """Required. The display name of the version."""
+
+    lifecycle: Optional[GoogleCloudApihubV1AttributeValues6] = UNSET
+    """Optional. The lifecycle of the API version. This maps to the following system defined attribute:
+    ``projects/{project}/locations/{location}/attributes/system-lifecycle`` attribute. The number of values for this
+    attribute will be based on the cardinality of the attribute. The same can be retrieved via GetAttribute API. All
+    values should be from the list of allowed values defined for the attribute."""
+
+    attributes: Optional[dict[str, GoogleCloudApihubV1AttributeValues]] = UNSET
+    """Optional. The list of user defined attributes associated with the Version resource. The key is the attribute
+    name. It will be of the format: ``projects/{project}/locations/{location}/attributes/{attribute}``. The value is the
+    attribute values associated with the resource."""
+
+    description: Optional[str] = UNSET
+    """Optional. The description of the version."""
+
+    name: Optional[str] = UNSET
+    """Identifier. The name of the version. Format:
+    ``projects/{project}/locations/{location}/apis/{api}/versions/{version}``"""
+
+    source_metadata: Optional[list[GoogleCloudApihubV1SourceMetadata]] = Field(default=UNSET, alias="sourceMetadata")
+    """Output only. The list of sources and metadata from the sources of the version."""
+
+    documentation: Optional[GoogleCloudApihubV1Documentation2] = UNSET
+    """Optional. The documentation of the version."""
+
+    accreditation: Optional[GoogleCloudApihubV1AttributeValues7] = UNSET
+    """Optional. The accreditations associated with the API version. This maps to the following system defined
+    attribute: ``projects/{project}/locations/{location}/attributes/system-accreditation`` attribute. The number of
+    values for this attribute will be based on the cardinality of the attribute. The same can be retrieved via
+    GetAttribute API. All values should be from the list of allowed values defined for the attribute."""
+
+    compliance: Optional[GoogleCloudApihubV1AttributeValues8] = UNSET
+    """Optional. The compliance associated with the API version. This maps to the following system defined attribute:
+    ``projects/{project}/locations/{location}/attributes/system-compliance`` attribute. The number of values for this
+    attribute will be based on the cardinality of the attribute. The same can be retrieved via GetAttribute API. All
+    values should be from the list of allowed values defined for the attribute."""
+
+
+class GoogleCloudApihubV1Version5Dict(TypedDict):
+    specs: NotRequired[list[str]]
+    definitions: NotRequired[list[str]]
+    selected_deployment: NotRequired[str]
+    update_time: NotRequired[str]
+    api_operations: NotRequired[list[str]]
+    create_time: NotRequired[str]
+    deployments: NotRequired[list[str]]
+    display_name: NotRequired[str]
+    lifecycle: NotRequired[GoogleCloudApihubV1AttributeValues6Dict]
+    attributes: NotRequired[dict[str, GoogleCloudApihubV1AttributeValuesDict]]
+    description: NotRequired[str]
+    name: NotRequired[str]
+    source_metadata: NotRequired[list[GoogleCloudApihubV1SourceMetadataDict]]
+    documentation: NotRequired[GoogleCloudApihubV1Documentation2Dict]
+    accreditation: NotRequired[GoogleCloudApihubV1AttributeValues7Dict]
+    compliance: NotRequired[GoogleCloudApihubV1AttributeValues8Dict]

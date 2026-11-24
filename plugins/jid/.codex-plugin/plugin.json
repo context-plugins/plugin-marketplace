@@ -1,0 +1,10 @@
+{
+  "name": "jid",
+  "version": "0.1.0",
+  "description": "Verify, screen, and monitor businesses before an agent pays or signs with JID.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "JID",
+    "developerName": "APIMatic"
+  }
+}

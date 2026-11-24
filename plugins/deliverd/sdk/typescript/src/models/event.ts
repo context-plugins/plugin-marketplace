@@ -1,0 +1,45 @@
+import * as s from "../core/validation/index.js";
+import type { EnumSchema } from "../core/validation/schema.js";
+
+export const Event = {
+  ReportPublished: "report.published",
+  ReportUpdated: "report.updated",
+  ReportShared: "report.shared",
+  ReportViewed: "report.viewed",
+  CommentCreated: "comment.created",
+  AccessRequested: "access.requested",
+  ScheduleDue: "schedule.due",
+  PublishHeld: "publish.held",
+  ApprovalRequested: "approval.requested",
+  ApprovalApproved: "approval.approved",
+  ApprovalRejected: "approval.rejected",
+  ApprovalExpired: "approval.expired",
+  ApprovalEscalated: "approval.escalated",
+  ApprovalQuestion: "approval.question",
+  ApprovalAnswered: "approval.answered",
+  ApprovalChangesRequested: "approval.changes_requested",
+  ReviewRequested: "review.requested",
+  ReviewApproved: "review.approved",
+  ReviewChangesRequested: "review.changes_requested",
+  CollectionRequested: "collection.requested",
+  CollectionCompleted: "collection.completed",
+  FlowCompleted: "flow.completed",
+  GateDenied: "gate.denied",
+  GateCreated: "gate.created",
+  GateApproved: "gate.approved",
+  GateRejected: "gate.rejected",
+  GateChangesRequested: "gate.changes_requested",
+  GateExpired: "gate.expired",
+  GateCancelled: "gate.cancelled",
+  GateRevoked: "gate.revoked",
+  GateExecuted: "gate.executed",
+  TaskCompleted: "task.completed",
+  TaskBlocked: "task.blocked",
+  SideTaskCompleted: "side_task.completed",
+  RiskIndicatorBreached: "risk_indicator.breached",
+  ContextChanged: "context.changed",
+  AuditEvent: "audit.event",
+} as const;
+export type Event = (typeof Event)[keyof typeof Event] | (string & {});
+
+export const eventSchema: EnumSchema<Event> = s.enumOf<Event>(Event);

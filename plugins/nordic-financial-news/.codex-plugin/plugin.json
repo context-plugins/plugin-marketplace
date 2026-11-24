@@ -1,0 +1,10 @@
+{
+  "name": "nordic-financial-news",
+  "version": "0.1.0",
+  "description": "Get English summaries of Nordic financial news, company events, calendars, and watchlists with Nordic Financial News.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Nordic Financial News",
+    "developerName": "APIMatic"
+  }
+}

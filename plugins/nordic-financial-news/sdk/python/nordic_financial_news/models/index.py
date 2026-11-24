@@ -1,0 +1,17 @@
+from __future__ import annotations
+
+from typing_extensions import NotRequired, TypedDict
+
+from ..core import UNSET, Optional, SdkBaseModel
+
+
+class Index(SdkBaseModel):
+    id: Optional[str] = UNSET
+    name: Optional[str] = UNSET
+    symbol: Optional[str] = UNSET
+
+
+class IndexDict(TypedDict):
+    id: NotRequired[str]
+    name: NotRequired[str]
+    symbol: NotRequired[str]

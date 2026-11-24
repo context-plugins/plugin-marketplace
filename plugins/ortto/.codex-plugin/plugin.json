@@ -1,0 +1,10 @@
+{
+  "name": "ortto",
+  "version": "0.1.0",
+  "description": "Manage people, accounts, activities, tags, campaigns, and transactional email with Ortto.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Ortto",
+    "developerName": "APIMatic"
+  }
+}

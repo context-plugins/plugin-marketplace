@@ -1,0 +1,10 @@
+{
+  "name": "forcedream",
+  "version": "0.1.0",
+  "description": "Call pay-per-use data services for sentiment, fraud checks, tax rates, translation, and LLM inference with ForceDream.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "ForceDream",
+    "developerName": "APIMatic"
+  }
+}

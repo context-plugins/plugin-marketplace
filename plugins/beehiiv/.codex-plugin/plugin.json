@@ -1,0 +1,10 @@
+{
+  "name": "beehiiv",
+  "version": "0.1.0",
+  "description": "Manage newsletter publications, posts, subscriptions, segments, automations, and webhooks on beehiiv.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "beehiiv",
+    "developerName": "APIMatic"
+  }
+}

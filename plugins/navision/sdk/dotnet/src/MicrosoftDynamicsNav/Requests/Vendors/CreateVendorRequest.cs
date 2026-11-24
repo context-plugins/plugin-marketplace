@@ -1,0 +1,17 @@
+using System;
+using MicrosoftDynamicsNav.Models;
+
+namespace MicrosoftDynamicsNav.Requests.Vendors;
+
+/// <summary>
+/// The inputs of the CreateVendor operation.
+/// </summary>
+public sealed record CreateVendorRequest
+{
+    /// <summary>
+    /// The unique identifier of the company
+    /// </summary>
+    public required Guid CompanyId { get; init; }
+
+    public required VendorCreate Body { get; init; }
+}

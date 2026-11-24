@@ -1,0 +1,18 @@
+{
+  "name": "stoplight",
+  "displayName": "Stoplight",
+  "version": "0.1.0",
+  "description": "Import, export, and publish API projects with Stoplight.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

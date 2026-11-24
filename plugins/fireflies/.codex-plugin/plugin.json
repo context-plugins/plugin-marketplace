@@ -1,0 +1,10 @@
+{
+  "name": "fireflies",
+  "version": "0.1.0",
+  "description": "Query and update meeting transcripts, summaries, and action items with Fireflies.ai.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Fireflies.ai",
+    "developerName": "APIMatic"
+  }
+}

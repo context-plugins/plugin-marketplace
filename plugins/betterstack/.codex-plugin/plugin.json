@@ -1,0 +1,10 @@
+{
+  "name": "betterstack",
+  "version": "0.1.0",
+  "description": "Manage uptime monitors, heartbeats, incidents, and status pages with Better Stack.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Better Stack",
+    "developerName": "APIMatic"
+  }
+}

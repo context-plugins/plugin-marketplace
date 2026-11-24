@@ -1,0 +1,17 @@
+using System.Text.Json.Serialization;
+using AmazonRekognition.Core.Models;
+
+namespace AmazonRekognition.Models;
+
+public record LabelAlias
+{
+    /// <summary>
+    /// The name of an alias for a given label.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("Name")]
+    public string? Name { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

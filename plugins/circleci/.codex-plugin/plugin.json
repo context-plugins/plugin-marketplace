@@ -1,0 +1,10 @@
+{
+  "name": "circleci",
+  "version": "0.1.0",
+  "description": "Trigger pipelines and manage projects, workflows, jobs, contexts, schedules, and insights on CircleCI.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "CircleCI",
+    "developerName": "APIMatic"
+  }
+}

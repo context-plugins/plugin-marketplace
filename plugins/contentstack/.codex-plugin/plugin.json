@@ -1,0 +1,10 @@
+{
+  "name": "contentstack",
+  "version": "0.1.0",
+  "description": "Manage content types, entries, assets, environments, and Launch deployments in Contentstack.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Contentstack",
+    "developerName": "APIMatic"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "amazon-vpc",
+  "displayName": "Amazon VPC",
+  "version": "0.1.0",
+  "description": "Manage VPCs, subnets, route tables, internet and NAT gateways, and network ACLs with Amazon VPC.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

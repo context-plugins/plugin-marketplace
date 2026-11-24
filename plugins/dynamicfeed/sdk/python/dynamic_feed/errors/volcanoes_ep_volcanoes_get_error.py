@@ -1,0 +1,24 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Final, TypeAlias
+
+from ..core import ErrorMapper, RawError, decode_json
+from ..models.http_validation_error import HttpValidationError
+
+VolcanoesEpVolcanoesGetErrorBody: TypeAlias = HttpValidationError | RawError
+
+
+@dataclass(frozen=True, slots=True)
+class _VolcanoesEpVolcanoesGetError:
+    def map(self, status_code: int, content: bytes) -> VolcanoesEpVolcanoesGetErrorBody:
+        match status_code:
+            case 422:
+                return decode_json[HttpValidationError](content)
+            case _:
+                return RawError(status_code, content)
+
+
+volcanoes_ep_volcanoes_get_error_mapper: Final[
+    ErrorMapper[VolcanoesEpVolcanoesGetErrorBody]
+] = _VolcanoesEpVolcanoesGetError()

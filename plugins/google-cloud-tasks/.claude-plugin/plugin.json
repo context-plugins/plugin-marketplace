@@ -1,0 +1,21 @@
+{
+  "name": "google-cloud-tasks",
+  "displayName": "Google Cloud Tasks",
+  "version": "0.1.0",
+  "description": "Create and manage queues and tasks with Google Cloud Tasks.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/google-cloud-tasks-planner.md"
+  ]
+}

@@ -1,0 +1,107 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using ParallelSdk.Core.Extensions;
+using ParallelSdk.Core.Models;
+
+namespace ParallelSdk.Models.AnyOf;
+
+/// <summary>
+/// Input to the task, either text or a JSON object.
+/// </summary>
+[JsonConverter(typeof(InputParallelAiTasksApiConverter))]
+public record InputParallelAiTasksApi
+{
+    private readonly Optional<string> _stringValue;
+
+    private readonly Optional<object> _anonymousObjectValue;
+
+    private readonly Optional<UnknownArm> _unknownValue;
+
+    private InputParallelAiTasksApi(Optional<string> stringValue,
+        Optional<object> anonymousObjectValue,
+        Optional<UnknownArm> unknownValue)
+    {
+        _stringValue = stringValue;
+        _anonymousObjectValue = anonymousObjectValue;
+        _unknownValue = unknownValue;
+    }
+
+    public static InputParallelAiTasksApi String(string value) => new(Optional<string>.Some(value), default, default);
+
+    public static InputParallelAiTasksApi AnonymousObject(object value) =>
+        new(default, Optional<object>.Some(value), default);
+
+    internal static InputParallelAiTasksApi Unknown(JsonElement value) =>
+        new(default, default, Optional<UnknownArm>.Some(new UnknownArm(value)));
+
+    public bool TryGetString([NotNullWhen(true)] out string? value) => _stringValue.TryGetValue(out value);
+
+    public bool TryGetAnonymousObject([NotNullWhen(true)] out object? value) =>
+        _anonymousObjectValue.TryGetValue(out value);
+
+    public bool TryGetUnknown(out JsonElement value) => _unknownValue.TryGetValue(out value);
+
+    public static implicit operator InputParallelAiTasksApi(string value) => String(value);
+
+    public TResult Match<TResult>(Func<string, TResult> onString,
+        Func<object, TResult> onAnonymousObject,
+        Func<JsonElement, TResult> otherwise) =>
+        this switch
+        {
+            _ when TryGetString(out var stringValue) => onString(stringValue),
+            _ when TryGetAnonymousObject(out var anonymousObjectValue) => onAnonymousObject(anonymousObjectValue),
+            _ when TryGetUnknown(out var unknownValue) => otherwise(unknownValue),
+            _ => throw new InvalidOperationException($"{nameof(InputParallelAiTasksApi)} holds no value.")
+        };
+
+    public void Match(Action<string> onString, Action<object> onAnonymousObject, Action<JsonElement> otherwise)
+    {
+        if (TryGetString(out var stringValue)) onString(stringValue);
+        else if (TryGetAnonymousObject(out var anonymousObjectValue)) onAnonymousObject(anonymousObjectValue);
+        else if (TryGetUnknown(out var unknownValue)) otherwise(unknownValue);
+        else throw new InvalidOperationException($"{nameof(InputParallelAiTasksApi)} holds no value.");
+    }
+}
+
+file sealed class InputParallelAiTasksApiConverter : JsonConverter<InputParallelAiTasksApi>
+{
+    public override InputParallelAiTasksApi Read(ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options)
+    {
+        using var doc = JsonDocument.ParseValue(ref reader);
+        var root = doc.RootElement;
+        if (root.ValueKind == JsonValueKind.String)
+        {
+            var value = root.GetString()!;
+            return InputParallelAiTasksApi.String(value);
+        }
+        if (JsonSerializer.TryDeserialize<object>(root, options, out var anonymousObjectValue))
+        {
+            return InputParallelAiTasksApi.AnonymousObject(anonymousObjectValue);
+        }
+        return InputParallelAiTasksApi.Unknown(root);
+    }
+
+    public override void Write(Utf8JsonWriter writer, InputParallelAiTasksApi value, JsonSerializerOptions options)
+    {
+        if (value.TryGetString(out var stringValue))
+        {
+            JsonSerializer.Serialize(writer, stringValue, options);
+        }
+        else if (value.TryGetAnonymousObject(out var anonymousObjectValue))
+        {
+            JsonSerializer.Serialize(writer, anonymousObjectValue, options);
+        }
+        else if (value.TryGetUnknown(out var unknownValue))
+        {
+            unknownValue.WriteTo(writer);
+        }
+        else
+        {
+            throw new JsonException($"{nameof(InputParallelAiTasksApi)} contains no valid value to serialize.");
+        }
+    }
+}

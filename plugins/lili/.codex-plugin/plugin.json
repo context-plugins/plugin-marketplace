@@ -1,0 +1,10 @@
+{
+  "name": "lili",
+  "version": "0.1.0",
+  "description": "Create business banking applications, upload documents, register payments, and manage webhooks with Lili.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Lili",
+    "developerName": "APIMatic"
+  }
+}

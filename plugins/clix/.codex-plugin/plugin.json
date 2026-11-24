@@ -1,0 +1,10 @@
+{
+  "name": "clix",
+  "version": "0.1.0",
+  "description": "Manage users, devices, and events, and send push notifications and Live Activities with Clix.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Clix",
+    "developerName": "APIMatic"
+  }
+}

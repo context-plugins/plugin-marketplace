@@ -1,0 +1,10 @@
+{
+  "name": "plinth-us-grants-data",
+  "version": "0.1.0",
+  "description": "Search US foundation grants, funders, and grantees from IRS Form 990 filings with Plinth.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Plinth US Grants Data",
+    "developerName": "APIMatic"
+  }
+}

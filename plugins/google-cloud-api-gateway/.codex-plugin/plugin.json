@@ -1,0 +1,10 @@
+{
+  "name": "google-cloud-api-gateway",
+  "version": "0.1.0",
+  "description": "Manage APIs, API configs, and gateways with Google Cloud API Gateway.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Google Cloud API Gateway",
+    "developerName": "APIMatic"
+  }
+}

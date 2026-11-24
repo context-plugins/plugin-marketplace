@@ -1,0 +1,10 @@
+{
+  "name": "coresignal",
+  "version": "0.1.0",
+  "description": "Search and collect enriched multi-source company records with Coresignal.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Coresignal",
+    "developerName": "APIMatic"
+  }
+}

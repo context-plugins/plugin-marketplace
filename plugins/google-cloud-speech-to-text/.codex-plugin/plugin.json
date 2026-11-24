@@ -1,0 +1,10 @@
+{
+  "name": "google-cloud-speech-to-text",
+  "version": "0.1.0",
+  "description": "Transcribe audio to text and manage recognition operations with Google Cloud Speech-to-Text.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Google Cloud Speech-to-Text",
+    "developerName": "APIMatic"
+  }
+}

@@ -1,0 +1,5 @@
+<Solution>
+    <Folder Name="/src/">
+        <Project Path="src/Crawl4Ai/Crawl4Ai.csproj" />
+    </Folder>
+</Solution>

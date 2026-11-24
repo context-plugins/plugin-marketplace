@@ -1,0 +1,10 @@
+{
+  "name": "flowaccount",
+  "version": "0.1.0",
+  "description": "Create quotations, invoices, receipts, credit notes, expenses, and purchase orders in FlowAccount.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "FlowAccount",
+    "developerName": "APIMatic"
+  }
+}

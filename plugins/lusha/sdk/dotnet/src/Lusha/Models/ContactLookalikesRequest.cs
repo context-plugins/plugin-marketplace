@@ -1,0 +1,32 @@
+using System;
+using System.Text.Json.Serialization;
+using Lusha.Core.Validation.Attributes;
+
+namespace Lusha.Models;
+
+public record ContactLookalikesRequest
+{
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("dedupeSessionId")]
+    public Guid? DedupeSessionId { get; init; }
+
+    [JsonPropertyName("seeds")]
+    public required ContactIdentifiersBatch? Seeds { get; init; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("exclude")]
+    public ContactIdentifiersBatch? Exclude { get; init; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("limit")]
+    [Minimum(1)]
+    [Maximum(100)]
+    public int? Limit { get; init; } = 25;
+
+    /// <summary>
+    /// Optional. If provided, results are also persisted to this table. See the Tables API.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("tableId")]
+    public string? TableId { get; init; }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "amazon-devops-guru",
+  "displayName": "Amazon DevOps Guru",
+  "version": "0.1.0",
+  "description": "Find operational anomalies, insights, and recommendations for your AWS resources with Amazon DevOps Guru.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/amazon-dev-ops-guru-planner.md"
+  ]
+}

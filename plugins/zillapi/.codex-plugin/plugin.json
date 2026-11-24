@@ -1,0 +1,10 @@
+{
+  "name": "zillapi",
+  "version": "0.1.0",
+  "description": "Look up Zillow properties, search listings, and run batch jobs with webhooks with Zillapi.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Zillapi",
+    "developerName": "APIMatic"
+  }
+}

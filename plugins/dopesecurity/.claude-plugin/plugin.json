@@ -1,0 +1,21 @@
+{
+  "name": "dopesecurity",
+  "displayName": "dope.security",
+  "version": "0.1.0",
+  "description": "Manage secure web gateway policies, custom categories, bypass lists, and endpoints with dope.security.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/dope-security-planner.md"
+  ]
+}

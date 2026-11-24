@@ -1,0 +1,30 @@
+from __future__ import annotations
+
+from typing_extensions import TypedDict
+
+from ..core import SdkBaseModel
+from .enums.value_model_content_value_types_items_monetary_conversion_conditions_items_operator import (
+    ValueModelContentValueTypesItemsMonetaryConversionConditionsItemsOperatorOrStr,
+)
+from .unions.value_model_content_value_types_items_monetary_conversion_conditions_items_value import (
+    ValueModelContentValueTypesItemsMonetaryConversionConditionsItemsValue,
+    ValueModelContentValueTypesItemsMonetaryConversionConditionsItemsValueDict,
+)
+from .value_model_content_value_types_items_monetary_conversion_conditions_items_result import (
+    ValueModelContentValueTypesItemsMonetaryConversionConditionsItemsResult,
+    ValueModelContentValueTypesItemsMonetaryConversionConditionsItemsResultDict,
+)
+
+
+class ValueModelContentValueTypesItemsMonetaryConversionConditionsItems(SdkBaseModel):
+    field: str
+    operator: ValueModelContentValueTypesItemsMonetaryConversionConditionsItemsOperatorOrStr
+    value: ValueModelContentValueTypesItemsMonetaryConversionConditionsItemsValue
+    result: ValueModelContentValueTypesItemsMonetaryConversionConditionsItemsResult
+
+
+class ValueModelContentValueTypesItemsMonetaryConversionConditionsItemsDict(TypedDict):
+    field: str
+    operator: ValueModelContentValueTypesItemsMonetaryConversionConditionsItemsOperatorOrStr
+    value: ValueModelContentValueTypesItemsMonetaryConversionConditionsItemsValueDict
+    result: ValueModelContentValueTypesItemsMonetaryConversionConditionsItemsResultDict

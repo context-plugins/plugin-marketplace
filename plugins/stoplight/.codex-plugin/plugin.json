@@ -1,0 +1,10 @@
+{
+  "name": "stoplight",
+  "version": "0.1.0",
+  "description": "Import, export, and publish API projects with Stoplight.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Stoplight",
+    "developerName": "APIMatic"
+  }
+}

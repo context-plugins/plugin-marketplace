@@ -1,0 +1,21 @@
+{
+  "name": "didlogic",
+  "displayName": "DIDLogic",
+  "version": "0.1.0",
+  "description": "Buy and manage phone numbers, SIP accounts, calls, SMS, and KYC documents with DIDLogic.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/didlogic-planner.md"
+  ]
+}

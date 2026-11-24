@@ -1,0 +1,42 @@
+using System;
+using System.Text.Json.Serialization;
+using Divvy.Core.Models;
+
+namespace Divvy.Models;
+
+/// <summary>
+/// Rpps disbursement dto when the disbursement type is ACH to verified national vendor.
+/// </summary>
+public record RppsDisbursement
+{
+    /// <summary>
+    /// ACH payment to verified national vendor sent date
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("sentDate")]
+    public DateTimeOffset? SentDate { get; init; }
+
+    /// <summary>
+    /// ACH payment to verified national vendor arrives by date
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("arrivesByDate")]
+    public DateTimeOffset? ArrivesByDate { get; init; }
+
+    /// <summary>
+    /// Payment trace number. This value is used to uniquely identify a payment in a batch.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("traceNumber")]
+    public int? TraceNumber { get; init; }
+
+    /// <summary>
+    /// Payment batch number
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("batchNumber")]
+    public int? BatchNumber { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

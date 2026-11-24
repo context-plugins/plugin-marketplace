@@ -1,0 +1,96 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+import { dialogCodeHookSettingsSchema, type DialogCodeHookSettings } from "./dialog-code-hook-settings.js";
+import {
+  fulfillmentCodeHookSettingsSchema,
+  type FulfillmentCodeHookSettings,
+} from "./fulfillment-code-hook-settings.js";
+import { initialResponseSettingSchema, type InitialResponseSetting } from "./initial-response-setting.js";
+import { inputContextSchema, type InputContext } from "./input-context.js";
+import { intentClosingSettingSchema, type IntentClosingSetting } from "./intent-closing-setting.js";
+import {
+  intentConfirmationSettingSchema,
+  type IntentConfirmationSetting,
+} from "./intent-confirmation-setting.js";
+import { kendraConfigurationSchema, type KendraConfiguration } from "./kendra-configuration.js";
+import { outputContextSchema, type OutputContext } from "./output-context.js";
+import {
+  qInConnectIntentConfigurationSchema,
+  type QInConnectIntentConfiguration,
+} from "./qin-connect-intent-configuration.js";
+import { qnAIntentConfigurationSchema, type QnAIntentConfiguration } from "./qn-aintent-configuration.js";
+import { sampleUtteranceSchema, type SampleUtterance } from "./sample-utterance.js";
+import { slotPrioritySchema, type SlotPriority } from "./slot-priority.js";
+
+export type UpdateIntentResponse = {
+  /** The identifier of the intent that was updated. */
+  intentId?: string;
+  /** The updated name of the intent. */
+  intentName?: string;
+  /** The updated display name of the intent. */
+  intentDisplayName?: string;
+  /** The updated description of the intent. */
+  description?: string;
+  /** The updated built-in intent that is the parent of this intent. */
+  parentIntentSignature?: string;
+  /** The updated list of sample utterances for the intent. */
+  sampleUtterances?: SampleUtterance[];
+  dialogCodeHook?: DialogCodeHookSettings;
+  fulfillmentCodeHook?: FulfillmentCodeHookSettings;
+  /**
+   * The updated list of slots and their priorities that are elicited from the user for the intent.
+   */
+  slotPriorities?: SlotPriority[];
+  intentConfirmationSetting?: IntentConfirmationSetting;
+  intentClosingSetting?: IntentClosingSetting;
+  /**
+   * The updated list of contexts that must be active for the intent to be considered by Amazon Lex.
+   */
+  inputContexts?: InputContext[];
+  /** The updated list of contexts that Amazon Lex activates when the intent is fulfilled. */
+  outputContexts?: OutputContext[];
+  kendraConfiguration?: KendraConfiguration;
+  /** The identifier of the bot that contains the intent. */
+  botId?: string;
+  /** The version of the bot that contains the intent. Will always be DRAFT. */
+  botVersion?: string;
+  /** The updated language and locale of the intent. */
+  localeId?: string;
+  /** A timestamp of when the intent was created. */
+  creationDateTime?: Date;
+  /** A timestamp of the last time that the intent was modified. */
+  lastUpdatedDateTime?: Date;
+  initialResponseSetting?: InitialResponseSetting;
+  qnAIntentConfiguration?: QnAIntentConfiguration;
+  qInConnectIntentConfiguration?: QInConnectIntentConfiguration;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const updateIntentResponseSchema: Schema<UpdateIntentResponse> = s.object<UpdateIntentResponse>(
+  {
+    intentId: s.optional(s.string()),
+    intentName: s.optional(s.string()),
+    intentDisplayName: s.optional(s.string()),
+    description: s.optional(s.string()),
+    parentIntentSignature: s.optional(s.string()),
+    sampleUtterances: s.optional(s.array(s.lazy(() => sampleUtteranceSchema))),
+    dialogCodeHook: s.optional(s.lazy(() => dialogCodeHookSettingsSchema)),
+    fulfillmentCodeHook: s.optional(s.lazy(() => fulfillmentCodeHookSettingsSchema)),
+    slotPriorities: s.optional(s.array(s.lazy(() => slotPrioritySchema))),
+    intentConfirmationSetting: s.optional(s.lazy(() => intentConfirmationSettingSchema)),
+    intentClosingSetting: s.optional(s.lazy(() => intentClosingSettingSchema)),
+    inputContexts: s.optional(s.array(s.lazy(() => inputContextSchema))),
+    outputContexts: s.optional(s.array(s.lazy(() => outputContextSchema))),
+    kendraConfiguration: s.optional(s.lazy(() => kendraConfigurationSchema)),
+    botId: s.optional(s.string()),
+    botVersion: s.optional(s.string()),
+    localeId: s.optional(s.string()),
+    creationDateTime: s.optional(s.dateTime()),
+    lastUpdatedDateTime: s.optional(s.dateTime()),
+    initialResponseSetting: s.optional(s.lazy(() => initialResponseSettingSchema)),
+    qnAIntentConfiguration: s.optional(s.lazy(() => qnAIntentConfigurationSchema)),
+    qInConnectIntentConfiguration: s.optional(s.lazy(() => qInConnectIntentConfigurationSchema)),
+  },
+  { additionalProperties: s.json() },
+);

@@ -1,0 +1,21 @@
+{
+  "name": "fireflies",
+  "displayName": "Fireflies.ai",
+  "version": "0.1.0",
+  "description": "Query and update meeting transcripts, summaries, and action items with Fireflies.ai.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/fireflies-ai-planner.md"
+  ]
+}

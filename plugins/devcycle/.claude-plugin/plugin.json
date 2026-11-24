@@ -1,0 +1,21 @@
+{
+  "name": "devcycle",
+  "displayName": "DevCycle",
+  "version": "0.1.0",
+  "description": "Manage feature flags, variables, environments, audiences, and overrides with DevCycle.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/dev-cycle-planner.md"
+  ]
+}

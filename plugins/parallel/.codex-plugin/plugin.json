@@ -1,0 +1,10 @@
+{
+  "name": "parallel",
+  "version": "0.1.0",
+  "description": "Run web search, extraction, research tasks, and monitors for AI agents with Parallel.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Parallel",
+    "developerName": "APIMatic"
+  }
+}

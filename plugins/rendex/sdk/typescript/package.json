@@ -1,0 +1,70 @@
+{
+  "name": "rendex",
+  "version": "1.8.0",
+  "description": "Render any webpage, raw HTML, or Markdown to a pixel-perfect image or PDF.\nA rendering API for automation builders and AI agents — HTML-to-image, URL\nscreenshots, hosted OG links, and URL-to-Markdown extraction from one endpoint.\n\nDeployed on Cloudflare's global edge (300+ locations, zero cold starts).\nMCP-compatible for AI agent workflows. Free tier included.\n\n**Features**: PNG/JPEG/WebP/PDF output, HTML/URL/Markdown input, batch capture (up to 500 URLs),\ngeo-targeted rendering (50+ countries), async pipeline with webhook\ndelivery, CSS/JS injection, custom cookies and headers, full-page capture,\ndark mode emulation, ad blocking, element selectors, custom viewports\n(320–3840px), device scale factor (1–3x), progressive navigation with\nautomatic fallback.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "tshy": {
+    "exports": {
+      ".": "./src/index.ts",
+      "./package.json": "./package.json"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "project": "./tsconfig.tshy.json",
+    "selfLink": false
+  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "tsconfig.json",
+    "tsconfig.tshy.json",
+    "README.md",
+    "api-reference.md",
+    "sdk-map.md",
+    "map"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.3"
+  },
+  "scripts": {
+    "prepare": "tshy",
+    "build": "tshy",
+    "smoke": "node -e \"require('rendex')\" && node --input-type=module -e \"import('rendex')\"",
+    "typecheck": "tsc --noEmit",
+    "typecheck:dom": "tsc --noEmit -p tsconfig.dom.json",
+    "lint": "oxlint --type-aware --max-warnings=0 src",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "oxfmt": "^0.61.0",
+    "oxlint": "^1.76.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "tshy": "^4.1.3",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  }
+}

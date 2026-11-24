@@ -1,0 +1,21 @@
+{
+  "name": "google-cloud-talent-solution",
+  "displayName": "Google Cloud Talent Solution",
+  "version": "0.1.0",
+  "description": "Manage tenants, companies, and jobs, and run job search with Google Cloud Talent Solution.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/google-cloud-talent-solution-planner.md"
+  ]
+}

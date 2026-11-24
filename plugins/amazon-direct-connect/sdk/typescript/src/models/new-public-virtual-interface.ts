@@ -1,0 +1,78 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+import { addressFamilySchema, type AddressFamily } from "./address-family.js";
+import { routeFilterPrefixSchema, type RouteFilterPrefix } from "./route-filter-prefix.js";
+import { tagSchema, type Tag } from "./tag.js";
+
+export type NewPublicVirtualInterface = {
+  /**
+   * The name of the virtual interface assigned by the customer network. The name has a maximum of
+   * 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
+   */
+  virtualInterfaceName: string;
+  /** The ID of the VLAN. */
+  vlan: number;
+  /**
+   * The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway
+   * Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is
+   * returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using
+   * asnLong as it supports a greater pool of numbers. If you provide a value in the same API call
+   * for both asn and asnLong, the API will only accept the value for asnLong. If you enter a 4-byte
+   * ASN for the asn parameter, the API returns an error. If you are using a 2-byte ASN, the API
+   * response will include the 2-byte value
+   */
+  asn?: number;
+  /**
+   * The long ASN for a new public virtual interface. The valid range is from 1 to 4294967294 for
+   * BGP configuration. Note the following limitations when using asnLong: You can use asnLong or
+   * asn, but not both. We recommend using asnLong as it supports a greater pool of numbers. asnLong
+   * accepts any valid ASN value, regardless if it's 2-byte or 4-byte. When using a 4-byte asnLong,
+   * the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the
+   * maximum supported value of 2,147,483,647. If you are using a 2-byte ASN, the API response will
+   * include the 2-byte value for both the
+   */
+  asnLong?: number;
+  /**
+   * The authentication key for BGP configuration. This string has a minimum length of 6 characters
+   * and and a maximun lenth of 80 characters.
+   */
+  authKey?: string;
+  /** The IP address assigned to the Amazon interface. */
+  amazonAddress?: string;
+  /** The IP address assigned to the customer interface. */
+  customerAddress?: string;
+  /** The address family for the BGP peer. */
+  addressFamily?: AddressFamily;
+  /**
+   * The routes to be advertised to the Amazon Web Services network in this Region. Applies to
+   * public virtual interfaces.
+   */
+  routeFilterPrefixes?: RouteFilterPrefix[];
+  /** The tags associated with the public virtual interface. */
+  tags?: Tag[];
+  /**
+   * The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit
+   * restricts the maximum bandwidth that the virtual interface can use on the parent connection.
+   */
+  rateLimit?: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const newPublicVirtualInterfaceSchema: Schema<NewPublicVirtualInterface> =
+  s.object<NewPublicVirtualInterface>(
+    {
+      virtualInterfaceName: s.string(),
+      vlan: s.int(),
+      asn: s.optional(s.int()),
+      asnLong: s.optional(s.int()),
+      authKey: s.optional(s.string()),
+      amazonAddress: s.optional(s.string()),
+      customerAddress: s.optional(s.string()),
+      addressFamily: s.optional(s.lazy(() => addressFamilySchema)),
+      routeFilterPrefixes: s.optional(s.array(s.lazy(() => routeFilterPrefixSchema))),
+      tags: s.optional(s.array(s.lazy(() => tagSchema))),
+      rateLimit: s.optional(s.string()),
+    },
+    { additionalProperties: s.json() },
+  );

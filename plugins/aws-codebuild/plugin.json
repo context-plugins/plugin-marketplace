@@ -1,0 +1,18 @@
+{
+  "name": "aws-codebuild",
+  "displayName": "AWS CodeBuild",
+  "version": "0.1.0",
+  "description": "Run builds and manage build projects, reports, fleets, and sandboxes with AWS CodeBuild.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

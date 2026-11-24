@@ -1,0 +1,10 @@
+{
+  "name": "prismareviews",
+  "version": "0.1.0",
+  "description": "Read and reply to reviews from App Store, Google Play, Yelp, Tripadvisor, and other platforms with PrismaReviews.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "PrismaReviews",
+    "developerName": "APIMatic"
+  }
+}

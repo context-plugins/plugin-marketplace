@@ -1,0 +1,22 @@
+namespace Apigee.Requests.Organizations;
+
+/// <summary>
+/// The inputs of the ApigeeOrganizationsEnvironmentsArchiveDeploymentsGet operation.
+/// </summary>
+public sealed record ApigeeOrganizationsEnvironmentsArchiveDeploymentsGetRequest
+{
+    /// <summary>
+    /// Resource name segment (organizationsId).
+    /// </summary>
+    public required string OrganizationsId { get; init; }
+
+    /// <summary>
+    /// Resource name segment (environmentsId).
+    /// </summary>
+    public required string EnvironmentsId { get; init; }
+
+    /// <summary>
+    /// Resource name segment (archiveDeploymentsId).
+    /// </summary>
+    public required string ArchiveDeploymentsId { get; init; }
+}

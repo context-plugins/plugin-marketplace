@@ -1,0 +1,10 @@
+{
+  "name": "cosmic",
+  "version": "0.1.0",
+  "description": "Model and manage Cosmic CMS content: objects, object types, media, revisions, and blocks.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Cosmic",
+    "developerName": "APIMatic"
+  }
+}

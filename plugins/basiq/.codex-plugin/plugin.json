@@ -1,0 +1,10 @@
+{
+  "name": "basiq",
+  "version": "0.1.0",
+  "description": "Connect bank accounts and retrieve transactions, affordability, income, and identity data with Basiq.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Basiq",
+    "developerName": "APIMatic"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "stayingapi",
+  "version": "0.1.0",
+  "description": "Search Airbnb, Booking.com, Vrbo, and Google Hotels availability and compare prices with StayingAPI.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "StayingAPI",
+    "developerName": "APIMatic"
+  }
+}

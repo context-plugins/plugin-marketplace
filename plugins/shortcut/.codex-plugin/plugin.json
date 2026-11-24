@@ -1,0 +1,10 @@
+{
+  "name": "shortcut",
+  "version": "0.1.0",
+  "description": "Manage Shortcut stories, epics, iterations, objectives, documents, and workflows.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Shortcut",
+    "developerName": "APIMatic"
+  }
+}

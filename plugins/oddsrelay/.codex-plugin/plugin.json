@@ -1,0 +1,10 @@
+{
+  "name": "oddsrelay",
+  "version": "0.1.0",
+  "description": "Get matched sportsbook odds boards, coverage, and discovery data from OddsRelay.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "OddsRelay",
+    "developerName": "APIMatic"
+  }
+}

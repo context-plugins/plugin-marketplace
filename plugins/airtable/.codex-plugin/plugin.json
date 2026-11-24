@@ -1,0 +1,10 @@
+{
+  "name": "airtable",
+  "version": "0.1.0",
+  "description": "Manage Airtable bases, tables, fields, records, comments, webhooks, and SCIM users and groups.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Airtable",
+    "developerName": "APIMatic"
+  }
+}

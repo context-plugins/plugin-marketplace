@@ -1,0 +1,10 @@
+{
+  "name": "google-search-console",
+  "version": "0.1.0",
+  "description": "Query Google Search Console search analytics, sitemaps, sites, and URL inspection results.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Google Search Console",
+    "developerName": "APIMatic"
+  }
+}

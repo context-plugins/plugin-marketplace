@@ -1,0 +1,20 @@
+import * as s from "../core/validation/index.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
+import { revisionSchema, type Revision } from "./revision.js";
+
+export type RevisionListResponse = {
+  revisions: Revision[];
+  total?: number;
+  limit?: number;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
+};
+
+export const revisionListResponseSchema: Schema<RevisionListResponse> = s.object<RevisionListResponse>(
+  {
+    revisions: s.array(s.lazy(() => revisionSchema)),
+    total: s.optional(s.int()),
+    limit: s.optional(s.int()),
+  },
+  { additionalProperties: s.json() },
+);

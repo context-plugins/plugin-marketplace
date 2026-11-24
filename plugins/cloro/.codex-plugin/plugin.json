@@ -1,0 +1,10 @@
+{
+  "name": "cloro",
+  "version": "0.1.0",
+  "description": "Monitor ChatGPT, Gemini, and Grok answers and run async AI search scraping tasks with Cloro.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Cloro",
+    "developerName": "APIMatic"
+  }
+}

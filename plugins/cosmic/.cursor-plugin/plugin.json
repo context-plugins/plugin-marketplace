@@ -1,0 +1,18 @@
+{
+  "name": "cosmic",
+  "displayName": "Cosmic",
+  "version": "0.1.0",
+  "description": "Model and manage Cosmic CMS content: objects, object types, media, revisions, and blocks.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ]
+}

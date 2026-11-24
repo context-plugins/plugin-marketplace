@@ -1,0 +1,70 @@
+{
+  "name": "cosmic",
+  "version": "3.0.0",
+  "description": "The Cosmic v3 REST API for content operations against a single Bucket.\n\n## When to use this API\n\nReach for this API to model content (Object types and Metafields), create and query content (Objects), read version history (Revisions), and manage media metadata. A Bucket is the unit of isolation: every path below is scoped to one Bucket slug, and the access keys are per-Bucket.\n\n## Authentication\n\nReads use the Bucket read key as a `read_key` query parameter. Writes use the Bucket write key as an `Authorization: Bearer` header. Both keys are found under Bucket > Settings > API Access in the dashboard. There is no account-level credential: a key grants access to exactly one Bucket.\n\n## Scope of this document\n\nThis document describes only the endpoints served by `https://api.cosmicjs.com/v3`. Other documented parts of the Cosmic surface live on different hosts and are not yet specified here:\n\n- Agent signup, agent status, and user endpoints (`/v3/agents/*`, `/v3/users/*`) are served by `https://dapi.cosmicjs.com`. An agent with no prior Cosmic account should start at `POST https://dapi.cosmicjs.com/v3/agents/sign-up`.\n- Media upload (`POST /v3/buckets/{slug}/media`) is served by `https://workers.cosmicjs.com`. Media read, update, and delete are on this host and are specified below.\n- AI generation endpoints (`/v3/ai/*`) are served by `https://dapi.cosmicjs.com`.\n\nBe aware of one quirk when probing this host: an unrecognized path under `/v3` currently answers `200` with a body of `{\"message\":\"Route not found\", ...}` rather than a `404`. Treat that body, not the status line, as the signal that a path does not exist. The response names the host that serves the path you probably wanted.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "tshy": {
+    "exports": {
+      ".": "./src/index.ts",
+      "./package.json": "./package.json"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "project": "./tsconfig.tshy.json",
+    "selfLink": false
+  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "tsconfig.json",
+    "tsconfig.tshy.json",
+    "README.md",
+    "api-reference.md",
+    "sdk-map.md",
+    "map"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.3"
+  },
+  "scripts": {
+    "prepare": "tshy",
+    "build": "tshy",
+    "smoke": "node -e \"require('cosmic')\" && node --input-type=module -e \"import('cosmic')\"",
+    "typecheck": "tsc --noEmit",
+    "typecheck:dom": "tsc --noEmit -p tsconfig.dom.json",
+    "lint": "oxlint --type-aware --max-warnings=0 src",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "oxfmt": "^0.61.0",
+    "oxlint": "^1.76.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "tshy": "^4.1.3",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  }
+}

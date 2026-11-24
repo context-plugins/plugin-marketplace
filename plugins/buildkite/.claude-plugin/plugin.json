@@ -1,0 +1,21 @@
+{
+  "name": "buildkite",
+  "displayName": "Buildkite",
+  "version": "0.1.0",
+  "description": "Control Buildkite pipelines, builds, jobs, artifacts, annotations, agents, and clusters.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/buildkite-planner.md"
+  ]
+}

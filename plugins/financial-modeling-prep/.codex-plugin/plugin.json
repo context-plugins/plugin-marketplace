@@ -1,0 +1,10 @@
+{
+  "name": "financial-modeling-prep",
+  "version": "0.1.0",
+  "description": "Get stock quotes, company profiles, financial statements, and insider trading data from Financial Modeling Prep.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Financial Modeling Prep",
+    "developerName": "APIMatic"
+  }
+}

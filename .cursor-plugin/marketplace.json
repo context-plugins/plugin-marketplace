@@ -221,6 +221,176 @@
       "name": "trilogy-oneroster",
       "source": "./plugins/trilogy-oneroster",
       "description": "Manage OneRoster rosters, classes, enrollments, users, and gradebook results."
+    },
+    {
+      "name": "airtable",
+      "source": "./plugins/airtable",
+      "description": "Manage Airtable bases, tables, fields, records, comments, webhooks, and SCIM users and groups."
+    },
+    {
+      "name": "airwallex",
+      "source": "./plugins/airwallex",
+      "description": "Accept payments, manage balances, beneficiaries, payouts, refunds, and transfers with Airwallex."
+    },
+    {
+      "name": "alphaai",
+      "source": "./plugins/alphaai",
+      "description": "Fetch ticker-linked financial news, stories, earnings calendars, and market radar signals from AlphaAI."
+    },
+    {
+      "name": "amazon-appsync",
+      "source": "./plugins/amazon-appsync",
+      "description": "Manage AWS AppSync GraphQL and Event APIs, data sources, resolvers, functions, caches, and API keys."
+    },
+    {
+      "name": "apibara",
+      "source": "./plugins/apibara",
+      "description": "Search Copart and IAAI vehicle auctions: lot and VIN details, photos, prices, and sale history with Apibara."
+    },
+    {
+      "name": "applike",
+      "source": "./plugins/applike",
+      "description": "Send app events and manage apps, campaigns, bids, and partner connections on justtrack (Applike)."
+    },
+    {
+      "name": "appstorespy",
+      "source": "./plugins/appstorespy",
+      "description": "Look up App Store and Google Play apps, rankings, events, and search suggestions with AppstoreSpy."
+    },
+    {
+      "name": "asana",
+      "source": "./plugins/asana",
+      "description": "Manage Asana tasks, projects, portfolios, goals, custom fields, teams, and workspaces."
+    },
+    {
+      "name": "audioscrape",
+      "source": "./plugins/audioscrape",
+      "description": "Search podcasts and episodes, top charts, people, and knowledge-graph entities with Audioscrape."
+    },
+    {
+      "name": "basiq",
+      "source": "./plugins/basiq",
+      "description": "Connect bank accounts and retrieve transactions, affordability, income, and identity data with Basiq."
+    },
+    {
+      "name": "bitbucket",
+      "source": "./plugins/bitbucket",
+      "description": "Automate Bitbucket repositories, pull requests, pipelines, issues, commits, and deployments."
+    },
+    {
+      "name": "bitly",
+      "source": "./plugins/bitly",
+      "description": "Shorten links and manage Bitlinks, QR codes, campaigns, branded domains, and webhooks on Bitly."
+    },
+    {
+      "name": "boomi",
+      "source": "./plugins/boomi",
+      "description": "Manage Boomi atoms, components, environments, deployments, process executions, and DataHub records."
+    },
+    {
+      "name": "browser-use",
+      "source": "./plugins/browser-use",
+      "description": "Run Browser Use AI agents and manage cloud browser sessions, profiles, extensions, and integrations."
+    },
+    {
+      "name": "browserstack",
+      "source": "./plugins/browserstack",
+      "description": "Manage BrowserStack Automate builds, sessions, projects, plans, browsers, and access keys."
+    },
+    {
+      "name": "buildkite",
+      "source": "./plugins/buildkite",
+      "description": "Control Buildkite pipelines, builds, jobs, artifacts, annotations, agents, and clusters."
+    },
+    {
+      "name": "bundle-social",
+      "source": "./plugins/bundle-social",
+      "description": "Schedule and publish social media posts, import comments, and read analytics with Bundle.social."
+    },
+    {
+      "name": "callnode",
+      "source": "./plugins/callnode",
+      "description": "Place calls and send SMS, MMS, fax, and email, and manage phone numbers and SIP trunks with CallNode."
+    },
+    {
+      "name": "carsxe",
+      "source": "./plugins/carsxe",
+      "description": "Decode VINs and license plates and get vehicle specs, market values, history, recalls, and images from CarsXE."
+    },
+    {
+      "name": "celestia",
+      "source": "./plugins/celestia",
+      "description": "Submit, retrieve, and prove blobs on the Celestia data availability network."
+    },
+    {
+      "name": "cloro",
+      "source": "./plugins/cloro",
+      "description": "Monitor ChatGPT, Gemini, and Grok answers and run async AI search scraping tasks with Cloro."
+    },
+    {
+      "name": "codeqr",
+      "source": "./plugins/codeqr",
+      "description": "Create short links and QR codes, and manage domains, folders, tags, and analytics with CodeQR."
+    },
+    {
+      "name": "common-elements",
+      "source": "./plugins/common-elements",
+      "description": "Search US community associations with parcel, permit, and compliance data from Common Elements."
+    },
+    {
+      "name": "compabase",
+      "source": "./plugins/compabase",
+      "description": "Search companies and people, financial statements, registers, tenders, and news with Compabase."
+    },
+    {
+      "name": "cosmic",
+      "source": "./plugins/cosmic",
+      "description": "Model and manage Cosmic CMS content: objects, object types, media, revisions, and blocks."
+    },
+    {
+      "name": "financial-modeling-prep",
+      "source": "./plugins/financial-modeling-prep",
+      "description": "Get stock quotes, company profiles, financial statements, and insider trading data from Financial Modeling Prep."
+    },
+    {
+      "name": "google-analytics",
+      "source": "./plugins/google-analytics",
+      "description": "Manage Google Analytics accounts, account summaries, and properties through the Admin API."
+    },
+    {
+      "name": "google-search-console",
+      "source": "./plugins/google-search-console",
+      "description": "Query Google Search Console search analytics, sitemaps, sites, and URL inspection results."
+    },
+    {
+      "name": "mailboxlayer",
+      "source": "./plugins/mailboxlayer",
+      "description": "Check and verify email addresses, singly or in bulk, with mailboxlayer."
+    },
+    {
+      "name": "oddsrelay",
+      "source": "./plugins/oddsrelay",
+      "description": "Get matched sportsbook odds boards, coverage, and discovery data from OddsRelay."
+    },
+    {
+      "name": "sapling",
+      "source": "./plugins/sapling",
+      "description": "Detect AI-generated text, proofread, classify, and extract structured data with Sapling."
+    },
+    {
+      "name": "serpapi",
+      "source": "./plugins/serpapi",
+      "description": "Fetch real-time Google, Bing, YouTube, and other search engine results with SerpApi."
+    },
+    {
+      "name": "shortcut",
+      "source": "./plugins/shortcut",
+      "description": "Manage Shortcut stories, epics, iterations, objectives, documents, and workflows."
+    },
+    {
+      "name": "stayingapi",
+      "source": "./plugins/stayingapi",
+      "description": "Search Airbnb, Booking.com, Vrbo, and Google Hotels availability and compare prices with StayingAPI."
     }
   ]
 }

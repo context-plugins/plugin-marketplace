@@ -1,0 +1,10 @@
+{
+  "name": "amazon-appsync",
+  "version": "0.1.0",
+  "description": "Manage AWS AppSync GraphQL and Event APIs, data sources, resolvers, functions, caches, and API keys.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Amazon AppSync",
+    "developerName": "APIMatic"
+  }
+}

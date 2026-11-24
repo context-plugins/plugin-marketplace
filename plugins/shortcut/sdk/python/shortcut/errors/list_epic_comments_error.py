@@ -1,0 +1,21 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Final, TypeAlias
+
+from ..core import ErrorMapper, RawError
+
+ListEpicCommentsErrorBody: TypeAlias = RawError
+
+
+@dataclass(frozen=True, slots=True)
+class _ListEpicCommentsError:
+    def map(self, status_code: int, content: bytes) -> ListEpicCommentsErrorBody:
+        match status_code:
+            case 400 | 404 | 422:
+                return RawError(status_code, content)
+            case _:
+                return RawError(status_code, content)
+
+
+list_epic_comments_error_mapper: Final[ErrorMapper[ListEpicCommentsErrorBody]] = _ListEpicCommentsError()

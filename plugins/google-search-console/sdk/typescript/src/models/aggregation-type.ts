@@ -1,0 +1,22 @@
+import * as s from "../core/validation/index.js";
+import type { EnumSchema } from "../core/validation/schema.js";
+
+/**
+ * [Optional; Default is \"auto\"] How data is aggregated. If aggregated by property, all data for
+ * the same property is aggregated; if aggregated by page, all data is aggregated by canonical URI.
+ * If you filter or group by page, choose AUTO; otherwise you can aggregate either by property or by
+ * page, depending on how you want your data calculated; see the help documentation to learn how
+ * data is calculated differently by site versus by page. **Note:** If you group or filter by page,
+ * you cannot aggregate by property. If you specify any value other than AUTO, the aggregation type
+ * in the result will match the requested type, or if you request an invalid type, you will get an
+ * error. The API will never change your aggregation type if the requested type is invalid.
+ */
+export const AggregationType = {
+  Auto: "AUTO",
+  ByProperty: "BY_PROPERTY",
+  ByPage: "BY_PAGE",
+  ByNewsShowcasePanel: "BY_NEWS_SHOWCASE_PANEL",
+} as const;
+export type AggregationType = (typeof AggregationType)[keyof typeof AggregationType] | (string & {});
+
+export const aggregationTypeSchema: EnumSchema<AggregationType> = s.enumOf<AggregationType>(AggregationType);

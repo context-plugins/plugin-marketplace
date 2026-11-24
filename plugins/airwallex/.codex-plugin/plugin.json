@@ -1,0 +1,10 @@
+{
+  "name": "airwallex",
+  "version": "0.1.0",
+  "description": "Accept payments, manage balances, beneficiaries, payouts, refunds, and transfers with Airwallex.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Airwallex",
+    "developerName": "APIMatic"
+  }
+}

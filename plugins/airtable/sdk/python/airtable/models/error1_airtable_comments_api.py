@@ -1,0 +1,19 @@
+from __future__ import annotations
+
+from pydantic import Field
+from typing_extensions import TypedDict
+
+from ..core import SdkBaseModel
+
+
+class Error1AirtableCommentsApi(SdkBaseModel):
+    type_: str = Field(alias="type")
+    """The type of error (e.g., AUTHENTICATION_REQUIRED, NOT_FOUND, INVALID_REQUEST)."""
+
+    message: str
+    """A human-readable description of the error."""
+
+
+class Error1AirtableCommentsApiDict(TypedDict):
+    type_: str
+    message: str

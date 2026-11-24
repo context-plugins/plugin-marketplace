@@ -1,0 +1,5 @@
+<Solution>
+    <Folder Name="/src/">
+        <Project Path="src/GoogleSearchConsole/GoogleSearchConsole.csproj" />
+    </Folder>
+</Solution>

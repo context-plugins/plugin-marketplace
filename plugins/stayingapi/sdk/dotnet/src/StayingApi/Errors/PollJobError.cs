@@ -1,0 +1,50 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
+using StayingApi.Core.ErrorResponse;
+using StayingApi.Core.Models;
+using StayingApi.Models;
+
+namespace StayingApi.Errors;
+
+public sealed class PollJobError : ApiError
+{
+    private readonly Optional<ErrorEnvelope> _errorEnvelopeValue;
+
+    private PollJobError(Optional<ErrorEnvelope> errorEnvelopeValue, Optional<RawError> fallback) : base(fallback)
+    {
+        _errorEnvelopeValue = errorEnvelopeValue;
+    }
+
+    private static PollJobError AsErrorEnvelope(ErrorEnvelope value) =>
+        new(Optional<ErrorEnvelope>.Some(value), default);
+
+    private static PollJobError AsFallback(RawError value) => new(default, Optional<RawError>.Some(value));
+
+    public bool TryGetErrorEnvelope([NotNullWhen(true)] out ErrorEnvelope? value) =>
+        _errorEnvelopeValue.TryGetValue(out value);
+
+    public TResult Match<TResult>(Func<ErrorEnvelope, TResult> onErrorEnvelope, Func<RawError, TResult> otherwise) =>
+        this switch
+        {
+            _ when TryGetErrorEnvelope(out var errorEnvelopeValue) => onErrorEnvelope(errorEnvelopeValue),
+            _ when TryGetRawError(out var fallback) => otherwise(fallback),
+            _ => throw new InvalidOperationException($"{nameof(PollJobError)} holds no value.")
+        };
+
+    public void Match(Action<ErrorEnvelope> onErrorEnvelope, Action<RawError> otherwise)
+    {
+        if (TryGetErrorEnvelope(out var errorEnvelopeValue)) onErrorEnvelope(errorEnvelopeValue);
+        else if (TryGetRawError(out var fallback)) otherwise(fallback);
+        else throw new InvalidOperationException($"{nameof(PollJobError)} holds no value.");
+    }
+
+    private static Task<PollJobError> Create(FailedResponse response) =>
+        response.StatusCode switch
+        {
+            401 or 404 => response.Json<ErrorEnvelope>().As(AsErrorEnvelope),
+            _ => response.RawBody().As(AsFallback)
+        };
+
+    internal static ApiErrorResponse<PollJobError> Response { get; } = new(Create);
+}

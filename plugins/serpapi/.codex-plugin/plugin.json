@@ -1,0 +1,10 @@
+{
+  "name": "serpapi",
+  "version": "0.1.0",
+  "description": "Fetch real-time Google, Bing, YouTube, and other search engine results with SerpApi.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "SerpApi",
+    "developerName": "APIMatic"
+  }
+}

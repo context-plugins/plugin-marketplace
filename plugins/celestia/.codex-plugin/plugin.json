@@ -1,0 +1,10 @@
+{
+  "name": "celestia",
+  "version": "0.1.0",
+  "description": "Submit, retrieve, and prove blobs on the Celestia data availability network.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Celestia",
+    "developerName": "APIMatic"
+  }
+}

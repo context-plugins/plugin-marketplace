@@ -231,9 +231,7 @@ A required credential you never configured fails the call with `AuthSchemeExcept
 
 | Group | `Production` base URL | Override point |
 | --- | --- | --- |
-| `Default` | `https://{defaultHost}` | `options.Server.Default.Production.BaseUrl` |
-
-`Default` · `Production` template variables: `{defaultHost}` defaults to `"www.example.com"` — override `options.Server.Default.Production.DefaultHost`.
+| `Default` | `https://api.appstorespy.com/v1` | `options.Server.Default.Production.BaseUrl` |
 
 Retry/resilience is configurable via `options.Retry` (`RetryOptions`, backed by Polly).
 

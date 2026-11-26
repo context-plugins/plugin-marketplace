@@ -22,7 +22,7 @@ Usage companions: `dotnet-client-initialization`, `dotnet-authentication`, `dotn
 | Client class | `HudClient` |
 | Options class | `HudClientOptions` |
 | Auth | None — this SDK generates no authentication |
-| Environments | `ServerEnvironment.Production` *(default)* → `https://{defaultHost}` |
+| Environments | `ServerEnvironment.Production` *(default)* → `https://api.hud.ai` |
 | Log environment variable | `HUD_LOG` |
 | Target framework | `netstandard2.0` (C# `LangVersion 14`) |
 

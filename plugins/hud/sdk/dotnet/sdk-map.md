@@ -214,9 +214,7 @@ Namespaces by content type (add `using` accordingly):
 
 | Group | `Production` base URL | Override point |
 | --- | --- | --- |
-| `Default` | `https://{defaultHost}` | `options.Server.Default.Production.BaseUrl` |
-
-`Default` · `Production` template variables: `{defaultHost}` defaults to `"www.example.com"` — override `options.Server.Default.Production.DefaultHost`.
+| `Default` | `https://api.hud.ai` | `options.Server.Default.Production.BaseUrl` |
 
 Retry/resilience is configurable via `options.Retry` (`RetryOptions`, backed by Polly).
 

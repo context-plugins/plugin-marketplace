@@ -8,8 +8,7 @@ export type Servers = {
 };
 
 const serverSchemas = {
-  baseUrl: s.of(s.defaulted(s.string(), "https://{defaultHost}")),
-  defaultHost: s.of(s.defaulted(s.string(), "www.example.com")),
+  baseUrl: s.of(s.defaulted(s.string(), "https://api.hud.ai")),
 };
 
 export function buildServers(options: ClientOptions): Servers {
@@ -22,8 +21,5 @@ export function buildServers(options: ClientOptions): Servers {
 }
 
 function defaultServer(options: ClientOptions): ServerBase {
-  return {
-    baseUrl: serverSchemas.baseUrl.decode(options.serverOptions?.baseUrl),
-    variables: { defaultHost: serverSchemas.defaultHost.decode(options.serverOptions?.defaultHost) },
-  };
+  return { baseUrl: serverSchemas.baseUrl.decode(options.serverOptions?.baseUrl) };
 }

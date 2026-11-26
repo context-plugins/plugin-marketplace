@@ -7,58 +7,42 @@ from uuid import UUID, uuid4
 
 from typing_extensions import Self
 
+from .auth import AuthSchemes
 from .base_client import DEFAULT_TIMEOUT, BaseForceDreamClient
 from .core import (
     OPERATING_SYSTEM,
     PYTHON_RUNTIME,
     ApiResult,
-    BaseRawResponse,
+    BearerAuthScheme,
     HttpClient,
     Httpx2Client,
     LoggingOptionsOrDict,
     RawClient,
+    RawError,
     RequestOptionsOrDict,
     RetryOptionsOrDict,
     SdkHook,
     SdkHooksDict,
-    empty_response,
+    SecuredRawResponse,
     json_body,
+    json_decoder,
+    no_auth,
     param,
+    raw_error_response,
     unwrap,
 )
-from .errors.anomaly_detection_error import AnomalyDetectionErrorBody, anomaly_detection_error_mapper
-from .errors.classification_error import ClassificationErrorBody, classification_error_mapper
-from .errors.code_generation_error import CodeGenerationErrorBody, code_generation_error_mapper
-from .errors.fraud_signal_error import FraudSignalErrorBody, fraud_signal_error_mapper
-from .errors.lead_score_error import LeadScoreErrorBody, lead_score_error_mapper
-from .errors.model_inference_error import ModelInferenceErrorBody, model_inference_error_mapper
-from .errors.prompt_template_error import PromptTemplateErrorBody, prompt_template_error_mapper
-from .errors.proof_of_work_error import ProofOfWorkErrorBody, proof_of_work_error_mapper
-from .errors.security_scan_error import SecurityScanErrorBody, security_scan_error_mapper
-from .errors.semantic_cache_error import SemanticCacheErrorBody, semantic_cache_error_mapper
-from .errors.sentiment_feed_error import SentimentFeedErrorBody, sentiment_feed_error_mapper
-from .errors.summarization_error import SummarizationErrorBody, summarization_error_mapper
-from .errors.tax_jar_lookup_error import TaxJarLookupErrorBody, tax_jar_lookup_error_mapper
-from .errors.translation_error import TranslationErrorBody, translation_error_mapper
-from .errors.validation_error import ValidationErrorBody, validation_error_mapper
-from .models.v1_oracle_anomaly_detection_request import (
-    V1OracleAnomalyDetectionRequest,
-    V1OracleAnomalyDetectionRequestDict,
-)
-from .models.v1_oracle_classification_request import V1OracleClassificationRequest, V1OracleClassificationRequestDict
-from .models.v1_oracle_code_generation_request import V1OracleCodeGenerationRequest, V1OracleCodeGenerationRequestDict
-from .models.v1_oracle_fraud_signal_request import V1OracleFraudSignalRequest, V1OracleFraudSignalRequestDict
-from .models.v1_oracle_lead_score_request import V1OracleLeadScoreRequest, V1OracleLeadScoreRequestDict
-from .models.v1_oracle_model_inference_request import V1OracleModelInferenceRequest, V1OracleModelInferenceRequestDict
-from .models.v1_oracle_prompt_template_request import V1OraclePromptTemplateRequest, V1OraclePromptTemplateRequestDict
-from .models.v1_oracle_proof_of_work_request import V1OracleProofOfWorkRequest, V1OracleProofOfWorkRequestDict
-from .models.v1_oracle_security_scan_request import V1OracleSecurityScanRequest, V1OracleSecurityScanRequestDict
-from .models.v1_oracle_semantic_cache_request import V1OracleSemanticCacheRequest, V1OracleSemanticCacheRequestDict
-from .models.v1_oracle_sentiment_feed_request import V1OracleSentimentFeedRequest, V1OracleSentimentFeedRequestDict
-from .models.v1_oracle_summarization_request import V1OracleSummarizationRequest, V1OracleSummarizationRequestDict
-from .models.v1_oracle_tax_jar_lookup_request import V1OracleTaxJarLookupRequest, V1OracleTaxJarLookupRequestDict
-from .models.v1_oracle_translation_request import V1OracleTranslationRequest, V1OracleTranslationRequestDict
-from .models.v1_oracle_validation_request import V1OracleValidationRequest, V1OracleValidationRequestDict
+from .errors.get_balance_error import GetBalanceErrorBody, get_balance_error_mapper
+from .errors.invoke_agent_error import InvokeAgentErrorBody, invoke_agent_error_mapper
+from .models.agent_list_result import AgentListResult
+from .models.api_signup_request import ApiSignupRequest, ApiSignupRequestDict
+from .models.balance_result import BalanceResult
+from .models.invoke_result import InvokeResult
+from .models.reliability_list_result import ReliabilityListResult
+from .models.signup_result import SignupResult
+from .models.v1_agents_invoke_request import V1AgentsInvokeRequest, V1AgentsInvokeRequestDict
+from .models.v1_agents_invoke_response import V1AgentsInvokeResponse
+from .models.v1_workforce_proof_public_key_response import V1WorkforceProofPublicKeyResponse
+from .models.v1_workforce_proof_public_response import V1WorkforceProofPublicResponse
 from .server.server import Server
 
 
@@ -72,6 +56,7 @@ class ForceDreamClient(BaseForceDreamClient[RawClient]):
         logging_options: LoggingOptionsOrDict | None = None,
         hooks: Sequence[SdkHook] | SdkHooksDict | None = None,
         custom_http_client: HttpClient | None = None,
+        bearer_auth: str | None = None,
     ) -> None:
         super().__init__(
             base_url=base_url, timeout=timeout, retry_options=retry_options, logging_options=logging_options
@@ -82,408 +67,166 @@ class ForceDreamClient(BaseForceDreamClient[RawClient]):
             logging_options=self._logging_options,
             hooks=hooks if hooks is not None else [],
             global_headers=[
-                param[str]("User-Agent", "ForceDreamClient/1.0.0 Python"),
+                param[str]("User-Agent", "ForceDreamClient/0.1.0 Python"),
                 param[str]("X-APIMatic-Lang", "Python"),
-                param[str]("X-APIMatic-Package-Version", "1.0.0"),
+                param[str]("X-APIMatic-Package-Version", "0.1.0"),
                 param[str]("X-APIMatic-Gen-Version", "4.0.0"),
                 param[str]("X-APIMatic-OS", OPERATING_SYSTEM),
                 param[str]("X-APIMatic-Runtime", PYTHON_RUNTIME),
             ],
         )
+        self._auth = AuthSchemes(bearer_auth=BearerAuthScheme(bearer_auth) if bearer_auth is not None else no_auth)
 
     @cached_property
     def with_raw_response(self) -> ApiWithRawResponse:
-        return ApiWithRawResponse(self._raw_client, self._server)
+        return ApiWithRawResponse(self._raw_client, self._server, self._auth)
 
-    def anomaly_detection(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleAnomalyDetectionRequest | V1OracleAnomalyDetectionRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> None:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+    def get_agent_reliability(self, *, request_options: RequestOptionsOrDict | None = None) -> ReliabilityListResult:
+        """Keyless. Used by all three SDKs to merge live ``health`` data into agent search results. A reliability-fetch
+        failure never blocks the core agent listing.
 
         Args:
-            x_payment_intent_id: Value sent with the request.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Reliability data for all agents
+
+        Raises:
+            ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
+        return unwrap(self.with_raw_response.get_agent_reliability(request_options=request_options))
+
+    def get_balance(self, *, request_options: RequestOptionsOrDict | None = None) -> BalanceResult:
+        """Send a ``GET`` request.
+
+        Args:
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Current balance
+
+        Raises:
+            ApiError: Invalid or missing API key ``error`` is ``Unauthorized1 | RawError``."""
+        return unwrap(self.with_raw_response.get_balance(request_options=request_options))
+
+    def get_invoke_result(
+        self, slug: str, task_id: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> InvokeResult:
+        """Real polling contract used identically by all three official SDKs: start polling at a 2500ms interval, add
+        1000ms after each attempt, cap at 6000ms, bounded by a caller-set total wait (default 60s, min 5s, max 120s).
+        The response's ``status`` (or ``outcome``) field distinguishes ``completed``/``succeeded``, ``insufficient``
+        (agent honestly declined -- charged nothing), ``charge_failed``, ``failed``/``dead_letter``, or still-pending
+        (any other value, including the field being absent).
+
+        Args:
+            slug: Value sent with the request.
+            task_id: Value sent with the request.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Current task state (may still be pending)
+
+        Raises:
+            ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
+        return unwrap(self.with_raw_response.get_invoke_result(slug, task_id, request_options=request_options))
+
+    def get_proof(
+        self, task_id: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> V1WorkforceProofPublicResponse:
+        """Keyless. Returns the real proof object needed for client-side Ed25519 verification. **Honest gap**: the exact
+        behavior for a task_id that has not yet completed (404, a 200 with a null proof, or otherwise) is not directly
+        confirmed by tonight's testing -- every real verification tested used an already-completed task. Documented as
+        ``200`` below for the confirmed case only; do not assume the shape of an unconfirmed case.
+
+        Args:
+            task_id: Value sent with the request.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Proof found (confirmed only for already-completed tasks)
+
+        Raises:
+            ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
+        return unwrap(self.with_raw_response.get_proof(task_id, request_options=request_options))
+
+    def get_proof_public_key(
+        self, *, request_options: RequestOptionsOrDict | None = None
+    ) -> V1WorkforceProofPublicKeyResponse:
+        """Keyless. Required to verify any proof's signature.
+
+        Args:
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Public key
+
+        Raises:
+            ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
+        return unwrap(self.with_raw_response.get_proof_public_key(request_options=request_options))
+
+    def invoke_agent(
+        self,
+        slug: str,
+        body: V1AgentsInvokeRequest | V1AgentsInvokeRequestDict,
+        *,
+        request_options: RequestOptionsOrDict | None = None,
+    ) -> V1AgentsInvokeResponse:
+        """Spends your balance -- requires an ``fd_live_`` key. Enqueues the task and returns immediately; it does not
+        wait for completion. Poll ``/v1/agents/{slug}/result/{taskId}`` for the outcome. Never call this again for the
+        same logical task after a timeout -- re-invoking would double-charge.
+
+        Args:
+            slug: Value sent with the request.
             body: The request body.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
         Returns:
-            Data returned after payment
+            Task enqueued
 
         Raises:
-            ApiError: Payment required — see payment.payment_link ``error`` is ``RawError``."""
-        return unwrap(
-            self.with_raw_response.anomaly_detection(
-                x_payment_intent_id=x_payment_intent_id, body=body, request_options=request_options
-            ),
-        )
+            ApiError: Invalid or missing API key ``error`` is ``Unauthorized1 | RawError``."""
+        return unwrap(self.with_raw_response.invoke_agent(slug, body, request_options=request_options))
 
-    def classification(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleClassificationRequest | V1OracleClassificationRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> None:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+    def list_agents(self, *, request_options: RequestOptionsOrDict | None = None) -> AgentListResult:
+        """Keyless -- no account needed. Real, load-bearing fact confirmed directly from the source, not assumed: **this
+        endpoint has no working server-side capability or query filter.** All three official SDKs fetch the full list
+        and filter client-side. A prior draft of the OpenAPI scope for this spec listed a nonexistent
+        ``/v1/agents/search`` endpoint; it does not exist. Filter client-side against this endpoint's full response
+        instead, exactly as the official SDKs do.
 
         Args:
-            x_payment_intent_id: Value sent with the request.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
+
+        Returns:
+            Full agent registry
+
+        Raises:
+            ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
+        return unwrap(self.with_raw_response.list_agents(request_options=request_options))
+
+    def signup(
+        self, body: ApiSignupRequest | ApiSignupRequestDict, *, request_options: RequestOptionsOrDict | None = None
+    ) -> SignupResult:
+        """No API key required -- this is how you get one. Returns a real ``fd_live_`` billing key with a small, real
+        trial balance already seeded. Verified live, repeatedly, across all three SDKs tonight.
+
+        Args:
             body: The request body.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
         Returns:
-            Data returned after payment
+            Account created
 
         Raises:
-            ApiError: Payment required — see payment.payment_link ``error`` is ``RawError``."""
-        return unwrap(
-            self.with_raw_response.classification(
-                x_payment_intent_id=x_payment_intent_id, body=body, request_options=request_options
-            ),
-        )
-
-    def code_generation(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleCodeGenerationRequest | V1OracleCodeGenerationRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> None:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            Data returned after payment
-
-        Raises:
-            ApiError: Payment required — see payment.payment_link ``error`` is ``RawError``."""
-        return unwrap(
-            self.with_raw_response.code_generation(
-                x_payment_intent_id=x_payment_intent_id, body=body, request_options=request_options
-            ),
-        )
-
-    def fraud_signal(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleFraudSignalRequest | V1OracleFraudSignalRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> None:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            Data returned after payment
-
-        Raises:
-            ApiError: Payment required — see payment.payment_link ``error`` is ``RawError``."""
-        return unwrap(
-            self.with_raw_response.fraud_signal(
-                x_payment_intent_id=x_payment_intent_id, body=body, request_options=request_options
-            ),
-        )
-
-    def lead_score(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleLeadScoreRequest | V1OracleLeadScoreRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> None:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            Data returned after payment
-
-        Raises:
-            ApiError: Payment required — see payment.payment_link ``error`` is ``RawError``."""
-        return unwrap(
-            self.with_raw_response.lead_score(
-                x_payment_intent_id=x_payment_intent_id, body=body, request_options=request_options
-            ),
-        )
-
-    def model_inference(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleModelInferenceRequest | V1OracleModelInferenceRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> None:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            Data returned after payment
-
-        Raises:
-            ApiError: Payment required — see payment.payment_link ``error`` is ``RawError``."""
-        return unwrap(
-            self.with_raw_response.model_inference(
-                x_payment_intent_id=x_payment_intent_id, body=body, request_options=request_options
-            ),
-        )
-
-    def prompt_template(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OraclePromptTemplateRequest | V1OraclePromptTemplateRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> None:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            Data returned after payment
-
-        Raises:
-            ApiError: Payment required — see payment.payment_link ``error`` is ``RawError``."""
-        return unwrap(
-            self.with_raw_response.prompt_template(
-                x_payment_intent_id=x_payment_intent_id, body=body, request_options=request_options
-            ),
-        )
-
-    def proof_of_work(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleProofOfWorkRequest | V1OracleProofOfWorkRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> None:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            Data returned after payment
-
-        Raises:
-            ApiError: Payment required — see payment.payment_link ``error`` is ``RawError``."""
-        return unwrap(
-            self.with_raw_response.proof_of_work(
-                x_payment_intent_id=x_payment_intent_id, body=body, request_options=request_options
-            ),
-        )
-
-    def security_scan(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleSecurityScanRequest | V1OracleSecurityScanRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> None:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            Data returned after payment
-
-        Raises:
-            ApiError: Payment required — see payment.payment_link ``error`` is ``RawError``."""
-        return unwrap(
-            self.with_raw_response.security_scan(
-                x_payment_intent_id=x_payment_intent_id, body=body, request_options=request_options
-            ),
-        )
-
-    def semantic_cache(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleSemanticCacheRequest | V1OracleSemanticCacheRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> None:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            Data returned after payment
-
-        Raises:
-            ApiError: Payment required — see payment.payment_link ``error`` is ``RawError``."""
-        return unwrap(
-            self.with_raw_response.semantic_cache(
-                x_payment_intent_id=x_payment_intent_id, body=body, request_options=request_options
-            ),
-        )
-
-    def sentiment_feed(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleSentimentFeedRequest | V1OracleSentimentFeedRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> None:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            Data returned after payment
-
-        Raises:
-            ApiError: Payment required — see payment.payment_link ``error`` is ``RawError``."""
-        return unwrap(
-            self.with_raw_response.sentiment_feed(
-                x_payment_intent_id=x_payment_intent_id, body=body, request_options=request_options
-            ),
-        )
-
-    def summarization(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleSummarizationRequest | V1OracleSummarizationRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> None:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            Data returned after payment
-
-        Raises:
-            ApiError: Payment required — see payment.payment_link ``error`` is ``RawError``."""
-        return unwrap(
-            self.with_raw_response.summarization(
-                x_payment_intent_id=x_payment_intent_id, body=body, request_options=request_options
-            ),
-        )
-
-    def tax_jar_lookup(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleTaxJarLookupRequest | V1OracleTaxJarLookupRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> None:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            Data returned after payment
-
-        Raises:
-            ApiError: Payment required — see payment.payment_link ``error`` is ``RawError``."""
-        return unwrap(
-            self.with_raw_response.tax_jar_lookup(
-                x_payment_intent_id=x_payment_intent_id, body=body, request_options=request_options
-            ),
-        )
-
-    def translation(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleTranslationRequest | V1OracleTranslationRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> None:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            Data returned after payment
-
-        Raises:
-            ApiError: Payment required — see payment.payment_link ``error`` is ``RawError``."""
-        return unwrap(
-            self.with_raw_response.translation(
-                x_payment_intent_id=x_payment_intent_id, body=body, request_options=request_options
-            ),
-        )
-
-    def validation(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleValidationRequest | V1OracleValidationRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> None:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            Data returned after payment
-
-        Raises:
-            ApiError: Payment required — see payment.payment_link ``error`` is ``RawError``."""
-        return unwrap(
-            self.with_raw_response.validation(
-                x_payment_intent_id=x_payment_intent_id, body=body, request_options=request_options
-            ),
-        )
+            ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
+        return unwrap(self.with_raw_response.signup(body, request_options=request_options))
 
     def close(self) -> None:
         self._raw_client.http_client.close()
@@ -497,163 +240,130 @@ class ForceDreamClient(BaseForceDreamClient[RawClient]):
         self.close()
 
 
-class ApiWithRawResponse(BaseRawResponse[RawClient, Server]):
-    def anomaly_detection(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleAnomalyDetectionRequest | V1OracleAnomalyDetectionRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> ApiResult[None, AnomalyDetectionErrorBody]:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+class ApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
+    def get_agent_reliability(
+        self, *, request_options: RequestOptionsOrDict | None = None
+    ) -> ApiResult[ReliabilityListResult, RawError]:
+        """Keyless. Used by all three SDKs to merge live ``health`` data into agent search results. A reliability-fetch
+        failure never blocks the core agent listing.
 
         Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
         return self._client.execute(
-            http_method="POST",
-            url_template=self._server.default("/v1/oracle/anomaly_detection"),
-            headers=[
-                param[str | None]("X-Payment-Intent-Id", x_payment_intent_id), param[UUID]("Idempotency-Key", uuid4())
-            ],
-            body=json_body[V1OracleAnomalyDetectionRequest | V1OracleAnomalyDetectionRequestDict | None](body),
-            decoder=empty_response,
-            error_mapper=anomaly_detection_error_mapper,
+            http_method="GET",
+            url_template=self._server.default("/v1/agents/reliability"),
+            decoder=json_decoder[ReliabilityListResult],
+            error_mapper=raw_error_response,
             request_options=request_options,
         )
 
-    def classification(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleClassificationRequest | V1OracleClassificationRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> ApiResult[None, ClassificationErrorBody]:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+    def get_balance(
+        self, *, request_options: RequestOptionsOrDict | None = None
+    ) -> ApiResult[BalanceResult, GetBalanceErrorBody]:
+        """Send a ``GET`` request.
 
         Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
         return self._client.execute(
-            http_method="POST",
-            url_template=self._server.default("/v1/oracle/classification"),
-            headers=[
-                param[str | None]("X-Payment-Intent-Id", x_payment_intent_id), param[UUID]("Idempotency-Key", uuid4())
-            ],
-            body=json_body[V1OracleClassificationRequest | V1OracleClassificationRequestDict | None](body),
-            decoder=empty_response,
-            error_mapper=classification_error_mapper,
+            http_method="GET",
+            url_template=self._server.default("/v1/account/balance"),
+            auth_scheme=self._auth.bearer_auth,
+            decoder=json_decoder[BalanceResult],
+            error_mapper=get_balance_error_mapper,
             request_options=request_options,
         )
 
-    def code_generation(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleCodeGenerationRequest | V1OracleCodeGenerationRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> ApiResult[None, CodeGenerationErrorBody]:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+    def get_invoke_result(
+        self, slug: str, task_id: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> ApiResult[InvokeResult, RawError]:
+        """Real polling contract used identically by all three official SDKs: start polling at a 2500ms interval, add
+        1000ms after each attempt, cap at 6000ms, bounded by a caller-set total wait (default 60s, min 5s, max 120s).
+        The response's ``status`` (or ``outcome``) field distinguishes ``completed``/``succeeded``, ``insufficient``
+        (agent honestly declined -- charged nothing), ``charge_failed``, ``failed``/``dead_letter``, or still-pending
+        (any other value, including the field being absent).
 
         Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
+            slug: Value sent with the request.
+            task_id: Value sent with the request.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
         return self._client.execute(
-            http_method="POST",
-            url_template=self._server.default("/v1/oracle/code_generation"),
-            headers=[
-                param[str | None]("X-Payment-Intent-Id", x_payment_intent_id), param[UUID]("Idempotency-Key", uuid4())
-            ],
-            body=json_body[V1OracleCodeGenerationRequest | V1OracleCodeGenerationRequestDict | None](body),
-            decoder=empty_response,
-            error_mapper=code_generation_error_mapper,
+            http_method="GET",
+            url_template=self._server.default("/v1/agents/{slug}/result/{taskId}"),
+            path_params=[param[str]("slug", slug), param[str]("taskId", task_id)],
+            auth_scheme=self._auth.bearer_auth,
+            decoder=json_decoder[InvokeResult],
+            error_mapper=raw_error_response,
             request_options=request_options,
         )
 
-    def fraud_signal(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleFraudSignalRequest | V1OracleFraudSignalRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> ApiResult[None, FraudSignalErrorBody]:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+    def get_proof(
+        self, task_id: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> ApiResult[V1WorkforceProofPublicResponse, RawError]:
+        """Keyless. Returns the real proof object needed for client-side Ed25519 verification. **Honest gap**: the exact
+        behavior for a task_id that has not yet completed (404, a 200 with a null proof, or otherwise) is not directly
+        confirmed by tonight's testing -- every real verification tested used an already-completed task. Documented as
+        ``200`` below for the confirmed case only; do not assume the shape of an unconfirmed case.
 
         Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
+            task_id: Value sent with the request.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
         return self._client.execute(
-            http_method="POST",
-            url_template=self._server.default("/v1/oracle/fraud_signal"),
-            headers=[
-                param[str | None]("X-Payment-Intent-Id", x_payment_intent_id), param[UUID]("Idempotency-Key", uuid4())
-            ],
-            body=json_body[V1OracleFraudSignalRequest | V1OracleFraudSignalRequestDict | None](body),
-            decoder=empty_response,
-            error_mapper=fraud_signal_error_mapper,
+            http_method="GET",
+            url_template=self._server.default("/v1/workforce/proof/{task_id}/public"),
+            path_params=[param[str]("task_id", task_id)],
+            decoder=json_decoder[V1WorkforceProofPublicResponse],
+            error_mapper=raw_error_response,
             request_options=request_options,
         )
 
-    def lead_score(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleLeadScoreRequest | V1OracleLeadScoreRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> ApiResult[None, LeadScoreErrorBody]:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+    def get_proof_public_key(
+        self, *, request_options: RequestOptionsOrDict | None = None
+    ) -> ApiResult[V1WorkforceProofPublicKeyResponse, RawError]:
+        """Keyless. Required to verify any proof's signature.
 
         Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
         return self._client.execute(
-            http_method="POST",
-            url_template=self._server.default("/v1/oracle/lead_score"),
-            headers=[
-                param[str | None]("X-Payment-Intent-Id", x_payment_intent_id), param[UUID]("Idempotency-Key", uuid4())
-            ],
-            body=json_body[V1OracleLeadScoreRequest | V1OracleLeadScoreRequestDict | None](body),
-            decoder=empty_response,
-            error_mapper=lead_score_error_mapper,
+            http_method="GET",
+            url_template=self._server.default("/v1/workforce/proof/public-key"),
+            decoder=json_decoder[V1WorkforceProofPublicKeyResponse],
+            error_mapper=raw_error_response,
             request_options=request_options,
         )
 
-    def model_inference(
+    def invoke_agent(
         self,
+        slug: str,
+        body: V1AgentsInvokeRequest | V1AgentsInvokeRequestDict,
         *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleModelInferenceRequest | V1OracleModelInferenceRequestDict | None = None,
         request_options: RequestOptionsOrDict | None = None,
-    ) -> ApiResult[None, ModelInferenceErrorBody]:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+    ) -> ApiResult[V1AgentsInvokeResponse, InvokeAgentErrorBody]:
+        """Spends your balance -- requires an ``fd_live_`` key. Enqueues the task and returns immediately; it does not
+        wait for completion. Poll ``/v1/agents/{slug}/result/{taskId}`` for the outcome. Never call this again for the
+        same logical task after a timeout -- re-invoking would double-charge.
 
         Args:
-            x_payment_intent_id: Value sent with the request.
+            slug: Value sent with the request.
             body: The request body.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
@@ -662,56 +372,46 @@ class ApiWithRawResponse(BaseRawResponse[RawClient, Server]):
             An ``ApiResult`` holding the deserialized response or the error body."""
         return self._client.execute(
             http_method="POST",
-            url_template=self._server.default("/v1/oracle/model_inference"),
-            headers=[
-                param[str | None]("X-Payment-Intent-Id", x_payment_intent_id), param[UUID]("Idempotency-Key", uuid4())
-            ],
-            body=json_body[V1OracleModelInferenceRequest | V1OracleModelInferenceRequestDict | None](body),
-            decoder=empty_response,
-            error_mapper=model_inference_error_mapper,
+            url_template=self._server.default("/v1/agents/{slug}/invoke"),
+            path_params=[param[str]("slug", slug)],
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[V1AgentsInvokeRequest | V1AgentsInvokeRequestDict](body),
+            auth_scheme=self._auth.bearer_auth,
+            decoder=json_decoder[V1AgentsInvokeResponse],
+            error_mapper=invoke_agent_error_mapper,
             request_options=request_options,
         )
 
-    def prompt_template(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OraclePromptTemplateRequest | V1OraclePromptTemplateRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> ApiResult[None, PromptTemplateErrorBody]:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+    def list_agents(
+        self, *, request_options: RequestOptionsOrDict | None = None
+    ) -> ApiResult[AgentListResult, RawError]:
+        """Keyless -- no account needed. Real, load-bearing fact confirmed directly from the source, not assumed: **this
+        endpoint has no working server-side capability or query filter.** All three official SDKs fetch the full list
+        and filter client-side. A prior draft of the OpenAPI scope for this spec listed a nonexistent
+        ``/v1/agents/search`` endpoint; it does not exist. Filter client-side against this endpoint's full response
+        instead, exactly as the official SDKs do.
 
         Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
         return self._client.execute(
-            http_method="POST",
-            url_template=self._server.default("/v1/oracle/prompt_template"),
-            headers=[
-                param[str | None]("X-Payment-Intent-Id", x_payment_intent_id), param[UUID]("Idempotency-Key", uuid4())
-            ],
-            body=json_body[V1OraclePromptTemplateRequest | V1OraclePromptTemplateRequestDict | None](body),
-            decoder=empty_response,
-            error_mapper=prompt_template_error_mapper,
+            http_method="GET",
+            url_template=self._server.default("/v1/agents/list"),
+            decoder=json_decoder[AgentListResult],
+            error_mapper=raw_error_response,
             request_options=request_options,
         )
 
-    def proof_of_work(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleProofOfWorkRequest | V1OracleProofOfWorkRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> ApiResult[None, ProofOfWorkErrorBody]:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+    def signup(
+        self, body: ApiSignupRequest | ApiSignupRequestDict, *, request_options: RequestOptionsOrDict | None = None
+    ) -> ApiResult[SignupResult, RawError]:
+        """No API key required -- this is how you get one. Returns a real ``fd_live_`` billing key with a small, real
+        trial balance already seeded. Verified live, repeatedly, across all three SDKs tonight.
 
         Args:
-            x_payment_intent_id: Value sent with the request.
             body: The request body.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
@@ -720,216 +420,11 @@ class ApiWithRawResponse(BaseRawResponse[RawClient, Server]):
             An ``ApiResult`` holding the deserialized response or the error body."""
         return self._client.execute(
             http_method="POST",
-            url_template=self._server.default("/v1/oracle/proof_of_work"),
-            headers=[
-                param[str | None]("X-Payment-Intent-Id", x_payment_intent_id), param[UUID]("Idempotency-Key", uuid4())
-            ],
-            body=json_body[V1OracleProofOfWorkRequest | V1OracleProofOfWorkRequestDict | None](body),
-            decoder=empty_response,
-            error_mapper=proof_of_work_error_mapper,
-            request_options=request_options,
-        )
-
-    def security_scan(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleSecurityScanRequest | V1OracleSecurityScanRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> ApiResult[None, SecurityScanErrorBody]:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            An ``ApiResult`` holding the deserialized response or the error body."""
-        return self._client.execute(
-            http_method="POST",
-            url_template=self._server.default("/v1/oracle/security_scan"),
-            headers=[
-                param[str | None]("X-Payment-Intent-Id", x_payment_intent_id), param[UUID]("Idempotency-Key", uuid4())
-            ],
-            body=json_body[V1OracleSecurityScanRequest | V1OracleSecurityScanRequestDict | None](body),
-            decoder=empty_response,
-            error_mapper=security_scan_error_mapper,
-            request_options=request_options,
-        )
-
-    def semantic_cache(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleSemanticCacheRequest | V1OracleSemanticCacheRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> ApiResult[None, SemanticCacheErrorBody]:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            An ``ApiResult`` holding the deserialized response or the error body."""
-        return self._client.execute(
-            http_method="POST",
-            url_template=self._server.default("/v1/oracle/semantic_cache"),
-            headers=[
-                param[str | None]("X-Payment-Intent-Id", x_payment_intent_id), param[UUID]("Idempotency-Key", uuid4())
-            ],
-            body=json_body[V1OracleSemanticCacheRequest | V1OracleSemanticCacheRequestDict | None](body),
-            decoder=empty_response,
-            error_mapper=semantic_cache_error_mapper,
-            request_options=request_options,
-        )
-
-    def sentiment_feed(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleSentimentFeedRequest | V1OracleSentimentFeedRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> ApiResult[None, SentimentFeedErrorBody]:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            An ``ApiResult`` holding the deserialized response or the error body."""
-        return self._client.execute(
-            http_method="POST",
-            url_template=self._server.default("/v1/oracle/sentiment_feed"),
-            headers=[
-                param[str | None]("X-Payment-Intent-Id", x_payment_intent_id), param[UUID]("Idempotency-Key", uuid4())
-            ],
-            body=json_body[V1OracleSentimentFeedRequest | V1OracleSentimentFeedRequestDict | None](body),
-            decoder=empty_response,
-            error_mapper=sentiment_feed_error_mapper,
-            request_options=request_options,
-        )
-
-    def summarization(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleSummarizationRequest | V1OracleSummarizationRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> ApiResult[None, SummarizationErrorBody]:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            An ``ApiResult`` holding the deserialized response or the error body."""
-        return self._client.execute(
-            http_method="POST",
-            url_template=self._server.default("/v1/oracle/summarization"),
-            headers=[
-                param[str | None]("X-Payment-Intent-Id", x_payment_intent_id), param[UUID]("Idempotency-Key", uuid4())
-            ],
-            body=json_body[V1OracleSummarizationRequest | V1OracleSummarizationRequestDict | None](body),
-            decoder=empty_response,
-            error_mapper=summarization_error_mapper,
-            request_options=request_options,
-        )
-
-    def tax_jar_lookup(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleTaxJarLookupRequest | V1OracleTaxJarLookupRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> ApiResult[None, TaxJarLookupErrorBody]:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            An ``ApiResult`` holding the deserialized response or the error body."""
-        return self._client.execute(
-            http_method="POST",
-            url_template=self._server.default("/v1/oracle/tax_jar_lookup"),
-            headers=[
-                param[str | None]("X-Payment-Intent-Id", x_payment_intent_id), param[UUID]("Idempotency-Key", uuid4())
-            ],
-            body=json_body[V1OracleTaxJarLookupRequest | V1OracleTaxJarLookupRequestDict | None](body),
-            decoder=empty_response,
-            error_mapper=tax_jar_lookup_error_mapper,
-            request_options=request_options,
-        )
-
-    def translation(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleTranslationRequest | V1OracleTranslationRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> ApiResult[None, TranslationErrorBody]:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            An ``ApiResult`` holding the deserialized response or the error body."""
-        return self._client.execute(
-            http_method="POST",
-            url_template=self._server.default("/v1/oracle/translation"),
-            headers=[
-                param[str | None]("X-Payment-Intent-Id", x_payment_intent_id), param[UUID]("Idempotency-Key", uuid4())
-            ],
-            body=json_body[V1OracleTranslationRequest | V1OracleTranslationRequestDict | None](body),
-            decoder=empty_response,
-            error_mapper=translation_error_mapper,
-            request_options=request_options,
-        )
-
-    def validation(
-        self,
-        *,
-        x_payment_intent_id: str | None = None,
-        body: V1OracleValidationRequest | V1OracleValidationRequestDict | None = None,
-        request_options: RequestOptionsOrDict | None = None,
-    ) -> ApiResult[None, ValidationErrorBody]:
-        """Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-        Args:
-            x_payment_intent_id: Value sent with the request.
-            body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
-                count and statuses.
-
-        Returns:
-            An ``ApiResult`` holding the deserialized response or the error body."""
-        return self._client.execute(
-            http_method="POST",
-            url_template=self._server.default("/v1/oracle/validation"),
-            headers=[
-                param[str | None]("X-Payment-Intent-Id", x_payment_intent_id), param[UUID]("Idempotency-Key", uuid4())
-            ],
-            body=json_body[V1OracleValidationRequest | V1OracleValidationRequestDict | None](body),
-            decoder=empty_response,
-            error_mapper=validation_error_mapper,
+            url_template=self._server.default("/api/signup"),
+            headers=[param[UUID]("Idempotency-Key", uuid4())],
+            body=json_body[ApiSignupRequest | ApiSignupRequestDict](body),
+            decoder=json_decoder[SignupResult],
+            error_mapper=raw_error_response,
             request_options=request_options,
         )
 

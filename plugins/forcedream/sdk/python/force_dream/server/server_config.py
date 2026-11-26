@@ -7,7 +7,7 @@ from ..core import UrlTemplate
 
 class ServerConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
-    base_url: str = "https://YOUR-NGROK-URL.ngrok-free.app"
+    base_url: str = "https://api.forcedream.ai"
 
     def resolve(self, path: str) -> UrlTemplate:
         return UrlTemplate(base_url=self.base_url, path=path)

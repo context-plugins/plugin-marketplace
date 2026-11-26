@@ -1,66 +1,46 @@
 export { ForceDreamClient } from "./client.js";
 export type { ClientOptions } from "./client-options.js";
 
+export type { SecretProvider } from "./core/auth/credentials.js";
+
+export { agentSchema, type Agent } from "./models/agent.js";
+export { agent1Schema, type Agent1 } from "./models/agent1.js";
+export { agentListResultSchema, type AgentListResult } from "./models/agent-list-result.js";
+export { agentMetricsSchema, type AgentMetrics } from "./models/agent-metrics.js";
+export { agentReliabilitySchema, type AgentReliability } from "./models/agent-reliability.js";
+export { apiSignupRequestSchema, type ApiSignupRequest } from "./models/api-signup-request.js";
+export { balanceSchema, type Balance } from "./models/balance.js";
+export { balanceResultSchema, type BalanceResult } from "./models/balance-result.js";
+export { budgetPenceSchema, type BudgetPence } from "./models/unions/budget-pence.js";
+export { completedAtSchema, type CompletedAt } from "./models/unions/completed-at.js";
+export { costPenceSchema, type CostPence } from "./models/unions/cost-pence.js";
+export { fdProofSchema, type FdProof } from "./models/fd-proof.js";
+export { FieldsSigned, fieldsSignedSchema } from "./models/fields-signed.js";
+export { invokeResultSchema, type InvokeResult } from "./models/invoke-result.js";
+export { reliabilityListResultSchema, type ReliabilityListResult } from "./models/reliability-list-result.js";
+export { retrievedCountSchema, type RetrievedCount } from "./models/unions/retrieved-count.js";
+export { signupResultSchema, type SignupResult } from "./models/signup-result.js";
+export { startedAtSchema, type StartedAt } from "./models/unions/started-at.js";
+export { Status, statusSchema } from "./models/status.js";
+export { unauthorizedSchema, type Unauthorized } from "./models/unauthorized.js";
+export { unauthorized1Schema, type Unauthorized1 } from "./models/unauthorized1.js";
 export {
-  v1OracleAnomalyDetectionRequestSchema,
-  type V1OracleAnomalyDetectionRequest,
-} from "./models/v1-oracle-anomaly-detection-request.js";
+  v1AgentsInvokeRequestSchema,
+  type V1AgentsInvokeRequest,
+} from "./models/v1-agents-invoke-request.js";
 export {
-  v1OracleClassificationRequestSchema,
-  type V1OracleClassificationRequest,
-} from "./models/v1-oracle-classification-request.js";
+  v1AgentsInvokeResponseSchema,
+  type V1AgentsInvokeResponse,
+} from "./models/v1-agents-invoke-response.js";
 export {
-  v1OracleCodeGenerationRequestSchema,
-  type V1OracleCodeGenerationRequest,
-} from "./models/v1-oracle-code-generation-request.js";
+  v1WorkforceProofPublicKeyResponseSchema,
+  type V1WorkforceProofPublicKeyResponse,
+} from "./models/v1-workforce-proof-public-key-response.js";
 export {
-  v1OracleFraudSignalRequestSchema,
-  type V1OracleFraudSignalRequest,
-} from "./models/v1-oracle-fraud-signal-request.js";
-export {
-  v1OracleLeadScoreRequestSchema,
-  type V1OracleLeadScoreRequest,
-} from "./models/v1-oracle-lead-score-request.js";
-export {
-  v1OracleModelInferenceRequestSchema,
-  type V1OracleModelInferenceRequest,
-} from "./models/v1-oracle-model-inference-request.js";
-export {
-  v1OraclePromptTemplateRequestSchema,
-  type V1OraclePromptTemplateRequest,
-} from "./models/v1-oracle-prompt-template-request.js";
-export {
-  v1OracleProofOfWorkRequestSchema,
-  type V1OracleProofOfWorkRequest,
-} from "./models/v1-oracle-proof-of-work-request.js";
-export {
-  v1OracleSecurityScanRequestSchema,
-  type V1OracleSecurityScanRequest,
-} from "./models/v1-oracle-security-scan-request.js";
-export {
-  v1OracleSemanticCacheRequestSchema,
-  type V1OracleSemanticCacheRequest,
-} from "./models/v1-oracle-semantic-cache-request.js";
-export {
-  v1OracleSentimentFeedRequestSchema,
-  type V1OracleSentimentFeedRequest,
-} from "./models/v1-oracle-sentiment-feed-request.js";
-export {
-  v1OracleSummarizationRequestSchema,
-  type V1OracleSummarizationRequest,
-} from "./models/v1-oracle-summarization-request.js";
-export {
-  v1OracleTaxJarLookupRequestSchema,
-  type V1OracleTaxJarLookupRequest,
-} from "./models/v1-oracle-tax-jar-lookup-request.js";
-export {
-  v1OracleTranslationRequestSchema,
-  type V1OracleTranslationRequest,
-} from "./models/v1-oracle-translation-request.js";
-export {
-  v1OracleValidationRequestSchema,
-  type V1OracleValidationRequest,
-} from "./models/v1-oracle-validation-request.js";
+  v1WorkforceProofPublicResponseSchema,
+  type V1WorkforceProofPublicResponse,
+} from "./models/v1-workforce-proof-public-response.js";
+export { verifyResultSchema, type VerifyResult } from "./models/verify-result.js";
 
 export {
   CoreError as ForceDreamError,

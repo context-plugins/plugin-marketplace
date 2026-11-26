@@ -11,26 +11,26 @@ This page is authoritative for the SDK's identity and surface. The API-agnostic 
 
 ## SDK identity
 
-Verified against `package.json` and `sdk-map.md` of the package at version `1.0.0`. **Re-verify after a version bump** — this page is a snapshot, not a live read.
+Verified against `package.json` and `sdk-map.md` of the package at version `0.1.0`. **Re-verify after a version bump** — this page is a snapshot, not a live read.
 
 | Fact | Value |
 | --- | --- |
 | API | ForceDream |
 | Package name (what you install, and what you import) | `force-dream` — **not on npm**; it ships in this plugin (see *Install*) |
 | SDK source | `sdk/typescript/` inside this plugin — nothing to clone |
-| Version | `1.0.0` (API spec version `1.0.0`) |
+| Version | `0.1.0` (API spec version `0.1.0`) |
 | Client class | `ForceDreamClient` (`src/client.ts`) |
 | Options type | `ClientOptions` (`src/client-options.ts`) |
-| Client construction | `new ForceDreamClient(options: ClientOptions = {})` — the argument is optional, as is **every** field on it, so `new ForceDreamClient()` compiles. Fields: `serverOptions` · `retry` · `logging` · `hooks` · `fetch`. `retry` is the `RetryOptions` policy |
-| Auth | None — every operation is public |
+| Client construction | `new ForceDreamClient(options: ClientOptions = {})` — the argument is optional, as is **every** field on it, so `new ForceDreamClient()` compiles. Fields: `serverOptions` · `retry` · `logging` · `hooks` · `fetch` · `bearerAuth`. `retry` is the `RetryOptions` policy |
+| Auth | **Bearer token** — set `ClientOptions.bearerAuth` |
 | Environments | no selector — one environment; 1 server group |
-| Base-URL config | `serverOptions.baseUrl` (`src/servers.ts`), defaulting to `https://YOUR-NGROK-URL.ngrok-free.app` |
+| Base-URL config | `serverOptions.baseUrl` (`src/servers.ts`), defaulting to `https://api.forcedream.ai` |
 | Log environment variable | `FORCE_DREAM_LOG` |
 | Node floor | `>=20.3` (`engines.node`) |
 | Runtime dependency | `zod` (`^4.1.0`) — the only one |
 | Module format | dual ESM + CommonJS folder dialects (`dist/esm`, `dist/commonjs`) behind one export |
 | Typing | the package ships its own `.d.ts` — **a type error against this SDK is a real contract violation, not noise** |
-| Surface | 15 operations · 0 resources · 15 models · 15 per-operation error subclasses |
+| Surface | 8 operations · 0 resources · 19 models · 2 open enums · 5 unions · 2 per-operation error subclasses |
 
 ## Install
 
@@ -50,11 +50,11 @@ Do not vendor its `src/` into your project, point `tsconfig` `paths` at a throwa
 
 ## Imports — one entry, and only one
 
-**Every** public name is re-exported from the package root — the client, `ClientOptions`, 15 model types with the schema value beside each, the error classes, and the runtime types (`ApiPromise`, `Pageable`, `PageableApiResult`, `ApiResult`, `RequestOptions`, `RetryOptions`, `RequestRetryOptions`, `HookOptions`, `BeforeRequestHook`, `AfterResponseHook`, `HookContext`, `Declared`, `Undeclared`, `Schema`, `EnumSchema`, `Encoded`, `JsonValue`).
+**Every** public name is re-exported from the package root — the client, `ClientOptions`, 26 model types with the schema value beside each, the error classes, and the runtime types (`ApiPromise`, `Pageable`, `PageableApiResult`, `ApiResult`, `RequestOptions`, `RetryOptions`, `RequestRetryOptions`, `HookOptions`, `BeforeRequestHook`, `AfterResponseHook`, `HookContext`, `Declared`, `Undeclared`, `Schema`, `EnumSchema`, `Encoded`, `JsonValue`).
 
 ```ts
 import { ForceDreamClient, ApiError, ForceDreamError } from "force-dream";
-import type { ClientOptions, V1OracleAnomalyDetectionRequest } from "force-dream";
+import type { ClientOptions, Agent } from "force-dream";
 ```
 
 Things the specifier alone will not tell you:
@@ -73,15 +73,27 @@ Consequences to state on every contract sheet that touches configuration:
 - An override merges with the built-in default **key by key**; a `baseUrl` override replaces the whole template.
 - Each operation belongs to one server group; a map block carries a **Server** bullet only when its group is not `default`.
 
-## Auth pattern (no schemes)
+## Auth pattern (1 scheme)
 
-This SDK has no auth scheme, so every operation is public, the client sends no credential, and there is nothing to configure. A `401` here means the deployment wants a credential this SDK cannot send — not that a field is unset.
+Authentication is **per operation**: every operation declares the requirement it enforces and the SDK sends exactly that. Each block on a map page carries an **Auth** bullet, `none` included. There is no client-global switch and no per-call override. 3 of the 8 operations declare a requirement and 5 are public.
+
+| `ClientOptions` field | Scheme kind | What the SDK sends | Read from when unset |
+| --- | --- | --- | --- |
+| `bearerAuth` | Bearer token | `Authorization: Bearer <token>` | `FORCE_DREAM_BEARER_AUTH` |
+
+```ts
+const client = new ForceDreamClient();
+```
+
+**A field left unset is read from the environment**, from the variables the table names, once, when the client is built; a value passed to the constructor always wins. **Every credential field is optional at construction, and required at the call.** Leave one unset and the client still builds; a call whose operation requires it rejects with `AuthError` naming the field, before anything is sent. So a `401` means the API rejected the credential that went out — check the operation's **Auth** bullet against the fields you set.
+
+Credential functions, scheme composition, 401 re-authentication: `sdk-map.md` § *Servers & auth* and `typescript-authentication`.
 
 ## Resources
 
 This SDK groups nothing: every operation is a method on `client` itself, so there are no resource getters to reach through.
 
-15 operations on the client itself: `sdk-map.md` § *Operations — by resource* names every operation, with the page that documents it.
+8 operations on the client itself: `sdk-map.md` § *Operations — by resource* names every operation, with the page that documents it.
 
 Every operation has the same call shape — `op(request, options?)`, one **flat, channel-blind** request object first and `RequestOptions` (`{ signal, retry, logging, hooks }`) second — and returns `ApiPromise<T, E>`, or `Pageable<TPage, TItem, E>` for a paged operation. No operation is paged — every one of them is a single request.
 
@@ -120,7 +132,7 @@ Open the one file the map's **Type sources** table names — never derive the pa
 | Client construction, resource getters | `src/client.ts` |
 | `ClientOptions` fields | `src/client-options.ts` |
 | Environments, base URLs, override merging | `src/servers.ts` |
-| Auth scheme wiring, token endpoint, credential placement | *none — this SDK has no auth scheme, so there is no auth module* |
+| Auth scheme wiring, token endpoint, credential placement | `src/auth-schemes.ts`, `src/core/auth/credentials.ts`, `src/core/auth/oauth2-strategies.ts` |
 | The transport: the attempt loop, `fetch` resolution, 401 re-authentication, 2xx-vs-error split | `src/core/raw-client.ts` |
 | Error classes and `ErrorKind` | `src/core/errors.ts`, `src/core/api-error.ts` |
 | `ApiPromise`, `ApiResult`, `.asApiResult()`, the `Symbol.species` behaviour | `src/core/api-promise.ts` |
@@ -147,7 +159,7 @@ Keep lookups cheap — the rules that keep a session's context small:
 
 Every model's schema const — the value export beside its type — carries `encode`, `decode` and `validate`. `validate(value)` runs `encode`'s rules without the conversion and without the throw, and returns `{ success: true }` or `{ success: false, message }`, the message naming every failing field under its full path and why.
 
-**Every schema in this SDK is structural.** `validate` checks shape alone: each required key present, each field of the type the schema spells (`code: expected string`), the four date formats, base64, a pinned literal, a union's arms, and nested models and arrays the same way. A value constraint the spec declares — `minLength`, `pattern`, `minimum`, `uniqueItems`, a `format` such as `email` — is not in any schema, so neither `validate` nor an operation applies it: a value that breaks one is sent as built and refused, if at all, by the service. No model declares an internal schema twin and no operation exports a request schema. Where you want a client-side guard, write it at your own boundary and read the constraints from `api-reference.md`.
+**This SDK enforces the spec's value constraints on `validate`.** A model or union whose spec declares one — `minLength`/`maxLength`, `pattern`, `format` (`email`, `hostname`, `ipv4`, `ipv6`, `uri`, `uri-reference`, `json-pointer`), `minimum`/`maximum`, `exclusiveMinimum`/`exclusiveMaximum`, `multipleOf`, `minItems`/`maxItems`/`uniqueItems`, `minProperties`/`maxProperties`, and the keywords on an array's `items` and a map's `additionalProperties` — carries it on its public schema: `apiSignupRequestSchema.validate(value)` reports it and `encode` throws on it. A model that nests a constrained one checks the nested value too and reports its fields under their full path. The operations do **not** apply those constraints: they encode and decode through a structural twin the module keeps for itself, `apiSignupRequestInternalSchema`, which the package root does not export, so a value the service would accept is never refused on the way out, and a service ahead of the spec is never refused on the way in. A schema's own file says which it is: a constrained one declares the twin beside the public one. Every other schema is structural only, and its `validate` checks shape alone.
 
 ## Sensitive data — check the request models before you log anything
 
@@ -160,7 +172,7 @@ The SDK never logs a response body, but your own code may. Responses are often s
 Before you write the code for each step, load the named companion skill — even if you have already read the relevant file. A typical integration reaches them in this order:
 
 1. **Client construction & lifetime** — load **typescript-client-initialization** before you write `new ForceDreamClient(…)`. The client is **long-lived and app-scoped**, never rebuilt per request, because the resolved options and the server resolvers live on it.
-2. **Authentication** — load **typescript-authentication** before you set credentials. This SDK declares no scheme, so there is nothing to set. Load secrets from the environment or a secret store, never hardcode.
+2. **Authentication** — load **typescript-authentication** before you set credentials. The scheme is `bearerAuth` on `ClientOptions`. Load secrets from the environment or a secret store, never hardcode.
 3. **Calling an endpoint** — load **typescript-calling-endpoints** before the first `client.<resource>.<operation>(…)` call.
 4. **Models** — load **typescript-models** the moment a request/response member is not a plain string or number.
 5. **Error handling** — load **typescript-error-handling** before you write any `try/catch`. Every operational failure is **one family**, `ForceDreamError`, narrowed on `err.kind`.
@@ -172,11 +184,11 @@ Before you write the code for each step, load the named companion skill — even
 Beyond the usual signatures and model members, a contract sheet for the ForceDream TypeScript SDK is incomplete without these, because each one is a decision the implementer cannot make correctly from the signature alone.
 
 1. **Which host each deployment talks to**, and where that is set. Any host but the one this SDK knows is a `serverOptions` base-URL override (see *Hosts*) — give the override path on the sheet.
-2. **15 operations resolve to `undefined`** — `await` gives you nothing to inspect, so **`.asApiResult()` is the only way to observe their status and headers** — decide the mode at write time, not by retrofit.
+2. **no operation resolves to `undefined` — every one of them carries a body** — `await` gives you nothing to inspect, so **`.asApiResult()` is the only way to observe their status and headers** — decide the mode at write time, not by retrofit.
 3. **The exact request type name per operation**, taken from the **Signature** bullet.
 4. **Every request field with its channel, wire name and default**, because the request object is flat and channel-blind and the SDK fans fields out. An omitted field that has a default is still sent with that default, so a defaulted header shapes the response whether or not the sheet mentions it. Every non-GET operation sends an `Idempotency-Key` header, minted once per call and not on the request object, unless it takes that header as a request field — `typescript-configuration-resilience` has what that key does and does not deduplicate. Any caller-supplied idempotency or request-id field is the only idempotency that spans calls, and `RequestOptions` is `{ signal, retry, logging, hooks }` only; a call's `beforeRequest` hook sees the minted key and can replace it.
 5. **Required vs optional vs required-nullable** for every model member the task sets — `f: T` required, `f?: T` omit the key, `f: T | null` required and nullable.
-6. **The error arms for each operation in scope, with the status each covers — and the warning that arm tags are schema-derived, not status codes.** Every operation rejects with its own `ApiError` subclass narrowed on `err.payload.kind`. A tag comes from the arm's body schema and is resolved per operation, so the same tag means different statuses on different operations, and a shared helper that switches on `kind` across operations is a bug — `typescript-error-handling` has the naming rule, the always-present `"undeclared"` arm and the matcher precedence. 15 of 15 operations declare typed error bodies; the rest reject with the base `ApiError`.
+6. **The error arms for each operation in scope, with the status each covers — and the warning that arm tags are schema-derived, not status codes.** Every operation rejects with its own `ApiError` subclass narrowed on `err.payload.kind`. A tag comes from the arm's body schema and is resolved per operation, so the same tag means different statuses on different operations, and a shared helper that switches on `kind` across operations is a bug — `typescript-error-handling` has the naming rule, the always-present `"undeclared"` arm and the matcher precedence. 2 of 8 operations declare typed error bodies; the rest reject with the base `ApiError`.
 7. **That a malformed or drifted 2xx body rejects with `DecodeError`, not `ApiError`, in both response modes** — and the members the implementer has to assert on, because a thin or truncated body decodes without complaint.
 8. **The retry policy this integration needs.** Retrying is on by default — `ClientOptions.retry` sets it for the client and `RequestOptions.retry` overrides it per call — so the sheet says whether the defaults fit, which writes (if any) join `httpMethodsToRetry`, since a write is repeated only when the policy names its method, and the per-attempt timeout.
 9. **The logging this integration needs.** Logging is off by default — `ClientOptions.logging` sets it for the client and `RequestOptions.logging` sets one call's level — so the sheet says whether it stays off and, where it is on, the level, the logger, and whether headers and the request body are logged (**Sensitive data**, above).

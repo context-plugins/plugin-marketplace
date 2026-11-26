@@ -1,0 +1,21 @@
+{
+  "name": "alphai",
+  "displayName": "AlphAI",
+  "version": "0.1.0",
+  "description": "Fetch ticker-linked financial news, stories, earnings history, a US macro-release calendar, and market radar signals from AlphAI.",
+  "author": {
+    "name": "APIMatic",
+    "email": "developer@apimatic.io"
+  },
+  "license": "MIT",
+  "homepage": "https://context.apimatic.io/",
+  "repository": "https://github.com/context-plugins/plugin-marketplace",
+  "skills": [
+    "./skills/dotnet",
+    "./skills/python",
+    "./skills/typescript"
+  ],
+  "agents": [
+    "./scoped/agents/alph-ai-planner.md"
+  ]
+}

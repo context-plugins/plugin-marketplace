@@ -233,11 +233,6 @@
       "description": "Accept payments, manage balances, beneficiaries, payouts, refunds, and transfers with Airwallex."
     },
     {
-      "name": "alphaai",
-      "source": "./plugins/alphaai",
-      "description": "Fetch ticker-linked financial news, stories, earnings calendars, and market radar signals from AlphaAI."
-    },
-    {
       "name": "amazon-appsync",
       "source": "./plugins/amazon-appsync",
       "description": "Manage AWS AppSync GraphQL and Event APIs, data sources, resolvers, functions, caches, and API keys."
@@ -246,11 +241,6 @@
       "name": "apibara",
       "source": "./plugins/apibara",
       "description": "Search Copart and IAAI vehicle auctions: lot and VIN details, photos, prices, and sale history with Apibara."
-    },
-    {
-      "name": "applike",
-      "source": "./plugins/applike",
-      "description": "Send app events and manage apps, campaigns, bids, and partner connections on justtrack (Applike)."
     },
     {
       "name": "appstorespy",
@@ -573,11 +563,6 @@
       "description": "Buy and manage phone numbers, SIP accounts, calls, SMS, and KYC documents with DIDLogic."
     },
     {
-      "name": "divvy",
-      "source": "./plugins/divvy",
-      "description": "Automate bills, payments, vendors, invoices, budgets, and cards with BILL (Divvy)."
-    },
-    {
       "name": "doit",
       "source": "./plugins/doit",
       "description": "Analyze cloud costs, budgets, anomalies, allocations, and reports, and manage commitments with DoiT."
@@ -743,11 +728,6 @@
       "description": "Run scraping jobs and tasks and get results, proxies, and analytics with MrScraper."
     },
     {
-      "name": "navision",
-      "source": "./plugins/navision",
-      "description": "Manage companies, customers, vendors, items, sales and purchase orders, and environments in Dynamics 365 Business Central."
-    },
-    {
       "name": "nordic-financial-news",
       "source": "./plugins/nordic-financial-news",
       "description": "Get English summaries of Nordic financial news, company events, calendars, and watchlists with Nordic Financial News."
@@ -808,19 +788,9 @@
       "description": "Search and look up contact details for professionals and companies with RocketReach."
     },
     {
-      "name": "s1",
-      "source": "./plugins/s1",
-      "description": "Search the web and news, crawl pages, and take screenshots for AI agents with Search1 (S1)."
-    },
-    {
       "name": "semrush",
       "source": "./plugins/semrush",
       "description": "Check subscriptions and user status, send notifications, and get API tokens with the Semrush partner APIs."
-    },
-    {
-      "name": "service-cloud",
-      "source": "./plugins/service-cloud",
-      "description": "Start, continue, and end Einstein Bot sessions in Salesforce Service Cloud."
     },
     {
       "name": "skribble",
@@ -886,6 +856,36 @@
       "name": "zillapi",
       "source": "./plugins/zillapi",
       "description": "Look up Zillow properties, search listings, and run batch jobs with webhooks with Zillapi."
+    },
+    {
+      "name": "alphai",
+      "source": "./plugins/alphai",
+      "description": "Fetch ticker-linked financial news, stories, earnings history, a US macro-release calendar, and market radar signals from AlphAI."
+    },
+    {
+      "name": "bill",
+      "source": "./plugins/bill",
+      "description": "Automate bills, payments, vendors, invoices, budgets, and cards with BILL."
+    },
+    {
+      "name": "business-central",
+      "source": "./plugins/business-central",
+      "description": "Manage companies, customers, vendors, items, sales and purchase orders, and environments in Dynamics 365 Business Central."
+    },
+    {
+      "name": "einstein-bots",
+      "source": "./plugins/einstein-bots",
+      "description": "Start, continue, and end Salesforce Einstein Bot sessions."
+    },
+    {
+      "name": "justtrack",
+      "source": "./plugins/justtrack",
+      "description": "Send app events and manage apps, campaigns, bids, and partner connections on justtrack."
+    },
+    {
+      "name": "search1api",
+      "source": "./plugins/search1api",
+      "description": "Search the web and news, crawl pages, and take screenshots for AI agents with Search1API."
     }
   ]
 }

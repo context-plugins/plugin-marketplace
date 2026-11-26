@@ -1,6 +1,6 @@
 [project]
 name = "force-dream"
-version = "1.0.0"
+version = "0.1.0"
 description = "The official Python library for the ForceDream API"
 maintainers = [
     { name = "APIMatic", email = "support@apimatic.io" },

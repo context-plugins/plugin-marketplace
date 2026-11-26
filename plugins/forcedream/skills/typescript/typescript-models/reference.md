@@ -52,11 +52,11 @@ const updated = { ...model, {field}: "..." };
 
 Nothing validates a spread — the shape is checked when you pass the value to an operation or call
 `encode` yourself, and that is where a wrong type surfaces. A value constraint the spec declares
-(`minLength`, `pattern`, `minimum`, a `format`, …) is checked neither by an operation nor by
-`{model}Schema.validate(value)`. The copy is **shallow**: nested models and arrays are shared with
-the original, so mutating one mutates both. Undeclared keys the source carried are copied along,
-which is what keeps a read-modify-write round-trip from dropping server-side state the SDK does not
-model.
+(`minLength`, `pattern`, `minimum`, a checked `format`, …) is **not** checked by an operation;
+`{model}Schema` checks it — `validate(value)` reports it, `encode` and `decode` throw on it. The copy
+is **shallow**: nested models and arrays are shared with the original, so mutating one mutates both.
+Undeclared keys the source carried are copied along, which is what keeps a read-modify-write
+round-trip from dropping server-side state the SDK does not model.
 
 ## Schema surface
 
@@ -76,10 +76,13 @@ type EnumSchema<T> = Schema<T, T> & { readonly values: readonly T[] };
 types.
 
 `validate` runs the same rules `encode` runs and reports instead of throwing: `message` lists every
-failing field with its reason (`code: expected string; attributes: expected record`), the same list
-a `SchemaError` from `encode` carries after its leading sentence. Every model schema in this SDK is
-structural, so `validate` checks shape alone: no model enforces a value constraint, and there is no
-`{model}InternalSchema`.
+failing field with its reason (`code: expected regex format; attributes: must have at most 10
+properties`), the same list a `SchemaError` from `encode` carries after its leading sentence. On a
+model whose spec declares value constraints, `{model}Schema` enforces them and `validate` is how you
+check a value before sending it; the operations encode and decode through a structural twin,
+`{model}InternalSchema`, exported from the model's module but not from the package root, so a
+constraint is never applied on the way out or on the way in. On every other model `validate` checks
+shape alone.
 
 `Encoded<T>` — the wire projection:
 

@@ -1,0 +1,10 @@
+{
+  "name": "business-central",
+  "version": "0.1.0",
+  "description": "Manage companies, customers, vendors, items, sales and purchase orders, and environments in Dynamics 365 Business Central.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Dynamics 365 Business Central",
+    "developerName": "APIMatic"
+  }
+}

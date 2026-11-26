@@ -22,7 +22,7 @@ Usage companions: `dotnet-client-initialization`, `dotnet-authentication`, `dotn
 | Client class | `AppstoreSpyClient` |
 | Options class | `AppstoreSpyClientOptions` |
 | Auth | **API key** in the `API-KEY` header — set `ApiKeyHeader` |
-| Environments | `ServerEnvironment.Production` *(default)* → `https://{defaultHost}` |
+| Environments | `ServerEnvironment.Production` *(default)* → `https://api.appstorespy.com/v1` |
 | Log environment variable | `APPSTORE_SPY_LOG` |
 | Target framework | `netstandard2.0` (C# `LangVersion 14`) |
 

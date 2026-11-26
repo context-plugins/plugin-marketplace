@@ -24,7 +24,7 @@ Verified against `package.json` and `sdk-map.md` of the package at version `2.0.
 | Client construction | `new HudClient(options: ClientOptions = {})` — the argument is optional, as is **every** field on it, so `new HudClient()` compiles. Fields: `serverOptions` · `retry` · `logging` · `hooks` · `fetch`. `retry` is the `RetryOptions` policy |
 | Auth | None — every operation is public |
 | Environments | no selector — one environment; 1 server group |
-| Base-URL config | `serverOptions.baseUrl` (`src/servers.ts`), defaulting to `https://{defaultHost}` |
+| Base-URL config | `serverOptions.baseUrl` (`src/servers.ts`), defaulting to `https://api.hud.ai` |
 | Log environment variable | `HUD_LOG` |
 | Node floor | `>=20.3` (`engines.node`) |
 | Runtime dependency | `zod` (`^4.1.0`) — the only one |

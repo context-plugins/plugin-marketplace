@@ -1,0 +1,10 @@
+{
+  "name": "alphai",
+  "version": "0.1.0",
+  "description": "Fetch ticker-linked financial news, stories, earnings history, a US macro-release calendar, and market radar signals from AlphAI.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "AlphAI",
+    "developerName": "APIMatic"
+  }
+}

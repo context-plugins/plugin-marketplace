@@ -216,7 +216,7 @@ Each links to a sub-page with one block per operation, headed by its full access
 | **Parsed raises, raw returns** — `ApiError` versus `ApiResult` | Error-handling model |
 | **Case B error is always `RawError`** — also the last arm of every Case A alias, where a block's **Error arms** bullet ends in it | Error-handling model |
 | **A trailing `request_options`** — keyword-only and optional, for per-call overrides such as a timeout, extra headers, `max_retries`, `status_codes_to_retry`, `log_level` or `hooks`; every signature ends with it | here (`hud/core/request_options.py`), Retries, Logging, Hooks |
-| **Base URL `https://{defaultHost}`** — this SDK's only server; override it with `base_url="https://…"` | Servers & auth |
+| **Base URL `https://api.hud.ai`** — this SDK's only server; override it with `base_url="https://…"` | Servers & auth |
 | **Parameter names are literal** — signatures are generated code verbatim, and everything behind the bare `*` must be passed by name | here |
 | **A parameter's wire name is its Python name** — sent as-is on the path, query string, header or body, unless the block's **Params** bullet carries a wire name beside the role | here |
 
@@ -291,7 +291,5 @@ Import paths by content type (`from <package> import <Name>`):
 
 | Base URL | Override point |
 | --- | --- |
-| `https://{defaultHost}` | `base_url="https://…"` |
-
-Template template variables: `{defaultHost}` defaults to `"www.example.com"` — override the whole URL with `base_url="https://…"`.
+| `https://api.hud.ai` | `base_url="https://…"` |
 

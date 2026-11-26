@@ -5,7 +5,7 @@ Every operation below is shown in its throwing form. On an error status it throw
 > Source: [ForceDreamClient](src/ForceDream/ForceDreamClient.cs)
 
 <details>
-<summary><code>Task AnomalyDetection(AnomalyDetectionRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
+<summary><code>Task&lt;ReliabilityListResult&gt; GetAgentReliability(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
 
 <dl>
 <dd>
@@ -15,7 +15,7 @@ Every operation below is shown in its throwing form. On an error status it throw
 <dl>
 <dd>
 
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+Keyless. Used by all three SDKs to merge live `health` data into agent search results. A reliability-fetch failure never blocks the core agent listing.
 
 </dd>
 </dl>
@@ -28,26 +28,14 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 ```csharp
 try
 {
-    await client.AnomalyDetection(new AnomalyDetectionRequest());
+    var response = await client.GetAgentReliability();
+    // TODO: Handle 'response' of type ReliabilityListResult
 }
-catch (ApiException<AnomalyDetectionError> ex)
+catch (ApiException<RawError> ex)
 {
-    if (ex.Error.TryGetNoContent(out var error))
-    {
-        // TODO: Handle 'error' of type RawError
-    }
+    // TODO: Handle 'ex.Error' of type RawError
 }
 ```
-
-</dd>
-</dl>
-
-### Request
-
-<dl>
-<dd>
-
-<code>[AnomalyDetectionRequest](src/ForceDream/Requests/AnomalyDetectionRequest.cs)</code>
 
 </dd>
 </dl>
@@ -57,9 +45,9 @@ catch (ApiException<AnomalyDetectionError> ex)
 <dl>
 <dd>
 
-**OnSuccess**: No content
+**OnSuccess**: <code>[ReliabilityListResult](src/ForceDream/Models/ReliabilityListResult.cs)</code>
 
-**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[AnomalyDetectionError](src/ForceDream/Errors/AnomalyDetectionError.cs)&gt;</code>
+**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[RawError](src/ForceDream/Core/ErrorResponse/RawError.cs)&gt;</code>
 
 </dd>
 </dl>
@@ -70,20 +58,10 @@ catch (ApiException<AnomalyDetectionError> ex)
 </details>
 
 <details>
-<summary><code>Task Classification(ClassificationRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
+<summary><code>Task&lt;BalanceResult&gt; GetBalance(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
 
 <dl>
 <dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
 
 ### Usage
 
@@ -93,26 +71,17 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 ```csharp
 try
 {
-    await client.Classification(new ClassificationRequest());
+    var response = await client.GetBalance();
+    // TODO: Handle 'response' of type BalanceResult
 }
-catch (ApiException<ClassificationError> ex)
+catch (ApiException<GetBalanceError> ex)
 {
-    if (ex.Error.TryGetNoContent(out var error))
+    if (ex.Error.TryGetUnauthorized1(out var error))
     {
-        // TODO: Handle 'error' of type RawError
+        // TODO: Handle 'error' of type Unauthorized1
     }
 }
 ```
-
-</dd>
-</dl>
-
-### Request
-
-<dl>
-<dd>
-
-<code>[ClassificationRequest](src/ForceDream/Requests/ClassificationRequest.cs)</code>
 
 </dd>
 </dl>
@@ -122,9 +91,9 @@ catch (ApiException<ClassificationError> ex)
 <dl>
 <dd>
 
-**OnSuccess**: No content
+**OnSuccess**: <code>[BalanceResult](src/ForceDream/Models/BalanceResult.cs)</code>
 
-**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[ClassificationError](src/ForceDream/Errors/ClassificationError.cs)&gt;</code>
+**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[GetBalanceError](src/ForceDream/Errors/GetBalanceError.cs)&gt;</code>
 
 </dd>
 </dl>
@@ -135,7 +104,7 @@ catch (ApiException<ClassificationError> ex)
 </details>
 
 <details>
-<summary><code>Task CodeGeneration(CodeGenerationRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
+<summary><code>Task&lt;InvokeResult&gt; GetInvokeResult(GetInvokeResultRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
 
 <dl>
 <dd>
@@ -145,7 +114,12 @@ catch (ApiException<ClassificationError> ex)
 <dl>
 <dd>
 
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+Real polling contract used identically by all three official SDKs: start polling at a
+2500ms interval, add 1000ms after each attempt, cap at 6000ms, bounded by a caller-set
+total wait (default 60s, min 5s, max 120s). The response's `status` (or `outcome`)
+field distinguishes `completed`/`succeeded`, `insufficient` (agent honestly declined --
+charged nothing), `charge_failed`, `failed`/`dead_letter`, or still-pending (any other
+value, including the field being absent).
 
 </dd>
 </dl>
@@ -158,14 +132,16 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 ```csharp
 try
 {
-    await client.CodeGeneration(new CodeGenerationRequest());
-}
-catch (ApiException<CodeGenerationError> ex)
-{
-    if (ex.Error.TryGetNoContent(out var error))
+    var response = await client.GetInvokeResult(new GetInvokeResultRequest
     {
-        // TODO: Handle 'error' of type RawError
-    }
+        Slug = "some example string",
+        TaskId = "some example string",
+    });
+    // TODO: Handle 'response' of type InvokeResult
+}
+catch (ApiException<RawError> ex)
+{
+    // TODO: Handle 'ex.Error' of type RawError
 }
 ```
 
@@ -177,7 +153,7 @@ catch (ApiException<CodeGenerationError> ex)
 <dl>
 <dd>
 
-<code>[CodeGenerationRequest](src/ForceDream/Requests/CodeGenerationRequest.cs)</code>
+<code>[GetInvokeResultRequest](src/ForceDream/Requests/GetInvokeResultRequest.cs)</code>
 
 </dd>
 </dl>
@@ -187,9 +163,9 @@ catch (ApiException<CodeGenerationError> ex)
 <dl>
 <dd>
 
-**OnSuccess**: No content
+**OnSuccess**: <code>[InvokeResult](src/ForceDream/Models/InvokeResult.cs)</code>
 
-**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[CodeGenerationError](src/ForceDream/Errors/CodeGenerationError.cs)&gt;</code>
+**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[RawError](src/ForceDream/Core/ErrorResponse/RawError.cs)&gt;</code>
 
 </dd>
 </dl>
@@ -200,7 +176,7 @@ catch (ApiException<CodeGenerationError> ex)
 </details>
 
 <details>
-<summary><code>Task FraudSignal(FraudSignalRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
+<summary><code>Task&lt;V1WorkforceProofPublicResponse&gt; GetProof(GetProofRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
 
 <dl>
 <dd>
@@ -210,7 +186,7 @@ catch (ApiException<CodeGenerationError> ex)
 <dl>
 <dd>
 
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+Keyless. Returns the real proof object needed for client-side Ed25519 verification. **Honest gap**: the exact behavior for a task_id that has not yet completed (404, a 200 with a null proof, or otherwise) is not directly confirmed by tonight's testing -- every real verification tested used an already-completed task. Documented as `200` below for the confirmed case only; do not assume the shape of an unconfirmed case.
 
 </dd>
 </dl>
@@ -223,14 +199,12 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 ```csharp
 try
 {
-    await client.FraudSignal(new FraudSignalRequest());
+    var response = await client.GetProof(new GetProofRequest { TaskId = "some example string" });
+    // TODO: Handle 'response' of type V1WorkforceProofPublicResponse
 }
-catch (ApiException<FraudSignalError> ex)
+catch (ApiException<RawError> ex)
 {
-    if (ex.Error.TryGetNoContent(out var error))
-    {
-        // TODO: Handle 'error' of type RawError
-    }
+    // TODO: Handle 'ex.Error' of type RawError
 }
 ```
 
@@ -242,7 +216,7 @@ catch (ApiException<FraudSignalError> ex)
 <dl>
 <dd>
 
-<code>[FraudSignalRequest](src/ForceDream/Requests/FraudSignalRequest.cs)</code>
+<code>[GetProofRequest](src/ForceDream/Requests/GetProofRequest.cs)</code>
 
 </dd>
 </dl>
@@ -252,9 +226,9 @@ catch (ApiException<FraudSignalError> ex)
 <dl>
 <dd>
 
-**OnSuccess**: No content
+**OnSuccess**: <code>[V1WorkforceProofPublicResponse](src/ForceDream/Models/V1WorkforceProofPublicResponse.cs)</code>
 
-**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[FraudSignalError](src/ForceDream/Errors/FraudSignalError.cs)&gt;</code>
+**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[RawError](src/ForceDream/Core/ErrorResponse/RawError.cs)&gt;</code>
 
 </dd>
 </dl>
@@ -265,7 +239,7 @@ catch (ApiException<FraudSignalError> ex)
 </details>
 
 <details>
-<summary><code>Task LeadScore(LeadScoreRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
+<summary><code>Task&lt;V1WorkforceProofPublicKeyResponse&gt; GetProofPublicKey(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
 
 <dl>
 <dd>
@@ -275,7 +249,7 @@ catch (ApiException<FraudSignalError> ex)
 <dl>
 <dd>
 
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+Keyless. Required to verify any proof's signature.
 
 </dd>
 </dl>
@@ -288,26 +262,14 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 ```csharp
 try
 {
-    await client.LeadScore(new LeadScoreRequest());
+    var response = await client.GetProofPublicKey();
+    // TODO: Handle 'response' of type V1WorkforceProofPublicKeyResponse
 }
-catch (ApiException<LeadScoreError> ex)
+catch (ApiException<RawError> ex)
 {
-    if (ex.Error.TryGetNoContent(out var error))
-    {
-        // TODO: Handle 'error' of type RawError
-    }
+    // TODO: Handle 'ex.Error' of type RawError
 }
 ```
-
-</dd>
-</dl>
-
-### Request
-
-<dl>
-<dd>
-
-<code>[LeadScoreRequest](src/ForceDream/Requests/LeadScoreRequest.cs)</code>
 
 </dd>
 </dl>
@@ -317,9 +279,9 @@ catch (ApiException<LeadScoreError> ex)
 <dl>
 <dd>
 
-**OnSuccess**: No content
+**OnSuccess**: <code>[V1WorkforceProofPublicKeyResponse](src/ForceDream/Models/V1WorkforceProofPublicKeyResponse.cs)</code>
 
-**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[LeadScoreError](src/ForceDream/Errors/LeadScoreError.cs)&gt;</code>
+**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[RawError](src/ForceDream/Core/ErrorResponse/RawError.cs)&gt;</code>
 
 </dd>
 </dl>
@@ -330,7 +292,7 @@ catch (ApiException<LeadScoreError> ex)
 </details>
 
 <details>
-<summary><code>Task ModelInference(ModelInferenceRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
+<summary><code>Task&lt;V1AgentsInvokeResponse&gt; InvokeAgent(InvokeAgentRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
 
 <dl>
 <dd>
@@ -340,7 +302,7 @@ catch (ApiException<LeadScoreError> ex)
 <dl>
 <dd>
 
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+Spends your balance -- requires an `fd_live_` key. Enqueues the task and returns immediately; it does not wait for completion. Poll `/v1/agents/{slug}/result/{taskId}` for the outcome. Never call this again for the same logical task after a timeout -- re-invoking would double-charge.
 
 </dd>
 </dl>
@@ -353,13 +315,18 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 ```csharp
 try
 {
-    await client.ModelInference(new ModelInferenceRequest());
-}
-catch (ApiException<ModelInferenceError> ex)
-{
-    if (ex.Error.TryGetNoContent(out var error))
+    var response = await client.InvokeAgent(new InvokeAgentRequest
     {
-        // TODO: Handle 'error' of type RawError
+        Slug = "data-extract-v1",
+        Body = new V1AgentsInvokeRequest { Task = "some example string" },
+    });
+    // TODO: Handle 'response' of type V1AgentsInvokeResponse
+}
+catch (ApiException<InvokeAgentError> ex)
+{
+    if (ex.Error.TryGetUnauthorized1(out var error))
+    {
+        // TODO: Handle 'error' of type Unauthorized1
     }
 }
 ```
@@ -372,7 +339,7 @@ catch (ApiException<ModelInferenceError> ex)
 <dl>
 <dd>
 
-<code>[ModelInferenceRequest](src/ForceDream/Requests/ModelInferenceRequest.cs)</code>
+<code>[InvokeAgentRequest](src/ForceDream/Requests/InvokeAgentRequest.cs)</code>
 
 </dd>
 </dl>
@@ -382,9 +349,9 @@ catch (ApiException<ModelInferenceError> ex)
 <dl>
 <dd>
 
-**OnSuccess**: No content
+**OnSuccess**: <code>[V1AgentsInvokeResponse](src/ForceDream/Models/V1AgentsInvokeResponse.cs)</code>
 
-**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[ModelInferenceError](src/ForceDream/Errors/ModelInferenceError.cs)&gt;</code>
+**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[InvokeAgentError](src/ForceDream/Errors/InvokeAgentError.cs)&gt;</code>
 
 </dd>
 </dl>
@@ -395,7 +362,7 @@ catch (ApiException<ModelInferenceError> ex)
 </details>
 
 <details>
-<summary><code>Task PromptTemplate(PromptTemplateRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
+<summary><code>Task&lt;AgentListResult&gt; ListAgents(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
 
 <dl>
 <dd>
@@ -405,7 +372,12 @@ catch (ApiException<ModelInferenceError> ex)
 <dl>
 <dd>
 
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+Keyless -- no account needed. Real, load-bearing fact confirmed directly from the
+source, not assumed: **this endpoint has no working server-side capability or query
+filter.** All three official SDKs fetch the full list and filter client-side. A prior
+draft of the OpenAPI scope for this spec listed a nonexistent `/v1/agents/search`
+endpoint; it does not exist. Filter client-side against this endpoint's full response
+instead, exactly as the official SDKs do.
 
 </dd>
 </dl>
@@ -418,26 +390,14 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 ```csharp
 try
 {
-    await client.PromptTemplate(new PromptTemplateRequest());
+    var response = await client.ListAgents();
+    // TODO: Handle 'response' of type AgentListResult
 }
-catch (ApiException<PromptTemplateError> ex)
+catch (ApiException<RawError> ex)
 {
-    if (ex.Error.TryGetNoContent(out var error))
-    {
-        // TODO: Handle 'error' of type RawError
-    }
+    // TODO: Handle 'ex.Error' of type RawError
 }
 ```
-
-</dd>
-</dl>
-
-### Request
-
-<dl>
-<dd>
-
-<code>[PromptTemplateRequest](src/ForceDream/Requests/PromptTemplateRequest.cs)</code>
 
 </dd>
 </dl>
@@ -447,9 +407,9 @@ catch (ApiException<PromptTemplateError> ex)
 <dl>
 <dd>
 
-**OnSuccess**: No content
+**OnSuccess**: <code>[AgentListResult](src/ForceDream/Models/AgentListResult.cs)</code>
 
-**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[PromptTemplateError](src/ForceDream/Errors/PromptTemplateError.cs)&gt;</code>
+**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[RawError](src/ForceDream/Core/ErrorResponse/RawError.cs)&gt;</code>
 
 </dd>
 </dl>
@@ -460,7 +420,7 @@ catch (ApiException<PromptTemplateError> ex)
 </details>
 
 <details>
-<summary><code>Task ProofOfWork(ProofOfWorkRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
+<summary><code>Task&lt;SignupResult&gt; Signup(SignupRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
 
 <dl>
 <dd>
@@ -470,7 +430,9 @@ catch (ApiException<PromptTemplateError> ex)
 <dl>
 <dd>
 
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+No API key required -- this is how you get one. Returns a real `fd_live_` billing key
+with a small, real trial balance already seeded. Verified live, repeatedly, across all
+three SDKs tonight.
 
 </dd>
 </dl>
@@ -483,14 +445,15 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 ```csharp
 try
 {
-    await client.ProofOfWork(new ProofOfWorkRequest());
-}
-catch (ApiException<ProofOfWorkError> ex)
-{
-    if (ex.Error.TryGetNoContent(out var error))
+    var response = await client.Signup(new SignupRequest
     {
-        // TODO: Handle 'error' of type RawError
-    }
+        Body = new ApiSignupRequest { Email = "user@example.com" },
+    });
+    // TODO: Handle 'response' of type SignupResult
+}
+catch (ApiException<RawError> ex)
+{
+    // TODO: Handle 'ex.Error' of type RawError
 }
 ```
 
@@ -502,7 +465,7 @@ catch (ApiException<ProofOfWorkError> ex)
 <dl>
 <dd>
 
-<code>[ProofOfWorkRequest](src/ForceDream/Requests/ProofOfWorkRequest.cs)</code>
+<code>[SignupRequest](src/ForceDream/Requests/SignupRequest.cs)</code>
 
 </dd>
 </dl>
@@ -512,464 +475,9 @@ catch (ApiException<ProofOfWorkError> ex)
 <dl>
 <dd>
 
-**OnSuccess**: No content
+**OnSuccess**: <code>[SignupResult](src/ForceDream/Models/SignupResult.cs)</code>
 
-**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[ProofOfWorkError](src/ForceDream/Errors/ProofOfWorkError.cs)&gt;</code>
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>Task SecurityScan(SecurityScanRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-```csharp
-try
-{
-    await client.SecurityScan(new SecurityScanRequest());
-}
-catch (ApiException<SecurityScanError> ex)
-{
-    if (ex.Error.TryGetNoContent(out var error))
-    {
-        // TODO: Handle 'error' of type RawError
-    }
-}
-```
-
-</dd>
-</dl>
-
-### Request
-
-<dl>
-<dd>
-
-<code>[SecurityScanRequest](src/ForceDream/Requests/SecurityScanRequest.cs)</code>
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[SecurityScanError](src/ForceDream/Errors/SecurityScanError.cs)&gt;</code>
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>Task SemanticCache(SemanticCacheRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-```csharp
-try
-{
-    await client.SemanticCache(new SemanticCacheRequest());
-}
-catch (ApiException<SemanticCacheError> ex)
-{
-    if (ex.Error.TryGetNoContent(out var error))
-    {
-        // TODO: Handle 'error' of type RawError
-    }
-}
-```
-
-</dd>
-</dl>
-
-### Request
-
-<dl>
-<dd>
-
-<code>[SemanticCacheRequest](src/ForceDream/Requests/SemanticCacheRequest.cs)</code>
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[SemanticCacheError](src/ForceDream/Errors/SemanticCacheError.cs)&gt;</code>
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>Task SentimentFeed(SentimentFeedRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-```csharp
-try
-{
-    await client.SentimentFeed(new SentimentFeedRequest());
-}
-catch (ApiException<SentimentFeedError> ex)
-{
-    if (ex.Error.TryGetNoContent(out var error))
-    {
-        // TODO: Handle 'error' of type RawError
-    }
-}
-```
-
-</dd>
-</dl>
-
-### Request
-
-<dl>
-<dd>
-
-<code>[SentimentFeedRequest](src/ForceDream/Requests/SentimentFeedRequest.cs)</code>
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[SentimentFeedError](src/ForceDream/Errors/SentimentFeedError.cs)&gt;</code>
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>Task Summarization(SummarizationRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-```csharp
-try
-{
-    await client.Summarization(new SummarizationRequest());
-}
-catch (ApiException<SummarizationError> ex)
-{
-    if (ex.Error.TryGetNoContent(out var error))
-    {
-        // TODO: Handle 'error' of type RawError
-    }
-}
-```
-
-</dd>
-</dl>
-
-### Request
-
-<dl>
-<dd>
-
-<code>[SummarizationRequest](src/ForceDream/Requests/SummarizationRequest.cs)</code>
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[SummarizationError](src/ForceDream/Errors/SummarizationError.cs)&gt;</code>
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>Task TaxJarLookup(TaxJarLookupRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-```csharp
-try
-{
-    await client.TaxJarLookup(new TaxJarLookupRequest());
-}
-catch (ApiException<TaxJarLookupError> ex)
-{
-    if (ex.Error.TryGetNoContent(out var error))
-    {
-        // TODO: Handle 'error' of type RawError
-    }
-}
-```
-
-</dd>
-</dl>
-
-### Request
-
-<dl>
-<dd>
-
-<code>[TaxJarLookupRequest](src/ForceDream/Requests/TaxJarLookupRequest.cs)</code>
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[TaxJarLookupError](src/ForceDream/Errors/TaxJarLookupError.cs)&gt;</code>
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>Task Translation(TranslationRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-```csharp
-try
-{
-    await client.Translation(new TranslationRequest());
-}
-catch (ApiException<TranslationError> ex)
-{
-    if (ex.Error.TryGetNoContent(out var error))
-    {
-        // TODO: Handle 'error' of type RawError
-    }
-}
-```
-
-</dd>
-</dl>
-
-### Request
-
-<dl>
-<dd>
-
-<code>[TranslationRequest](src/ForceDream/Requests/TranslationRequest.cs)</code>
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[TranslationError](src/ForceDream/Errors/TranslationError.cs)&gt;</code>
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>Task Validation(ValidationRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default);</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-```csharp
-try
-{
-    await client.Validation(new ValidationRequest());
-}
-catch (ApiException<ValidationError> ex)
-{
-    if (ex.Error.TryGetNoContent(out var error))
-    {
-        // TODO: Handle 'error' of type RawError
-    }
-}
-```
-
-</dd>
-</dl>
-
-### Request
-
-<dl>
-<dd>
-
-<code>[ValidationRequest](src/ForceDream/Requests/ValidationRequest.cs)</code>
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[ValidationError](src/ForceDream/Errors/ValidationError.cs)&gt;</code>
+**OnError**: <code>[ApiException](src/ForceDream/Core/Exceptions/ApiException.cs)&lt;[RawError](src/ForceDream/Core/ErrorResponse/RawError.cs)&gt;</code>
 
 </dd>
 </dl>

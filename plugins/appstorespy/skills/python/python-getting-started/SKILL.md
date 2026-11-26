@@ -22,7 +22,7 @@ This page owns the SDK's *identity and surface* (install, imports, controllers, 
 | Async client class | `AsyncAppstoreSpyClient` (alias `AsyncClient`) |
 | Client construction | **keyword-only**: `base_url` · `timeout` (default `30.0`) · `retry_options` · `logging_options` · `hooks` · `api_key_header`, and the transport override — `custom_http_client` on the sync client, `custom_async_http_client` on the async one (the names differ) |
 | Auth | **API key** in the `API-KEY` header — set `api_key_header` |
-| Environments | **no environment enum** — one `base_url` string, defaulting to `https://{defaultHost}` |
+| Environments | **no environment enum** — one `base_url` string, defaulting to `https://api.appstorespy.com/v1` |
 | Base-URL config | `ServerConfig` (`appstore_spy/server/server_config.py`) |
 | Python floor | **`>=3.10`** (classifiers list `3.10–3.14`) |
 | Runtime dependencies | `httpx2 (>=2.13.1,<3.0.0)` · `certifi (>=2024.7.4)` · `pydantic[email] (>=2.11.0,<3.0.0)` · `typing-extensions (>=4.13.0,<5.0.0)` |
@@ -71,15 +71,15 @@ Everything else comes from its own subpackage:
 
 ## Environments — there is no environment enum
 
-This SDK has **no environment type and no environment constants**. There is one knob: `base_url`, on `ServerConfig` (`appstore_spy/server/server_config.py`), and its default is **`https://{defaultHost}`**:
+This SDK has **no environment type and no environment constants**. There is one knob: `base_url`, on `ServerConfig` (`appstore_spy/server/server_config.py`), and its default is **`https://api.appstorespy.com/v1`**:
 
 ```python
-base_url: str = "https://{defaultHost}"
+base_url: str = "https://api.appstorespy.com/v1"
 ```
 
 Consequences to state on every contract sheet that touches configuration:
 
-- Omitting `base_url` gives you **`https://{defaultHost}`**, silently. A caller who believes they configured a different host and did not gets that host's behaviour with live credentials.
+- Omitting `base_url` gives you **`https://api.appstorespy.com/v1`**, silently. A caller who believes they configured a different host and did not gets that host's behaviour with live credentials.
 - `ServerConfig` is a frozen pydantic model with `extra="forbid"`: a misspelled keyword raises `ValidationError` at construction rather than being ignored.
 - `timeout` is validated too — the base client raises `ValueError` for any non-positive value.
 

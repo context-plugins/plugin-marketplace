@@ -329,7 +329,7 @@ import { type ActiveInstance, activeInstanceSchema } from "hud";
 
 | Group | Base URL template | Template variables (default) |
 | --- | --- | --- |
-| `default` | `https://{defaultHost}` | `defaultHost` = `"www.example.com"` |
+| `default` | `https://api.hud.ai` | — |
 
 A `baseUrl` override replaces the template verbatim; variable values are percent-encoded into it. Server variables are filled in once, as the client is built; only the path parameters are expanded per request.
 

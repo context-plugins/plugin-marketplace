@@ -11,6 +11,9 @@ public sealed record ServerEnvironment : ClosedStringEnum<ServerEnvironment>
     {
     }
 
+    /// <summary>
+    /// Production (the only environment tested)
+    /// </summary>
     public static readonly ServerEnvironment Production = new("production");
 
     public static ServerEnvironment Default() => Production;

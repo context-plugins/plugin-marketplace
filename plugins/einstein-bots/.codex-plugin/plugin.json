@@ -1,0 +1,10 @@
+{
+  "name": "einstein-bots",
+  "version": "0.1.0",
+  "description": "Start, continue, and end Salesforce Einstein Bot sessions.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Einstein Bots",
+    "developerName": "APIMatic"
+  }
+}

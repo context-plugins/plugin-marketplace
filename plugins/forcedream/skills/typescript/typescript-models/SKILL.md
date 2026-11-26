@@ -205,21 +205,21 @@ field is not assignable to one — `new Uint8Array(value)` is the one-copy bridg
 
 ## What the schema checks — and what it does not
 
-Checked, in both directions: the **primitive type** of each property, the presence of required keys,
-the four date formats, base64, a pinned literal, and a union's arms. **Not checked, by an operation or
-by `{model}Schema.validate`**:
+Checked by an operation, in both directions: the **primitive type** of each property, the presence of
+required keys, the four date formats, base64, a pinned literal, and a union's arms. **Never checked by
+an operation**:
 
 - **String formats.** A uuid, email, uri, hostname, ip, password, json-pointer, regex-constrained
-  string and a bare `time` are all plain `string` with `s.string()`. Nothing validates the shape in
-  either direction: an email field accepts `"not an email"` and sends it.
+  string and a bare `time` travel as plain `string`: an email field is sent as `"not an email"`.
 - **Bounds and lengths** — `minLength`, `maxLength`, `minimum`, `maximum`, `multipleOf`,
   `uniqueItems`, `pattern`.
 - **`additionalProperties: false`** — see *Unknown / future fields* below.
 
-No model schema enforces those; the provider does, as a `400` you have to interpret. Where you want a
-client-side guard — worth it on user-supplied input before a write, where a rejected request costs a
-round-trip and an error path — write it at your own boundary and read the constraints from
-`api-reference.md`, which does carry the API's documented contract.
+An operation never refuses a value for one of those; the provider does, as a `400` you have to
+interpret. **`{model}Schema.validate` does check the formats, bounds and lengths the spec declares** —
+see *Checking a value before you send it* below — so pass user-supplied input through it before a
+write, where a rejected request costs a round-trip and an error path. `api-reference.md` carries the
+documented contract either way.
 
 An invalid model rejects the call with `EncodeError` — its `cause` the `SchemaError` naming the field —
 and **nothing is sent**. In production, catch it at the boundary where *you* assemble a payload from
@@ -313,27 +313,33 @@ const back  = {model}Schema.decode(JSON.parse(JSON.stringify(wire)));
 
 Both directions throw `SchemaError` on mismatch and produce nothing partial. Using a schema on
 inbound data the SDK did not hand you — a queue message, a cached blob, a webhook body on an SDK
-whose spec declares no webhooks — is the intended use, and gives you exactly the validation the SDK
-applies to a response. An SDK with `src/webhooks/` parses a delivery for you: see the inbound
-webhooks section of **typescript-client-initialization**.
+whose spec declares no webhooks — is the intended use. An SDK with `src/webhooks/` parses a delivery
+for you: see the inbound webhooks section of **typescript-client-initialization**. For a model whose spec declares value constraints it is stricter than a response, not
+the same: `{model}Schema` enforces them on `decode` as it does on `encode`, while an operation
+decodes through the structural twin, so a payload that breaks a `pattern` or a bound passes through
+an operation and throws here. Catch `SchemaError` on that path if a payload the service already
+accepted should not be dropped for a constraint.
 
 ### Checking a value before you send it
 
 ```ts
 const result = {model}Schema.validate(model);
 if (!result.success) {
-  // "name: expected string; dispatch.lockerCode: expected string"
+  // "name: Invalid input; dispatch.lockerCode: expected regex format"
   console.error(result.message);
 }
 ```
 
-`validate` runs `encode`'s rules without the conversion and without the throw: each required key
-present, each field of the type the schema spells, the date formats, base64, a pinned literal, a
-union's arms, and nested models and arrays the same way, every failing field reported under its full
-path. It applies **no** value constraint the spec declares (`minLength`, `pattern`, `minimum`,
-`uniqueItems`, a `format` such as `email`): no model schema in this SDK carries one, and there is
-no `{model}InternalSchema`. A value that breaks one passes `validate`, is sent as built, and is
-refused, if at all, by the service.
+`validate` runs `encode`'s rules without the conversion and without the throw, and is the **only**
+place a value constraint the spec declares (`minLength`, `pattern`, `minimum`, `uniqueItems`, a
+checked `format`, …) is applied — a keyword on an array's `items` or a map's
+`additionalProperties` included, checked on each item or value and reported under its index or
+key (`tags.0`, `attributes.carrier`). An operation never applies one: it sends and receives
+through a structural twin, `{model}InternalSchema`, so a value the service would accept is never
+refused on the way out, and a service that is ahead of the spec is never refused on the way in. A
+model that
+nests a constrained one validates the nested value too and reports its fields under their full
+path.
 
 No operation exports a `{operation}RequestSchema`: no request field carries a constraint of its own,
 so a request object is checked by the operation alone, by type and presence.

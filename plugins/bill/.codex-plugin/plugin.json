@@ -1,0 +1,10 @@
+{
+  "name": "bill",
+  "version": "0.1.0",
+  "description": "Automate bills, payments, vendors, invoices, budgets, and cards with BILL.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "BILL",
+    "developerName": "APIMatic"
+  }
+}

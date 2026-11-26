@@ -3,7 +3,7 @@
 > Source: [ForceDreamClient](src/client.ts)
 
 <details>
-<summary><code>anomalyDetection(request?: ForceDreamClient.AnomalyDetectionRequest, options?: RequestOptions): ApiPromise&lt;undefined, ForceDreamClient.AnomalyDetectionError&gt;</code></summary>
+<summary><code>getAgentReliability(options?: RequestOptions): ApiPromise&lt;ReliabilityListResult, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -13,7 +13,7 @@
 <dl>
 <dd>
 
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+Keyless. Used by all three SDKs to merge live `health` data into agent search results. A reliability-fetch failure never blocks the core agent listing.
 
 </dd>
 </dl>
@@ -25,9 +25,10 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 
 ```ts
 try {
-  await client.anomalyDetection();
+  const response = await client.getAgentReliability();
+  // TODO: Handle 'response' of type ReliabilityListResult
 } catch (err) {
-  // TODO: Handle 'err' of type ForceDreamClient.AnomalyDetectionError, discriminated with 'err.payload.kind'
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
 }
 ```
 
@@ -40,27 +41,14 @@ try {
 <dd>
 
 ```ts
-const result = await client.anomalyDetection().asApiResult();
+const result = await client.getAgentReliability().asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
-  // TODO: The call succeeded and resolves to no body
+  // TODO: Use 'result.value' of type ReliabilityListResult
 } else {
-  // TODO: Handle 'result', discriminated with 'result.payload.kind'
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>xPaymentIntentId?</code> | <code>string</code> | - |
-| <code>body?</code> | <code>[V1OracleAnomalyDetectionRequest](src/models/v1-oracle-anomaly-detection-request.ts)</code> | - |
 
 </dd>
 </dl>
@@ -70,14 +58,80 @@ if (result.ok) {
 <dl>
 <dd>
 
-**Direct**: `await client.anomalyDetection(request)`
+**Direct**: `await client.getAgentReliability()`
 
-- **OnSuccess**: <code>undefined</code>
-- **OnError**: throws <code>[ForceDreamClient.AnomalyDetectionError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
+- **OnSuccess**: <code>[ReliabilityListResult](src/models/reliability-list-result.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
 
-**As ApiResult**: `await client.anomalyDetection(request).asApiResult()`
+**As ApiResult**: `await client.getAgentReliability().asApiResult()`
 
-- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ForceDreamClient.AnomalyDetectionError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ReliabilityListResult, ApiError&gt;</code>, with `result.value` of type <code>[ReliabilityListResult](src/models/reliability-list-result.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</details>
+
+<details>
+<summary><code>getBalance(options?: RequestOptions): ApiPromise&lt;BalanceResult, ForceDreamClient.GetBalanceError&gt;</code></summary>
+
+<dl>
+<dd>
+
+### Direct Usage
+
+<dl>
+<dd>
+
+```ts
+try {
+  const response = await client.getBalance();
+  // TODO: Handle 'response' of type BalanceResult
+} catch (err) {
+  // TODO: Handle 'err' of type ForceDreamClient.GetBalanceError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.getBalance().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type BalanceResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Response
+
+<dl>
+<dd>
+
+**Direct**: `await client.getBalance()`
+
+- **OnSuccess**: <code>[BalanceResult](src/models/balance-result.ts)</code>
+- **OnError**: throws <code>[ForceDreamClient.GetBalanceError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.getBalance().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;BalanceResult, ForceDreamClient.GetBalanceError&gt;</code>, with `result.value` of type <code>[BalanceResult](src/models/balance-result.ts)</code>
 - **OnError**: `result.payload` discriminated on `kind`, with `result.message`
 
 **Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
@@ -91,7 +145,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>classification(request?: ForceDreamClient.ClassificationRequest, options?: RequestOptions): ApiPromise&lt;undefined, ForceDreamClient.ClassificationError&gt;</code></summary>
+<summary><code>getInvokeResult(request: ForceDreamClient.GetInvokeResultRequest, options?: RequestOptions): ApiPromise&lt;InvokeResult, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -101,7 +155,13 @@ if (result.ok) {
 <dl>
 <dd>
 
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+Real polling contract used identically by all three official SDKs: start polling at a
+2500ms interval, add 1000ms after each attempt, cap at 6000ms, bounded by a caller-set
+total wait (default 60s, min 5s, max 120s). The response's `status` (or `outcome`)
+field distinguishes `completed`/`succeeded`, `insufficient` (agent honestly declined --
+charged nothing), `charge_failed`, `failed`/`dead_letter`, or still-pending (any other
+value, including the field being absent).
+
 
 </dd>
 </dl>
@@ -113,9 +173,13 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 
 ```ts
 try {
-  await client.classification();
+  const response = await client.getInvokeResult({
+    slug: "some example string",
+    taskId: "some example string",
+  });
+  // TODO: Handle 'response' of type InvokeResult
 } catch (err) {
-  // TODO: Handle 'err' of type ForceDreamClient.ClassificationError, discriminated with 'err.payload.kind'
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
 }
 ```
 
@@ -128,10 +192,270 @@ try {
 <dd>
 
 ```ts
-const result = await client.classification().asApiResult();
+const result = await client
+  .getInvokeResult({ slug: "some example string", taskId: "some example string" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
-  // TODO: The call succeeded and resolves to no body
+  // TODO: Use 'result.value' of type InvokeResult
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Parameters
+
+<dl>
+<dd>
+
+| Name | Type | Description |
+| --- | --- | --- |
+| <code>slug</code> | <code>string</code> | - |
+| <code>taskId</code> | <code>string</code> | - |
+
+</dd>
+</dl>
+
+### Response
+
+<dl>
+<dd>
+
+**Direct**: `await client.getInvokeResult(request)`
+
+- **OnSuccess**: <code>[InvokeResult](src/models/invoke-result.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.getInvokeResult(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;InvokeResult, ApiError&gt;</code>, with `result.value` of type <code>[InvokeResult](src/models/invoke-result.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</details>
+
+<details>
+<summary><code>getProof(request: ForceDreamClient.GetProofRequest, options?: RequestOptions): ApiPromise&lt;V1WorkforceProofPublicResponse, ApiError&gt;</code></summary>
+
+<dl>
+<dd>
+
+### Description
+
+<dl>
+<dd>
+
+Keyless. Returns the real proof object needed for client-side Ed25519 verification. **Honest gap**: the exact behavior for a task_id that has not yet completed (404, a 200 with a null proof, or otherwise) is not directly confirmed by tonight's testing -- every real verification tested used an already-completed task. Documented as `200` below for the confirmed case only; do not assume the shape of an unconfirmed case.
+
+</dd>
+</dl>
+
+### Direct Usage
+
+<dl>
+<dd>
+
+```ts
+try {
+  const response = await client.getProof({ taskId: "some example string" });
+  // TODO: Handle 'response' of type V1WorkforceProofPublicResponse
+} catch (err) {
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.getProof({ taskId: "some example string" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V1WorkforceProofPublicResponse
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Parameters
+
+<dl>
+<dd>
+
+| Name | Type | Description |
+| --- | --- | --- |
+| <code>taskId</code> | <code>string</code> | - |
+
+</dd>
+</dl>
+
+### Response
+
+<dl>
+<dd>
+
+**Direct**: `await client.getProof(request)`
+
+- **OnSuccess**: <code>[V1WorkforceProofPublicResponse](src/models/v1-workforce-proof-public-response.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.getProof(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V1WorkforceProofPublicResponse, ApiError&gt;</code>, with `result.value` of type <code>[V1WorkforceProofPublicResponse](src/models/v1-workforce-proof-public-response.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</details>
+
+<details>
+<summary><code>getProofPublicKey(options?: RequestOptions): ApiPromise&lt;V1WorkforceProofPublicKeyResponse, ApiError&gt;</code></summary>
+
+<dl>
+<dd>
+
+### Description
+
+<dl>
+<dd>
+
+Keyless. Required to verify any proof's signature.
+
+</dd>
+</dl>
+
+### Direct Usage
+
+<dl>
+<dd>
+
+```ts
+try {
+  const response = await client.getProofPublicKey();
+  // TODO: Handle 'response' of type V1WorkforceProofPublicKeyResponse
+} catch (err) {
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.getProofPublicKey().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V1WorkforceProofPublicKeyResponse
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Response
+
+<dl>
+<dd>
+
+**Direct**: `await client.getProofPublicKey()`
+
+- **OnSuccess**: <code>[V1WorkforceProofPublicKeyResponse](src/models/v1-workforce-proof-public-key-response.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.getProofPublicKey().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V1WorkforceProofPublicKeyResponse, ApiError&gt;</code>, with `result.value` of type <code>[V1WorkforceProofPublicKeyResponse](src/models/v1-workforce-proof-public-key-response.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</details>
+
+<details>
+<summary><code>invokeAgent(request: ForceDreamClient.InvokeAgentRequest, options?: RequestOptions): ApiPromise&lt;V1AgentsInvokeResponse, ForceDreamClient.InvokeAgentError&gt;</code></summary>
+
+<dl>
+<dd>
+
+### Description
+
+<dl>
+<dd>
+
+Spends your balance -- requires an `fd_live_` key. Enqueues the task and returns immediately; it does not wait for completion. Poll `/v1/agents/{slug}/result/{taskId}` for the outcome. Never call this again for the same logical task after a timeout -- re-invoking would double-charge.
+
+</dd>
+</dl>
+
+### Direct Usage
+
+<dl>
+<dd>
+
+```ts
+try {
+  const response = await client.invokeAgent({
+    slug: "data-extract-v1",
+    body: { task: "some example string" },
+  });
+  // TODO: Handle 'response' of type V1AgentsInvokeResponse
+} catch (err) {
+  // TODO: Handle 'err' of type ForceDreamClient.InvokeAgentError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client
+  .invokeAgent({ slug: "data-extract-v1", body: { task: "some example string" } })
+  .asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V1AgentsInvokeResponse
 } else {
   // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
@@ -147,8 +471,8 @@ if (result.ok) {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>xPaymentIntentId?</code> | <code>string</code> | - |
-| <code>body?</code> | <code>[V1OracleClassificationRequest](src/models/v1-oracle-classification-request.ts)</code> | - |
+| <code>slug</code> | <code>string</code> | - |
+| <code>body</code> | <code>[V1AgentsInvokeRequest](src/models/v1-agents-invoke-request.ts)</code> | - |
 
 </dd>
 </dl>
@@ -158,14 +482,14 @@ if (result.ok) {
 <dl>
 <dd>
 
-**Direct**: `await client.classification(request)`
+**Direct**: `await client.invokeAgent(request)`
 
-- **OnSuccess**: <code>undefined</code>
-- **OnError**: throws <code>[ForceDreamClient.ClassificationError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
+- **OnSuccess**: <code>[V1AgentsInvokeResponse](src/models/v1-agents-invoke-response.ts)</code>
+- **OnError**: throws <code>[ForceDreamClient.InvokeAgentError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
 
-**As ApiResult**: `await client.classification(request).asApiResult()`
+**As ApiResult**: `await client.invokeAgent(request).asApiResult()`
 
-- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ForceDreamClient.ClassificationError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V1AgentsInvokeResponse, ForceDreamClient.InvokeAgentError&gt;</code>, with `result.value` of type <code>[V1AgentsInvokeResponse](src/models/v1-agents-invoke-response.ts)</code>
 - **OnError**: `result.payload` discriminated on `kind`, with `result.message`
 
 **Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
@@ -179,7 +503,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>codeGeneration(request?: ForceDreamClient.CodeGenerationRequest, options?: RequestOptions): ApiPromise&lt;undefined, ForceDreamClient.CodeGenerationError&gt;</code></summary>
+<summary><code>listAgents(options?: RequestOptions): ApiPromise&lt;AgentListResult, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -189,7 +513,13 @@ if (result.ok) {
 <dl>
 <dd>
 
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+Keyless -- no account needed. Real, load-bearing fact confirmed directly from the
+source, not assumed: **this endpoint has no working server-side capability or query
+filter.** All three official SDKs fetch the full list and filter client-side. A prior
+draft of the OpenAPI scope for this spec listed a nonexistent `/v1/agents/search`
+endpoint; it does not exist. Filter client-side against this endpoint's full response
+instead, exactly as the official SDKs do.
+
 
 </dd>
 </dl>
@@ -201,9 +531,10 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 
 ```ts
 try {
-  await client.codeGeneration();
+  const response = await client.listAgents();
+  // TODO: Handle 'response' of type AgentListResult
 } catch (err) {
-  // TODO: Handle 'err' of type ForceDreamClient.CodeGenerationError, discriminated with 'err.payload.kind'
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
 }
 ```
 
@@ -216,27 +547,14 @@ try {
 <dd>
 
 ```ts
-const result = await client.codeGeneration().asApiResult();
+const result = await client.listAgents().asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
-  // TODO: The call succeeded and resolves to no body
+  // TODO: Use 'result.value' of type AgentListResult
 } else {
-  // TODO: Handle 'result', discriminated with 'result.payload.kind'
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>xPaymentIntentId?</code> | <code>string</code> | - |
-| <code>body?</code> | <code>[V1OracleCodeGenerationRequest](src/models/v1-oracle-code-generation-request.ts)</code> | - |
 
 </dd>
 </dl>
@@ -246,15 +564,15 @@ if (result.ok) {
 <dl>
 <dd>
 
-**Direct**: `await client.codeGeneration(request)`
+**Direct**: `await client.listAgents()`
 
-- **OnSuccess**: <code>undefined</code>
-- **OnError**: throws <code>[ForceDreamClient.CodeGenerationError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
+- **OnSuccess**: <code>[AgentListResult](src/models/agent-list-result.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
 
-**As ApiResult**: `await client.codeGeneration(request).asApiResult()`
+**As ApiResult**: `await client.listAgents().asApiResult()`
 
-- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ForceDreamClient.CodeGenerationError&gt;</code>, with `result.value` of type <code>undefined</code>
-- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AgentListResult, ApiError&gt;</code>, with `result.value` of type <code>[AgentListResult](src/models/agent-list-result.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
 
 **Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
@@ -267,7 +585,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>fraudSignal(request?: ForceDreamClient.FraudSignalRequest, options?: RequestOptions): ApiPromise&lt;undefined, ForceDreamClient.FraudSignalError&gt;</code></summary>
+<summary><code>signup(request: ForceDreamClient.SignupRequest, options?: RequestOptions): ApiPromise&lt;SignupResult, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -277,7 +595,10 @@ if (result.ok) {
 <dl>
 <dd>
 
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+No API key required -- this is how you get one. Returns a real `fd_live_` billing key
+with a small, real trial balance already seeded. Verified live, repeatedly, across all
+three SDKs tonight.
+
 
 </dd>
 </dl>
@@ -289,9 +610,10 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 
 ```ts
 try {
-  await client.fraudSignal();
+  const response = await client.signup({ body: { email: "user@example.com" } });
+  // TODO: Handle 'response' of type SignupResult
 } catch (err) {
-  // TODO: Handle 'err' of type ForceDreamClient.FraudSignalError, discriminated with 'err.payload.kind'
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
 }
 ```
 
@@ -304,12 +626,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.fraudSignal().asApiResult();
+const result = await client.signup({ body: { email: "user@example.com" } }).asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
-  // TODO: The call succeeded and resolves to no body
+  // TODO: Use 'result.value' of type SignupResult
 } else {
-  // TODO: Handle 'result', discriminated with 'result.payload.kind'
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -323,8 +645,7 @@ if (result.ok) {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>xPaymentIntentId?</code> | <code>string</code> | - |
-| <code>body?</code> | <code>[V1OracleFraudSignalRequest](src/models/v1-oracle-fraud-signal-request.ts)</code> | - |
+| <code>body</code> | <code>[ApiSignupRequest](src/models/api-signup-request.ts)</code> | - |
 
 </dd>
 </dl>
@@ -334,983 +655,15 @@ if (result.ok) {
 <dl>
 <dd>
 
-**Direct**: `await client.fraudSignal(request)`
+**Direct**: `await client.signup(request)`
 
-- **OnSuccess**: <code>undefined</code>
-- **OnError**: throws <code>[ForceDreamClient.FraudSignalError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
+- **OnSuccess**: <code>[SignupResult](src/models/signup-result.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
 
-**As ApiResult**: `await client.fraudSignal(request).asApiResult()`
+**As ApiResult**: `await client.signup(request).asApiResult()`
 
-- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ForceDreamClient.FraudSignalError&gt;</code>, with `result.value` of type <code>undefined</code>
-- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
-
-**Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>leadScore(request?: ForceDreamClient.LeadScoreRequest, options?: RequestOptions): ApiPromise&lt;undefined, ForceDreamClient.LeadScoreError&gt;</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Direct Usage
-
-<dl>
-<dd>
-
-```ts
-try {
-  await client.leadScore();
-} catch (err) {
-  // TODO: Handle 'err' of type ForceDreamClient.LeadScoreError, discriminated with 'err.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Usage as ApiResult
-
-<dl>
-<dd>
-
-```ts
-const result = await client.leadScore().asApiResult();
-// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
-if (result.ok) {
-  // TODO: The call succeeded and resolves to no body
-} else {
-  // TODO: Handle 'result', discriminated with 'result.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>xPaymentIntentId?</code> | <code>string</code> | - |
-| <code>body?</code> | <code>[V1OracleLeadScoreRequest](src/models/v1-oracle-lead-score-request.ts)</code> | - |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**Direct**: `await client.leadScore(request)`
-
-- **OnSuccess**: <code>undefined</code>
-- **OnError**: throws <code>[ForceDreamClient.LeadScoreError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
-
-**As ApiResult**: `await client.leadScore(request).asApiResult()`
-
-- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ForceDreamClient.LeadScoreError&gt;</code>, with `result.value` of type <code>undefined</code>
-- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
-
-**Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>modelInference(request?: ForceDreamClient.ModelInferenceRequest, options?: RequestOptions): ApiPromise&lt;undefined, ForceDreamClient.ModelInferenceError&gt;</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Direct Usage
-
-<dl>
-<dd>
-
-```ts
-try {
-  await client.modelInference();
-} catch (err) {
-  // TODO: Handle 'err' of type ForceDreamClient.ModelInferenceError, discriminated with 'err.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Usage as ApiResult
-
-<dl>
-<dd>
-
-```ts
-const result = await client.modelInference().asApiResult();
-// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
-if (result.ok) {
-  // TODO: The call succeeded and resolves to no body
-} else {
-  // TODO: Handle 'result', discriminated with 'result.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>xPaymentIntentId?</code> | <code>string</code> | - |
-| <code>body?</code> | <code>[V1OracleModelInferenceRequest](src/models/v1-oracle-model-inference-request.ts)</code> | - |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**Direct**: `await client.modelInference(request)`
-
-- **OnSuccess**: <code>undefined</code>
-- **OnError**: throws <code>[ForceDreamClient.ModelInferenceError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
-
-**As ApiResult**: `await client.modelInference(request).asApiResult()`
-
-- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ForceDreamClient.ModelInferenceError&gt;</code>, with `result.value` of type <code>undefined</code>
-- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
-
-**Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>promptTemplate(request?: ForceDreamClient.PromptTemplateRequest, options?: RequestOptions): ApiPromise&lt;undefined, ForceDreamClient.PromptTemplateError&gt;</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Direct Usage
-
-<dl>
-<dd>
-
-```ts
-try {
-  await client.promptTemplate();
-} catch (err) {
-  // TODO: Handle 'err' of type ForceDreamClient.PromptTemplateError, discriminated with 'err.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Usage as ApiResult
-
-<dl>
-<dd>
-
-```ts
-const result = await client.promptTemplate().asApiResult();
-// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
-if (result.ok) {
-  // TODO: The call succeeded and resolves to no body
-} else {
-  // TODO: Handle 'result', discriminated with 'result.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>xPaymentIntentId?</code> | <code>string</code> | - |
-| <code>body?</code> | <code>[V1OraclePromptTemplateRequest](src/models/v1-oracle-prompt-template-request.ts)</code> | - |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**Direct**: `await client.promptTemplate(request)`
-
-- **OnSuccess**: <code>undefined</code>
-- **OnError**: throws <code>[ForceDreamClient.PromptTemplateError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
-
-**As ApiResult**: `await client.promptTemplate(request).asApiResult()`
-
-- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ForceDreamClient.PromptTemplateError&gt;</code>, with `result.value` of type <code>undefined</code>
-- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
-
-**Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>proofOfWork(request?: ForceDreamClient.ProofOfWorkRequest, options?: RequestOptions): ApiPromise&lt;undefined, ForceDreamClient.ProofOfWorkError&gt;</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Direct Usage
-
-<dl>
-<dd>
-
-```ts
-try {
-  await client.proofOfWork();
-} catch (err) {
-  // TODO: Handle 'err' of type ForceDreamClient.ProofOfWorkError, discriminated with 'err.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Usage as ApiResult
-
-<dl>
-<dd>
-
-```ts
-const result = await client.proofOfWork().asApiResult();
-// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
-if (result.ok) {
-  // TODO: The call succeeded and resolves to no body
-} else {
-  // TODO: Handle 'result', discriminated with 'result.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>xPaymentIntentId?</code> | <code>string</code> | - |
-| <code>body?</code> | <code>[V1OracleProofOfWorkRequest](src/models/v1-oracle-proof-of-work-request.ts)</code> | - |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**Direct**: `await client.proofOfWork(request)`
-
-- **OnSuccess**: <code>undefined</code>
-- **OnError**: throws <code>[ForceDreamClient.ProofOfWorkError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
-
-**As ApiResult**: `await client.proofOfWork(request).asApiResult()`
-
-- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ForceDreamClient.ProofOfWorkError&gt;</code>, with `result.value` of type <code>undefined</code>
-- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
-
-**Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>securityScan(request?: ForceDreamClient.SecurityScanRequest, options?: RequestOptions): ApiPromise&lt;undefined, ForceDreamClient.SecurityScanError&gt;</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Direct Usage
-
-<dl>
-<dd>
-
-```ts
-try {
-  await client.securityScan();
-} catch (err) {
-  // TODO: Handle 'err' of type ForceDreamClient.SecurityScanError, discriminated with 'err.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Usage as ApiResult
-
-<dl>
-<dd>
-
-```ts
-const result = await client.securityScan().asApiResult();
-// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
-if (result.ok) {
-  // TODO: The call succeeded and resolves to no body
-} else {
-  // TODO: Handle 'result', discriminated with 'result.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>xPaymentIntentId?</code> | <code>string</code> | - |
-| <code>body?</code> | <code>[V1OracleSecurityScanRequest](src/models/v1-oracle-security-scan-request.ts)</code> | - |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**Direct**: `await client.securityScan(request)`
-
-- **OnSuccess**: <code>undefined</code>
-- **OnError**: throws <code>[ForceDreamClient.SecurityScanError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
-
-**As ApiResult**: `await client.securityScan(request).asApiResult()`
-
-- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ForceDreamClient.SecurityScanError&gt;</code>, with `result.value` of type <code>undefined</code>
-- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
-
-**Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>semanticCache(request?: ForceDreamClient.SemanticCacheRequest, options?: RequestOptions): ApiPromise&lt;undefined, ForceDreamClient.SemanticCacheError&gt;</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Direct Usage
-
-<dl>
-<dd>
-
-```ts
-try {
-  await client.semanticCache();
-} catch (err) {
-  // TODO: Handle 'err' of type ForceDreamClient.SemanticCacheError, discriminated with 'err.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Usage as ApiResult
-
-<dl>
-<dd>
-
-```ts
-const result = await client.semanticCache().asApiResult();
-// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
-if (result.ok) {
-  // TODO: The call succeeded and resolves to no body
-} else {
-  // TODO: Handle 'result', discriminated with 'result.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>xPaymentIntentId?</code> | <code>string</code> | - |
-| <code>body?</code> | <code>[V1OracleSemanticCacheRequest](src/models/v1-oracle-semantic-cache-request.ts)</code> | - |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**Direct**: `await client.semanticCache(request)`
-
-- **OnSuccess**: <code>undefined</code>
-- **OnError**: throws <code>[ForceDreamClient.SemanticCacheError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
-
-**As ApiResult**: `await client.semanticCache(request).asApiResult()`
-
-- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ForceDreamClient.SemanticCacheError&gt;</code>, with `result.value` of type <code>undefined</code>
-- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
-
-**Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>sentimentFeed(request?: ForceDreamClient.SentimentFeedRequest, options?: RequestOptions): ApiPromise&lt;undefined, ForceDreamClient.SentimentFeedError&gt;</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Direct Usage
-
-<dl>
-<dd>
-
-```ts
-try {
-  await client.sentimentFeed();
-} catch (err) {
-  // TODO: Handle 'err' of type ForceDreamClient.SentimentFeedError, discriminated with 'err.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Usage as ApiResult
-
-<dl>
-<dd>
-
-```ts
-const result = await client.sentimentFeed().asApiResult();
-// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
-if (result.ok) {
-  // TODO: The call succeeded and resolves to no body
-} else {
-  // TODO: Handle 'result', discriminated with 'result.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>xPaymentIntentId?</code> | <code>string</code> | - |
-| <code>body?</code> | <code>[V1OracleSentimentFeedRequest](src/models/v1-oracle-sentiment-feed-request.ts)</code> | - |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**Direct**: `await client.sentimentFeed(request)`
-
-- **OnSuccess**: <code>undefined</code>
-- **OnError**: throws <code>[ForceDreamClient.SentimentFeedError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
-
-**As ApiResult**: `await client.sentimentFeed(request).asApiResult()`
-
-- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ForceDreamClient.SentimentFeedError&gt;</code>, with `result.value` of type <code>undefined</code>
-- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
-
-**Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>summarization(request?: ForceDreamClient.SummarizationRequest, options?: RequestOptions): ApiPromise&lt;undefined, ForceDreamClient.SummarizationError&gt;</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Direct Usage
-
-<dl>
-<dd>
-
-```ts
-try {
-  await client.summarization();
-} catch (err) {
-  // TODO: Handle 'err' of type ForceDreamClient.SummarizationError, discriminated with 'err.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Usage as ApiResult
-
-<dl>
-<dd>
-
-```ts
-const result = await client.summarization().asApiResult();
-// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
-if (result.ok) {
-  // TODO: The call succeeded and resolves to no body
-} else {
-  // TODO: Handle 'result', discriminated with 'result.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>xPaymentIntentId?</code> | <code>string</code> | - |
-| <code>body?</code> | <code>[V1OracleSummarizationRequest](src/models/v1-oracle-summarization-request.ts)</code> | - |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**Direct**: `await client.summarization(request)`
-
-- **OnSuccess**: <code>undefined</code>
-- **OnError**: throws <code>[ForceDreamClient.SummarizationError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
-
-**As ApiResult**: `await client.summarization(request).asApiResult()`
-
-- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ForceDreamClient.SummarizationError&gt;</code>, with `result.value` of type <code>undefined</code>
-- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
-
-**Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>taxJarLookup(request?: ForceDreamClient.TaxJarLookupRequest, options?: RequestOptions): ApiPromise&lt;undefined, ForceDreamClient.TaxJarLookupError&gt;</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Direct Usage
-
-<dl>
-<dd>
-
-```ts
-try {
-  await client.taxJarLookup();
-} catch (err) {
-  // TODO: Handle 'err' of type ForceDreamClient.TaxJarLookupError, discriminated with 'err.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Usage as ApiResult
-
-<dl>
-<dd>
-
-```ts
-const result = await client.taxJarLookup().asApiResult();
-// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
-if (result.ok) {
-  // TODO: The call succeeded and resolves to no body
-} else {
-  // TODO: Handle 'result', discriminated with 'result.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>xPaymentIntentId?</code> | <code>string</code> | - |
-| <code>body?</code> | <code>[V1OracleTaxJarLookupRequest](src/models/v1-oracle-tax-jar-lookup-request.ts)</code> | - |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**Direct**: `await client.taxJarLookup(request)`
-
-- **OnSuccess**: <code>undefined</code>
-- **OnError**: throws <code>[ForceDreamClient.TaxJarLookupError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
-
-**As ApiResult**: `await client.taxJarLookup(request).asApiResult()`
-
-- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ForceDreamClient.TaxJarLookupError&gt;</code>, with `result.value` of type <code>undefined</code>
-- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
-
-**Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>translation(request?: ForceDreamClient.TranslationRequest, options?: RequestOptions): ApiPromise&lt;undefined, ForceDreamClient.TranslationError&gt;</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Direct Usage
-
-<dl>
-<dd>
-
-```ts
-try {
-  await client.translation();
-} catch (err) {
-  // TODO: Handle 'err' of type ForceDreamClient.TranslationError, discriminated with 'err.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Usage as ApiResult
-
-<dl>
-<dd>
-
-```ts
-const result = await client.translation().asApiResult();
-// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
-if (result.ok) {
-  // TODO: The call succeeded and resolves to no body
-} else {
-  // TODO: Handle 'result', discriminated with 'result.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>xPaymentIntentId?</code> | <code>string</code> | - |
-| <code>body?</code> | <code>[V1OracleTranslationRequest](src/models/v1-oracle-translation-request.ts)</code> | - |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**Direct**: `await client.translation(request)`
-
-- **OnSuccess**: <code>undefined</code>
-- **OnError**: throws <code>[ForceDreamClient.TranslationError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
-
-**As ApiResult**: `await client.translation(request).asApiResult()`
-
-- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ForceDreamClient.TranslationError&gt;</code>, with `result.value` of type <code>undefined</code>
-- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
-
-**Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>validation(request?: ForceDreamClient.ValidationRequest, options?: RequestOptions): ApiPromise&lt;undefined, ForceDreamClient.ValidationError&gt;</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Direct Usage
-
-<dl>
-<dd>
-
-```ts
-try {
-  await client.validation();
-} catch (err) {
-  // TODO: Handle 'err' of type ForceDreamClient.ValidationError, discriminated with 'err.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Usage as ApiResult
-
-<dl>
-<dd>
-
-```ts
-const result = await client.validation().asApiResult();
-// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
-if (result.ok) {
-  // TODO: The call succeeded and resolves to no body
-} else {
-  // TODO: Handle 'result', discriminated with 'result.payload.kind'
-}
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>xPaymentIntentId?</code> | <code>string</code> | - |
-| <code>body?</code> | <code>[V1OracleValidationRequest](src/models/v1-oracle-validation-request.ts)</code> | - |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**Direct**: `await client.validation(request)`
-
-- **OnSuccess**: <code>undefined</code>
-- **OnError**: throws <code>[ForceDreamClient.ValidationError](src/client.ts)</code>, with `err.payload` discriminated on `kind`
-
-**As ApiResult**: `await client.validation(request).asApiResult()`
-
-- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ForceDreamClient.ValidationError&gt;</code>, with `result.value` of type <code>undefined</code>
-- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;SignupResult, ApiError&gt;</code>, with `result.value` of type <code>[SignupResult](src/models/signup-result.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
 
 **Thrown**: <code>[ForceDreamError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 

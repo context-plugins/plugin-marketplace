@@ -7,7 +7,5 @@ type SdkClientOptions = ServerOptions;
 type ServerOptions = {
   readonly serverOptions?: {
     baseUrl?: string;
-    /** @default "www.example.com" */
-    defaultHost?: string;
   };
 };

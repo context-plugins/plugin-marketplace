@@ -9,7 +9,7 @@
 | SDK display name | ForceDream |
 | Root namespace | `ForceDream` |
 | Target framework | `netstandard2.0` (C# `LangVersion 14`, `Nullable enable`) |
-| API spec version | `1.0.0` |
+| API spec version | `0.1.0` |
 | Generator | APIMatic |
 
 Staleness check: the API spec version above changes when the SDK is regenerated from a new spec. If a lookup here fails to compile, trust the compiler and re-read the source file named in the row.
@@ -23,7 +23,11 @@ All `Source` paths on this map and its sub-pages are relative to the **SDK root*
 ```csharp
 var httpClient = new HttpClient();
 // TODO: configure more client options here
-var options = new ForceDreamClientOptions { Environment = ServerEnvironment.Production };
+var options = new ForceDreamClientOptions
+{
+    BearerAuth = "YOUR_BEARER_TOKEN",
+    Environment = ServerEnvironment.Production,
+};
 var client = new ForceDreamClient(httpClient, options);
 ```
 
@@ -32,6 +36,7 @@ DI alternative (`services.AddForceDreamClient`):
 ```csharp
 services.AddForceDreamClient(options =>
 {
+    options.BearerAuth = "YOUR_BEARER_TOKEN";
     options.Environment = ServerEnvironment.Production;
     // TODO: configure more client options here
 });
@@ -50,6 +55,8 @@ All `ForceDreamClientOptions` properties (source: `src/ForceDream/ForceDreamClie
 | `Server` | `ServerOptions` |
 | `StreamReadTimeout` | `TimeSpan?` |
 | `Hooks` | `IReadOnlyList<SdkHook>` |
+| `BearerAuth` | `string?` |
+| `BearerAuthProvider` | `CredentialProvider<string>?` |
 
 `ServerEnvironment` (source: `src/ForceDream/Servers/ServerEnvironment.cs`, namespace `ForceDream.Servers`)
 
@@ -84,7 +91,7 @@ Core error types (`src/ForceDream/Core/ErrorResponse/`) — public members with 
 
 | Type | Public members | Source |
 | --- | --- | --- |
-| `ApiError` — abstract base of the 15 typed error classes in `src/ForceDream/Errors/` | `TryGetRawError([NotNullWhen(true)] out RawError? error): bool` | `src/ForceDream/Core/ErrorResponse/ApiError.cs` |
+| `ApiError` — abstract base of the 2 typed error classes in `src/ForceDream/Errors/` | `TryGetRawError([NotNullWhen(true)] out RawError? error): bool` | `src/ForceDream/Core/ErrorResponse/ApiError.cs` |
 | `RawError` | `StatusCode: HttpStatusCode` · `ReadAsBytes(): ReadOnlyMemory<byte>` · `ReadAsString(): string` · `ReadAsJson<T>(): T?` | `src/ForceDream/Core/ErrorResponse/RawError.cs` |
 
 Every accessor over a reference-type payload, on a typed error and on a `OneOf`/`AnyOf` union alike, is `[NotNullWhen(true)] out T?`: read the value inside the `if`, where the compiler has narrowed it; a value-type payload (`long`, `JsonElement`) stays a bare `out`.
@@ -94,14 +101,14 @@ Typed-error payload shapes (the `out` types in each operation page's error-acces
 ```csharp
 try
 {
-    await client.AnomalyDetection(new AnomalyDetectionRequest());
+    var response = await client.GetBalance();
 }
-catch (ApiException<AnomalyDetectionError> ex)
+catch (ApiException<GetBalanceError> ex)
 {
     // Case A — typed error
-    if (ex.Error.TryGetNoContent(out var error))
+    if (ex.Error.TryGetUnauthorized1(out var error))
     {
-        // Handle 402
+        // Handle 401
     }
     else if (ex.Error.TryGetRawError(out var raw))
     {
@@ -115,11 +122,11 @@ catch (ApiException<RawError> ex)
 }
 ```
 
-**No-throw (`…Result`) variants: absent across this SDK** — every operation is throw-only. Of **15 operations**, **15 are Case A (typed)** and **0 are Case B (raw)**.
+**No-throw (`…Result`) variants: absent across this SDK** — every operation is throw-only. Of **8 operations**, **2 are Case A (typed)** and **6 are Case B (raw)**.
 
 ---
 
-## Operations — by controller (1 group, 15 operations)
+## Operations — by controller (1 group, 8 operations)
 
 Each links to a sub-page with one row per operation: signature, the request record's required members, query-param wire names (with the serialization style where the spec declares one), return type, error Case A/B, and Case A's typed accessors with their statuses. Each operation also carries a **Type sources** table — every type it names, with the file that declares it — so resolving a body, return, or error payload to its source is a lookup, never a search. `RawError` is excluded there (its members and path are above); an operation with no table names nothing but primitives and `RawError`.
 
@@ -139,7 +146,7 @@ Each links to a sub-page with one row per operation: signature, the request reco
 
 | Controller (`client.X`) | Ops | Page |
 | --- | --- | --- |
-| `client` (root) | 15 | [map/operations/ForceDreamClient.md](map/operations/ForceDreamClient.md) |
+| `client` (root) | 8 | [map/operations/ForceDreamClient.md](map/operations/ForceDreamClient.md) |
 
 ---
 
@@ -149,9 +156,11 @@ Each links to a sub-page with one row per operation: signature, the request reco
 
 | Group | Count | Directory (file = `<TypeName>.cs`) |
 | --- | --- | --- |
-| Records (plain `record` data models) | 15 | `src/ForceDream/Models/` |
-| Typed error classes (`: ApiError`, one per Case A operation) | 15 | `src/ForceDream/Errors/` |
-| Request records (one per operation that takes input; never serialized) | 15 | `src/ForceDream/Requests/` — a controller's records sit in a folder named after it (an operation with several tags is filed under the first tag it declares) |
+| Records (plain `record` data models) | 19 | `src/ForceDream/Models/` |
+| Unions (`AnyOf`) — variant factories + `TryGet…` + `Match` | 5 | `src/ForceDream/Models/AnyOf/` |
+| Enums (`OpenStringEnum<T>` / `OpenIntEnum<T>`) — C# member names + wire values | 2 | `src/ForceDream/Models/Enums/` |
+| Typed error classes (`: ApiError`, one per Case A operation) | 2 | `src/ForceDream/Errors/` |
+| Request records (one per operation that takes input; never serialized) | 4 | `src/ForceDream/Requests/` — a controller's records sit in a folder named after it (an operation with several tags is filed under the first tag it declares) |
 
 Conventions: records are immutable, `init`-only; `required` properties must be set in the object initializer; `T?` is optional. A field's wire name is its `[JsonPropertyName]` and often differs from the C# name (`AmountInCents` ↔ `amount_in_cents`) — read it off the property, don't derive it. `OneOf`/`AnyOf` unions wrap `Optional<T>` variants — build via static factory or implicit conversion, read one variant via `TryGet…(out …)` or branch over all of them with the generated `Match`, which takes one `on{Variant}` handler per variant in declaration order and then `otherwise`, which receives the raw `JsonElement` of a value the SDK could not place: unions are open on read, so an unrecognised discriminator value or a body no variant accepts lands in `TryGetUnknown(out JsonElement)` and re-serializes verbatim; pass handlers by name, and treat an added or moved variant as a breaking change; `AllOf` compositions are not unions — every constituent is a `required` property, so set them all, and those constituent properties carry no `[JsonPropertyName]` and have no wire name of their own, because the generated converter flattens each constituent's own fields directly into the one parent JSON object. Enums are **not** C# enums — use the static members, whose names are PascalCase even when the wire value isn't (`CollectionMethod.Invoice`, not `.invoice`); there is no public factory, so resolve a raw value with `TryGetKnownValue` and branch with the generated `Match`, whose `otherwise` arm receives any value the SDK does not declare.
 
@@ -161,6 +170,8 @@ Namespaces by content type (add `using` accordingly):
 | --- | --- |
 | Client & options (root) | `ForceDream` |
 | Records (`src/ForceDream/Models/`) | `ForceDream.Models` |
+| Enums (`src/ForceDream/Models/Enums/`) | `ForceDream.Models.Enums` |
+| AnyOf unions (`src/ForceDream/Models/AnyOf/`) | `ForceDream.Models.AnyOf` |
 | Error classes (`src/ForceDream/Errors/`) | `ForceDream.Errors` |
 | Request records (`src/ForceDream/Requests/`) | `ForceDream.Requests` — plus `.<Controller>` for a controller's records (an operation with several tags is filed under the first tag it declares) |
 
@@ -168,19 +179,28 @@ Namespaces by content type (add `using` accordingly):
 
 ## Servers & auth
 
-**Auth — none.** The spec declares no security schemes; the client sends no credentials.
+**Bearer token.** Set `options.BearerAuth = "<token>"`, or `options.BearerAuthProvider` to a delegate asked on every request. An `fd_live_` billing key (from signup) or `sk_fd_` account key.
+
+Operation blocks name their credential in an **Auth** bullet; an operation whose spec declares no scheme carries no such bullet.
+
+- `AND` — every credential listed must be configured; the call fails before anything is sent, naming each one that is not.
+- `OR` — the first configured credential that applies is sent, in the order listed; a configured one that fails falls through to the next; when none is configured the call fails before anything is sent, naming all of them.
+- `OR anonymous` — the operation accepts anonymous callers: it is authenticated when a whole alternative listed before it is configured (every credential in an AND group), and sent without credentials otherwise.
+- `(scopes: …)` — the OAuth2 scopes the operation's token is requested with; a client-credentials scheme mints one token per scope set.
+
+A required credential you never configured fails the call with `AuthSchemeException` before anything is sent, so a `401` on an operation that requires a credential means the server rejected the one that was sent. A credential option left `null` is read from an environment variable when the client is constructed; the README's **Credentials from environment variables** table names them. A value set in code always wins, including the placeholder assignments in the **Getting a client** sample; delete the line for any credential you supply through an environment variable.
 
 **Environments.** `options.Environment` selects the target environment (`src/ForceDream/Servers/ServerEnvironment.cs`):
 
 | Environment | Value | Hosting |
 | --- | --- | --- |
-| `ServerEnvironment.Production` *(default)* | `production` | — |
+| `ServerEnvironment.Production` *(default)* | `production` | Production (the only environment tested) |
 
 **1 server group.** Base-URL templates and override points (`options.Server.…`):
 
 | Group | `Production` base URL | Override point |
 | --- | --- | --- |
-| `Default` | `https://YOUR-NGROK-URL.ngrok-free.app` | `options.Server.Default.Production.BaseUrl` |
+| `Default` | `https://api.forcedream.ai` | `options.Server.Default.Production.BaseUrl` |
 
 Retry/resilience is configurable via `options.Retry` (`RetryOptions`, backed by Polly).
 

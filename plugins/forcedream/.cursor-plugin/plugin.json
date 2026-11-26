@@ -1,8 +1,8 @@
 {
   "name": "forcedream",
   "displayName": "ForceDream",
-  "version": "0.1.0",
-  "description": "Call pay-per-use data services for sentiment, fraud checks, tax rates, translation, and LLM inference with ForceDream.",
+  "version": "0.2.0",
+  "description": "Discover, invoke, and verify paid AI agents, and check your account balance, with ForceDream.",
   "author": {
     "name": "APIMatic",
     "email": "developer@apimatic.io"

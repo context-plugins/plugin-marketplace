@@ -1,0 +1,42 @@
+<!-- Generated file — do not edit; regenerated with the SDK. -->
+
+# PurchaseInvoices — operations
+
+Accessor: `client.PurchaseInvoices` · Source: `src/Dynamics365BusinessCentral/Api/PurchaseInvoices.cs` · 2 operations
+
+**Type sources**: the file declaring each type an operation names (`RawError` excluded — see sdk-map.md).
+
+### CreatePurchaseInvoice
+
+- **Auth**: `options.Oauth2AuthorizationCode` OR `options.Oauth2ClientCredentials` OR `options.BearerAuth`
+- **Signature**: `CreatePurchaseInvoice(CreatePurchaseInvoiceRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)`
+  - required: `CompanyId`, `Body`
+- **Returns**: `PurchaseInvoice`
+- **Error**: `ApiException<CreatePurchaseInvoiceError>` — **Case A (typed)**
+- **Error accessors**: `TryGetErrorResponseModel([NotNullWhen(true)] out ErrorResponseModel? value)` [400, 401] · `TryGetRawError([NotNullWhen(true)] out RawError? error)` [fallback]
+
+| Type | Source |
+| --- | --- |
+| `CreatePurchaseInvoiceRequest` | `src/Dynamics365BusinessCentral/Requests/PurchaseInvoices/CreatePurchaseInvoiceRequest.cs` |
+| `PurchaseInvoiceCreate` | `src/Dynamics365BusinessCentral/Models/PurchaseInvoiceCreate.cs` |
+| `PurchaseInvoice` | `src/Dynamics365BusinessCentral/Models/PurchaseInvoice.cs` |
+| `CreatePurchaseInvoiceError` | `src/Dynamics365BusinessCentral/Errors/CreatePurchaseInvoiceError.cs` |
+| `ErrorResponseModel` | `src/Dynamics365BusinessCentral/Models/ErrorResponseModel.cs` |
+
+### ListPurchaseInvoices
+
+- **Auth**: `options.Oauth2AuthorizationCode` OR `options.Oauth2ClientCredentials` OR `options.BearerAuth`
+- **Signature**: `ListPurchaseInvoices(ListPurchaseInvoicesRequest request, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)`
+  - required: `CompanyId`
+- **Query params (wire ← C#)**: `$top` ← `Top`, `$skip` ← `Skip`, `$filter` ← `Filter`, `$orderby` ← `Orderby`, `$select` ← `Select`, `$expand` ← `Expand`
+- **Returns**: `CompaniesApiPurchaseInvoicesResponse`
+- **Error**: `ApiException<ListPurchaseInvoicesError>` — **Case A (typed)**
+- **Error accessors**: `TryGetErrorResponseModel([NotNullWhen(true)] out ErrorResponseModel? value)` [401] · `TryGetRawError([NotNullWhen(true)] out RawError? error)` [fallback]
+
+| Type | Source |
+| --- | --- |
+| `ListPurchaseInvoicesRequest` | `src/Dynamics365BusinessCentral/Requests/PurchaseInvoices/ListPurchaseInvoicesRequest.cs` |
+| `CompaniesApiPurchaseInvoicesResponse` | `src/Dynamics365BusinessCentral/Models/CompaniesApiPurchaseInvoicesResponse.cs` |
+| `ListPurchaseInvoicesError` | `src/Dynamics365BusinessCentral/Errors/ListPurchaseInvoicesError.cs` |
+| `ErrorResponseModel` | `src/Dynamics365BusinessCentral/Models/ErrorResponseModel.cs` |
+

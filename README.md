@@ -87,7 +87,7 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`airtable`](plugins/airtable/) | Airtable | .NET, TS, Python |
 | [`airwallex`](plugins/airwallex/) | Airwallex | .NET, TS, Python |
 | [`alpaca`](plugins/alpaca/) | Alpaca | .NET, TS, Python |
-| [`alphaai`](plugins/alphaai/) | AlphaAI | .NET, TS, Python |
+| [`alphai`](plugins/alphai/) | AlphAI | .NET, TS, Python |
 | [`amazon-appsync`](plugins/amazon-appsync/) | Amazon AppSync | .NET, TS, Python |
 | [`amazon-certificate-manager`](plugins/amazon-certificate-manager/) | AWS Certificate Manager | .NET, TS, Python |
 | [`amazon-comprehend`](plugins/amazon-comprehend/) | Amazon Comprehend | .NET, TS, Python |
@@ -107,7 +107,6 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`apibara`](plugins/apibara/) | Apibara | .NET, TS, Python |
 | [`apigee`](plugins/apigee/) | Apigee | .NET, TS, Python |
 | [`apiverve`](plugins/apiverve/) | APIVerve | .NET, TS, Python |
-| [`applike`](plugins/applike/) | Applike | .NET, TS, Python |
 | [`appstorespy`](plugins/appstorespy/) | AppstoreSpy | .NET, TS, Python |
 | [`archbee`](plugins/archbee/) | Archbee | .NET, TS, Python |
 | [`asana`](plugins/asana/) | Asana | .NET, TS |
@@ -119,6 +118,7 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`basiq`](plugins/basiq/) | Basiq | .NET, TS, Python |
 | [`beehiiv`](plugins/beehiiv/) | Beehiiv | .NET, TS, Python |
 | [`betterstack`](plugins/betterstack/) | Better Stack | .NET, TS, Python |
+| [`bill`](plugins/bill/) | BILL | .NET, TS, Python |
 | [`binance`](plugins/binance/) | Binance | .NET, TS, Python |
 | [`bitbucket`](plugins/bitbucket/) | Bitbucket | .NET, Python |
 | [`bitly`](plugins/bitly/) | Bitly | .NET, TS, Python |
@@ -127,6 +127,7 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`browserstack`](plugins/browserstack/) | BrowserStack | .NET, TS, Python |
 | [`buildkite`](plugins/buildkite/) | Buildkite | .NET, TS, Python |
 | [`bundle-social`](plugins/bundle-social/) | Bundle.social | .NET, TS, Python |
+| [`business-central`](plugins/business-central/) | Dynamics 365 Business Central | .NET, TS, Python |
 | [`callnode`](plugins/callnode/) | CallNode | .NET, TS, Python |
 | [`carsxe`](plugins/carsxe/) | CarsXE | .NET, TS, Python |
 | [`celestia`](plugins/celestia/) | Celestia | .NET, TS, Python |
@@ -154,11 +155,11 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`devcycle`](plugins/devcycle/) | DevCycle | .NET, TS, Python |
 | [`didlogic`](plugins/didlogic/) | DIDLogic | .NET, TS, Python |
 | [`discourse`](plugins/discourse/) | Discourse | .NET, TS, Python |
-| [`divvy`](plugins/divvy/) | Divvy | .NET, TS, Python |
 | [`doit`](plugins/doit/) | DoiT | .NET, TS, Python |
 | [`dopesecurity`](plugins/dopesecurity/) | Dope.security | .NET, TS, Python |
 | [`dwolla`](plugins/dwolla/) | Dwolla | TS |
 | [`dynamicfeed`](plugins/dynamicfeed/) | DynamicFeed | .NET, TS, Python |
+| [`einstein-bots`](plugins/einstein-bots/) | Einstein Bots | .NET, TS, Python |
 | [`facebook-business-manager`](plugins/facebook-business-manager/) | Facebook Business Manager | .NET, TS, Python |
 | [`fellow`](plugins/fellow/) | Fellow | .NET, TS, Python |
 | [`fillo`](plugins/fillo/) | Fillo | .NET, TS, Python |
@@ -196,6 +197,7 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`instagram`](plugins/instagram/) | Instagram | .NET, TS, Python |
 | [`jid`](plugins/jid/) | JID | .NET, TS, Python |
 | [`jurisign`](plugins/jurisign/) | JuriSign | .NET, TS, Python |
+| [`justtrack`](plugins/justtrack/) | Justtrack | .NET, TS, Python |
 | [`lastdatabase`](plugins/lastdatabase/) | LastDatabase | .NET, TS, Python |
 | [`launchdarkly`](plugins/launchdarkly/) | LaunchDarkly | TS |
 | [`leadspace`](plugins/leadspace/) | Leadspace | .NET, TS, Python |
@@ -207,7 +209,6 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`maxio`](plugins/maxio/) | Maxio | .NET, TS, Python |
 | [`mollie`](plugins/mollie/) | Mollie | TS |
 | [`mrscraper`](plugins/mrscraper/) | MrScraper | .NET, TS, Python |
-| [`navision`](plugins/navision/) | Microsoft Dynamics NAV | .NET, TS, Python |
 | [`nordic-financial-news`](plugins/nordic-financial-news/) | Nordic Financial News | .NET, TS, Python |
 | [`notion`](plugins/notion/) | Notion API | .NET, TS, Python |
 | [`nytimes`](plugins/nytimes/) | The New York Times APIs | .NET, TS, Python |
@@ -226,11 +227,10 @@ The **Languages** column is the set of SDK languages that plugin ships skills fo
 | [`relmcrm`](plugins/relmcrm/) | RelmCRM | .NET, TS, Python |
 | [`rendex`](plugins/rendex/) | Rendex | .NET, TS, Python |
 | [`rocketreach`](plugins/rocketreach/) | RocketReach | .NET, TS, Python |
-| [`s1`](plugins/s1/) | S1 | .NET, TS, Python |
 | [`sapling`](plugins/sapling/) | Sapling | .NET, TS, Python |
+| [`search1api`](plugins/search1api/) | Search1API | .NET, TS, Python |
 | [`semrush`](plugins/semrush/) | Semrush | .NET, TS, Python |
 | [`serpapi`](plugins/serpapi/) | SerpApi | .NET, TS, Python |
-| [`service-cloud`](plugins/service-cloud/) | Salesforce Service Cloud | .NET, TS, Python |
 | [`shortcut`](plugins/shortcut/) | Shortcut | .NET, TS, Python |
 | [`shutterstock`](plugins/shutterstock/) | Shutterstock API Explorer | .NET, TS, Python |
 | [`skribble`](plugins/skribble/) | Skribble | .NET, TS, Python |

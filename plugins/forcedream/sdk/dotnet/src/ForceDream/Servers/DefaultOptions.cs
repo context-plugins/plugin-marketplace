@@ -11,6 +11,6 @@ public class DefaultOptions
 
     public class ProductionOptions
     {
-        public string BaseUrl { get; set; } = "https://YOUR-NGROK-URL.ngrok-free.app";
+        public string BaseUrl { get; set; } = "https://api.forcedream.ai";
     }
 }

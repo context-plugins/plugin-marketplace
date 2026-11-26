@@ -1,0 +1,10 @@
+{
+  "name": "justtrack",
+  "version": "0.1.0",
+  "description": "Send app events and manage apps, campaigns, bids, and partner connections on justtrack.",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "justtrack",
+    "developerName": "APIMatic"
+  }
+}

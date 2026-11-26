@@ -5,7 +5,7 @@
 > Source: [ForceDreamClient](force_dream/client.py)
 
 <details>
-<summary><code>def anomaly_detection(*, x_payment_intent_id: str | None = None, body: V1OracleAnomalyDetectionRequest | V1OracleAnomalyDetectionRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
+<summary><code>def get_agent_reliability(*, request_options: RequestOptionsOrDict | None = None) -> ReliabilityListResult</code></summary>
 
 <dl>
 <dd>
@@ -15,7 +15,7 @@
 <dl>
 <dd>
 
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+Keyless. Used by all three SDKs to merge live `health` data into agent search results. A reliability-fetch failure never blocks the core agent listing.
 
 </dd>
 </dl>
@@ -29,18 +29,20 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 
 ```python
 try:
-    client.anomaly_detection()
+    response = client.get_agent_reliability()
+    # TODO: Handle 'response' of type ReliabilityListResult
 except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type AnomalyDetectionErrorBody
+    ...  # TODO: Handle 'e.error' of type RawError
 ```
 
 **Async**
 
 ```python
 try:
-    await async_client.anomaly_detection()
+    response = await async_client.get_agent_reliability()
+    # TODO: Handle 'response' of type ReliabilityListResult
 except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type AnomalyDetectionErrorBody
+    ...  # TODO: Handle 'e.error' of type RawError
 ```
 
 </dd>
@@ -53,8 +55,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>x_payment_intent_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>body</code> | <code>[V1OracleAnomalyDetectionRequest](force_dream/models/v1_oracle_anomaly_detection_request.py) \| [V1OracleAnomalyDetectionRequestDict](force_dream/models/v1_oracle_anomaly_detection_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
 | <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
@@ -65,15 +65,88 @@ except ApiError as e:
 <dl>
 <dd>
 
-**OnSuccess**: No content
+**OnSuccess**: <code>[ReliabilityListResult](force_dream/models/reliability_list_result.py)</code> -- Reliability data for all agents
 
-**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[AnomalyDetectionErrorBody](force_dream/errors/anomaly_detection_error.py)&#93;</code>
+**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[RawError](force_dream/core/results.py)&#93;</code>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</details>
+
+<details>
+<summary><code>def get_balance(*, request_options: RequestOptionsOrDict | None = None) -> BalanceResult</code></summary>
+
+<dl>
+<dd>
+
+### Description
+
+<dl>
+<dd>
+
+Send a `GET` request.
+
+</dd>
+</dl>
+
+### Usage
+
+<dl>
+<dd>
+
+**Sync**
+
+```python
+try:
+    response = client.get_balance()
+    # TODO: Handle 'response' of type BalanceResult
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type GetBalanceErrorBody
+```
+
+**Async**
+
+```python
+try:
+    response = await async_client.get_balance()
+    # TODO: Handle 'response' of type BalanceResult
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type GetBalanceErrorBody
+```
+
+</dd>
+</dl>
+
+### Parameters
+
+<dl>
+<dd>
+
+| Name | Type | Description |
+| --- | --- | --- |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
+
+</dd>
+</dl>
+
+### Response
+
+<dl>
+<dd>
+
+**OnSuccess**: <code>[BalanceResult](force_dream/models/balance_result.py)</code> -- Current balance
+
+**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[GetBalanceErrorBody](force_dream/errors/get_balance_error.py)&#93;</code>
 
 Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
 
 | Status | `error` is |
 | --- | --- |
-| 402 | <code>[RawError](force_dream/core/results.py)</code> |
+| 401 | <code>[Unauthorized1](force_dream/models/unauthorized1.py)</code> |
 | anything unmapped | <code>[RawError](force_dream/core/results.py)</code> |
 
 </dd>
@@ -85,7 +158,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def classification(*, x_payment_intent_id: str | None = None, body: V1OracleClassificationRequest | V1OracleClassificationRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
+<summary><code>def get_invoke_result(slug: str, task_id: str, *, request_options: RequestOptionsOrDict | None = None) -> InvokeResult</code></summary>
 
 <dl>
 <dd>
@@ -95,7 +168,12 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 <dl>
 <dd>
 
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+Real polling contract used identically by all three official SDKs: start polling at a
+2500ms interval, add 1000ms after each attempt, cap at 6000ms, bounded by a caller-set
+total wait (default 60s, min 5s, max 120s). The response's `status` (or `outcome`)
+field distinguishes `completed`/`succeeded`, `insufficient` (agent honestly declined --
+charged nothing), `charge_failed`, `failed`/`dead_letter`, or still-pending (any other
+value, including the field being absent).
 
 </dd>
 </dl>
@@ -109,18 +187,20 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 
 ```python
 try:
-    client.classification()
+    response = client.get_invoke_result("some example string", "some example string")
+    # TODO: Handle 'response' of type InvokeResult
 except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type ClassificationErrorBody
+    ...  # TODO: Handle 'e.error' of type RawError
 ```
 
 **Async**
 
 ```python
 try:
-    await async_client.classification()
+    response = await async_client.get_invoke_result("some example string", "some example string")
+    # TODO: Handle 'response' of type InvokeResult
 except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type ClassificationErrorBody
+    ...  # TODO: Handle 'e.error' of type RawError
 ```
 
 </dd>
@@ -133,8 +213,8 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>x_payment_intent_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>body</code> | <code>[V1OracleClassificationRequest](force_dream/models/v1_oracle_classification_request.py) \| [V1OracleClassificationRequestDict](force_dream/models/v1_oracle_classification_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
+| <code>slug</code> | <code>str</code> | Value sent with the request. |
+| <code>task_id</code> | <code>str</code> | Value sent with the request. |
 | <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
@@ -145,15 +225,237 @@ except ApiError as e:
 <dl>
 <dd>
 
-**OnSuccess**: No content
+**OnSuccess**: <code>[InvokeResult](force_dream/models/invoke_result.py)</code> -- Current task state (may still be pending)
 
-**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[ClassificationErrorBody](force_dream/errors/classification_error.py)&#93;</code>
+**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[RawError](force_dream/core/results.py)&#93;</code>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</details>
+
+<details>
+<summary><code>def get_proof(task_id: str, *, request_options: RequestOptionsOrDict | None = None) -> V1WorkforceProofPublicResponse</code></summary>
+
+<dl>
+<dd>
+
+### Description
+
+<dl>
+<dd>
+
+Keyless. Returns the real proof object needed for client-side Ed25519 verification. **Honest gap**: the exact behavior for a task_id that has not yet completed (404, a 200 with a null proof, or otherwise) is not directly confirmed by tonight's testing -- every real verification tested used an already-completed task. Documented as `200` below for the confirmed case only; do not assume the shape of an unconfirmed case.
+
+</dd>
+</dl>
+
+### Usage
+
+<dl>
+<dd>
+
+**Sync**
+
+```python
+try:
+    response = client.get_proof("some example string")
+    # TODO: Handle 'response' of type V1WorkforceProofPublicResponse
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type RawError
+```
+
+**Async**
+
+```python
+try:
+    response = await async_client.get_proof("some example string")
+    # TODO: Handle 'response' of type V1WorkforceProofPublicResponse
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type RawError
+```
+
+</dd>
+</dl>
+
+### Parameters
+
+<dl>
+<dd>
+
+| Name | Type | Description |
+| --- | --- | --- |
+| <code>task_id</code> | <code>str</code> | Value sent with the request. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
+
+</dd>
+</dl>
+
+### Response
+
+<dl>
+<dd>
+
+**OnSuccess**: <code>[V1WorkforceProofPublicResponse](force_dream/models/v1_workforce_proof_public_response.py)</code> -- Proof found (confirmed only for already-completed tasks)
+
+**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[RawError](force_dream/core/results.py)&#93;</code>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</details>
+
+<details>
+<summary><code>def get_proof_public_key(*, request_options: RequestOptionsOrDict | None = None) -> V1WorkforceProofPublicKeyResponse</code></summary>
+
+<dl>
+<dd>
+
+### Description
+
+<dl>
+<dd>
+
+Keyless. Required to verify any proof's signature.
+
+</dd>
+</dl>
+
+### Usage
+
+<dl>
+<dd>
+
+**Sync**
+
+```python
+try:
+    response = client.get_proof_public_key()
+    # TODO: Handle 'response' of type V1WorkforceProofPublicKeyResponse
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type RawError
+```
+
+**Async**
+
+```python
+try:
+    response = await async_client.get_proof_public_key()
+    # TODO: Handle 'response' of type V1WorkforceProofPublicKeyResponse
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type RawError
+```
+
+</dd>
+</dl>
+
+### Parameters
+
+<dl>
+<dd>
+
+| Name | Type | Description |
+| --- | --- | --- |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
+
+</dd>
+</dl>
+
+### Response
+
+<dl>
+<dd>
+
+**OnSuccess**: <code>[V1WorkforceProofPublicKeyResponse](force_dream/models/v1_workforce_proof_public_key_response.py)</code> -- Public key
+
+**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[RawError](force_dream/core/results.py)&#93;</code>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</details>
+
+<details>
+<summary><code>def invoke_agent(slug: str, body: V1AgentsInvokeRequest | V1AgentsInvokeRequestDict, *, request_options: RequestOptionsOrDict | None = None) -> V1AgentsInvokeResponse</code></summary>
+
+<dl>
+<dd>
+
+### Description
+
+<dl>
+<dd>
+
+Spends your balance -- requires an `fd_live_` key. Enqueues the task and returns immediately; it does not wait for completion. Poll `/v1/agents/{slug}/result/{taskId}` for the outcome. Never call this again for the same logical task after a timeout -- re-invoking would double-charge.
+
+</dd>
+</dl>
+
+### Usage
+
+<dl>
+<dd>
+
+**Sync**
+
+```python
+try:
+    response = client.invoke_agent("data-extract-v1", V1AgentsInvokeRequest(task="some example string"))
+    # TODO: Handle 'response' of type V1AgentsInvokeResponse
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type InvokeAgentErrorBody
+```
+
+**Async**
+
+```python
+try:
+    response = await async_client.invoke_agent("data-extract-v1", V1AgentsInvokeRequest(task="some example string"))
+    # TODO: Handle 'response' of type V1AgentsInvokeResponse
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type InvokeAgentErrorBody
+```
+
+</dd>
+</dl>
+
+### Parameters
+
+<dl>
+<dd>
+
+| Name | Type | Description |
+| --- | --- | --- |
+| <code>slug</code> | <code>str</code> | Value sent with the request. |
+| <code>body</code> | <code>[V1AgentsInvokeRequest](force_dream/models/v1_agents_invoke_request.py) \| [V1AgentsInvokeRequestDict](force_dream/models/v1_agents_invoke_request.py)</code> | The request body. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
+
+</dd>
+</dl>
+
+### Response
+
+<dl>
+<dd>
+
+**OnSuccess**: <code>[V1AgentsInvokeResponse](force_dream/models/v1_agents_invoke_response.py)</code> -- Task enqueued
+
+**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[InvokeAgentErrorBody](force_dream/errors/invoke_agent_error.py)&#93;</code>
 
 Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
 
 | Status | `error` is |
 | --- | --- |
-| 402 | <code>[RawError](force_dream/core/results.py)</code> |
+| 401 | <code>[Unauthorized1](force_dream/models/unauthorized1.py)</code> |
 | anything unmapped | <code>[RawError](force_dream/core/results.py)</code> |
 
 </dd>
@@ -165,7 +467,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def code_generation(*, x_payment_intent_id: str | None = None, body: V1OracleCodeGenerationRequest | V1OracleCodeGenerationRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
+<summary><code>def list_agents(*, request_options: RequestOptionsOrDict | None = None) -> AgentListResult</code></summary>
 
 <dl>
 <dd>
@@ -175,7 +477,12 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 <dl>
 <dd>
 
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+Keyless -- no account needed. Real, load-bearing fact confirmed directly from the
+source, not assumed: **this endpoint has no working server-side capability or query
+filter.** All three official SDKs fetch the full list and filter client-side. A prior
+draft of the OpenAPI scope for this spec listed a nonexistent `/v1/agents/search`
+endpoint; it does not exist. Filter client-side against this endpoint's full response
+instead, exactly as the official SDKs do.
 
 </dd>
 </dl>
@@ -189,18 +496,20 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 
 ```python
 try:
-    client.code_generation()
+    response = client.list_agents()
+    # TODO: Handle 'response' of type AgentListResult
 except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type CodeGenerationErrorBody
+    ...  # TODO: Handle 'e.error' of type RawError
 ```
 
 **Async**
 
 ```python
 try:
-    await async_client.code_generation()
+    response = await async_client.list_agents()
+    # TODO: Handle 'response' of type AgentListResult
 except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type CodeGenerationErrorBody
+    ...  # TODO: Handle 'e.error' of type RawError
 ```
 
 </dd>
@@ -213,8 +522,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>x_payment_intent_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>body</code> | <code>[V1OracleCodeGenerationRequest](force_dream/models/v1_oracle_code_generation_request.py) \| [V1OracleCodeGenerationRequestDict](force_dream/models/v1_oracle_code_generation_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
 | <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
@@ -225,16 +532,9 @@ except ApiError as e:
 <dl>
 <dd>
 
-**OnSuccess**: No content
+**OnSuccess**: <code>[AgentListResult](force_dream/models/agent_list_result.py)</code> -- Full agent registry
 
-**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[CodeGenerationErrorBody](force_dream/errors/code_generation_error.py)&#93;</code>
-
-Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
-
-| Status | `error` is |
-| --- | --- |
-| 402 | <code>[RawError](force_dream/core/results.py)</code> |
-| anything unmapped | <code>[RawError](force_dream/core/results.py)</code> |
+**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[RawError](force_dream/core/results.py)&#93;</code>
 
 </dd>
 </dl>
@@ -245,7 +545,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def fraud_signal(*, x_payment_intent_id: str | None = None, body: V1OracleFraudSignalRequest | V1OracleFraudSignalRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
+<summary><code>def signup(body: ApiSignupRequest | ApiSignupRequestDict, *, request_options: RequestOptionsOrDict | None = None) -> SignupResult</code></summary>
 
 <dl>
 <dd>
@@ -255,7 +555,9 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 <dl>
 <dd>
 
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+No API key required -- this is how you get one. Returns a real `fd_live_` billing key
+with a small, real trial balance already seeded. Verified live, repeatedly, across all
+three SDKs tonight.
 
 </dd>
 </dl>
@@ -269,18 +571,20 @@ Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id af
 
 ```python
 try:
-    client.fraud_signal()
+    response = client.signup(ApiSignupRequest(email="user@example.com"))
+    # TODO: Handle 'response' of type SignupResult
 except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type FraudSignalErrorBody
+    ...  # TODO: Handle 'e.error' of type RawError
 ```
 
 **Async**
 
 ```python
 try:
-    await async_client.fraud_signal()
+    response = await async_client.signup(ApiSignupRequest(email="user@example.com"))
+    # TODO: Handle 'response' of type SignupResult
 except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type FraudSignalErrorBody
+    ...  # TODO: Handle 'e.error' of type RawError
 ```
 
 </dd>
@@ -293,8 +597,7 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>x_payment_intent_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>body</code> | <code>[V1OracleFraudSignalRequest](force_dream/models/v1_oracle_fraud_signal_request.py) \| [V1OracleFraudSignalRequestDict](force_dream/models/v1_oracle_fraud_signal_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
+| <code>body</code> | <code>[ApiSignupRequest](force_dream/models/api_signup_request.py) \| [ApiSignupRequestDict](force_dream/models/api_signup_request.py)</code> | The request body. |
 | <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
@@ -305,896 +608,9 @@ except ApiError as e:
 <dl>
 <dd>
 
-**OnSuccess**: No content
+**OnSuccess**: <code>[SignupResult](force_dream/models/signup_result.py)</code> -- Account created
 
-**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[FraudSignalErrorBody](force_dream/errors/fraud_signal_error.py)&#93;</code>
-
-Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
-
-| Status | `error` is |
-| --- | --- |
-| 402 | <code>[RawError](force_dream/core/results.py)</code> |
-| anything unmapped | <code>[RawError](force_dream/core/results.py)</code> |
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>def lead_score(*, x_payment_intent_id: str | None = None, body: V1OracleLeadScoreRequest | V1OracleLeadScoreRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-**Sync**
-
-```python
-try:
-    client.lead_score()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type LeadScoreErrorBody
-```
-
-**Async**
-
-```python
-try:
-    await async_client.lead_score()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type LeadScoreErrorBody
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>x_payment_intent_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>body</code> | <code>[V1OracleLeadScoreRequest](force_dream/models/v1_oracle_lead_score_request.py) \| [V1OracleLeadScoreRequestDict](force_dream/models/v1_oracle_lead_score_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[LeadScoreErrorBody](force_dream/errors/lead_score_error.py)&#93;</code>
-
-Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
-
-| Status | `error` is |
-| --- | --- |
-| 402 | <code>[RawError](force_dream/core/results.py)</code> |
-| anything unmapped | <code>[RawError](force_dream/core/results.py)</code> |
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>def model_inference(*, x_payment_intent_id: str | None = None, body: V1OracleModelInferenceRequest | V1OracleModelInferenceRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-**Sync**
-
-```python
-try:
-    client.model_inference()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type ModelInferenceErrorBody
-```
-
-**Async**
-
-```python
-try:
-    await async_client.model_inference()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type ModelInferenceErrorBody
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>x_payment_intent_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>body</code> | <code>[V1OracleModelInferenceRequest](force_dream/models/v1_oracle_model_inference_request.py) \| [V1OracleModelInferenceRequestDict](force_dream/models/v1_oracle_model_inference_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[ModelInferenceErrorBody](force_dream/errors/model_inference_error.py)&#93;</code>
-
-Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
-
-| Status | `error` is |
-| --- | --- |
-| 402 | <code>[RawError](force_dream/core/results.py)</code> |
-| anything unmapped | <code>[RawError](force_dream/core/results.py)</code> |
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>def prompt_template(*, x_payment_intent_id: str | None = None, body: V1OraclePromptTemplateRequest | V1OraclePromptTemplateRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-**Sync**
-
-```python
-try:
-    client.prompt_template()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type PromptTemplateErrorBody
-```
-
-**Async**
-
-```python
-try:
-    await async_client.prompt_template()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type PromptTemplateErrorBody
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>x_payment_intent_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>body</code> | <code>[V1OraclePromptTemplateRequest](force_dream/models/v1_oracle_prompt_template_request.py) \| [V1OraclePromptTemplateRequestDict](force_dream/models/v1_oracle_prompt_template_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[PromptTemplateErrorBody](force_dream/errors/prompt_template_error.py)&#93;</code>
-
-Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
-
-| Status | `error` is |
-| --- | --- |
-| 402 | <code>[RawError](force_dream/core/results.py)</code> |
-| anything unmapped | <code>[RawError](force_dream/core/results.py)</code> |
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>def proof_of_work(*, x_payment_intent_id: str | None = None, body: V1OracleProofOfWorkRequest | V1OracleProofOfWorkRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-**Sync**
-
-```python
-try:
-    client.proof_of_work()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type ProofOfWorkErrorBody
-```
-
-**Async**
-
-```python
-try:
-    await async_client.proof_of_work()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type ProofOfWorkErrorBody
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>x_payment_intent_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>body</code> | <code>[V1OracleProofOfWorkRequest](force_dream/models/v1_oracle_proof_of_work_request.py) \| [V1OracleProofOfWorkRequestDict](force_dream/models/v1_oracle_proof_of_work_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[ProofOfWorkErrorBody](force_dream/errors/proof_of_work_error.py)&#93;</code>
-
-Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
-
-| Status | `error` is |
-| --- | --- |
-| 402 | <code>[RawError](force_dream/core/results.py)</code> |
-| anything unmapped | <code>[RawError](force_dream/core/results.py)</code> |
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>def security_scan(*, x_payment_intent_id: str | None = None, body: V1OracleSecurityScanRequest | V1OracleSecurityScanRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-**Sync**
-
-```python
-try:
-    client.security_scan()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type SecurityScanErrorBody
-```
-
-**Async**
-
-```python
-try:
-    await async_client.security_scan()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type SecurityScanErrorBody
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>x_payment_intent_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>body</code> | <code>[V1OracleSecurityScanRequest](force_dream/models/v1_oracle_security_scan_request.py) \| [V1OracleSecurityScanRequestDict](force_dream/models/v1_oracle_security_scan_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[SecurityScanErrorBody](force_dream/errors/security_scan_error.py)&#93;</code>
-
-Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
-
-| Status | `error` is |
-| --- | --- |
-| 402 | <code>[RawError](force_dream/core/results.py)</code> |
-| anything unmapped | <code>[RawError](force_dream/core/results.py)</code> |
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>def semantic_cache(*, x_payment_intent_id: str | None = None, body: V1OracleSemanticCacheRequest | V1OracleSemanticCacheRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-**Sync**
-
-```python
-try:
-    client.semantic_cache()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type SemanticCacheErrorBody
-```
-
-**Async**
-
-```python
-try:
-    await async_client.semantic_cache()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type SemanticCacheErrorBody
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>x_payment_intent_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>body</code> | <code>[V1OracleSemanticCacheRequest](force_dream/models/v1_oracle_semantic_cache_request.py) \| [V1OracleSemanticCacheRequestDict](force_dream/models/v1_oracle_semantic_cache_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[SemanticCacheErrorBody](force_dream/errors/semantic_cache_error.py)&#93;</code>
-
-Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
-
-| Status | `error` is |
-| --- | --- |
-| 402 | <code>[RawError](force_dream/core/results.py)</code> |
-| anything unmapped | <code>[RawError](force_dream/core/results.py)</code> |
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>def sentiment_feed(*, x_payment_intent_id: str | None = None, body: V1OracleSentimentFeedRequest | V1OracleSentimentFeedRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-**Sync**
-
-```python
-try:
-    client.sentiment_feed()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type SentimentFeedErrorBody
-```
-
-**Async**
-
-```python
-try:
-    await async_client.sentiment_feed()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type SentimentFeedErrorBody
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>x_payment_intent_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>body</code> | <code>[V1OracleSentimentFeedRequest](force_dream/models/v1_oracle_sentiment_feed_request.py) \| [V1OracleSentimentFeedRequestDict](force_dream/models/v1_oracle_sentiment_feed_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[SentimentFeedErrorBody](force_dream/errors/sentiment_feed_error.py)&#93;</code>
-
-Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
-
-| Status | `error` is |
-| --- | --- |
-| 402 | <code>[RawError](force_dream/core/results.py)</code> |
-| anything unmapped | <code>[RawError](force_dream/core/results.py)</code> |
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>def summarization(*, x_payment_intent_id: str | None = None, body: V1OracleSummarizationRequest | V1OracleSummarizationRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-**Sync**
-
-```python
-try:
-    client.summarization()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type SummarizationErrorBody
-```
-
-**Async**
-
-```python
-try:
-    await async_client.summarization()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type SummarizationErrorBody
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>x_payment_intent_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>body</code> | <code>[V1OracleSummarizationRequest](force_dream/models/v1_oracle_summarization_request.py) \| [V1OracleSummarizationRequestDict](force_dream/models/v1_oracle_summarization_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[SummarizationErrorBody](force_dream/errors/summarization_error.py)&#93;</code>
-
-Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
-
-| Status | `error` is |
-| --- | --- |
-| 402 | <code>[RawError](force_dream/core/results.py)</code> |
-| anything unmapped | <code>[RawError](force_dream/core/results.py)</code> |
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>def tax_jar_lookup(*, x_payment_intent_id: str | None = None, body: V1OracleTaxJarLookupRequest | V1OracleTaxJarLookupRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-**Sync**
-
-```python
-try:
-    client.tax_jar_lookup()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type TaxJarLookupErrorBody
-```
-
-**Async**
-
-```python
-try:
-    await async_client.tax_jar_lookup()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type TaxJarLookupErrorBody
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>x_payment_intent_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>body</code> | <code>[V1OracleTaxJarLookupRequest](force_dream/models/v1_oracle_tax_jar_lookup_request.py) \| [V1OracleTaxJarLookupRequestDict](force_dream/models/v1_oracle_tax_jar_lookup_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[TaxJarLookupErrorBody](force_dream/errors/tax_jar_lookup_error.py)&#93;</code>
-
-Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
-
-| Status | `error` is |
-| --- | --- |
-| 402 | <code>[RawError](force_dream/core/results.py)</code> |
-| anything unmapped | <code>[RawError](force_dream/core/results.py)</code> |
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>def translation(*, x_payment_intent_id: str | None = None, body: V1OracleTranslationRequest | V1OracleTranslationRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-**Sync**
-
-```python
-try:
-    client.translation()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type TranslationErrorBody
-```
-
-**Async**
-
-```python
-try:
-    await async_client.translation()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type TranslationErrorBody
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>x_payment_intent_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>body</code> | <code>[V1OracleTranslationRequest](force_dream/models/v1_oracle_translation_request.py) \| [V1OracleTranslationRequestDict](force_dream/models/v1_oracle_translation_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[TranslationErrorBody](force_dream/errors/translation_error.py)&#93;</code>
-
-Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
-
-| Status | `error` is |
-| --- | --- |
-| 402 | <code>[RawError](force_dream/core/results.py)</code> |
-| anything unmapped | <code>[RawError](force_dream/core/results.py)</code> |
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</details>
-
-<details>
-<summary><code>def validation(*, x_payment_intent_id: str | None = None, body: V1OracleValidationRequest | V1OracleValidationRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
-
-<dl>
-<dd>
-
-### Description
-
-<dl>
-<dd>
-
-Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-
-</dd>
-</dl>
-
-### Usage
-
-<dl>
-<dd>
-
-**Sync**
-
-```python
-try:
-    client.validation()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type ValidationErrorBody
-```
-
-**Async**
-
-```python
-try:
-    await async_client.validation()
-except ApiError as e:
-    ...  # TODO: Handle 'e.error' of type ValidationErrorBody
-```
-
-</dd>
-</dl>
-
-### Parameters
-
-<dl>
-<dd>
-
-| Name | Type | Description |
-| --- | --- | --- |
-| <code>x_payment_intent_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>body</code> | <code>[V1OracleValidationRequest](force_dream/models/v1_oracle_validation_request.py) \| [V1OracleValidationRequestDict](force_dream/models/v1_oracle_validation_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](force_dream/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
-
-</dd>
-</dl>
-
-### Response
-
-<dl>
-<dd>
-
-**OnSuccess**: No content
-
-**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[ValidationErrorBody](force_dream/errors/validation_error.py)&#93;</code>
-
-Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
-
-| Status | `error` is |
-| --- | --- |
-| 402 | <code>[RawError](force_dream/core/results.py)</code> |
-| anything unmapped | <code>[RawError](force_dream/core/results.py)</code> |
+**OnError**: <code>[ApiError](force_dream/core/exceptions.py)&#91;[RawError](force_dream/core/results.py)&#93;</code>
 
 </dd>
 </dl>

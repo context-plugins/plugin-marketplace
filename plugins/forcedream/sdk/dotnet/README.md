@@ -10,7 +10,61 @@ The ForceDream SDK for .NET provides access to the ForceDream REST APIs from .NE
 > **before** grepping or scanning the source tree; it answers most contract questions directly and,
 > when a source file is genuinely needed, names the exact one to open. Details under [SDK map](#sdk-map).
 
-33 M2M data bridges. HTTP 402 + Stripe payment.
+This specification covers exactly the real, verified API surface used by the official
+ForceDream SDKs (JavaScript/TypeScript, Python, and Go) as of 2026-07-12 -- not the full
+platform. Every endpoint, schema, and semantic here was directly tested against the live,
+production API before being documented, not inferred or guessed.
+
+**Scope is deliberate, not incomplete.** Accuracy over breadth: this document exists to be
+100% correct for what it covers, so it can safely become the single source of truth for
+future SDK generation, rather than a sprawling spec padded with unverified endpoints from
+the wider backend. Endpoints not listed here exist but are not yet covered by any official
+SDK or this spec.
+
+## Canonicalization and proof verification
+
+Every proof is verified by reconstructing a specific "signable" object from the real proof
+fields, canonicalizing it, hashing it, and checking an Ed25519 signature -- entirely
+client-side. ForceDream is never asked whether a proof is valid.
+
+**Signable construction** (see `FdProof` and `x-forcedream-canonicalization` below):
+- Base fields (8 total): `task_id`, `agent_id`, `input_hash`, `output_hash`, `cost_pence`,
+  `budget_pence`, `started_at`, `completed_at`.
+- If `external_cost_hash` is present, two more fields are added (`external_cost_hash`,
+  `retrieved_count`), making 10 total.
+- Type coercion matters: `cost_pence`, `budget_pence`, `started_at`, and `retrieved_count`
+  are coerced to numbers exactly as JavaScript's `Number(x)` would (whole values serialize
+  without a decimal point, fractional values keep their precision). `completed_at` is
+  coerced to a string exactly as JavaScript's `String(x)` would. Getting this wrong
+  produces a different canonical string and a different hash, and verification fails.
+
+**Canonicalization**: the signable object's keys are sorted alphabetically, then serialized
+as compact JSON with no extra whitespace -- equivalent to JavaScript's
+`JSON.stringify(obj, Object.keys(obj).sort())`. This exact behavior was cross-tested
+byte-for-byte across JavaScript, Python, and Go before any SDK trusted it.
+
+**Digest and verification**: SHA-256 hash the canonical string (as hex), then verify the
+proof's `signature` (base64-encoded) against that digest's raw bytes, using the Ed25519
+public key fetched from `/v1/workforce/proof/public-key`.
+
+## Invoke lifecycle
+
+`POST /v1/agents/{slug}/invoke` enqueues a task and returns immediately with a `task_id`.
+It does not wait for completion. Poll `GET /v1/agents/{slug}/result/{taskId}` to check
+status. All three official SDKs use the same real polling behavior: starting at a 2500ms
+interval, increasing by 1000ms after each attempt, capped at 6000ms, for a caller-bounded
+total wait (default 60s, minimum 5s, maximum 120s). On timeout, the task is **not**
+re-invoked (that would risk double-charging) -- the caller receives the `task_id` back to
+poll again later.
+
+## A genuine gap, stated honestly rather than guessed at
+
+The exact behavior of `GET /v1/workforce/proof/{task_id}/public` for a task that has not
+yet completed (whether it returns `404`, a `200` with a null proof, or something else) has
+not been directly tested tonight -- every real verification performed used a task that had
+already completed. This spec does not assert a specific behavior for that case; see the
+endpoint's own description for what's actually confirmed versus open.
+
 
 ---
 
@@ -55,6 +109,7 @@ Register the client with `IServiceCollection` and resolve it from the container.
 ```csharp
 services.AddForceDreamClient(options =>
 {
+    options.BearerAuth = "YOUR_BEARER_TOKEN";
     options.Environment = ServerEnvironment.Production;
     // TODO: configure more client options here
 });
@@ -67,15 +122,73 @@ Create the client by passing an `HttpClient` you manage yourself. Configure the 
 ```csharp
 var httpClient = new HttpClient();
 // TODO: configure more client options here
-var options = new ForceDreamClientOptions { Environment = ServerEnvironment.Production };
+var options = new ForceDreamClientOptions
+{
+    BearerAuth = "YOUR_BEARER_TOKEN",
+    Environment = ServerEnvironment.Production,
+};
 var client = new ForceDreamClient(httpClient, options);
 ```
+
+### Credentials, tokens and 401s
+
+Every credential is an option on `ForceDreamClientOptions`. A static credential can also come from a provider that is asked on every request, so a rotated secret reaches the next call without rebuilding the client:
+
+```csharp
+var options = new ForceDreamClientOptions { BearerAuthProvider = async ct => await vault.ReadAsync("api-token", ct) };
+```
+
+When a server answers `401 Unauthorized`:
+
+- A call with a static credential (bearer token, API key, basic auth) is not retried; a provider, if you set one, is asked again on the next call, not on this one. A throwing operation raises `ApiException` with `StatusCode` 401.
+
+### Required and optional auth
+
+An operation sends only the credentials its API declares. If a required credential is not configured, the call fails before anything is sent with an `AuthSchemeException` that names the scheme (`… requires the BearerAuth scheme, which is not configured.`). A credential that is set but blank is treated as configured and sent as-is: the SDK checks presence, never content.
+
+### Credentials from environment variables
+
+Any credential option left `null` is read from an environment variable when the client is constructed. The variable name is the SDK name and the option's name, each in upper snake case, plus the member name for multi-member credentials:
+
+| Option | Environment variables |
+| --- | --- |
+| `BearerAuth` | `FORCE_DREAM_BEARER_AUTH` |
+| logging | `FORCE_DREAM_LOG` = `info`, `debug` or `trace` (read only when no `ILoggerFactory` is set; `AddForceDreamClient` always supplies the container's) |
+
+Rules:
+
+- A value set in code always wins over the environment, including the placeholder assignments in the Quick Start samples; delete the line for any credential you supply through an environment variable.
+- A variable that is unset, empty or whitespace counts as not configured.
+- Variables are read once, when the client is constructed. Changing them afterwards has no effect on an existing client.
+
+Hosted applications that already use the .NET options pattern can bind the whole options object from `IConfiguration` instead, which picks up environment variables through the configuration provider (`ForceDream__BearerAuth`, and so on):
+
+```csharp
+services.AddForceDreamClient(options => configuration.GetSection("ForceDream").Bind(options));
+```
+
+Both paths coexist: a slot the bound configuration leaves `null` still falls back to its environment variable.
 
 ---
 
 ## Usage
 
 For code examples and error responses, see [API Reference](api-reference.md).
+
+## Enums
+
+Every enum the spec declares is a sealed record with one `public static readonly` member per value (`FieldsSigned.Value8`), a JSON converter, and a `Match` that makes handling exhaustive: one `on{Member}` arm per known value, then `otherwise`, which receives the raw wire value the server sent when it is one this SDK does not declare.
+
+```csharp
+var label =
+    received.Match(onValue8: () => "Value8", onValue10: () => "Value10", otherwise: raw => $"undeclared ({raw})");
+```
+
+Prefer named arguments as above. The arms are positional, in the order the spec lists its values, and a regenerated SDK that adds or moves a value changes the `Match` signature: a positional call site compiled against the old shape either stops compiling or, if the assembly is not rebuilt, throws `MissingMethodException` at the first call, and a reordered value can rebind a positional argument to a different member without any diagnostic. Treat an added or moved enum value as a breaking change of that enum. Code that must survive regeneration untouched compares instead of matching: `received == FieldsSigned.Value8` or `received.Is(rawValue)` against a raw wire value; neither reopens construction.
+
+A value the SDK does not declare still round-trips: `IsKnownValue()` tells you whether it is one of the generated members, and sending the instance back echoes the server's own casing. You cannot construct an undeclared value yourself — there is no public factory — so a typo cannot compile; resolve a raw value with `FieldsSigned.TryGetKnownValue(8L, out var known)`.
+
+A spec value whose name would collide with the enum's own name, with a member every enum inherits or generates (such as `Value`, `Match` or `IsKnownValue`), or with a member of `object` takes a `Member` suffix — a value `value` becomes `ValueMember` — and the other members keep their plain names.
 
 ## SDK map
 
@@ -100,7 +213,7 @@ The map and the [API Reference](api-reference.md) answer different questions, an
 
 | Use | For |
 | --- | --- |
-| **[`sdk-map.md`](sdk-map.md) + [`map/`](map/)** | Traversing the SDK and working out its surface — locating the operation you need (this SDK exposes **15 operations**), its exact signature and request record, the shape and JSON wire names of the models it takes and returns, which error type it throws and how to read it, and the source file behind any of it. This is the index to consume the SDK from, and the one to reach for first. |
+| **[`sdk-map.md`](sdk-map.md) + [`map/`](map/)** | Traversing the SDK and working out its surface — locating the operation you need (this SDK exposes **8 operations**), its exact signature and request record, the shape and JSON wire names of the models it takes and returns, which error type it throws and how to read it, and the source file behind any of it. This is the index to consume the SDK from, and the one to reach for first. |
 | **[`api-reference.md`](api-reference.md)** | Usage guidance for a single operation once you know which one you want — a runnable code sample, a link to its request record, and the error responses it can return. |
 
 ## Error Handling
@@ -109,20 +222,19 @@ Operations throw when the server answers with an error status. `TError` is the o
 
 ```csharp
 using ForceDream.Core.Exceptions;   // the exception family
-using ForceDream.Errors;            // generated error types such as AnomalyDetectionError
-using ForceDream.Requests;          // request records such as AnomalyDetectionRequest
+using ForceDream.Errors;            // generated error types such as GetBalanceError
 
 try
 {
-    await client.AnomalyDetection(new AnomalyDetectionRequest());
+    var response = await client.GetBalance();
 }
-catch (ApiException<AnomalyDetectionError> ex)
+catch (ApiException<GetBalanceError> ex)
 {
-    // "POST <server>/v1/oracle/anomaly_detection returned 402 (PaymentRequired)."
+    // "GET <server>/v1/account/balance returned 401 (Unauthorized)."
     Console.Error.WriteLine(ex.Message);
-    if (ex.Error.TryGetNoContent(out var noContent))
+    if (ex.Error.TryGetUnauthorized1(out var unauthorized1))
     {
-        // TODO: handle 'noContent' of type RawError
+        // TODO: handle 'unauthorized1' of type Unauthorized1
     }
 }
 ```
@@ -139,7 +251,7 @@ Everything the SDK raises for a call derives from `SdkException`, which carries 
 | `ResponseDeserializationException` | A response body did not match the type the spec declares | `TargetType`, plus the `ApiException` members |
 | `SdkConnectionException` | The request could not be sent, or the response body could not be read |  |
 | `SdkTimeoutException` | An attempt, the transport, or a Server-Sent Events stream went silent (derives from `SdkConnectionException`) | `Timeout` |
-| `AuthSchemeException` | A required credential is not configured, or could not be applied — for example the OAuth2 token endpoint refused it | `SchemeFailures` |
+| `AuthSchemeException` | A required credential is not configured, a provider returned nothing, or a credential could not be applied — for example the OAuth2 token endpoint refused it | `SchemeFailures` |
 
 Catch from specific to general: `ApiException` means the server answered, `SdkConnectionException` means it did not, and `SdkException` is everything the SDK raises. Your own cancellation surfaces as the usual `OperationCanceledException`, never wrapped.
 

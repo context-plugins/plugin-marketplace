@@ -10,7 +10,7 @@
 | Root package | `force_dream` |
 | Distribution name | `force-dream` |
 | Requires | Python 3.10 or later |
-| API spec version | `1.0.0` |
+| API spec version | `0.1.0` |
 | Generator | APIMatic |
 
 Staleness check: the API spec version above changes when the SDK is regenerated from a new spec, and the package version is what `pip show` reports for the installed SDK. If a lookup here fails at import, re-read the module named in the row.
@@ -26,7 +26,7 @@ All `Source` paths on this map and its sub-pages are relative to the **SDK root*
 ```python
 from force_dream import ForceDreamClient
 
-client = ForceDreamClient()
+client = ForceDreamClient(bearer_auth="YOUR_BEARER_TOKEN")
 
 # TODO: call endpoints here -- see api-reference.md
 
@@ -44,7 +44,7 @@ from force_dream import AsyncForceDreamClient
 
 
 async def main() -> None:
-    client = AsyncForceDreamClient()
+    client = AsyncForceDreamClient(bearer_auth="YOUR_BEARER_TOKEN")
     # TODO: call endpoints here, awaiting each -- see api-reference.md
     await client.aclose()
 
@@ -71,6 +71,7 @@ Every operation is a method on the client. Every constructor argument is optiona
 | `hooks` | `Sequence[SdkHook] \| SdkHooksDict \| None` | `Sequence[AsyncSdkHook] \| AsyncSdkHooksDict \| None` | `None` |
 | `custom_http_client` | `HttpClient \| None` | — | `None` |
 | `custom_async_http_client` | — | `AsyncHttpClient \| None` | `None` |
+| `bearer_auth` | `str \| None` | `str \| None` | `None` |
 
 The types those columns name — where each imports from and, for a credentials dict, its keys:
 
@@ -165,10 +166,13 @@ Typed error bodies (the arms of a Case A alias) are ordinary models — no speci
 
 ```python
 try:
-    client.anomaly_detection()
+    response = client.get_balance()
 except ApiError as e:
-    # Case A — typed error: e.error is AnomalyDetectionErrorBody.
+    # Case A — typed error: e.error is GetBalanceErrorBody.
     match e.error:
+        case Unauthorized1():
+            # Handle 401.
+            print(e.status_code, e.error)
         case RawError():
             # Any other error status.
             print(e.status_code, e.error.text())
@@ -194,11 +198,11 @@ except Exception as e:
     raise e
 ```
 
-**Raw (`.with_raw_response`) variants: present on every operation** — the same call returns `ApiResult` instead of raising, with the same body on `Failure.error`. Of **15 operations**, **15 are Case A (typed)** and **0 are Case B (raw)**.
+**Raw (`.with_raw_response`) variants: present on every operation** — the same call returns `ApiResult` instead of raising, with the same body on `Failure.error`. Of **8 operations**, **2 are Case A (typed)** and **6 are Case B (raw)**.
 
 ---
 
-## Operations — by controller (1 page, 15 operations)
+## Operations — by controller (1 page, 8 operations)
 
 Each links to a sub-page with one block per operation, headed by its full accessor path: the HTTP verb and route (for a mock, a raw request or a provider-side log — never reconstruct it from the method name), the sync parsed signature with its required positional parameters, each parameter's role and — where it differs — wire name, both return types, and its error case — **Case A** names the alias and the status each arm maps from, **Case B** names `RawError`. Every block also carries a **Type sources** table — every *generated* type it names, with the module that declares it. A runtime type — a file alias, a date/time or byte converter — is not listed there.
 
@@ -210,7 +214,7 @@ Each links to a sub-page with one block per operation, headed by its full access
 | **Parsed raises, raw returns** — `ApiError` versus `ApiResult` | Error-handling model |
 | **Case B error is always `RawError`** — also the last arm of every Case A alias, where a block's **Error arms** bullet ends in it | Error-handling model |
 | **A trailing `request_options`** — keyword-only and optional, for per-call overrides such as a timeout, extra headers, `max_retries`, `status_codes_to_retry`, `log_level` or `hooks`; every signature ends with it | here (`force_dream/core/request_options.py`), Retries, Logging, Hooks |
-| **Base URL `https://YOUR-NGROK-URL.ngrok-free.app`** — this SDK's only server; override it with `base_url="https://…"` | Servers & auth |
+| **Base URL `https://api.forcedream.ai`** — this SDK's only server; override it with `base_url="https://…"` | Servers & auth |
 | **Parameter names are literal** — signatures are generated code verbatim, and everything behind the bare `*` must be passed by name | here |
 | **A parameter's wire name is its Python name** — sent as-is on the path, query string, header or body, unless the block's **Params** bullet carries a wire name beside the role | here |
 
@@ -220,22 +224,24 @@ Sub-pages chunk per `###` block: each block is self-contained given the table ab
 
 | Controller | Class | Ops | Page |
 | --- | --- | --- | --- |
-| `client` (root) | `ForceDreamClient` / `AsyncForceDreamClient` | 15 | [map/operations/client.md](map/operations/client.md) |
+| `client` (root) | `ForceDreamClient` / `AsyncForceDreamClient` | 8 | [map/operations/client.md](map/operations/client.md) |
 
 ---
 
 ## Models — where they live, how to build them
 
-**Shapes live only in the source.** Every module under `force_dream/models/` declares one type plus its input companion, and every module under `force_dream/errors/` one alias plus the mapper that builds it; no two share a name. Take a type's module from the operation's **Type sources** table. When no retrieved chunk names it, the module is the type name in snake_case under the kind's directory below (`V1OracleAnomalyDetectionRequest` ↔ `v1_oracle_anomaly_detection_request.py`; an error alias drops its `Body` suffix: `AnomalyDetectionErrorBody` ↔ `anomaly_detection_error.py`). Never grep for a type.
+**Shapes live only in the source.** Every module under `force_dream/models/` declares one type plus its input companion, and every module under `force_dream/errors/` one alias plus the mapper that builds it; no two share a name. Take a type's module from the operation's **Type sources** table. When no retrieved chunk names it, the module is the type name in snake_case under the kind's directory below (`Agent` ↔ `agent.py`; an error alias drops its `Body` suffix: `GetBalanceErrorBody` ↔ `get_balance_error.py`). Never grep for a type.
 
 | Group | Count | Directory (module = `<type_name>.py`) |
 | --- | --- | --- |
-| Models (`SdkBaseModel` pydantic classes) | 15 | `force_dream/models/` |
-| Error aliases (one per Case A operation) | 15 | `force_dream/errors/` |
+| Models (`SdkBaseModel` pydantic classes) | 19 | `force_dream/models/` |
+| Enums (`Enum` over `int` / `str`) — Python member names + wire values | 2 | `force_dream/models/enums/` |
+| Unions (plain) — `TypeAlias` over the arms | 5 | `force_dream/models/unions/` |
+| Error aliases (one per Case A operation) | 2 | `force_dream/errors/` |
 
 Conventions: a model is a `SdkBaseModel` (pydantic) class; in this SDK every field's wire name is its Python name — no field carries a `Field(alias=…)`. An omittable field is annotated `Optional[T]` and defaults to `UNSET`, and one that may also be explicitly null is `OptionalNullable[T]`; both come from `core` and neither is `typing.Optional` — there is no `None` arm unless the spec declared the property nullable, so passing `None` to the first is a type error rather than a value that serializes.
 
-Every model also has an **input companion**, exported beside it from the same package (`V1OracleAnomalyDetectionRequest` ↔ `V1OracleAnomalyDetectionRequestDict`). Wherever a signature names the companion you may pass either the model instance or a plain dict with the same keys, whichever reads better at the call site.
+Every model, enum and union also has an **input companion**, exported beside it from the same package (`Agent` ↔ `AgentDict`). Wherever a signature names the companion you may pass either the model instance or a plain dict with the same keys, whichever reads better at the call site. An enum is a real `Enum` subclass over `int` / `str`; its companion is spelled `<Name>OrStr` or `<Name>OrInt` (`FieldsSigned` ↔ `FieldsSignedOrInt`) and additionally accepts a wire value this SDK version does not know. A union is a `TypeAlias` over its arms.
 
 Import paths by content type (`from <package> import <Name>`):
 
@@ -243,6 +249,8 @@ Import paths by content type (`from <package> import <Name>`):
 | --- | --- |
 | Client (root) | `force_dream` |
 | Models | `force_dream.models` |
+| Enums | `force_dream.models.enums` |
+| Unions | `force_dream.models.unions`, `force_dream.models` |
 | Error aliases | `force_dream.errors` |
 | Core runtime (`SdkError`, `ApiError`, `ApiResult`, `RawError`, …) | `force_dream.core` |
 
@@ -250,11 +258,18 @@ Import paths by content type (`from <package> import <Name>`):
 
 ## Servers & auth
 
-**Auth — none.** The spec declares no security scheme, so the client sends no credentials and takes no credential keyword.
+**Bearer token.** Pass `bearer_auth="<token>"`.
+
+Operation blocks name their scheme in an **Auth** bullet; an operation whose spec declares no scheme carries no such bullet.
+
+- `AND` — every scheme listed must be configured for the call to succeed.
+- `OR` — any one of the schemes listed can be used; the first one you configured is the one sent, in the order listed.
+
+A scheme you did not configure is skipped silently rather than raising, and the request is sent anyway — so an authentication failure can mean no credential was sent rather than a bad one.
 
 **One environment, one server** (`force_dream/server/server_config.py`). The spec declares a single environment, so no `environment` keyword exists; the base URL and its override point:
 
 | Base URL | Override point |
 | --- | --- |
-| `https://YOUR-NGROK-URL.ngrok-free.app` | `base_url="https://…"` |
+| `https://api.forcedream.ai` | `base_url="https://…"` |
 

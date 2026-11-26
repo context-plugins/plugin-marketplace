@@ -7,7 +7,61 @@ The ForceDream SDK for TypeScript provides typed access to the ForceDream REST A
 > [!TIP]
 > **Looking for a specific signature, request field, model, enum or error type?** This SDK ships a generated, machine-readable **[SDK map](sdk-map.md)** — a lookup index of the whole TypeScript surface. Consult it **before** grepping or scanning the source tree; it answers most contract questions directly and, where a source file is genuinely needed, names the exact one to open. Details under [SDK map](#sdk-map).
 
-33 M2M data bridges. HTTP 402 + Stripe payment.
+This specification covers exactly the real, verified API surface used by the official
+ForceDream SDKs (JavaScript/TypeScript, Python, and Go) as of 2026-07-12 -- not the full
+platform. Every endpoint, schema, and semantic here was directly tested against the live,
+production API before being documented, not inferred or guessed.
+
+**Scope is deliberate, not incomplete.** Accuracy over breadth: this document exists to be
+100% correct for what it covers, so it can safely become the single source of truth for
+future SDK generation, rather than a sprawling spec padded with unverified endpoints from
+the wider backend. Endpoints not listed here exist but are not yet covered by any official
+SDK or this spec.
+
+## Canonicalization and proof verification
+
+Every proof is verified by reconstructing a specific "signable" object from the real proof
+fields, canonicalizing it, hashing it, and checking an Ed25519 signature -- entirely
+client-side. ForceDream is never asked whether a proof is valid.
+
+**Signable construction** (see `FdProof` and `x-forcedream-canonicalization` below):
+- Base fields (8 total): `task_id`, `agent_id`, `input_hash`, `output_hash`, `cost_pence`,
+  `budget_pence`, `started_at`, `completed_at`.
+- If `external_cost_hash` is present, two more fields are added (`external_cost_hash`,
+  `retrieved_count`), making 10 total.
+- Type coercion matters: `cost_pence`, `budget_pence`, `started_at`, and `retrieved_count`
+  are coerced to numbers exactly as JavaScript's `Number(x)` would (whole values serialize
+  without a decimal point, fractional values keep their precision). `completed_at` is
+  coerced to a string exactly as JavaScript's `String(x)` would. Getting this wrong
+  produces a different canonical string and a different hash, and verification fails.
+
+**Canonicalization**: the signable object's keys are sorted alphabetically, then serialized
+as compact JSON with no extra whitespace -- equivalent to JavaScript's
+`JSON.stringify(obj, Object.keys(obj).sort())`. This exact behavior was cross-tested
+byte-for-byte across JavaScript, Python, and Go before any SDK trusted it.
+
+**Digest and verification**: SHA-256 hash the canonical string (as hex), then verify the
+proof's `signature` (base64-encoded) against that digest's raw bytes, using the Ed25519
+public key fetched from `/v1/workforce/proof/public-key`.
+
+## Invoke lifecycle
+
+`POST /v1/agents/{slug}/invoke` enqueues a task and returns immediately with a `task_id`.
+It does not wait for completion. Poll `GET /v1/agents/{slug}/result/{taskId}` to check
+status. All three official SDKs use the same real polling behavior: starting at a 2500ms
+interval, increasing by 1000ms after each attempt, capped at 6000ms, for a caller-bounded
+total wait (default 60s, minimum 5s, maximum 120s). On timeout, the task is **not**
+re-invoked (that would risk double-charging) -- the caller receives the `task_id` back to
+poll again later.
+
+## A genuine gap, stated honestly rather than guessed at
+
+The exact behavior of `GET /v1/workforce/proof/{task_id}/public` for a task that has not
+yet completed (whether it returns `404`, a `200` with a null proof, or something else) has
+not been directly tested tonight -- every real verification performed used a task that had
+already completed. This spec does not assert a specific behavior for that case; see the
+endpoint's own description for what's actually confirmed versus open.
+
 
 ---
 
@@ -28,7 +82,9 @@ Create one client and reuse it. Configure its behaviour through [ClientOptions](
 ```ts
 import { ForceDreamClient } from "force-dream";
 
-const client = new ForceDreamClient({});
+const client = new ForceDreamClient({
+  bearerAuth: "YOUR_BEARER_TOKEN",
+});
 ```
 
 Nothing in `ClientOptions` is required — `new ForceDreamClient()` compiles — and each option left out falls back to its default. This API declares one environment, so there is no environment to select and no host to state at the construction site.
@@ -40,7 +96,9 @@ The package ships both dialects from a single entry, so `require` works with ful
 ```ts
 import sdk = require("force-dream");
 
-const client = new sdk.ForceDreamClient({});
+const client = new sdk.ForceDreamClient({
+  bearerAuth: "YOUR_BEARER_TOKEN",
+});
 ```
 
 ---
@@ -70,7 +128,7 @@ The map and the [API reference](api-reference.md) answer different questions, an
 
 | Use | For |
 | --- | --- |
-| **[`sdk-map.md`](sdk-map.md) + [`map/operations/`](map/operations/client.md)** | Traversing the SDK and working out its surface — locating the operation you need (this SDK exposes **15 operations**), its exact signature, which credential it sends, which channel every request field travels on, which error type it rejects with and how to read it, and the file behind any type. This is the index to consume the SDK from, and the one to reach for first. |
+| **[`sdk-map.md`](sdk-map.md) + [`map/operations/`](map/operations/client.md)** | Traversing the SDK and working out its surface — locating the operation you need (this SDK exposes **8 operations**), its exact signature, which credential it sends, which channel every request field travels on, which error type it rejects with and how to read it, and the file behind any type. This is the index to consume the SDK from, and the one to reach for first. |
 | **[`api-reference.md`](api-reference.md)** | Usage guidance for a single operation once you know which one you want — a code sample for each of the two call forms (awaiting it, and the non-throwing `.asApiResult()`), per-parameter descriptions, and the success and error types it resolves or rejects with. |
 
 ---

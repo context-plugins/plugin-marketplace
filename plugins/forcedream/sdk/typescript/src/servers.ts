@@ -8,7 +8,7 @@ export type Servers = {
 };
 
 const serverSchemas = {
-  baseUrl: s.of(s.defaulted(s.string(), "https://YOUR-NGROK-URL.ngrok-free.app")),
+  baseUrl: s.of(s.defaulted(s.string(), "https://api.forcedream.ai")),
 };
 
 export function buildServers(options: ClientOptions): Servers {

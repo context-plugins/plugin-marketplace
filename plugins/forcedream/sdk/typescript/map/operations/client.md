@@ -2,339 +2,147 @@
 
 # ForceDreamClient — ungrouped operations
 
-Accessor: `client` (the client itself) · Source: `src/client.ts` · 15 operations · Request and error types: namespace `ForceDreamClient`
+Accessor: `client` (the client itself) · Source: `src/client.ts` · 8 operations · Request and error types: namespace `ForceDreamClient`
 
-Operations the spec leaves untagged are methods on the client rather than on a resource, so there is no accessor property to go through. The request type still lives in a namespace merged onto the exported class, so you write `ForceDreamClient.AnomalyDetectionRequest`.
+Operations the spec leaves untagged are methods on the client rather than on a resource, so there is no accessor property to go through. The request type still lives in a namespace merged onto the exported class, so you write `ForceDreamClient.GetInvokeResultRequest`.
 
 **Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `force-dream`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
-### anomalyDetection
+### getAgentReliability
 
-- **Signature**: `anomalyDetection(request?: ForceDreamClient.AnomalyDetectionRequest, options?: RequestOptions): ApiPromise<undefined, ForceDreamClient.AnomalyDetectionError>`
-- **Wire**: `POST /v1/oracle/anomaly_detection`
+- **Signature**: `getAgentReliability(options?: RequestOptions): ApiPromise<ReliabilityListResult, ApiError>`
+- **Wire**: `GET /v1/agents/reliability`
 - **Auth**: none — public; no credential is sent
-- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
-- **SDK-sent**: `header Idempotency-Key` (minted per call)
-- **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.AnomalyDetectionError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error402"` [402] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
-
-**Fields** — `ForceDreamClient.AnomalyDetectionRequest` (2):
-
-| Field | Channel | Wire | Type | Req |
-| --- | --- | --- | --- | --- |
-| `xPaymentIntentId` | `header` | `X-Payment-Intent-Id` | `string` | no |
-| `body` | `body` | — | `V1OracleAnomalyDetectionRequest` | no |
+- **Request body**: none — no `Content-Type` header is sent
+- **Returns**: `ReliabilityListResult`
+- **Error**: `ForceDreamError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
 | Type | Schema value | Source |
 | --- | --- | --- |
-| `V1OracleAnomalyDetectionRequest` | `v1OracleAnomalyDetectionRequestSchema` | `src/models/v1-oracle-anomaly-detection-request.ts` |
+| `ReliabilityListResult` | `reliabilityListResultSchema` | `src/models/reliability-list-result.ts` |
 
-### classification
+### getBalance
 
-- **Signature**: `classification(request?: ForceDreamClient.ClassificationRequest, options?: RequestOptions): ApiPromise<undefined, ForceDreamClient.ClassificationError>`
-- **Wire**: `POST /v1/oracle/classification`
-- **Auth**: none — public; no credential is sent
-- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
-- **SDK-sent**: `header Idempotency-Key` (minted per call)
-- **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.ClassificationError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error402"` [402] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
-
-**Fields** — `ForceDreamClient.ClassificationRequest` (2):
-
-| Field | Channel | Wire | Type | Req |
-| --- | --- | --- | --- | --- |
-| `xPaymentIntentId` | `header` | `X-Payment-Intent-Id` | `string` | no |
-| `body` | `body` | — | `V1OracleClassificationRequest` | no |
+- **Signature**: `getBalance(options?: RequestOptions): ApiPromise<BalanceResult, ForceDreamClient.GetBalanceError>`
+- **Wire**: `GET /v1/account/balance`
+- **Auth**: `bearerAuth`
+- **Request body**: none — no `Content-Type` header is sent
+- **Returns**: `BalanceResult`
+- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.GetBalanceError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 | Type | Schema value | Source |
 | --- | --- | --- |
-| `V1OracleClassificationRequest` | `v1OracleClassificationRequestSchema` | `src/models/v1-oracle-classification-request.ts` |
+| `BalanceResult` | `balanceResultSchema` | `src/models/balance-result.ts` |
+| `Unauthorized1` | `unauthorized1Schema` | `src/models/unauthorized1.ts` |
 
-### codeGeneration
+### getInvokeResult
 
-- **Signature**: `codeGeneration(request?: ForceDreamClient.CodeGenerationRequest, options?: RequestOptions): ApiPromise<undefined, ForceDreamClient.CodeGenerationError>`
-- **Wire**: `POST /v1/oracle/code_generation`
-- **Auth**: none — public; no credential is sent
-- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
-- **SDK-sent**: `header Idempotency-Key` (minted per call)
-- **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.CodeGenerationError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error402"` [402] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Signature**: `getInvokeResult(request: ForceDreamClient.GetInvokeResultRequest, options?: RequestOptions): ApiPromise<InvokeResult, ApiError>`
+- **Wire**: `GET /v1/agents/{slug}/result/{taskId}`
+- **Auth**: `bearerAuth`
+- **Request body**: none — no `Content-Type` header is sent
+- **Returns**: `InvokeResult`
+- **Error**: `ForceDreamError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
-**Fields** — `ForceDreamClient.CodeGenerationRequest` (2):
+**Fields** — `ForceDreamClient.GetInvokeResultRequest` (2):
 
-| Field | Channel | Wire | Type | Req |
-| --- | --- | --- | --- | --- |
-| `xPaymentIntentId` | `header` | `X-Payment-Intent-Id` | `string` | no |
-| `body` | `body` | — | `V1OracleCodeGenerationRequest` | no |
-
-| Type | Schema value | Source |
-| --- | --- | --- |
-| `V1OracleCodeGenerationRequest` | `v1OracleCodeGenerationRequestSchema` | `src/models/v1-oracle-code-generation-request.ts` |
-
-### fraudSignal
-
-- **Signature**: `fraudSignal(request?: ForceDreamClient.FraudSignalRequest, options?: RequestOptions): ApiPromise<undefined, ForceDreamClient.FraudSignalError>`
-- **Wire**: `POST /v1/oracle/fraud_signal`
-- **Auth**: none — public; no credential is sent
-- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
-- **SDK-sent**: `header Idempotency-Key` (minted per call)
-- **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.FraudSignalError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error402"` [402] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
-
-**Fields** — `ForceDreamClient.FraudSignalRequest` (2):
-
-| Field | Channel | Wire | Type | Req |
-| --- | --- | --- | --- | --- |
-| `xPaymentIntentId` | `header` | `X-Payment-Intent-Id` | `string` | no |
-| `body` | `body` | — | `V1OracleFraudSignalRequest` | no |
+| Field | Channel | Type | Req |
+| --- | --- | --- | --- |
+| `slug` | `path` | `string` | yes |
+| `taskId` | `path` | `string` | yes |
 
 | Type | Schema value | Source |
 | --- | --- | --- |
-| `V1OracleFraudSignalRequest` | `v1OracleFraudSignalRequestSchema` | `src/models/v1-oracle-fraud-signal-request.ts` |
+| `InvokeResult` | `invokeResultSchema` | `src/models/invoke-result.ts` |
 
-### leadScore
+### getProof
 
-- **Signature**: `leadScore(request?: ForceDreamClient.LeadScoreRequest, options?: RequestOptions): ApiPromise<undefined, ForceDreamClient.LeadScoreError>`
-- **Wire**: `POST /v1/oracle/lead_score`
+- **Signature**: `getProof(request: ForceDreamClient.GetProofRequest, options?: RequestOptions): ApiPromise<V1WorkforceProofPublicResponse, ApiError>`
+- **Wire**: `GET /v1/workforce/proof/{task_id}/public`
 - **Auth**: none — public; no credential is sent
-- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
-- **SDK-sent**: `header Idempotency-Key` (minted per call)
-- **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.LeadScoreError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error402"` [402] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Request body**: none — no `Content-Type` header is sent
+- **Returns**: `V1WorkforceProofPublicResponse`
+- **Error**: `ForceDreamError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
-**Fields** — `ForceDreamClient.LeadScoreRequest` (2):
+**Fields** — `ForceDreamClient.GetProofRequest` (1):
 
 | Field | Channel | Wire | Type | Req |
 | --- | --- | --- | --- | --- |
-| `xPaymentIntentId` | `header` | `X-Payment-Intent-Id` | `string` | no |
-| `body` | `body` | — | `V1OracleLeadScoreRequest` | no |
+| `taskId` | `path` | `task_id` | `string` | yes |
 
 | Type | Schema value | Source |
 | --- | --- | --- |
-| `V1OracleLeadScoreRequest` | `v1OracleLeadScoreRequestSchema` | `src/models/v1-oracle-lead-score-request.ts` |
+| `V1WorkforceProofPublicResponse` | `v1WorkforceProofPublicResponseSchema` | `src/models/v1-workforce-proof-public-response.ts` |
 
-### modelInference
+### getProofPublicKey
 
-- **Signature**: `modelInference(request?: ForceDreamClient.ModelInferenceRequest, options?: RequestOptions): ApiPromise<undefined, ForceDreamClient.ModelInferenceError>`
-- **Wire**: `POST /v1/oracle/model_inference`
+- **Signature**: `getProofPublicKey(options?: RequestOptions): ApiPromise<V1WorkforceProofPublicKeyResponse, ApiError>`
+- **Wire**: `GET /v1/workforce/proof/public-key`
 - **Auth**: none — public; no credential is sent
-- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
-- **SDK-sent**: `header Idempotency-Key` (minted per call)
-- **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.ModelInferenceError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error402"` [402] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
-
-**Fields** — `ForceDreamClient.ModelInferenceRequest` (2):
-
-| Field | Channel | Wire | Type | Req |
-| --- | --- | --- | --- | --- |
-| `xPaymentIntentId` | `header` | `X-Payment-Intent-Id` | `string` | no |
-| `body` | `body` | — | `V1OracleModelInferenceRequest` | no |
+- **Request body**: none — no `Content-Type` header is sent
+- **Returns**: `V1WorkforceProofPublicKeyResponse`
+- **Error**: `ForceDreamError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
 | Type | Schema value | Source |
 | --- | --- | --- |
-| `V1OracleModelInferenceRequest` | `v1OracleModelInferenceRequestSchema` | `src/models/v1-oracle-model-inference-request.ts` |
+| `V1WorkforceProofPublicKeyResponse` | `v1WorkforceProofPublicKeyResponseSchema` | `src/models/v1-workforce-proof-public-key-response.ts` |
 
-### promptTemplate
+### invokeAgent
 
-- **Signature**: `promptTemplate(request?: ForceDreamClient.PromptTemplateRequest, options?: RequestOptions): ApiPromise<undefined, ForceDreamClient.PromptTemplateError>`
-- **Wire**: `POST /v1/oracle/prompt_template`
+- **Signature**: `invokeAgent(request: ForceDreamClient.InvokeAgentRequest, options?: RequestOptions): ApiPromise<V1AgentsInvokeResponse, ForceDreamClient.InvokeAgentError>`
+- **Wire**: `POST /v1/agents/{slug}/invoke`
+- **Auth**: `bearerAuth`
+- **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
+- **Returns**: `V1AgentsInvokeResponse`
+- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.InvokeAgentError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+
+**Fields** — `ForceDreamClient.InvokeAgentRequest` (2):
+
+| Field | Channel | Type | Req |
+| --- | --- | --- | --- |
+| `slug` | `path` | `string` | yes |
+| `body` | `body` | `V1AgentsInvokeRequest` | yes |
+
+| Type | Schema value | Source |
+| --- | --- | --- |
+| `V1AgentsInvokeRequest` | `v1AgentsInvokeRequestSchema` | `src/models/v1-agents-invoke-request.ts` |
+| `V1AgentsInvokeResponse` | `v1AgentsInvokeResponseSchema` | `src/models/v1-agents-invoke-response.ts` |
+| `Unauthorized1` | `unauthorized1Schema` | `src/models/unauthorized1.ts` |
+
+### listAgents
+
+- **Signature**: `listAgents(options?: RequestOptions): ApiPromise<AgentListResult, ApiError>`
+- **Wire**: `GET /v1/agents/list`
 - **Auth**: none — public; no credential is sent
-- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
-- **SDK-sent**: `header Idempotency-Key` (minted per call)
-- **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.PromptTemplateError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error402"` [402] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
-
-**Fields** — `ForceDreamClient.PromptTemplateRequest` (2):
-
-| Field | Channel | Wire | Type | Req |
-| --- | --- | --- | --- | --- |
-| `xPaymentIntentId` | `header` | `X-Payment-Intent-Id` | `string` | no |
-| `body` | `body` | — | `V1OraclePromptTemplateRequest` | no |
+- **Request body**: none — no `Content-Type` header is sent
+- **Returns**: `AgentListResult`
+- **Error**: `ForceDreamError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
 | Type | Schema value | Source |
 | --- | --- | --- |
-| `V1OraclePromptTemplateRequest` | `v1OraclePromptTemplateRequestSchema` | `src/models/v1-oracle-prompt-template-request.ts` |
+| `AgentListResult` | `agentListResultSchema` | `src/models/agent-list-result.ts` |
 
-### proofOfWork
+### signup
 
-- **Signature**: `proofOfWork(request?: ForceDreamClient.ProofOfWorkRequest, options?: RequestOptions): ApiPromise<undefined, ForceDreamClient.ProofOfWorkError>`
-- **Wire**: `POST /v1/oracle/proof_of_work`
+- **Signature**: `signup(request: ForceDreamClient.SignupRequest, options?: RequestOptions): ApiPromise<SignupResult, ApiError>`
+- **Wire**: `POST /api/signup`
 - **Auth**: none — public; no credential is sent
-- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **Request body**: `application/json` — the `body` field
 - **SDK-sent**: `header Idempotency-Key` (minted per call)
-- **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.ProofOfWorkError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error402"` [402] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Returns**: `SignupResult`
+- **Error**: `ForceDreamError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
-**Fields** — `ForceDreamClient.ProofOfWorkRequest` (2):
+**Fields** — `ForceDreamClient.SignupRequest` (1):
 
-| Field | Channel | Wire | Type | Req |
-| --- | --- | --- | --- | --- |
-| `xPaymentIntentId` | `header` | `X-Payment-Intent-Id` | `string` | no |
-| `body` | `body` | — | `V1OracleProofOfWorkRequest` | no |
+| Field | Channel | Type | Req |
+| --- | --- | --- | --- |
+| `body` | `body` | `ApiSignupRequest` | yes |
 
 | Type | Schema value | Source |
 | --- | --- | --- |
-| `V1OracleProofOfWorkRequest` | `v1OracleProofOfWorkRequestSchema` | `src/models/v1-oracle-proof-of-work-request.ts` |
-
-### securityScan
-
-- **Signature**: `securityScan(request?: ForceDreamClient.SecurityScanRequest, options?: RequestOptions): ApiPromise<undefined, ForceDreamClient.SecurityScanError>`
-- **Wire**: `POST /v1/oracle/security_scan`
-- **Auth**: none — public; no credential is sent
-- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
-- **SDK-sent**: `header Idempotency-Key` (minted per call)
-- **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.SecurityScanError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error402"` [402] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
-
-**Fields** — `ForceDreamClient.SecurityScanRequest` (2):
-
-| Field | Channel | Wire | Type | Req |
-| --- | --- | --- | --- | --- |
-| `xPaymentIntentId` | `header` | `X-Payment-Intent-Id` | `string` | no |
-| `body` | `body` | — | `V1OracleSecurityScanRequest` | no |
-
-| Type | Schema value | Source |
-| --- | --- | --- |
-| `V1OracleSecurityScanRequest` | `v1OracleSecurityScanRequestSchema` | `src/models/v1-oracle-security-scan-request.ts` |
-
-### semanticCache
-
-- **Signature**: `semanticCache(request?: ForceDreamClient.SemanticCacheRequest, options?: RequestOptions): ApiPromise<undefined, ForceDreamClient.SemanticCacheError>`
-- **Wire**: `POST /v1/oracle/semantic_cache`
-- **Auth**: none — public; no credential is sent
-- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
-- **SDK-sent**: `header Idempotency-Key` (minted per call)
-- **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.SemanticCacheError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error402"` [402] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
-
-**Fields** — `ForceDreamClient.SemanticCacheRequest` (2):
-
-| Field | Channel | Wire | Type | Req |
-| --- | --- | --- | --- | --- |
-| `xPaymentIntentId` | `header` | `X-Payment-Intent-Id` | `string` | no |
-| `body` | `body` | — | `V1OracleSemanticCacheRequest` | no |
-
-| Type | Schema value | Source |
-| --- | --- | --- |
-| `V1OracleSemanticCacheRequest` | `v1OracleSemanticCacheRequestSchema` | `src/models/v1-oracle-semantic-cache-request.ts` |
-
-### sentimentFeed
-
-- **Signature**: `sentimentFeed(request?: ForceDreamClient.SentimentFeedRequest, options?: RequestOptions): ApiPromise<undefined, ForceDreamClient.SentimentFeedError>`
-- **Wire**: `POST /v1/oracle/sentiment_feed`
-- **Auth**: none — public; no credential is sent
-- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
-- **SDK-sent**: `header Idempotency-Key` (minted per call)
-- **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.SentimentFeedError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error402"` [402] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
-
-**Fields** — `ForceDreamClient.SentimentFeedRequest` (2):
-
-| Field | Channel | Wire | Type | Req |
-| --- | --- | --- | --- | --- |
-| `xPaymentIntentId` | `header` | `X-Payment-Intent-Id` | `string` | no |
-| `body` | `body` | — | `V1OracleSentimentFeedRequest` | no |
-
-| Type | Schema value | Source |
-| --- | --- | --- |
-| `V1OracleSentimentFeedRequest` | `v1OracleSentimentFeedRequestSchema` | `src/models/v1-oracle-sentiment-feed-request.ts` |
-
-### summarization
-
-- **Signature**: `summarization(request?: ForceDreamClient.SummarizationRequest, options?: RequestOptions): ApiPromise<undefined, ForceDreamClient.SummarizationError>`
-- **Wire**: `POST /v1/oracle/summarization`
-- **Auth**: none — public; no credential is sent
-- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
-- **SDK-sent**: `header Idempotency-Key` (minted per call)
-- **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.SummarizationError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error402"` [402] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
-
-**Fields** — `ForceDreamClient.SummarizationRequest` (2):
-
-| Field | Channel | Wire | Type | Req |
-| --- | --- | --- | --- | --- |
-| `xPaymentIntentId` | `header` | `X-Payment-Intent-Id` | `string` | no |
-| `body` | `body` | — | `V1OracleSummarizationRequest` | no |
-
-| Type | Schema value | Source |
-| --- | --- | --- |
-| `V1OracleSummarizationRequest` | `v1OracleSummarizationRequestSchema` | `src/models/v1-oracle-summarization-request.ts` |
-
-### taxJarLookup
-
-- **Signature**: `taxJarLookup(request?: ForceDreamClient.TaxJarLookupRequest, options?: RequestOptions): ApiPromise<undefined, ForceDreamClient.TaxJarLookupError>`
-- **Wire**: `POST /v1/oracle/tax_jar_lookup`
-- **Auth**: none — public; no credential is sent
-- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
-- **SDK-sent**: `header Idempotency-Key` (minted per call)
-- **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.TaxJarLookupError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error402"` [402] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
-
-**Fields** — `ForceDreamClient.TaxJarLookupRequest` (2):
-
-| Field | Channel | Wire | Type | Req |
-| --- | --- | --- | --- | --- |
-| `xPaymentIntentId` | `header` | `X-Payment-Intent-Id` | `string` | no |
-| `body` | `body` | — | `V1OracleTaxJarLookupRequest` | no |
-
-| Type | Schema value | Source |
-| --- | --- | --- |
-| `V1OracleTaxJarLookupRequest` | `v1OracleTaxJarLookupRequestSchema` | `src/models/v1-oracle-tax-jar-lookup-request.ts` |
-
-### translation
-
-- **Signature**: `translation(request?: ForceDreamClient.TranslationRequest, options?: RequestOptions): ApiPromise<undefined, ForceDreamClient.TranslationError>`
-- **Wire**: `POST /v1/oracle/translation`
-- **Auth**: none — public; no credential is sent
-- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
-- **SDK-sent**: `header Idempotency-Key` (minted per call)
-- **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.TranslationError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error402"` [402] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
-
-**Fields** — `ForceDreamClient.TranslationRequest` (2):
-
-| Field | Channel | Wire | Type | Req |
-| --- | --- | --- | --- | --- |
-| `xPaymentIntentId` | `header` | `X-Payment-Intent-Id` | `string` | no |
-| `body` | `body` | — | `V1OracleTranslationRequest` | no |
-
-| Type | Schema value | Source |
-| --- | --- | --- |
-| `V1OracleTranslationRequest` | `v1OracleTranslationRequestSchema` | `src/models/v1-oracle-translation-request.ts` |
-
-### validation
-
-- **Signature**: `validation(request?: ForceDreamClient.ValidationRequest, options?: RequestOptions): ApiPromise<undefined, ForceDreamClient.ValidationError>`
-- **Wire**: `POST /v1/oracle/validation`
-- **Auth**: none — public; no credential is sent
-- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
-- **SDK-sent**: `header Idempotency-Key` (minted per call)
-- **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ForceDreamError` with `kind: "api"`, an instance of `ForceDreamClient.ValidationError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error402"` [402] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
-
-**Fields** — `ForceDreamClient.ValidationRequest` (2):
-
-| Field | Channel | Wire | Type | Req |
-| --- | --- | --- | --- | --- |
-| `xPaymentIntentId` | `header` | `X-Payment-Intent-Id` | `string` | no |
-| `body` | `body` | — | `V1OracleValidationRequest` | no |
-
-| Type | Schema value | Source |
-| --- | --- | --- |
-| `V1OracleValidationRequest` | `v1OracleValidationRequestSchema` | `src/models/v1-oracle-validation-request.ts` |
+| `ApiSignupRequest` | `apiSignupRequestSchema` | `src/models/api-signup-request.ts` |
+| `SignupResult` | `signupResultSchema` | `src/models/signup-result.ts` |
 

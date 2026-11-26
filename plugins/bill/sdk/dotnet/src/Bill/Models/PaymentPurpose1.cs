@@ -1,0 +1,21 @@
+using System.Text.Json.Serialization;
+using Bill.Core.Models;
+
+namespace Bill.Models;
+
+public record PaymentPurpose1
+{
+    /// <summary>
+    /// Payment purpose text
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("text")]
+    public string? Text { get; init; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("code")]
+    public Code1? Code { get; init; }
+
+    [JsonExtensionData]
+    public AdditionalProperties AdditionalProperties { get; init; } = [];
+}

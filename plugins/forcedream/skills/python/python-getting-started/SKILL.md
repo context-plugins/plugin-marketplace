@@ -17,17 +17,17 @@ This page owns the SDK's *identity and surface* (install, imports, controllers, 
 | Distribution name (what you install) | `force-dream` — **not on any package index**; installed from source (see *Install*) |
 | Import root (what you import) | `force_dream` — not the string you install |
 | SDK source | `sdk/python/` inside this plugin — generated with it, nothing to clone |
-| Version | `1.0.0` — re-verify this page after a version bump |
+| Version | `0.1.0` — re-verify this page after a version bump |
 | Sync client class | `ForceDreamClient` (alias `Client`) |
 | Async client class | `AsyncForceDreamClient` (alias `AsyncClient`) |
-| Client construction | **keyword-only**: `base_url` · `timeout` (default `30.0`) · `retry_options` · `logging_options` · `hooks`, and the transport override — `custom_http_client` on the sync client, `custom_async_http_client` on the async one (the names differ) |
-| Auth | None — no auth scheme |
-| Environments | **no environment enum** — one `base_url` string, defaulting to `https://YOUR-NGROK-URL.ngrok-free.app` |
+| Client construction | **keyword-only**: `base_url` · `timeout` (default `30.0`) · `retry_options` · `logging_options` · `hooks` · `bearer_auth`, and the transport override — `custom_http_client` on the sync client, `custom_async_http_client` on the async one (the names differ) |
+| Auth | **Bearer** token — set `bearer_auth` |
+| Environments | **no environment enum** — one `base_url` string, defaulting to `https://api.forcedream.ai` |
 | Base-URL config | `ServerConfig` (`force_dream/server/server_config.py`) |
 | Python floor | **`>=3.10`** (classifiers list `3.10–3.14`) |
 | Runtime dependencies | `httpx2 (>=2.13.1,<3.0.0)` · `certifi (>=2024.7.4)` · `pydantic[email] (>=2.11.0,<3.0.0)` · `typing-extensions (>=4.13.0,<5.0.0)` |
 | Typing | ships `py.typed` — **a type error against this SDK is a real contract violation, not noise** |
-| Surface | 15 operations, all directly on the client — no controller groups; the map's single page is `map/operations/client.md` · 15 models · 0 unions · 0 enums · 15 per-operation error unions |
+| Surface | 8 operations, all directly on the client — no controller groups; the map's single page is `map/operations/client.md` · 19 models · 5 unions · 2 enums · 2 per-operation error unions |
 
 ## Install — from the copy in this plugin
 
@@ -42,7 +42,7 @@ python -c "import force_dream, pathlib; print(pathlib.Path(force_dream.__file__)
 
 Install it as a package, into site-packages. Do not vendor its source into your project, add its directory to `sys.path`, or install it editable (`-e`) from the plugin's copy — an editable install points at that directory, so the next regeneration of this plugin, which replaces that directory wholesale, breaks every import.
 
-## Imports — the package splits its surface across three modules
+## Imports — the package splits its surface across four modules
 
 Python does not re-export child modules transitively, so `from force_dream import models` alone does **not** make enums, error unions, or runtime types reachable. Import each kind of type from the module that owns it.
 
@@ -63,28 +63,37 @@ Everything else comes from its own subpackage:
 | What you need | Where it lives |
 | --- | --- |
 | Domain models, their `…Dict` companions | `force_dream.models` |
+| Enums (and their open `…OrInt`/`…OrStr` aliases) | `force_dream.models.enums` |
 | `SdkError` · `ApiError` · `RawError` · `ApiResult` · `RequestOptions` · `HttpClient` · `SdkBaseModel` · `UNSET` · `Optional` | `force_dream.core` |
-| Per-operation error *unions* | `force_dream.errors` (`AnomalyDetectionErrorBody`, …) |
+| Per-operation error *unions* | `force_dream.errors` (`GetBalanceErrorBody`, …) |
 
 `force_dream.core` re-exports its whole public surface, so import from `…core` rather than from the private modules beneath it (`…core.results`, `…core.exceptions`, `…core.auth.schemes`).
 
 ## Environments — there is no environment enum
 
-This SDK has **no environment type and no environment constants**. There is one knob: `base_url`, on `ServerConfig` (`force_dream/server/server_config.py`), and its default is **`https://YOUR-NGROK-URL.ngrok-free.app`**:
+This SDK has **no environment type and no environment constants**. There is one knob: `base_url`, on `ServerConfig` (`force_dream/server/server_config.py`), and its default is **`https://api.forcedream.ai`**:
 
 ```python
-base_url: str = "https://YOUR-NGROK-URL.ngrok-free.app"
+base_url: str = "https://api.forcedream.ai"
 ```
 
 Consequences to state on every contract sheet that touches configuration:
 
-- Omitting `base_url` gives you **`https://YOUR-NGROK-URL.ngrok-free.app`**, silently. A caller who believes they configured a different host and did not gets that host's behaviour with live credentials.
+- Omitting `base_url` gives you **`https://api.forcedream.ai`**, silently. A caller who believes they configured a different host and did not gets that host's behaviour with live credentials.
 - `ServerConfig` is a frozen pydantic model with `extra="forbid"`: a misspelled keyword raises `ValidationError` at construction rather than being ignored.
 - `timeout` is validated too — the base client raises `ValueError` for any non-positive value.
 
-## Auth pattern — none declared
+## Auth pattern (one scheme)
 
-This SDK has no auth scheme, so the client takes no credentials keyword and every request goes out unauthenticated. If the API nonetheless requires a credential, pass it yourself as a header through `request_options` — see `python-calling-endpoints`.
+A bearer token, exposed as the client's `bearer_auth=` keyword taking a plain string.
+
+```python
+from force_dream import Client
+
+client = Client(bearer_auth="<bearer_auth>")
+```
+
+**Every credentials keyword is optional** — omit it and requests go out unauthenticated, with nothing failing at construction; `python-authentication` covers how to catch that, and what a *failed token fetch* raises.
 
 ## SDK map — look up first, open the module second
 
@@ -97,7 +106,7 @@ The SDK ships a generated map at its **root** — the directory holding `pyproje
 
 Confirm the map comes from the release you installed before you read anything out of it: the copy in this plugin was generated in the same pass as these skills; if the plugin has been updated since you installed, re-run `pip install --force-reinstall --no-deps <plugin-root>/sdk/python/` so the installed package matches it. A map read from any other release describes code you do not have.
 
-Every `Source` path on the map is relative to that SDK root, so `force_dream/models/v1_oracle_anomaly_detection_request.py` opens as written from there — and the same path resolves inside the installed package, which is where you read a module's body once the map has named it.
+Every `Source` path on the map is relative to that SDK root, so `force_dream/models/agent.py` opens as written from there — and the same path resolves inside the installed package, which is where you read a module's body once the map has named it.
 
 **The map is the locator; the source modules are the shapes.** Read the map first — an operation's signature, route, parameter roles and return types, the client's constructor keywords, the `timeout` default, the members of `ApiError` / `Success` / `Failure` / `RawError`, each operation's error union with the status each arm maps from, base-URL and auth wiring, and which module declares a type are all answered there; don't open a module for them. Open the one module the map names only for what it leaves out: a model's members, an enum's values, a field's wire alias. The map says so itself — *"Shapes live only in the source … Never grep for a type."*
 
@@ -123,9 +132,12 @@ For everything the map leaves out, and the full body behind a map row, read the 
 | `UNSET`, `Optional`, `OptionalNullable` | `core/optionality.py` |
 | Model base config, `to_dict`/`to_json` | `core/models.py` |
 | A model's members, required vs `UNSET`, wire aliases | `models/<model_name>.py` |
+| An enum's members and wire values | `models/enums/` |
+| Open-enum coercion | `core/converters/open_enum.py` |
 | Date/time wire formats — `Date`, `RFC3339DateTime`, `RFC1123DateTime`, `UnixSecondsDateTime` (`Annotated` aliases over `datetime.date` / `datetime.datetime`; not in the map's Type sources) | `core/converters/date_time.py` |
 | Transport protocols (the test seam) | `core/transport.py` |
 | httpx2 adapter, proxy/TLS knobs | `core/httpx2_transport.py` |
+| Token fetch, credential placement | `core/auth/`, `core/auth/models.py` |
 | Base-URL resolution | `server/server_config.py`, `server/server.py` |
 | An operation's error mapper (status → schema) | `errors/<operation>_error.py` |
 
@@ -142,7 +154,7 @@ Keep lookups cheap:
 Before you write the code for each step, load the named companion skill — even if you have already read the relevant module; it owns the traps the signature hides. A typical integration reaches them in this order:
 
 1. **Client construction & lifetime** — load **python-client-initialization** before you write `Client(...)` or `AsyncClient(...)`.
-2. **Authentication** — load **python-authentication** before you set credentials. This SDK has no auth scheme, so there is no credentials keyword to set.
+2. **Authentication** — load **python-authentication** before you set credentials.
 3. **Calling an endpoint** — load **python-calling-endpoints** before the first `client.<controller>.<operation>(...)` call.
 4. **Models** — load **python-models** the moment a request/response member is not a plain string or number. A model's extras for unknown fields are read through `additional_properties`, a spec property of that name becomes `additional_properties_value`, and a model whose schema says `additionalProperties: false` refuses every extra — confirm it in the model's file.
 5. **Error handling** — load **python-error-handling** before you write any `try/except`.
@@ -155,9 +167,9 @@ Beyond the usual signatures and model members, a Python sheet is incomplete with
 
 1. **Sync or async** — the client class, where it is held, and its `close()`/`aclose()`.
 2. **The keyword-only boundary** for each operation: what is positional (each required parameter without a fixed value, path → query → header → body) and what sits after `*`. Every keyword-only parameter has a real default, so write no defensive `None`s.
-3. **The 15 operations that return `None`** — the map's **Returns (parsed)** bullet says which. Their raw peers are `ApiResult[None, …]`, so `with_raw_response` is the only way to observe the status code.
+3. **Every operation returns a payload** — no operation in this SDK returns `None`, so the `with_raw_response` peer is needed only where the status code itself matters.
 4. **Required vs `UNSET`** for every model member the task sets.
-5. **The `ApiError.error` union** for each operation in scope — no operation in this SDK documents a typed error body, so `.error` is always `RawError`.
+5. **The `ApiError.error` union** for each operation in scope, copied from the **Error arms** bullet of its block in `map/operations/` — this SDK has **1 typed error body** across 8 operations, so never assume an arm is shared. Every union ends in `RawError`; an operation with no typed arm is `RawError` alone.
 6. **That a decode failure raises `ResponseDecodeError`, not `ApiError`, in both response modes. And that the 2xx path declares no required member on any return type, so a truncated body decodes without complaint and the hole surfaces later.** Any sheet row for a call whose result is used must name the members the implementer has to assert on.
 7. **Retries are on by default** — the sheet says whether this integration keeps, tunes (`retry_options`) or disables them (`max_retries` set to `0`), and for which methods; a write is retried only when the policy names its method.
 8. **Whether logging is on, and how loud** — the sheet says whether this integration raises the `force_dream` logger, which `logging_options` dumps it turns on — a JSON body is logged as sent — and any per-call `log_level`.

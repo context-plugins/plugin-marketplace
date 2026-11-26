@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ForceDream.Core.Authentication;
 using ForceDream.Core.Configuration;
 using ForceDream.Core.Hooks;
 using ForceDream.Servers;
@@ -20,4 +21,9 @@ public class ForceDreamClientOptions
     /// </summary>
     public TimeSpan? StreamReadTimeout { get; set; } = TimeSpan.FromSeconds(60);
     public IReadOnlyList<SdkHook> Hooks { get; set; } = [];
+    /// <summary>
+    /// An <c>fd_live_</c> billing key (from signup) or <c>sk_fd_</c> account key.
+    /// </summary>
+    public string? BearerAuth { get; set; }
+    public CredentialProvider<string>? BearerAuthProvider { get; set; }
 }

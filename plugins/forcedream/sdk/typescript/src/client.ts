@@ -1,3 +1,4 @@
+import { buildAuthSchemes, type AuthSchemes } from "./auth-schemes.js";
 import type { ClientOptions } from "./client-options.js";
 import { ApiError, type Declared, type Undeclared } from "./core/api-error.js";
 import type { ApiPromise } from "./core/api-promise.js";
@@ -9,82 +10,97 @@ import type { ErrorDecoders } from "./core/response-decoder.js";
 import * as host from "./core/runtime-environment.js";
 import { uuid } from "./core/uuid.js";
 import * as s from "./core/validation/index.js";
+import { agentListResultSchema, type AgentListResult } from "./models/agent-list-result.js";
+import { apiSignupRequestInternalSchema, type ApiSignupRequest } from "./models/api-signup-request.js";
+import { balanceResultSchema, type BalanceResult } from "./models/balance-result.js";
+import { invokeResultSchema, type InvokeResult } from "./models/invoke-result.js";
+import { reliabilityListResultSchema, type ReliabilityListResult } from "./models/reliability-list-result.js";
+import { signupResultSchema, type SignupResult } from "./models/signup-result.js";
+import { unauthorized1Schema, type Unauthorized1 } from "./models/unauthorized1.js";
 import {
-  v1OracleAnomalyDetectionRequestSchema,
-  type V1OracleAnomalyDetectionRequest,
-} from "./models/v1-oracle-anomaly-detection-request.js";
+  v1AgentsInvokeRequestSchema,
+  type V1AgentsInvokeRequest,
+} from "./models/v1-agents-invoke-request.js";
 import {
-  v1OracleClassificationRequestSchema,
-  type V1OracleClassificationRequest,
-} from "./models/v1-oracle-classification-request.js";
+  v1AgentsInvokeResponseSchema,
+  type V1AgentsInvokeResponse,
+} from "./models/v1-agents-invoke-response.js";
 import {
-  v1OracleCodeGenerationRequestSchema,
-  type V1OracleCodeGenerationRequest,
-} from "./models/v1-oracle-code-generation-request.js";
+  v1WorkforceProofPublicKeyResponseSchema,
+  type V1WorkforceProofPublicKeyResponse,
+} from "./models/v1-workforce-proof-public-key-response.js";
 import {
-  v1OracleFraudSignalRequestSchema,
-  type V1OracleFraudSignalRequest,
-} from "./models/v1-oracle-fraud-signal-request.js";
-import {
-  v1OracleLeadScoreRequestSchema,
-  type V1OracleLeadScoreRequest,
-} from "./models/v1-oracle-lead-score-request.js";
-import {
-  v1OracleModelInferenceRequestSchema,
-  type V1OracleModelInferenceRequest,
-} from "./models/v1-oracle-model-inference-request.js";
-import {
-  v1OraclePromptTemplateRequestSchema,
-  type V1OraclePromptTemplateRequest,
-} from "./models/v1-oracle-prompt-template-request.js";
-import {
-  v1OracleProofOfWorkRequestSchema,
-  type V1OracleProofOfWorkRequest,
-} from "./models/v1-oracle-proof-of-work-request.js";
-import {
-  v1OracleSecurityScanRequestSchema,
-  type V1OracleSecurityScanRequest,
-} from "./models/v1-oracle-security-scan-request.js";
-import {
-  v1OracleSemanticCacheRequestSchema,
-  type V1OracleSemanticCacheRequest,
-} from "./models/v1-oracle-semantic-cache-request.js";
-import {
-  v1OracleSentimentFeedRequestSchema,
-  type V1OracleSentimentFeedRequest,
-} from "./models/v1-oracle-sentiment-feed-request.js";
-import {
-  v1OracleSummarizationRequestSchema,
-  type V1OracleSummarizationRequest,
-} from "./models/v1-oracle-summarization-request.js";
-import {
-  v1OracleTaxJarLookupRequestSchema,
-  type V1OracleTaxJarLookupRequest,
-} from "./models/v1-oracle-tax-jar-lookup-request.js";
-import {
-  v1OracleTranslationRequestSchema,
-  type V1OracleTranslationRequest,
-} from "./models/v1-oracle-translation-request.js";
-import {
-  v1OracleValidationRequestSchema,
-  type V1OracleValidationRequest,
-} from "./models/v1-oracle-validation-request.js";
+  v1WorkforceProofPublicResponseSchema,
+  type V1WorkforceProofPublicResponse,
+} from "./models/v1-workforce-proof-public-response.js";
 import { buildServers, type Servers } from "./servers.js";
 
 /**
- * 33 M2M data bridges. HTTP 402 + Stripe payment.
+ * This specification covers exactly the real, verified API surface used by the official ForceDream
+ * SDKs (JavaScript/TypeScript, Python, and Go) as of 2026-07-12 -- not the full platform. Every
+ * endpoint, schema, and semantic here was directly tested against the live, production API before
+ * being documented, not inferred or guessed.
+ *
+ * **Scope is deliberate, not incomplete.** Accuracy over breadth: this document exists to be 100%
+ * correct for what it covers, so it can safely become the single source of truth for future SDK
+ * generation, rather than a sprawling spec padded with unverified endpoints from the wider backend.
+ * Endpoints not listed here exist but are not yet covered by any official SDK or this spec.
+ *
+ * ## Canonicalization and proof verification
+ *
+ * Every proof is verified by reconstructing a specific "signable" object from the real proof
+ * fields, canonicalizing it, hashing it, and checking an Ed25519 signature -- entirely client-side.
+ * ForceDream is never asked whether a proof is valid.
+ *
+ * **Signable construction** (see `FdProof` and `x-forcedream-canonicalization` below):
+ * - Base fields (8 total): `task_id`, `agent_id`, `input_hash`, `output_hash`, `cost_pence`,
+ *   `budget_pence`, `started_at`, `completed_at`.
+ * - If `external_cost_hash` is present, two more fields are added (`external_cost_hash`,
+ *   `retrieved_count`), making 10 total.
+ * - Type coercion matters: `cost_pence`, `budget_pence`, `started_at`, and `retrieved_count` are
+ *   coerced to numbers exactly as JavaScript's `Number(x)` would (whole values serialize without a
+ *   decimal point, fractional values keep their precision). `completed_at` is coerced to a string
+ *   exactly as JavaScript's `String(x)` would. Getting this wrong produces a different canonical
+ *   string and a different hash, and verification fails.
+ *
+ * **Canonicalization**: the signable object's keys are sorted alphabetically, then serialized as
+ * compact JSON with no extra whitespace -- equivalent to JavaScript's `JSON.stringify(obj,
+ * Object.keys(obj).sort())`. This exact behavior was cross-tested byte-for-byte across JavaScript,
+ * Python, and Go before any SDK trusted it.
+ *
+ * **Digest and verification**: SHA-256 hash the canonical string (as hex), then verify the proof's
+ * `signature` (base64-encoded) against that digest's raw bytes, using the Ed25519 public key
+ * fetched from `/v1/workforce/proof/public-key`.
+ *
+ * ## Invoke lifecycle
+ *
+ * `POST /v1/agents/{slug}/invoke` enqueues a task and returns immediately with a `task_id`. It does
+ * not wait for completion. Poll `GET /v1/agents/{slug}/result/{taskId}` to check status. All three
+ * official SDKs use the same real polling behavior: starting at a 2500ms interval, increasing by
+ * 1000ms after each attempt, capped at 6000ms, for a caller-bounded total wait (default 60s,
+ * minimum 5s, maximum 120s). On timeout, the task is **not** re-invoked (that would risk
+ * double-charging) -- the caller receives the `task_id` back to poll again later.
+ *
+ * ## A genuine gap, stated honestly rather than guessed at
+ *
+ * The exact behavior of `GET /v1/workforce/proof/{task_id}/public` for a task that has not yet
+ * completed (whether it returns `404`, a `200` with a null proof, or something else) has not been
+ * directly tested tonight -- every real verification performed used a task that had already
+ * completed. This spec does not assert a specific behavior for that case; see the endpoint's own
+ * description for what's actually confirmed versus open.
  */
 export class ForceDreamClient {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
+  readonly #auth: AuthSchemes;
 
   constructor(options: ClientOptions = {}) {
     this.#rawClient = new RawClient({
       ...buildCoreClientOptions(options, "FORCE_DREAM_LOG"),
       defaultHeaders: [
-        { name: "User-Agent", value: "ForceDreamClient/1.0.0 TypeScript", schema: s.string() },
+        { name: "User-Agent", value: "ForceDreamClient/0.1.0 TypeScript", schema: s.string() },
         { name: "X-APIMatic-Lang", value: "TypeScript", schema: s.string() },
-        { name: "X-APIMatic-Package-Version", value: "1.0.0", schema: s.string() },
+        { name: "X-APIMatic-Package-Version", value: "0.1.0", schema: s.string() },
         { name: "X-APIMatic-Gen-Version", value: "4.0.0", schema: s.string() },
         { name: "X-APIMatic-OS", value: host.operatingSystem(), schema: s.optional(s.string()) },
         { name: "X-APIMatic-Runtime", value: host.runtimeDescription(), schema: s.optional(s.string()) },
@@ -94,663 +110,302 @@ export class ForceDreamClient {
     });
 
     this.#servers = buildServers(options);
+
+    this.#auth = buildAuthSchemes(options);
   }
 
   /**
-   * Outlier detection (£0.30)
+   * Real, system-measured reliability per agent
    *
    * @remarks
-   * Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+   * Keyless. Used by all three SDKs to merge live `health` data into agent search results. A
+   * reliability-fetch failure never blocks the core agent listing.
    *
-   * @returns Data returned after payment
+   * @returns Reliability data for all agents
    *
-   * @throws {@link ForceDreamClient.AnomalyDetectionError} when the API answers with an error
-   * status — narrow on `err.payload.kind`
+   * @throws {@link ApiError} when the API answers with an error status
    *
    * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
    * timeout, a body that would not decode, a value that would not encode, or a credential that
    * could not be obtained
    */
-  anomalyDetection(
-    request: ForceDreamClient.AnomalyDetectionRequest = {},
-    options?: RequestOptions,
-  ): ApiPromise<undefined, ForceDreamClient.AnomalyDetectionError> {
+  getAgentReliability(options?: RequestOptions): ApiPromise<ReliabilityListResult, ApiError> {
     return this.#rawClient.execute(
       {
-        method: "POST",
-        urlTemplate: this.#servers.default("/v1/oracle/anomaly_detection"),
+        method: "GET",
+        urlTemplate: this.#servers.default("/v1/agents/reliability"),
         auth: noneAuth,
         pathParams: [],
         query: [],
-        headers: [
-          { name: "X-Payment-Intent-Id", value: request.xPaymentIntentId, schema: s.optional(s.string()) },
-          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
-        ],
-        body: {
-          kind: "json",
-          value: request.body,
-          schema: s.optional(s.lazy(() => v1OracleAnomalyDetectionRequestSchema)),
-        },
+        headers: [],
+        body: { kind: "empty" },
       },
       {
-        success: { kind: "empty" },
-        errorFactory: ForceDreamClient.AnomalyDetectionError,
+        success: { kind: "json", schema: reliabilityListResultSchema },
+        errorFactory: ApiError,
       },
       options,
     );
   }
 
   /**
-   * Text classification (£0.05)
+   * Get the real, current account balance
    *
-   * @remarks
-   * Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+   * @returns Current balance
    *
-   * @returns Data returned after payment
-   *
-   * @throws {@link ForceDreamClient.ClassificationError} when the API answers with an error status
-   * — narrow on `err.payload.kind`
-   *
-   * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
-   * timeout, a body that would not decode, a value that would not encode, or a credential that
-   * could not be obtained
-   */
-  classification(
-    request: ForceDreamClient.ClassificationRequest = {},
-    options?: RequestOptions,
-  ): ApiPromise<undefined, ForceDreamClient.ClassificationError> {
-    return this.#rawClient.execute(
-      {
-        method: "POST",
-        urlTemplate: this.#servers.default("/v1/oracle/classification"),
-        auth: noneAuth,
-        pathParams: [],
-        query: [],
-        headers: [
-          { name: "X-Payment-Intent-Id", value: request.xPaymentIntentId, schema: s.optional(s.string()) },
-          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
-        ],
-        body: {
-          kind: "json",
-          value: request.body,
-          schema: s.optional(s.lazy(() => v1OracleClassificationRequestSchema)),
-        },
-      },
-      {
-        success: { kind: "empty" },
-        errorFactory: ForceDreamClient.ClassificationError,
-      },
-      options,
-    );
-  }
-
-  /**
-   * Code writing (£0.50)
-   *
-   * @remarks
-   * Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-   *
-   * @returns Data returned after payment
-   *
-   * @throws {@link ForceDreamClient.CodeGenerationError} when the API answers with an error status
-   * — narrow on `err.payload.kind`
-   *
-   * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
-   * timeout, a body that would not decode, a value that would not encode, or a credential that
-   * could not be obtained
-   */
-  codeGeneration(
-    request: ForceDreamClient.CodeGenerationRequest = {},
-    options?: RequestOptions,
-  ): ApiPromise<undefined, ForceDreamClient.CodeGenerationError> {
-    return this.#rawClient.execute(
-      {
-        method: "POST",
-        urlTemplate: this.#servers.default("/v1/oracle/code_generation"),
-        auth: noneAuth,
-        pathParams: [],
-        query: [],
-        headers: [
-          { name: "X-Payment-Intent-Id", value: request.xPaymentIntentId, schema: s.optional(s.string()) },
-          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
-        ],
-        body: {
-          kind: "json",
-          value: request.body,
-          schema: s.optional(s.lazy(() => v1OracleCodeGenerationRequestSchema)),
-        },
-      },
-      {
-        success: { kind: "empty" },
-        errorFactory: ForceDreamClient.CodeGenerationError,
-      },
-      options,
-    );
-  }
-
-  /**
-   * Fraud IP check (£0.02)
-   *
-   * @remarks
-   * Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-   *
-   * @returns Data returned after payment
-   *
-   * @throws {@link ForceDreamClient.FraudSignalError} when the API answers with an error status —
+   * @throws {@link ForceDreamClient.GetBalanceError} when the API answers with an error status —
    * narrow on `err.payload.kind`
    *
    * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
    * timeout, a body that would not decode, a value that would not encode, or a credential that
    * could not be obtained
    */
-  fraudSignal(
-    request: ForceDreamClient.FraudSignalRequest = {},
-    options?: RequestOptions,
-  ): ApiPromise<undefined, ForceDreamClient.FraudSignalError> {
+  getBalance(options?: RequestOptions): ApiPromise<BalanceResult, ForceDreamClient.GetBalanceError> {
     return this.#rawClient.execute(
       {
-        method: "POST",
-        urlTemplate: this.#servers.default("/v1/oracle/fraud_signal"),
-        auth: noneAuth,
+        method: "GET",
+        urlTemplate: this.#servers.default("/v1/account/balance"),
+        auth: this.#auth.bearerAuth,
         pathParams: [],
         query: [],
-        headers: [
-          { name: "X-Payment-Intent-Id", value: request.xPaymentIntentId, schema: s.optional(s.string()) },
-          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
-        ],
-        body: {
-          kind: "json",
-          value: request.body,
-          schema: s.optional(s.lazy(() => v1OracleFraudSignalRequestSchema)),
-        },
+        headers: [],
+        body: { kind: "empty" },
       },
       {
-        success: { kind: "empty" },
-        errorFactory: ForceDreamClient.FraudSignalError,
+        success: { kind: "json", schema: balanceResultSchema },
+        errorFactory: ForceDreamClient.GetBalanceError,
       },
       options,
     );
   }
 
   /**
-   * Lead quality score (£0.50)
+   * Poll for the real result of an enqueued invocation
    *
    * @remarks
-   * Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+   * Real polling contract used identically by all three official SDKs: start polling at a 2500ms
+   * interval, add 1000ms after each attempt, cap at 6000ms, bounded by a caller-set total wait
+   * (default 60s, min 5s, max 120s). The response's `status` (or `outcome`) field distinguishes
+   * `completed`/`succeeded`, `insufficient` (agent honestly declined -- charged nothing),
+   * `charge_failed`, `failed`/`dead_letter`, or still-pending (any other value, including the field
+   * being absent).
    *
-   * @returns Data returned after payment
+   * @returns Current task state (may still be pending)
    *
-   * @throws {@link ForceDreamClient.LeadScoreError} when the API answers with an error status —
+   * @throws {@link ApiError} when the API answers with an error status
+   *
+   * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
+  getInvokeResult(
+    request: ForceDreamClient.GetInvokeResultRequest,
+    options?: RequestOptions,
+  ): ApiPromise<InvokeResult, ApiError> {
+    return this.#rawClient.execute(
+      {
+        method: "GET",
+        urlTemplate: this.#servers.default("/v1/agents/{slug}/result/{taskId}"),
+        auth: this.#auth.bearerAuth,
+        pathParams: [
+          { name: "slug", value: request.slug, schema: s.string() },
+          { name: "taskId", value: request.taskId, schema: s.string() },
+        ],
+        query: [],
+        headers: [],
+        body: { kind: "empty" },
+      },
+      {
+        success: { kind: "json", schema: invokeResultSchema },
+        errorFactory: ApiError,
+      },
+      options,
+    );
+  }
+
+  /**
+   * Fetch a real, signed proof for a completed task
+   *
+   * @remarks
+   * Keyless. Returns the real proof object needed for client-side Ed25519 verification. **Honest
+   * gap**: the exact behavior for a task_id that has not yet completed (404, a 200 with a null
+   * proof, or otherwise) is not directly confirmed by tonight's testing -- every real verification
+   * tested used an already-completed task. Documented as `200` below for the confirmed case only;
+   * do not assume the shape of an unconfirmed case.
+   *
+   * @returns Proof found (confirmed only for already-completed tasks)
+   *
+   * @throws {@link ApiError} when the API answers with an error status
+   *
+   * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
+  getProof(
+    request: ForceDreamClient.GetProofRequest,
+    options?: RequestOptions,
+  ): ApiPromise<V1WorkforceProofPublicResponse, ApiError> {
+    return this.#rawClient.execute(
+      {
+        method: "GET",
+        urlTemplate: this.#servers.default("/v1/workforce/proof/{task_id}/public"),
+        auth: noneAuth,
+        pathParams: [{ name: "task_id", value: request.taskId, schema: s.string() }],
+        query: [],
+        headers: [],
+        body: { kind: "empty" },
+      },
+      {
+        success: { kind: "json", schema: v1WorkforceProofPublicResponseSchema },
+        errorFactory: ApiError,
+      },
+      options,
+    );
+  }
+
+  /**
+   * Fetch the real Ed25519 public key used to sign all proofs
+   *
+   * @remarks
+   * Keyless. Required to verify any proof's signature.
+   *
+   * @returns Public key
+   *
+   * @throws {@link ApiError} when the API answers with an error status
+   *
+   * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
+  getProofPublicKey(options?: RequestOptions): ApiPromise<V1WorkforceProofPublicKeyResponse, ApiError> {
+    return this.#rawClient.execute(
+      {
+        method: "GET",
+        urlTemplate: this.#servers.default("/v1/workforce/proof/public-key"),
+        auth: noneAuth,
+        pathParams: [],
+        query: [],
+        headers: [],
+        body: { kind: "empty" },
+      },
+      {
+        success: { kind: "json", schema: v1WorkforceProofPublicKeyResponseSchema },
+        errorFactory: ApiError,
+      },
+      options,
+    );
+  }
+
+  /**
+   * Invoke a real agent to do real work (enqueues only)
+   *
+   * @remarks
+   * Spends your balance -- requires an `fd_live_` key. Enqueues the task and returns immediately;
+   * it does not wait for completion. Poll `/v1/agents/{slug}/result/{taskId}` for the outcome.
+   * Never call this again for the same logical task after a timeout -- re-invoking would
+   * double-charge.
+   *
+   * @returns Task enqueued
+   *
+   * @throws {@link ForceDreamClient.InvokeAgentError} when the API answers with an error status —
    * narrow on `err.payload.kind`
    *
    * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
    * timeout, a body that would not decode, a value that would not encode, or a credential that
    * could not be obtained
    */
-  leadScore(
-    request: ForceDreamClient.LeadScoreRequest = {},
+  invokeAgent(
+    request: ForceDreamClient.InvokeAgentRequest,
     options?: RequestOptions,
-  ): ApiPromise<undefined, ForceDreamClient.LeadScoreError> {
+  ): ApiPromise<V1AgentsInvokeResponse, ForceDreamClient.InvokeAgentError> {
     return this.#rawClient.execute(
       {
         method: "POST",
-        urlTemplate: this.#servers.default("/v1/oracle/lead_score"),
-        auth: noneAuth,
-        pathParams: [],
+        urlTemplate: this.#servers.default("/v1/agents/{slug}/invoke"),
+        auth: this.#auth.bearerAuth,
+        pathParams: [{ name: "slug", value: request.slug, schema: s.string() }],
         query: [],
-        headers: [
-          { name: "X-Payment-Intent-Id", value: request.xPaymentIntentId, schema: s.optional(s.string()) },
-          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
-        ],
-        body: {
-          kind: "json",
-          value: request.body,
-          schema: s.optional(s.lazy(() => v1OracleLeadScoreRequestSchema)),
-        },
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
+        body: { kind: "json", value: request.body, schema: v1AgentsInvokeRequestSchema },
       },
       {
-        success: { kind: "empty" },
-        errorFactory: ForceDreamClient.LeadScoreError,
+        success: { kind: "json", schema: v1AgentsInvokeResponseSchema },
+        errorFactory: ForceDreamClient.InvokeAgentError,
       },
       options,
     );
   }
 
   /**
-   * LLM inference (£0.10)
+   * Discover real ForceDream agents
    *
    * @remarks
-   * Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+   * Keyless -- no account needed. Real, load-bearing fact confirmed directly from the source, not
+   * assumed: **this endpoint has no working server-side capability or query filter.** All three
+   * official SDKs fetch the full list and filter client-side. A prior draft of the OpenAPI scope
+   * for this spec listed a nonexistent `/v1/agents/search` endpoint; it does not exist. Filter
+   * client-side against this endpoint's full response instead, exactly as the official SDKs do.
    *
-   * @returns Data returned after payment
+   * @returns Full agent registry
    *
-   * @throws {@link ForceDreamClient.ModelInferenceError} when the API answers with an error status
-   * — narrow on `err.payload.kind`
+   * @throws {@link ApiError} when the API answers with an error status
    *
    * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
    * timeout, a body that would not decode, a value that would not encode, or a credential that
    * could not be obtained
    */
-  modelInference(
-    request: ForceDreamClient.ModelInferenceRequest = {},
-    options?: RequestOptions,
-  ): ApiPromise<undefined, ForceDreamClient.ModelInferenceError> {
+  listAgents(options?: RequestOptions): ApiPromise<AgentListResult, ApiError> {
     return this.#rawClient.execute(
       {
-        method: "POST",
-        urlTemplate: this.#servers.default("/v1/oracle/model_inference"),
+        method: "GET",
+        urlTemplate: this.#servers.default("/v1/agents/list"),
         auth: noneAuth,
         pathParams: [],
         query: [],
-        headers: [
-          { name: "X-Payment-Intent-Id", value: request.xPaymentIntentId, schema: s.optional(s.string()) },
-          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
-        ],
-        body: {
-          kind: "json",
-          value: request.body,
-          schema: s.optional(s.lazy(() => v1OracleModelInferenceRequestSchema)),
-        },
+        headers: [],
+        body: { kind: "empty" },
       },
       {
-        success: { kind: "empty" },
-        errorFactory: ForceDreamClient.ModelInferenceError,
+        success: { kind: "json", schema: agentListResultSchema },
+        errorFactory: ApiError,
       },
       options,
     );
   }
 
   /**
-   * Optimised prompts (£0.25)
+   * Create a new ForceDream account
    *
    * @remarks
-   * Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
+   * No API key required -- this is how you get one. Returns a real `fd_live_` billing key with a
+   * small, real trial balance already seeded. Verified live, repeatedly, across all three SDKs
+   * tonight.
    *
-   * @returns Data returned after payment
+   * @returns Account created
    *
-   * @throws {@link ForceDreamClient.PromptTemplateError} when the API answers with an error status
-   * — narrow on `err.payload.kind`
+   * @throws {@link ApiError} when the API answers with an error status
    *
    * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
    * timeout, a body that would not decode, a value that would not encode, or a credential that
    * could not be obtained
    */
-  promptTemplate(
-    request: ForceDreamClient.PromptTemplateRequest = {},
+  signup(
+    request: ForceDreamClient.SignupRequest,
     options?: RequestOptions,
-  ): ApiPromise<undefined, ForceDreamClient.PromptTemplateError> {
+  ): ApiPromise<SignupResult, ApiError> {
     return this.#rawClient.execute(
       {
         method: "POST",
-        urlTemplate: this.#servers.default("/v1/oracle/prompt_template"),
+        urlTemplate: this.#servers.default("/api/signup"),
         auth: noneAuth,
         pathParams: [],
         query: [],
-        headers: [
-          { name: "X-Payment-Intent-Id", value: request.xPaymentIntentId, schema: s.optional(s.string()) },
-          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
-        ],
-        body: {
-          kind: "json",
-          value: request.body,
-          schema: s.optional(s.lazy(() => v1OraclePromptTemplateRequestSchema)),
-        },
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
+        body: { kind: "json", value: request.body, schema: apiSignupRequestInternalSchema },
       },
       {
-        success: { kind: "empty" },
-        errorFactory: ForceDreamClient.PromptTemplateError,
-      },
-      options,
-    );
-  }
-
-  /**
-   * WORM task verification (£0.20)
-   *
-   * @remarks
-   * Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-   *
-   * @returns Data returned after payment
-   *
-   * @throws {@link ForceDreamClient.ProofOfWorkError} when the API answers with an error status —
-   * narrow on `err.payload.kind`
-   *
-   * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
-   * timeout, a body that would not decode, a value that would not encode, or a credential that
-   * could not be obtained
-   */
-  proofOfWork(
-    request: ForceDreamClient.ProofOfWorkRequest = {},
-    options?: RequestOptions,
-  ): ApiPromise<undefined, ForceDreamClient.ProofOfWorkError> {
-    return this.#rawClient.execute(
-      {
-        method: "POST",
-        urlTemplate: this.#servers.default("/v1/oracle/proof_of_work"),
-        auth: noneAuth,
-        pathParams: [],
-        query: [],
-        headers: [
-          { name: "X-Payment-Intent-Id", value: request.xPaymentIntentId, schema: s.optional(s.string()) },
-          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
-        ],
-        body: {
-          kind: "json",
-          value: request.body,
-          schema: s.optional(s.lazy(() => v1OracleProofOfWorkRequestSchema)),
-        },
-      },
-      {
-        success: { kind: "empty" },
-        errorFactory: ForceDreamClient.ProofOfWorkError,
-      },
-      options,
-    );
-  }
-
-  /**
-   * Vulnerability scan (£0.75)
-   *
-   * @remarks
-   * Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-   *
-   * @returns Data returned after payment
-   *
-   * @throws {@link ForceDreamClient.SecurityScanError} when the API answers with an error status —
-   * narrow on `err.payload.kind`
-   *
-   * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
-   * timeout, a body that would not decode, a value that would not encode, or a credential that
-   * could not be obtained
-   */
-  securityScan(
-    request: ForceDreamClient.SecurityScanRequest = {},
-    options?: RequestOptions,
-  ): ApiPromise<undefined, ForceDreamClient.SecurityScanError> {
-    return this.#rawClient.execute(
-      {
-        method: "POST",
-        urlTemplate: this.#servers.default("/v1/oracle/security_scan"),
-        auth: noneAuth,
-        pathParams: [],
-        query: [],
-        headers: [
-          { name: "X-Payment-Intent-Id", value: request.xPaymentIntentId, schema: s.optional(s.string()) },
-          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
-        ],
-        body: {
-          kind: "json",
-          value: request.body,
-          schema: s.optional(s.lazy(() => v1OracleSecurityScanRequestSchema)),
-        },
-      },
-      {
-        success: { kind: "empty" },
-        errorFactory: ForceDreamClient.SecurityScanError,
-      },
-      options,
-    );
-  }
-
-  /**
-   * Cached LLM embeddings (£0.05)
-   *
-   * @remarks
-   * Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-   *
-   * @returns Data returned after payment
-   *
-   * @throws {@link ForceDreamClient.SemanticCacheError} when the API answers with an error status —
-   * narrow on `err.payload.kind`
-   *
-   * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
-   * timeout, a body that would not decode, a value that would not encode, or a credential that
-   * could not be obtained
-   */
-  semanticCache(
-    request: ForceDreamClient.SemanticCacheRequest = {},
-    options?: RequestOptions,
-  ): ApiPromise<undefined, ForceDreamClient.SemanticCacheError> {
-    return this.#rawClient.execute(
-      {
-        method: "POST",
-        urlTemplate: this.#servers.default("/v1/oracle/semantic_cache"),
-        auth: noneAuth,
-        pathParams: [],
-        query: [],
-        headers: [
-          { name: "X-Payment-Intent-Id", value: request.xPaymentIntentId, schema: s.optional(s.string()) },
-          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
-        ],
-        body: {
-          kind: "json",
-          value: request.body,
-          schema: s.optional(s.lazy(() => v1OracleSemanticCacheRequestSchema)),
-        },
-      },
-      {
-        success: { kind: "empty" },
-        errorFactory: ForceDreamClient.SemanticCacheError,
-      },
-      options,
-    );
-  }
-
-  /**
-   * Market sentiment (£0.10)
-   *
-   * @remarks
-   * Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-   *
-   * @returns Data returned after payment
-   *
-   * @throws {@link ForceDreamClient.SentimentFeedError} when the API answers with an error status —
-   * narrow on `err.payload.kind`
-   *
-   * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
-   * timeout, a body that would not decode, a value that would not encode, or a credential that
-   * could not be obtained
-   */
-  sentimentFeed(
-    request: ForceDreamClient.SentimentFeedRequest = {},
-    options?: RequestOptions,
-  ): ApiPromise<undefined, ForceDreamClient.SentimentFeedError> {
-    return this.#rawClient.execute(
-      {
-        method: "POST",
-        urlTemplate: this.#servers.default("/v1/oracle/sentiment_feed"),
-        auth: noneAuth,
-        pathParams: [],
-        query: [],
-        headers: [
-          { name: "X-Payment-Intent-Id", value: request.xPaymentIntentId, schema: s.optional(s.string()) },
-          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
-        ],
-        body: {
-          kind: "json",
-          value: request.body,
-          schema: s.optional(s.lazy(() => v1OracleSentimentFeedRequestSchema)),
-        },
-      },
-      {
-        success: { kind: "empty" },
-        errorFactory: ForceDreamClient.SentimentFeedError,
-      },
-      options,
-    );
-  }
-
-  /**
-   * Document summary (£0.10)
-   *
-   * @remarks
-   * Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-   *
-   * @returns Data returned after payment
-   *
-   * @throws {@link ForceDreamClient.SummarizationError} when the API answers with an error status —
-   * narrow on `err.payload.kind`
-   *
-   * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
-   * timeout, a body that would not decode, a value that would not encode, or a credential that
-   * could not be obtained
-   */
-  summarization(
-    request: ForceDreamClient.SummarizationRequest = {},
-    options?: RequestOptions,
-  ): ApiPromise<undefined, ForceDreamClient.SummarizationError> {
-    return this.#rawClient.execute(
-      {
-        method: "POST",
-        urlTemplate: this.#servers.default("/v1/oracle/summarization"),
-        auth: noneAuth,
-        pathParams: [],
-        query: [],
-        headers: [
-          { name: "X-Payment-Intent-Id", value: request.xPaymentIntentId, schema: s.optional(s.string()) },
-          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
-        ],
-        body: {
-          kind: "json",
-          value: request.body,
-          schema: s.optional(s.lazy(() => v1OracleSummarizationRequestSchema)),
-        },
-      },
-      {
-        success: { kind: "empty" },
-        errorFactory: ForceDreamClient.SummarizationError,
-      },
-      options,
-    );
-  }
-
-  /**
-   * Tax rate (£0.01)
-   *
-   * @remarks
-   * Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-   *
-   * @returns Data returned after payment
-   *
-   * @throws {@link ForceDreamClient.TaxJarLookupError} when the API answers with an error status —
-   * narrow on `err.payload.kind`
-   *
-   * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
-   * timeout, a body that would not decode, a value that would not encode, or a credential that
-   * could not be obtained
-   */
-  taxJarLookup(
-    request: ForceDreamClient.TaxJarLookupRequest = {},
-    options?: RequestOptions,
-  ): ApiPromise<undefined, ForceDreamClient.TaxJarLookupError> {
-    return this.#rawClient.execute(
-      {
-        method: "POST",
-        urlTemplate: this.#servers.default("/v1/oracle/tax_jar_lookup"),
-        auth: noneAuth,
-        pathParams: [],
-        query: [],
-        headers: [
-          { name: "X-Payment-Intent-Id", value: request.xPaymentIntentId, schema: s.optional(s.string()) },
-          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
-        ],
-        body: {
-          kind: "json",
-          value: request.body,
-          schema: s.optional(s.lazy(() => v1OracleTaxJarLookupRequestSchema)),
-        },
-      },
-      {
-        success: { kind: "empty" },
-        errorFactory: ForceDreamClient.TaxJarLookupError,
-      },
-      options,
-    );
-  }
-
-  /**
-   * Language translation (£0.08)
-   *
-   * @remarks
-   * Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-   *
-   * @returns Data returned after payment
-   *
-   * @throws {@link ForceDreamClient.TranslationError} when the API answers with an error status —
-   * narrow on `err.payload.kind`
-   *
-   * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
-   * timeout, a body that would not decode, a value that would not encode, or a credential that
-   * could not be obtained
-   */
-  translation(
-    request: ForceDreamClient.TranslationRequest = {},
-    options?: RequestOptions,
-  ): ApiPromise<undefined, ForceDreamClient.TranslationError> {
-    return this.#rawClient.execute(
-      {
-        method: "POST",
-        urlTemplate: this.#servers.default("/v1/oracle/translation"),
-        auth: noneAuth,
-        pathParams: [],
-        query: [],
-        headers: [
-          { name: "X-Payment-Intent-Id", value: request.xPaymentIntentId, schema: s.optional(s.string()) },
-          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
-        ],
-        body: {
-          kind: "json",
-          value: request.body,
-          schema: s.optional(s.lazy(() => v1OracleTranslationRequestSchema)),
-        },
-      },
-      {
-        success: { kind: "empty" },
-        errorFactory: ForceDreamClient.TranslationError,
-      },
-      options,
-    );
-  }
-
-  /**
-   * Output verification (£0.15)
-   *
-   * @remarks
-   * Returns HTTP 402 with payment link if no payment. Include X-Payment-Intent-Id after paying.
-   *
-   * @returns Data returned after payment
-   *
-   * @throws {@link ForceDreamClient.ValidationError} when the API answers with an error status —
-   * narrow on `err.payload.kind`
-   *
-   * @throws {@link ForceDreamError} when no usable response was produced: a connection failure, a
-   * timeout, a body that would not decode, a value that would not encode, or a credential that
-   * could not be obtained
-   */
-  validation(
-    request: ForceDreamClient.ValidationRequest = {},
-    options?: RequestOptions,
-  ): ApiPromise<undefined, ForceDreamClient.ValidationError> {
-    return this.#rawClient.execute(
-      {
-        method: "POST",
-        urlTemplate: this.#servers.default("/v1/oracle/validation"),
-        auth: noneAuth,
-        pathParams: [],
-        query: [],
-        headers: [
-          { name: "X-Payment-Intent-Id", value: request.xPaymentIntentId, schema: s.optional(s.string()) },
-          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
-        ],
-        body: {
-          kind: "json",
-          value: request.body,
-          schema: s.optional(s.lazy(() => v1OracleValidationRequestSchema)),
-        },
-      },
-      {
-        success: { kind: "empty" },
-        errorFactory: ForceDreamClient.ValidationError,
+        success: { kind: "json", schema: signupResultSchema },
+        errorFactory: ApiError,
       },
       options,
     );
@@ -758,198 +413,37 @@ export class ForceDreamClient {
 }
 
 export namespace ForceDreamClient {
-  export type AnomalyDetectionRequest = {
-    xPaymentIntentId?: string;
-    body?: V1OracleAnomalyDetectionRequest;
-  };
+  export class GetBalanceError extends ApiError {
+    declare readonly payload: Declared<"unauthorized1", Unauthorized1> | Undeclared;
 
-  export class AnomalyDetectionError extends ApiError {
-    declare readonly payload: Declared<"error402", undefined> | Undeclared;
-
-    static readonly errors: ErrorDecoders<AnomalyDetectionError> = [
-      { on: 402, kind: "error402", decode: { kind: "empty" } },
+    static readonly errors: ErrorDecoders<GetBalanceError> = [
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
     ];
   }
 
-  export type ClassificationRequest = {
-    xPaymentIntentId?: string;
-    body?: V1OracleClassificationRequest;
+  export type GetInvokeResultRequest = {
+    slug: string;
+    taskId: string;
   };
 
-  export class ClassificationError extends ApiError {
-    declare readonly payload: Declared<"error402", undefined> | Undeclared;
+  export type GetProofRequest = {
+    taskId: string;
+  };
 
-    static readonly errors: ErrorDecoders<ClassificationError> = [
-      { on: 402, kind: "error402", decode: { kind: "empty" } },
+  export type InvokeAgentRequest = {
+    slug: string;
+    body: V1AgentsInvokeRequest;
+  };
+
+  export class InvokeAgentError extends ApiError {
+    declare readonly payload: Declared<"unauthorized1", Unauthorized1> | Undeclared;
+
+    static readonly errors: ErrorDecoders<InvokeAgentError> = [
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
     ];
   }
 
-  export type CodeGenerationRequest = {
-    xPaymentIntentId?: string;
-    body?: V1OracleCodeGenerationRequest;
+  export type SignupRequest = {
+    body: ApiSignupRequest;
   };
-
-  export class CodeGenerationError extends ApiError {
-    declare readonly payload: Declared<"error402", undefined> | Undeclared;
-
-    static readonly errors: ErrorDecoders<CodeGenerationError> = [
-      { on: 402, kind: "error402", decode: { kind: "empty" } },
-    ];
-  }
-
-  export type FraudSignalRequest = {
-    xPaymentIntentId?: string;
-    body?: V1OracleFraudSignalRequest;
-  };
-
-  export class FraudSignalError extends ApiError {
-    declare readonly payload: Declared<"error402", undefined> | Undeclared;
-
-    static readonly errors: ErrorDecoders<FraudSignalError> = [
-      { on: 402, kind: "error402", decode: { kind: "empty" } },
-    ];
-  }
-
-  export type LeadScoreRequest = {
-    xPaymentIntentId?: string;
-    body?: V1OracleLeadScoreRequest;
-  };
-
-  export class LeadScoreError extends ApiError {
-    declare readonly payload: Declared<"error402", undefined> | Undeclared;
-
-    static readonly errors: ErrorDecoders<LeadScoreError> = [
-      { on: 402, kind: "error402", decode: { kind: "empty" } },
-    ];
-  }
-
-  export type ModelInferenceRequest = {
-    xPaymentIntentId?: string;
-    body?: V1OracleModelInferenceRequest;
-  };
-
-  export class ModelInferenceError extends ApiError {
-    declare readonly payload: Declared<"error402", undefined> | Undeclared;
-
-    static readonly errors: ErrorDecoders<ModelInferenceError> = [
-      { on: 402, kind: "error402", decode: { kind: "empty" } },
-    ];
-  }
-
-  export type PromptTemplateRequest = {
-    xPaymentIntentId?: string;
-    body?: V1OraclePromptTemplateRequest;
-  };
-
-  export class PromptTemplateError extends ApiError {
-    declare readonly payload: Declared<"error402", undefined> | Undeclared;
-
-    static readonly errors: ErrorDecoders<PromptTemplateError> = [
-      { on: 402, kind: "error402", decode: { kind: "empty" } },
-    ];
-  }
-
-  export type ProofOfWorkRequest = {
-    xPaymentIntentId?: string;
-    body?: V1OracleProofOfWorkRequest;
-  };
-
-  export class ProofOfWorkError extends ApiError {
-    declare readonly payload: Declared<"error402", undefined> | Undeclared;
-
-    static readonly errors: ErrorDecoders<ProofOfWorkError> = [
-      { on: 402, kind: "error402", decode: { kind: "empty" } },
-    ];
-  }
-
-  export type SecurityScanRequest = {
-    xPaymentIntentId?: string;
-    body?: V1OracleSecurityScanRequest;
-  };
-
-  export class SecurityScanError extends ApiError {
-    declare readonly payload: Declared<"error402", undefined> | Undeclared;
-
-    static readonly errors: ErrorDecoders<SecurityScanError> = [
-      { on: 402, kind: "error402", decode: { kind: "empty" } },
-    ];
-  }
-
-  export type SemanticCacheRequest = {
-    xPaymentIntentId?: string;
-    body?: V1OracleSemanticCacheRequest;
-  };
-
-  export class SemanticCacheError extends ApiError {
-    declare readonly payload: Declared<"error402", undefined> | Undeclared;
-
-    static readonly errors: ErrorDecoders<SemanticCacheError> = [
-      { on: 402, kind: "error402", decode: { kind: "empty" } },
-    ];
-  }
-
-  export type SentimentFeedRequest = {
-    xPaymentIntentId?: string;
-    body?: V1OracleSentimentFeedRequest;
-  };
-
-  export class SentimentFeedError extends ApiError {
-    declare readonly payload: Declared<"error402", undefined> | Undeclared;
-
-    static readonly errors: ErrorDecoders<SentimentFeedError> = [
-      { on: 402, kind: "error402", decode: { kind: "empty" } },
-    ];
-  }
-
-  export type SummarizationRequest = {
-    xPaymentIntentId?: string;
-    body?: V1OracleSummarizationRequest;
-  };
-
-  export class SummarizationError extends ApiError {
-    declare readonly payload: Declared<"error402", undefined> | Undeclared;
-
-    static readonly errors: ErrorDecoders<SummarizationError> = [
-      { on: 402, kind: "error402", decode: { kind: "empty" } },
-    ];
-  }
-
-  export type TaxJarLookupRequest = {
-    xPaymentIntentId?: string;
-    body?: V1OracleTaxJarLookupRequest;
-  };
-
-  export class TaxJarLookupError extends ApiError {
-    declare readonly payload: Declared<"error402", undefined> | Undeclared;
-
-    static readonly errors: ErrorDecoders<TaxJarLookupError> = [
-      { on: 402, kind: "error402", decode: { kind: "empty" } },
-    ];
-  }
-
-  export type TranslationRequest = {
-    xPaymentIntentId?: string;
-    body?: V1OracleTranslationRequest;
-  };
-
-  export class TranslationError extends ApiError {
-    declare readonly payload: Declared<"error402", undefined> | Undeclared;
-
-    static readonly errors: ErrorDecoders<TranslationError> = [
-      { on: 402, kind: "error402", decode: { kind: "empty" } },
-    ];
-  }
-
-  export type ValidationRequest = {
-    xPaymentIntentId?: string;
-    body?: V1OracleValidationRequest;
-  };
-
-  export class ValidationError extends ApiError {
-    declare readonly payload: Declared<"error402", undefined> | Undeclared;
-
-    static readonly errors: ErrorDecoders<ValidationError> = [
-      { on: 402, kind: "error402", decode: { kind: "empty" } },
-    ];
-  }
 }

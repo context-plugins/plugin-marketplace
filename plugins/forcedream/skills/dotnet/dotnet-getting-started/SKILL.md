@@ -21,8 +21,8 @@ Usage companions: `dotnet-client-initialization`, `dotnet-authentication`, `dotn
 | Root namespace | `ForceDream` (the `using` namespace) |
 | Client class | `ForceDreamClient` |
 | Options class | `ForceDreamClientOptions` |
-| Auth | None — this SDK generates no authentication |
-| Environments | `ServerEnvironment.Production` *(default)* → `https://YOUR-NGROK-URL.ngrok-free.app` |
+| Auth | **Bearer** token — set `BearerAuth` |
+| Environments | `ServerEnvironment.Production` *(default)* → `https://api.forcedream.ai` |
 | Log environment variable | `FORCE_DREAM_LOG` |
 | Target framework | `netstandard2.0` (C# `LangVersion 14`) |
 
